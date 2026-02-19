@@ -12,6 +12,8 @@ import uuid
 
 import database as db
 import reports
+from georeferenciacion import TabGeorreferenciacion
+from odk_kobo import TabODKKobo
 
 # ── Constantes ─────────────────────────────────────────────────────────────
 
@@ -48,8 +50,8 @@ class AplicacionINPiura(tk.Tk):
         super().__init__()
 
         self.title("IN Piura - Plan de Verificación de Campo")
-        self.geometry("1100x720")
-        self.minsize(960, 640)
+        self.geometry("1200x760")
+        self.minsize(1024, 680)
         self.configure(bg=COLOR_FONDO)
 
         # Inicializar base de datos
@@ -102,17 +104,22 @@ class AplicacionINPiura(tk.Tk):
         self.tab_bloques = TabBloques(self.notebook, self)
         self.tab_inspeccion = TabInspeccion(self.notebook, self)
         self.tab_indicadores = TabIndicadores(self.notebook, self)
+        self.tab_georef = TabGeorreferenciacion(self.notebook, self)
+        self.tab_odk = TabODKKobo(self.notebook, self)
         self.tab_reportes = TabReportes(self.notebook, self)
 
         self.notebook.add(self.tab_bloques, text="  Bloques de Intervención  ")
         self.notebook.add(self.tab_inspeccion, text="  Inspección de Campo  ")
         self.notebook.add(self.tab_indicadores, text="  Indicadores de Calidad  ")
+        self.notebook.add(self.tab_georef, text="  Georreferenciación  ")
+        self.notebook.add(self.tab_odk, text="  ODK / KoBoToolbox  ")
         self.notebook.add(self.tab_reportes, text="  Reportes  ")
 
     def refrescar_todo(self):
         self.tab_bloques.cargar_bloques()
         self.tab_inspeccion.cargar_combos()
         self.tab_indicadores.cargar_combos()
+        self.tab_georef.cargar_datos()
         self.tab_reportes.cargar_combos()
 
 

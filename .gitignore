@@ -3,6 +3,7 @@ __pycache__/
 *.pyo
 in_piura.db
 reportes/
+formularios/
 *.egg-info/
 dist/
 build/
