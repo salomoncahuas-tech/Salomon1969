@@ -1,5 +1,5 @@
 """
-IN Piura - Plan de Verificación de Campo
+IN Piura - Plan de Ingreso / Verificación de Campo
 Aplicación de escritorio con interfaz gráfica (tkinter).
 Restauración de ecosistemas - Cuenca alta del río Piura, Perú.
 """
@@ -14,6 +14,9 @@ import database as db
 import reports
 from georeferenciacion import TabGeorreferenciacion
 from odk_kobo import TabODKKobo
+from dashboard import TabDashboard
+from presupuesto import TabPresupuesto
+from cronograma import TabCronograma
 
 # ── Constantes ─────────────────────────────────────────────────────────────
 
@@ -49,9 +52,9 @@ class AplicacionINPiura(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        self.title("IN Piura - Plan de Verificación de Campo")
-        self.geometry("1200x760")
-        self.minsize(1024, 680)
+        self.title("IN Piura - Plan de Ingreso - Verificación de Campo")
+        self.geometry("1280x800")
+        self.minsize(1080, 720)
         self.configure(bg=COLOR_FONDO)
 
         # Inicializar base de datos
@@ -94,31 +97,40 @@ class AplicacionINPiura(tk.Tk):
         tk.Label(header_frame, text="IN Piura", font=("Segoe UI", 18, "bold"),
                  bg=COLOR_PRIMARIO, fg="white").pack(side="left", padx=16)
         tk.Label(header_frame,
-                 text="Plan de Verificación de Campo  |  Cuenca Alta del Río Piura",
+                 text="Plan de Ingreso  |  Verificación de Campo  |  Cuenca Alta del Río Piura",
                  font=("Segoe UI", 10), bg=COLOR_PRIMARIO, fg="#BDC3C7").pack(side="left", padx=8)
 
         # Notebook (pestañas)
         self.notebook = ttk.Notebook(self)
         self.notebook.pack(fill="both", expand=True, padx=8, pady=8)
 
+        self.tab_dashboard = TabDashboard(self.notebook, self)
         self.tab_bloques = TabBloques(self.notebook, self)
         self.tab_inspeccion = TabInspeccion(self.notebook, self)
         self.tab_indicadores = TabIndicadores(self.notebook, self)
+        self.tab_presupuesto = TabPresupuesto(self.notebook, self)
+        self.tab_cronograma = TabCronograma(self.notebook, self)
         self.tab_georef = TabGeorreferenciacion(self.notebook, self)
         self.tab_odk = TabODKKobo(self.notebook, self)
         self.tab_reportes = TabReportes(self.notebook, self)
 
+        self.notebook.add(self.tab_dashboard, text="  Panel de Control  ")
         self.notebook.add(self.tab_bloques, text="  Bloques de Intervención  ")
         self.notebook.add(self.tab_inspeccion, text="  Inspección de Campo  ")
         self.notebook.add(self.tab_indicadores, text="  Indicadores de Calidad  ")
+        self.notebook.add(self.tab_presupuesto, text="  Presupuesto  ")
+        self.notebook.add(self.tab_cronograma, text="  Cronograma  ")
         self.notebook.add(self.tab_georef, text="  Georreferenciación  ")
         self.notebook.add(self.tab_odk, text="  ODK / KoBoToolbox  ")
         self.notebook.add(self.tab_reportes, text="  Reportes  ")
 
     def refrescar_todo(self):
+        self.tab_dashboard.actualizar_datos()
         self.tab_bloques.cargar_bloques()
         self.tab_inspeccion.cargar_combos()
         self.tab_indicadores.cargar_combos()
+        self.tab_presupuesto.cargar_combos()
+        self.tab_cronograma.cargar_combos()
         self.tab_georef.cargar_datos()
         self.tab_reportes.cargar_combos()
 
@@ -148,7 +160,9 @@ class TabBloques(ttk.Frame):
             ("UTM Este (m):", "utm_este"),
             ("UTM Norte (m):", "utm_norte"),
             ("Zona UTM:", "utm_zona"),
+            ("Altitud (m.s.n.m.):", "altitud"),
             ("Área (ha):", "area"),
+            ("Responsable:", "responsable"),
         ]
 
         self.entries = {}
@@ -158,10 +172,10 @@ class TabBloques(ttk.Frame):
             entry.grid(row=i, column=1, sticky="ew", pady=3, padx=(6, 0))
             self.entries[key] = entry
 
-        # Valor por defecto zona UTM
+        # Valores por defecto
         self.entries["utm_zona"].insert(0, "17S")
-        # Valor por defecto cuenca
         self.entries["cuenca"].insert(0, "Cuenca Alta del Río Piura")
+        self.entries["altitud"].insert(0, "0")
 
         # Tipo de intervención
         fila = len(campos) + 1
@@ -193,26 +207,45 @@ class TabBloques(ttk.Frame):
         panel_der = ttk.Frame(self, padding=10)
         panel_der.pack(side="right", fill="both", expand=True)
 
-        ttk.Label(panel_der, text="Bloques Registrados", style="Header.TLabel").pack(anchor="w", pady=(0, 6))
+        # Barra de búsqueda
+        busqueda_frame = ttk.Frame(panel_der)
+        busqueda_frame.pack(fill="x", pady=(0, 6))
 
-        columnas = ("codigo", "tipo", "distrito", "utm_este", "utm_norte", "area", "estado")
-        self.tree = ttk.Treeview(panel_der, columns=columnas, show="headings", height=18)
+        ttk.Label(busqueda_frame, text="Bloques Registrados",
+                  style="Header.TLabel").pack(side="left")
+
+        ttk.Button(busqueda_frame, text="Buscar",
+                   command=self._buscar_bloques).pack(side="right", padx=(4, 0))
+        ttk.Button(busqueda_frame, text="Mostrar todos",
+                   command=self.cargar_bloques).pack(side="right", padx=4)
+        self.entry_busqueda = ttk.Entry(busqueda_frame, width=20)
+        self.entry_busqueda.pack(side="right", padx=4)
+        self.entry_busqueda.bind("<Return>", lambda e: self._buscar_bloques())
+        ttk.Label(busqueda_frame, text="Buscar:").pack(side="right")
+
+        columnas = ("codigo", "tipo", "distrito", "utm_este", "utm_norte",
+                    "altitud", "area", "responsable", "estado")
+        self.tree = ttk.Treeview(panel_der, columns=columnas, show="headings", height=16)
 
         self.tree.heading("codigo", text="Código")
         self.tree.heading("tipo", text="Tipo Intervención")
         self.tree.heading("distrito", text="Distrito")
         self.tree.heading("utm_este", text="UTM Este")
         self.tree.heading("utm_norte", text="UTM Norte")
+        self.tree.heading("altitud", text="Altitud")
         self.tree.heading("area", text="Área (ha)")
+        self.tree.heading("responsable", text="Responsable")
         self.tree.heading("estado", text="Estado")
 
         self.tree.column("codigo", width=80)
-        self.tree.column("tipo", width=170)
-        self.tree.column("distrito", width=100)
-        self.tree.column("utm_este", width=90)
-        self.tree.column("utm_norte", width=90)
-        self.tree.column("area", width=70)
-        self.tree.column("estado", width=90)
+        self.tree.column("tipo", width=155)
+        self.tree.column("distrito", width=90)
+        self.tree.column("utm_este", width=85)
+        self.tree.column("utm_norte", width=85)
+        self.tree.column("altitud", width=65)
+        self.tree.column("area", width=65)
+        self.tree.column("responsable", width=100)
+        self.tree.column("estado", width=80)
 
         scrollbar = ttk.Scrollbar(panel_der, orient="vertical", command=self.tree.yview)
         self.tree.configure(yscrollcommand=scrollbar.set)
@@ -226,11 +259,27 @@ class TabBloques(ttk.Frame):
         for item in self.tree.get_children():
             self.tree.delete(item)
         bloques = db.obtener_bloques()
+        self._mostrar_bloques(bloques)
+
+    def _buscar_bloques(self):
+        texto = self.entry_busqueda.get().strip()
+        if not texto:
+            self.cargar_bloques()
+            return
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+        bloques = db.buscar_bloques(texto)
+        self._mostrar_bloques(bloques)
+
+    def _mostrar_bloques(self, bloques):
         for b in bloques:
+            altitud = b.get("altitud", 0) or 0
+            responsable = b.get("responsable", "") or ""
             self.tree.insert("", "end", iid=b["id"], values=(
                 b["codigo"], b["tipo_intervencion"], b["distrito"],
                 f"{b['utm_este']:.2f}", f"{b['utm_norte']:.2f}",
-                f"{b['area_hectareas']:.4f}", b["estado"]
+                f"{altitud:.0f}", f"{b['area_hectareas']:.4f}",
+                responsable, b["estado"]
             ))
 
     def on_seleccionar_bloque(self, event):
@@ -251,7 +300,9 @@ class TabBloques(ttk.Frame):
         self.entries["utm_este"].insert(0, str(bloque["utm_este"]))
         self.entries["utm_norte"].insert(0, str(bloque["utm_norte"]))
         self.entries["utm_zona"].insert(0, bloque["utm_zona"])
+        self.entries["altitud"].insert(0, str(bloque.get("altitud", 0) or 0))
         self.entries["area"].insert(0, str(bloque["area_hectareas"]))
+        self.entries["responsable"].insert(0, bloque.get("responsable", "") or "")
         self.combo_tipo.set(bloque["tipo_intervencion"])
         self.combo_estado.set(bloque["estado"])
 
@@ -269,6 +320,11 @@ class TabBloques(ttk.Frame):
                                    "UTM Este, UTM Norte y Área deben ser valores numéricos.")
             return None
 
+        try:
+            altitud = float(self.entries["altitud"].get().strip() or "0")
+        except ValueError:
+            altitud = 0
+
         return {
             "codigo": codigo,
             "tipo_intervencion": self.combo_tipo.get(),
@@ -279,6 +335,8 @@ class TabBloques(ttk.Frame):
             "utm_zona": self.entries["utm_zona"].get().strip() or "17S",
             "area_hectareas": area,
             "estado": self.combo_estado.get(),
+            "altitud": altitud,
+            "responsable": self.entries["responsable"].get().strip(),
         }
 
     def guardar_bloque(self):
@@ -328,6 +386,7 @@ class TabBloques(ttk.Frame):
         if reset_defaults:
             self.entries["utm_zona"].insert(0, "17S")
             self.entries["cuenca"].insert(0, "Cuenca Alta del Río Piura")
+            self.entries["altitud"].insert(0, "0")
             self.combo_tipo.set(TIPOS_INTERVENCION[0])
             self.combo_estado.set(ESTADOS_BLOQUE[0])
 
