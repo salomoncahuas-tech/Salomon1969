@@ -7,3 +7,8 @@ formularios/
 *.egg-info/
 dist/
 build/
+
+# English Assessment App
+english_assessment/instance/
+english_assessment/*.db
+english_assessment/english_assessments.db
