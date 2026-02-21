@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}Results - {{ result.assessment.title }}{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container container-md">
+        <div class="results-header">
+            <h2>Assessment Results</h2>
+            <h3>{{ result.assessment.title }}</h3>
+        </div>
+
+        <div class="results-summary">
+            <div class="result-card-main">
+                <div class="result-score-circle {% if result.percentage >= 70 %}score-pass{% elif result.percentage >= 50 %}score-average{% else %}score-fail{% endif %}">
+                    <span class="score-number">{{ '%.0f'|format(result.percentage) }}%</span>
+                </div>
+                <div class="result-details">
+                    <p class="result-student">{{ result.student_name }}</p>
+                    <p class="result-info">Score: {{ '%.1f'|format(result.score) }} / {{ '%.1f'|format(result.total_points) }} points</p>
+                    <p class="result-info">Completed: {{ result.completed_at.strftime('%B %d, %Y at %H:%M') if result.completed_at else 'N/A' }}</p>
+                    {% if result.percentage >= 70 %}
+                        <p class="result-badge pass">Approved</p>
+                    {% elif result.percentage >= 50 %}
+                        <p class="result-badge average">Needs Improvement</p>
+                    {% else %}
+                        <p class="result-badge fail">Not Approved</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="results-detail">
+            <h3>Answer Review</h3>
+            {% for answer in result.answers %}
+            <div class="result-question {% if answer.is_correct %}correct{% else %}incorrect{% endif %}">
+                <div class="rq-header">
+                    <span class="rq-number">Q{{ loop.index }}</span>
+                    <span class="rq-status">
+                        {% if answer.is_correct %}
+                            &#10004; Correct ({{ answer.points_earned }} pts)
+                        {% else %}
+                            &#10008; Incorrect (0 pts)
+                        {% endif %}
+                    </span>
+                </div>
+                <p class="rq-text">{{ answer.question.text }}</p>
+                <div class="rq-answers">
+                    <p class="rq-your-answer">
+                        <strong>Your answer:</strong>
+                        {% if answer.selected_option %}
+                            {{ answer.selected_option.text }}
+                        {% elif answer.answer_text %}
+                            {{ answer.answer_text }}
+                        {% else %}
+                            <em>No answer</em>
+                        {% endif %}
+                    </p>
+                    {% if not answer.is_correct %}
+                        {% set correct = answer.question.options|selectattr('is_correct')|first %}
+                        {% if correct %}
+                        <p class="rq-correct-answer">
+                            <strong>Correct answer:</strong> {{ correct.text }}
+                        </p>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="results-actions">
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Home</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
