@@ -27,6 +27,13 @@ if database_url.startswith('postgres://'):
 app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+_using_sqlite = 'sqlite' in database_url
+if _using_sqlite:
+    print('WARNING: Using SQLite database. Data will be LOST on Render restarts.')
+    print('WARNING: Set DATABASE_URL environment variable to use PostgreSQL.')
+else:
+    print(f'Database: PostgreSQL connected')
+
 db.init_app(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'admin_login'
@@ -480,7 +487,6 @@ def api_assessments():
         'level': str(a.english_level),
         'questions': a.question_count,
         'points': a.total_points,
-        'code': a.access_code,
         'due_date': a.due_date.strftime('%Y-%m-%d') if a.due_date else None
     } for a in assessments])
 
@@ -509,42 +515,46 @@ def init_db():
     """Initialize database with default data."""
     db.create_all()
 
-    if Grade.query.first():
-        return
+    # Create grades if they don't exist
+    if not Grade.query.first():
+        for i, name in enumerate(['1st Grade Primary', '2nd Grade Primary', '3rd Grade Primary',
+                                   '4th Grade Primary', '5th Grade Primary', '6th Grade Primary'], 1):
+            db.session.add(Grade(name=name, level_type='primaria', order=i))
 
-    # Grados de Primaria
-    for i, name in enumerate(['1st Grade Primary', '2nd Grade Primary', '3rd Grade Primary',
-                               '4th Grade Primary', '5th Grade Primary', '6th Grade Primary'], 1):
-        db.session.add(Grade(name=name, level_type='primaria', order=i))
+        for i, name in enumerate(['1st Grade Secondary', '2nd Grade Secondary', '3rd Grade Secondary',
+                                   '4th Grade Secondary', '5th Grade Secondary'], 7):
+            db.session.add(Grade(name=name, level_type='secundaria', order=i))
+        db.session.commit()
+        print('Grades created.')
 
-    # Grados de Secundaria
-    for i, name in enumerate(['1st Grade Secondary', '2nd Grade Secondary', '3rd Grade Secondary',
-                               '4th Grade Secondary', '5th Grade Secondary'], 7):
-        db.session.add(Grade(name=name, level_type='secundaria', order=i))
+    # Create English levels if they don't exist
+    if not EnglishLevel.query.first():
+        levels_data = [
+            ('Beginner', 'A1', 'Basic understanding of simple phrases and expressions.'),
+            ('Elementary', 'A2', 'Can communicate in simple and routine tasks.'),
+            ('Pre-Intermediate', 'B1', 'Can deal with most situations while traveling.'),
+            ('Intermediate', 'B2', 'Can interact with a degree of fluency and spontaneity.'),
+            ('Upper-Intermediate', 'C1', 'Can express ideas fluently and spontaneously.'),
+        ]
+        for i, (name, code, desc) in enumerate(levels_data, 1):
+            db.session.add(EnglishLevel(name=name, code=code, description=desc, order=i))
+        db.session.commit()
+        print('English levels created.')
 
-    # Niveles de inglés
-    levels_data = [
-        ('Beginner', 'A1', 'Basic understanding of simple phrases and expressions.'),
-        ('Elementary', 'A2', 'Can communicate in simple and routine tasks.'),
-        ('Pre-Intermediate', 'B1', 'Can deal with most situations while traveling.'),
-        ('Intermediate', 'B2', 'Can interact with a degree of fluency and spontaneity.'),
-        ('Upper-Intermediate', 'C1', 'Can express ideas fluently and spontaneously.'),
-    ]
-    for i, (name, code, desc) in enumerate(levels_data, 1):
-        db.session.add(EnglishLevel(name=name, code=code, description=desc, order=i))
-
-    # Default admin teacher
-    admin = Teacher(username='admin', full_name='Administrator', email='admin@school.edu')
-    admin.set_password('admin123')
-    db.session.add(admin)
-
-    db.session.commit()
+    # Always ensure admin teacher exists
+    if not Teacher.query.filter_by(username='admin').first():
+        admin = Teacher(username='admin', full_name='Administrator', email='admin@school.edu')
+        admin.set_password('admin123')
+        db.session.add(admin)
+        db.session.commit()
+        print('Default admin teacher created (admin / admin123).')
 
     # Auto-seed sample assessments on first deploy
     if not Assessment.query.first():
         try:
             from seed_data import seed_assessments
             seed_assessments()
+            print('Sample assessments seeded.')
         except Exception as e:
             print(f'Note: Could not auto-seed assessments: {e}')
 
