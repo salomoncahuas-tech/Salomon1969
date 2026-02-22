@@ -1,3 +1,7 @@
+databases:
+  - name: english-assessment-db
+    plan: free
+
 services:
   - type: web
     name: english-assessment
@@ -10,4 +14,8 @@ services:
         value: "3.11.0"
       - key: SECRET_KEY
         generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: english-assessment-db
+          property: connectionString
     plan: free
