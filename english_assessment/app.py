@@ -17,11 +17,48 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from models import (db, Teacher, Grade, EnglishLevel, Assessment, Question,
                     QuestionOption, StudentResult, StudentAnswer)
 
+URL_PREFIX = os.environ.get('URL_PREFIX', '/claude/english-assessment')
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', secrets.token_hex(32))
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
     'DATABASE_URL', 'sqlite:///english_assessments.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['APPLICATION_ROOT'] = URL_PREFIX
+
+
+class PrefixMiddleware:
+    """Middleware to serve the app under a URL prefix."""
+
+    def __init__(self, wsgi_app, prefix=''):
+        self.wsgi_app = wsgi_app
+        self.prefix = prefix
+
+    def __call__(self, environ, start_response):
+        path = environ.get('PATH_INFO', '')
+        if path == self.prefix.rstrip('/'):
+            # Redirect to prefix with trailing slash
+            start_response('302 Found', [
+                ('Location', self.prefix + '/'),
+                ('Content-Type', 'text/plain')
+            ])
+            return [b'Redirecting...']
+        if path.startswith(self.prefix):
+            environ['PATH_INFO'] = path[len(self.prefix):] or '/'
+            environ['SCRIPT_NAME'] = self.prefix
+            return self.wsgi_app(environ, start_response)
+        # Also serve at root for convenience
+        if path == '/':
+            start_response('302 Found', [
+                ('Location', self.prefix + '/'),
+                ('Content-Type', 'text/plain')
+            ])
+            return [b'Redirecting...']
+        start_response('404 Not Found', [('Content-Type', 'text/plain')])
+        return [b'Not Found. Go to ' + self.prefix.encode() + b'/']
+
+
+app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix=URL_PREFIX)
 
 db.init_app(app)
 login_manager = LoginManager(app)
