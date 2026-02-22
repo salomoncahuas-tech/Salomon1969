@@ -20,26 +20,10 @@ from models import (db, Teacher, Grade, EnglishLevel, Assessment, Question,
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', secrets.token_hex(32))
 
-# Database configuration - use SQLite (works on Render free tier)
-database_url = os.environ.get('DATABASE_URL', '')
-if database_url and database_url.startswith(('postgres://', 'postgresql://')):
-    # PostgreSQL - try to use it if psycopg2 is available
-    if database_url.startswith('postgres://'):
-        database_url = database_url.replace('postgres://', 'postgresql://', 1)
-    try:
-        import psycopg2  # noqa: F401
-        print('Database: PostgreSQL connected')
-    except ImportError:
-        print('WARNING: psycopg2 not installed. Falling back to SQLite.')
-        database_url = 'sqlite:///english_assessments.db'
-else:
-    database_url = 'sqlite:///english_assessments.db'
-
-app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+# Database configuration - always use SQLite (works on Render free tier)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///english_assessments.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-if 'sqlite' in database_url:
-    print('Using SQLite database.')
+print('Using SQLite database.')
 
 db.init_app(app)
 login_manager = LoginManager(app)
