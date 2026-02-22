@@ -143,23 +143,44 @@ def _migrar_bloques(cursor):
         cursor.execute("ALTER TABLE bloques ADD COLUMN altitud REAL DEFAULT 0")
     if "responsable" not in columnas:
         cursor.execute("ALTER TABLE bloques ADD COLUMN responsable TEXT DEFAULT ''")
+    if "microcuenca" not in columnas:
+        cursor.execute("ALTER TABLE bloques ADD COLUMN microcuenca TEXT DEFAULT ''")
+
+    # Migrar columnas en inspecciones
+    cursor.execute("PRAGMA table_info(inspecciones)")
+    cols_insp = {col[1] for col in cursor.fetchall()}
+    if "microcuenca" not in cols_insp:
+        cursor.execute("ALTER TABLE inspecciones ADD COLUMN microcuenca TEXT DEFAULT ''")
+
+    # Migrar columnas en indicadores_calidad
+    cursor.execute("PRAGMA table_info(indicadores_calidad)")
+    cols_ind = {col[1] for col in cursor.fetchall()}
+    if "porcentaje_cobertura_vegetal" not in cols_ind:
+        cursor.execute("ALTER TABLE indicadores_calidad ADD COLUMN porcentaje_cobertura_vegetal REAL DEFAULT 0")
+    if "tipo_cobertura_vegetal" not in cols_ind:
+        cursor.execute("ALTER TABLE indicadores_calidad ADD COLUMN tipo_cobertura_vegetal TEXT DEFAULT ''")
+    if "vigor_cobertura_vegetal" not in cols_ind:
+        cursor.execute("ALTER TABLE indicadores_calidad ADD COLUMN vigor_cobertura_vegetal TEXT DEFAULT ''")
+    if "microcuenca" not in cols_ind:
+        cursor.execute("ALTER TABLE indicadores_calidad ADD COLUMN microcuenca TEXT DEFAULT ''")
 
 
 # ── Operaciones CRUD para Bloques ──────────────────────────────────────────
 
 def insertar_bloque(codigo, tipo_intervencion, cuenca, distrito,
                     utm_este, utm_norte, utm_zona, area_hectareas, estado,
-                    altitud=0, responsable=""):
+                    altitud=0, responsable="", microcuenca=""):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO bloques (codigo, tipo_intervencion, cuenca, distrito,
                              utm_este, utm_norte, utm_zona, altitud,
-                             area_hectareas, responsable, estado, fecha_registro)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                             area_hectareas, responsable, estado, microcuenca,
+                             fecha_registro)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (codigo, tipo_intervencion, cuenca, distrito,
           utm_este, utm_norte, utm_zona, altitud,
-          area_hectareas, responsable, estado,
+          area_hectareas, responsable, estado, microcuenca,
           datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
     conn.commit()
     bloque_id = cursor.lastrowid
@@ -169,17 +190,17 @@ def insertar_bloque(codigo, tipo_intervencion, cuenca, distrito,
 
 def actualizar_bloque(bloque_id, codigo, tipo_intervencion, cuenca, distrito,
                       utm_este, utm_norte, utm_zona, area_hectareas, estado,
-                      altitud=0, responsable=""):
+                      altitud=0, responsable="", microcuenca=""):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
         UPDATE bloques SET codigo=?, tipo_intervencion=?, cuenca=?, distrito=?,
                            utm_este=?, utm_norte=?, utm_zona=?, altitud=?,
-                           area_hectareas=?, responsable=?, estado=?
+                           area_hectareas=?, responsable=?, estado=?, microcuenca=?
         WHERE id=?
     """, (codigo, tipo_intervencion, cuenca, distrito,
           utm_este, utm_norte, utm_zona, altitud,
-          area_hectareas, responsable, estado, bloque_id))
+          area_hectareas, responsable, estado, microcuenca, bloque_id))
     conn.commit()
     conn.close()
 
@@ -224,7 +245,8 @@ def obtener_bloque_por_codigo(codigo):
 def insertar_inspeccion(bloque_id, fecha_visita, inspector,
                         condiciones_climaticas, avance_fisico,
                         observaciones, desviaciones,
-                        registro_fotografico, codigo_verificacion):
+                        registro_fotografico, codigo_verificacion,
+                        microcuenca=""):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
@@ -232,12 +254,13 @@ def insertar_inspeccion(bloque_id, fecha_visita, inspector,
                                   condiciones_climaticas, avance_fisico,
                                   observaciones, desviaciones,
                                   registro_fotografico, codigo_verificacion,
-                                  fecha_registro)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                  microcuenca, fecha_registro)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (bloque_id, fecha_visita, inspector,
           condiciones_climaticas, avance_fisico,
           observaciones, desviaciones,
           registro_fotografico, codigo_verificacion,
+          microcuenca,
           datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
     conn.commit()
     inspeccion_id = cursor.lastrowid
@@ -293,7 +316,11 @@ def obtener_inspeccion_por_id(inspeccion_id):
 def insertar_indicadores(bloque_id, inspeccion_id, densidad_planificada,
                          densidad_lograda, sobrevivencia_especies,
                          longitud_zanjas_ejecutada,
-                         volumen_retencion_sedimentos):
+                         volumen_retencion_sedimentos,
+                         porcentaje_cobertura_vegetal=0,
+                         tipo_cobertura_vegetal="",
+                         vigor_cobertura_vegetal="",
+                         microcuenca=""):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
@@ -302,11 +329,19 @@ def insertar_indicadores(bloque_id, inspeccion_id, densidad_planificada,
                                          sobrevivencia_especies,
                                          longitud_zanjas_ejecutada,
                                          volumen_retencion_sedimentos,
+                                         porcentaje_cobertura_vegetal,
+                                         tipo_cobertura_vegetal,
+                                         vigor_cobertura_vegetal,
+                                         microcuenca,
                                          fecha_registro)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (bloque_id, inspeccion_id, densidad_planificada, densidad_lograda,
           sobrevivencia_especies, longitud_zanjas_ejecutada,
           volumen_retencion_sedimentos,
+          porcentaje_cobertura_vegetal,
+          tipo_cobertura_vegetal,
+          vigor_cobertura_vegetal,
+          microcuenca,
           datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
     conn.commit()
     indicador_id = cursor.lastrowid

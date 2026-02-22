@@ -108,6 +108,9 @@ def generar_ficha_pdf(bloque_id, inspeccion_id=None):
     pdf._campo("Codigo de bloque", bloque["codigo"])
     pdf._campo("Tipo de intervencion", bloque["tipo_intervencion"])
     pdf._campo("Cuenca hidrografica", bloque["cuenca"])
+    microcuenca = bloque.get("microcuenca", "") or ""
+    if microcuenca:
+        pdf._campo("Codigo microcuenca", microcuenca)
     pdf._campo("Distrito", bloque["distrito"])
     pdf._campo("Coordenadas UTM Este", f"{bloque['utm_este']:.2f} m")
     pdf._campo("Coordenadas UTM Norte", f"{bloque['utm_norte']:.2f} m")
@@ -172,12 +175,17 @@ def generar_ficha_pdf(bloque_id, inspeccion_id=None):
             indicadores = db.obtener_indicadores_por_inspeccion(insp["id"])
             if indicadores:
                 pdf._seccion(f"   Indicadores de Calidad - Inspeccion {insp['fecha_visita']}")
-                pdf._campo("Densidad planificada", f"{indicadores['densidad_planificada']:.0f} pl/ha")
-                pdf._campo("Densidad lograda", f"{indicadores['densidad_lograda']:.0f} pl/ha")
-                cumplimiento = 0
-                if indicadores["densidad_planificada"] > 0:
-                    cumplimiento = (indicadores["densidad_lograda"] / indicadores["densidad_planificada"]) * 100
-                pdf._campo("Cumplimiento densidad", f"{cumplimiento:.1f} %")
+                mc_ind = indicadores.get("microcuenca", "") or ""
+                if mc_ind:
+                    pdf._campo("Codigo microcuenca", mc_ind)
+                pct_cob = indicadores.get("porcentaje_cobertura_vegetal", 0) or 0
+                pdf._campo("Cobertura vegetal", f"{pct_cob:.1f} %")
+                tipo_cob = indicadores.get("tipo_cobertura_vegetal", "") or ""
+                if tipo_cob:
+                    pdf._campo("Tipo cobertura vegetal", tipo_cob)
+                vigor_cob = indicadores.get("vigor_cobertura_vegetal", "") or ""
+                if vigor_cob:
+                    pdf._campo("Vigor cobertura vegetal", vigor_cob)
                 pdf._campo("Sobrevivencia de especies", f"{indicadores['sobrevivencia_especies']:.1f} %")
                 pdf._campo("Longitud zanjas ejecutada", f"{indicadores['longitud_zanjas_ejecutada']:.2f} ml")
                 pdf._campo("Vol. retencion sedimentos", f"{indicadores['volumen_retencion_sedimentos']:.2f} m3")
@@ -216,23 +224,23 @@ def generar_resumen_excel():
     ws.title = "Resumen Bloques IN Piura"
 
     # Título
-    ws.merge_cells("A1:T1")
+    ws.merge_cells("A1:V1")
     ws["A1"] = "IN Piura - Plan de Ingreso - Resumen de Bloques de Intervencion"
     ws["A1"].font = Font(name="Calibri", bold=True, size=13)
     ws["A1"].alignment = Alignment(horizontal="center")
 
-    ws.merge_cells("A2:T2")
+    ws.merge_cells("A2:V2")
     ws["A2"] = f"Generado: {datetime.now().strftime('%d/%m/%Y %H:%M')}"
     ws["A2"].font = Font(name="Calibri", italic=True, size=9)
     ws["A2"].alignment = Alignment(horizontal="center")
 
     # Encabezados (fila 4)
     encabezados = [
-        "Codigo Bloque", "Tipo Intervencion", "Cuenca Hidrografica",
+        "Codigo Bloque", "Microcuenca", "Tipo Intervencion", "Cuenca Hidrografica",
         "Distrito", "UTM_Este", "UTM_Norte", "Zona_UTM", "Altitud (m.s.n.m.)",
         "Area (ha)", "Responsable", "Estado", "Total Inspecciones",
         "Ultima Visita", "Avance Fisico (%)",
-        "Densidad Plan. (pl/ha)", "Densidad Logr. (pl/ha)",
+        "Cobertura Vegetal (%)", "Tipo Cobertura", "Vigor Cobertura",
         "Sobrevivencia (%)", "Long. Zanjas (ml)",
         "Vol. Ret. Sedimentos (m3)", "Fecha Registro"
     ]
@@ -252,6 +260,7 @@ def generar_resumen_excel():
 
         datos = [
             bloque["codigo"],
+            bloque.get("microcuenca", "") or "",
             bloque["tipo_intervencion"],
             bloque["cuenca"],
             bloque["distrito"],
@@ -265,8 +274,9 @@ def generar_resumen_excel():
             bloque.get("total_inspecciones", 0),
             bloque.get("ultima_visita", ""),
             bloque.get("ultimo_avance", 0),
-            ultimo_ind.get("densidad_planificada", 0),
-            ultimo_ind.get("densidad_lograda", 0),
+            ultimo_ind.get("porcentaje_cobertura_vegetal", 0),
+            ultimo_ind.get("tipo_cobertura_vegetal", "") or "",
+            ultimo_ind.get("vigor_cobertura_vegetal", "") or "",
             ultimo_ind.get("sobrevivencia_especies", 0),
             ultimo_ind.get("longitud_zanjas_ejecutada", 0),
             ultimo_ind.get("volumen_retencion_sedimentos", 0),
@@ -278,7 +288,7 @@ def generar_resumen_excel():
             celda.border = borde
             celda.alignment = Alignment(horizontal="center", vertical="center")
 
-    anchos = [14, 24, 22, 16, 14, 14, 10, 14, 10, 16, 14, 14, 14, 14, 16, 16, 14, 16, 18, 18]
+    anchos = [14, 18, 24, 22, 16, 14, 14, 10, 14, 10, 16, 14, 14, 14, 14, 16, 16, 16, 14, 16, 18, 18]
     for i, ancho in enumerate(anchos, 1):
         ws.column_dimensions[get_column_letter(i)].width = ancho
 
@@ -382,10 +392,11 @@ def generar_excel_arcgis():
     ws.title = "Bloques_UTM_ArcGIS"
 
     encabezados_arcgis = [
-        "OBJECTID", "COD_BLOQUE", "TIPO_INTERV", "CUENCA",
+        "OBJECTID", "COD_BLOQUE", "MICROCUENCA", "TIPO_INTERV", "CUENCA",
         "DISTRITO", "POINT_X", "POINT_Y", "ZONA_UTM", "ALTITUD",
-        "AREA_HA", "RESPONSABLE", "ESTADO", "AVANCE_PCT", "SOBREV_PCT",
-        "DENS_PLAN", "DENS_LOGR", "LONG_ZANJAS_ML", "VOL_RETEN_M3"
+        "AREA_HA", "RESPONSABLE", "ESTADO", "AVANCE_PCT",
+        "COB_VEG_PCT", "TIPO_COB_VEG", "VIGOR_COB_VEG",
+        "SOBREV_PCT", "LONG_ZANJAS_ML", "VOL_RETEN_M3"
     ]
 
     encabezado_font = Font(name="Calibri", bold=True, size=10)
@@ -401,6 +412,7 @@ def generar_excel_arcgis():
         datos = [
             row_idx - 1,
             bloque["codigo"],
+            bloque.get("microcuenca", "") or "",
             bloque["tipo_intervencion"],
             bloque["cuenca"],
             bloque["distrito"],
@@ -412,9 +424,10 @@ def generar_excel_arcgis():
             bloque.get("responsable", "") or "",
             bloque["estado"],
             bloque.get("ultimo_avance", 0) or 0,
+            ultimo_ind.get("porcentaje_cobertura_vegetal", 0),
+            ultimo_ind.get("tipo_cobertura_vegetal", "") or "",
+            ultimo_ind.get("vigor_cobertura_vegetal", "") or "",
             ultimo_ind.get("sobrevivencia_especies", 0),
-            ultimo_ind.get("densidad_planificada", 0),
-            ultimo_ind.get("densidad_lograda", 0),
             ultimo_ind.get("longitud_zanjas_ejecutada", 0),
             ultimo_ind.get("volumen_retencion_sedimentos", 0),
         ]
@@ -422,7 +435,7 @@ def generar_excel_arcgis():
         for col_idx, valor in enumerate(datos, 1):
             ws.cell(row=row_idx, column=col_idx, value=valor)
 
-    anchos = [10, 14, 24, 20, 16, 14, 14, 10, 10, 10, 16, 14, 12, 12, 12, 12, 16, 14]
+    anchos = [10, 14, 18, 24, 20, 16, 14, 14, 10, 10, 10, 16, 14, 12, 14, 16, 16, 12, 16, 14]
     for i, ancho in enumerate(anchos, 1):
         ws.column_dimensions[get_column_letter(i)].width = ancho
 
