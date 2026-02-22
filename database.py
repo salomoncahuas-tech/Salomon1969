@@ -67,8 +67,8 @@ def inicializar_bd():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             bloque_id INTEGER NOT NULL,
             inspeccion_id INTEGER NOT NULL,
-            densidad_planificada REAL DEFAULT 0,
-            densidad_lograda REAL DEFAULT 0,
+            cobertura_vegetal_planificada REAL DEFAULT 0,
+            cobertura_vegetal_lograda REAL DEFAULT 0,
             sobrevivencia_especies REAL DEFAULT 0,
             longitud_zanjas_ejecutada REAL DEFAULT 0,
             volumen_retencion_sedimentos REAL DEFAULT 0,
@@ -317,8 +317,8 @@ def obtener_inspeccion_por_id(inspeccion_id):
 
 # ── Operaciones CRUD para Indicadores de Calidad ───────────────────────────
 
-def insertar_indicadores(bloque_id, inspeccion_id, densidad_planificada,
-                         densidad_lograda, sobrevivencia_especies,
+def insertar_indicadores(bloque_id, inspeccion_id, cobertura_vegetal_planificada,
+                         cobertura_vegetal_lograda, sobrevivencia_especies,
                          longitud_zanjas_ejecutada,
                          volumen_retencion_sedimentos,
                          porcentaje_cobertura_vegetal=0,
@@ -329,7 +329,7 @@ def insertar_indicadores(bloque_id, inspeccion_id, densidad_planificada,
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO indicadores_calidad (bloque_id, inspeccion_id,
-                                         densidad_planificada, densidad_lograda,
+                                         cobertura_vegetal_planificada, cobertura_vegetal_lograda,
                                          sobrevivencia_especies,
                                          longitud_zanjas_ejecutada,
                                          volumen_retencion_sedimentos,
@@ -339,7 +339,7 @@ def insertar_indicadores(bloque_id, inspeccion_id, densidad_planificada,
                                          microcuenca,
                                          fecha_registro)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    """, (bloque_id, inspeccion_id, densidad_planificada, densidad_lograda,
+    """, (bloque_id, inspeccion_id, cobertura_vegetal_planificada, cobertura_vegetal_lograda,
           sobrevivencia_especies, longitud_zanjas_ejecutada,
           volumen_retencion_sedimentos,
           porcentaje_cobertura_vegetal,

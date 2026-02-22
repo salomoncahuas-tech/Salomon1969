@@ -951,8 +951,8 @@ class TabIndicadores(ttk.Frame):
             db.insertar_indicadores(
                 bloque_id=bloque_id,
                 inspeccion_id=inspeccion_id,
-                densidad_planificada=0,
-                densidad_lograda=0,
+                cobertura_vegetal_planificada=0,
+                cobertura_vegetal_lograda=0,
                 sobrevivencia_especies=sobrevivencia,
                 longitud_zanjas_ejecutada=longitud_zanjas,
                 volumen_retencion_sedimentos=vol_retencion,

@@ -59,8 +59,8 @@ XLSFORM_SURVEY = [
     ("image", "foto_3", "Fotografía 3 - Evidencia adicional", "no", "", "", ""),
     ("end_group", "", "", "", "", "", ""),
     ("begin_group", "indicadores_calidad", "Indicadores de Calidad", "", "", "field-list", ""),
-    ("decimal", "densidad_planificada", "Densidad de plantación planificada (pl/ha)", "no", ". >= 0", "", ""),
-    ("decimal", "densidad_lograda", "Densidad de plantación lograda (pl/ha)", "no", ". >= 0", "", ""),
+    ("decimal", "cobertura_vegetal_planificada", "% de cobertura vegetal planificada", "no", ". >= 0 and . <= 100", "", ""),
+    ("decimal", "cobertura_vegetal_lograda", "% de cobertura vegetal lograda", "no", ". >= 0 and . <= 100", "", ""),
     ("decimal", "sobrevivencia_especies", "Sobrevivencia de especies (%)", "no", ". >= 0 and . <= 100", "", ""),
     ("decimal", "longitud_zanjas", "Longitud ejecutada de zanjas (ml)", "no", ". >= 0", "", ""),
     ("decimal", "volumen_retencion", "Volumen retención sedimentos (m³)", "no", ". >= 0", "", ""),
@@ -329,8 +329,8 @@ def importar_csv_odk(ruta_csv):
 
                 # Crear indicadores si hay datos
                 try:
-                    dens_plan = float(datos.get("densidad_planificada", "0"))
-                    dens_logr = float(datos.get("densidad_lograda", "0"))
+                    dens_plan = float(datos.get("cobertura_vegetal_planificada", "0"))
+                    dens_logr = float(datos.get("cobertura_vegetal_lograda", "0"))
                     sobrev = float(datos.get("sobrevivencia_especies", "0"))
                     zanjas = float(datos.get("longitud_zanjas", "0"))
                     vol_ret = float(datos.get("volumen_retencion", "0"))
@@ -521,8 +521,8 @@ def importar_desde_kobo(url_servidor, token_api, formulario_uid):
                 resultados["inspecciones_creadas"] += 1
 
                 try:
-                    dens_plan = float(datos.get("densidad_planificada", 0))
-                    dens_logr = float(datos.get("densidad_lograda", 0))
+                    dens_plan = float(datos.get("cobertura_vegetal_planificada", 0))
+                    dens_logr = float(datos.get("cobertura_vegetal_lograda", 0))
                     sobrev = float(datos.get("sobrevivencia_especies", 0))
                     zanjas = float(datos.get("longitud_zanjas", 0))
                     vol_ret = float(datos.get("volumen_retencion", 0))
@@ -754,7 +754,7 @@ class TabODKKobo(ttk.Frame):
             "condiciones_climaticas", "avance_fisico",
             "observaciones", "desviaciones",
             "foto_1", "foto_2", "foto_3",
-            "densidad_planificada", "densidad_lograda",
+            "cobertura_vegetal_planificada", "cobertura_vegetal_lograda",
             "sobrevivencia_especies", "longitud_zanjas", "volumen_retencion",
             "codigo_verificacion",
         ]
