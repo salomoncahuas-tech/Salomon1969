@@ -111,6 +111,9 @@ def generar_ficha_pdf(bloque_id, inspeccion_id=None):
     microcuenca = bloque.get("microcuenca", "") or ""
     if microcuenca:
         pdf._campo("Codigo microcuenca", microcuenca)
+    provincia = bloque.get("provincia", "") or ""
+    if provincia:
+        pdf._campo("Provincia", provincia)
     pdf._campo("Distrito", bloque["distrito"])
     pdf._campo("Coordenadas UTM Este", f"{bloque['utm_este']:.2f} m")
     pdf._campo("Coordenadas UTM Norte", f"{bloque['utm_norte']:.2f} m")
@@ -224,12 +227,12 @@ def generar_resumen_excel():
     ws.title = "Resumen Bloques IN Piura"
 
     # Título
-    ws.merge_cells("A1:V1")
+    ws.merge_cells("A1:W1")
     ws["A1"] = "IN Piura - Plan de Ingreso - Resumen de Bloques de Intervencion"
     ws["A1"].font = Font(name="Calibri", bold=True, size=13)
     ws["A1"].alignment = Alignment(horizontal="center")
 
-    ws.merge_cells("A2:V2")
+    ws.merge_cells("A2:W2")
     ws["A2"] = f"Generado: {datetime.now().strftime('%d/%m/%Y %H:%M')}"
     ws["A2"].font = Font(name="Calibri", italic=True, size=9)
     ws["A2"].alignment = Alignment(horizontal="center")
@@ -237,7 +240,7 @@ def generar_resumen_excel():
     # Encabezados (fila 4)
     encabezados = [
         "Codigo Bloque", "Microcuenca", "Tipo Intervencion", "Cuenca Hidrografica",
-        "Distrito", "UTM_Este", "UTM_Norte", "Zona_UTM", "Altitud (m.s.n.m.)",
+        "Provincia", "Distrito", "UTM_Este", "UTM_Norte", "Zona_UTM", "Altitud (m.s.n.m.)",
         "Area (ha)", "Responsable", "Estado", "Total Inspecciones",
         "Ultima Visita", "Avance Fisico (%)",
         "Cobertura Vegetal (%)", "Tipo Cobertura", "Vigor Cobertura",
@@ -263,6 +266,7 @@ def generar_resumen_excel():
             bloque.get("microcuenca", "") or "",
             bloque["tipo_intervencion"],
             bloque["cuenca"],
+            bloque.get("provincia", "") or "",
             bloque["distrito"],
             bloque["utm_este"],
             bloque["utm_norte"],
@@ -288,7 +292,7 @@ def generar_resumen_excel():
             celda.border = borde
             celda.alignment = Alignment(horizontal="center", vertical="center")
 
-    anchos = [14, 18, 24, 22, 16, 14, 14, 10, 14, 10, 16, 14, 14, 14, 14, 16, 16, 16, 14, 16, 18, 18]
+    anchos = [14, 18, 24, 22, 14, 16, 14, 14, 10, 14, 10, 16, 14, 14, 14, 14, 16, 16, 16, 14, 16, 18, 18]
     for i, ancho in enumerate(anchos, 1):
         ws.column_dimensions[get_column_letter(i)].width = ancho
 
@@ -393,7 +397,7 @@ def generar_excel_arcgis():
 
     encabezados_arcgis = [
         "OBJECTID", "COD_BLOQUE", "MICROCUENCA", "TIPO_INTERV", "CUENCA",
-        "DISTRITO", "POINT_X", "POINT_Y", "ZONA_UTM", "ALTITUD",
+        "PROVINCIA", "DISTRITO", "POINT_X", "POINT_Y", "ZONA_UTM", "ALTITUD",
         "AREA_HA", "RESPONSABLE", "ESTADO", "AVANCE_PCT",
         "COB_VEG_PCT", "TIPO_COB_VEG", "VIGOR_COB_VEG",
         "SOBREV_PCT", "LONG_ZANJAS_ML", "VOL_RETEN_M3"
@@ -415,6 +419,7 @@ def generar_excel_arcgis():
             bloque.get("microcuenca", "") or "",
             bloque["tipo_intervencion"],
             bloque["cuenca"],
+            bloque.get("provincia", "") or "",
             bloque["distrito"],
             bloque["utm_este"],
             bloque["utm_norte"],
@@ -435,7 +440,7 @@ def generar_excel_arcgis():
         for col_idx, valor in enumerate(datos, 1):
             ws.cell(row=row_idx, column=col_idx, value=valor)
 
-    anchos = [10, 14, 18, 24, 20, 16, 14, 14, 10, 10, 10, 16, 14, 12, 14, 16, 16, 12, 16, 14]
+    anchos = [10, 14, 18, 24, 20, 14, 16, 14, 14, 10, 10, 10, 16, 14, 12, 14, 16, 16, 12, 16, 14]
     for i, ancho in enumerate(anchos, 1):
         ws.column_dimensions[get_column_letter(i)].width = ancho
 

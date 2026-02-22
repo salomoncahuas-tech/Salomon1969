@@ -145,6 +145,8 @@ def _migrar_bloques(cursor):
         cursor.execute("ALTER TABLE bloques ADD COLUMN responsable TEXT DEFAULT ''")
     if "microcuenca" not in columnas:
         cursor.execute("ALTER TABLE bloques ADD COLUMN microcuenca TEXT DEFAULT ''")
+    if "provincia" not in columnas:
+        cursor.execute("ALTER TABLE bloques ADD COLUMN provincia TEXT DEFAULT ''")
 
     # Migrar columnas en inspecciones
     cursor.execute("PRAGMA table_info(inspecciones)")
@@ -169,18 +171,18 @@ def _migrar_bloques(cursor):
 
 def insertar_bloque(codigo, tipo_intervencion, cuenca, distrito,
                     utm_este, utm_norte, utm_zona, area_hectareas, estado,
-                    altitud=0, responsable="", microcuenca=""):
+                    altitud=0, responsable="", microcuenca="", provincia=""):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO bloques (codigo, tipo_intervencion, cuenca, distrito,
                              utm_este, utm_norte, utm_zona, altitud,
                              area_hectareas, responsable, estado, microcuenca,
-                             fecha_registro)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                             provincia, fecha_registro)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (codigo, tipo_intervencion, cuenca, distrito,
           utm_este, utm_norte, utm_zona, altitud,
-          area_hectareas, responsable, estado, microcuenca,
+          area_hectareas, responsable, estado, microcuenca, provincia,
           datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
     conn.commit()
     bloque_id = cursor.lastrowid
@@ -190,17 +192,19 @@ def insertar_bloque(codigo, tipo_intervencion, cuenca, distrito,
 
 def actualizar_bloque(bloque_id, codigo, tipo_intervencion, cuenca, distrito,
                       utm_este, utm_norte, utm_zona, area_hectareas, estado,
-                      altitud=0, responsable="", microcuenca=""):
+                      altitud=0, responsable="", microcuenca="", provincia=""):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
         UPDATE bloques SET codigo=?, tipo_intervencion=?, cuenca=?, distrito=?,
                            utm_este=?, utm_norte=?, utm_zona=?, altitud=?,
-                           area_hectareas=?, responsable=?, estado=?, microcuenca=?
+                           area_hectareas=?, responsable=?, estado=?, microcuenca=?,
+                           provincia=?
         WHERE id=?
     """, (codigo, tipo_intervencion, cuenca, distrito,
           utm_este, utm_norte, utm_zona, altitud,
-          area_hectareas, responsable, estado, microcuenca, bloque_id))
+          area_hectareas, responsable, estado, microcuenca, provincia,
+          bloque_id))
     conn.commit()
     conn.close()
 

@@ -40,49 +40,77 @@ CONDICIONES_CLIMATICAS = [
     "Neblina",
 ]
 
-# Microcuencas del Proyecto IN Piura - Cuenca Alta del Río Piura
+# Microcuencas del Proyecto IN Piura - Cuenca Alta del Río Piura (29 códigos)
 MICROCUENCAS = [
-    "MC-001 - Río Quiroz",
-    "MC-002 - Río Canchaque",
-    "MC-003 - Río Bigote",
-    "MC-004 - Río Pusmalca",
-    "MC-005 - Río La Gallega",
-    "MC-006 - Río Chalaco",
-    "MC-007 - Río Yapatera",
-    "MC-008 - Río San Jorge",
-    "MC-009 - Río Corrales",
-    "MC-010 - Río Huarmaca",
-    "MC-011 - Río San Pedro",
-    "MC-012 - Río Sancor",
-    "MC-013 - Río Hualcas",
-    "MC-014 - Río Sondorillo",
-    "MC-015 - Río Huancabamba",
-    "MC-016 - Río Sapalache",
-    "MC-017 - Río Seco",
-    "MC-018 - Río Simirís",
+    "C1075-O9580",
+    "C1076-O9581",
+    "C1076-O9584",
+    "C1076-O9585",
+    "C1076-O9586",
+    "C1076-O9587",
+    "C1076-O9588",
+    "C1076-O9589",
+    "C1076-O9592",
+    "C1077-O9566",
+    "C1077-O9579",
+    "C1078-O9562",
+    "C1080-O9560",
+    "C1081-O9582",
+    "C1081-O9583",
+    "C1081-O9591",
+    "C1086-O9569",
+    "C1086-O9570",
+    "C1086-O9575",
+    "C1086-O9576",
+    "C1096-O9545",
+    "C1096-O9547",
+    "C1096-O9556",
+    "C1096-O9557",
+    "C1096-O9558",
+    "C1096-O9564",
+    "C1107-O9539",
+    "C1107-O9541",
+    "C1108-O9552",
 ]
 
-# 18 Distritos del Proyecto IN Piura - Cuenca Alta del Río Piura
-DISTRITOS_PIURA = [
-    "Ayabaca",
-    "Pacaipampa",
-    "Lagunas",
-    "Frías",
-    "Sapillica",
-    "Montero",
-    "Jililí",
-    "Sicchez",
-    "Paimas",
-    "Suyo",
-    "Canchaque",
-    "San Miguel de El Faique",
-    "Sondor",
-    "Sondorillo",
-    "Huancabamba",
-    "Carmen de la Frontera",
-    "Lalaquiz",
-    "Yamango",
-]
+# 5 Provincias y 18 Distritos del Proyecto IN Piura
+PROVINCIAS_DISTRITOS = {
+    "Ayabaca": [
+        "Frías",
+    ],
+    "Huancabamba": [
+        "Canchaque",
+        "Huancabamba",
+        "Huarmaca",
+        "San Miguel de El Faique",
+    ],
+    "Morropón": [
+        "Buenos Aires",
+        "Chalaco",
+        "Chulucanas",
+        "La Matanza",
+        "Morropón",
+        "Salitral",
+        "San Juan de Bigote",
+        "Santa Catalina de Mossa",
+        "Santo Domingo",
+        "Yamango",
+    ],
+    "Piura": [
+        "Las Lomas",
+        "Tambo Grande",
+    ],
+    "Sullana": [
+        "Sullana",
+    ],
+}
+
+PROVINCIAS = list(PROVINCIAS_DISTRITOS.keys())
+
+# Lista plana de todos los distritos (para validación)
+DISTRITOS_PIURA = []
+for _distritos in PROVINCIAS_DISTRITOS.values():
+    DISTRITOS_PIURA.extend(_distritos)
 
 # Tipos de cobertura vegetal
 TIPOS_COBERTURA_VEGETAL = [
@@ -244,7 +272,14 @@ class TabBloques(ttk.Frame):
         self.combo_microcuenca = ttk.Combobox(panel_izq, values=MICROCUENCAS, state="readonly", width=22)
         self.combo_microcuenca.grid(row=fila, column=1, sticky="ew", pady=3, padx=(6, 0))
 
-        # Distrito (lista desplegable de 18 distritos validados)
+        # Provincia (lista desplegable de 5 provincias)
+        fila += 1
+        ttk.Label(panel_izq, text="Provincia:").grid(row=fila, column=0, sticky="w", pady=3)
+        self.combo_provincia = ttk.Combobox(panel_izq, values=PROVINCIAS, state="readonly", width=22)
+        self.combo_provincia.grid(row=fila, column=1, sticky="ew", pady=3, padx=(6, 0))
+        self.combo_provincia.bind("<<ComboboxSelected>>", self._on_provincia_seleccionada)
+
+        # Distrito (filtrado por provincia seleccionada)
         fila += 1
         ttk.Label(panel_izq, text="Distrito:").grid(row=fila, column=0, sticky="w", pady=3)
         self.combo_distrito = ttk.Combobox(panel_izq, values=DISTRITOS_PIURA, state="readonly", width=22)
@@ -296,13 +331,14 @@ class TabBloques(ttk.Frame):
         self.entry_busqueda.bind("<Return>", lambda e: self._buscar_bloques())
         ttk.Label(busqueda_frame, text="Buscar:").pack(side="right")
 
-        columnas = ("codigo", "microcuenca", "tipo", "distrito", "utm_este", "utm_norte",
-                    "altitud", "area", "responsable", "estado")
+        columnas = ("codigo", "microcuenca", "tipo", "provincia", "distrito",
+                    "utm_este", "utm_norte", "altitud", "area", "responsable", "estado")
         self.tree = ttk.Treeview(panel_der, columns=columnas, show="headings", height=16)
 
         self.tree.heading("codigo", text="Código")
         self.tree.heading("microcuenca", text="Microcuenca")
         self.tree.heading("tipo", text="Tipo Intervención")
+        self.tree.heading("provincia", text="Provincia")
         self.tree.heading("distrito", text="Distrito")
         self.tree.heading("utm_este", text="UTM Este")
         self.tree.heading("utm_norte", text="UTM Norte")
@@ -311,16 +347,17 @@ class TabBloques(ttk.Frame):
         self.tree.heading("responsable", text="Responsable")
         self.tree.heading("estado", text="Estado")
 
-        self.tree.column("codigo", width=80)
-        self.tree.column("microcuenca", width=130)
-        self.tree.column("tipo", width=140)
+        self.tree.column("codigo", width=75)
+        self.tree.column("microcuenca", width=110)
+        self.tree.column("tipo", width=130)
+        self.tree.column("provincia", width=85)
         self.tree.column("distrito", width=90)
-        self.tree.column("utm_este", width=80)
-        self.tree.column("utm_norte", width=80)
-        self.tree.column("altitud", width=60)
-        self.tree.column("area", width=60)
-        self.tree.column("responsable", width=90)
-        self.tree.column("estado", width=75)
+        self.tree.column("utm_este", width=75)
+        self.tree.column("utm_norte", width=75)
+        self.tree.column("altitud", width=55)
+        self.tree.column("area", width=55)
+        self.tree.column("responsable", width=85)
+        self.tree.column("estado", width=70)
 
         scrollbar = ttk.Scrollbar(panel_der, orient="vertical", command=self.tree.yview)
         self.tree.configure(yscrollcommand=scrollbar.set)
@@ -351,12 +388,25 @@ class TabBloques(ttk.Frame):
             altitud = b.get("altitud", 0) or 0
             responsable = b.get("responsable", "") or ""
             microcuenca = b.get("microcuenca", "") or ""
+            provincia = b.get("provincia", "") or ""
             self.tree.insert("", "end", iid=b["id"], values=(
-                b["codigo"], microcuenca, b["tipo_intervencion"], b["distrito"],
+                b["codigo"], microcuenca, b["tipo_intervencion"],
+                provincia, b["distrito"],
                 f"{b['utm_este']:.2f}", f"{b['utm_norte']:.2f}",
                 f"{altitud:.0f}", f"{b['area_hectareas']:.4f}",
                 responsable, b["estado"]
             ))
+
+    def _on_provincia_seleccionada(self, event=None):
+        """Filtra los distritos según la provincia seleccionada."""
+        provincia = self.combo_provincia.get()
+        if provincia in PROVINCIAS_DISTRITOS:
+            distritos = PROVINCIAS_DISTRITOS[provincia]
+            self.combo_distrito["values"] = distritos
+            self.combo_distrito.set("")
+        else:
+            self.combo_distrito["values"] = DISTRITOS_PIURA
+            self.combo_distrito.set("")
 
     def on_seleccionar_bloque(self, event):
         sel = self.tree.selection()
@@ -380,7 +430,14 @@ class TabBloques(ttk.Frame):
         self.entries["responsable"].insert(0, bloque.get("responsable", "") or "")
         self.combo_tipo.set(bloque["tipo_intervencion"])
         self.combo_estado.set(bloque["estado"])
-        # Restaurar distrito en combobox
+        # Restaurar provincia y distrito
+        provincia_val = bloque.get("provincia", "") or ""
+        if provincia_val in PROVINCIAS:
+            self.combo_provincia.set(provincia_val)
+            self.combo_distrito["values"] = PROVINCIAS_DISTRITOS.get(provincia_val, DISTRITOS_PIURA)
+        else:
+            self.combo_provincia.set("")
+            self.combo_distrito["values"] = DISTRITOS_PIURA
         distrito_val = bloque.get("distrito", "")
         if distrito_val in DISTRITOS_PIURA:
             self.combo_distrito.set(distrito_val)
@@ -431,6 +488,7 @@ class TabBloques(ttk.Frame):
             "altitud": altitud,
             "responsable": self.entries["responsable"].get().strip(),
             "microcuenca": self.combo_microcuenca.get(),
+            "provincia": self.combo_provincia.get(),
         }
 
     def guardar_bloque(self):
@@ -477,7 +535,9 @@ class TabBloques(ttk.Frame):
         self.bloque_seleccionado = None
         for entry in self.entries.values():
             entry.delete(0, tk.END)
+        self.combo_provincia.set("")
         self.combo_distrito.set("")
+        self.combo_distrito["values"] = DISTRITOS_PIURA
         self.combo_microcuenca.set("")
         if reset_defaults:
             self.entries["utm_zona"].insert(0, "17S")
