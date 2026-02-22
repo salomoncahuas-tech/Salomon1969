@@ -536,6 +536,14 @@ def init_db():
 
     db.session.commit()
 
+    # Auto-seed sample assessments on first deploy
+    if not Assessment.query.first():
+        try:
+            from seed_data import seed_assessments
+            seed_assessments()
+        except Exception as e:
+            print(f'Note: Could not auto-seed assessments: {e}')
+
 
 with app.app_context():
     init_db()
