@@ -12,6 +12,8 @@ try:
     from tkinter import ttk, messagebox
     _HAS_TK = True
 except ImportError:
+    tk = None
+    ttk = None
     _HAS_TK = False
 
 import database as db
@@ -131,7 +133,11 @@ COLORES_TIPO = {
 
 # ── Widget de Mapa con Canvas de tkinter ──────────────────────────────────
 
-class MapaCanvas(tk.Canvas):
+_CanvasBase = tk.Canvas if _HAS_TK else object
+_FrameBase = ttk.Frame if _HAS_TK else object
+
+
+class MapaCanvas(_CanvasBase):
     """Mapa interactivo basado en Canvas de tkinter.
     Renderiza bloques de intervención como marcadores sobre un fondo
     con grilla de coordenadas. Soporta zoom y desplazamiento."""
@@ -470,7 +476,7 @@ class MapaCanvas(tk.Canvas):
 
 # ── Tab Georreferenciación ────────────────────────────────────────────────
 
-class TabGeorreferenciacion(ttk.Frame):
+class TabGeorreferenciacion(_FrameBase):
     """Pestaña de georreferenciación con mapa interactivo y herramientas
     de conversión de coordenadas."""
 
