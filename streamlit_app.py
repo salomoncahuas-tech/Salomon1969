@@ -38,22 +38,108 @@ CONDICIONES_CLIMATICAS = [
     "Despejado", "Parcialmente nublado", "Nublado",
     "Lluvia ligera", "Lluvia moderada", "Lluvia intensa", "Neblina",
 ]
-MICROCUENCAS = [
-    "C1075-O9580","C1076-O9581","C1076-O9584","C1076-O9585","C1076-O9586",
-    "C1076-O9587","C1076-O9588","C1076-O9589","C1076-O9592","C1077-O9566",
-    "C1077-O9579","C1078-O9562","C1080-O9560","C1081-O9582","C1081-O9583",
-    "C1081-O9591","C1086-O9569","C1086-O9570","C1086-O9575","C1086-O9576",
-    "C1096-O9545","C1096-O9547","C1096-O9556","C1096-O9557","C1096-O9558",
-    "C1096-O9564","C1107-O9539","C1107-O9541","C1108-O9552",
+# ── Datos de Origen: 83 Bloques Preliminares de Intervencion ─────────────
+# Fuente: DATOS DE ORIGEN 83 BLOQUES.xlsx
+BLOQUES_83 = [
+    {"n":1,"microcuenca":"C1107-Q9541","bloque":"M25B1","area":313.131,"provincia":"PIURA","distrito":"LAS LOMAS","accesibilidad":0,"dia_eval":1},
+    {"n":2,"microcuenca":"C1107-Q9539","bloque":"M35B1","area":229.177,"provincia":"SULLANA","distrito":"SULLANA","accesibilidad":0,"dia_eval":1},
+    {"n":3,"microcuenca":"C1096-Q9547","bloque":"M10B4","area":95.459,"provincia":"MORROPON","distrito":"CHULUCANAS","accesibilidad":0,"dia_eval":2},
+    {"n":4,"microcuenca":"C1096-Q9545","bloque":"M9B1","area":1115.665,"provincia":"MORROPON","distrito":"CHULUCANAS","accesibilidad":0,"dia_eval":2},
+    {"n":5,"microcuenca":"C1108-Q9552","bloque":"M5B3","area":561.842,"provincia":"PIURA","distrito":"TAMBO GRANDE","accesibilidad":0,"dia_eval":2},
+    {"n":6,"microcuenca":"C1108-Q9552","bloque":"M5B1","area":58.27,"provincia":"PIURA","distrito":"TAMBO GRANDE","accesibilidad":1,"dia_eval":2},
+    {"n":7,"microcuenca":"C1096-Q9558","bloque":"M8B5","area":94.918,"provincia":"MORROPON","distrito":"CHULUCANAS","accesibilidad":1,"dia_eval":3},
+    {"n":8,"microcuenca":"C1096-Q9556","bloque":"M17B1","area":30.348,"provincia":"MORROPON","distrito":"CHULUCANAS","accesibilidad":0,"dia_eval":3},
+    {"n":9,"microcuenca":"C1096-Q9557","bloque":"M27B1","area":289.02,"provincia":"MORROPON","distrito":"CHULUCANAS","accesibilidad":0,"dia_eval":3},
+    {"n":10,"microcuenca":"C1096-Q9547","bloque":"M10B1","area":596.766,"provincia":"MORROPON","distrito":"CHULUCANAS","accesibilidad":0,"dia_eval":3},
+    {"n":11,"microcuenca":"C1096-Q9556","bloque":"M17B6","area":118.175,"provincia":"AYABACA","distrito":"FRIAS","accesibilidad":1,"dia_eval":4},
+    {"n":12,"microcuenca":"C1096-Q9556","bloque":"M17B11","area":618.871,"provincia":"MORROPON","distrito":"CHULUCANAS","accesibilidad":1,"dia_eval":4},
+    {"n":13,"microcuenca":"C1096-Q9556","bloque":"M17B4","area":159.267,"provincia":"MORROPON","distrito":"CHULUCANAS","accesibilidad":1,"dia_eval":4},
+    {"n":14,"microcuenca":"C1096-Q9556","bloque":"M17B10","area":594.76,"provincia":"AYABACA","distrito":"FRIAS","accesibilidad":1,"dia_eval":4},
+    {"n":15,"microcuenca":"C1096-Q9556","bloque":"M17B5","area":139.603,"provincia":"AYABACA","distrito":"FRIAS","accesibilidad":1,"dia_eval":4},
+    {"n":16,"microcuenca":"C1096-Q9558","bloque":"M8B4","area":113.764,"provincia":"MORROPON","distrito":"CHULUCANAS","accesibilidad":1,"dia_eval":4},
+    {"n":17,"microcuenca":"C1096-Q9556","bloque":"M17B7","area":261.051,"provincia":"AYABACA","distrito":"FRIAS","accesibilidad":1,"dia_eval":4},
+    {"n":18,"microcuenca":"C1086-Q9576","bloque":"M36B2","area":64.769,"provincia":"MORROPON","distrito":"SANTA CATALINA DE MOSSA","accesibilidad":0,"dia_eval":5},
+    {"n":19,"microcuenca":"C1096-Q9564","bloque":"M29B1","area":28.289,"provincia":"AYABACA","distrito":"FRIAS","accesibilidad":1,"dia_eval":5},
+    {"n":20,"microcuenca":"C1086-Q9570","bloque":"M19B5","area":79.177,"provincia":"MORROPON","distrito":"SANTO DOMINGO","accesibilidad":1,"dia_eval":5},
+    {"n":21,"microcuenca":"C1086-Q9576","bloque":"M36B1","area":131.383,"provincia":"MORROPON","distrito":"CHALACO","accesibilidad":1,"dia_eval":5},
+    {"n":22,"microcuenca":"C1086-Q9570","bloque":"M19B7","area":108.891,"provincia":"MORROPON","distrito":"SANTO DOMINGO","accesibilidad":1,"dia_eval":6},
+    {"n":23,"microcuenca":"C1086-Q9570","bloque":"M19B2","area":54.187,"provincia":"MORROPON","distrito":"MORROPON","accesibilidad":1,"dia_eval":6},
+    {"n":24,"microcuenca":"C1096-Q9558","bloque":"M8B2","area":67.561,"provincia":"MORROPON","distrito":"SANTO DOMINGO","accesibilidad":1,"dia_eval":6},
+    {"n":25,"microcuenca":"C1086-Q9569","bloque":"M32B2","area":44.889,"provincia":"MORROPON","distrito":"SANTA CATALINA DE MOSSA","accesibilidad":1,"dia_eval":6},
+    {"n":26,"microcuenca":"C1086-Q9569","bloque":"M32B3","area":102.916,"provincia":"MORROPON","distrito":"MORROPON","accesibilidad":1,"dia_eval":6},
+    {"n":27,"microcuenca":"C1078-Q9562","bloque":"M34B1","area":736.319,"provincia":"MORROPON","distrito":"LA MATANZA","accesibilidad":0,"dia_eval":7},
+    {"n":28,"microcuenca":"C1096-Q9558","bloque":"M8B1","area":148.266,"provincia":"MORROPON","distrito":"MORROPON","accesibilidad":0,"dia_eval":7},
+    {"n":29,"microcuenca":"C1096-Q9557","bloque":"M27B4","area":511.53,"provincia":"MORROPON","distrito":"MORROPON","accesibilidad":0,"dia_eval":7},
+    {"n":30,"microcuenca":"C1080-Q9560","bloque":"M16B3","area":110.809,"provincia":"MORROPON","distrito":"MORROPON","accesibilidad":0,"dia_eval":7},
+    {"n":31,"microcuenca":"C1080-Q9560","bloque":"M16B2","area":462.688,"provincia":"MORROPON","distrito":"MORROPON","accesibilidad":0,"dia_eval":7},
+    {"n":32,"microcuenca":"C1096-Q9557","bloque":"M27B5","area":88.152,"provincia":"MORROPON","distrito":"MORROPON","accesibilidad":0,"dia_eval":7},
+    {"n":33,"microcuenca":"C1077-Q9566","bloque":"M6B10","area":376.183,"provincia":"MORROPON","distrito":"BUENOS AIRES","accesibilidad":1,"dia_eval":8},
+    {"n":34,"microcuenca":"C1086-Q9575","bloque":"M28B3","area":44.709,"provincia":"MORROPON","distrito":"YAMANGO","accesibilidad":1,"dia_eval":8},
+    {"n":35,"microcuenca":"C1086-Q9575","bloque":"M28B1","area":49.608,"provincia":"MORROPON","distrito":"YAMANGO","accesibilidad":0,"dia_eval":8},
+    {"n":36,"microcuenca":"C1086-Q9575","bloque":"M28B4","area":160.485,"provincia":"MORROPON","distrito":"YAMANGO","accesibilidad":0,"dia_eval":8},
+    {"n":37,"microcuenca":"C1086-Q9575","bloque":"M28B2","area":155.139,"provincia":"MORROPON","distrito":"YAMANGO","accesibilidad":1,"dia_eval":8},
+    {"n":38,"microcuenca":"C1086-Q9569","bloque":"M32B1","area":313.334,"provincia":"MORROPON","distrito":"BUENOS AIRES","accesibilidad":1,"dia_eval":8},
+    {"n":39,"microcuenca":"C1077-Q9566","bloque":"M6B6","area":80.898,"provincia":"MORROPON","distrito":"BUENOS AIRES","accesibilidad":0,"dia_eval":9},
+    {"n":40,"microcuenca":"C1077-Q9566","bloque":"M6B8","area":68.037,"provincia":"MORROPON","distrito":"BUENOS AIRES","accesibilidad":0,"dia_eval":9},
+    {"n":41,"microcuenca":"C1077-Q9566","bloque":"M6B7","area":185.483,"provincia":"MORROPON","distrito":"BUENOS AIRES","accesibilidad":0,"dia_eval":9},
+    {"n":42,"microcuenca":"C1077-Q9566","bloque":"M6B2","area":2141.763,"provincia":"MORROPON","distrito":"BUENOS AIRES","accesibilidad":0,"dia_eval":9},
+    {"n":43,"microcuenca":"C1075-Q9580","bloque":"M1B1","area":289.68,"provincia":"MORROPON","distrito":"BUENOS AIRES","accesibilidad":0,"dia_eval":10},
+    {"n":44,"microcuenca":"C1077-Q9579","bloque":"M18B1","area":75.61,"provincia":"MORROPON","distrito":"BUENOS AIRES","accesibilidad":1,"dia_eval":10},
+    {"n":45,"microcuenca":"C1077-Q9566","bloque":"M6B5","area":286.591,"provincia":"MORROPON","distrito":"BUENOS AIRES","accesibilidad":0,"dia_eval":10},
+    {"n":46,"microcuenca":"C1077-Q9579","bloque":"M18B3","area":236.273,"provincia":"MORROPON","distrito":"SALITRAL","accesibilidad":0,"dia_eval":10},
+    {"n":47,"microcuenca":"C1077-Q9579","bloque":"M18B5","area":157.818,"provincia":"MORROPON","distrito":"SALITRAL","accesibilidad":0,"dia_eval":10},
+    {"n":48,"microcuenca":"C1081-Q9582","bloque":"M3B9","area":328.824,"provincia":"MORROPON","distrito":"SALITRAL","accesibilidad":1,"dia_eval":11},
+    {"n":49,"microcuenca":"C1081-Q9582","bloque":"M3B8","area":567.472,"provincia":"MORROPON","distrito":"SAN JUAN DE BIGOTE","accesibilidad":1,"dia_eval":11},
+    {"n":50,"microcuenca":"C1081-Q9582","bloque":"M3B1","area":84.927,"provincia":"MORROPON","distrito":"SALITRAL","accesibilidad":0,"dia_eval":11},
+    {"n":51,"microcuenca":"C1076-Q9581","bloque":"M7B1","area":144.726,"provincia":"MORROPON","distrito":"SALITRAL","accesibilidad":1,"dia_eval":11},
+    {"n":52,"microcuenca":"C1081-Q9582","bloque":"M3B3","area":84.715,"provincia":"MORROPON","distrito":"SAN JUAN DE BIGOTE","accesibilidad":1,"dia_eval":11},
+    {"n":53,"microcuenca":"C1081-Q9583","bloque":"M11B1","area":48.951,"provincia":"MORROPON","distrito":"SAN JUAN DE BIGOTE","accesibilidad":1,"dia_eval":12},
+    {"n":54,"microcuenca":"C1081-Q9582","bloque":"M3B5","area":153.642,"provincia":"MORROPON","distrito":"SAN JUAN DE BIGOTE","accesibilidad":0,"dia_eval":12},
+    {"n":55,"microcuenca":"C1081-Q9582","bloque":"M3B7","area":125.348,"provincia":"MORROPON","distrito":"SAN JUAN DE BIGOTE","accesibilidad":1,"dia_eval":12},
+    {"n":56,"microcuenca":"C1081-Q9583","bloque":"M11B3","area":95.537,"provincia":"MORROPON","distrito":"SAN JUAN DE BIGOTE","accesibilidad":1,"dia_eval":12},
+    {"n":57,"microcuenca":"C1081-Q9591","bloque":"M30B6","area":70.778,"provincia":"HUANCABAMBA","distrito":"HUANCABAMBA","accesibilidad":1,"dia_eval":13},
+    {"n":58,"microcuenca":"C1081-Q9591","bloque":"M30B1","area":535.022,"provincia":"HUANCABAMBA","distrito":"CANCHAQUE","accesibilidad":0,"dia_eval":13},
+    {"n":59,"microcuenca":"C1081-Q9591","bloque":"M30B5","area":89.999,"provincia":"HUANCABAMBA","distrito":"HUANCABAMBA","accesibilidad":0,"dia_eval":13},
+    {"n":60,"microcuenca":"C1076-Q9581","bloque":"M7B2","area":154.81,"provincia":"MORROPON","distrito":"SALITRAL","accesibilidad":1,"dia_eval":14},
+    {"n":61,"microcuenca":"C1076-Q9581","bloque":"M7B6","area":95.209,"provincia":"MORROPON","distrito":"SALITRAL","accesibilidad":0,"dia_eval":14},
+    {"n":62,"microcuenca":"C1076-Q9581","bloque":"M7B3","area":98.029,"provincia":"MORROPON","distrito":"SALITRAL","accesibilidad":1,"dia_eval":14},
+    {"n":63,"microcuenca":"C1076-Q9585","bloque":"M20B1","area":31.619,"provincia":"HUANCABAMBA","distrito":"SAN MIGUEL DE EL FAIQUE","accesibilidad":0,"dia_eval":14},
+    {"n":64,"microcuenca":"C1076-Q9584","bloque":"M2B8","area":63.364,"provincia":"HUANCABAMBA","distrito":"SAN MIGUEL DE EL FAIQUE","accesibilidad":0,"dia_eval":14},
+    {"n":65,"microcuenca":"C1076-Q9584","bloque":"M2B1","area":83.883,"provincia":"MORROPON","distrito":"SALITRAL","accesibilidad":0,"dia_eval":14},
+    {"n":66,"microcuenca":"C1076-Q9587","bloque":"M26B4","area":37.933,"provincia":"HUANCABAMBA","distrito":"CANCHAQUE","accesibilidad":0,"dia_eval":15},
+    {"n":67,"microcuenca":"C1081-Q9583","bloque":"M11B2","area":48.988,"provincia":"HUANCABAMBA","distrito":"CANCHAQUE","accesibilidad":0,"dia_eval":15},
+    {"n":68,"microcuenca":"C1076-Q9586","bloque":"M22B1","area":150.796,"provincia":"HUANCABAMBA","distrito":"SAN MIGUEL DE EL FAIQUE","accesibilidad":1,"dia_eval":15},
+    {"n":69,"microcuenca":"C1076-Q9588","bloque":"M12B1","area":262.716,"provincia":"HUANCABAMBA","distrito":"HUARMACA","accesibilidad":0,"dia_eval":16},
+    {"n":70,"microcuenca":"C1076-Q9589","bloque":"M4B1","area":40.638,"provincia":"HUANCABAMBA","distrito":"HUARMACA","accesibilidad":0,"dia_eval":16},
+    {"n":71,"microcuenca":"C1076-Q9588","bloque":"M12B8","area":235.281,"provincia":"MORROPON","distrito":"SALITRAL","accesibilidad":1,"dia_eval":16},
+    {"n":72,"microcuenca":"C1076-Q9589","bloque":"M4B4","area":293.115,"provincia":"HUANCABAMBA","distrito":"HUARMACA","accesibilidad":0,"dia_eval":16},
+    {"n":73,"microcuenca":"C1076-Q9589","bloque":"M4B3","area":181.941,"provincia":"HUANCABAMBA","distrito":"HUARMACA","accesibilidad":0,"dia_eval":16},
+    {"n":74,"microcuenca":"C1076-Q9584","bloque":"M2B5","area":34.164,"provincia":"MORROPON","distrito":"SALITRAL","accesibilidad":0,"dia_eval":16},
+    {"n":75,"microcuenca":"C1076-Q9588","bloque":"M12B2","area":62.825,"provincia":"HUANCABAMBA","distrito":"HUARMACA","accesibilidad":1,"dia_eval":17},
+    {"n":76,"microcuenca":"C1076-Q9588","bloque":"M12B6","area":101.408,"provincia":"HUANCABAMBA","distrito":"HUARMACA","accesibilidad":1,"dia_eval":17},
+    {"n":77,"microcuenca":"C1076-Q9588","bloque":"M12B7","area":49.703,"provincia":"HUANCABAMBA","distrito":"HUARMACA","accesibilidad":1,"dia_eval":17},
+    {"n":78,"microcuenca":"C1076-Q9588","bloque":"M12B3","area":262.721,"provincia":"HUANCABAMBA","distrito":"HUARMACA","accesibilidad":1,"dia_eval":17},
+    {"n":79,"microcuenca":"C1076-Q9588","bloque":"M12B4","area":258.994,"provincia":"HUANCABAMBA","distrito":"HUARMACA","accesibilidad":1,"dia_eval":18},
+    {"n":80,"microcuenca":"C1076-Q9592","bloque":"M15B2","area":142.732,"provincia":"HUANCABAMBA","distrito":"HUARMACA","accesibilidad":1,"dia_eval":18},
+    {"n":81,"microcuenca":"C1076-Q9592","bloque":"M15B1","area":144.28,"provincia":"HUANCABAMBA","distrito":"HUARMACA","accesibilidad":1,"dia_eval":18},
+    {"n":82,"microcuenca":"C1076-Q9588","bloque":"M12B5","area":64.986,"provincia":"HUANCABAMBA","distrito":"HUARMACA","accesibilidad":1,"dia_eval":18},
+    {"n":83,"microcuenca":"C1076-Q9592","bloque":"M15B5","area":181.872,"provincia":"HUANCABAMBA","distrito":"HUARMACA","accesibilidad":1,"dia_eval":19},
 ]
+
+# Indices derivados de los 83 bloques
+_B83_POR_CODIGO = {b["bloque"]: b for b in BLOQUES_83}
+_B83_LABELS = [f"{b['bloque']} | {b['microcuenca']} | {b['distrito']} ({b['area']:.2f} ha)" for b in BLOQUES_83]
+_B83_LABEL_MAP = {label: b for label, b in zip(_B83_LABELS, BLOQUES_83)}
+
+MICROCUENCAS = sorted(set(b["microcuenca"] for b in BLOQUES_83))
 PROVINCIAS_DISTRITOS = {
-    "Ayabaca": ["Frias"],
-    "Huancabamba": ["Canchaque","Huancabamba","Huarmaca","San Miguel de El Faique"],
-    "Morropon": ["Buenos Aires","Chalaco","Chulucanas","La Matanza","Morropon",
-                 "Salitral","San Juan de Bigote","Santa Catalina de Mossa",
-                 "Santo Domingo","Yamango"],
-    "Piura": ["Las Lomas","Tambo Grande"],
-    "Sullana": ["Sullana"],
+    "AYABACA": ["FRIAS"],
+    "HUANCABAMBA": ["CANCHAQUE","HUANCABAMBA","HUARMACA","SAN MIGUEL DE EL FAIQUE"],
+    "MORROPON": ["BUENOS AIRES","CHALACO","CHULUCANAS","LA MATANZA","MORROPON",
+                 "SALITRAL","SAN JUAN DE BIGOTE","SANTA CATALINA DE MOSSA",
+                 "SANTO DOMINGO","YAMANGO"],
+    "PIURA": ["LAS LOMAS","TAMBO GRANDE"],
+    "SULLANA": ["SULLANA"],
 }
 PROVINCIAS = list(PROVINCIAS_DISTRITOS.keys())
 DISTRITOS_PIURA = [d for ds in PROVINCIAS_DISTRITOS.values() for d in ds]
@@ -301,7 +387,7 @@ st.markdown("""<div class="main-header">
 
 # ── Sidebar ───────────────────────────────────────────────────────────────
 pagina = st.sidebar.selectbox("Navegacion", [
-    "Panel de Control","Bloques de Intervencion","Inspeccion de Campo",
+    "Panel de Control","83 Bloques Preliminares","Bloques de Intervencion","Inspeccion de Campo",
     "Indicadores de Calidad","Diagnostico Territorial",
     "Presupuesto","Cronograma",
     "Georreferenciacion","ODK / KoBoToolbox","Reportes",
@@ -370,6 +456,59 @@ def pagina_dashboard():
             use_container_width=True, hide_index=True)
 
 # ══════════════════════════════════════════════════════════════════════════
+# 83 BLOQUES PRELIMINARES DE INTERVENCION (Consulta)
+# ══════════════════════════════════════════════════════════════════════════
+def pagina_83_bloques():
+    st.subheader("83 Bloques Preliminares de Intervencion")
+    st.caption("Base de datos de origen con los 83 bloques preliminares vinculados a microcuencas, distritos y provincias.")
+
+    # Filtros
+    f1, f2, f3 = st.columns(3)
+    filtro_prov = f1.selectbox("Filtrar por Provincia", ["Todas"] + PROVINCIAS, key="f83_prov")
+    dist_opts = ["Todos"] + (PROVINCIAS_DISTRITOS.get(filtro_prov, DISTRITOS_PIURA) if filtro_prov != "Todas" else DISTRITOS_PIURA)
+    filtro_dist = f2.selectbox("Filtrar por Distrito", dist_opts, key="f83_dist")
+    mc_opts = ["Todas"] + MICROCUENCAS
+    filtro_mc = f3.selectbox("Filtrar por Microcuenca", mc_opts, key="f83_mc")
+
+    datos = BLOQUES_83
+    if filtro_prov != "Todas":
+        datos = [b for b in datos if b["provincia"] == filtro_prov]
+    if filtro_dist != "Todos":
+        datos = [b for b in datos if b["distrito"] == filtro_dist]
+    if filtro_mc != "Todas":
+        datos = [b for b in datos if b["microcuenca"] == filtro_mc]
+
+    df = pd.DataFrame([{
+        "N": b["n"],
+        "Bloque": b["bloque"],
+        "Microcuenca": b["microcuenca"],
+        "Area (ha)": f"{b['area']:.3f}",
+        "Provincia": b["provincia"],
+        "Distrito": b["distrito"],
+        "Accesibilidad": "Alta" if b["accesibilidad"] == 0 else "Baja",
+        "Dia Eval.": b["dia_eval"],
+    } for b in datos])
+
+    st.metric("Bloques mostrados", f"{len(datos)} / 83")
+    area_total = sum(b["area"] for b in datos)
+    st.metric("Area total filtrada", f"{area_total:,.3f} ha")
+    st.dataframe(df, use_container_width=True, hide_index=True)
+
+    # Resumen por provincia
+    st.markdown("---")
+    st.markdown("**Resumen por Provincia y Distrito**")
+    resumen = {}
+    for b in BLOQUES_83:
+        key = f"{b['provincia']} / {b['distrito']}"
+        if key not in resumen:
+            resumen[key] = {"Provincia": b["provincia"], "Distrito": b["distrito"], "Bloques": 0, "Area (ha)": 0}
+        resumen[key]["Bloques"] += 1
+        resumen[key]["Area (ha)"] += b["area"]
+    df_res = pd.DataFrame(resumen.values())
+    df_res["Area (ha)"] = df_res["Area (ha)"].apply(lambda x: f"{x:,.3f}")
+    st.dataframe(df_res, use_container_width=True, hide_index=True)
+
+# ══════════════════════════════════════════════════════════════════════════
 # BLOQUES DE INTERVENCION
 # ══════════════════════════════════════════════════════════════════════════
 def pagina_bloques():
@@ -377,20 +516,34 @@ def pagina_bloques():
     cf,ct = st.columns([1,2])
     with cf:
         st.markdown("**Registro de Bloque**")
+        st.caption("Seleccione un bloque preliminar para autocompletar datos o ingrese manualmente.")
+        bloque_sel = st.selectbox("Bloque preliminar (83 bloques)", [""]+_B83_LABELS, key="bl_pre")
+        bp = _B83_LABEL_MAP.get(bloque_sel, {})
         with st.form("form_bloque", clear_on_submit=False):
-            codigo = st.text_input("Codigo de bloque")
+            codigo = st.text_input("Codigo de bloque", value=bp.get("bloque",""))
             cuenca = st.text_input("Cuenca", value="Cuenca Alta del Rio Piura")
-            microcuenca = st.selectbox("Microcuenca", [""]+MICROCUENCAS)
-            provincia = st.selectbox("Provincia", [""]+PROVINCIAS)
-            distrito = st.selectbox("Distrito", [""]+_distritos(provincia))
+            mc_def = bp.get("microcuenca","")
+            mc_idx = (MICROCUENCAS.index(mc_def)+1) if mc_def in MICROCUENCAS else 0
+            microcuenca = st.selectbox("Microcuenca", [""]+MICROCUENCAS, index=mc_idx)
+            prov_def = bp.get("provincia","")
+            prov_idx = (PROVINCIAS.index(prov_def)+1) if prov_def in PROVINCIAS else 0
+            provincia = st.selectbox("Provincia", [""]+PROVINCIAS, index=prov_idx)
+            dist_list = _distritos(provincia)
+            dist_def = bp.get("distrito","")
+            dist_idx = (dist_list.index(dist_def)+1) if dist_def in dist_list else 0
+            distrito = st.selectbox("Distrito", [""]+dist_list, index=dist_idx)
             tipo = st.selectbox("Tipo intervencion", TIPOS_INTERVENCION)
             a1,a2 = st.columns(2)
             ue = a1.text_input("UTM Este","0"); un = a2.text_input("UTM Norte","0")
             b1,b2 = st.columns(2)
             uz = b1.text_input("Zona UTM","17S"); alt = b2.text_input("Altitud","0")
-            area = st.text_input("Area (ha)","0")
+            area_def = f"{bp['area']:.4f}" if bp else "0"
+            area = st.text_input("Area (ha)", value=area_def)
             resp = st.text_input("Responsable")
             estado = st.selectbox("Estado", ESTADOS_BLOQUE)
+            if bp:
+                acces = "Alta (vehicular)" if bp.get("accesibilidad",0)==0 else "Baja (restringida)"
+                st.info(f"Accesibilidad: **{acces}** | Dia evaluacion: **{bp.get('dia_eval','-')}**")
             guardar = st.form_submit_button("Guardar", type="primary")
         if guardar:
             if not codigo: st.warning("Codigo obligatorio.")
@@ -431,9 +584,16 @@ def pagina_inspeccion():
     st.subheader("Inspeccion de Campo")
     bm = _bloques_map()
     if not bm: st.warning("Registre un bloque primero."); return
+    bl = st.selectbox("Bloque", list(bm.keys()), key="insp_bl_sel")
+    # Auto-detectar microcuenca del bloque seleccionado
+    bl_codigo = bl.split(" - ")[0].strip() if bl else ""
+    bp = _B83_POR_CODIGO.get(bl_codigo, {})
+    mc_def = bp.get("microcuenca","")
+    mc_idx = (MICROCUENCAS.index(mc_def)+1) if mc_def in MICROCUENCAS else 0
+    if bp:
+        st.caption(f"Bloque preliminar detectado: **{bl_codigo}** | {mc_def} | {bp.get('distrito','')} | {bp.get('area',0):.2f} ha")
     with st.form("form_insp", clear_on_submit=True):
-        bl = st.selectbox("Bloque", list(bm.keys()))
-        mc = st.selectbox("Microcuenca",[""]+MICROCUENCAS)
+        mc = st.selectbox("Microcuenca",[""]+MICROCUENCAS, index=mc_idx)
         fecha = st.date_input("Fecha de visita",value=datetime.now())
         inspector = st.text_input("Inspector")
         clima = st.selectbox("Condiciones climaticas",CONDICIONES_CLIMATICAS)
@@ -472,12 +632,19 @@ def pagina_indicadores():
     if not bm: st.warning("Registre un bloque primero."); return
     bl = st.selectbox("Bloque", list(bm.keys()), key="ind_bl")
     bid = bm[bl]
+    # Auto-detectar microcuenca del bloque seleccionado
+    bl_codigo = bl.split(" - ")[0].strip() if bl else ""
+    bp = _B83_POR_CODIGO.get(bl_codigo, {})
+    mc_def = bp.get("microcuenca","")
+    mc_idx = (MICROCUENCAS.index(mc_def)+1) if mc_def in MICROCUENCAS else 0
+    if bp:
+        st.caption(f"Bloque preliminar: **{bl_codigo}** | {mc_def} | {bp.get('distrito','')} | {bp.get('area',0):.2f} ha")
     ins = db.obtener_inspecciones_por_bloque(bid)
     if not ins: st.warning("Sin inspecciones para este bloque."); return
     im = {f"{i['fecha_visita']} - {i['inspector']}":i["id"] for i in ins}
     isel = st.selectbox("Inspeccion", list(im.keys()))
     with st.form("form_ind", clear_on_submit=True):
-        mc = st.selectbox("Microcuenca",[""]+MICROCUENCAS,key="ind_mc")
+        mc = st.selectbox("Microcuenca",[""]+MICROCUENCAS,key="ind_mc",index=mc_idx)
         pc = st.number_input("Cobertura vegetal (%)",0.0,100.0,0.0)
         tc = st.selectbox("Tipo cobertura",[""]+TIPOS_COBERTURA)
         vi = st.selectbox("Vigor cobertura",[""]+VIGOR_COBERTURA)
@@ -524,8 +691,15 @@ def pagina_diagnostico_territorial():
     with tab_reg:
         bl = st.selectbox("Bloque de Intervencion", list(bm.keys()), key="dt_bl")
         bid = bm[bl]
+        # Auto-detectar datos del bloque seleccionado
+        bl_codigo = bl.split(" - ")[0].strip() if bl else ""
+        bp = _B83_POR_CODIGO.get(bl_codigo, {})
+        mc_def = bp.get("microcuenca","")
+        mc_idx = (MICROCUENCAS.index(mc_def)+1) if mc_def in MICROCUENCAS else 0
+        if bp:
+            st.caption(f"Bloque preliminar: **{bl_codigo}** | {mc_def} | {bp.get('provincia','')} / {bp.get('distrito','')} | {bp.get('area',0):.2f} ha")
         r1, r2, r3 = st.columns(3)
-        mc = r1.selectbox("Microcuenca", [""] + MICROCUENCAS, key="dt_mc")
+        mc = r1.selectbox("Microcuenca", [""] + MICROCUENCAS, key="dt_mc", index=mc_idx)
         fecha_ev = r2.date_input("Fecha de evaluacion", value=datetime.now(), key="dt_fecha")
         evaluador = r3.text_input("Evaluador / Especialista", key="dt_eval")
 
@@ -1090,6 +1264,7 @@ def pagina_reportes():
 # ROUTER
 # ══════════════════════════════════════════════════════════════════════════
 if pagina == "Panel de Control": pagina_dashboard()
+elif pagina == "83 Bloques Preliminares": pagina_83_bloques()
 elif pagina == "Bloques de Intervencion": pagina_bloques()
 elif pagina == "Inspeccion de Campo": pagina_inspeccion()
 elif pagina == "Indicadores de Calidad": pagina_indicadores()
