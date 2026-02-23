@@ -42,35 +42,134 @@ CONDICIONES_CLIMATICAS = [
 
 # Microcuencas del Proyecto IN Piura - Cuenca Alta del Río Piura (29 códigos)
 MICROCUENCAS = [
-    "C1075-O9580",
-    "C1076-O9581",
-    "C1076-O9584",
-    "C1076-O9585",
-    "C1076-O9586",
-    "C1076-O9587",
-    "C1076-O9588",
-    "C1076-O9589",
-    "C1076-O9592",
-    "C1077-O9566",
-    "C1077-O9579",
-    "C1078-O9562",
-    "C1080-O9560",
-    "C1081-O9582",
-    "C1081-O9583",
-    "C1081-O9591",
-    "C1086-O9569",
-    "C1086-O9570",
-    "C1086-O9575",
-    "C1086-O9576",
-    "C1096-O9545",
-    "C1096-O9547",
-    "C1096-O9556",
-    "C1096-O9557",
-    "C1096-O9558",
-    "C1096-O9564",
-    "C1107-O9539",
-    "C1107-O9541",
-    "C1108-O9552",
+    "C1075-Q9580",
+    "C1076-Q9581",
+    "C1076-Q9584",
+    "C1076-Q9585",
+    "C1076-Q9586",
+    "C1076-Q9587",
+    "C1076-Q9588",
+    "C1076-Q9589",
+    "C1076-Q9592",
+    "C1077-Q9566",
+    "C1077-Q9579",
+    "C1078-Q9562",
+    "C1080-Q9560",
+    "C1081-Q9582",
+    "C1081-Q9583",
+    "C1081-Q9591",
+    "C1086-Q9569",
+    "C1086-Q9570",
+    "C1086-Q9575",
+    "C1086-Q9576",
+    "C1096-Q9545",
+    "C1096-Q9547",
+    "C1096-Q9556",
+    "C1096-Q9557",
+    "C1096-Q9558",
+    "C1096-Q9564",
+    "C1107-Q9539",
+    "C1107-Q9541",
+    "C1108-Q9552",
+]
+
+# ── Datos de Origen: 83 Bloques Preliminares de Intervención ─────────
+# Fuente: DATOS DE ORIGEN 83 BLOQUES.xlsx
+# Cada entrada: (N, Bloque, Microcuenca, Area_ha, Provincia, Distrito, Accesibilidad, Dia)
+BLOQUES_83 = [
+    (1, "M25B1", "C1107-Q9541", 313.131, "Piura", "Las Lomas", 0, 1),
+    (2, "M35B1", "C1107-Q9539", 229.177, "Sullana", "Sullana", 0, 1),
+    (3, "M10B4", "C1096-Q9547", 95.459, "Morropón", "Chulucanas", 0, 2),
+    (4, "M9B1", "C1096-Q9545", 1115.665, "Morropón", "Chulucanas", 0, 2),
+    (5, "M5B3", "C1108-Q9552", 561.842, "Piura", "Tambo Grande", 0, 2),
+    (6, "M5B1", "C1108-Q9552", 58.27, "Piura", "Tambo Grande", 1, 2),
+    (7, "M8B5", "C1096-Q9558", 94.918, "Morropón", "Chulucanas", 1, 3),
+    (8, "M17B1", "C1096-Q9556", 30.348, "Morropón", "Chulucanas", 0, 3),
+    (9, "M27B1", "C1096-Q9557", 289.02, "Morropón", "Chulucanas", 0, 3),
+    (10, "M10B1", "C1096-Q9547", 596.766, "Morropón", "Chulucanas", 0, 3),
+    (11, "M17B6", "C1096-Q9556", 118.175, "Ayabaca", "Frías", 1, 4),
+    (12, "M17B11", "C1096-Q9556", 618.871, "Morropón", "Chulucanas", 1, 4),
+    (13, "M17B4", "C1096-Q9556", 159.267, "Morropón", "Chulucanas", 1, 4),
+    (14, "M17B10", "C1096-Q9556", 594.76, "Ayabaca", "Frías", 1, 4),
+    (15, "M17B5", "C1096-Q9556", 139.603, "Ayabaca", "Frías", 1, 4),
+    (16, "M8B4", "C1096-Q9558", 113.764, "Morropón", "Chulucanas", 1, 4),
+    (17, "M17B7", "C1096-Q9556", 261.051, "Ayabaca", "Frías", 1, 4),
+    (18, "M36B2", "C1086-Q9576", 64.769, "Morropón", "Santa Catalina de Mossa", 0, 5),
+    (19, "M29B1", "C1096-Q9564", 28.289, "Ayabaca", "Frías", 1, 5),
+    (20, "M19B5", "C1086-Q9570", 79.177, "Morropón", "Santo Domingo", 1, 5),
+    (21, "M36B1", "C1086-Q9576", 131.383, "Morropón", "Chalaco", 1, 5),
+    (22, "M19B7", "C1086-Q9570", 108.891, "Morropón", "Santo Domingo", 1, 6),
+    (23, "M19B2", "C1086-Q9570", 54.187, "Morropón", "Morropón", 1, 6),
+    (24, "M8B2", "C1096-Q9558", 67.561, "Morropón", "Santo Domingo", 1, 6),
+    (25, "M32B2", "C1086-Q9569", 44.889, "Morropón", "Santa Catalina de Mossa", 1, 6),
+    (26, "M32B3", "C1086-Q9569", 102.916, "Morropón", "Morropón", 1, 6),
+    (27, "M34B1", "C1078-Q9562", 736.319, "Morropón", "La Matanza", 0, 7),
+    (28, "M8B1", "C1096-Q9558", 148.266, "Morropón", "Morropón", 0, 7),
+    (29, "M27B4", "C1096-Q9557", 511.53, "Morropón", "Morropón", 0, 7),
+    (30, "M16B3", "C1080-Q9560", 110.809, "Morropón", "Morropón", 0, 7),
+    (31, "M16B2", "C1080-Q9560", 462.688, "Morropón", "Morropón", 0, 7),
+    (32, "M27B5", "C1096-Q9557", 88.152, "Morropón", "Morropón", 0, 7),
+    (33, "M6B10", "C1077-Q9566", 376.183, "Morropón", "Buenos Aires", 1, 8),
+    (34, "M28B3", "C1086-Q9575", 44.709, "Morropón", "Yamango", 1, 8),
+    (35, "M28B1", "C1086-Q9575", 49.608, "Morropón", "Yamango", 0, 8),
+    (36, "M28B4", "C1086-Q9575", 160.485, "Morropón", "Yamango", 0, 8),
+    (37, "M28B2", "C1086-Q9575", 155.139, "Morropón", "Yamango", 1, 8),
+    (38, "M32B1", "C1086-Q9569", 313.334, "Morropón", "Buenos Aires", 1, 8),
+    (39, "M6B6", "C1077-Q9566", 80.898, "Morropón", "Buenos Aires", 0, 9),
+    (40, "M6B8", "C1077-Q9566", 68.037, "Morropón", "Buenos Aires", 0, 9),
+    (41, "M6B7", "C1077-Q9566", 185.483, "Morropón", "Buenos Aires", 0, 9),
+    (42, "M6B2", "C1077-Q9566", 2141.763, "Morropón", "Buenos Aires", 0, 9),
+    (43, "M1B1", "C1075-Q9580", 289.68, "Morropón", "Buenos Aires", 0, 10),
+    (44, "M18B1", "C1077-Q9579", 75.61, "Morropón", "Buenos Aires", 1, 10),
+    (45, "M6B5", "C1077-Q9566", 286.591, "Morropón", "Buenos Aires", 0, 10),
+    (46, "M18B3", "C1077-Q9579", 236.273, "Morropón", "Salitral", 0, 10),
+    (47, "M18B5", "C1077-Q9579", 157.818, "Morropón", "Salitral", 0, 10),
+    (48, "M3B9", "C1081-Q9582", 328.824, "Morropón", "Salitral", 1, 11),
+    (49, "M3B8", "C1081-Q9582", 567.472, "Morropón", "San Juan de Bigote", 1, 11),
+    (50, "M3B1", "C1081-Q9582", 84.927, "Morropón", "Salitral", 0, 11),
+    (51, "M7B1", "C1076-Q9581", 144.726, "Morropón", "Salitral", 1, 11),
+    (52, "M3B3", "C1081-Q9582", 84.715, "Morropón", "San Juan de Bigote", 1, 11),
+    (53, "M11B1", "C1081-Q9583", 48.951, "Morropón", "San Juan de Bigote", 1, 12),
+    (54, "M3B5", "C1081-Q9582", 153.642, "Morropón", "San Juan de Bigote", 0, 12),
+    (55, "M3B7", "C1081-Q9582", 125.348, "Morropón", "San Juan de Bigote", 1, 12),
+    (56, "M11B3", "C1081-Q9583", 95.537, "Morropón", "San Juan de Bigote", 1, 12),
+    (57, "M30B6", "C1081-Q9591", 70.778, "Huancabamba", "Huancabamba", 1, 13),
+    (58, "M30B1", "C1081-Q9591", 535.022, "Huancabamba", "Canchaque", 0, 13),
+    (59, "M30B5", "C1081-Q9591", 89.999, "Huancabamba", "Huancabamba", 0, 13),
+    (60, "M7B2", "C1076-Q9581", 154.81, "Morropón", "Salitral", 1, 14),
+    (61, "M7B6", "C1076-Q9581", 95.209, "Morropón", "Salitral", 0, 14),
+    (62, "M7B3", "C1076-Q9581", 98.029, "Morropón", "Salitral", 1, 14),
+    (63, "M20B1", "C1076-Q9585", 31.619, "Huancabamba", "San Miguel de El Faique", 0, 14),
+    (64, "M2B8", "C1076-Q9584", 63.364, "Huancabamba", "San Miguel de El Faique", 0, 14),
+    (65, "M2B1", "C1076-Q9584", 83.883, "Morropón", "Salitral", 0, 14),
+    (66, "M26B4", "C1076-Q9587", 37.933, "Huancabamba", "Canchaque", 0, 15),
+    (67, "M11B2", "C1081-Q9583", 48.988, "Huancabamba", "Canchaque", 0, 15),
+    (68, "M22B1", "C1076-Q9586", 150.796, "Huancabamba", "San Miguel de El Faique", 1, 15),
+    (69, "M12B1", "C1076-Q9588", 262.716, "Huancabamba", "Huarmaca", 0, 16),
+    (70, "M4B1", "C1076-Q9589", 40.638, "Huancabamba", "Huarmaca", 0, 16),
+    (71, "M12B8", "C1076-Q9588", 235.281, "Morropón", "Salitral", 1, 16),
+    (72, "M4B4", "C1076-Q9589", 293.115, "Huancabamba", "Huarmaca", 0, 16),
+    (73, "M4B3", "C1076-Q9589", 181.941, "Huancabamba", "Huarmaca", 0, 16),
+    (74, "M2B5", "C1076-Q9584", 34.164, "Morropón", "Salitral", 0, 16),
+    (75, "M12B2", "C1076-Q9588", 62.825, "Huancabamba", "Huarmaca", 1, 17),
+    (76, "M12B6", "C1076-Q9588", 101.408, "Huancabamba", "Huarmaca", 1, 17),
+    (77, "M12B7", "C1076-Q9588", 49.703, "Huancabamba", "Huarmaca", 1, 17),
+    (78, "M12B3", "C1076-Q9588", 262.721, "Huancabamba", "Huarmaca", 1, 17),
+    (79, "M12B4", "C1076-Q9588", 258.994, "Huancabamba", "Huarmaca", 1, 18),
+    (80, "M15B2", "C1076-Q9592", 142.732, "Huancabamba", "Huarmaca", 1, 18),
+    (81, "M15B1", "C1076-Q9592", 144.28, "Huancabamba", "Huarmaca", 1, 18),
+    (82, "M12B5", "C1076-Q9588", 64.986, "Huancabamba", "Huarmaca", 1, 18),
+    (83, "M15B5", "C1076-Q9592", 181.872, "Huancabamba", "Huarmaca", 1, 19),
+]
+
+# Diccionario para búsqueda rápida por código de bloque
+BLOQUES_83_MAP = {b[1]: {"n": b[0], "codigo": b[1], "microcuenca": b[2],
+    "area_ha": b[3], "provincia": b[4], "distrito": b[5],
+    "accesibilidad": b[6], "dia_evaluacion": b[7]} for b in BLOQUES_83}
+
+# Lista de etiquetas para el dropdown
+BLOQUES_83_OPCIONES = [
+    f"{b[1]} | {b[2]} | {b[5]} ({b[4]}) | {b[3]} ha" for b in BLOQUES_83
 ]
 
 # 5 Provincias y 18 Distritos del Proyecto IN Piura
@@ -236,12 +335,40 @@ class TabBloques(ttk.Frame):
         self.cargar_bloques()
 
     def _crear_widgets(self):
-        # Panel izquierdo - Formulario
-        panel_izq = ttk.Frame(self, padding=10)
-        panel_izq.pack(side="left", fill="y", padx=(0, 4))
+        # Panel izquierdo - Formulario (con scroll)
+        panel_izq_outer = ttk.Frame(self)
+        panel_izq_outer.pack(side="left", fill="y", padx=(0, 4))
+
+        canvas_izq = tk.Canvas(panel_izq_outer, bg=COLOR_FONDO, highlightthickness=0, width=380)
+        scrollbar_izq = ttk.Scrollbar(panel_izq_outer, orient="vertical", command=canvas_izq.yview)
+        panel_izq = ttk.Frame(canvas_izq, padding=10)
+
+        panel_izq.bind("<Configure>",
+                       lambda e: canvas_izq.configure(scrollregion=canvas_izq.bbox("all")))
+        canvas_izq.create_window((0, 0), window=panel_izq, anchor="nw")
+        canvas_izq.configure(yscrollcommand=scrollbar_izq.set)
+
+        canvas_izq.pack(side="left", fill="both", expand=True)
+        scrollbar_izq.pack(side="right", fill="y")
 
         ttk.Label(panel_izq, text="Registro de Bloque", style="Header.TLabel").grid(
-            row=0, column=0, columnspan=2, sticky="w", pady=(0, 10))
+            row=0, column=0, columnspan=2, sticky="w", pady=(0, 6))
+
+        # ── Selector rápido de los 83 bloques preliminares ──
+        ttk.Label(panel_izq, text="Selección rápida - 83 Bloques:",
+                  font=("Segoe UI", 9, "bold")).grid(
+            row=1, column=0, columnspan=2, sticky="w", pady=(4, 2))
+        self.combo_bloque_83 = ttk.Combobox(
+            panel_izq, values=[""] + BLOQUES_83_OPCIONES, state="readonly", width=46)
+        self.combo_bloque_83.grid(row=2, column=0, columnspan=2, sticky="ew", pady=(0, 2), padx=(0, 0))
+        self.combo_bloque_83.bind("<<ComboboxSelected>>", self._on_bloque_83_seleccionado)
+
+        self.label_info_83 = ttk.Label(panel_izq, text="", wraplength=360,
+                                        foreground="#2980B9", font=("Segoe UI", 8))
+        self.label_info_83.grid(row=3, column=0, columnspan=2, sticky="w", pady=(0, 6))
+
+        ttk.Separator(panel_izq, orient="horizontal").grid(
+            row=4, column=0, columnspan=2, sticky="ew", pady=4)
 
         campos = [
             ("Código de bloque:", "codigo"),
@@ -255,7 +382,7 @@ class TabBloques(ttk.Frame):
         ]
 
         self.entries = {}
-        for i, (label, key) in enumerate(campos, 1):
+        for i, (label, key) in enumerate(campos, 5):
             ttk.Label(panel_izq, text=label).grid(row=i, column=0, sticky="w", pady=3)
             entry = ttk.Entry(panel_izq, width=24)
             entry.grid(row=i, column=1, sticky="ew", pady=3, padx=(6, 0))
@@ -267,7 +394,7 @@ class TabBloques(ttk.Frame):
         self.entries["altitud"].insert(0, "0")
 
         # Microcuenca (lista desplegable validada)
-        fila = len(campos) + 1
+        fila = 5 + len(campos)
         ttk.Label(panel_izq, text="Código microcuenca:").grid(row=fila, column=0, sticky="w", pady=3)
         self.combo_microcuenca = ttk.Combobox(panel_izq, values=MICROCUENCAS, state="readonly", width=22)
         self.combo_microcuenca.grid(row=fila, column=1, sticky="ew", pady=3, padx=(6, 0))
@@ -408,6 +535,49 @@ class TabBloques(ttk.Frame):
             self.combo_distrito["values"] = DISTRITOS_PIURA
             self.combo_distrito.set("")
 
+    def _on_bloque_83_seleccionado(self, event=None):
+        """Autocompleta campos al seleccionar un bloque de los 83 predefinidos."""
+        seleccion = self.combo_bloque_83.get()
+        if not seleccion:
+            self.label_info_83.config(text="")
+            return
+
+        # Extraer código del bloque de la etiqueta
+        codigo = seleccion.split(" | ")[0].strip()
+        datos = BLOQUES_83_MAP.get(codigo)
+        if not datos:
+            self.label_info_83.config(text="")
+            return
+
+        # Limpiar formulario sin resetear defaults
+        self.limpiar_formulario(reset_defaults=False)
+
+        # Autocompletar campos
+        self.entries["codigo"].insert(0, datos["codigo"])
+        self.entries["cuenca"].insert(0, "Cuenca Alta del Río Piura")
+        self.entries["area"].insert(0, str(datos["area_ha"]))
+        self.entries["utm_zona"].insert(0, "17S")
+        self.entries["altitud"].insert(0, "0")
+
+        # Microcuenca
+        if datos["microcuenca"] in MICROCUENCAS:
+            self.combo_microcuenca.set(datos["microcuenca"])
+
+        # Provincia y distrito
+        if datos["provincia"] in PROVINCIAS:
+            self.combo_provincia.set(datos["provincia"])
+            self.combo_distrito["values"] = PROVINCIAS_DISTRITOS.get(datos["provincia"], DISTRITOS_PIURA)
+        distrito = datos["distrito"]
+        if distrito in DISTRITOS_PIURA:
+            self.combo_distrito.set(distrito)
+
+        # Info
+        acc = "Acceso limitado" if datos["accesibilidad"] == 1 else "Acceso normal"
+        self.label_info_83.config(
+            text=f"Bloque {datos['codigo']} | {datos['microcuenca']} | "
+                 f"{datos['distrito']} ({datos['provincia']}) | "
+                 f"{datos['area_ha']} ha | {acc} | Día eval.: {datos['dia_evaluacion']}")
+
     def on_seleccionar_bloque(self, event):
         sel = self.tree.selection()
         if not sel:
@@ -539,6 +709,8 @@ class TabBloques(ttk.Frame):
         self.combo_distrito.set("")
         self.combo_distrito["values"] = DISTRITOS_PIURA
         self.combo_microcuenca.set("")
+        self.combo_bloque_83.set("")
+        self.label_info_83.config(text="")
         if reset_defaults:
             self.entries["utm_zona"].insert(0, "17S")
             self.entries["cuenca"].insert(0, "Cuenca Alta del Río Piura")
