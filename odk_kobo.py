@@ -11,6 +11,8 @@ try:
     from tkinter import ttk, messagebox, filedialog
     _HAS_TK = True
 except ImportError:
+    tk = None
+    ttk = None
     _HAS_TK = False
 
 from datetime import datetime
@@ -549,7 +551,10 @@ def importar_desde_kobo(url_servidor, token_api, formulario_uid):
 
 # ── Tab ODK / KoBoToolbox ─────────────────────────────────────────────────
 
-class TabODKKobo(ttk.Frame):
+_FrameBase = ttk.Frame if _HAS_TK else object
+
+
+class TabODKKobo(_FrameBase):
     """Pestaña de integración con ODK/KoBoToolbox para colecta en campo."""
 
     def __init__(self, parent, app):
