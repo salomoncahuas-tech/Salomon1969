@@ -6,8 +6,13 @@ con API de KoBoToolbox.
 Cuenca Alta del Río Piura, Perú.
 """
 
-import tkinter as tk
-from tkinter import ttk, messagebox, filedialog
+try:
+    import tkinter as tk
+    from tkinter import ttk, messagebox, filedialog
+    _HAS_TK = True
+except ImportError:
+    _HAS_TK = False
+
 from datetime import datetime
 import csv
 import json
