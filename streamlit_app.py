@@ -78,6 +78,215 @@ ACTIVIDADES_TIPO = [
 ]
 COLORES_ESTADO = {"Pendiente":[231,76,60],"En progreso":[243,156,18],"Verificado":[39,174,96]}
 
+# ── Fichas de Diagnostico Territorial (F-DT-01 a F-DT-06) ───────────────
+FICHAS_DT = ["F-DT-01","F-DT-02","F-DT-03","F-DT-04","F-DT-05","F-DT-06"]
+
+# F-DT-01: CARACTERISTICAS FISIOGRAFICAS
+FDT01_FORMA_TERRENO = [
+    "Plano (0-2%)", "Ondulado (2-8%)", "Colinado (8-25%)",
+    "Montanoso (25-50%)", "Escarpado (>50%)",
+]
+FDT01_PENDIENTE = [
+    "0-5% (Plano a ligeramente inclinado)",
+    "5-15% (Ligeramente inclinado a moderadamente empinado)",
+    "15-25% (Moderadamente empinado)",
+    "25-50% (Empinado)",
+    ">50% (Muy empinado a extremadamente empinado)",
+]
+FDT01_POSICION_FISIOGRAFICA = [
+    "Cima / Cresta", "Ladera superior (tercio superior)",
+    "Ladera media (tercio medio)", "Ladera inferior (tercio inferior)",
+    "Pie de ladera / Base", "Fondo de valle", "Terraza fluvial", "Llanura",
+]
+FDT01_EXPOSICION = [
+    "Norte (N)", "Sur (S)", "Este (E)", "Oeste (O)",
+    "Noreste (NE)", "Noroeste (NO)", "Sureste (SE)", "Suroeste (SO)",
+    "Variable / Sin predominancia",
+]
+FDT01_PAISAJE = [
+    "Montana", "Colina", "Piedemonte", "Planicie / Llanura",
+    "Valle interandino", "Terraza aluvial",
+]
+FDT01_RANGO_ALTITUDINAL = [
+    "<500 msnm", "500-1000 msnm", "1000-1500 msnm",
+    "1500-2000 msnm", "2000-2500 msnm", "2500-3000 msnm",
+    "3000-3500 msnm", "3500-4000 msnm", ">4000 msnm",
+]
+
+# F-DT-02: CONDICIONES CLIMATICAS
+FDT02_PRECIPITACION = [
+    "<250 mm/anio (Muy seco / Arido)",
+    "250-500 mm/anio (Seco / Semiarido)",
+    "500-1000 mm/anio (Sub-humedo)",
+    "1000-2000 mm/anio (Humedo / Lluvioso)",
+    ">2000 mm/anio (Muy humedo / Pluvial)",
+]
+FDT02_TEMPERATURA = [
+    "<5 C (Muy frio / Gelido)",
+    "5-12 C (Frio)",
+    "12-18 C (Templado)",
+    "18-24 C (Calido / Semicalido)",
+    ">24 C (Muy calido / Tropical)",
+]
+FDT02_HUMEDAD = [
+    "Muy baja (<30%)", "Baja (30-50%)", "Media (50-70%)",
+    "Alta (70-85%)", "Muy alta (>85%)",
+]
+FDT02_ZONA_VIDA = [
+    "Desierto superarido", "Desierto arido", "Matorral desertico",
+    "Monte espinoso", "Bosque seco", "Bosque humedo premontano",
+    "Bosque humedo montano bajo", "Bosque humedo montano",
+    "Bosque muy humedo premontano", "Bosque muy humedo montano",
+    "Paramo / Jalca", "Puna",
+]
+FDT02_HELADAS = [
+    "Frecuente (>30 dias/anio)", "Ocasional (10-30 dias/anio)",
+    "Rara (<10 dias/anio)", "Ausente",
+]
+FDT02_VIENTOS = [
+    "Calmo (< 2 m/s)", "Suave (2-4 m/s)", "Moderado (4-8 m/s)",
+    "Fuerte (8-14 m/s)", "Muy fuerte (>14 m/s)",
+]
+
+# F-DT-03: CARACTERISTICAS DEL SUELO (Observacion de campo)
+FDT03_TEXTURA = [
+    "Arenoso", "Franco arenoso", "Franco", "Franco limoso",
+    "Franco arcilloso", "Franco arcillo arenoso", "Arcilloso", "Limoso",
+]
+FDT03_COLOR = [
+    "Negro / Muy oscuro", "Pardo oscuro", "Pardo / Marron",
+    "Pardo claro / Amarillento", "Rojizo / Rojo amarillento",
+    "Gris / Gris claro",
+]
+FDT03_PROFUNDIDAD = [
+    "Muy superficial (<25 cm)", "Superficial (25-50 cm)",
+    "Moderadamente profundo (50-100 cm)", "Profundo (>100 cm)",
+]
+FDT03_PEDREGOSIDAD = [
+    "Sin piedras (0%)", "Pocas piedras (0-15%)",
+    "Frecuentes (15-35%)", "Abundantes (35-60%)",
+    "Muy pedregoso (>60%)",
+]
+FDT03_DRENAJE = [
+    "Excesivo (suelo muy arenoso, seca rapido)",
+    "Bueno (suelo drena adecuadamente)",
+    "Moderado (drena con cierta lentitud)",
+    "Imperfecto (retiene humedad excesiva)",
+    "Pobre / Muy pobre (encharcamiento frecuente)",
+]
+FDT03_EROSION = [
+    "Sin erosion aparente",
+    "Erosion laminar leve",
+    "Erosion laminar moderada a severa",
+    "Erosion en surcos",
+    "Erosion en carcavas",
+    "Erosion mixta (laminar + surcos/carcavas)",
+    "Movimientos en masa (deslizamientos)",
+]
+FDT03_MATERIA_ORGANICA = [
+    "Muy baja (suelo claro, sin restos organicos)",
+    "Baja (pocos restos, suelo claro)",
+    "Media (presencia moderada de restos organicos)",
+    "Alta (suelo oscuro, abundantes restos organicos)",
+]
+
+# F-DT-04: COBERTURA VEGETAL Y USO DEL SUELO
+FDT04_TIPO_COBERTURA = [
+    "Bosque denso (natural)", "Bosque ralo / Abierto",
+    "Matorral / Arbustal", "Pastizal / Herbazal / Pajonal",
+    "Cultivo agricola", "Plantacion forestal",
+    "Suelo desnudo / Eriazo", "Vegetacion riberena",
+    "Area urbana / Infraestructura",
+]
+FDT04_DENSIDAD = [
+    "Muy rala (<10%)", "Rala (10-25%)", "Abierta (25-50%)",
+    "Semicerrada (50-75%)", "Cerrada (>75%)",
+]
+FDT04_ESTADO_CONSERVACION = [
+    "Bueno (sin intervencion significativa)",
+    "Regular (intervencion parcial)",
+    "Degradado (intervencion severa, con regeneracion)",
+    "Muy degradado (sin regeneracion natural evidente)",
+]
+FDT04_USO_SUELO = [
+    "Forestal / Proteccion", "Agricola (secano)",
+    "Agricola (bajo riego)", "Pecuario / Pastoreo",
+    "Agrosilvopastoril", "Minero",
+    "Sin uso / En abandono", "Conservacion / Area protegida",
+]
+FDT04_CONFLICTO_USO = [
+    "Sin conflicto (uso adecuado a capacidad)",
+    "Sobreuso leve", "Sobreuso moderado", "Sobreuso severo",
+    "Subuso (capacidad no aprovechada)",
+]
+
+# F-DT-05: RECURSOS HIDRICOS
+FDT05_FUENTE_AGUA = [
+    "Rio permanente", "Quebrada / Riachuelo", "Manantial / Puquio",
+    "Laguna / Reservorio", "Canal de riego",
+    "Agua subterranea (pozo)", "Ninguna visible en el area",
+]
+FDT05_REGIMEN = [
+    "Permanente (flujo todo el anio)",
+    "Estacional (flujo en temporada de lluvias)",
+    "Temporal / Efimero (solo con eventos de lluvia)",
+    "Sin escurrimiento superficial",
+]
+FDT05_CALIDAD_AGUA = [
+    "Buena (clara, sin olor, sin sedimentos)",
+    "Regular (ligeramente turbia o con sedimentos)",
+    "Mala (turbia, con olor, con color)",
+    "Muy mala (contaminacion evidente)",
+    "No evaluable (sin fuente de agua accesible)",
+]
+FDT05_DISTANCIA_AGUA = [
+    "<100 m", "100-500 m", "500-1000 m", "1-5 km", ">5 km",
+]
+FDT05_USO_HIDRICO = [
+    "Consumo humano", "Riego agricola", "Pecuario / Abrevadero",
+    "Piscicola", "Uso multiple", "Sin uso actual",
+]
+
+# F-DT-06: ASPECTOS SOCIOECONOMICOS Y ACCESIBILIDAD
+FDT06_TENENCIA = [
+    "Comunal (comunidad campesina)",
+    "Privada individual (titulo)",
+    "Privada individual (sin titulo / posesionario)",
+    "Estatal / Fiscal",
+    "Mixta (comunal + privada)",
+    "Sin informacion",
+]
+FDT06_ORGANIZACION = [
+    "Bien organizada (junta directiva activa, asambleas regulares)",
+    "Moderadamente organizada (funcional pero irregular)",
+    "Debilmente organizada (directiva nominal, poca participacion)",
+    "Sin organizacion comunitaria identificada",
+]
+FDT06_ACTIVIDAD_ECONOMICA = [
+    "Agricultura de subsistencia",
+    "Agricultura comercial",
+    "Ganaderia extensiva",
+    "Ganaderia intensiva",
+    "Actividad forestal / Extraccion",
+    "Mineria artesanal",
+    "Comercio / Servicios",
+    "Mixta (agropecuaria)",
+]
+FDT06_ACCESIBILIDAD = [
+    "Carretera asfaltada (acceso permanente)",
+    "Carretera afirmada (acceso con restricciones en lluvia)",
+    "Trocha carrozable (acceso limitado)",
+    "Camino de herradura (solo a pie o acemila)",
+    "Sin acceso vehicular (zona remota)",
+]
+FDT06_DISTANCIA_CENTRO = [
+    "<1 km", "1-5 km", "5-10 km", "10-20 km", ">20 km",
+]
+FDT06_SERVICIOS = [
+    "Agua potable", "Electricidad", "Telecomunicaciones / Internet",
+    "Puesto de salud", "Escuela / IE", "Ninguno de los anteriores",
+]
+
 # ── CSS ───────────────────────────────────────────────────────────────────
 st.markdown("""<style>
 .main-header{background:#2C3E50;padding:1rem 2rem;border-radius:.5rem;margin-bottom:1rem}
@@ -93,7 +302,8 @@ st.markdown("""<div class="main-header">
 # ── Sidebar ───────────────────────────────────────────────────────────────
 pagina = st.sidebar.selectbox("Navegacion", [
     "Panel de Control","Bloques de Intervencion","Inspeccion de Campo",
-    "Indicadores de Calidad","Presupuesto","Cronograma",
+    "Indicadores de Calidad","Diagnostico Territorial",
+    "Presupuesto","Cronograma",
     "Georreferenciacion","ODK / KoBoToolbox","Reportes",
 ])
 st.sidebar.markdown("---")
@@ -112,12 +322,13 @@ def _distritos(prov):
 def pagina_dashboard():
     st.subheader("Panel de Control - Resumen Ejecutivo")
     stats = db.obtener_estadisticas_generales()
-    c1,c2,c3,c4,c5 = st.columns(5)
+    c1,c2,c3,c4,c5,c6 = st.columns(6)
     c1.metric("Total Bloques", stats["total_bloques"])
     c2.metric("Area Total", f"{stats['area_total_ha']:.2f} ha")
     c3.metric("Inspecciones", stats["total_inspecciones"])
     c4.metric("Avance Promedio", f"{stats['avance_promedio']:.1f}%")
-    c5.metric("Personal Activo", stats["personal_activo"])
+    c5.metric("Diag. Territoriales", stats.get("total_diagnosticos", 0))
+    c6.metric("Personal Activo", stats["personal_activo"])
     st.markdown("---")
     ci,cd = st.columns(2)
     with ci:
@@ -296,6 +507,292 @@ def pagina_indicadores():
             "Zanjas":f"{x['longitud_zanjas_ejecutada']:.2f}",
             "Vol.Ret.":f"{x['volumen_retencion_sedimentos']:.2f}"} for x in ind]),
             use_container_width=True, hide_index=True)
+
+# ══════════════════════════════════════════════════════════════════════════
+# DIAGNOSTICO TERRITORIAL (F-DT-01 a F-DT-06)
+# ══════════════════════════════════════════════════════════════════════════
+def pagina_diagnostico_territorial():
+    st.subheader("Diagnostico Territorial - Fichas de Evaluacion")
+    st.caption("Fichas F-DT-01 a F-DT-06: Parametros de evaluacion en campo para el diagnostico del territorio")
+    bm = _bloques_map()
+    if not bm:
+        st.warning("Registre un bloque primero.")
+        return
+
+    tab_reg, tab_hist = st.tabs(["Registro de Diagnostico", "Historial / Consulta"])
+
+    with tab_reg:
+        bl = st.selectbox("Bloque de Intervencion", list(bm.keys()), key="dt_bl")
+        bid = bm[bl]
+        r1, r2, r3 = st.columns(3)
+        mc = r1.selectbox("Microcuenca", [""] + MICROCUENCAS, key="dt_mc")
+        fecha_ev = r2.date_input("Fecha de evaluacion", value=datetime.now(), key="dt_fecha")
+        evaluador = r3.text_input("Evaluador / Especialista", key="dt_eval")
+
+        st.markdown("---")
+        st.markdown("### Seleccione los parametros de evaluacion por ficha")
+        st.markdown("*Complete las fichas que correspondan a la visita de campo realizada.*")
+
+        # ── F-DT-01 ──────────────────────────────────────────────────────
+        with st.expander("F-DT-01: CARACTERISTICAS FISIOGRAFICAS", expanded=False):
+            st.markdown("*Evaluacion de las condiciones fisiograficas del area de intervencion.*")
+            c1, c2 = st.columns(2)
+            forma_terreno = c1.selectbox("Forma del terreno", [""] + FDT01_FORMA_TERRENO, key="f01_ft")
+            pendiente = c2.selectbox("Pendiente del terreno", [""] + FDT01_PENDIENTE, key="f01_pe")
+            c3, c4 = st.columns(2)
+            posicion_fisio = c3.selectbox("Posicion fisiografica", [""] + FDT01_POSICION_FISIOGRAFICA, key="f01_pf")
+            exposicion = c4.selectbox("Exposicion / Orientacion", [""] + FDT01_EXPOSICION, key="f01_ex")
+            c5, c6 = st.columns(2)
+            paisaje = c5.selectbox("Paisaje dominante", [""] + FDT01_PAISAJE, key="f01_pa")
+            rango_alt = c6.selectbox("Rango altitudinal", [""] + FDT01_RANGO_ALTITUDINAL, key="f01_ra")
+
+        # ── F-DT-02 ──────────────────────────────────────────────────────
+        with st.expander("F-DT-02: CONDICIONES CLIMATICAS", expanded=False):
+            st.markdown("*Evaluacion de las condiciones climaticas predominantes en la zona.*")
+            c1, c2 = st.columns(2)
+            precipitacion = c1.selectbox("Precipitacion anual estimada", [""] + FDT02_PRECIPITACION, key="f02_pr")
+            temperatura = c2.selectbox("Temperatura media anual", [""] + FDT02_TEMPERATURA, key="f02_te")
+            c3, c4 = st.columns(2)
+            humedad = c3.selectbox("Humedad relativa", [""] + FDT02_HUMEDAD, key="f02_hr")
+            zona_vida = c4.selectbox("Zona de vida (Holdridge)", [""] + FDT02_ZONA_VIDA, key="f02_zv")
+            c5, c6 = st.columns(2)
+            heladas = c5.selectbox("Presencia de heladas", [""] + FDT02_HELADAS, key="f02_he")
+            vientos = c6.selectbox("Regimen de vientos", [""] + FDT02_VIENTOS, key="f02_vi")
+
+        # ── F-DT-03 ──────────────────────────────────────────────────────
+        with st.expander("F-DT-03: CARACTERISTICAS DEL SUELO (Observacion de campo)", expanded=False):
+            st.markdown("*Parametros del suelo evaluados mediante observacion directa en campo.*")
+            c1, c2 = st.columns(2)
+            textura = c1.selectbox("Textura al tacto", [""] + FDT03_TEXTURA, key="f03_tx")
+            color_suelo = c2.selectbox("Color predominante del suelo", [""] + FDT03_COLOR, key="f03_co")
+            c3, c4 = st.columns(2)
+            profundidad = c3.selectbox("Profundidad efectiva", [""] + FDT03_PROFUNDIDAD, key="f03_pr")
+            pedregosidad = c4.selectbox("Pedregosidad superficial", [""] + FDT03_PEDREGOSIDAD, key="f03_pd")
+            c5, c6 = st.columns(2)
+            drenaje = c5.selectbox("Drenaje", [""] + FDT03_DRENAJE, key="f03_dr")
+            erosion = c6.selectbox("Presencia de erosion", [""] + FDT03_EROSION, key="f03_er")
+            materia_org = st.selectbox("Materia organica (estimacion visual)", [""] + FDT03_MATERIA_ORGANICA, key="f03_mo")
+
+        # ── F-DT-04 ──────────────────────────────────────────────────────
+        with st.expander("F-DT-04: COBERTURA VEGETAL Y USO DEL SUELO", expanded=False):
+            st.markdown("*Evaluacion de la cobertura vegetal existente y el uso actual del suelo.*")
+            c1, c2 = st.columns(2)
+            tipo_cob = c1.selectbox("Tipo de cobertura vegetal", [""] + FDT04_TIPO_COBERTURA, key="f04_tc")
+            densidad_cob = c2.selectbox("Densidad de cobertura", [""] + FDT04_DENSIDAD, key="f04_dc")
+            c3, c4 = st.columns(2)
+            estado_cons = c3.selectbox("Estado de conservacion", [""] + FDT04_ESTADO_CONSERVACION, key="f04_ec")
+            uso_suelo = c4.selectbox("Uso actual del suelo", [""] + FDT04_USO_SUELO, key="f04_us")
+            conflicto = st.selectbox("Conflicto de uso", [""] + FDT04_CONFLICTO_USO, key="f04_cu")
+
+        # ── F-DT-05 ──────────────────────────────────────────────────────
+        with st.expander("F-DT-05: RECURSOS HIDRICOS", expanded=False):
+            st.markdown("*Evaluacion de la disponibilidad y calidad de los recursos hidricos.*")
+            c1, c2 = st.columns(2)
+            fuente = c1.selectbox("Fuente de agua mas cercana", [""] + FDT05_FUENTE_AGUA, key="f05_fa")
+            regimen_hid = c2.selectbox("Regimen hidrico", [""] + FDT05_REGIMEN, key="f05_rh")
+            c3, c4 = st.columns(2)
+            calidad_ag = c3.selectbox("Calidad aparente del agua", [""] + FDT05_CALIDAD_AGUA, key="f05_ca")
+            dist_agua = c4.selectbox("Distancia a fuente de agua", [""] + FDT05_DISTANCIA_AGUA, key="f05_da")
+            uso_hidrico = st.selectbox("Uso del recurso hidrico", [""] + FDT05_USO_HIDRICO, key="f05_uh")
+
+        # ── F-DT-06 ──────────────────────────────────────────────────────
+        with st.expander("F-DT-06: ASPECTOS SOCIOECONOMICOS Y ACCESIBILIDAD", expanded=False):
+            st.markdown("*Evaluacion de factores socioeconomicos y accesibilidad del area.*")
+            c1, c2 = st.columns(2)
+            tenencia = c1.selectbox("Tenencia de la tierra", [""] + FDT06_TENENCIA, key="f06_tt")
+            organizacion = c2.selectbox("Organizacion comunal", [""] + FDT06_ORGANIZACION, key="f06_oc")
+            c3, c4 = st.columns(2)
+            act_econ = c3.selectbox("Actividad economica principal", [""] + FDT06_ACTIVIDAD_ECONOMICA, key="f06_ae")
+            accesib = c4.selectbox("Accesibilidad (via principal)", [""] + FDT06_ACCESIBILIDAD, key="f06_ac")
+            c5, c6 = st.columns(2)
+            dist_centro = c5.selectbox("Distancia al centro poblado", [""] + FDT06_DISTANCIA_CENTRO, key="f06_dp")
+            servicios = c6.multiselect("Servicios basicos disponibles", FDT06_SERVICIOS, key="f06_sb")
+
+        st.markdown("---")
+        observ_gen = st.text_area("Observaciones generales del diagnostico", key="dt_obs")
+
+        # Determinar fichas completadas
+        fichas_sel = []
+        if any([forma_terreno, pendiente, posicion_fisio, exposicion, paisaje, rango_alt]):
+            fichas_sel.append("F-DT-01")
+        if any([precipitacion, temperatura, humedad, zona_vida, heladas, vientos]):
+            fichas_sel.append("F-DT-02")
+        if any([textura, color_suelo, profundidad, pedregosidad, drenaje, erosion, materia_org]):
+            fichas_sel.append("F-DT-03")
+        if any([tipo_cob, densidad_cob, estado_cons, uso_suelo, conflicto]):
+            fichas_sel.append("F-DT-04")
+        if any([fuente, regimen_hid, calidad_ag, dist_agua, uso_hidrico]):
+            fichas_sel.append("F-DT-05")
+        if any([tenencia, organizacion, act_econ, accesib, dist_centro, servicios]):
+            fichas_sel.append("F-DT-06")
+
+        if fichas_sel:
+            st.info(f"Fichas con datos: **{', '.join(fichas_sel)}** ({len(fichas_sel)}/6)")
+
+        if st.button("Guardar Diagnostico Territorial", type="primary", key="dt_guardar"):
+            if not evaluador:
+                st.warning("Ingrese el nombre del evaluador.")
+            elif not fichas_sel:
+                st.warning("Complete al menos una ficha de diagnostico.")
+            else:
+                try:
+                    db.insertar_diagnostico_territorial(
+                        bloque_id=bid,
+                        ficha=", ".join(fichas_sel),
+                        fecha_evaluacion=fecha_ev.strftime("%Y-%m-%d"),
+                        evaluador=evaluador,
+                        microcuenca=mc,
+                        forma_terreno=forma_terreno,
+                        pendiente=pendiente,
+                        posicion_fisiografica=posicion_fisio,
+                        exposicion_orientacion=exposicion,
+                        paisaje_dominante=paisaje,
+                        rango_altitudinal=rango_alt,
+                        precipitacion_anual=precipitacion,
+                        temperatura_media=temperatura,
+                        humedad_relativa=humedad,
+                        zona_vida=zona_vida,
+                        presencia_heladas=heladas,
+                        regimen_vientos=vientos,
+                        textura_suelo=textura,
+                        color_suelo=color_suelo,
+                        profundidad_efectiva=profundidad,
+                        pedregosidad=pedregosidad,
+                        drenaje=drenaje,
+                        presencia_erosion=erosion,
+                        materia_organica=materia_org,
+                        tipo_cobertura=tipo_cob,
+                        densidad_cobertura=densidad_cob,
+                        estado_conservacion=estado_cons,
+                        uso_actual_suelo=uso_suelo,
+                        conflicto_uso=conflicto,
+                        fuente_agua=fuente,
+                        regimen_hidrico=regimen_hid,
+                        calidad_agua=calidad_ag,
+                        distancia_fuente_agua=dist_agua,
+                        uso_recurso_hidrico=uso_hidrico,
+                        tenencia_tierra=tenencia,
+                        organizacion_comunal=organizacion,
+                        actividad_economica=act_econ,
+                        accesibilidad_via=accesib,
+                        distancia_centro_poblado=dist_centro,
+                        servicios_basicos=", ".join(servicios) if servicios else "",
+                        observaciones_generales=observ_gen,
+                    )
+                    st.success(f"Diagnostico territorial guardado ({', '.join(fichas_sel)}).")
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Error: {e}")
+
+    with tab_hist:
+        st.markdown("### Historial de Diagnosticos Territoriales")
+        todos_dt = db.obtener_todos_diagnosticos()
+        if not todos_dt:
+            st.info("No hay diagnosticos registrados.")
+        else:
+            st.dataframe(pd.DataFrame([{
+                "ID": d["id"],
+                "Bloque": d.get("bloque_codigo", ""),
+                "Tipo": d.get("tipo_intervencion", ""),
+                "Distrito": d.get("distrito", ""),
+                "Fichas": d.get("ficha", ""),
+                "Fecha Eval.": d.get("fecha_evaluacion", ""),
+                "Evaluador": d.get("evaluador", ""),
+                "Microcuenca": d.get("microcuenca", "") or "",
+            } for d in todos_dt]), use_container_width=True, hide_index=True)
+
+            st.markdown("---")
+            st.markdown("### Detalle de Diagnostico")
+            dm = {f"ID {d['id']} - {d.get('bloque_codigo','')} ({d.get('ficha','')})": d["id"] for d in todos_dt}
+            sel_dt = st.selectbox("Seleccionar diagnostico", [""] + list(dm.keys()), key="dt_det")
+            if sel_dt and sel_dt in dm:
+                det = db.obtener_diagnostico_por_id(dm[sel_dt])
+                if det:
+                    st.markdown(f"**Bloque:** {det.get('bloque_codigo','')} | "
+                                f"**Fecha:** {det.get('fecha_evaluacion','')} | "
+                                f"**Evaluador:** {det.get('evaluador','')}")
+
+                    # Mostrar cada ficha completada
+                    fichas_str = det.get("ficha", "")
+                    if "F-DT-01" in fichas_str:
+                        with st.expander("F-DT-01: CARACTERISTICAS FISIOGRAFICAS", expanded=True):
+                            c1, c2, c3 = st.columns(3)
+                            c1.markdown(f"**Forma terreno:** {det.get('forma_terreno','') or '-'}")
+                            c2.markdown(f"**Pendiente:** {det.get('pendiente','') or '-'}")
+                            c3.markdown(f"**Posicion:** {det.get('posicion_fisiografica','') or '-'}")
+                            c1.markdown(f"**Exposicion:** {det.get('exposicion_orientacion','') or '-'}")
+                            c2.markdown(f"**Paisaje:** {det.get('paisaje_dominante','') or '-'}")
+                            c3.markdown(f"**Altitud:** {det.get('rango_altitudinal','') or '-'}")
+
+                    if "F-DT-02" in fichas_str:
+                        with st.expander("F-DT-02: CONDICIONES CLIMATICAS", expanded=True):
+                            c1, c2, c3 = st.columns(3)
+                            c1.markdown(f"**Precipitacion:** {det.get('precipitacion_anual','') or '-'}")
+                            c2.markdown(f"**Temperatura:** {det.get('temperatura_media','') or '-'}")
+                            c3.markdown(f"**Humedad:** {det.get('humedad_relativa','') or '-'}")
+                            c1.markdown(f"**Zona de vida:** {det.get('zona_vida','') or '-'}")
+                            c2.markdown(f"**Heladas:** {det.get('presencia_heladas','') or '-'}")
+                            c3.markdown(f"**Vientos:** {det.get('regimen_vientos','') or '-'}")
+
+                    if "F-DT-03" in fichas_str:
+                        with st.expander("F-DT-03: CARACTERISTICAS DEL SUELO", expanded=True):
+                            c1, c2, c3 = st.columns(3)
+                            c1.markdown(f"**Textura:** {det.get('textura_suelo','') or '-'}")
+                            c2.markdown(f"**Color:** {det.get('color_suelo','') or '-'}")
+                            c3.markdown(f"**Profundidad:** {det.get('profundidad_efectiva','') or '-'}")
+                            c1.markdown(f"**Pedregosidad:** {det.get('pedregosidad','') or '-'}")
+                            c2.markdown(f"**Drenaje:** {det.get('drenaje','') or '-'}")
+                            c3.markdown(f"**Erosion:** {det.get('presencia_erosion','') or '-'}")
+                            st.markdown(f"**Materia organica:** {det.get('materia_organica','') or '-'}")
+
+                    if "F-DT-04" in fichas_str:
+                        with st.expander("F-DT-04: COBERTURA VEGETAL Y USO DEL SUELO", expanded=True):
+                            c1, c2 = st.columns(2)
+                            c1.markdown(f"**Tipo cobertura:** {det.get('tipo_cobertura','') or '-'}")
+                            c2.markdown(f"**Densidad:** {det.get('densidad_cobertura','') or '-'}")
+                            c1.markdown(f"**Estado conservacion:** {det.get('estado_conservacion','') or '-'}")
+                            c2.markdown(f"**Uso actual:** {det.get('uso_actual_suelo','') or '-'}")
+                            st.markdown(f"**Conflicto de uso:** {det.get('conflicto_uso','') or '-'}")
+
+                    if "F-DT-05" in fichas_str:
+                        with st.expander("F-DT-05: RECURSOS HIDRICOS", expanded=True):
+                            c1, c2 = st.columns(2)
+                            c1.markdown(f"**Fuente de agua:** {det.get('fuente_agua','') or '-'}")
+                            c2.markdown(f"**Regimen hidrico:** {det.get('regimen_hidrico','') or '-'}")
+                            c1.markdown(f"**Calidad agua:** {det.get('calidad_agua','') or '-'}")
+                            c2.markdown(f"**Distancia:** {det.get('distancia_fuente_agua','') or '-'}")
+                            st.markdown(f"**Uso recurso hidrico:** {det.get('uso_recurso_hidrico','') or '-'}")
+
+                    if "F-DT-06" in fichas_str:
+                        with st.expander("F-DT-06: ASPECTOS SOCIOECONOMICOS", expanded=True):
+                            c1, c2 = st.columns(2)
+                            c1.markdown(f"**Tenencia tierra:** {det.get('tenencia_tierra','') or '-'}")
+                            c2.markdown(f"**Organizacion:** {det.get('organizacion_comunal','') or '-'}")
+                            c1.markdown(f"**Act. economica:** {det.get('actividad_economica','') or '-'}")
+                            c2.markdown(f"**Accesibilidad:** {det.get('accesibilidad_via','') or '-'}")
+                            c1.markdown(f"**Dist. centro poblado:** {det.get('distancia_centro_poblado','') or '-'}")
+                            c2.markdown(f"**Servicios basicos:** {det.get('servicios_basicos','') or '-'}")
+
+                    if det.get("observaciones_generales"):
+                        st.markdown(f"**Observaciones:** {det['observaciones_generales']}")
+
+                    if st.button("Eliminar este diagnostico", key="dt_eliminar"):
+                        db.eliminar_diagnostico(dm[sel_dt])
+                        st.success("Diagnostico eliminado.")
+                        st.rerun()
+
+            st.markdown("---")
+            st.markdown("### Resumen por Bloque")
+            resumen = db.obtener_resumen_diagnosticos()
+            if resumen:
+                st.dataframe(pd.DataFrame([{
+                    "Bloque": r["codigo"],
+                    "Tipo": r["tipo_intervencion"],
+                    "Distrito": r["distrito"],
+                    "Total Fichas": r["total_fichas"],
+                    "Fichas Completadas": r.get("fichas_completadas", "") or "Ninguna",
+                } for r in resumen]), use_container_width=True, hide_index=True)
+
 
 # ══════════════════════════════════════════════════════════════════════════
 # PRESUPUESTO
@@ -596,6 +1093,7 @@ if pagina == "Panel de Control": pagina_dashboard()
 elif pagina == "Bloques de Intervencion": pagina_bloques()
 elif pagina == "Inspeccion de Campo": pagina_inspeccion()
 elif pagina == "Indicadores de Calidad": pagina_indicadores()
+elif pagina == "Diagnostico Territorial": pagina_diagnostico_territorial()
 elif pagina == "Presupuesto": pagina_presupuesto()
 elif pagina == "Cronograma": pagina_cronograma()
 elif pagina == "Georreferenciacion": pagina_georreferenciacion()

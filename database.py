@@ -128,6 +128,65 @@ def inicializar_bd():
         )
     """)
 
+    # Tabla de diagnostico territorial (Fichas F-DT-01 a F-DT-06)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS diagnostico_territorial (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            bloque_id INTEGER NOT NULL,
+            inspeccion_id INTEGER,
+            ficha TEXT NOT NULL,
+            microcuenca TEXT DEFAULT '',
+            fecha_evaluacion TEXT NOT NULL,
+            evaluador TEXT DEFAULT '',
+            -- F-DT-01: Caracteristicas Fisiograficas
+            forma_terreno TEXT DEFAULT '',
+            pendiente TEXT DEFAULT '',
+            posicion_fisiografica TEXT DEFAULT '',
+            exposicion_orientacion TEXT DEFAULT '',
+            paisaje_dominante TEXT DEFAULT '',
+            rango_altitudinal TEXT DEFAULT '',
+            -- F-DT-02: Condiciones Climaticas
+            precipitacion_anual TEXT DEFAULT '',
+            temperatura_media TEXT DEFAULT '',
+            humedad_relativa TEXT DEFAULT '',
+            zona_vida TEXT DEFAULT '',
+            presencia_heladas TEXT DEFAULT '',
+            regimen_vientos TEXT DEFAULT '',
+            -- F-DT-03: Caracteristicas del Suelo
+            textura_suelo TEXT DEFAULT '',
+            color_suelo TEXT DEFAULT '',
+            profundidad_efectiva TEXT DEFAULT '',
+            pedregosidad TEXT DEFAULT '',
+            drenaje TEXT DEFAULT '',
+            presencia_erosion TEXT DEFAULT '',
+            materia_organica TEXT DEFAULT '',
+            -- F-DT-04: Cobertura Vegetal y Uso del Suelo
+            tipo_cobertura TEXT DEFAULT '',
+            densidad_cobertura TEXT DEFAULT '',
+            estado_conservacion TEXT DEFAULT '',
+            uso_actual_suelo TEXT DEFAULT '',
+            conflicto_uso TEXT DEFAULT '',
+            -- F-DT-05: Recursos Hidricos
+            fuente_agua TEXT DEFAULT '',
+            regimen_hidrico TEXT DEFAULT '',
+            calidad_agua TEXT DEFAULT '',
+            distancia_fuente_agua TEXT DEFAULT '',
+            uso_recurso_hidrico TEXT DEFAULT '',
+            -- F-DT-06: Aspectos Socioeconomicos
+            tenencia_tierra TEXT DEFAULT '',
+            organizacion_comunal TEXT DEFAULT '',
+            actividad_economica TEXT DEFAULT '',
+            accesibilidad_via TEXT DEFAULT '',
+            distancia_centro_poblado TEXT DEFAULT '',
+            servicios_basicos TEXT DEFAULT '',
+            -- Campos generales
+            observaciones_generales TEXT DEFAULT '',
+            fecha_registro TEXT NOT NULL,
+            FOREIGN KEY (bloque_id) REFERENCES bloques(id) ON DELETE CASCADE,
+            FOREIGN KEY (inspeccion_id) REFERENCES inspecciones(id) ON DELETE SET NULL
+        )
+    """)
+
     # Migrar columnas nuevas en bloques si la tabla ya existe
     _migrar_bloques(cursor)
 
@@ -725,5 +784,142 @@ def obtener_estadisticas_generales():
     cursor.execute("SELECT COUNT(*) AS total FROM personal WHERE activo = 1")
     stats["personal_activo"] = cursor.fetchone()["total"]
 
+    # Diagnosticos territoriales
+    cursor.execute("SELECT COUNT(*) AS total FROM diagnostico_territorial")
+    stats["total_diagnosticos"] = cursor.fetchone()["total"]
+
     conn.close()
     return stats
+
+
+# ── Operaciones CRUD para Diagnostico Territorial ────────────────────────
+
+def insertar_diagnostico_territorial(bloque_id, ficha, fecha_evaluacion, evaluador="",
+                                     inspeccion_id=None, microcuenca="",
+                                     forma_terreno="", pendiente="",
+                                     posicion_fisiografica="", exposicion_orientacion="",
+                                     paisaje_dominante="", rango_altitudinal="",
+                                     precipitacion_anual="", temperatura_media="",
+                                     humedad_relativa="", zona_vida="",
+                                     presencia_heladas="", regimen_vientos="",
+                                     textura_suelo="", color_suelo="",
+                                     profundidad_efectiva="", pedregosidad="",
+                                     drenaje="", presencia_erosion="",
+                                     materia_organica="",
+                                     tipo_cobertura="", densidad_cobertura="",
+                                     estado_conservacion="", uso_actual_suelo="",
+                                     conflicto_uso="",
+                                     fuente_agua="", regimen_hidrico="",
+                                     calidad_agua="", distancia_fuente_agua="",
+                                     uso_recurso_hidrico="",
+                                     tenencia_tierra="", organizacion_comunal="",
+                                     actividad_economica="", accesibilidad_via="",
+                                     distancia_centro_poblado="", servicios_basicos="",
+                                     observaciones_generales=""):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO diagnostico_territorial (
+            bloque_id, inspeccion_id, ficha, microcuenca, fecha_evaluacion, evaluador,
+            forma_terreno, pendiente, posicion_fisiografica, exposicion_orientacion,
+            paisaje_dominante, rango_altitudinal,
+            precipitacion_anual, temperatura_media, humedad_relativa, zona_vida,
+            presencia_heladas, regimen_vientos,
+            textura_suelo, color_suelo, profundidad_efectiva, pedregosidad,
+            drenaje, presencia_erosion, materia_organica,
+            tipo_cobertura, densidad_cobertura, estado_conservacion,
+            uso_actual_suelo, conflicto_uso,
+            fuente_agua, regimen_hidrico, calidad_agua,
+            distancia_fuente_agua, uso_recurso_hidrico,
+            tenencia_tierra, organizacion_comunal, actividad_economica,
+            accesibilidad_via, distancia_centro_poblado, servicios_basicos,
+            observaciones_generales, fecha_registro
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    """, (bloque_id, inspeccion_id, ficha, microcuenca, fecha_evaluacion, evaluador,
+          forma_terreno, pendiente, posicion_fisiografica, exposicion_orientacion,
+          paisaje_dominante, rango_altitudinal,
+          precipitacion_anual, temperatura_media, humedad_relativa, zona_vida,
+          presencia_heladas, regimen_vientos,
+          textura_suelo, color_suelo, profundidad_efectiva, pedregosidad,
+          drenaje, presencia_erosion, materia_organica,
+          tipo_cobertura, densidad_cobertura, estado_conservacion,
+          uso_actual_suelo, conflicto_uso,
+          fuente_agua, regimen_hidrico, calidad_agua,
+          distancia_fuente_agua, uso_recurso_hidrico,
+          tenencia_tierra, organizacion_comunal, actividad_economica,
+          accesibilidad_via, distancia_centro_poblado, servicios_basicos,
+          observaciones_generales,
+          datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+    conn.commit()
+    did = cursor.lastrowid
+    conn.close()
+    return did
+
+
+def obtener_diagnosticos_por_bloque(bloque_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT dt.*, b.codigo AS bloque_codigo
+        FROM diagnostico_territorial dt
+        JOIN bloques b ON dt.bloque_id = b.id
+        WHERE dt.bloque_id=?
+        ORDER BY dt.fecha_evaluacion DESC
+    """, (bloque_id,))
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+
+def obtener_todos_diagnosticos():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT dt.*, b.codigo AS bloque_codigo, b.tipo_intervencion, b.distrito
+        FROM diagnostico_territorial dt
+        JOIN bloques b ON dt.bloque_id = b.id
+        ORDER BY dt.fecha_evaluacion DESC
+    """)
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+
+def obtener_diagnostico_por_id(diagnostico_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT dt.*, b.codigo AS bloque_codigo, b.tipo_intervencion, b.distrito
+        FROM diagnostico_territorial dt
+        JOIN bloques b ON dt.bloque_id = b.id
+        WHERE dt.id=?
+    """, (diagnostico_id,))
+    row = cursor.fetchone()
+    conn.close()
+    return dict(row) if row else None
+
+
+def eliminar_diagnostico(diagnostico_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM diagnostico_territorial WHERE id=?", (diagnostico_id,))
+    conn.commit()
+    conn.close()
+
+
+def obtener_resumen_diagnosticos():
+    """Retorna resumen de diagnosticos por ficha y bloque."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT b.codigo, b.tipo_intervencion, b.distrito,
+               COUNT(dt.id) AS total_fichas,
+               GROUP_CONCAT(DISTINCT dt.ficha) AS fichas_completadas
+        FROM bloques b
+        LEFT JOIN diagnostico_territorial dt ON dt.bloque_id = b.id
+        GROUP BY b.id
+        ORDER BY b.codigo
+    """)
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
