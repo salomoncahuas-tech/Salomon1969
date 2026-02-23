@@ -5,9 +5,14 @@ Conversión UTM ↔ Lat/Lon y herramientas de navegación espacial.
 Cuenca Alta del Río Piura, Perú.
 """
 
-import tkinter as tk
-from tkinter import ttk, messagebox
 import math
+
+try:
+    import tkinter as tk
+    from tkinter import ttk, messagebox
+    _HAS_TK = True
+except ImportError:
+    _HAS_TK = False
 
 import database as db
 
