@@ -141,10 +141,8 @@ BLOQUES_83_MAP = {b[1]: {"n": b[0], "codigo": b[1], "microcuenca": b[2],
     "area_ha": b[3], "provincia": b[4], "distrito": b[5],
     "accesibilidad": b[6], "dia_evaluacion": b[7]} for b in BLOQUES_83}
 
-# Lista de etiquetas para el dropdown: "N° - Bloque | Microcuenca | Distrito (Provincia) | Area ha"
-BLOQUES_83_OPCIONES = [
-    f"{b[1]} | {b[2]} | {b[5]} ({b[4]}) | {b[3]} ha" for b in BLOQUES_83
-]
+# Lista de codigos para el dropdown (solo codigo de bloque)
+BLOQUES_83_OPCIONES = [b[1] for b in BLOQUES_83]
 PROVINCIAS_DISTRITOS = {
     "Ayabaca": ["Frias"],
     "Huancabamba": ["Canchaque","Huancabamba","Huarmaca","San Miguel de El Faique"],
@@ -472,10 +470,10 @@ def pagina_dashboard():
 # BLOQUES DE INTERVENCION
 # ══════════════════════════════════════════════════════════════════════════
 def _extraer_codigo_bloque_83(opcion):
-    """Extrae el codigo de bloque de una opcion del dropdown de 83 bloques."""
+    """Retorna el codigo de bloque directamente (el dropdown solo muestra codigos)."""
     if not opcion:
         return None
-    return opcion.split(" | ")[0].strip()
+    return opcion.strip()
 
 def pagina_bloques():
     st.subheader("Bloques de Intervencion")

@@ -167,10 +167,8 @@ BLOQUES_83_MAP = {b[1]: {"n": b[0], "codigo": b[1], "microcuenca": b[2],
     "area_ha": b[3], "provincia": b[4], "distrito": b[5],
     "accesibilidad": b[6], "dia_evaluacion": b[7]} for b in BLOQUES_83}
 
-# Lista de etiquetas para el dropdown
-BLOQUES_83_OPCIONES = [
-    f"{b[1]} | {b[2]} | {b[5]} ({b[4]}) | {b[3]} ha" for b in BLOQUES_83
-]
+# Lista de códigos para el dropdown (solo código de bloque)
+BLOQUES_83_OPCIONES = [b[1] for b in BLOQUES_83]
 
 # 5 Provincias y 18 Distritos del Proyecto IN Piura
 PROVINCIAS_DISTRITOS = {
@@ -542,9 +540,8 @@ class TabBloques(ttk.Frame):
             self.label_info_83.config(text="")
             return
 
-        # Extraer código del bloque de la etiqueta
-        codigo = seleccion.split(" | ")[0].strip()
-        datos = BLOQUES_83_MAP.get(codigo)
+        # El dropdown ahora muestra directamente el código del bloque
+        datos = BLOQUES_83_MAP.get(seleccion)
         if not datos:
             self.label_info_83.config(text="")
             return
