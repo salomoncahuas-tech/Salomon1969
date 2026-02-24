@@ -870,9 +870,15 @@ class TabInspeccion(ttk.Frame):
         self.cargar_historial()
 
     def _on_bloque_seleccionado(self, event=None):
-        """Auto-vincula la microcuenca del bloque seleccionado."""
+        """Auto-vincula la microcuenca del bloque seleccionado.
+        Busca primero en la BD y luego en BLOQUES_83_MAP como fallback."""
         sel = self.combo_bloque.get()
         microcuenca = self.bloques_microcuenca_map.get(sel, "")
+        # Fallback: buscar en los 83 bloques predefinidos si la BD no tiene microcuenca
+        if not microcuenca or microcuenca not in MICROCUENCAS:
+            codigo = sel.split(" - ")[0].strip() if " - " in sel else sel.strip()
+            datos_83 = BLOQUES_83_MAP.get(codigo, {})
+            microcuenca = datos_83.get("microcuenca", "")
         if microcuenca and microcuenca in MICROCUENCAS:
             self.combo_microcuenca.set(microcuenca)
         else:
@@ -1098,6 +1104,11 @@ class TabIndicadores(ttk.Frame):
 
         # Auto-vincular microcuenca del bloque seleccionado
         microcuenca = self.bloques_microcuenca_map.get(sel, "")
+        # Fallback: buscar en los 83 bloques predefinidos si la BD no tiene microcuenca
+        if not microcuenca or microcuenca not in MICROCUENCAS:
+            codigo = sel.split(" - ")[0].strip() if " - " in sel else sel.strip()
+            datos_83 = BLOQUES_83_MAP.get(codigo, {})
+            microcuenca = datos_83.get("microcuenca", "")
         if microcuenca and microcuenca in MICROCUENCAS:
             self.combo_microcuenca.set(microcuenca)
         else:

@@ -413,6 +413,24 @@ def _bloques_map():
 def _distritos(prov):
     return PROVINCIAS_DISTRITOS.get(prov, DISTRITOS_PIURA) if prov else DISTRITOS_PIURA
 
+def _resolver_microcuenca(bloque_label):
+    """Resuelve la microcuenca para un bloque dado su label 'CODIGO - TIPO'.
+    Busca primero en la BD y luego en BLOQUES_83_MAP como fallback."""
+    codigo = bloque_label.split(" - ")[0].strip() if " - " in bloque_label else bloque_label.strip()
+    # Buscar en BD
+    for b in db.obtener_bloques():
+        if b["codigo"] == codigo:
+            mc = b.get("microcuenca", "") or ""
+            if mc and mc in MICROCUENCAS:
+                return mc
+            break
+    # Fallback: buscar en los 83 bloques predefinidos
+    datos = BLOQUES_83_MAP.get(codigo, {})
+    mc = datos.get("microcuenca", "")
+    if mc and mc in MICROCUENCAS:
+        return mc
+    return ""
+
 # ══════════════════════════════════════════════════════════════════════════
 # PANEL DE CONTROL
 # ══════════════════════════════════════════════════════════════════════════
@@ -587,9 +605,21 @@ def pagina_inspeccion():
     st.subheader("Inspeccion de Campo")
     bm = _bloques_map()
     if not bm: st.warning("Registre un bloque primero."); return
+
+    # Selector de bloque FUERA del form para auto-enlazar microcuenca
+    opciones_bloque = list(bm.keys())
+    bl = st.selectbox("Bloque", opciones_bloque, key="insp_bloque")
+
+    # Auto-resolver microcuenca del bloque seleccionado
+    mc_auto = _resolver_microcuenca(bl)
+    if mc_auto:
+        mc_idx = MICROCUENCAS.index(mc_auto) + 1  # +1 por el "" inicial
+        st.info(f"Microcuenca vinculada automaticamente: **{mc_auto}**")
+    else:
+        mc_idx = 0
+
     with st.form("form_insp", clear_on_submit=True):
-        bl = st.selectbox("Bloque", list(bm.keys()))
-        mc = st.selectbox("Microcuenca",[""]+MICROCUENCAS)
+        mc = st.selectbox("Microcuenca", [""] + MICROCUENCAS, index=mc_idx)
         fecha = st.date_input("Fecha de visita",value=datetime.now())
         inspector = st.text_input("Inspector")
         clima = st.selectbox("Condiciones climaticas",CONDICIONES_CLIMATICAS)
@@ -628,12 +658,21 @@ def pagina_indicadores():
     if not bm: st.warning("Registre un bloque primero."); return
     bl = st.selectbox("Bloque", list(bm.keys()), key="ind_bl")
     bid = bm[bl]
+
+    # Auto-resolver microcuenca del bloque seleccionado
+    mc_auto = _resolver_microcuenca(bl)
+    if mc_auto:
+        mc_idx = MICROCUENCAS.index(mc_auto) + 1
+        st.info(f"Microcuenca vinculada automaticamente: **{mc_auto}**")
+    else:
+        mc_idx = 0
+
     ins = db.obtener_inspecciones_por_bloque(bid)
     if not ins: st.warning("Sin inspecciones para este bloque."); return
     im = {f"{i['fecha_visita']} - {i['inspector']}":i["id"] for i in ins}
     isel = st.selectbox("Inspeccion", list(im.keys()))
     with st.form("form_ind", clear_on_submit=True):
-        mc = st.selectbox("Microcuenca",[""]+MICROCUENCAS,key="ind_mc")
+        mc = st.selectbox("Microcuenca", [""] + MICROCUENCAS, index=mc_idx, key="ind_mc")
         pc = st.number_input("Cobertura vegetal (%)",0.0,100.0,0.0)
         tc = st.selectbox("Tipo cobertura",[""]+TIPOS_COBERTURA)
         vi = st.selectbox("Vigor cobertura",[""]+VIGOR_COBERTURA)
