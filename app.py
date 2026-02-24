@@ -750,8 +750,9 @@ class TabInspeccion(ttk.Frame):
         ttk.Label(frame, text="Bloque:").grid(row=1, column=0, sticky="w", padx=10, pady=4)
         self.combo_bloque = ttk.Combobox(frame, state="readonly", width=40)
         self.combo_bloque.grid(row=1, column=1, sticky="w", padx=6, pady=4)
+        self.combo_bloque.bind("<<ComboboxSelected>>", self._on_bloque_seleccionado)
 
-        # Código de microcuenca
+        # Código de microcuenca (auto-vinculado al seleccionar bloque)
         ttk.Label(frame, text="Código microcuenca:").grid(row=2, column=0, sticky="w", padx=10, pady=4)
         self.combo_microcuenca = ttk.Combobox(frame, values=MICROCUENCAS, state="readonly", width=40)
         self.combo_microcuenca.grid(row=2, column=1, sticky="w", padx=6, pady=4)
@@ -844,8 +845,21 @@ class TabInspeccion(ttk.Frame):
     def cargar_combos(self):
         bloques = db.obtener_bloques()
         self.bloques_map = {f"{b['codigo']} - {b['tipo_intervencion']}": b["id"] for b in bloques}
+        self.bloques_microcuenca_map = {
+            f"{b['codigo']} - {b['tipo_intervencion']}": b.get("microcuenca", "") or ""
+            for b in bloques
+        }
         self.combo_bloque["values"] = list(self.bloques_map.keys())
         self.cargar_historial()
+
+    def _on_bloque_seleccionado(self, event=None):
+        """Auto-vincula la microcuenca del bloque seleccionado."""
+        sel = self.combo_bloque.get()
+        microcuenca = self.bloques_microcuenca_map.get(sel, "")
+        if microcuenca and microcuenca in MICROCUENCAS:
+            self.combo_microcuenca.set(microcuenca)
+        else:
+            self.combo_microcuenca.set("")
 
     def cargar_historial(self):
         for item in self.tree_hist.get_children():
@@ -1053,6 +1067,10 @@ class TabIndicadores(ttk.Frame):
     def cargar_combos(self):
         bloques = db.obtener_bloques()
         self.bloques_map = {f"{b['codigo']} - {b['tipo_intervencion']}": b["id"] for b in bloques}
+        self.bloques_microcuenca_map = {
+            f"{b['codigo']} - {b['tipo_intervencion']}": b.get("microcuenca", "") or ""
+            for b in bloques
+        }
         self.combo_bloque["values"] = list(self.bloques_map.keys())
 
     def on_bloque_seleccionado(self, event=None):
@@ -1060,6 +1078,13 @@ class TabIndicadores(ttk.Frame):
         if sel not in self.bloques_map:
             return
         bloque_id = self.bloques_map[sel]
+
+        # Auto-vincular microcuenca del bloque seleccionado
+        microcuenca = self.bloques_microcuenca_map.get(sel, "")
+        if microcuenca and microcuenca in MICROCUENCAS:
+            self.combo_microcuenca.set(microcuenca)
+        else:
+            self.combo_microcuenca.set("")
 
         # Cargar inspecciones del bloque
         inspecciones = db.obtener_inspecciones_por_bloque(bloque_id)
