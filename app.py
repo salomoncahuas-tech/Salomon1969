@@ -662,6 +662,23 @@ class TabBloques(ttk.Frame):
         datos = self._validar_campos()
         if not datos:
             return
+        # Verificar si el bloque ya existe
+        existente = db.obtener_bloque_por_codigo(datos["codigo"])
+        if existente:
+            respuesta = messagebox.askyesno(
+                "Bloque existente",
+                f"El bloque '{datos['codigo']}' ya está registrado.\n"
+                "¿Desea actualizar sus datos con la información del formulario?")
+            if respuesta:
+                try:
+                    db.actualizar_bloque(existente["id"], **datos)
+                    messagebox.showinfo("Éxito", f"Bloque {datos['codigo']} actualizado correctamente.")
+                    self.limpiar_formulario()
+                    self.cargar_bloques()
+                    self.app.refrescar_todo()
+                except Exception as e:
+                    messagebox.showerror("Error", f"No se pudo actualizar el bloque:\n{e}")
+            return
         try:
             db.insertar_bloque(**datos)
             messagebox.showinfo("Éxito", f"Bloque {datos['codigo']} registrado correctamente.")
