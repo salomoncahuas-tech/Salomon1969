@@ -17,10 +17,59 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from models import (db, Teacher, Grade, EnglishLevel, Assessment, Question,
                     QuestionOption, StudentResult, StudentAnswer)
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', secrets.token_hex(32))
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-    'DATABASE_URL', 'sqlite:///english_assessments.db')
+# ---------------------------------------------------------------------------
+# Persistent storage configuration
+# ---------------------------------------------------------------------------
+
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+INSTANCE_DIR = os.path.join(BASE_DIR, 'instance')
+os.makedirs(INSTANCE_DIR, exist_ok=True)
+
+
+def get_secret_key():
+    """Return a stable SECRET_KEY that persists across restarts.
+
+    Priority:
+    1. SECRET_KEY environment variable (recommended for production)
+    2. Key stored in instance/secret_key file (auto-generated on first run)
+    """
+    env_key = os.environ.get('SECRET_KEY')
+    if env_key:
+        return env_key
+
+    key_file = os.path.join(INSTANCE_DIR, 'secret_key')
+    if os.path.exists(key_file):
+        with open(key_file, 'r') as f:
+            return f.read().strip()
+
+    new_key = secrets.token_hex(32)
+    with open(key_file, 'w') as f:
+        f.write(new_key)
+    return new_key
+
+
+def get_database_uri():
+    """Return the database URI with a persistent absolute path.
+
+    Priority:
+    1. DATABASE_URL environment variable (PostgreSQL for production)
+    2. SQLite database stored in instance/ directory with an absolute path
+    """
+    database_url = os.environ.get('DATABASE_URL')
+    if database_url:
+        # Render uses 'postgres://' but SQLAlchemy requires 'postgresql://'
+        if database_url.startswith('postgres://'):
+            database_url = database_url.replace('postgres://', 'postgresql://', 1)
+        return database_url
+
+    # Use absolute path inside instance/ directory for persistent SQLite storage
+    db_path = os.path.join(INSTANCE_DIR, 'english_assessments.db')
+    return f'sqlite:///{db_path}'
+
+
+app = Flask(__name__, instance_path=INSTANCE_DIR)
+app.config['SECRET_KEY'] = get_secret_key()
+app.config['SQLALCHEMY_DATABASE_URI'] = get_database_uri()
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
