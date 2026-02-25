@@ -618,6 +618,17 @@ def pagina_inspeccion():
     else:
         mc_idx = 0
 
+    # Carga de archivos PDF (fuera del form por limitaciones de Streamlit)
+    pdf_files = st.file_uploader(
+        "Adjuntar archivos PDF (max. 25 MB por archivo)",
+        type=["pdf"], accept_multiple_files=True, key="insp_pdf_upload")
+    if pdf_files:
+        total_size = sum(f.size for f in pdf_files)
+        for f in pdf_files:
+            if f.size > 25 * 1024 * 1024:
+                st.warning(f"El archivo '{f.name}' excede 25 MB y no sera adjuntado.")
+        st.info(f"{len(pdf_files)} archivo(s) PDF seleccionado(s)")
+
     with st.form("form_insp", clear_on_submit=True):
         mc = st.selectbox("Microcuenca", [""] + MICROCUENCAS, index=mc_idx)
         fecha = st.date_input("Fecha de visita",value=datetime.now())
@@ -625,7 +636,7 @@ def pagina_inspeccion():
         clima = st.selectbox("Condiciones climaticas",CONDICIONES_CLIMATICAS)
         avance = st.number_input("Avance fisico (%)",0.0,100.0,0.0)
         obs = st.text_area("Observaciones tecnicas")
-        desv = st.text_area("Desviaciones al exp. tecnico")
+        desv = st.text_area("Desviaciones observadas al Plan de Trabajo")
         ver = st.text_input("Codigo de verificacion",
             value=f"VER-{datetime.now().strftime('%Y%m%d')}-{uuid.uuid4().hex[:8].upper()}")
         guardar = st.form_submit_button("Guardar Inspeccion", type="primary")
@@ -633,11 +644,28 @@ def pagina_inspeccion():
         if not inspector: st.warning("Inspector obligatorio.")
         else:
             try:
+                # Guardar archivos PDF adjuntos
+                rutas_pdf = []
+                if pdf_files:
+                    pdf_dir = os.path.join(os.path.dirname(__file__), "adjuntos_pdf")
+                    os.makedirs(pdf_dir, exist_ok=True)
+                    for f in pdf_files:
+                        if f.size <= 25 * 1024 * 1024:
+                            nombre_pdf = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{f.name}"
+                            ruta_pdf = os.path.join(pdf_dir, nombre_pdf)
+                            with open(ruta_pdf, "wb") as fp:
+                                fp.write(f.getbuffer())
+                            rutas_pdf.append(ruta_pdf)
+                archivos_pdf_str = ";".join(rutas_pdf) if rutas_pdf else ""
+
                 db.insertar_inspeccion(bloque_id=bm[bl],fecha_visita=fecha.strftime("%Y-%m-%d"),
                     inspector=inspector,condiciones_climaticas=clima,avance_fisico=avance,
                     observaciones=obs,desviaciones=desv,registro_fotografico="",
-                    codigo_verificacion=ver,microcuenca=mc)
-                st.success("Inspeccion registrada."); st.rerun()
+                    codigo_verificacion=ver,microcuenca=mc,archivos_pdf=archivos_pdf_str)
+                msg = "Inspeccion registrada."
+                if rutas_pdf:
+                    msg += f" {len(rutas_pdf)} PDF(s) adjuntado(s)."
+                st.success(msg); st.rerun()
             except Exception as e: st.error(f"Error: {e}")
     st.markdown("---")
     st.markdown("**Historial de Inspecciones**")
@@ -646,8 +674,58 @@ def pagina_inspeccion():
         st.dataframe(pd.DataFrame([{"ID":i["id"],"Bloque":i["bloque_codigo"],
             "Microcuenca":i.get("microcuenca","") or "","Fecha":i["fecha_visita"],
             "Inspector":i["inspector"],"Avance %":f"{i['avance_fisico']:.1f}",
-            "Verificacion":i["codigo_verificacion"]} for i in insp]),
+            "Verificacion":i["codigo_verificacion"],
+            "PDFs":len([p for p in (i.get("archivos_pdf","") or "").split(";") if p.strip()])} for i in insp]),
             use_container_width=True, hide_index=True)
+
+        # Seccion para descargar PDFs adjuntos de una inspeccion
+        st.markdown("**Descargar PDFs adjuntos**")
+        insp_map = {f"ID {i['id']} - {i['fecha_visita']} - {i['inspector']}": i for i in insp}
+        sel_insp = st.selectbox("Seleccionar inspeccion", list(insp_map.keys()), key="pdf_download_sel")
+        if sel_insp:
+            insp_sel = insp_map[sel_insp]
+            pdfs_str = insp_sel.get("archivos_pdf", "") or ""
+            pdfs = [p.strip() for p in pdfs_str.split(";") if p.strip()]
+            if pdfs:
+                for ruta in pdfs:
+                    nombre = os.path.basename(ruta)
+                    if os.path.exists(ruta):
+                        with open(ruta, "rb") as fp:
+                            st.download_button(
+                                label=f"Descargar: {nombre}",
+                                data=fp.read(),
+                                file_name=nombre,
+                                mime="application/pdf",
+                                key=f"dl_{nombre}")
+                    else:
+                        st.caption(f"Archivo no disponible: {nombre}")
+            else:
+                st.caption("Esta inspeccion no tiene archivos PDF adjuntos.")
+
+        # Adjuntar PDFs a inspeccion existente
+        st.markdown("**Adjuntar PDF a inspeccion existente**")
+        pdf_adicional = st.file_uploader(
+            "Seleccionar PDF (max. 25 MB)",
+            type=["pdf"], accept_multiple_files=True, key="pdf_hist_upload")
+        if pdf_adicional and st.button("Adjuntar a inspeccion seleccionada", key="btn_adjuntar_pdf"):
+            insp_sel = insp_map[sel_insp]
+            pdf_dir = os.path.join(os.path.dirname(__file__), "adjuntos_pdf")
+            os.makedirs(pdf_dir, exist_ok=True)
+            nuevas_rutas = []
+            for f in pdf_adicional:
+                if f.size <= 25 * 1024 * 1024:
+                    nombre_pdf = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{f.name}"
+                    ruta_pdf = os.path.join(pdf_dir, nombre_pdf)
+                    with open(ruta_pdf, "wb") as fp:
+                        fp.write(f.getbuffer())
+                    nuevas_rutas.append(ruta_pdf)
+                else:
+                    st.warning(f"'{f.name}' excede 25 MB.")
+            if nuevas_rutas:
+                existentes = insp_sel.get("archivos_pdf", "") or ""
+                todas = [p.strip() for p in existentes.split(";") if p.strip()] + nuevas_rutas
+                db.actualizar_archivos_pdf_inspeccion(insp_sel["id"], ";".join(todas))
+                st.success(f"{len(nuevas_rutas)} PDF(s) adjuntado(s)."); st.rerun()
 
 # ══════════════════════════════════════════════════════════════════════════
 # INDICADORES DE CALIDAD
@@ -677,15 +755,13 @@ def pagina_indicadores():
         tc = st.selectbox("Tipo cobertura",[""]+TIPOS_COBERTURA)
         vi = st.selectbox("Vigor cobertura",[""]+VIGOR_COBERTURA)
         so = st.number_input("Sobrevivencia especies (%)",0.0,100.0,0.0)
-        lz = st.number_input("Longitud zanjas (ml)",0.0,value=0.0)
-        vr = st.number_input("Vol. retencion sedimentos (m3)",0.0,value=0.0)
         guardar = st.form_submit_button("Guardar Indicadores", type="primary")
     if guardar:
         try:
             db.insertar_indicadores(bloque_id=bid,inspeccion_id=im[isel],
                 cobertura_vegetal_planificada=0,cobertura_vegetal_lograda=0,
-                sobrevivencia_especies=so,longitud_zanjas_ejecutada=lz,
-                volumen_retencion_sedimentos=vr,porcentaje_cobertura_vegetal=pc,
+                sobrevivencia_especies=so,longitud_zanjas_ejecutada=0,
+                volumen_retencion_sedimentos=0,porcentaje_cobertura_vegetal=pc,
                 tipo_cobertura_vegetal=tc,vigor_cobertura_vegetal=vi,microcuenca=mc)
             st.success("Indicadores guardados."); st.rerun()
         except Exception as e: st.error(f"Error: {e}")
@@ -698,9 +774,7 @@ def pagina_indicadores():
             "Cobert.%":f"{x.get('porcentaje_cobertura_vegetal',0):.1f}",
             "Tipo":x.get("tipo_cobertura_vegetal","") or "",
             "Vigor":x.get("vigor_cobertura_vegetal","") or "",
-            "Sobrev.%":f"{x['sobrevivencia_especies']:.1f}",
-            "Zanjas":f"{x['longitud_zanjas_ejecutada']:.2f}",
-            "Vol.Ret.":f"{x['volumen_retencion_sedimentos']:.2f}"} for x in ind]),
+            "Sobrev.%":f"{x['sobrevivencia_especies']:.1f}"} for x in ind]),
             use_container_width=True, hide_index=True)
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -777,7 +851,7 @@ def pagina_diagnostico_territorial():
             c3, c4 = st.columns(2)
             estado_cons = c3.selectbox("Estado de conservacion", [""] + FDT04_ESTADO_CONSERVACION, key="f04_ec")
             uso_suelo = c4.selectbox("Uso actual del suelo", [""] + FDT04_USO_SUELO, key="f04_us")
-            conflicto = st.selectbox("Conflicto de uso", [""] + FDT04_CONFLICTO_USO, key="f04_cu")
+            conflicto = st.selectbox("Estado de Uso del Suelo", [""] + FDT04_CONFLICTO_USO, key="f04_cu")
 
         # ── F-DT-05 ──────────────────────────────────────────────────────
         with st.expander("F-DT-05: RECURSOS HIDRICOS", expanded=False):
@@ -947,7 +1021,7 @@ def pagina_diagnostico_territorial():
                             c2.markdown(f"**Densidad:** {det.get('densidad_cobertura','') or '-'}")
                             c1.markdown(f"**Estado conservacion:** {det.get('estado_conservacion','') or '-'}")
                             c2.markdown(f"**Uso actual:** {det.get('uso_actual_suelo','') or '-'}")
-                            st.markdown(f"**Conflicto de uso:** {det.get('conflicto_uso','') or '-'}")
+                            st.markdown(f"**Estado de Uso del Suelo:** {det.get('conflicto_uso','') or '-'}")
 
                     if "F-DT-05" in fichas_str:
                         with st.expander("F-DT-05: RECURSOS HIDRICOS", expanded=True):

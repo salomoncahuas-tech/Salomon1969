@@ -4,6 +4,7 @@ __pycache__/
 in_piura.db
 reportes/
 formularios/
+adjuntos_pdf/
 *.egg-info/
 dist/
 build/

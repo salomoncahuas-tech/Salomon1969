@@ -802,7 +802,7 @@ class TabInspeccion(ttk.Frame):
         self.text_observaciones.grid(row=7, column=1, sticky="w", padx=6, pady=4)
 
         # Desviaciones
-        ttk.Label(frame, text="Desviaciones al exp. técnico:").grid(row=8, column=0, sticky="nw", padx=10, pady=4)
+        ttk.Label(frame, text="Desviaciones observadas al Plan de Trabajo:").grid(row=8, column=0, sticky="nw", padx=10, pady=4)
         self.text_desviaciones = tk.Text(frame, width=55, height=4, font=("Segoe UI", 9))
         self.text_desviaciones.grid(row=8, column=1, sticky="w", padx=6, pady=4)
 
@@ -1022,8 +1022,6 @@ class TabIndicadores(ttk.Frame):
         indicadores_campos = [
             ("Porcentaje de cobertura vegetal (%):", "pct_cobertura"),
             ("Sobrevivencia de especies (%):", "sobrevivencia"),
-            ("Longitud ejecutada de zanjas (ml):", "longitud_zanjas"),
-            ("Volumen retención sedimentos estimado (m³):", "vol_retencion"),
         ]
 
         self.ind_entries = {}
@@ -1064,7 +1062,7 @@ class TabIndicadores(ttk.Frame):
             row=fila_tabla_label, column=0, columnspan=4, sticky="w", padx=10, pady=(14, 6))
 
         columnas = ("fecha", "microcuenca", "pct_cob", "tipo_cob", "vigor",
-                    "sobrev", "zanjas", "vol_ret")
+                    "sobrev")
         self.tree_ind = ttk.Treeview(frame, columns=columnas, show="headings", height=8)
         self.tree_ind.heading("fecha", text="Fecha Visita")
         self.tree_ind.heading("microcuenca", text="Microcuenca")
@@ -1072,8 +1070,6 @@ class TabIndicadores(ttk.Frame):
         self.tree_ind.heading("tipo_cob", text="Tipo Cobert.")
         self.tree_ind.heading("vigor", text="Vigor")
         self.tree_ind.heading("sobrev", text="Sobreviv. (%)")
-        self.tree_ind.heading("zanjas", text="Zanjas (ml)")
-        self.tree_ind.heading("vol_ret", text="Vol. Ret. (m³)")
 
         self.tree_ind.column("fecha", width=95)
         self.tree_ind.column("microcuenca", width=120)
@@ -1081,8 +1077,6 @@ class TabIndicadores(ttk.Frame):
         self.tree_ind.column("tipo_cob", width=90)
         self.tree_ind.column("vigor", width=80)
         self.tree_ind.column("sobrev", width=80)
-        self.tree_ind.column("zanjas", width=85)
-        self.tree_ind.column("vol_ret", width=85)
 
         fila_tabla = fila_tabla_label + 1
         self.tree_ind.grid(row=fila_tabla, column=0, columnspan=4, sticky="ew", padx=10, pady=(0, 10))
@@ -1138,8 +1132,6 @@ class TabIndicadores(ttk.Frame):
                 ind.get("tipo_cobertura_vegetal", "") or "",
                 ind.get("vigor_cobertura_vegetal", "") or "",
                 f"{ind['sobrevivencia_especies']:.1f}",
-                f"{ind['longitud_zanjas_ejecutada']:.2f}",
-                f"{ind['volumen_retencion_sedimentos']:.2f}",
             ))
 
     def guardar_indicadores(self):
@@ -1156,8 +1148,6 @@ class TabIndicadores(ttk.Frame):
         try:
             pct_cobertura = float(self.ind_entries["pct_cobertura"].get().strip())
             sobrevivencia = float(self.ind_entries["sobrevivencia"].get().strip())
-            longitud_zanjas = float(self.ind_entries["longitud_zanjas"].get().strip())
-            vol_retencion = float(self.ind_entries["vol_retencion"].get().strip())
         except ValueError:
             messagebox.showwarning("Validación", "Los indicadores numéricos deben ser valores válidos.")
             return
@@ -1176,8 +1166,8 @@ class TabIndicadores(ttk.Frame):
                 cobertura_vegetal_planificada=0,
                 cobertura_vegetal_lograda=0,
                 sobrevivencia_especies=sobrevivencia,
-                longitud_zanjas_ejecutada=longitud_zanjas,
-                volumen_retencion_sedimentos=vol_retencion,
+                longitud_zanjas_ejecutada=0,
+                volumen_retencion_sedimentos=0,
                 porcentaje_cobertura_vegetal=pct_cobertura,
                 tipo_cobertura_vegetal=tipo_cobertura,
                 vigor_cobertura_vegetal=vigor_cobertura,
