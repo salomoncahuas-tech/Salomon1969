@@ -161,7 +161,7 @@ def generar_ficha_pdf(bloque_id, inspeccion_id=None):
             pdf._campo("Avance fisico", f"{insp['avance_fisico']:.1f} %")
             pdf._campo("Codigo de verificacion", insp["codigo_verificacion"])
             pdf._campo_largo("Observaciones tecnicas", insp["observaciones"])
-            pdf._campo_largo("Desviaciones al exp. tecnico", insp["desviaciones"])
+            pdf._campo_largo("Desviaciones observadas al Plan de Trabajo", insp["desviaciones"])
 
             if insp["registro_fotografico"]:
                 pdf.set_font("Helvetica", "B", 9)
@@ -190,8 +190,6 @@ def generar_ficha_pdf(bloque_id, inspeccion_id=None):
                 if vigor_cob:
                     pdf._campo("Vigor cobertura vegetal", vigor_cob)
                 pdf._campo("Sobrevivencia de especies", f"{indicadores['sobrevivencia_especies']:.1f} %")
-                pdf._campo("Longitud zanjas ejecutada", f"{indicadores['longitud_zanjas_ejecutada']:.2f} ml")
-                pdf._campo("Vol. retencion sedimentos", f"{indicadores['volumen_retencion_sedimentos']:.2f} m3")
                 pdf.ln(3)
 
     # Cronograma del bloque
@@ -227,12 +225,12 @@ def generar_resumen_excel():
     ws.title = "Resumen Bloques IN Piura"
 
     # Título
-    ws.merge_cells("A1:W1")
+    ws.merge_cells("A1:U1")
     ws["A1"] = "IN Piura - Plan de Ingreso - Resumen de Bloques de Intervencion"
     ws["A1"].font = Font(name="Calibri", bold=True, size=13)
     ws["A1"].alignment = Alignment(horizontal="center")
 
-    ws.merge_cells("A2:W2")
+    ws.merge_cells("A2:U2")
     ws["A2"] = f"Generado: {datetime.now().strftime('%d/%m/%Y %H:%M')}"
     ws["A2"].font = Font(name="Calibri", italic=True, size=9)
     ws["A2"].alignment = Alignment(horizontal="center")
@@ -244,8 +242,7 @@ def generar_resumen_excel():
         "Area (ha)", "Responsable", "Estado", "Total Inspecciones",
         "Ultima Visita", "Avance Fisico (%)",
         "Cobertura Vegetal (%)", "Tipo Cobertura", "Vigor Cobertura",
-        "Sobrevivencia (%)", "Long. Zanjas (ml)",
-        "Vol. Ret. Sedimentos (m3)", "Fecha Registro"
+        "Sobrevivencia (%)", "Fecha Registro"
     ]
 
     for col_idx, enc in enumerate(encabezados, 1):
@@ -282,8 +279,6 @@ def generar_resumen_excel():
             ultimo_ind.get("tipo_cobertura_vegetal", "") or "",
             ultimo_ind.get("vigor_cobertura_vegetal", "") or "",
             ultimo_ind.get("sobrevivencia_especies", 0),
-            ultimo_ind.get("longitud_zanjas_ejecutada", 0),
-            ultimo_ind.get("volumen_retencion_sedimentos", 0),
             bloque["fecha_registro"],
         ]
 
@@ -292,7 +287,7 @@ def generar_resumen_excel():
             celda.border = borde
             celda.alignment = Alignment(horizontal="center", vertical="center")
 
-    anchos = [14, 18, 24, 22, 14, 16, 14, 14, 10, 14, 10, 16, 14, 14, 14, 14, 16, 16, 16, 14, 16, 18, 18]
+    anchos = [14, 18, 24, 22, 14, 16, 14, 14, 10, 14, 10, 16, 14, 14, 14, 14, 16, 16, 16, 14, 18]
     for i, ancho in enumerate(anchos, 1):
         ws.column_dimensions[get_column_letter(i)].width = ancho
 
@@ -400,7 +395,7 @@ def generar_excel_arcgis():
         "PROVINCIA", "DISTRITO", "POINT_X", "POINT_Y", "ZONA_UTM", "ALTITUD",
         "AREA_HA", "RESPONSABLE", "ESTADO", "AVANCE_PCT",
         "COB_VEG_PCT", "TIPO_COB_VEG", "VIGOR_COB_VEG",
-        "SOBREV_PCT", "LONG_ZANJAS_ML", "VOL_RETEN_M3"
+        "SOBREV_PCT"
     ]
 
     encabezado_font = Font(name="Calibri", bold=True, size=10)
@@ -433,14 +428,12 @@ def generar_excel_arcgis():
             ultimo_ind.get("tipo_cobertura_vegetal", "") or "",
             ultimo_ind.get("vigor_cobertura_vegetal", "") or "",
             ultimo_ind.get("sobrevivencia_especies", 0),
-            ultimo_ind.get("longitud_zanjas_ejecutada", 0),
-            ultimo_ind.get("volumen_retencion_sedimentos", 0),
         ]
 
         for col_idx, valor in enumerate(datos, 1):
             ws.cell(row=row_idx, column=col_idx, value=valor)
 
-    anchos = [10, 14, 18, 24, 20, 14, 16, 14, 14, 10, 10, 10, 16, 14, 12, 14, 16, 16, 12, 16, 14]
+    anchos = [10, 14, 18, 24, 20, 14, 16, 14, 14, 10, 10, 10, 16, 14, 12, 14, 16, 16, 12]
     for i, ancho in enumerate(anchos, 1):
         ws.column_dimensions[get_column_letter(i)].width = ancho
 

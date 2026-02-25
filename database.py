@@ -212,6 +212,8 @@ def _migrar_bloques(cursor):
     cols_insp = {col[1] for col in cursor.fetchall()}
     if "microcuenca" not in cols_insp:
         cursor.execute("ALTER TABLE inspecciones ADD COLUMN microcuenca TEXT DEFAULT ''")
+    if "archivos_pdf" not in cols_insp:
+        cursor.execute("ALTER TABLE inspecciones ADD COLUMN archivos_pdf TEXT DEFAULT ''")
 
     # Migrar columnas en indicadores_calidad
     cursor.execute("PRAGMA table_info(indicadores_calidad)")
@@ -309,7 +311,7 @@ def insertar_inspeccion(bloque_id, fecha_visita, inspector,
                         condiciones_climaticas, avance_fisico,
                         observaciones, desviaciones,
                         registro_fotografico, codigo_verificacion,
-                        microcuenca=""):
+                        microcuenca="", archivos_pdf=""):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
@@ -317,13 +319,13 @@ def insertar_inspeccion(bloque_id, fecha_visita, inspector,
                                   condiciones_climaticas, avance_fisico,
                                   observaciones, desviaciones,
                                   registro_fotografico, codigo_verificacion,
-                                  microcuenca, fecha_registro)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                  microcuenca, archivos_pdf, fecha_registro)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (bloque_id, fecha_visita, inspector,
           condiciones_climaticas, avance_fisico,
           observaciones, desviaciones,
           registro_fotografico, codigo_verificacion,
-          microcuenca,
+          microcuenca, archivos_pdf,
           datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
     conn.commit()
     inspeccion_id = cursor.lastrowid
@@ -372,6 +374,15 @@ def obtener_inspeccion_por_id(inspeccion_id):
     row = cursor.fetchone()
     conn.close()
     return dict(row) if row else None
+
+
+def actualizar_archivos_pdf_inspeccion(inspeccion_id, archivos_pdf):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE inspecciones SET archivos_pdf=? WHERE id=?",
+                   (archivos_pdf, inspeccion_id))
+    conn.commit()
+    conn.close()
 
 
 # ── Operaciones CRUD para Indicadores de Calidad ───────────────────────────
