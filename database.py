@@ -187,6 +187,75 @@ def inicializar_bd():
         )
     """)
 
+    # Tabla de diagnostico social
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS diagnostico_social (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            bloque_id INTEGER NOT NULL,
+            inspeccion_id INTEGER,
+            ficha TEXT NOT NULL,
+            microcuenca TEXT DEFAULT '',
+            fecha_evaluacion TEXT NOT NULL,
+            evaluador TEXT DEFAULT '',
+            -- F-DS-01: Perfil Sociodemografico de la Comunidad
+            rango_poblacion TEXT DEFAULT '',
+            numero_familias TEXT DEFAULT '',
+            miembros_por_familia TEXT DEFAULT '',
+            grupo_etario_predominante TEXT DEFAULT '',
+            nivel_educativo TEXT DEFAULT '',
+            nivel_analfabetismo TEXT DEFAULT '',
+            idioma_predominante TEXT DEFAULT '',
+            tendencia_migratoria TEXT DEFAULT '',
+            comentarios_fds01 TEXT DEFAULT '',
+            -- F-DS-02: Organizacion Social y Gobernanza
+            tipo_organizacion TEXT DEFAULT '',
+            nivel_participacion TEXT DEFAULT '',
+            frecuencia_asambleas TEXT DEFAULT '',
+            liderazgo_femenino TEXT DEFAULT '',
+            coordinacion_interinstitucional TEXT DEFAULT '',
+            comite_ambiental TEXT DEFAULT '',
+            nivel_conflictividad TEXT DEFAULT '',
+            mecanismo_resolucion TEXT DEFAULT '',
+            comentarios_fds02 TEXT DEFAULT '',
+            -- F-DS-03: Medios de Vida y Economia Local
+            actividad_productiva_principal TEXT DEFAULT '',
+            fuente_ingreso_secundaria TEXT DEFAULT '',
+            ingreso_familiar_mensual TEXT DEFAULT '',
+            tipo_empleo TEXT DEFAULT '',
+            nivel_tecnologia_agricola TEXT DEFAULT '',
+            acceso_credito TEXT DEFAULT '',
+            acceso_mercado TEXT DEFAULT '',
+            seguridad_alimentaria TEXT DEFAULT '',
+            comentarios_fds03 TEXT DEFAULT '',
+            -- F-DS-04: Relacion Comunidad-Ecosistema
+            servicios_ecosistemicos TEXT DEFAULT '',
+            percepcion_degradacion TEXT DEFAULT '',
+            practicas_conservacion TEXT DEFAULT '',
+            conocimiento_restauracion TEXT DEFAULT '',
+            disposicion_participar TEXT DEFAULT '',
+            experiencia_proyectos TEXT DEFAULT '',
+            amenazas_ambientales TEXT DEFAULT '',
+            uso_ancestral_recursos TEXT DEFAULT '',
+            comentarios_fds04 TEXT DEFAULT '',
+            -- F-DS-05: Percepciones y Expectativas sobre el Proyecto
+            conocimiento_proyecto TEXT DEFAULT '',
+            actitud_proyecto TEXT DEFAULT '',
+            expectativas_proyecto TEXT DEFAULT '',
+            modalidad_participacion TEXT DEFAULT '',
+            disposicion_terrenos TEXT DEFAULT '',
+            beneficios_esperados TEXT DEFAULT '',
+            experiencia_proyectos_previos TEXT DEFAULT '',
+            disponibilidad_capacitacion TEXT DEFAULT '',
+            comentarios_fds05 TEXT DEFAULT '',
+            -- Campos generales
+            archivos_adjuntos TEXT DEFAULT '',
+            observaciones_generales TEXT DEFAULT '',
+            fecha_registro TEXT NOT NULL,
+            FOREIGN KEY (bloque_id) REFERENCES bloques(id) ON DELETE CASCADE,
+            FOREIGN KEY (inspeccion_id) REFERENCES inspecciones(id) ON DELETE SET NULL
+        )
+    """)
+
     # Migrar columnas nuevas en bloques si la tabla ya existe
     _migrar_bloques(cursor)
 
@@ -799,6 +868,10 @@ def obtener_estadisticas_generales():
     cursor.execute("SELECT COUNT(*) AS total FROM diagnostico_territorial")
     stats["total_diagnosticos"] = cursor.fetchone()["total"]
 
+    # Diagnosticos sociales
+    cursor.execute("SELECT COUNT(*) AS total FROM diagnostico_social")
+    stats["total_diagnosticos_sociales"] = cursor.fetchone()["total"]
+
     conn.close()
     return stats
 
@@ -928,6 +1001,157 @@ def obtener_resumen_diagnosticos():
                GROUP_CONCAT(DISTINCT dt.ficha) AS fichas_completadas
         FROM bloques b
         LEFT JOIN diagnostico_territorial dt ON dt.bloque_id = b.id
+        GROUP BY b.id
+        ORDER BY b.codigo
+    """)
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+
+# ── Operaciones CRUD para Diagnostico Social ──────────────────────────────
+
+def insertar_diagnostico_social(bloque_id, ficha, fecha_evaluacion, evaluador="",
+                                inspeccion_id=None, microcuenca="",
+                                # F-DS-01
+                                rango_poblacion="", numero_familias="",
+                                miembros_por_familia="", grupo_etario_predominante="",
+                                nivel_educativo="", nivel_analfabetismo="",
+                                idioma_predominante="", tendencia_migratoria="",
+                                comentarios_fds01="",
+                                # F-DS-02
+                                tipo_organizacion="", nivel_participacion="",
+                                frecuencia_asambleas="", liderazgo_femenino="",
+                                coordinacion_interinstitucional="", comite_ambiental="",
+                                nivel_conflictividad="", mecanismo_resolucion="",
+                                comentarios_fds02="",
+                                # F-DS-03
+                                actividad_productiva_principal="", fuente_ingreso_secundaria="",
+                                ingreso_familiar_mensual="", tipo_empleo="",
+                                nivel_tecnologia_agricola="", acceso_credito="",
+                                acceso_mercado="", seguridad_alimentaria="",
+                                comentarios_fds03="",
+                                # F-DS-04
+                                servicios_ecosistemicos="", percepcion_degradacion="",
+                                practicas_conservacion="", conocimiento_restauracion="",
+                                disposicion_participar="", experiencia_proyectos="",
+                                amenazas_ambientales="", uso_ancestral_recursos="",
+                                comentarios_fds04="",
+                                # F-DS-05
+                                conocimiento_proyecto="", actitud_proyecto="",
+                                expectativas_proyecto="", modalidad_participacion="",
+                                disposicion_terrenos="", beneficios_esperados="",
+                                experiencia_proyectos_previos="", disponibilidad_capacitacion="",
+                                comentarios_fds05="",
+                                # Generales
+                                archivos_adjuntos="", observaciones_generales=""):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO diagnostico_social (
+            bloque_id, inspeccion_id, ficha, microcuenca, fecha_evaluacion, evaluador,
+            rango_poblacion, numero_familias, miembros_por_familia,
+            grupo_etario_predominante, nivel_educativo, nivel_analfabetismo,
+            idioma_predominante, tendencia_migratoria, comentarios_fds01,
+            tipo_organizacion, nivel_participacion, frecuencia_asambleas,
+            liderazgo_femenino, coordinacion_interinstitucional, comite_ambiental,
+            nivel_conflictividad, mecanismo_resolucion, comentarios_fds02,
+            actividad_productiva_principal, fuente_ingreso_secundaria,
+            ingreso_familiar_mensual, tipo_empleo, nivel_tecnologia_agricola,
+            acceso_credito, acceso_mercado, seguridad_alimentaria, comentarios_fds03,
+            servicios_ecosistemicos, percepcion_degradacion, practicas_conservacion,
+            conocimiento_restauracion, disposicion_participar, experiencia_proyectos,
+            amenazas_ambientales, uso_ancestral_recursos, comentarios_fds04,
+            conocimiento_proyecto, actitud_proyecto, expectativas_proyecto,
+            modalidad_participacion, disposicion_terrenos, beneficios_esperados,
+            experiencia_proyectos_previos, disponibilidad_capacitacion, comentarios_fds05,
+            archivos_adjuntos, observaciones_generales, fecha_registro
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    """, (bloque_id, inspeccion_id, ficha, microcuenca, fecha_evaluacion, evaluador,
+          rango_poblacion, numero_familias, miembros_por_familia,
+          grupo_etario_predominante, nivel_educativo, nivel_analfabetismo,
+          idioma_predominante, tendencia_migratoria, comentarios_fds01,
+          tipo_organizacion, nivel_participacion, frecuencia_asambleas,
+          liderazgo_femenino, coordinacion_interinstitucional, comite_ambiental,
+          nivel_conflictividad, mecanismo_resolucion, comentarios_fds02,
+          actividad_productiva_principal, fuente_ingreso_secundaria,
+          ingreso_familiar_mensual, tipo_empleo, nivel_tecnologia_agricola,
+          acceso_credito, acceso_mercado, seguridad_alimentaria, comentarios_fds03,
+          servicios_ecosistemicos, percepcion_degradacion, practicas_conservacion,
+          conocimiento_restauracion, disposicion_participar, experiencia_proyectos,
+          amenazas_ambientales, uso_ancestral_recursos, comentarios_fds04,
+          conocimiento_proyecto, actitud_proyecto, expectativas_proyecto,
+          modalidad_participacion, disposicion_terrenos, beneficios_esperados,
+          experiencia_proyectos_previos, disponibilidad_capacitacion, comentarios_fds05,
+          archivos_adjuntos, observaciones_generales,
+          datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+    conn.commit()
+    did = cursor.lastrowid
+    conn.close()
+    return did
+
+
+def obtener_diagnosticos_sociales_por_bloque(bloque_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT ds.*, b.codigo AS bloque_codigo
+        FROM diagnostico_social ds
+        JOIN bloques b ON ds.bloque_id = b.id
+        WHERE ds.bloque_id=?
+        ORDER BY ds.fecha_evaluacion DESC
+    """, (bloque_id,))
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+
+def obtener_todos_diagnosticos_sociales():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT ds.*, b.codigo AS bloque_codigo, b.tipo_intervencion, b.distrito
+        FROM diagnostico_social ds
+        JOIN bloques b ON ds.bloque_id = b.id
+        ORDER BY ds.fecha_evaluacion DESC
+    """)
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+
+def obtener_diagnostico_social_por_id(diagnostico_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT ds.*, b.codigo AS bloque_codigo, b.tipo_intervencion, b.distrito
+        FROM diagnostico_social ds
+        JOIN bloques b ON ds.bloque_id = b.id
+        WHERE ds.id=?
+    """, (diagnostico_id,))
+    row = cursor.fetchone()
+    conn.close()
+    return dict(row) if row else None
+
+
+def eliminar_diagnostico_social(diagnostico_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM diagnostico_social WHERE id=?", (diagnostico_id,))
+    conn.commit()
+    conn.close()
+
+
+def obtener_resumen_diagnosticos_sociales():
+    """Retorna resumen de diagnosticos sociales por ficha y bloque."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT b.codigo, b.tipo_intervencion, b.distrito,
+               COUNT(ds.id) AS total_fichas,
+               GROUP_CONCAT(DISTINCT ds.ficha) AS fichas_completadas
+        FROM bloques b
+        LEFT JOIN diagnostico_social ds ON ds.bloque_id = b.id
         GROUP BY b.id
         ORDER BY b.codigo
     """)
