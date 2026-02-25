@@ -384,6 +384,287 @@ FDT06_SERVICIOS = [
     "Puesto de salud", "Escuela / IE", "Ninguno de los anteriores",
 ]
 
+# ── Fichas de Diagnostico Social (F-DS-01 a F-DS-05) ─────────────────────
+FICHAS_DS = ["F-DS-01","F-DS-02","F-DS-03","F-DS-04","F-DS-05"]
+
+# F-DS-01: PERFIL SOCIODEMOGRAFICO DE LA COMUNIDAD
+FDS01_RANGO_POBLACION = [
+    "<50 habitantes", "50-200 habitantes", "200-500 habitantes",
+    "500-1000 habitantes", "1000-5000 habitantes", ">5000 habitantes",
+]
+FDS01_NUMERO_FAMILIAS = [
+    "<10 familias", "10-30 familias", "30-50 familias",
+    "50-100 familias", "100-300 familias", ">300 familias",
+]
+FDS01_MIEMBROS_FAMILIA = [
+    "1-2 miembros", "3-4 miembros", "5-6 miembros",
+    "7-8 miembros", ">8 miembros",
+]
+FDS01_GRUPO_ETARIO = [
+    "Predominantemente joven (<30 anios)",
+    "Predominantemente adulta (30-60 anios)",
+    "Predominantemente adulta mayor (>60 anios)",
+    "Distribucion equilibrada",
+]
+FDS01_NIVEL_EDUCATIVO = [
+    "Sin educacion formal / Analfabeto",
+    "Primaria incompleta", "Primaria completa",
+    "Secundaria incompleta", "Secundaria completa",
+    "Superior tecnica", "Superior universitaria",
+]
+FDS01_ANALFABETISMO = [
+    "Muy bajo (<5%)", "Bajo (5-10%)", "Moderado (10-20%)",
+    "Alto (20-40%)", "Muy alto (>40%)",
+]
+FDS01_IDIOMA = [
+    "Castellano (predominante)",
+    "Quechua (predominante)",
+    "Bilingue (castellano-quechua)",
+    "Otro idioma nativo",
+]
+FDS01_MIGRACION = [
+    "Alta emigracion (despoblamiento progresivo)",
+    "Emigracion moderada (jovenes salen, adultos permanecen)",
+    "Estable (sin cambios significativos)",
+    "Inmigracion (llegada de nuevos pobladores)",
+    "Migracion estacional (temporal por trabajo)",
+]
+
+# F-DS-02: ORGANIZACION SOCIAL Y GOBERNANZA
+FDS02_TIPO_ORGANIZACION = [
+    "Comunidad campesina reconocida",
+    "Caserio / Centro poblado",
+    "Asociacion de productores",
+    "Ronda campesina",
+    "Comite de regantes / Junta de usuarios",
+    "Organizacion mixta (multiples formas)",
+    "Sin organizacion formal",
+]
+FDS02_NIVEL_PARTICIPACION = [
+    "Alta (>70% participan en asambleas y actividades)",
+    "Media (40-70% participan regularmente)",
+    "Baja (20-40% participan ocasionalmente)",
+    "Muy baja (<20% participan)",
+]
+FDS02_FRECUENCIA_ASAMBLEAS = [
+    "Semanal", "Quincenal", "Mensual",
+    "Trimestral", "Semestral", "Anual", "Irregular / Esporadica",
+]
+FDS02_LIDERAZGO_FEMENINO = [
+    "Alto (mujeres en cargos directivos y participacion activa)",
+    "Moderado (algunas mujeres en cargos, participacion regular)",
+    "Bajo (escasa presencia femenina en dirigencia)",
+    "Nulo (sin participacion femenina en gobernanza)",
+]
+FDS02_COORDINACION = [
+    "Fuerte (vinculos con municipio, ONG, Estado)",
+    "Moderada (vinculos parciales con algunas instituciones)",
+    "Debil (contacto esporadico con instituciones)",
+    "Sin coordinacion institucional",
+]
+FDS02_COMITE_AMBIENTAL = [
+    "Si, activo y funcional",
+    "Si, pero inactivo o poco funcional",
+    "En proceso de formacion",
+    "No existe",
+]
+FDS02_CONFLICTIVIDAD = [
+    "Baja (convivencia armonica)",
+    "Moderada (tensiones manejables)",
+    "Alta (conflictos frecuentes por recursos)",
+    "Muy alta (conflictos graves no resueltos)",
+]
+FDS02_MECANISMO_RESOLUCION = [
+    "Asamblea comunal",
+    "Autoridad comunal / Teniente gobernador",
+    "Ronda campesina",
+    "Mediacion institucional (municipio, ONG)",
+    "Juez de paz",
+    "No existe mecanismo definido",
+]
+
+# F-DS-03: MEDIOS DE VIDA Y ECONOMIA LOCAL
+FDS03_ACTIVIDAD_PRINCIPAL = [
+    "Agricultura de subsistencia (secano)",
+    "Agricultura comercial (bajo riego)",
+    "Ganaderia extensiva (vacuno, caprino, ovino)",
+    "Ganaderia intensiva / Semi-intensiva",
+    "Actividad forestal (extraccion de lena, madera)",
+    "Artesania y manufactura",
+    "Comercio local / Servicios",
+    "Jornalero / Trabajo eventual",
+    "Mineria artesanal",
+]
+FDS03_INGRESO_SECUNDARIO = [
+    "Venta de productos agricolas excedentes",
+    "Venta de ganado o productos pecuarios",
+    "Trabajo asalariado fuera de la comunidad",
+    "Remesas familiares",
+    "Programas sociales del Estado (Juntos, Pension 65)",
+    "Artesania / Turismo rural",
+    "No tiene ingreso secundario",
+]
+FDS03_INGRESO_MENSUAL = [
+    "<S/ 200 (extrema pobreza)",
+    "S/ 200-500 (pobreza)",
+    "S/ 500-1000 (bajo)",
+    "S/ 1000-2000 (medio-bajo)",
+    "S/ 2000-3500 (medio)",
+    ">S/ 3500 (medio-alto)",
+]
+FDS03_TIPO_EMPLEO = [
+    "Autoempleo agricola / Independiente",
+    "Jornalero / Trabajo eventual",
+    "Empleo formal (publico o privado)",
+    "Mixto (autoempleo + jornal eventual)",
+    "Desempleado / Subempleado",
+]
+FDS03_TECNOLOGIA_AGRICOLA = [
+    "Tradicional (herramientas manuales, sin insumos modernos)",
+    "Semi-tecnificada (uso parcial de insumos y herramientas)",
+    "Tecnificada (riego tecnificado, mecanizacion, insumos)",
+    "Agroecologica (tecnicas organicas, sin agroquimicos)",
+]
+FDS03_ACCESO_CREDITO = [
+    "Si, acceso a credito formal (banco, caja rural)",
+    "Si, acceso a credito informal (prestamista)",
+    "Acceso limitado (requisitos no cumplidos)",
+    "Sin acceso a credito",
+]
+FDS03_ACCESO_MERCADO = [
+    "Bueno (mercado local accesible, vias en buen estado)",
+    "Regular (mercado distante o vias en regular estado)",
+    "Dificil (mercado lejano, vias en mal estado)",
+    "Muy dificil (sin acceso a mercados, autoconsumo total)",
+]
+FDS03_SEGURIDAD_ALIMENTARIA = [
+    "Segura (alimentacion diversa y suficiente todo el anio)",
+    "Levemente insegura (periodos cortos de escasez)",
+    "Moderadamente insegura (escasez estacional recurrente)",
+    "Severamente insegura (deficit alimentario cronico)",
+]
+
+# F-DS-04: RELACION COMUNIDAD-ECOSISTEMA
+FDS04_SERVICIOS_ECOSISTEMICOS = [
+    "Provision de agua (consumo, riego)",
+    "Provision de alimentos (caza, pesca, recoleccion)",
+    "Provision de lena y madera",
+    "Provision de plantas medicinales",
+    "Regulacion del clima",
+    "Control de erosion y fertilidad del suelo",
+    "Recreacion y turismo",
+    "Valores culturales y espirituales",
+]
+FDS04_PERCEPCION_DEGRADACION = [
+    "Alta (la comunidad percibe deterioro grave del ecosistema)",
+    "Moderada (se notan cambios negativos, pero no severos)",
+    "Baja (pocos cambios percibidos en el ecosistema)",
+    "Ninguna (la comunidad no percibe degradacion)",
+]
+FDS04_PRACTICAS_CONSERVACION = [
+    "Practicas ancestrales activas (terrazas, rotacion, etc.)",
+    "Practicas modernas adoptadas (reforestacion, zanjas)",
+    "Combinacion de practicas ancestrales y modernas",
+    "Practicas minimas o esporadicas",
+    "Sin practicas de conservacion",
+]
+FDS04_CONOCIMIENTO_RESTAURACION = [
+    "Alto (conocen tecnicas y han participado en proyectos)",
+    "Moderado (conocen el concepto pero no las tecnicas)",
+    "Bajo (han escuchado pero no tienen experiencia)",
+    "Nulo (desconocen el tema)",
+]
+FDS04_DISPOSICION_PARTICIPAR = [
+    "Alta (dispuestos a participar activamente con mano de obra y terrenos)",
+    "Media (dispuestos a participar parcialmente)",
+    "Baja (interes limitado, condicionado a incentivos)",
+    "Nula (no estan dispuestos a participar)",
+]
+FDS04_EXPERIENCIA_PROYECTOS = [
+    "Si, con resultados positivos",
+    "Si, con resultados regulares",
+    "Si, con resultados negativos o abandono",
+    "No, primera experiencia",
+]
+FDS04_AMENAZAS_AMBIENTALES = [
+    "Deforestacion y tala ilegal",
+    "Sobrepastoreo",
+    "Quemas e incendios forestales",
+    "Contaminacion de fuentes de agua",
+    "Expansion de frontera agricola",
+    "Erosion severa y perdida de suelo",
+    "Eventos climaticos extremos (sequia, inundaciones)",
+    "Mineria informal / ilegal",
+]
+FDS04_USO_ANCESTRAL = [
+    "Uso sostenible de bosques (lena controlada, recoleccion)",
+    "Uso de plantas medicinales y rituales",
+    "Agricultura ancestral (andenes, waru-waru)",
+    "Pastoreo regulado por la comunidad",
+    "Gestion comunal del agua (amunas, acequias)",
+    "No se identifican usos ancestrales relevantes",
+]
+
+# F-DS-05: PERCEPCIONES Y EXPECTATIVAS SOBRE EL PROYECTO
+FDS05_CONOCIMIENTO_PROYECTO = [
+    "Alto (conocen objetivos, alcance y beneficios del proyecto)",
+    "Moderado (conocen el proyecto de manera general)",
+    "Bajo (han escuchado pero no conocen detalles)",
+    "Nulo (desconocen el proyecto)",
+]
+FDS05_ACTITUD_PROYECTO = [
+    "Muy favorable (apoyo total y entusiasmo)",
+    "Favorable (apoyo con algunas reservas)",
+    "Neutral / Indiferente",
+    "Desfavorable (resistencia o desconfianza)",
+    "Muy desfavorable (rechazo abierto)",
+]
+FDS05_EXPECTATIVAS = [
+    "Mejora de recursos hidricos y agua",
+    "Recuperacion de cobertura vegetal y suelos",
+    "Generacion de empleo e ingresos",
+    "Fortalecimiento organizacional",
+    "Acceso a capacitacion y asistencia tecnica",
+    "Mejora de infraestructura productiva",
+    "Beneficios ambientales a largo plazo",
+]
+FDS05_MODALIDAD_PARTICIPACION = [
+    "Mano de obra comunitaria (faenas, mingas)",
+    "Aporte de terrenos para intervencion",
+    "Participacion en capacitaciones y talleres",
+    "Comite de vigilancia y monitoreo",
+    "Promotor/a comunitario/a",
+    "Participacion en actividades de vivero",
+]
+FDS05_DISPOSICION_TERRENOS = [
+    "Si, dispuestos a ceder terrenos sin condiciones",
+    "Si, con condiciones (compensacion, acuerdos)",
+    "Parcialmente (solo algunas areas)",
+    "No, no estan dispuestos",
+    "No aplica (terrenos comunales)",
+]
+FDS05_BENEFICIOS_ESPERADOS = [
+    "Economicos (empleo temporal, ingresos)",
+    "Ambientales (mejor agua, suelo, cobertura)",
+    "Sociales (organizacion, capacitacion)",
+    "Productivos (mejora de cultivos, ganado)",
+    "Infraestructura (caminos, riego)",
+    "Todos los anteriores",
+]
+FDS05_EXPERIENCIA_PREVIA = [
+    "Si, con proyectos de restauracion o reforestacion",
+    "Si, con proyectos de desarrollo rural",
+    "Si, con proyectos de riego o infraestructura",
+    "Si, con programas sociales del Estado",
+    "No, sin experiencia previa con proyectos",
+]
+FDS05_DISPONIBILIDAD_CAPACITACION = [
+    "Alta (disponibles en cualquier momento)",
+    "Media (disponibles fuera de epoca de siembra/cosecha)",
+    "Baja (solo en horarios especificos o fines de semana)",
+    "Muy baja (dificil disponibilidad por actividades diarias)",
+]
+
 # ── CSS ───────────────────────────────────────────────────────────────────
 st.markdown("""<style>
 .main-header{background:#2C3E50;padding:1rem 2rem;border-radius:.5rem;margin-bottom:1rem}
@@ -399,7 +680,7 @@ st.markdown("""<div class="main-header">
 # ── Sidebar ───────────────────────────────────────────────────────────────
 pagina = st.sidebar.selectbox("Navegacion", [
     "Panel de Control","Bloques de Intervencion","Inspeccion de Campo",
-    "Indicadores de Calidad","Diagnostico Territorial",
+    "Indicadores de Calidad","Diagnostico Territorial","Diagnostico Social",
     "Presupuesto","Cronograma",
     "Georreferenciacion","ODK / KoBoToolbox","Reportes",
 ])
@@ -437,13 +718,14 @@ def _resolver_microcuenca(bloque_label):
 def pagina_dashboard():
     st.subheader("Panel de Control - Resumen Ejecutivo")
     stats = db.obtener_estadisticas_generales()
-    c1,c2,c3,c4,c5,c6 = st.columns(6)
+    c1,c2,c3,c4,c5,c6,c7 = st.columns(7)
     c1.metric("Total Bloques", stats["total_bloques"])
     c2.metric("Area Total", f"{stats['area_total_ha']:.2f} ha")
     c3.metric("Inspecciones", stats["total_inspecciones"])
     c4.metric("Avance Promedio", f"{stats['avance_promedio']:.1f}%")
-    c5.metric("Diag. Territoriales", stats.get("total_diagnosticos", 0))
-    c6.metric("Personal Activo", stats["personal_activo"])
+    c5.metric("Diag. Territorial", stats.get("total_diagnosticos", 0))
+    c6.metric("Diag. Social", stats.get("total_diagnosticos_sociales", 0))
+    c7.metric("Personal Activo", stats["personal_activo"])
     st.markdown("---")
     ci,cd = st.columns(2)
     with ci:
@@ -1064,6 +1346,361 @@ def pagina_diagnostico_territorial():
 
 
 # ══════════════════════════════════════════════════════════════════════════
+# DIAGNOSTICO SOCIAL
+# ══════════════════════════════════════════════════════════════════════════
+def pagina_diagnostico_social():
+    st.subheader("Diagnostico Social - Fichas de Evaluacion")
+    st.caption("Fichas F-DS-01 a F-DS-05: Parametros de evaluacion social en campo para el diagnostico de las comunidades")
+    bm = _bloques_map()
+    if not bm:
+        st.warning("Registre un bloque primero.")
+        return
+
+    tab_reg, tab_hist = st.tabs(["Registro de Diagnostico", "Historial / Consulta"])
+
+    with tab_reg:
+        bl = st.selectbox("Bloque de Intervencion", list(bm.keys()), key="ds_bl")
+        bid = bm[bl]
+        r1, r2, r3 = st.columns(3)
+        mc = r1.selectbox("Microcuenca", [""] + MICROCUENCAS, key="ds_mc")
+        fecha_ev = r2.date_input("Fecha de evaluacion", value=datetime.now(), key="ds_fecha")
+        evaluador = r3.text_input("Evaluador / Especialista Social", key="ds_eval")
+
+        st.markdown("---")
+        st.markdown("### Seleccione los parametros de evaluacion por ficha")
+        st.markdown("*Complete las fichas que correspondan a la visita de campo y entrevistas realizadas.*")
+
+        # ── F-DS-01 ──────────────────────────────────────────────────────
+        with st.expander("F-DS-01: PERFIL SOCIODEMOGRAFICO DE LA COMUNIDAD", expanded=False):
+            st.markdown("*Caracterizacion sociodemografica de la comunidad o centro poblado del area de intervencion.*")
+            c1, c2 = st.columns(2)
+            rango_pob = c1.selectbox("Rango de poblacion", [""] + FDS01_RANGO_POBLACION, key="s01_rp")
+            num_fam = c2.selectbox("Numero de familias", [""] + FDS01_NUMERO_FAMILIAS, key="s01_nf")
+            c3, c4 = st.columns(2)
+            miem_fam = c3.selectbox("Miembros promedio por familia", [""] + FDS01_MIEMBROS_FAMILIA, key="s01_mf")
+            grupo_et = c4.selectbox("Grupo etario predominante", [""] + FDS01_GRUPO_ETARIO, key="s01_ge")
+            c5, c6 = st.columns(2)
+            nivel_edu = c5.selectbox("Nivel educativo predominante", [""] + FDS01_NIVEL_EDUCATIVO, key="s01_ne")
+            analf = c6.selectbox("Nivel de analfabetismo", [""] + FDS01_ANALFABETISMO, key="s01_an")
+            c7, c8 = st.columns(2)
+            idioma = c7.selectbox("Idioma predominante", [""] + FDS01_IDIOMA, key="s01_id")
+            migracion = c8.selectbox("Tendencia migratoria", [""] + FDS01_MIGRACION, key="s01_mi")
+            com_fds01 = st.text_area("Comentarios F-DS-01", key="s01_com", height=80)
+
+        # ── F-DS-02 ──────────────────────────────────────────────────────
+        with st.expander("F-DS-02: ORGANIZACION SOCIAL Y GOBERNANZA", expanded=False):
+            st.markdown("*Evaluacion de la estructura organizativa, gobernanza y capacidad de gestion comunitaria.*")
+            c1, c2 = st.columns(2)
+            tipo_org = c1.selectbox("Tipo de organizacion social", [""] + FDS02_TIPO_ORGANIZACION, key="s02_to")
+            nivel_part = c2.selectbox("Nivel de participacion comunitaria", [""] + FDS02_NIVEL_PARTICIPACION, key="s02_np")
+            c3, c4 = st.columns(2)
+            freq_asam = c3.selectbox("Frecuencia de asambleas", [""] + FDS02_FRECUENCIA_ASAMBLEAS, key="s02_fa")
+            lid_fem = c4.selectbox("Liderazgo femenino", [""] + FDS02_LIDERAZGO_FEMENINO, key="s02_lf")
+            c5, c6 = st.columns(2)
+            coord_inst = c5.selectbox("Coordinacion interinstitucional", [""] + FDS02_COORDINACION, key="s02_ci")
+            com_amb = c6.selectbox("Comite ambiental / Vigilancia", [""] + FDS02_COMITE_AMBIENTAL, key="s02_ca")
+            c7, c8 = st.columns(2)
+            conflicto_s = c7.selectbox("Nivel de conflictividad", [""] + FDS02_CONFLICTIVIDAD, key="s02_co")
+            mec_resol = c8.selectbox("Mecanismo de resolucion de conflictos", [""] + FDS02_MECANISMO_RESOLUCION, key="s02_mr")
+            com_fds02 = st.text_area("Comentarios F-DS-02", key="s02_com", height=80)
+
+        # ── F-DS-03 ──────────────────────────────────────────────────────
+        with st.expander("F-DS-03: MEDIOS DE VIDA Y ECONOMIA LOCAL", expanded=False):
+            st.markdown("*Evaluacion de las actividades economicas, medios de sustento y condiciones de vida de la poblacion.*")
+            c1, c2 = st.columns(2)
+            act_princ = c1.selectbox("Actividad productiva principal", [""] + FDS03_ACTIVIDAD_PRINCIPAL, key="s03_ap")
+            ing_sec = c2.selectbox("Fuente de ingreso secundaria", [""] + FDS03_INGRESO_SECUNDARIO, key="s03_is")
+            c3, c4 = st.columns(2)
+            ing_mens = c3.selectbox("Ingreso familiar mensual estimado", [""] + FDS03_INGRESO_MENSUAL, key="s03_im")
+            tipo_emp = c4.selectbox("Tipo de empleo predominante", [""] + FDS03_TIPO_EMPLEO, key="s03_te")
+            c5, c6 = st.columns(2)
+            tec_agr = c5.selectbox("Nivel de tecnologia agricola", [""] + FDS03_TECNOLOGIA_AGRICOLA, key="s03_ta")
+            acc_cred = c6.selectbox("Acceso a credito", [""] + FDS03_ACCESO_CREDITO, key="s03_ac")
+            c7, c8 = st.columns(2)
+            acc_merc = c7.selectbox("Acceso a mercado", [""] + FDS03_ACCESO_MERCADO, key="s03_am")
+            seg_alim = c8.selectbox("Seguridad alimentaria", [""] + FDS03_SEGURIDAD_ALIMENTARIA, key="s03_sa")
+            com_fds03 = st.text_area("Comentarios F-DS-03", key="s03_com", height=80)
+
+        # ── F-DS-04 ──────────────────────────────────────────────────────
+        with st.expander("F-DS-04: RELACION COMUNIDAD-ECOSISTEMA", expanded=False):
+            st.markdown("*Evaluacion de la relacion entre la comunidad y su entorno natural, uso de recursos y percepciones ambientales.*")
+            serv_eco = st.multiselect("Servicios ecosistemicos utilizados por la comunidad", FDS04_SERVICIOS_ECOSISTEMICOS, key="s04_se")
+            c1, c2 = st.columns(2)
+            perc_deg = c1.selectbox("Percepcion de degradacion ambiental", [""] + FDS04_PERCEPCION_DEGRADACION, key="s04_pd")
+            prac_cons = c2.selectbox("Practicas de conservacion existentes", [""] + FDS04_PRACTICAS_CONSERVACION, key="s04_pc")
+            c3, c4 = st.columns(2)
+            con_rest = c3.selectbox("Conocimiento sobre restauracion", [""] + FDS04_CONOCIMIENTO_RESTAURACION, key="s04_cr")
+            disp_part = c4.selectbox("Disposicion a participar en restauracion", [""] + FDS04_DISPOSICION_PARTICIPAR, key="s04_dp")
+            c5, c6 = st.columns(2)
+            exp_proy = c5.selectbox("Experiencia con proyectos de conservacion", [""] + FDS04_EXPERIENCIA_PROYECTOS, key="s04_ep")
+            uso_anc = c6.selectbox("Uso ancestral de recursos naturales", [""] + FDS04_USO_ANCESTRAL, key="s04_ua")
+            amen_amb = st.multiselect("Principales amenazas ambientales identificadas", FDS04_AMENAZAS_AMBIENTALES, key="s04_aa")
+            com_fds04 = st.text_area("Comentarios F-DS-04", key="s04_com", height=80)
+
+        # ── F-DS-05 ──────────────────────────────────────────────────────
+        with st.expander("F-DS-05: PERCEPCIONES Y EXPECTATIVAS SOBRE EL PROYECTO", expanded=False):
+            st.markdown("*Evaluacion de la percepcion, expectativas y disposicion de la comunidad respecto al proyecto de restauracion.*")
+            c1, c2 = st.columns(2)
+            con_proy = c1.selectbox("Nivel de conocimiento del proyecto", [""] + FDS05_CONOCIMIENTO_PROYECTO, key="s05_cp")
+            act_proy = c2.selectbox("Actitud hacia el proyecto", [""] + FDS05_ACTITUD_PROYECTO, key="s05_ap")
+            expect = st.multiselect("Expectativas de la comunidad", FDS05_EXPECTATIVAS, key="s05_ex")
+            modal_part = st.multiselect("Modalidad de participacion preferida", FDS05_MODALIDAD_PARTICIPACION, key="s05_mp")
+            c3, c4 = st.columns(2)
+            disp_terr = c3.selectbox("Disposicion a ceder terrenos", [""] + FDS05_DISPOSICION_TERRENOS, key="s05_dt")
+            benef_esp = c4.selectbox("Beneficios esperados (principal)", [""] + FDS05_BENEFICIOS_ESPERADOS, key="s05_be")
+            c5, c6 = st.columns(2)
+            exp_prev = c5.selectbox("Experiencia con proyectos previos", [""] + FDS05_EXPERIENCIA_PREVIA, key="s05_ep")
+            disp_cap = c6.selectbox("Disponibilidad para capacitacion", [""] + FDS05_DISPONIBILIDAD_CAPACITACION, key="s05_dc")
+            com_fds05 = st.text_area("Comentarios F-DS-05", key="s05_com", height=80)
+
+        st.markdown("---")
+        observ_gen_ds = st.text_area("Observaciones generales del diagnostico social", key="ds_obs")
+
+        # Adjuntar archivos
+        adj_files = st.file_uploader(
+            "Adjuntar archivos de soporte (PDF, max. 25 MB por archivo)",
+            type=["pdf"], accept_multiple_files=True, key="ds_adj_upload")
+
+        # Determinar fichas completadas
+        fichas_sel_ds = []
+        if any([rango_pob, num_fam, miem_fam, grupo_et, nivel_edu, analf, idioma, migracion, com_fds01]):
+            fichas_sel_ds.append("F-DS-01")
+        if any([tipo_org, nivel_part, freq_asam, lid_fem, coord_inst, com_amb, conflicto_s, mec_resol, com_fds02]):
+            fichas_sel_ds.append("F-DS-02")
+        if any([act_princ, ing_sec, ing_mens, tipo_emp, tec_agr, acc_cred, acc_merc, seg_alim, com_fds03]):
+            fichas_sel_ds.append("F-DS-03")
+        if any([serv_eco, perc_deg, prac_cons, con_rest, disp_part, exp_proy, uso_anc, amen_amb, com_fds04]):
+            fichas_sel_ds.append("F-DS-04")
+        if any([con_proy, act_proy, expect, modal_part, disp_terr, benef_esp, exp_prev, disp_cap, com_fds05]):
+            fichas_sel_ds.append("F-DS-05")
+
+        if fichas_sel_ds:
+            st.info(f"Fichas con datos: **{', '.join(fichas_sel_ds)}** ({len(fichas_sel_ds)}/5)")
+
+        if st.button("Guardar Diagnostico Social", type="primary", key="ds_guardar"):
+            if not evaluador:
+                st.warning("Ingrese el nombre del evaluador.")
+            elif not fichas_sel_ds:
+                st.warning("Complete al menos una ficha de diagnostico.")
+            else:
+                try:
+                    # Guardar archivos adjuntos
+                    archivos_guardados = []
+                    if adj_files:
+                        carpeta = os.path.join(os.path.dirname(os.path.abspath(__file__)), "adjuntos_ds")
+                        os.makedirs(carpeta, exist_ok=True)
+                        for f in adj_files:
+                            if f.size > 25 * 1024 * 1024:
+                                st.warning(f"Archivo {f.name} excede 25 MB, omitido.")
+                                continue
+                            nombre = f"{uuid.uuid4().hex[:8]}_{f.name}"
+                            ruta = os.path.join(carpeta, nombre)
+                            with open(ruta, "wb") as out:
+                                out.write(f.getbuffer())
+                            archivos_guardados.append(nombre)
+
+                    db.insertar_diagnostico_social(
+                        bloque_id=bid,
+                        ficha=", ".join(fichas_sel_ds),
+                        fecha_evaluacion=fecha_ev.strftime("%Y-%m-%d"),
+                        evaluador=evaluador,
+                        microcuenca=mc,
+                        # F-DS-01
+                        rango_poblacion=rango_pob,
+                        numero_familias=num_fam,
+                        miembros_por_familia=miem_fam,
+                        grupo_etario_predominante=grupo_et,
+                        nivel_educativo=nivel_edu,
+                        nivel_analfabetismo=analf,
+                        idioma_predominante=idioma,
+                        tendencia_migratoria=migracion,
+                        comentarios_fds01=com_fds01,
+                        # F-DS-02
+                        tipo_organizacion=tipo_org,
+                        nivel_participacion=nivel_part,
+                        frecuencia_asambleas=freq_asam,
+                        liderazgo_femenino=lid_fem,
+                        coordinacion_interinstitucional=coord_inst,
+                        comite_ambiental=com_amb,
+                        nivel_conflictividad=conflicto_s,
+                        mecanismo_resolucion=mec_resol,
+                        comentarios_fds02=com_fds02,
+                        # F-DS-03
+                        actividad_productiva_principal=act_princ,
+                        fuente_ingreso_secundaria=ing_sec,
+                        ingreso_familiar_mensual=ing_mens,
+                        tipo_empleo=tipo_emp,
+                        nivel_tecnologia_agricola=tec_agr,
+                        acceso_credito=acc_cred,
+                        acceso_mercado=acc_merc,
+                        seguridad_alimentaria=seg_alim,
+                        comentarios_fds03=com_fds03,
+                        # F-DS-04
+                        servicios_ecosistemicos=", ".join(serv_eco) if serv_eco else "",
+                        percepcion_degradacion=perc_deg,
+                        practicas_conservacion=prac_cons,
+                        conocimiento_restauracion=con_rest,
+                        disposicion_participar=disp_part,
+                        experiencia_proyectos=exp_proy,
+                        amenazas_ambientales=", ".join(amen_amb) if amen_amb else "",
+                        uso_ancestral_recursos=uso_anc,
+                        comentarios_fds04=com_fds04,
+                        # F-DS-05
+                        conocimiento_proyecto=con_proy,
+                        actitud_proyecto=act_proy,
+                        expectativas_proyecto=", ".join(expect) if expect else "",
+                        modalidad_participacion=", ".join(modal_part) if modal_part else "",
+                        disposicion_terrenos=disp_terr,
+                        beneficios_esperados=benef_esp,
+                        experiencia_proyectos_previos=exp_prev,
+                        disponibilidad_capacitacion=disp_cap,
+                        comentarios_fds05=com_fds05,
+                        # Generales
+                        archivos_adjuntos="|".join(archivos_guardados) if archivos_guardados else "",
+                        observaciones_generales=observ_gen_ds,
+                    )
+                    st.success(f"Diagnostico social guardado ({', '.join(fichas_sel_ds)}).")
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Error: {e}")
+
+    with tab_hist:
+        st.markdown("### Historial de Diagnosticos Sociales")
+        todos_ds = db.obtener_todos_diagnosticos_sociales()
+        if not todos_ds:
+            st.info("No hay diagnosticos sociales registrados.")
+        else:
+            st.dataframe(pd.DataFrame([{
+                "ID": d["id"],
+                "Bloque": d.get("bloque_codigo", ""),
+                "Tipo": d.get("tipo_intervencion", ""),
+                "Distrito": d.get("distrito", ""),
+                "Fichas": d.get("ficha", ""),
+                "Fecha Eval.": d.get("fecha_evaluacion", ""),
+                "Evaluador": d.get("evaluador", ""),
+                "Microcuenca": d.get("microcuenca", "") or "",
+            } for d in todos_ds]), use_container_width=True, hide_index=True)
+
+            st.markdown("---")
+            st.markdown("### Detalle de Diagnostico Social")
+            dm_ds = {f"ID {d['id']} - {d.get('bloque_codigo','')} ({d.get('ficha','')})": d["id"] for d in todos_ds}
+            sel_ds = st.selectbox("Seleccionar diagnostico", [""] + list(dm_ds.keys()), key="ds_det")
+            if sel_ds and sel_ds in dm_ds:
+                det = db.obtener_diagnostico_social_por_id(dm_ds[sel_ds])
+                if det:
+                    st.markdown(f"**Bloque:** {det.get('bloque_codigo','')} | "
+                                f"**Fecha:** {det.get('fecha_evaluacion','')} | "
+                                f"**Evaluador:** {det.get('evaluador','')}")
+
+                    fichas_str = det.get("ficha", "")
+
+                    if "F-DS-01" in fichas_str:
+                        with st.expander("F-DS-01: PERFIL SOCIODEMOGRAFICO", expanded=True):
+                            c1, c2, c3 = st.columns(3)
+                            c1.markdown(f"**Poblacion:** {det.get('rango_poblacion','') or '-'}")
+                            c2.markdown(f"**Familias:** {det.get('numero_familias','') or '-'}")
+                            c3.markdown(f"**Miembros/familia:** {det.get('miembros_por_familia','') or '-'}")
+                            c1.markdown(f"**Grupo etario:** {det.get('grupo_etario_predominante','') or '-'}")
+                            c2.markdown(f"**Nivel educativo:** {det.get('nivel_educativo','') or '-'}")
+                            c3.markdown(f"**Analfabetismo:** {det.get('nivel_analfabetismo','') or '-'}")
+                            c1.markdown(f"**Idioma:** {det.get('idioma_predominante','') or '-'}")
+                            c2.markdown(f"**Migracion:** {det.get('tendencia_migratoria','') or '-'}")
+                            if det.get('comentarios_fds01'):
+                                st.markdown(f"**Comentarios:** {det['comentarios_fds01']}")
+
+                    if "F-DS-02" in fichas_str:
+                        with st.expander("F-DS-02: ORGANIZACION SOCIAL Y GOBERNANZA", expanded=True):
+                            c1, c2, c3 = st.columns(3)
+                            c1.markdown(f"**Organizacion:** {det.get('tipo_organizacion','') or '-'}")
+                            c2.markdown(f"**Participacion:** {det.get('nivel_participacion','') or '-'}")
+                            c3.markdown(f"**Asambleas:** {det.get('frecuencia_asambleas','') or '-'}")
+                            c1.markdown(f"**Lid. femenino:** {det.get('liderazgo_femenino','') or '-'}")
+                            c2.markdown(f"**Coordinacion:** {det.get('coordinacion_interinstitucional','') or '-'}")
+                            c3.markdown(f"**Comite ambiental:** {det.get('comite_ambiental','') or '-'}")
+                            c1.markdown(f"**Conflictividad:** {det.get('nivel_conflictividad','') or '-'}")
+                            c2.markdown(f"**Resolucion:** {det.get('mecanismo_resolucion','') or '-'}")
+                            if det.get('comentarios_fds02'):
+                                st.markdown(f"**Comentarios:** {det['comentarios_fds02']}")
+
+                    if "F-DS-03" in fichas_str:
+                        with st.expander("F-DS-03: MEDIOS DE VIDA Y ECONOMIA LOCAL", expanded=True):
+                            c1, c2, c3 = st.columns(3)
+                            c1.markdown(f"**Act. principal:** {det.get('actividad_productiva_principal','') or '-'}")
+                            c2.markdown(f"**Ingreso sec.:** {det.get('fuente_ingreso_secundaria','') or '-'}")
+                            c3.markdown(f"**Ingreso mensual:** {det.get('ingreso_familiar_mensual','') or '-'}")
+                            c1.markdown(f"**Tipo empleo:** {det.get('tipo_empleo','') or '-'}")
+                            c2.markdown(f"**Tecnologia agr.:** {det.get('nivel_tecnologia_agricola','') or '-'}")
+                            c3.markdown(f"**Acceso credito:** {det.get('acceso_credito','') or '-'}")
+                            c1.markdown(f"**Acceso mercado:** {det.get('acceso_mercado','') or '-'}")
+                            c2.markdown(f"**Seg. alimentaria:** {det.get('seguridad_alimentaria','') or '-'}")
+                            if det.get('comentarios_fds03'):
+                                st.markdown(f"**Comentarios:** {det['comentarios_fds03']}")
+
+                    if "F-DS-04" in fichas_str:
+                        with st.expander("F-DS-04: RELACION COMUNIDAD-ECOSISTEMA", expanded=True):
+                            c1, c2, c3 = st.columns(3)
+                            c1.markdown(f"**Serv. ecosistemicos:** {det.get('servicios_ecosistemicos','') or '-'}")
+                            c2.markdown(f"**Perc. degradacion:** {det.get('percepcion_degradacion','') or '-'}")
+                            c3.markdown(f"**Conservacion:** {det.get('practicas_conservacion','') or '-'}")
+                            c1.markdown(f"**Conoc. restauracion:** {det.get('conocimiento_restauracion','') or '-'}")
+                            c2.markdown(f"**Disp. participar:** {det.get('disposicion_participar','') or '-'}")
+                            c3.markdown(f"**Exp. proyectos:** {det.get('experiencia_proyectos','') or '-'}")
+                            c1.markdown(f"**Amenazas amb.:** {det.get('amenazas_ambientales','') or '-'}")
+                            c2.markdown(f"**Uso ancestral:** {det.get('uso_ancestral_recursos','') or '-'}")
+                            if det.get('comentarios_fds04'):
+                                st.markdown(f"**Comentarios:** {det['comentarios_fds04']}")
+
+                    if "F-DS-05" in fichas_str:
+                        with st.expander("F-DS-05: PERCEPCIONES Y EXPECTATIVAS", expanded=True):
+                            c1, c2, c3 = st.columns(3)
+                            c1.markdown(f"**Conoc. proyecto:** {det.get('conocimiento_proyecto','') or '-'}")
+                            c2.markdown(f"**Actitud:** {det.get('actitud_proyecto','') or '-'}")
+                            c3.markdown(f"**Expectativas:** {det.get('expectativas_proyecto','') or '-'}")
+                            c1.markdown(f"**Modalidad part.:** {det.get('modalidad_participacion','') or '-'}")
+                            c2.markdown(f"**Disp. terrenos:** {det.get('disposicion_terrenos','') or '-'}")
+                            c3.markdown(f"**Beneficios:** {det.get('beneficios_esperados','') or '-'}")
+                            c1.markdown(f"**Exp. previa:** {det.get('experiencia_proyectos_previos','') or '-'}")
+                            c2.markdown(f"**Disp. capacitacion:** {det.get('disponibilidad_capacitacion','') or '-'}")
+                            if det.get('comentarios_fds05'):
+                                st.markdown(f"**Comentarios:** {det['comentarios_fds05']}")
+
+                    if det.get("observaciones_generales"):
+                        st.markdown(f"**Observaciones generales:** {det['observaciones_generales']}")
+
+                    # Mostrar archivos adjuntos
+                    if det.get("archivos_adjuntos"):
+                        st.markdown("**Archivos adjuntos:**")
+                        carpeta = os.path.join(os.path.dirname(os.path.abspath(__file__)), "adjuntos_ds")
+                        for archivo in det["archivos_adjuntos"].split("|"):
+                            if archivo.strip():
+                                ruta = os.path.join(carpeta, archivo.strip())
+                                if os.path.exists(ruta):
+                                    with open(ruta, "rb") as fp:
+                                        st.download_button(
+                                            f"Descargar {archivo.strip().split('_', 1)[-1]}",
+                                            fp.read(), archivo.strip(),
+                                            mime="application/pdf",
+                                            key=f"ds_dl_{archivo.strip()}")
+
+                    if st.button("Eliminar este diagnostico", key="ds_eliminar"):
+                        db.eliminar_diagnostico_social(dm_ds[sel_ds])
+                        st.success("Diagnostico social eliminado.")
+                        st.rerun()
+
+            st.markdown("---")
+            st.markdown("### Resumen por Bloque")
+            resumen_ds = db.obtener_resumen_diagnosticos_sociales()
+            if resumen_ds:
+                st.dataframe(pd.DataFrame([{
+                    "Bloque": r["codigo"],
+                    "Tipo": r["tipo_intervencion"],
+                    "Distrito": r["distrito"],
+                    "Total Fichas": r["total_fichas"],
+                    "Fichas Completadas": r.get("fichas_completadas", "") or "Ninguna",
+                } for r in resumen_ds]), use_container_width=True, hide_index=True)
+
+
+# ══════════════════════════════════════════════════════════════════════════
 # PRESUPUESTO
 # ══════════════════════════════════════════════════════════════════════════
 def pagina_presupuesto():
@@ -1363,6 +2000,7 @@ elif pagina == "Bloques de Intervencion": pagina_bloques()
 elif pagina == "Inspeccion de Campo": pagina_inspeccion()
 elif pagina == "Indicadores de Calidad": pagina_indicadores()
 elif pagina == "Diagnostico Territorial": pagina_diagnostico_territorial()
+elif pagina == "Diagnostico Social": pagina_diagnostico_social()
 elif pagina == "Presupuesto": pagina_presupuesto()
 elif pagina == "Cronograma": pagina_cronograma()
 elif pagina == "Georreferenciacion": pagina_georreferenciacion()
