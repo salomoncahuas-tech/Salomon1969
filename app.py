@@ -25,6 +25,7 @@ TIPOS_INTERVENCION = [
     "Zanjas de infiltración",
     "Terrazas de formación lenta",
     "Diques de mampostería",
+    "Lotes SUS",
     "Otras",
 ]
 

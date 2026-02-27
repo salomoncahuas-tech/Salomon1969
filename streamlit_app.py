@@ -32,7 +32,7 @@ db.inicializar_bd()
 # ── Constantes ────────────────────────────────────────────────────────────
 TIPOS_INTERVENCION = [
     "Revegetacion", "Zanjas de infiltracion",
-    "Terrazas de formacion lenta", "Diques de mamposteria", "Otras",
+    "Terrazas de formacion lenta", "Diques de mamposteria", "Lotes SUS", "Otras",
 ]
 ESTADOS_BLOQUE = ["Pendiente", "En progreso", "Verificado"]
 CONDICIONES_CLIMATICAS = [
