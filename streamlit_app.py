@@ -808,13 +808,12 @@ def pagina_indicadores():
         pc = st.number_input("Cobertura vegetal (%)",0.0,100.0,0.0)
         tc = st.selectbox("Tipo cobertura",[""]+TIPOS_COBERTURA)
         vi = st.selectbox("Vigor cobertura",[""]+VIGOR_COBERTURA)
-        so = st.number_input("Sobrevivencia especies (%)",0.0,100.0,0.0)
         guardar = st.form_submit_button("Guardar Indicadores", type="primary")
     if guardar:
         try:
             db.insertar_indicadores(bloque_id=bid,inspeccion_id=im[isel],
                 cobertura_vegetal_planificada=0,cobertura_vegetal_lograda=0,
-                sobrevivencia_especies=so,longitud_zanjas_ejecutada=0,
+                sobrevivencia_especies=0,longitud_zanjas_ejecutada=0,
                 volumen_retencion_sedimentos=0,porcentaje_cobertura_vegetal=pc,
                 tipo_cobertura_vegetal=tc,vigor_cobertura_vegetal=vi,microcuenca=mc)
             st.success("Indicadores guardados."); st.rerun()
@@ -827,8 +826,7 @@ def pagina_indicadores():
             "Microcuenca":x.get("microcuenca","") or "",
             "Cobert.%":f"{x.get('porcentaje_cobertura_vegetal',0):.1f}",
             "Tipo":x.get("tipo_cobertura_vegetal","") or "",
-            "Vigor":x.get("vigor_cobertura_vegetal","") or "",
-            "Sobrev.%":f"{x['sobrevivencia_especies']:.1f}"} for x in ind]),
+            "Vigor":x.get("vigor_cobertura_vegetal","") or ""} for x in ind]),
             use_container_width=True, hide_index=True)
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -847,8 +845,17 @@ def pagina_diagnostico_territorial():
     with tab_reg:
         bl = st.selectbox("Bloque de Intervencion", list(bm.keys()), key="dt_bl")
         bid = bm[bl]
+
+        # Auto-resolver microcuenca del bloque seleccionado
+        mc_auto_dt = _resolver_microcuenca(bl)
+        if mc_auto_dt:
+            mc_idx_dt = MICROCUENCAS.index(mc_auto_dt) + 1
+            st.info(f"Microcuenca vinculada automaticamente: **{mc_auto_dt}**")
+        else:
+            mc_idx_dt = 0
+
         r1, r2, r3 = st.columns(3)
-        mc = r1.selectbox("Microcuenca", [""] + MICROCUENCAS, key="dt_mc")
+        mc = r1.selectbox("Microcuenca", [""] + MICROCUENCAS, index=mc_idx_dt, key="dt_mc")
         fecha_ev = r2.date_input("Fecha de evaluacion", value=datetime.now(), key="dt_fecha")
         evaluador = r3.text_input("Evaluador / Especialista", key="dt_eval")
 
