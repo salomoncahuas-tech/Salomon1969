@@ -189,13 +189,234 @@ def generar_ficha_pdf(bloque_id, inspeccion_id=None):
                 vigor_cob = indicadores.get("vigor_cobertura_vegetal", "") or ""
                 if vigor_cob:
                     pdf._campo("Vigor cobertura vegetal", vigor_cob)
-                pdf._campo("Sobrevivencia de especies", f"{indicadores['sobrevivencia_especies']:.1f} %")
                 pdf.ln(3)
+
+    # Diagnostico Territorial del bloque
+    diagnosticos_dt = db.obtener_diagnosticos_por_bloque(bloque_id)
+    if diagnosticos_dt:
+        pdf._seccion("3. Diagnostico Territorial")
+        for idx_dt, dt in enumerate(diagnosticos_dt, 1):
+            pdf.set_font("Helvetica", "B", 10)
+            pdf.cell(0, 6, f"  Ficha {dt.get('ficha', '')} - {dt.get('fecha_evaluacion', '')}", 0, 1)
+            pdf.set_font("Helvetica", "", 9)
+            if dt.get("microcuenca"):
+                pdf._campo("Microcuenca", dt["microcuenca"])
+            if dt.get("evaluador"):
+                pdf._campo("Evaluador", dt["evaluador"])
+            # F-DT-01: Caracteristicas Fisiograficas
+            campos_dt01 = [
+                ("Forma del terreno", "forma_terreno"), ("Pendiente", "pendiente"),
+                ("Posicion fisiografica", "posicion_fisiografica"), ("Exposicion", "exposicion_orientacion"),
+                ("Paisaje dominante", "paisaje_dominante"), ("Rango altitudinal", "rango_altitudinal")]
+            tiene_dt01 = any(dt.get(c[1]) for c in campos_dt01)
+            if tiene_dt01:
+                pdf.set_font("Helvetica", "BI", 9)
+                pdf.cell(0, 5, "  F-DT-01: Caracteristicas Fisiograficas", 0, 1)
+                pdf.set_font("Helvetica", "", 9)
+                for label, key in campos_dt01:
+                    val = dt.get(key, "") or ""
+                    if val:
+                        pdf._campo(label, val)
+            # F-DT-02: Condiciones Climaticas
+            campos_dt02 = [
+                ("Precipitacion anual", "precipitacion_anual"), ("Temperatura media", "temperatura_media"),
+                ("Humedad relativa", "humedad_relativa"), ("Zona de vida", "zona_vida"),
+                ("Presencia de heladas", "presencia_heladas"), ("Regimen de vientos", "regimen_vientos")]
+            tiene_dt02 = any(dt.get(c[1]) for c in campos_dt02)
+            if tiene_dt02:
+                pdf.set_font("Helvetica", "BI", 9)
+                pdf.cell(0, 5, "  F-DT-02: Condiciones Climaticas", 0, 1)
+                pdf.set_font("Helvetica", "", 9)
+                for label, key in campos_dt02:
+                    val = dt.get(key, "") or ""
+                    if val:
+                        pdf._campo(label, val)
+            # F-DT-03: Caracteristicas del Suelo
+            campos_dt03 = [
+                ("Textura", "textura_suelo"), ("Color del suelo", "color_suelo"),
+                ("Profundidad efectiva", "profundidad_efectiva"), ("Pedregosidad", "pedregosidad"),
+                ("Drenaje", "drenaje"), ("Presencia de erosion", "presencia_erosion"),
+                ("Materia organica", "materia_organica")]
+            tiene_dt03 = any(dt.get(c[1]) for c in campos_dt03)
+            if tiene_dt03:
+                pdf.set_font("Helvetica", "BI", 9)
+                pdf.cell(0, 5, "  F-DT-03: Caracteristicas del Suelo", 0, 1)
+                pdf.set_font("Helvetica", "", 9)
+                for label, key in campos_dt03:
+                    val = dt.get(key, "") or ""
+                    if val:
+                        pdf._campo(label, val)
+            # F-DT-04: Cobertura Vegetal y Uso del Suelo
+            campos_dt04 = [
+                ("Tipo de cobertura", "tipo_cobertura"), ("Densidad de cobertura", "densidad_cobertura"),
+                ("Estado de conservacion", "estado_conservacion"), ("Uso actual del suelo", "uso_actual_suelo"),
+                ("Estado de uso del suelo", "conflicto_uso")]
+            tiene_dt04 = any(dt.get(c[1]) for c in campos_dt04)
+            if tiene_dt04:
+                pdf.set_font("Helvetica", "BI", 9)
+                pdf.cell(0, 5, "  F-DT-04: Cobertura Vegetal y Uso del Suelo", 0, 1)
+                pdf.set_font("Helvetica", "", 9)
+                for label, key in campos_dt04:
+                    val = dt.get(key, "") or ""
+                    if val:
+                        pdf._campo(label, val)
+            # F-DT-05: Recursos Hidricos
+            campos_dt05 = [
+                ("Fuente de agua", "fuente_agua"), ("Regimen hidrico", "regimen_hidrico"),
+                ("Calidad del agua", "calidad_agua"), ("Distancia a fuente", "distancia_fuente_agua"),
+                ("Uso recurso hidrico", "uso_recurso_hidrico")]
+            tiene_dt05 = any(dt.get(c[1]) for c in campos_dt05)
+            if tiene_dt05:
+                pdf.set_font("Helvetica", "BI", 9)
+                pdf.cell(0, 5, "  F-DT-05: Recursos Hidricos", 0, 1)
+                pdf.set_font("Helvetica", "", 9)
+                for label, key in campos_dt05:
+                    val = dt.get(key, "") or ""
+                    if val:
+                        pdf._campo(label, val)
+            # F-DT-06: Aspectos Socioeconomicos
+            campos_dt06 = [
+                ("Tenencia de la tierra", "tenencia_tierra"), ("Organizacion comunal", "organizacion_comunal"),
+                ("Actividad economica", "actividad_economica"), ("Accesibilidad vial", "accesibilidad_via"),
+                ("Distancia centro poblado", "distancia_centro_poblado"), ("Servicios basicos", "servicios_basicos")]
+            tiene_dt06 = any(dt.get(c[1]) for c in campos_dt06)
+            if tiene_dt06:
+                pdf.set_font("Helvetica", "BI", 9)
+                pdf.cell(0, 5, "  F-DT-06: Aspectos Socioeconomicos", 0, 1)
+                pdf.set_font("Helvetica", "", 9)
+                for label, key in campos_dt06:
+                    val = dt.get(key, "") or ""
+                    if val:
+                        pdf._campo(label, val)
+            # Observaciones generales
+            obs_dt = dt.get("observaciones_generales", "") or ""
+            if obs_dt:
+                pdf._campo_largo("Observaciones generales", obs_dt)
+            pdf.ln(2)
+
+    # Diagnostico Social del bloque
+    diagnosticos_ds = db.obtener_diagnosticos_sociales_por_bloque(bloque_id)
+    if diagnosticos_ds:
+        pdf._seccion("4. Diagnostico Social")
+        for idx_ds, ds in enumerate(diagnosticos_ds, 1):
+            pdf.set_font("Helvetica", "B", 10)
+            pdf.cell(0, 6, f"  Ficha {ds.get('ficha', '')} - {ds.get('fecha_evaluacion', '')}", 0, 1)
+            pdf.set_font("Helvetica", "", 9)
+            if ds.get("microcuenca"):
+                pdf._campo("Microcuenca", ds["microcuenca"])
+            if ds.get("evaluador"):
+                pdf._campo("Evaluador", ds["evaluador"])
+            if ds.get("centro_poblado"):
+                pdf._campo("Centro poblado", ds["centro_poblado"])
+            if ds.get("comunidad_campesina"):
+                pdf._campo("Comunidad campesina", ds["comunidad_campesina"])
+            if ds.get("provincia"):
+                pdf._campo("Provincia", ds["provincia"])
+            if ds.get("distrito"):
+                pdf._campo("Distrito", ds["distrito"])
+            # F-DS-01: Datos socioeconomicos
+            campos_ds01 = [
+                ("N de familias", "ds01_num_familias"),
+                ("Poblacion hombres", "ds01_poblacion_hombres"),
+                ("Poblacion mujeres", "ds01_poblacion_mujeres"),
+                ("Poblacion total", "ds01_poblacion_total"),
+                ("Organizacion comunal", "ds01_organizacion_comunal"),
+                ("Junta directiva", "ds01_junta_directiva"),
+                ("Presidente junta", "ds01_presidente_junta"),
+                ("Agua potable tipo", "ds01_agua_potable_tipo"),
+                ("Agua potable cobertura", "ds01_agua_potable_cobertura"),
+                ("Saneamiento", "ds01_saneamiento"),
+                ("Energia tipo", "ds01_energia_tipo"),
+                ("Energia cobertura", "ds01_energia_cobertura"),
+                ("Actividades economicas", "ds01_actividades_economicas"),
+                ("Fuente de agua", "ds01_fuente_agua"),
+                ("Problemas de agua", "ds01_problemas_agua"),
+                ("Percepcion de cambios", "ds01_percepcion_cambios"),
+                ("Disposicion a participar", "ds01_disposicion_participar")]
+            tiene_ds01 = any(ds.get(c[1]) for c in campos_ds01)
+            if tiene_ds01:
+                pdf.set_font("Helvetica", "BI", 9)
+                pdf.cell(0, 5, "  F-DS-01: Diagnostico Socioeconomico", 0, 1)
+                pdf.set_font("Helvetica", "", 9)
+                for label, key in campos_ds01:
+                    val = ds.get(key, "") or ""
+                    if val:
+                        pdf._campo(label, val)
+            # F-DS-02: Actores clave
+            campos_ds02 = [
+                ("Registro de actores", "ds02_registro_actores"),
+                ("Actores gobierno local", "ds02_actores_gob_local"),
+                ("Actores comunidades", "ds02_actores_comunidades"),
+                ("Actores juntas de riego", "ds02_actores_juntas_riego"),
+                ("Actores ONG", "ds02_actores_ong")]
+            tiene_ds02 = any(ds.get(c[1]) for c in campos_ds02)
+            if tiene_ds02:
+                pdf.set_font("Helvetica", "BI", 9)
+                pdf.cell(0, 5, "  F-DS-02: Actores Clave", 0, 1)
+                pdf.set_font("Helvetica", "", 9)
+                for label, key in campos_ds02:
+                    val = ds.get(key, "") or ""
+                    if val:
+                        pdf._campo(label, val)
+            # F-DS-03: Entrevista
+            campos_ds03 = [
+                ("Nombre entrevistado", "ds03_nombre_entrevistado"),
+                ("Cargo / Funcion", "ds03_cargo_funcion"),
+                ("Institucion", "ds03_institucion")]
+            tiene_ds03 = any(ds.get(c[1]) for c in campos_ds03)
+            if tiene_ds03:
+                pdf.set_font("Helvetica", "BI", 9)
+                pdf.cell(0, 5, "  F-DS-03: Entrevista Semiestructurada", 0, 1)
+                pdf.set_font("Helvetica", "", 9)
+                for label, key in campos_ds03:
+                    val = ds.get(key, "") or ""
+                    if val:
+                        pdf._campo(label, val)
+                # Respuestas clave
+                resp_keys = [
+                    ("Recursos naturales", "ds03_resp_recursos_naturales"),
+                    ("Cambios ambientales", "ds03_resp_cambios_ambiente"),
+                    ("Problemas ambientales", "ds03_resp_problemas_ambientales"),
+                    ("Actividades economicas", "ds03_resp_actividades_economicas"),
+                    ("Expectativas del proyecto", "ds03_resp_expectativas"),
+                    ("Disposicion a participar", "ds03_resp_disposicion_participar")]
+                for label, key in resp_keys:
+                    val = ds.get(key, "") or ""
+                    if val:
+                        pdf._campo(label, val)
+            # F-DS-04: Taller participativo
+            campos_ds04 = [
+                ("Lugar del taller", "ds04_lugar_taller"),
+                ("Objetivo", "ds04_objetivo"),
+                ("Acuerdos", "ds04_acuerdos")]
+            tiene_ds04 = any(ds.get(c[1]) for c in campos_ds04)
+            if tiene_ds04:
+                pdf.set_font("Helvetica", "BI", 9)
+                pdf.cell(0, 5, "  F-DS-04: Taller Participativo", 0, 1)
+                pdf.set_font("Helvetica", "", 9)
+                for label, key in campos_ds04:
+                    val = ds.get(key, "") or ""
+                    if val:
+                        pdf._campo(label, val)
+            # F-DS-05: Conflictos y oportunidades
+            campos_ds05 = [
+                ("Conflictos identificados", "ds05_conflictos"),
+                ("Oportunidades identificadas", "ds05_oportunidades")]
+            tiene_ds05 = any(ds.get(c[1]) for c in campos_ds05)
+            if tiene_ds05:
+                pdf.set_font("Helvetica", "BI", 9)
+                pdf.cell(0, 5, "  F-DS-05: Conflictos y Oportunidades", 0, 1)
+                pdf.set_font("Helvetica", "", 9)
+                for label, key in campos_ds05:
+                    val = ds.get(key, "") or ""
+                    if val:
+                        pdf._campo(label, val)
+            pdf.ln(2)
 
     # Cronograma del bloque
     actividades = db.obtener_actividades_por_bloque(bloque_id)
     if actividades:
-        pdf._seccion("3. Cronograma de Actividades")
+        pdf._seccion("5. Cronograma de Actividades")
         for a in actividades:
             estado_act = a.get("estado", "Programado")
             avance_act = a.get("porcentaje_avance", 0)
@@ -225,12 +446,12 @@ def generar_resumen_excel():
     ws.title = "Resumen Bloques IN Piura"
 
     # Título
-    ws.merge_cells("A1:U1")
+    ws.merge_cells("A1:T1")
     ws["A1"] = "IN Piura - Plan de Ingreso - Resumen de Bloques de Intervencion"
     ws["A1"].font = Font(name="Calibri", bold=True, size=13)
     ws["A1"].alignment = Alignment(horizontal="center")
 
-    ws.merge_cells("A2:U2")
+    ws.merge_cells("A2:T2")
     ws["A2"] = f"Generado: {datetime.now().strftime('%d/%m/%Y %H:%M')}"
     ws["A2"].font = Font(name="Calibri", italic=True, size=9)
     ws["A2"].alignment = Alignment(horizontal="center")
@@ -242,7 +463,7 @@ def generar_resumen_excel():
         "Area (ha)", "Responsable", "Estado", "Total Inspecciones",
         "Ultima Visita", "Avance Fisico (%)",
         "Cobertura Vegetal (%)", "Tipo Cobertura", "Vigor Cobertura",
-        "Sobrevivencia (%)", "Fecha Registro"
+        "Fecha Registro"
     ]
 
     for col_idx, enc in enumerate(encabezados, 1):
@@ -278,7 +499,6 @@ def generar_resumen_excel():
             ultimo_ind.get("porcentaje_cobertura_vegetal", 0),
             ultimo_ind.get("tipo_cobertura_vegetal", "") or "",
             ultimo_ind.get("vigor_cobertura_vegetal", "") or "",
-            ultimo_ind.get("sobrevivencia_especies", 0),
             bloque["fecha_registro"],
         ]
 
@@ -287,7 +507,7 @@ def generar_resumen_excel():
             celda.border = borde
             celda.alignment = Alignment(horizontal="center", vertical="center")
 
-    anchos = [14, 18, 24, 22, 14, 16, 14, 14, 10, 14, 10, 16, 14, 14, 14, 14, 16, 16, 16, 14, 18]
+    anchos = [14, 18, 24, 22, 14, 16, 14, 14, 10, 14, 10, 16, 14, 14, 14, 14, 16, 16, 16, 18]
     for i, ancho in enumerate(anchos, 1):
         ws.column_dimensions[get_column_letter(i)].width = ancho
 
@@ -394,8 +614,7 @@ def generar_excel_arcgis():
         "OBJECTID", "COD_BLOQUE", "MICROCUENCA", "TIPO_INTERV", "CUENCA",
         "PROVINCIA", "DISTRITO", "POINT_X", "POINT_Y", "ZONA_UTM", "ALTITUD",
         "AREA_HA", "RESPONSABLE", "ESTADO", "AVANCE_PCT",
-        "COB_VEG_PCT", "TIPO_COB_VEG", "VIGOR_COB_VEG",
-        "SOBREV_PCT"
+        "COB_VEG_PCT", "TIPO_COB_VEG", "VIGOR_COB_VEG"
     ]
 
     encabezado_font = Font(name="Calibri", bold=True, size=10)
@@ -427,13 +646,12 @@ def generar_excel_arcgis():
             ultimo_ind.get("porcentaje_cobertura_vegetal", 0),
             ultimo_ind.get("tipo_cobertura_vegetal", "") or "",
             ultimo_ind.get("vigor_cobertura_vegetal", "") or "",
-            ultimo_ind.get("sobrevivencia_especies", 0),
         ]
 
         for col_idx, valor in enumerate(datos, 1):
             ws.cell(row=row_idx, column=col_idx, value=valor)
 
-    anchos = [10, 14, 18, 24, 20, 14, 16, 14, 14, 10, 10, 10, 16, 14, 12, 14, 16, 16, 12]
+    anchos = [10, 14, 18, 24, 20, 14, 16, 14, 14, 10, 10, 10, 16, 14, 12, 14, 16, 16]
     for i, ancho in enumerate(anchos, 1):
         ws.column_dimensions[get_column_letter(i)].width = ancho
 
