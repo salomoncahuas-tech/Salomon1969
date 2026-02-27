@@ -14,3 +14,4 @@ build/
 english_assessment/instance/
 english_assessment/*.db
 english_assessment/english_assessments.db
+english_assessment/.secret_key

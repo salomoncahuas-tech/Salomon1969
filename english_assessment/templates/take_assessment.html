@@ -20,6 +20,7 @@
         </div>
 
         <form action="{{ url_for('submit_assessment', assessment_id=assessment.id) }}" method="POST" id="assessment-form">
+            <input type="hidden" name="result_id" value="{{ result.id }}">
             <div class="questions-container">
                 {% for question in questions %}
                 <div class="question-card" id="q-{{ question.id }}">
