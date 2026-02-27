@@ -187,66 +187,116 @@ def inicializar_bd():
         )
     """)
 
-    # Tabla de diagnostico social
+    # Tabla de diagnostico social (migrar si esquema anterior)
+    cursor.execute("PRAGMA table_info(diagnostico_social)")
+    cols_ds = {c[1] for c in cursor.fetchall()}
+    if cols_ds and "ds01_num_familias" not in cols_ds:
+        cursor.execute("DROP TABLE diagnostico_social")
+
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS diagnostico_social (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             bloque_id INTEGER NOT NULL,
             inspeccion_id INTEGER,
             ficha TEXT NOT NULL,
+            ficha_numero TEXT DEFAULT '',
             microcuenca TEXT DEFAULT '',
             fecha_evaluacion TEXT NOT NULL,
             evaluador TEXT DEFAULT '',
-            -- F-DS-01: Perfil Sociodemografico de la Comunidad
-            rango_poblacion TEXT DEFAULT '',
-            numero_familias TEXT DEFAULT '',
-            miembros_por_familia TEXT DEFAULT '',
-            grupo_etario_predominante TEXT DEFAULT '',
-            nivel_educativo TEXT DEFAULT '',
-            nivel_analfabetismo TEXT DEFAULT '',
-            idioma_predominante TEXT DEFAULT '',
-            tendencia_migratoria TEXT DEFAULT '',
-            comentarios_fds01 TEXT DEFAULT '',
-            -- F-DS-02: Organizacion Social y Gobernanza
-            tipo_organizacion TEXT DEFAULT '',
-            nivel_participacion TEXT DEFAULT '',
-            frecuencia_asambleas TEXT DEFAULT '',
-            liderazgo_femenino TEXT DEFAULT '',
-            coordinacion_interinstitucional TEXT DEFAULT '',
-            comite_ambiental TEXT DEFAULT '',
-            nivel_conflictividad TEXT DEFAULT '',
-            mecanismo_resolucion TEXT DEFAULT '',
-            comentarios_fds02 TEXT DEFAULT '',
-            -- F-DS-03: Medios de Vida y Economia Local
-            actividad_productiva_principal TEXT DEFAULT '',
-            fuente_ingreso_secundaria TEXT DEFAULT '',
-            ingreso_familiar_mensual TEXT DEFAULT '',
-            tipo_empleo TEXT DEFAULT '',
-            nivel_tecnologia_agricola TEXT DEFAULT '',
-            acceso_credito TEXT DEFAULT '',
-            acceso_mercado TEXT DEFAULT '',
-            seguridad_alimentaria TEXT DEFAULT '',
-            comentarios_fds03 TEXT DEFAULT '',
-            -- F-DS-04: Relacion Comunidad-Ecosistema
-            servicios_ecosistemicos TEXT DEFAULT '',
-            percepcion_degradacion TEXT DEFAULT '',
-            practicas_conservacion TEXT DEFAULT '',
-            conocimiento_restauracion TEXT DEFAULT '',
-            disposicion_participar TEXT DEFAULT '',
-            experiencia_proyectos TEXT DEFAULT '',
-            amenazas_ambientales TEXT DEFAULT '',
-            uso_ancestral_recursos TEXT DEFAULT '',
-            comentarios_fds04 TEXT DEFAULT '',
-            -- F-DS-05: Percepciones y Expectativas sobre el Proyecto
-            conocimiento_proyecto TEXT DEFAULT '',
-            actitud_proyecto TEXT DEFAULT '',
-            expectativas_proyecto TEXT DEFAULT '',
-            modalidad_participacion TEXT DEFAULT '',
-            disposicion_terrenos TEXT DEFAULT '',
-            beneficios_esperados TEXT DEFAULT '',
-            experiencia_proyectos_previos TEXT DEFAULT '',
-            disponibilidad_capacitacion TEXT DEFAULT '',
-            comentarios_fds05 TEXT DEFAULT '',
+            provincia TEXT DEFAULT '',
+            distrito TEXT DEFAULT '',
+            centro_poblado TEXT DEFAULT '',
+            comunidad_campesina TEXT DEFAULT '',
+            coordenada_este REAL DEFAULT 0,
+            coordenada_norte REAL DEFAULT 0,
+            altitud REAL DEFAULT 0,
+            codigo_ubigeo TEXT DEFAULT '',
+            -- F-DS-01: Diagnostico Socioeconomico de Centro Poblado
+            ds01_num_familias TEXT DEFAULT '',
+            ds01_poblacion_hombres TEXT DEFAULT '',
+            ds01_poblacion_mujeres TEXT DEFAULT '',
+            ds01_poblacion_total TEXT DEFAULT '',
+            ds01_idioma TEXT DEFAULT '',
+            ds01_nivel_educativo TEXT DEFAULT '',
+            ds01_tasa_migracion TEXT DEFAULT '',
+            ds01_destino_migracion TEXT DEFAULT '',
+            ds01_organizacion_comunal TEXT DEFAULT '',
+            ds01_junta_directiva TEXT DEFAULT '',
+            ds01_presidente_junta TEXT DEFAULT '',
+            ds01_agua_potable_tipo TEXT DEFAULT '',
+            ds01_agua_potable_cobertura TEXT DEFAULT '',
+            ds01_saneamiento TEXT DEFAULT '',
+            ds01_energia_tipo TEXT DEFAULT '',
+            ds01_energia_cobertura TEXT DEFAULT '',
+            ds01_telecomunicaciones TEXT DEFAULT '',
+            ds01_telecom_operador TEXT DEFAULT '',
+            ds01_acceso_vial TEXT DEFAULT '',
+            ds01_distancia_capital TEXT DEFAULT '',
+            ds01_transporte TEXT DEFAULT '',
+            ds01_salud_tipo TEXT DEFAULT '',
+            ds01_salud_distancia TEXT DEFAULT '',
+            ds01_educacion TEXT DEFAULT '',
+            ds01_actividades_economicas TEXT DEFAULT '',
+            ds01_fuente_agua TEXT DEFAULT '',
+            ds01_problemas_agua TEXT DEFAULT '',
+            ds01_uso_recursos_forestales TEXT DEFAULT '',
+            ds01_frecuencia_uso_forestal TEXT DEFAULT '',
+            ds01_percepcion_cambios TEXT DEFAULT '',
+            ds01_disposicion_participar TEXT DEFAULT '',
+            ds01_comentario_disposicion TEXT DEFAULT '',
+            -- F-DS-02: Identificacion de Actores Clave
+            ds02_registro_actores TEXT DEFAULT '',
+            ds02_actores_gob_local TEXT DEFAULT '',
+            ds02_actores_gob_regional TEXT DEFAULT '',
+            ds02_actores_gob_nacional TEXT DEFAULT '',
+            ds02_actores_comunidades TEXT DEFAULT '',
+            ds02_actores_juntas_riego TEXT DEFAULT '',
+            ds02_actores_comites_cuenca TEXT DEFAULT '',
+            ds02_actores_ong TEXT DEFAULT '',
+            ds02_actores_empresa TEXT DEFAULT '',
+            ds02_actores_educacion TEXT DEFAULT '',
+            ds02_actores_org_base TEXT DEFAULT '',
+            -- F-DS-03: Entrevista Semiestructurada
+            ds03_nombre_entrevistado TEXT DEFAULT '',
+            ds03_cargo_funcion TEXT DEFAULT '',
+            ds03_institucion TEXT DEFAULT '',
+            ds03_telefono_correo TEXT DEFAULT '',
+            ds03_duracion TEXT DEFAULT '',
+            ds03_resp_recursos_naturales TEXT DEFAULT '',
+            ds03_resp_cambios_ambiente TEXT DEFAULT '',
+            ds03_resp_problemas_ambientales TEXT DEFAULT '',
+            ds03_resp_zonas_conservacion TEXT DEFAULT '',
+            ds03_resp_actividades_economicas TEXT DEFAULT '',
+            ds03_resp_abastecimiento_agua TEXT DEFAULT '',
+            ds03_resp_productos_bosque TEXT DEFAULT '',
+            ds03_resp_cadenas_productivas TEXT DEFAULT '',
+            ds03_resp_organizaciones TEXT DEFAULT '',
+            ds03_resp_decisiones_territorio TEXT DEFAULT '',
+            ds03_resp_conflictos TEXT DEFAULT '',
+            ds03_resp_proyectos_anteriores TEXT DEFAULT '',
+            ds03_resp_conocimiento_restauracion TEXT DEFAULT '',
+            ds03_resp_expectativas TEXT DEFAULT '',
+            ds03_resp_disposicion_participar TEXT DEFAULT '',
+            ds03_resp_condiciones TEXT DEFAULT '',
+            ds03_resp_conocimiento_merese TEXT DEFAULT '',
+            ds03_resp_beneficiarios TEXT DEFAULT '',
+            ds03_resp_instituciones_contribuyentes TEXT DEFAULT '',
+            ds03_resp_experiencias_pago TEXT DEFAULT '',
+            -- F-DS-04: Acta de Taller Participativo
+            ds04_lugar_taller TEXT DEFAULT '',
+            ds04_hora_inicio TEXT DEFAULT '',
+            ds04_hora_fin TEXT DEFAULT '',
+            ds04_convocante TEXT DEFAULT '',
+            ds04_objetivo TEXT DEFAULT '',
+            ds04_lista_participantes TEXT DEFAULT '',
+            ds04_presentacion TEXT DEFAULT '',
+            ds04_intervenciones TEXT DEFAULT '',
+            ds04_preguntas_respuestas TEXT DEFAULT '',
+            ds04_acuerdos TEXT DEFAULT '',
+            ds04_observaciones TEXT DEFAULT '',
+            -- F-DS-05: Conflictos y Oportunidades
+            ds05_conflictos TEXT DEFAULT '',
+            ds05_oportunidades TEXT DEFAULT '',
             -- Campos generales
             archivos_adjuntos TEXT DEFAULT '',
             observaciones_generales TEXT DEFAULT '',
@@ -1011,84 +1061,31 @@ def obtener_resumen_diagnosticos():
 
 # ── Operaciones CRUD para Diagnostico Social ──────────────────────────────
 
-def insertar_diagnostico_social(bloque_id, ficha, fecha_evaluacion, evaluador="",
-                                inspeccion_id=None, microcuenca="",
-                                # F-DS-01
-                                rango_poblacion="", numero_familias="",
-                                miembros_por_familia="", grupo_etario_predominante="",
-                                nivel_educativo="", nivel_analfabetismo="",
-                                idioma_predominante="", tendencia_migratoria="",
-                                comentarios_fds01="",
-                                # F-DS-02
-                                tipo_organizacion="", nivel_participacion="",
-                                frecuencia_asambleas="", liderazgo_femenino="",
-                                coordinacion_interinstitucional="", comite_ambiental="",
-                                nivel_conflictividad="", mecanismo_resolucion="",
-                                comentarios_fds02="",
-                                # F-DS-03
-                                actividad_productiva_principal="", fuente_ingreso_secundaria="",
-                                ingreso_familiar_mensual="", tipo_empleo="",
-                                nivel_tecnologia_agricola="", acceso_credito="",
-                                acceso_mercado="", seguridad_alimentaria="",
-                                comentarios_fds03="",
-                                # F-DS-04
-                                servicios_ecosistemicos="", percepcion_degradacion="",
-                                practicas_conservacion="", conocimiento_restauracion="",
-                                disposicion_participar="", experiencia_proyectos="",
-                                amenazas_ambientales="", uso_ancestral_recursos="",
-                                comentarios_fds04="",
-                                # F-DS-05
-                                conocimiento_proyecto="", actitud_proyecto="",
-                                expectativas_proyecto="", modalidad_participacion="",
-                                disposicion_terrenos="", beneficios_esperados="",
-                                experiencia_proyectos_previos="", disponibilidad_capacitacion="",
-                                comentarios_fds05="",
-                                # Generales
-                                archivos_adjuntos="", observaciones_generales=""):
+def insertar_diagnostico_social(datos):
+    """Inserta un registro de diagnostico social. datos es un dict con los campos."""
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("""
-        INSERT INTO diagnostico_social (
-            bloque_id, inspeccion_id, ficha, microcuenca, fecha_evaluacion, evaluador,
-            rango_poblacion, numero_familias, miembros_por_familia,
-            grupo_etario_predominante, nivel_educativo, nivel_analfabetismo,
-            idioma_predominante, tendencia_migratoria, comentarios_fds01,
-            tipo_organizacion, nivel_participacion, frecuencia_asambleas,
-            liderazgo_femenino, coordinacion_interinstitucional, comite_ambiental,
-            nivel_conflictividad, mecanismo_resolucion, comentarios_fds02,
-            actividad_productiva_principal, fuente_ingreso_secundaria,
-            ingreso_familiar_mensual, tipo_empleo, nivel_tecnologia_agricola,
-            acceso_credito, acceso_mercado, seguridad_alimentaria, comentarios_fds03,
-            servicios_ecosistemicos, percepcion_degradacion, practicas_conservacion,
-            conocimiento_restauracion, disposicion_participar, experiencia_proyectos,
-            amenazas_ambientales, uso_ancestral_recursos, comentarios_fds04,
-            conocimiento_proyecto, actitud_proyecto, expectativas_proyecto,
-            modalidad_participacion, disposicion_terrenos, beneficios_esperados,
-            experiencia_proyectos_previos, disponibilidad_capacitacion, comentarios_fds05,
-            archivos_adjuntos, observaciones_generales, fecha_registro
-        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-    """, (bloque_id, inspeccion_id, ficha, microcuenca, fecha_evaluacion, evaluador,
-          rango_poblacion, numero_familias, miembros_por_familia,
-          grupo_etario_predominante, nivel_educativo, nivel_analfabetismo,
-          idioma_predominante, tendencia_migratoria, comentarios_fds01,
-          tipo_organizacion, nivel_participacion, frecuencia_asambleas,
-          liderazgo_femenino, coordinacion_interinstitucional, comite_ambiental,
-          nivel_conflictividad, mecanismo_resolucion, comentarios_fds02,
-          actividad_productiva_principal, fuente_ingreso_secundaria,
-          ingreso_familiar_mensual, tipo_empleo, nivel_tecnologia_agricola,
-          acceso_credito, acceso_mercado, seguridad_alimentaria, comentarios_fds03,
-          servicios_ecosistemicos, percepcion_degradacion, practicas_conservacion,
-          conocimiento_restauracion, disposicion_participar, experiencia_proyectos,
-          amenazas_ambientales, uso_ancestral_recursos, comentarios_fds04,
-          conocimiento_proyecto, actitud_proyecto, expectativas_proyecto,
-          modalidad_participacion, disposicion_terrenos, beneficios_esperados,
-          experiencia_proyectos_previos, disponibilidad_capacitacion, comentarios_fds05,
-          archivos_adjuntos, observaciones_generales,
-          datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+    datos["fecha_registro"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    columnas = list(datos.keys())
+    placeholders = ",".join(["?"] * len(columnas))
+    sql = f"INSERT INTO diagnostico_social ({','.join(columnas)}) VALUES ({placeholders})"
+    cursor.execute(sql, list(datos.values()))
     conn.commit()
     did = cursor.lastrowid
     conn.close()
     return did
+
+
+def actualizar_diagnostico_social(diagnostico_id, datos):
+    """Actualiza un registro existente de diagnostico social."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    datos["fecha_registro"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    sets = ", ".join([f"{k}=?" for k in datos.keys()])
+    sql = f"UPDATE diagnostico_social SET {sets} WHERE id=?"
+    cursor.execute(sql, list(datos.values()) + [diagnostico_id])
+    conn.commit()
+    conn.close()
 
 
 def obtener_diagnosticos_sociales_por_bloque(bloque_id):
