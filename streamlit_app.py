@@ -1137,6 +1137,194 @@ def _ds_datos_generales():
                 coordenada_norte=norte, altitud=alt_v, codigo_ubigeo=ubigeo)
 
 
+def _ds_load_edit(det, bm):
+    """Carga un registro de diagnostico social en session_state para edicion."""
+    st.session_state["ds_edit_id"] = det["id"]
+    # Encontrar label del bloque
+    bm_rev = {v: k for k, v in bm.items()}
+    bl_label = bm_rev.get(det.get("bloque_id"), "")
+    if bl_label:
+        st.session_state["ds_bl"] = bl_label
+    st.session_state["ds_mc"] = det.get("microcuenca", "") or ""
+    if det.get("fecha_evaluacion"):
+        try:
+            st.session_state["ds_fecha"] = datetime.strptime(det["fecha_evaluacion"], "%Y-%m-%d").date()
+        except (ValueError, TypeError):
+            pass
+    st.session_state["ds_eval"] = det.get("evaluador", "") or ""
+    st.session_state["ds_fnum"] = det.get("ficha_numero", "") or ""
+    st.session_state["ds_prov"] = det.get("provincia", "") or ""
+    st.session_state["ds_dist"] = det.get("distrito", "") or ""
+    st.session_state["ds_cpob"] = det.get("centro_poblado", "") or ""
+    st.session_state["ds_ccam"] = det.get("comunidad_campesina", "") or ""
+    st.session_state["ds_este"] = float(det.get("coordenada_este") or 0)
+    st.session_state["ds_norte"] = float(det.get("coordenada_norte") or 0)
+    st.session_state["ds_alt"] = float(det.get("altitud") or 0)
+    st.session_state["ds_ubigeo"] = det.get("codigo_ubigeo", "") or ""
+    st.session_state["ds_obs"] = det.get("observaciones_generales", "") or ""
+    ficha = det.get("ficha", "")
+    st.session_state["ds_ficha_sel"] = ficha
+
+    def _split(v):
+        return [x.strip() for x in (v or "").split(",") if x.strip()]
+
+    if ficha == "F-DS-01":
+        st.session_state["s01_nf"] = det.get("ds01_num_familias", "") or ""
+        st.session_state["s01_ph"] = det.get("ds01_poblacion_hombres", "") or ""
+        st.session_state["s01_pm"] = det.get("ds01_poblacion_mujeres", "") or ""
+        st.session_state["s01_pt"] = det.get("ds01_poblacion_total", "") or ""
+        st.session_state["s01_id"] = _split(det.get("ds01_idioma"))
+        st.session_state["s01_ne"] = _split(det.get("ds01_nivel_educativo"))
+        st.session_state["s01_mi"] = det.get("ds01_tasa_migracion", "") or ""
+        st.session_state["s01_dest"] = det.get("ds01_destino_migracion", "") or ""
+        st.session_state["s01_org"] = _split(det.get("ds01_organizacion_comunal"))
+        st.session_state["s01_jd"] = det.get("ds01_junta_directiva", "") or ""
+        st.session_state["s01_pres"] = det.get("ds01_presidente_junta", "") or ""
+        st.session_state["s01_ag"] = _split(det.get("ds01_agua_potable_tipo"))
+        st.session_state["s01_agcob"] = det.get("ds01_agua_potable_cobertura", "") or ""
+        st.session_state["s01_san"] = _split(det.get("ds01_saneamiento"))
+        st.session_state["s01_en"] = _split(det.get("ds01_energia_tipo"))
+        st.session_state["s01_encob"] = det.get("ds01_energia_cobertura", "") or ""
+        st.session_state["s01_tel"] = _split(det.get("ds01_telecomunicaciones"))
+        st.session_state["s01_telop"] = det.get("ds01_telecom_operador", "") or ""
+        st.session_state["s01_via"] = _split(det.get("ds01_acceso_vial"))
+        st.session_state["s01_dcap"] = det.get("ds01_distancia_capital", "") or ""
+        st.session_state["s01_tr"] = det.get("ds01_transporte", "") or ""
+        st.session_state["s01_sal"] = _split(det.get("ds01_salud_tipo"))
+        st.session_state["s01_sdist"] = det.get("ds01_salud_distancia", "") or ""
+        st.session_state["s01_educ"] = _split(det.get("ds01_educacion"))
+        st.session_state["s01_fag"] = det.get("ds01_fuente_agua", "") or ""
+        st.session_state["s01_pag"] = _split(det.get("ds01_problemas_agua"))
+        st.session_state["s01_uf"] = _split(det.get("ds01_uso_recursos_forestales"))
+        st.session_state["s01_ff"] = det.get("ds01_frecuencia_uso_forestal", "") or ""
+        st.session_state["s01_pcam"] = det.get("ds01_percepcion_cambios", "") or ""
+        st.session_state["s01_disp"] = det.get("ds01_disposicion_participar", "") or ""
+        st.session_state["s01_cdisp"] = det.get("ds01_comentario_disposicion", "") or ""
+        # Actividades economicas (JSON)
+        act_json = det.get("ds01_actividades_economicas", "") or ""
+        if act_json:
+            try:
+                acts = json.loads(act_json)
+                st.session_state["s01_nact"] = max(len(acts), 1)
+                for i, a in enumerate(acts):
+                    st.session_state[f"s01_act{i}"] = a.get("actividad", "")
+                    st.session_state[f"s01_pct{i}"] = a.get("pct_familias", "")
+                    st.session_state[f"s01_prod{i}"] = a.get("productos", "")
+                    st.session_state[f"s01_dest{i}"] = a.get("destino", "")
+                    st.session_state[f"s01_ing{i}"] = a.get("ingreso", "")
+            except (json.JSONDecodeError, TypeError):
+                pass
+
+    elif ficha == "F-DS-02":
+        act_json = det.get("ds02_registro_actores", "") or ""
+        if act_json:
+            try:
+                acts = json.loads(act_json)
+                st.session_state["s02_nact"] = max(len(acts), 1)
+                for i, a in enumerate(acts):
+                    st.session_state[f"s02_nom{i}"] = a.get("nombre", "")
+                    st.session_state[f"s02_tip{i}"] = a.get("tipo", "")
+                    st.session_state[f"s02_rol{i}"] = a.get("rol", "")
+                    st.session_state[f"s02_rel{i}"] = a.get("relacion", "")
+                    st.session_state[f"s02_inf{i}"] = a.get("influencia", "")
+                    st.session_state[f"s02_int{i}"] = a.get("interes", "")
+                    st.session_state[f"s02_con{i}"] = a.get("contacto", "")
+            except (json.JSONDecodeError, TypeError):
+                pass
+        for campo, cat_prefix in [
+            ("ds02_actores_gob_local", "Gobierno Local (M"),
+            ("ds02_actores_gob_regional", "Gobierno Regional"),
+            ("ds02_actores_gob_nacional", "Gobierno Nacional"),
+            ("ds02_actores_comunidades", "Comunidades Camp"),
+            ("ds02_actores_juntas_riego", "Juntas de Usuar"),
+            ("ds02_actores_comites_cuenca", "Comites de Gesti"),
+            ("ds02_actores_ong", "ONG / Cooperacio"),
+            ("ds02_actores_empresa", "Empresa Privada"),
+            ("ds02_actores_educacion", "Instituciones Ed"),
+            ("ds02_actores_org_base", "Organizaciones d"),
+        ]:
+            v = det.get(campo, "") or ""
+            for cat in FDS02_CLASIFICACION:
+                if cat.startswith(cat_prefix[:15]):
+                    st.session_state[f"s02_cl_{cat[:15]}"] = v
+                    break
+
+    elif ficha == "F-DS-03":
+        st.session_state["s03_nom"] = det.get("ds03_nombre_entrevistado", "") or ""
+        st.session_state["s03_car"] = det.get("ds03_cargo_funcion", "") or ""
+        st.session_state["s03_inst"] = det.get("ds03_institucion", "") or ""
+        st.session_state["s03_tel"] = det.get("ds03_telefono_correo", "") or ""
+        st.session_state["s03_dur"] = det.get("ds03_duracion", "") or ""
+        resp_map = {
+            "s03_r1": "ds03_resp_recursos_naturales", "s03_r2": "ds03_resp_cambios_ambiente",
+            "s03_r3": "ds03_resp_problemas_ambientales", "s03_r4": "ds03_resp_zonas_conservacion",
+            "s03_r5": "ds03_resp_actividades_economicas", "s03_r6": "ds03_resp_abastecimiento_agua",
+            "s03_r7": "ds03_resp_productos_bosque", "s03_r8": "ds03_resp_cadenas_productivas",
+            "s03_r9": "ds03_resp_organizaciones", "s03_r10": "ds03_resp_decisiones_territorio",
+            "s03_r11": "ds03_resp_conflictos", "s03_r12": "ds03_resp_proyectos_anteriores",
+            "s03_r13": "ds03_resp_conocimiento_restauracion", "s03_r14": "ds03_resp_expectativas",
+            "s03_r15": "ds03_resp_disposicion_participar", "s03_r16": "ds03_resp_condiciones",
+            "s03_r17": "ds03_resp_conocimiento_merese", "s03_r18": "ds03_resp_beneficiarios",
+            "s03_r19": "ds03_resp_instituciones_contribuyentes", "s03_r20": "ds03_resp_experiencias_pago",
+        }
+        for wk, dbk in resp_map.items():
+            st.session_state[wk] = det.get(dbk, "") or ""
+
+    elif ficha == "F-DS-04":
+        st.session_state["s04_lug"] = det.get("ds04_lugar_taller", "") or ""
+        st.session_state["s04_conv"] = det.get("ds04_convocante", "") or ""
+        st.session_state["s04_hi"] = det.get("ds04_hora_inicio", "") or ""
+        st.session_state["s04_hf"] = det.get("ds04_hora_fin", "") or ""
+        st.session_state["s04_obj"] = det.get("ds04_objetivo", "") or ""
+        st.session_state["s04_pres"] = det.get("ds04_presentacion", "") or ""
+        st.session_state["s04_interv"] = det.get("ds04_intervenciones", "") or ""
+        st.session_state["s04_pregs"] = det.get("ds04_preguntas_respuestas", "") or ""
+        st.session_state["s04_acuerd"] = det.get("ds04_acuerdos", "") or ""
+        st.session_state["s04_obs"] = det.get("ds04_observaciones", "") or ""
+        part_json = det.get("ds04_lista_participantes", "") or ""
+        if part_json:
+            try:
+                parts = json.loads(part_json)
+                st.session_state["s04_np"] = max(len(parts), 1)
+                for i, p in enumerate(parts):
+                    st.session_state[f"s04_pn{i}"] = p.get("nombre", "")
+                    st.session_state[f"s04_pd{i}"] = p.get("dni", "")
+                    st.session_state[f"s04_pi{i}"] = p.get("institucion", "")
+                    st.session_state[f"s04_pc{i}"] = p.get("cargo", "")
+                    st.session_state[f"s04_pt{i}"] = p.get("telefono", "")
+            except (json.JSONDecodeError, TypeError):
+                pass
+
+    elif ficha == "F-DS-05":
+        conf_json = det.get("ds05_conflictos", "") or ""
+        if conf_json:
+            try:
+                confs = json.loads(conf_json)
+                st.session_state["s05_nc"] = max(len(confs), 1)
+                for i, c in enumerate(confs):
+                    st.session_state[f"s05_ct{i}"] = c.get("tipo", "")
+                    st.session_state[f"s05_ca{i}"] = c.get("actores", "")
+                    st.session_state[f"s05_cn{i}"] = c.get("nivel", "")
+                    st.session_state[f"s05_ce{i}"] = c.get("estado", "")
+                    st.session_state[f"s05_cd{i}"] = c.get("descripcion", "")
+                    st.session_state[f"s05_ci{i}"] = c.get("impacto", "")
+            except (json.JSONDecodeError, TypeError):
+                pass
+        opor_json = det.get("ds05_oportunidades", "") or ""
+        if opor_json:
+            try:
+                opors = json.loads(opor_json)
+                st.session_state["s05_no"] = max(len(opors), 1)
+                for i, o in enumerate(opors):
+                    st.session_state[f"s05_od{i}"] = o.get("oportunidad", "")
+                    st.session_state[f"s05_oa{i}"] = o.get("actores", "")
+                    st.session_state[f"s05_ot{i}"] = o.get("tipo", "")
+                    st.session_state[f"s05_op{i}"] = o.get("potencial", "")
+                    st.session_state[f"s05_oc{i}"] = o.get("como_aprovechar", "")
+            except (json.JSONDecodeError, TypeError):
+                pass
+
+
 def pagina_diagnostico_social():
     st.subheader("Diagnostico Social - Fichas de Campo")
     st.caption("Proyecto IN Piura CUI 2669244 | ANIN - DIME - SESDI | Fichas F-DS-01 a F-DS-05")
@@ -1145,11 +1333,22 @@ def pagina_diagnostico_social():
         st.warning("Registre un bloque primero.")
         return
 
+    # Inicializar estado de edicion
+    if "ds_edit_id" not in st.session_state:
+        st.session_state["ds_edit_id"] = None
+
     ficha_sel = st.radio("Seleccionar ficha", FICHAS_DS, horizontal=True, key="ds_ficha_sel")
 
     tab_reg, tab_hist = st.tabs(["Registro", "Historial / Consulta"])
 
     with tab_reg:
+        edit_id = st.session_state.get("ds_edit_id")
+        if edit_id:
+            st.info(f"Editando registro ID {edit_id}. Modifique los campos necesarios y presione Guardar.")
+            if st.button("Cancelar edicion (nuevo registro)", key="ds_cancel_edit"):
+                st.session_state["ds_edit_id"] = None
+                st.rerun()
+
         # ── Datos comunes ─────────────────────────────────────────────
         bl = st.selectbox("Bloque de Intervencion", list(bm.keys()), key="ds_bl")
         bid = bm[bl]
@@ -1455,7 +1654,8 @@ def pagina_diagnostico_social():
             "Adjuntar archivos de soporte (PDF, max. 25 MB por archivo)",
             type=["pdf"], accept_multiple_files=True, key="ds_adj_upload")
 
-        if st.button("Guardar Diagnostico Social", type="primary", key="ds_guardar"):
+        btn_label = "Actualizar Diagnostico Social" if edit_id else "Guardar Diagnostico Social"
+        if st.button(btn_label, type="primary", key="ds_guardar"):
             if not evaluador:
                 st.warning("Ingrese el nombre del responsable.")
             elif not datos:
@@ -1481,13 +1681,22 @@ def pagina_diagnostico_social():
                         "ficha_numero": ficha_num, "microcuenca": mc,
                         "fecha_evaluacion": fecha_ev.strftime("%Y-%m-%d"),
                         "evaluador": evaluador,
-                        "archivos_adjuntos": "|".join(archivos_guardados) if archivos_guardados else "",
                         "observaciones_generales": observ_gen,
                     }
+                    if archivos_guardados:
+                        reg["archivos_adjuntos"] = "|".join(archivos_guardados)
                     reg.update(dg)
                     reg.update(datos)
-                    db.insertar_diagnostico_social(reg)
-                    st.success(f"Ficha {ficha_sel} guardada correctamente.")
+
+                    if edit_id:
+                        db.actualizar_diagnostico_social(edit_id, reg)
+                        st.session_state["ds_edit_id"] = None
+                        st.success(f"Ficha {ficha_sel} actualizada correctamente (ID {edit_id}).")
+                    else:
+                        if "archivos_adjuntos" not in reg:
+                            reg["archivos_adjuntos"] = ""
+                        db.insertar_diagnostico_social(reg)
+                        st.success(f"Ficha {ficha_sel} guardada correctamente.")
                     st.rerun()
                 except Exception as e:
                     st.error(f"Error: {e}")

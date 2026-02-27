@@ -1076,6 +1076,18 @@ def insertar_diagnostico_social(datos):
     return did
 
 
+def actualizar_diagnostico_social(diagnostico_id, datos):
+    """Actualiza un registro existente de diagnostico social."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    datos["fecha_registro"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    sets = ", ".join([f"{k}=?" for k in datos.keys()])
+    sql = f"UPDATE diagnostico_social SET {sets} WHERE id=?"
+    cursor.execute(sql, list(datos.values()) + [diagnostico_id])
+    conn.commit()
+    conn.close()
+
+
 def obtener_diagnosticos_sociales_por_bloque(bloque_id):
     conn = get_connection()
     cursor = conn.cursor()
