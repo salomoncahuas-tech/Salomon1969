@@ -34,8 +34,13 @@ def get_or_create_secret_key():
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or get_or_create_secret_key()
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-    'DATABASE_URL', f'sqlite:///{os.path.join(basedir, "english_assessments.db")}')
+
+# Database configuration: use PostgreSQL on Render, SQLite locally
+database_url = os.environ.get('DATABASE_URL', f'sqlite:///{os.path.join(basedir, "english_assessments.db")}')
+# Render provides postgres:// but SQLAlchemy requires postgresql://
+if database_url.startswith('postgres://'):
+    database_url = database_url.replace('postgres://', 'postgresql://', 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
