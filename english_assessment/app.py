@@ -5,6 +5,7 @@ Permite a alumnos de distintos grados y niveles acceder a evaluaciones mediante 
 """
 
 import os
+import logging
 import secrets
 import random
 from datetime import datetime
@@ -42,6 +43,11 @@ if database_url.startswith('postgres://'):
     database_url = database_url.replace('postgres://', 'postgresql://', 1)
 app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Configure logging for production
+if not app.debug:
+    logging.basicConfig(level=logging.INFO)
+    app.logger.setLevel(logging.INFO)
 
 db.init_app(app)
 login_manager = LoginManager(app)
@@ -130,16 +136,25 @@ def take_assessment(assessment_id):
             return redirect(url_for('start_assessment', assessment_id=assessment_id))
 
         # Create student result
-        result = StudentResult(
-            assessment_id=assessment_id,
-            student_name=student_name,
-            student_code=student_code,
-            grade_section=grade_section,
-            total_points=assessment.total_points,
-            started_at=datetime.utcnow()
-        )
-        db.session.add(result)
-        db.session.commit()
+        try:
+            result = StudentResult(
+                assessment_id=assessment_id,
+                student_name=student_name,
+                student_code=student_code,
+                grade_section=grade_section,
+                total_points=assessment.total_points,
+                started_at=datetime.utcnow()
+            )
+            db.session.add(result)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            app.logger.error(
+                'Error creating student result for assessment %d: %s',
+                assessment_id, str(e)
+            )
+            flash('There was an error starting the assessment. Please try again.', 'error')
+            return redirect(url_for('start_assessment', assessment_id=assessment_id))
 
         session[f'result_{assessment_id}'] = result.id
 
@@ -176,117 +191,131 @@ def submit_assessment(assessment_id):
         flash('This assessment has already been submitted.', 'error')
         return redirect(url_for('start_assessment', assessment_id=assessment_id))
 
-    total_score = 0
+    try:
+        total_score = 0
 
-    for question in assessment.questions:
-        answer_key = f'question_{question.id}'
+        for question in assessment.questions:
+            answer_key = f'question_{question.id}'
 
-        if question.question_type == 'multiple_choice':
-            selected_id = request.form.get(answer_key, type=int)
-            selected_option = db.session.get(QuestionOption, selected_id) if selected_id else None
-            is_correct = selected_option.is_correct if selected_option else False
-            points = question.points if is_correct else 0
-            total_score += points
+            if question.question_type == 'multiple_choice':
+                selected_id = request.form.get(answer_key, type=int)
+                selected_option = db.session.get(QuestionOption, selected_id) if selected_id else None
+                is_correct = selected_option.is_correct if selected_option else False
+                points = question.points if is_correct else 0
+                total_score += points
 
-            student_answer = StudentAnswer(
-                result_id=result.id,
-                question_id=question.id,
-                selected_option_id=selected_id,
-                answer_text=selected_option.text if selected_option else '',
-                is_correct=is_correct,
-                points_earned=points
-            )
+                student_answer = StudentAnswer(
+                    result_id=result.id,
+                    question_id=question.id,
+                    selected_option_id=selected_id,
+                    answer_text=selected_option.text if selected_option else '',
+                    is_correct=is_correct,
+                    points_earned=points
+                )
 
-        elif question.question_type == 'true_false':
-            answer_val = request.form.get(answer_key, '').strip().lower()
-            correct_option = next((o for o in question.options if o.is_correct), None)
-            correct_val = correct_option.text.strip().lower() if correct_option else ''
-            is_correct = answer_val == correct_val
-            points = question.points if is_correct else 0
-            total_score += points
+            elif question.question_type == 'true_false':
+                answer_val = request.form.get(answer_key, '').strip().lower()
+                correct_option = next((o for o in question.options if o.is_correct), None)
+                correct_val = correct_option.text.strip().lower() if correct_option else ''
+                is_correct = answer_val == correct_val
+                points = question.points if is_correct else 0
+                total_score += points
 
-            student_answer = StudentAnswer(
-                result_id=result.id,
-                question_id=question.id,
-                answer_text=answer_val,
-                is_correct=is_correct,
-                points_earned=points
-            )
+                student_answer = StudentAnswer(
+                    result_id=result.id,
+                    question_id=question.id,
+                    answer_text=answer_val,
+                    is_correct=is_correct,
+                    points_earned=points
+                )
 
-        elif question.question_type == 'fill_blank':
-            answer_text = request.form.get(answer_key, '').strip()
-            correct_option = next((o for o in question.options if o.is_correct), None)
-            correct_text = correct_option.text.strip() if correct_option else ''
-            is_correct = answer_text.lower() == correct_text.lower()
-            points = question.points if is_correct else 0
-            total_score += points
+            elif question.question_type == 'fill_blank':
+                answer_text = request.form.get(answer_key, '').strip()
+                correct_option = next((o for o in question.options if o.is_correct), None)
+                correct_text = correct_option.text.strip() if correct_option else ''
+                is_correct = answer_text.lower() == correct_text.lower()
+                points = question.points if is_correct else 0
+                total_score += points
 
-            student_answer = StudentAnswer(
-                result_id=result.id,
-                question_id=question.id,
-                answer_text=answer_text,
-                is_correct=is_correct,
-                points_earned=points
-            )
+                student_answer = StudentAnswer(
+                    result_id=result.id,
+                    question_id=question.id,
+                    answer_text=answer_text,
+                    is_correct=is_correct,
+                    points_earned=points
+                )
 
-        elif question.question_type == 'matching':
-            correct_count = 0
-            total_pairs = len([o for o in question.options if o.match_text])
-            answers_parts = []
-            for option in question.options:
-                if option.match_text:
-                    match_key = f'match_{question.id}_{option.id}'
-                    student_match = request.form.get(match_key, '').strip()
-                    answers_parts.append(f'{option.id}:{student_match}')
-                    if student_match == option.match_text:
-                        correct_count += 1
-            points = (correct_count / total_pairs * question.points) if total_pairs > 0 else 0
-            total_score += points
+            elif question.question_type == 'matching':
+                correct_count = 0
+                total_pairs = len([o for o in question.options if o.match_text])
+                answers_parts = []
+                for option in question.options:
+                    if option.match_text:
+                        match_key = f'match_{question.id}_{option.id}'
+                        student_match = request.form.get(match_key, '').strip()
+                        answers_parts.append(f'{option.id}:{student_match}')
+                        if student_match == option.match_text:
+                            correct_count += 1
+                points = (correct_count / total_pairs * question.points) if total_pairs > 0 else 0
+                total_score += points
 
-            student_answer = StudentAnswer(
-                result_id=result.id,
-                question_id=question.id,
-                answer_text='|'.join(answers_parts),
-                is_correct=correct_count == total_pairs,
-                points_earned=points
-            )
+                student_answer = StudentAnswer(
+                    result_id=result.id,
+                    question_id=question.id,
+                    answer_text='|'.join(answers_parts),
+                    is_correct=correct_count == total_pairs,
+                    points_earned=points
+                )
 
-        elif question.question_type == 'ordering':
-            answer_text = request.form.get(answer_key, '').strip()
-            correct_order = ','.join(str(o.id) for o in sorted(question.options, key=lambda x: x.order))
-            is_correct = answer_text == correct_order
-            points = question.points if is_correct else 0
-            total_score += points
+            elif question.question_type == 'ordering':
+                answer_text = request.form.get(answer_key, '').strip()
+                correct_order = ','.join(str(o.id) for o in sorted(question.options, key=lambda x: x.order))
+                is_correct = answer_text == correct_order
+                points = question.points if is_correct else 0
+                total_score += points
 
-            student_answer = StudentAnswer(
-                result_id=result.id,
-                question_id=question.id,
-                answer_text=answer_text,
-                is_correct=is_correct,
-                points_earned=points
-            )
+                student_answer = StudentAnswer(
+                    result_id=result.id,
+                    question_id=question.id,
+                    answer_text=answer_text,
+                    is_correct=is_correct,
+                    points_earned=points
+                )
 
-        else:  # short_answer
-            answer_text = request.form.get(answer_key, '').strip()
-            student_answer = StudentAnswer(
-                result_id=result.id,
-                question_id=question.id,
-                answer_text=answer_text,
-                is_correct=False,
-                points_earned=0
-            )
+            else:  # short_answer
+                answer_text = request.form.get(answer_key, '').strip()
+                student_answer = StudentAnswer(
+                    result_id=result.id,
+                    question_id=question.id,
+                    answer_text=answer_text,
+                    is_correct=False,
+                    points_earned=0
+                )
 
-        db.session.add(student_answer)
+            db.session.add(student_answer)
 
-    result.score = total_score
-    result.percentage = (total_score / result.total_points * 100) if result.total_points > 0 else 0
-    result.is_completed = True
-    result.completed_at = datetime.utcnow()
-    db.session.commit()
+        result.score = total_score
+        result.percentage = (total_score / result.total_points * 100) if result.total_points > 0 else 0
+        result.is_completed = True
+        result.completed_at = datetime.utcnow()
+        db.session.commit()
 
-    session.pop(f'result_{assessment_id}', None)
+        session.pop(f'result_{assessment_id}', None)
 
-    return redirect(url_for('show_results', result_id=result.id))
+        return redirect(url_for('show_results', result_id=result.id))
+
+    except Exception as e:
+        db.session.rollback()
+        app.logger.error(
+            'Error submitting assessment %d for result %d: %s',
+            assessment_id, result_id, str(e)
+        )
+        flash(
+            'There was an error submitting your assessment. '
+            'Please try again. If the problem persists, contact your teacher.',
+            'error'
+        )
+        return redirect(url_for('start_assessment', assessment_id=assessment_id))
 
 
 @app.route('/results/<int:result_id>')
@@ -521,6 +550,14 @@ def not_found(e):
 def forbidden(e):
     return render_template('error.html', code=403,
                            message='Access denied.'), 403
+
+
+@app.errorhandler(500)
+def internal_error(e):
+    db.session.rollback()
+    app.logger.error('Internal server error: %s', str(e))
+    return render_template('error.html', code=500,
+                           message='An unexpected error occurred. Please try again later.'), 500
 
 
 # ---------------------------------------------------------------------------
