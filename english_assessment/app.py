@@ -588,6 +588,14 @@ with app.app_context():
             seed_assessments()
         except Exception as e:
             print(f'Warning: Could not auto-seed assessments: {e}')
+    # Add new assessments that may not exist in older databases
+    if not Assessment.query.filter_by(access_code='FREQ2SEC').first():
+        try:
+            from seed_data import seed_freq2sec
+            seed_freq2sec()
+            print('Added new practice: Adverbs of Frequency (FREQ2SEC)')
+        except Exception as e:
+            print(f'Warning: Could not add FREQ2SEC: {e}')
 
 
 if __name__ == '__main__':
