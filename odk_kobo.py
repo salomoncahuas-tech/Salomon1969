@@ -6,8 +6,15 @@ con API de KoBoToolbox.
 Cuenca Alta del Río Piura, Perú.
 """
 
-import tkinter as tk
-from tkinter import ttk, messagebox, filedialog
+try:
+    import tkinter as tk
+    from tkinter import ttk, messagebox, filedialog
+    _HAS_TK = True
+except ImportError:
+    tk = None
+    ttk = None
+    _HAS_TK = False
+
 from datetime import datetime
 import csv
 import json
@@ -53,17 +60,15 @@ XLSFORM_SURVEY = [
     ("select_one condicion_clima", "condiciones_climaticas", "Condiciones climáticas", "yes", "", "", ""),
     ("integer", "avance_fisico", "Avance físico (%)", "yes", ". >= 0 and . <= 100", "", ""),
     ("text", "observaciones", "Observaciones técnicas", "no", "", "multiline", ""),
-    ("text", "desviaciones", "Desviaciones al expediente técnico", "no", "", "multiline", ""),
+    ("text", "desviaciones", "Desviaciones observadas al Plan de Trabajo", "no", "", "multiline", ""),
     ("image", "foto_1", "Fotografía 1 - Vista general", "no", "", "", ""),
     ("image", "foto_2", "Fotografía 2 - Detalle", "no", "", "", ""),
     ("image", "foto_3", "Fotografía 3 - Evidencia adicional", "no", "", "", ""),
     ("end_group", "", "", "", "", "", ""),
     ("begin_group", "indicadores_calidad", "Indicadores de Calidad", "", "", "field-list", ""),
-    ("decimal", "densidad_planificada", "Densidad de plantación planificada (pl/ha)", "no", ". >= 0", "", ""),
-    ("decimal", "densidad_lograda", "Densidad de plantación lograda (pl/ha)", "no", ". >= 0", "", ""),
+    ("decimal", "cobertura_vegetal_planificada", "% de cobertura vegetal planificada", "no", ". >= 0 and . <= 100", "", ""),
+    ("decimal", "cobertura_vegetal_lograda", "% de cobertura vegetal lograda", "no", ". >= 0 and . <= 100", "", ""),
     ("decimal", "sobrevivencia_especies", "Sobrevivencia de especies (%)", "no", ". >= 0 and . <= 100", "", ""),
-    ("decimal", "longitud_zanjas", "Longitud ejecutada de zanjas (ml)", "no", ". >= 0", "", ""),
-    ("decimal", "volumen_retencion", "Volumen retención sedimentos (m³)", "no", ". >= 0", "", ""),
     ("end_group", "", "", "", "", "", ""),
     ("calculate", "codigo_verificacion", "", "", "", "", "concat('VER-', format-date(${fecha_hoy}, '%Y%m%d'), '-', substr(${id_dispositivo}, 0, 8))"),
     ("note", "nota_verificacion", "Código de verificación: ${codigo_verificacion}", "", "", "", ""),
@@ -329,8 +334,8 @@ def importar_csv_odk(ruta_csv):
 
                 # Crear indicadores si hay datos
                 try:
-                    dens_plan = float(datos.get("densidad_planificada", "0"))
-                    dens_logr = float(datos.get("densidad_lograda", "0"))
+                    dens_plan = float(datos.get("cobertura_vegetal_planificada", "0"))
+                    dens_logr = float(datos.get("cobertura_vegetal_lograda", "0"))
                     sobrev = float(datos.get("sobrevivencia_especies", "0"))
                     zanjas = float(datos.get("longitud_zanjas", "0"))
                     vol_ret = float(datos.get("volumen_retencion", "0"))
@@ -521,8 +526,8 @@ def importar_desde_kobo(url_servidor, token_api, formulario_uid):
                 resultados["inspecciones_creadas"] += 1
 
                 try:
-                    dens_plan = float(datos.get("densidad_planificada", 0))
-                    dens_logr = float(datos.get("densidad_lograda", 0))
+                    dens_plan = float(datos.get("cobertura_vegetal_planificada", 0))
+                    dens_logr = float(datos.get("cobertura_vegetal_lograda", 0))
                     sobrev = float(datos.get("sobrevivencia_especies", 0))
                     zanjas = float(datos.get("longitud_zanjas", 0))
                     vol_ret = float(datos.get("volumen_retencion", 0))
@@ -544,7 +549,10 @@ def importar_desde_kobo(url_servidor, token_api, formulario_uid):
 
 # ── Tab ODK / KoBoToolbox ─────────────────────────────────────────────────
 
-class TabODKKobo(ttk.Frame):
+_FrameBase = ttk.Frame if _HAS_TK else object
+
+
+class TabODKKobo(_FrameBase):
     """Pestaña de integración con ODK/KoBoToolbox para colecta en campo."""
 
     def __init__(self, parent, app):
@@ -754,7 +762,7 @@ class TabODKKobo(ttk.Frame):
             "condiciones_climaticas", "avance_fisico",
             "observaciones", "desviaciones",
             "foto_1", "foto_2", "foto_3",
-            "densidad_planificada", "densidad_lograda",
+            "cobertura_vegetal_planificada", "cobertura_vegetal_lograda",
             "sobrevivencia_especies", "longitud_zanjas", "volumen_retencion",
             "codigo_verificacion",
         ]

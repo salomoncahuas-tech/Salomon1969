@@ -1,0 +1,23 @@
+databases:
+  - name: english-assessment-db
+    plan: starter
+    databaseName: english_assessments
+    user: english_admin
+
+services:
+  - type: web
+    name: english-assessment
+    plan: starter
+    runtime: python
+    rootDir: english_assessment
+    buildCommand: "./render_build.sh"
+    startCommand: "gunicorn app:app --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: "3.11.0"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: english-assessment-db
+          property: connectionString

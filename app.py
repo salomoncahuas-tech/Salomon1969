@@ -1,5 +1,5 @@
 """
-IN Piura - Plan de Verificación de Campo
+IN Piura - Plan de Ingreso / Verificación de Campo
 Aplicación de escritorio con interfaz gráfica (tkinter).
 Restauración de ecosistemas - Cuenca alta del río Piura, Perú.
 """
@@ -14,6 +14,9 @@ import database as db
 import reports
 from georeferenciacion import TabGeorreferenciacion
 from odk_kobo import TabODKKobo
+from dashboard import TabDashboard
+from presupuesto import TabPresupuesto
+from cronograma import TabCronograma
 
 # ── Constantes ─────────────────────────────────────────────────────────────
 
@@ -22,6 +25,8 @@ TIPOS_INTERVENCION = [
     "Zanjas de infiltración",
     "Terrazas de formación lenta",
     "Diques de mampostería",
+    "Lotes SUS",
+    "Otras",
 ]
 
 ESTADOS_BLOQUE = ["Pendiente", "En progreso", "Verificado"]
@@ -34,6 +39,192 @@ CONDICIONES_CLIMATICAS = [
     "Lluvia moderada",
     "Lluvia intensa",
     "Neblina",
+]
+
+# Microcuencas del Proyecto IN Piura - Cuenca Alta del Río Piura (29 códigos)
+MICROCUENCAS = [
+    "C1075-Q9580",
+    "C1076-Q9581",
+    "C1076-Q9584",
+    "C1076-Q9585",
+    "C1076-Q9586",
+    "C1076-Q9587",
+    "C1076-Q9588",
+    "C1076-Q9589",
+    "C1076-Q9592",
+    "C1077-Q9566",
+    "C1077-Q9579",
+    "C1078-Q9562",
+    "C1080-Q9560",
+    "C1081-Q9582",
+    "C1081-Q9583",
+    "C1081-Q9591",
+    "C1086-Q9569",
+    "C1086-Q9570",
+    "C1086-Q9575",
+    "C1086-Q9576",
+    "C1096-Q9545",
+    "C1096-Q9547",
+    "C1096-Q9556",
+    "C1096-Q9557",
+    "C1096-Q9558",
+    "C1096-Q9564",
+    "C1107-Q9539",
+    "C1107-Q9541",
+    "C1108-Q9552",
+]
+
+# ── Datos de Origen: 83 Bloques Preliminares de Intervención ─────────
+# Fuente: DATOS DE ORIGEN 83 BLOQUES.xlsx
+# Cada entrada: (N, Bloque, Microcuenca, Area_ha, Provincia, Distrito, Accesibilidad, Dia)
+BLOQUES_83 = [
+    (1, "M25B1", "C1107-Q9541", 313.131, "Piura", "Las Lomas", 0, 1),
+    (2, "M35B1", "C1107-Q9539", 229.177, "Sullana", "Sullana", 0, 1),
+    (3, "M10B4", "C1096-Q9547", 95.459, "Morropón", "Chulucanas", 0, 2),
+    (4, "M9B1", "C1096-Q9545", 1115.665, "Morropón", "Chulucanas", 0, 2),
+    (5, "M5B3", "C1108-Q9552", 561.842, "Piura", "Tambo Grande", 0, 2),
+    (6, "M5B1", "C1108-Q9552", 58.27, "Piura", "Tambo Grande", 1, 2),
+    (7, "M8B5", "C1096-Q9558", 94.918, "Morropón", "Chulucanas", 1, 3),
+    (8, "M17B1", "C1096-Q9556", 30.348, "Morropón", "Chulucanas", 0, 3),
+    (9, "M27B1", "C1096-Q9557", 289.02, "Morropón", "Chulucanas", 0, 3),
+    (10, "M10B1", "C1096-Q9547", 596.766, "Morropón", "Chulucanas", 0, 3),
+    (11, "M17B6", "C1096-Q9556", 118.175, "Ayabaca", "Frías", 1, 4),
+    (12, "M17B11", "C1096-Q9556", 618.871, "Morropón", "Chulucanas", 1, 4),
+    (13, "M17B4", "C1096-Q9556", 159.267, "Morropón", "Chulucanas", 1, 4),
+    (14, "M17B10", "C1096-Q9556", 594.76, "Ayabaca", "Frías", 1, 4),
+    (15, "M17B5", "C1096-Q9556", 139.603, "Ayabaca", "Frías", 1, 4),
+    (16, "M8B4", "C1096-Q9558", 113.764, "Morropón", "Chulucanas", 1, 4),
+    (17, "M17B7", "C1096-Q9556", 261.051, "Ayabaca", "Frías", 1, 4),
+    (18, "M36B2", "C1086-Q9576", 64.769, "Morropón", "Santa Catalina de Mossa", 0, 5),
+    (19, "M29B1", "C1096-Q9564", 28.289, "Ayabaca", "Frías", 1, 5),
+    (20, "M19B5", "C1086-Q9570", 79.177, "Morropón", "Santo Domingo", 1, 5),
+    (21, "M36B1", "C1086-Q9576", 131.383, "Morropón", "Chalaco", 1, 5),
+    (22, "M19B7", "C1086-Q9570", 108.891, "Morropón", "Santo Domingo", 1, 6),
+    (23, "M19B2", "C1086-Q9570", 54.187, "Morropón", "Morropón", 1, 6),
+    (24, "M8B2", "C1096-Q9558", 67.561, "Morropón", "Santo Domingo", 1, 6),
+    (25, "M32B2", "C1086-Q9569", 44.889, "Morropón", "Santa Catalina de Mossa", 1, 6),
+    (26, "M32B3", "C1086-Q9569", 102.916, "Morropón", "Morropón", 1, 6),
+    (27, "M34B1", "C1078-Q9562", 736.319, "Morropón", "La Matanza", 0, 7),
+    (28, "M8B1", "C1096-Q9558", 148.266, "Morropón", "Morropón", 0, 7),
+    (29, "M27B4", "C1096-Q9557", 511.53, "Morropón", "Morropón", 0, 7),
+    (30, "M16B3", "C1080-Q9560", 110.809, "Morropón", "Morropón", 0, 7),
+    (31, "M16B2", "C1080-Q9560", 462.688, "Morropón", "Morropón", 0, 7),
+    (32, "M27B5", "C1096-Q9557", 88.152, "Morropón", "Morropón", 0, 7),
+    (33, "M6B10", "C1077-Q9566", 376.183, "Morropón", "Buenos Aires", 1, 8),
+    (34, "M28B3", "C1086-Q9575", 44.709, "Morropón", "Yamango", 1, 8),
+    (35, "M28B1", "C1086-Q9575", 49.608, "Morropón", "Yamango", 0, 8),
+    (36, "M28B4", "C1086-Q9575", 160.485, "Morropón", "Yamango", 0, 8),
+    (37, "M28B2", "C1086-Q9575", 155.139, "Morropón", "Yamango", 1, 8),
+    (38, "M32B1", "C1086-Q9569", 313.334, "Morropón", "Buenos Aires", 1, 8),
+    (39, "M6B6", "C1077-Q9566", 80.898, "Morropón", "Buenos Aires", 0, 9),
+    (40, "M6B8", "C1077-Q9566", 68.037, "Morropón", "Buenos Aires", 0, 9),
+    (41, "M6B7", "C1077-Q9566", 185.483, "Morropón", "Buenos Aires", 0, 9),
+    (42, "M6B2", "C1077-Q9566", 2141.763, "Morropón", "Buenos Aires", 0, 9),
+    (43, "M1B1", "C1075-Q9580", 289.68, "Morropón", "Buenos Aires", 0, 10),
+    (44, "M18B1", "C1077-Q9579", 75.61, "Morropón", "Buenos Aires", 1, 10),
+    (45, "M6B5", "C1077-Q9566", 286.591, "Morropón", "Buenos Aires", 0, 10),
+    (46, "M18B3", "C1077-Q9579", 236.273, "Morropón", "Salitral", 0, 10),
+    (47, "M18B5", "C1077-Q9579", 157.818, "Morropón", "Salitral", 0, 10),
+    (48, "M3B9", "C1081-Q9582", 328.824, "Morropón", "Salitral", 1, 11),
+    (49, "M3B8", "C1081-Q9582", 567.472, "Morropón", "San Juan de Bigote", 1, 11),
+    (50, "M3B1", "C1081-Q9582", 84.927, "Morropón", "Salitral", 0, 11),
+    (51, "M7B1", "C1076-Q9581", 144.726, "Morropón", "Salitral", 1, 11),
+    (52, "M3B3", "C1081-Q9582", 84.715, "Morropón", "San Juan de Bigote", 1, 11),
+    (53, "M11B1", "C1081-Q9583", 48.951, "Morropón", "San Juan de Bigote", 1, 12),
+    (54, "M3B5", "C1081-Q9582", 153.642, "Morropón", "San Juan de Bigote", 0, 12),
+    (55, "M3B7", "C1081-Q9582", 125.348, "Morropón", "San Juan de Bigote", 1, 12),
+    (56, "M11B3", "C1081-Q9583", 95.537, "Morropón", "San Juan de Bigote", 1, 12),
+    (57, "M30B6", "C1081-Q9591", 70.778, "Huancabamba", "Huancabamba", 1, 13),
+    (58, "M30B1", "C1081-Q9591", 535.022, "Huancabamba", "Canchaque", 0, 13),
+    (59, "M30B5", "C1081-Q9591", 89.999, "Huancabamba", "Huancabamba", 0, 13),
+    (60, "M7B2", "C1076-Q9581", 154.81, "Morropón", "Salitral", 1, 14),
+    (61, "M7B6", "C1076-Q9581", 95.209, "Morropón", "Salitral", 0, 14),
+    (62, "M7B3", "C1076-Q9581", 98.029, "Morropón", "Salitral", 1, 14),
+    (63, "M20B1", "C1076-Q9585", 31.619, "Huancabamba", "San Miguel de El Faique", 0, 14),
+    (64, "M2B8", "C1076-Q9584", 63.364, "Huancabamba", "San Miguel de El Faique", 0, 14),
+    (65, "M2B1", "C1076-Q9584", 83.883, "Morropón", "Salitral", 0, 14),
+    (66, "M26B4", "C1076-Q9587", 37.933, "Huancabamba", "Canchaque", 0, 15),
+    (67, "M11B2", "C1081-Q9583", 48.988, "Huancabamba", "Canchaque", 0, 15),
+    (68, "M22B1", "C1076-Q9586", 150.796, "Huancabamba", "San Miguel de El Faique", 1, 15),
+    (69, "M12B1", "C1076-Q9588", 262.716, "Huancabamba", "Huarmaca", 0, 16),
+    (70, "M4B1", "C1076-Q9589", 40.638, "Huancabamba", "Huarmaca", 0, 16),
+    (71, "M12B8", "C1076-Q9588", 235.281, "Morropón", "Salitral", 1, 16),
+    (72, "M4B4", "C1076-Q9589", 293.115, "Huancabamba", "Huarmaca", 0, 16),
+    (73, "M4B3", "C1076-Q9589", 181.941, "Huancabamba", "Huarmaca", 0, 16),
+    (74, "M2B5", "C1076-Q9584", 34.164, "Morropón", "Salitral", 0, 16),
+    (75, "M12B2", "C1076-Q9588", 62.825, "Huancabamba", "Huarmaca", 1, 17),
+    (76, "M12B6", "C1076-Q9588", 101.408, "Huancabamba", "Huarmaca", 1, 17),
+    (77, "M12B7", "C1076-Q9588", 49.703, "Huancabamba", "Huarmaca", 1, 17),
+    (78, "M12B3", "C1076-Q9588", 262.721, "Huancabamba", "Huarmaca", 1, 17),
+    (79, "M12B4", "C1076-Q9588", 258.994, "Huancabamba", "Huarmaca", 1, 18),
+    (80, "M15B2", "C1076-Q9592", 142.732, "Huancabamba", "Huarmaca", 1, 18),
+    (81, "M15B1", "C1076-Q9592", 144.28, "Huancabamba", "Huarmaca", 1, 18),
+    (82, "M12B5", "C1076-Q9588", 64.986, "Huancabamba", "Huarmaca", 1, 18),
+    (83, "M15B5", "C1076-Q9592", 181.872, "Huancabamba", "Huarmaca", 1, 19),
+]
+
+# Diccionario para búsqueda rápida por código de bloque
+BLOQUES_83_MAP = {b[1]: {"n": b[0], "codigo": b[1], "microcuenca": b[2],
+    "area_ha": b[3], "provincia": b[4], "distrito": b[5],
+    "accesibilidad": b[6], "dia_evaluacion": b[7]} for b in BLOQUES_83}
+
+# Lista de códigos para el dropdown (solo código de bloque)
+BLOQUES_83_OPCIONES = [b[1] for b in BLOQUES_83]
+
+# 5 Provincias y 18 Distritos del Proyecto IN Piura
+PROVINCIAS_DISTRITOS = {
+    "Ayabaca": [
+        "Frías",
+    ],
+    "Huancabamba": [
+        "Canchaque",
+        "Huancabamba",
+        "Huarmaca",
+        "San Miguel de El Faique",
+    ],
+    "Morropón": [
+        "Buenos Aires",
+        "Chalaco",
+        "Chulucanas",
+        "La Matanza",
+        "Morropón",
+        "Salitral",
+        "San Juan de Bigote",
+        "Santa Catalina de Mossa",
+        "Santo Domingo",
+        "Yamango",
+    ],
+    "Piura": [
+        "Las Lomas",
+        "Tambo Grande",
+    ],
+    "Sullana": [
+        "Sullana",
+    ],
+}
+
+PROVINCIAS = list(PROVINCIAS_DISTRITOS.keys())
+
+# Lista plana de todos los distritos (para validación)
+DISTRITOS_PIURA = []
+for _distritos in PROVINCIAS_DISTRITOS.values():
+    DISTRITOS_PIURA.extend(_distritos)
+
+# Tipos de cobertura vegetal
+TIPOS_COBERTURA_VEGETAL = [
+    "Arbórea",
+    "Arbustiva",
+    "Herbácea",
+    "Mixta",
+]
+
+# Vigor / calidad de cobertura vegetal
+VIGOR_COBERTURA_VEGETAL = [
+    "Excelente",
+    "Bueno",
+    "Regular",
+    "Deficiente",
+    "Muy deficiente",
 ]
 
 COLOR_PRIMARIO = "#2C3E50"
@@ -49,9 +240,9 @@ class AplicacionINPiura(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        self.title("IN Piura - Plan de Verificación de Campo")
-        self.geometry("1200x760")
-        self.minsize(1024, 680)
+        self.title("IN Piura - Plan de Ingreso - Verificación de Campo")
+        self.geometry("1280x800")
+        self.minsize(1080, 720)
         self.configure(bg=COLOR_FONDO)
 
         # Inicializar base de datos
@@ -94,31 +285,40 @@ class AplicacionINPiura(tk.Tk):
         tk.Label(header_frame, text="IN Piura", font=("Segoe UI", 18, "bold"),
                  bg=COLOR_PRIMARIO, fg="white").pack(side="left", padx=16)
         tk.Label(header_frame,
-                 text="Plan de Verificación de Campo  |  Cuenca Alta del Río Piura",
+                 text="Plan de Ingreso  |  Verificación de Campo  |  Cuenca Alta del Río Piura",
                  font=("Segoe UI", 10), bg=COLOR_PRIMARIO, fg="#BDC3C7").pack(side="left", padx=8)
 
         # Notebook (pestañas)
         self.notebook = ttk.Notebook(self)
         self.notebook.pack(fill="both", expand=True, padx=8, pady=8)
 
+        self.tab_dashboard = TabDashboard(self.notebook, self)
         self.tab_bloques = TabBloques(self.notebook, self)
         self.tab_inspeccion = TabInspeccion(self.notebook, self)
         self.tab_indicadores = TabIndicadores(self.notebook, self)
+        self.tab_presupuesto = TabPresupuesto(self.notebook, self)
+        self.tab_cronograma = TabCronograma(self.notebook, self)
         self.tab_georef = TabGeorreferenciacion(self.notebook, self)
         self.tab_odk = TabODKKobo(self.notebook, self)
         self.tab_reportes = TabReportes(self.notebook, self)
 
+        self.notebook.add(self.tab_dashboard, text="  Panel de Control  ")
         self.notebook.add(self.tab_bloques, text="  Bloques de Intervención  ")
         self.notebook.add(self.tab_inspeccion, text="  Inspección de Campo  ")
         self.notebook.add(self.tab_indicadores, text="  Indicadores de Calidad  ")
+        self.notebook.add(self.tab_presupuesto, text="  Presupuesto  ")
+        self.notebook.add(self.tab_cronograma, text="  Cronograma  ")
         self.notebook.add(self.tab_georef, text="  Georreferenciación  ")
         self.notebook.add(self.tab_odk, text="  ODK / KoBoToolbox  ")
         self.notebook.add(self.tab_reportes, text="  Reportes  ")
 
     def refrescar_todo(self):
+        self.tab_dashboard.actualizar_datos()
         self.tab_bloques.cargar_bloques()
         self.tab_inspeccion.cargar_combos()
         self.tab_indicadores.cargar_combos()
+        self.tab_presupuesto.cargar_combos()
+        self.tab_cronograma.cargar_combos()
         self.tab_georef.cargar_datos()
         self.tab_reportes.cargar_combos()
 
@@ -134,37 +334,85 @@ class TabBloques(ttk.Frame):
         self.cargar_bloques()
 
     def _crear_widgets(self):
-        # Panel izquierdo - Formulario
-        panel_izq = ttk.Frame(self, padding=10)
-        panel_izq.pack(side="left", fill="y", padx=(0, 4))
+        # Panel izquierdo - Formulario (con scroll)
+        panel_izq_outer = ttk.Frame(self)
+        panel_izq_outer.pack(side="left", fill="y", padx=(0, 4))
+
+        canvas_izq = tk.Canvas(panel_izq_outer, bg=COLOR_FONDO, highlightthickness=0, width=380)
+        scrollbar_izq = ttk.Scrollbar(panel_izq_outer, orient="vertical", command=canvas_izq.yview)
+        panel_izq = ttk.Frame(canvas_izq, padding=10)
+
+        panel_izq.bind("<Configure>",
+                       lambda e: canvas_izq.configure(scrollregion=canvas_izq.bbox("all")))
+        canvas_izq.create_window((0, 0), window=panel_izq, anchor="nw")
+        canvas_izq.configure(yscrollcommand=scrollbar_izq.set)
+
+        canvas_izq.pack(side="left", fill="both", expand=True)
+        scrollbar_izq.pack(side="right", fill="y")
 
         ttk.Label(panel_izq, text="Registro de Bloque", style="Header.TLabel").grid(
-            row=0, column=0, columnspan=2, sticky="w", pady=(0, 10))
+            row=0, column=0, columnspan=2, sticky="w", pady=(0, 6))
+
+        # ── Selector rápido de los 83 bloques preliminares ──
+        ttk.Label(panel_izq, text="Selección rápida - 83 Bloques:",
+                  font=("Segoe UI", 9, "bold")).grid(
+            row=1, column=0, columnspan=2, sticky="w", pady=(4, 2))
+        self.combo_bloque_83 = ttk.Combobox(
+            panel_izq, values=[""] + BLOQUES_83_OPCIONES, state="readonly", width=46)
+        self.combo_bloque_83.grid(row=2, column=0, columnspan=2, sticky="ew", pady=(0, 2), padx=(0, 0))
+        self.combo_bloque_83.bind("<<ComboboxSelected>>", self._on_bloque_83_seleccionado)
+
+        self.label_info_83 = ttk.Label(panel_izq, text="", wraplength=360,
+                                        foreground="#2980B9", font=("Segoe UI", 8))
+        self.label_info_83.grid(row=3, column=0, columnspan=2, sticky="w", pady=(0, 6))
+
+        ttk.Separator(panel_izq, orient="horizontal").grid(
+            row=4, column=0, columnspan=2, sticky="ew", pady=4)
 
         campos = [
             ("Código de bloque:", "codigo"),
             ("Cuenca hidrográfica:", "cuenca"),
-            ("Distrito:", "distrito"),
             ("UTM Este (m):", "utm_este"),
             ("UTM Norte (m):", "utm_norte"),
             ("Zona UTM:", "utm_zona"),
+            ("Altitud (m.s.n.m.):", "altitud"),
             ("Área (ha):", "area"),
+            ("Responsable:", "responsable"),
         ]
 
         self.entries = {}
-        for i, (label, key) in enumerate(campos, 1):
+        for i, (label, key) in enumerate(campos, 5):
             ttk.Label(panel_izq, text=label).grid(row=i, column=0, sticky="w", pady=3)
             entry = ttk.Entry(panel_izq, width=24)
             entry.grid(row=i, column=1, sticky="ew", pady=3, padx=(6, 0))
             self.entries[key] = entry
 
-        # Valor por defecto zona UTM
+        # Valores por defecto
         self.entries["utm_zona"].insert(0, "17S")
-        # Valor por defecto cuenca
         self.entries["cuenca"].insert(0, "Cuenca Alta del Río Piura")
+        self.entries["altitud"].insert(0, "0")
 
-        # Tipo de intervención
-        fila = len(campos) + 1
+        # Microcuenca (lista desplegable validada)
+        fila = 5 + len(campos)
+        ttk.Label(panel_izq, text="Código microcuenca:").grid(row=fila, column=0, sticky="w", pady=3)
+        self.combo_microcuenca = ttk.Combobox(panel_izq, values=MICROCUENCAS, state="readonly", width=22)
+        self.combo_microcuenca.grid(row=fila, column=1, sticky="ew", pady=3, padx=(6, 0))
+
+        # Provincia (lista desplegable de 5 provincias)
+        fila += 1
+        ttk.Label(panel_izq, text="Provincia:").grid(row=fila, column=0, sticky="w", pady=3)
+        self.combo_provincia = ttk.Combobox(panel_izq, values=PROVINCIAS, state="readonly", width=22)
+        self.combo_provincia.grid(row=fila, column=1, sticky="ew", pady=3, padx=(6, 0))
+        self.combo_provincia.bind("<<ComboboxSelected>>", self._on_provincia_seleccionada)
+
+        # Distrito (filtrado por provincia seleccionada)
+        fila += 1
+        ttk.Label(panel_izq, text="Distrito:").grid(row=fila, column=0, sticky="w", pady=3)
+        self.combo_distrito = ttk.Combobox(panel_izq, values=DISTRITOS_PIURA, state="readonly", width=22)
+        self.combo_distrito.grid(row=fila, column=1, sticky="ew", pady=3, padx=(6, 0))
+
+        # Tipo de intervención (incluye "Otras")
+        fila += 1
         ttk.Label(panel_izq, text="Tipo intervención:").grid(row=fila, column=0, sticky="w", pady=3)
         self.combo_tipo = ttk.Combobox(panel_izq, values=TIPOS_INTERVENCION, state="readonly", width=22)
         self.combo_tipo.grid(row=fila, column=1, sticky="ew", pady=3, padx=(6, 0))
@@ -193,26 +441,49 @@ class TabBloques(ttk.Frame):
         panel_der = ttk.Frame(self, padding=10)
         panel_der.pack(side="right", fill="both", expand=True)
 
-        ttk.Label(panel_der, text="Bloques Registrados", style="Header.TLabel").pack(anchor="w", pady=(0, 6))
+        # Barra de búsqueda
+        busqueda_frame = ttk.Frame(panel_der)
+        busqueda_frame.pack(fill="x", pady=(0, 6))
 
-        columnas = ("codigo", "tipo", "distrito", "utm_este", "utm_norte", "area", "estado")
-        self.tree = ttk.Treeview(panel_der, columns=columnas, show="headings", height=18)
+        ttk.Label(busqueda_frame, text="Bloques Registrados",
+                  style="Header.TLabel").pack(side="left")
+
+        ttk.Button(busqueda_frame, text="Buscar",
+                   command=self._buscar_bloques).pack(side="right", padx=(4, 0))
+        ttk.Button(busqueda_frame, text="Mostrar todos",
+                   command=self.cargar_bloques).pack(side="right", padx=4)
+        self.entry_busqueda = ttk.Entry(busqueda_frame, width=20)
+        self.entry_busqueda.pack(side="right", padx=4)
+        self.entry_busqueda.bind("<Return>", lambda e: self._buscar_bloques())
+        ttk.Label(busqueda_frame, text="Buscar:").pack(side="right")
+
+        columnas = ("codigo", "microcuenca", "tipo", "provincia", "distrito",
+                    "utm_este", "utm_norte", "altitud", "area", "responsable", "estado")
+        self.tree = ttk.Treeview(panel_der, columns=columnas, show="headings", height=16)
 
         self.tree.heading("codigo", text="Código")
+        self.tree.heading("microcuenca", text="Microcuenca")
         self.tree.heading("tipo", text="Tipo Intervención")
+        self.tree.heading("provincia", text="Provincia")
         self.tree.heading("distrito", text="Distrito")
         self.tree.heading("utm_este", text="UTM Este")
         self.tree.heading("utm_norte", text="UTM Norte")
+        self.tree.heading("altitud", text="Altitud")
         self.tree.heading("area", text="Área (ha)")
+        self.tree.heading("responsable", text="Responsable")
         self.tree.heading("estado", text="Estado")
 
-        self.tree.column("codigo", width=80)
-        self.tree.column("tipo", width=170)
-        self.tree.column("distrito", width=100)
-        self.tree.column("utm_este", width=90)
-        self.tree.column("utm_norte", width=90)
-        self.tree.column("area", width=70)
-        self.tree.column("estado", width=90)
+        self.tree.column("codigo", width=75)
+        self.tree.column("microcuenca", width=110)
+        self.tree.column("tipo", width=130)
+        self.tree.column("provincia", width=85)
+        self.tree.column("distrito", width=90)
+        self.tree.column("utm_este", width=75)
+        self.tree.column("utm_norte", width=75)
+        self.tree.column("altitud", width=55)
+        self.tree.column("area", width=55)
+        self.tree.column("responsable", width=85)
+        self.tree.column("estado", width=70)
 
         scrollbar = ttk.Scrollbar(panel_der, orient="vertical", command=self.tree.yview)
         self.tree.configure(yscrollcommand=scrollbar.set)
@@ -226,12 +497,84 @@ class TabBloques(ttk.Frame):
         for item in self.tree.get_children():
             self.tree.delete(item)
         bloques = db.obtener_bloques()
+        self._mostrar_bloques(bloques)
+
+    def _buscar_bloques(self):
+        texto = self.entry_busqueda.get().strip()
+        if not texto:
+            self.cargar_bloques()
+            return
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+        bloques = db.buscar_bloques(texto)
+        self._mostrar_bloques(bloques)
+
+    def _mostrar_bloques(self, bloques):
         for b in bloques:
+            altitud = b.get("altitud", 0) or 0
+            responsable = b.get("responsable", "") or ""
+            microcuenca = b.get("microcuenca", "") or ""
+            provincia = b.get("provincia", "") or ""
             self.tree.insert("", "end", iid=b["id"], values=(
-                b["codigo"], b["tipo_intervencion"], b["distrito"],
+                b["codigo"], microcuenca, b["tipo_intervencion"],
+                provincia, b["distrito"],
                 f"{b['utm_este']:.2f}", f"{b['utm_norte']:.2f}",
-                f"{b['area_hectareas']:.4f}", b["estado"]
+                f"{altitud:.0f}", f"{b['area_hectareas']:.4f}",
+                responsable, b["estado"]
             ))
+
+    def _on_provincia_seleccionada(self, event=None):
+        """Filtra los distritos según la provincia seleccionada."""
+        provincia = self.combo_provincia.get()
+        if provincia in PROVINCIAS_DISTRITOS:
+            distritos = PROVINCIAS_DISTRITOS[provincia]
+            self.combo_distrito["values"] = distritos
+            self.combo_distrito.set("")
+        else:
+            self.combo_distrito["values"] = DISTRITOS_PIURA
+            self.combo_distrito.set("")
+
+    def _on_bloque_83_seleccionado(self, event=None):
+        """Autocompleta campos al seleccionar un bloque de los 83 predefinidos."""
+        seleccion = self.combo_bloque_83.get()
+        if not seleccion:
+            self.label_info_83.config(text="")
+            return
+
+        # El dropdown ahora muestra directamente el código del bloque
+        datos = BLOQUES_83_MAP.get(seleccion)
+        if not datos:
+            self.label_info_83.config(text="")
+            return
+
+        # Limpiar formulario sin resetear defaults
+        self.limpiar_formulario(reset_defaults=False)
+
+        # Autocompletar campos
+        self.entries["codigo"].insert(0, datos["codigo"])
+        self.entries["cuenca"].insert(0, "Cuenca Alta del Río Piura")
+        self.entries["area"].insert(0, str(datos["area_ha"]))
+        self.entries["utm_zona"].insert(0, "17S")
+        self.entries["altitud"].insert(0, "0")
+
+        # Microcuenca
+        if datos["microcuenca"] in MICROCUENCAS:
+            self.combo_microcuenca.set(datos["microcuenca"])
+
+        # Provincia y distrito
+        if datos["provincia"] in PROVINCIAS:
+            self.combo_provincia.set(datos["provincia"])
+            self.combo_distrito["values"] = PROVINCIAS_DISTRITOS.get(datos["provincia"], DISTRITOS_PIURA)
+        distrito = datos["distrito"]
+        if distrito in DISTRITOS_PIURA:
+            self.combo_distrito.set(distrito)
+
+        # Info
+        acc = "Acceso limitado" if datos["accesibilidad"] == 1 else "Acceso normal"
+        self.label_info_83.config(
+            text=f"Bloque {datos['codigo']} | {datos['microcuenca']} | "
+                 f"{datos['distrito']} ({datos['provincia']}) | "
+                 f"{datos['area_ha']} ha | {acc} | Día eval.: {datos['dia_evaluacion']}")
 
     def on_seleccionar_bloque(self, event):
         sel = self.tree.selection()
@@ -247,19 +590,45 @@ class TabBloques(ttk.Frame):
 
         self.entries["codigo"].insert(0, bloque["codigo"])
         self.entries["cuenca"].insert(0, bloque["cuenca"])
-        self.entries["distrito"].insert(0, bloque["distrito"])
         self.entries["utm_este"].insert(0, str(bloque["utm_este"]))
         self.entries["utm_norte"].insert(0, str(bloque["utm_norte"]))
         self.entries["utm_zona"].insert(0, bloque["utm_zona"])
+        self.entries["altitud"].insert(0, str(bloque.get("altitud", 0) or 0))
         self.entries["area"].insert(0, str(bloque["area_hectareas"]))
+        self.entries["responsable"].insert(0, bloque.get("responsable", "") or "")
         self.combo_tipo.set(bloque["tipo_intervencion"])
         self.combo_estado.set(bloque["estado"])
+        # Restaurar provincia y distrito
+        provincia_val = bloque.get("provincia", "") or ""
+        if provincia_val in PROVINCIAS:
+            self.combo_provincia.set(provincia_val)
+            self.combo_distrito["values"] = PROVINCIAS_DISTRITOS.get(provincia_val, DISTRITOS_PIURA)
+        else:
+            self.combo_provincia.set("")
+            self.combo_distrito["values"] = DISTRITOS_PIURA
+        distrito_val = bloque.get("distrito", "")
+        if distrito_val in DISTRITOS_PIURA:
+            self.combo_distrito.set(distrito_val)
+        else:
+            self.combo_distrito.set("")
+        # Restaurar microcuenca en combobox
+        microcuenca_val = bloque.get("microcuenca", "") or ""
+        if microcuenca_val in MICROCUENCAS:
+            self.combo_microcuenca.set(microcuenca_val)
+        else:
+            self.combo_microcuenca.set("")
 
     def _validar_campos(self):
         codigo = self.entries["codigo"].get().strip()
         if not codigo:
             messagebox.showwarning("Validación", "El código de bloque es obligatorio.")
             return None
+
+        distrito = self.combo_distrito.get()
+        if not distrito:
+            messagebox.showwarning("Validación", "Debe seleccionar un distrito de la lista.")
+            return None
+
         try:
             utm_este = float(self.entries["utm_este"].get().strip())
             utm_norte = float(self.entries["utm_norte"].get().strip())
@@ -269,21 +638,47 @@ class TabBloques(ttk.Frame):
                                    "UTM Este, UTM Norte y Área deben ser valores numéricos.")
             return None
 
+        try:
+            altitud = float(self.entries["altitud"].get().strip() or "0")
+        except ValueError:
+            altitud = 0
+
         return {
             "codigo": codigo,
             "tipo_intervencion": self.combo_tipo.get(),
             "cuenca": self.entries["cuenca"].get().strip() or "Cuenca Alta del Río Piura",
-            "distrito": self.entries["distrito"].get().strip(),
+            "distrito": distrito,
             "utm_este": utm_este,
             "utm_norte": utm_norte,
             "utm_zona": self.entries["utm_zona"].get().strip() or "17S",
             "area_hectareas": area,
             "estado": self.combo_estado.get(),
+            "altitud": altitud,
+            "responsable": self.entries["responsable"].get().strip(),
+            "microcuenca": self.combo_microcuenca.get(),
+            "provincia": self.combo_provincia.get(),
         }
 
     def guardar_bloque(self):
         datos = self._validar_campos()
         if not datos:
+            return
+        # Verificar si el bloque ya existe
+        existente = db.obtener_bloque_por_codigo(datos["codigo"])
+        if existente:
+            respuesta = messagebox.askyesno(
+                "Bloque existente",
+                f"El bloque '{datos['codigo']}' ya está registrado.\n"
+                "¿Desea actualizar sus datos con la información del formulario?")
+            if respuesta:
+                try:
+                    db.actualizar_bloque(existente["id"], **datos)
+                    messagebox.showinfo("Éxito", f"Bloque {datos['codigo']} actualizado correctamente.")
+                    self.limpiar_formulario()
+                    self.cargar_bloques()
+                    self.app.refrescar_todo()
+                except Exception as e:
+                    messagebox.showerror("Error", f"No se pudo actualizar el bloque:\n{e}")
             return
         try:
             db.insertar_bloque(**datos)
@@ -325,9 +720,16 @@ class TabBloques(ttk.Frame):
         self.bloque_seleccionado = None
         for entry in self.entries.values():
             entry.delete(0, tk.END)
+        self.combo_provincia.set("")
+        self.combo_distrito.set("")
+        self.combo_distrito["values"] = DISTRITOS_PIURA
+        self.combo_microcuenca.set("")
+        self.combo_bloque_83.set("")
+        self.label_info_83.config(text="")
         if reset_defaults:
             self.entries["utm_zona"].insert(0, "17S")
             self.entries["cuenca"].insert(0, "Cuenca Alta del Río Piura")
+            self.entries["altitud"].insert(0, "0")
             self.combo_tipo.set(TIPOS_INTERVENCION[0])
             self.combo_estado.set(ESTADOS_BLOQUE[0])
 
@@ -366,55 +768,60 @@ class TabInspeccion(ttk.Frame):
         ttk.Label(frame, text="Bloque:").grid(row=1, column=0, sticky="w", padx=10, pady=4)
         self.combo_bloque = ttk.Combobox(frame, state="readonly", width=40)
         self.combo_bloque.grid(row=1, column=1, sticky="w", padx=6, pady=4)
+        self.combo_bloque.bind("<<ComboboxSelected>>", self._on_bloque_seleccionado)
+
+        # Código de microcuenca (auto-vinculado al seleccionar bloque)
+        ttk.Label(frame, text="Código microcuenca:").grid(row=2, column=0, sticky="w", padx=10, pady=4)
+        self.combo_microcuenca = ttk.Combobox(frame, values=MICROCUENCAS, state="readonly", width=40)
+        self.combo_microcuenca.grid(row=2, column=1, sticky="w", padx=6, pady=4)
 
         # Fecha
-        ttk.Label(frame, text="Fecha de visita:").grid(row=2, column=0, sticky="w", padx=10, pady=4)
+        ttk.Label(frame, text="Fecha de visita:").grid(row=3, column=0, sticky="w", padx=10, pady=4)
         self.entry_fecha = ttk.Entry(frame, width=20)
-        self.entry_fecha.grid(row=2, column=1, sticky="w", padx=6, pady=4)
+        self.entry_fecha.grid(row=3, column=1, sticky="w", padx=6, pady=4)
         self.entry_fecha.insert(0, datetime.now().strftime("%Y-%m-%d"))
 
         # Inspector
-        ttk.Label(frame, text="Nombre del inspector:").grid(row=3, column=0, sticky="w", padx=10, pady=4)
+        ttk.Label(frame, text="Nombre del inspector:").grid(row=4, column=0, sticky="w", padx=10, pady=4)
         self.entry_inspector = ttk.Entry(frame, width=40)
-        self.entry_inspector.grid(row=3, column=1, sticky="w", padx=6, pady=4)
+        self.entry_inspector.grid(row=4, column=1, sticky="w", padx=6, pady=4)
 
         # Condiciones climáticas
-        ttk.Label(frame, text="Condiciones climáticas:").grid(row=4, column=0, sticky="w", padx=10, pady=4)
+        ttk.Label(frame, text="Condiciones climáticas:").grid(row=5, column=0, sticky="w", padx=10, pady=4)
         self.combo_clima = ttk.Combobox(frame, values=CONDICIONES_CLIMATICAS, state="readonly", width=28)
-        self.combo_clima.grid(row=4, column=1, sticky="w", padx=6, pady=4)
+        self.combo_clima.grid(row=5, column=1, sticky="w", padx=6, pady=4)
         self.combo_clima.set(CONDICIONES_CLIMATICAS[0])
 
         # Avance físico
-        ttk.Label(frame, text="Avance físico (%):").grid(row=5, column=0, sticky="w", padx=10, pady=4)
         self.entry_avance = ttk.Entry(frame, width=12)
-        self.entry_avance.grid(row=5, column=1, sticky="w", padx=6, pady=4)
+        self.entry_avance.grid(row=6, column=1, sticky="w", padx=6, pady=4)
         self.entry_avance.insert(0, "0")
 
         # Observaciones
-        ttk.Label(frame, text="Observaciones técnicas:").grid(row=6, column=0, sticky="nw", padx=10, pady=4)
+        ttk.Label(frame, text="Observaciones técnicas:").grid(row=7, column=0, sticky="nw", padx=10, pady=4)
         self.text_observaciones = tk.Text(frame, width=55, height=4, font=("Segoe UI", 9))
-        self.text_observaciones.grid(row=6, column=1, sticky="w", padx=6, pady=4)
+        self.text_observaciones.grid(row=7, column=1, sticky="w", padx=6, pady=4)
 
         # Desviaciones
-        ttk.Label(frame, text="Desviaciones al exp. técnico:").grid(row=7, column=0, sticky="nw", padx=10, pady=4)
+        ttk.Label(frame, text="Desviaciones observadas al Plan de Trabajo:").grid(row=8, column=0, sticky="nw", padx=10, pady=4)
         self.text_desviaciones = tk.Text(frame, width=55, height=4, font=("Segoe UI", 9))
-        self.text_desviaciones.grid(row=7, column=1, sticky="w", padx=6, pady=4)
+        self.text_desviaciones.grid(row=8, column=1, sticky="w", padx=6, pady=4)
 
         # Registro fotográfico
-        ttk.Label(frame, text="Registro fotográfico:").grid(row=8, column=0, sticky="nw", padx=10, pady=4)
+        ttk.Label(frame, text="Registro fotográfico:").grid(row=9, column=0, sticky="nw", padx=10, pady=4)
         foto_frame = ttk.Frame(frame)
-        foto_frame.grid(row=8, column=1, sticky="w", padx=6, pady=4)
+        foto_frame.grid(row=9, column=1, sticky="w", padx=6, pady=4)
 
         ttk.Button(foto_frame, text="Agregar imágenes...", command=self.agregar_fotos).pack(side="left")
         ttk.Button(foto_frame, text="Limpiar fotos", command=self.limpiar_fotos).pack(side="left", padx=6)
 
         self.label_fotos = ttk.Label(frame, text="Sin imágenes seleccionadas.", wraplength=450)
-        self.label_fotos.grid(row=9, column=1, sticky="w", padx=6, pady=2)
+        self.label_fotos.grid(row=10, column=1, sticky="w", padx=6, pady=2)
 
         # Código de verificación
-        ttk.Label(frame, text="Código de verificación:").grid(row=10, column=0, sticky="w", padx=10, pady=4)
+        ttk.Label(frame, text="Código de verificación:").grid(row=11, column=0, sticky="w", padx=10, pady=4)
         verif_frame = ttk.Frame(frame)
-        verif_frame.grid(row=10, column=1, sticky="w", padx=6, pady=4)
+        verif_frame.grid(row=11, column=1, sticky="w", padx=6, pady=4)
 
         self.entry_verificacion = ttk.Entry(verif_frame, width=30)
         self.entry_verificacion.pack(side="left")
@@ -422,7 +829,7 @@ class TabInspeccion(ttk.Frame):
 
         # Botones de acción
         btn_frame = ttk.Frame(frame)
-        btn_frame.grid(row=11, column=0, columnspan=2, pady=16, padx=10)
+        btn_frame.grid(row=12, column=0, columnspan=2, pady=16, padx=10)
 
         ttk.Button(btn_frame, text="Guardar Inspección", command=self.guardar_inspeccion,
                    style="Accent.TButton").pack(side="left", padx=4)
@@ -430,12 +837,13 @@ class TabInspeccion(ttk.Frame):
 
         # Historial de inspecciones
         ttk.Label(frame, text="Historial de Inspecciones", style="Header.TLabel").grid(
-            row=12, column=0, columnspan=3, sticky="w", padx=10, pady=(16, 6))
+            row=13, column=0, columnspan=3, sticky="w", padx=10, pady=(16, 6))
 
-        columnas = ("id", "bloque", "fecha", "inspector", "avance", "verificacion")
+        columnas = ("id", "bloque", "microcuenca", "fecha", "inspector", "avance", "verificacion")
         self.tree_hist = ttk.Treeview(frame, columns=columnas, show="headings", height=8)
         self.tree_hist.heading("id", text="ID")
         self.tree_hist.heading("bloque", text="Bloque")
+        self.tree_hist.heading("microcuenca", text="Microcuenca")
         self.tree_hist.heading("fecha", text="Fecha Visita")
         self.tree_hist.heading("inspector", text="Inspector")
         self.tree_hist.heading("avance", text="Avance %")
@@ -443,19 +851,39 @@ class TabInspeccion(ttk.Frame):
 
         self.tree_hist.column("id", width=40)
         self.tree_hist.column("bloque", width=90)
+        self.tree_hist.column("microcuenca", width=130)
         self.tree_hist.column("fecha", width=100)
-        self.tree_hist.column("inspector", width=160)
-        self.tree_hist.column("avance", width=80)
-        self.tree_hist.column("verificacion", width=200)
+        self.tree_hist.column("inspector", width=140)
+        self.tree_hist.column("avance", width=70)
+        self.tree_hist.column("verificacion", width=180)
 
-        self.tree_hist.grid(row=13, column=0, columnspan=3, sticky="ew", padx=10, pady=(0, 10))
+        self.tree_hist.grid(row=14, column=0, columnspan=3, sticky="ew", padx=10, pady=(0, 10))
         self.cargar_historial()
 
     def cargar_combos(self):
         bloques = db.obtener_bloques()
         self.bloques_map = {f"{b['codigo']} - {b['tipo_intervencion']}": b["id"] for b in bloques}
+        self.bloques_microcuenca_map = {
+            f"{b['codigo']} - {b['tipo_intervencion']}": b.get("microcuenca", "") or ""
+            for b in bloques
+        }
         self.combo_bloque["values"] = list(self.bloques_map.keys())
         self.cargar_historial()
+
+    def _on_bloque_seleccionado(self, event=None):
+        """Auto-vincula la microcuenca del bloque seleccionado.
+        Busca primero en la BD y luego en BLOQUES_83_MAP como fallback."""
+        sel = self.combo_bloque.get()
+        microcuenca = self.bloques_microcuenca_map.get(sel, "")
+        # Fallback: buscar en los 83 bloques predefinidos si la BD no tiene microcuenca
+        if not microcuenca or microcuenca not in MICROCUENCAS:
+            codigo = sel.split(" - ")[0].strip() if " - " in sel else sel.strip()
+            datos_83 = BLOQUES_83_MAP.get(codigo, {})
+            microcuenca = datos_83.get("microcuenca", "")
+        if microcuenca and microcuenca in MICROCUENCAS:
+            self.combo_microcuenca.set(microcuenca)
+        else:
+            self.combo_microcuenca.set("")
 
     def cargar_historial(self):
         for item in self.tree_hist.get_children():
@@ -463,7 +891,9 @@ class TabInspeccion(ttk.Frame):
         inspecciones = db.obtener_todas_inspecciones()
         for insp in inspecciones:
             self.tree_hist.insert("", "end", values=(
-                insp["id"], insp["bloque_codigo"], insp["fecha_visita"],
+                insp["id"], insp["bloque_codigo"],
+                insp.get("microcuenca", "") or "",
+                insp["fecha_visita"],
                 insp["inspector"], f"{insp['avance_fisico']:.1f}",
                 insp["codigo_verificacion"]
             ))
@@ -519,6 +949,7 @@ class TabInspeccion(ttk.Frame):
                 desviaciones=self.text_desviaciones.get("1.0", tk.END).strip(),
                 registro_fotografico=registro_foto,
                 codigo_verificacion=self.entry_verificacion.get().strip(),
+                microcuenca=self.combo_microcuenca.get(),
             )
             messagebox.showinfo("Éxito", "Inspección registrada correctamente.")
             self.limpiar_formulario()
@@ -528,6 +959,7 @@ class TabInspeccion(ttk.Frame):
 
     def limpiar_formulario(self):
         self.combo_bloque.set("")
+        self.combo_microcuenca.set("")
         self.entry_fecha.delete(0, tk.END)
         self.entry_fecha.insert(0, datetime.now().strftime("%Y-%m-%d"))
         self.entry_inspector.delete(0, tk.END)
@@ -550,70 +982,113 @@ class TabIndicadores(ttk.Frame):
         self.cargar_combos()
 
     def _crear_widgets(self):
-        frame = ttk.Frame(self, padding=12)
-        frame.pack(fill="both", expand=True)
+        # Contenedor con scroll
+        canvas = tk.Canvas(self, bg=COLOR_FONDO, highlightthickness=0)
+        scrollbar = ttk.Scrollbar(self, orient="vertical", command=canvas.yview)
+        self.scroll_frame = ttk.Frame(canvas)
+
+        self.scroll_frame.bind("<Configure>",
+                               lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+        canvas.create_window((0, 0), window=self.scroll_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+
+        frame = self.scroll_frame
 
         ttk.Label(frame, text="Indicadores de Calidad por Bloque",
-                  style="Header.TLabel").grid(row=0, column=0, columnspan=4, sticky="w", pady=(0, 12))
+                  style="Header.TLabel").grid(row=0, column=0, columnspan=4, sticky="w", padx=10, pady=(10, 12))
 
         # Selección de bloque
-        ttk.Label(frame, text="Bloque:").grid(row=1, column=0, sticky="w", pady=4)
+        ttk.Label(frame, text="Bloque:").grid(row=1, column=0, sticky="w", padx=10, pady=4)
         self.combo_bloque = ttk.Combobox(frame, state="readonly", width=40)
         self.combo_bloque.grid(row=1, column=1, columnspan=2, sticky="w", padx=6, pady=4)
         self.combo_bloque.bind("<<ComboboxSelected>>", self.on_bloque_seleccionado)
 
+        # Código de microcuenca
+        ttk.Label(frame, text="Código microcuenca:").grid(row=2, column=0, sticky="w", padx=10, pady=4)
+        self.combo_microcuenca = ttk.Combobox(frame, values=MICROCUENCAS, state="readonly", width=40)
+        self.combo_microcuenca.grid(row=2, column=1, columnspan=2, sticky="w", padx=6, pady=4)
+
         # Selección de inspección
-        ttk.Label(frame, text="Inspección:").grid(row=2, column=0, sticky="w", pady=4)
+        ttk.Label(frame, text="Inspección:").grid(row=3, column=0, sticky="w", padx=10, pady=4)
         self.combo_inspeccion = ttk.Combobox(frame, state="readonly", width=40)
-        self.combo_inspeccion.grid(row=2, column=1, columnspan=2, sticky="w", padx=6, pady=4)
+        self.combo_inspeccion.grid(row=3, column=1, columnspan=2, sticky="w", padx=6, pady=4)
 
         # Indicadores
-        ttk.Separator(frame, orient="horizontal").grid(row=3, column=0, columnspan=4, sticky="ew", pady=10)
+        ttk.Separator(frame, orient="horizontal").grid(row=4, column=0, columnspan=4, sticky="ew", pady=10)
 
+        # Campos numéricos de indicadores
         indicadores_campos = [
-            ("Densidad de plantación planificada (pl/ha):", "densidad_plan"),
-            ("Densidad de plantación lograda (pl/ha):", "densidad_logr"),
+            ("Porcentaje de cobertura vegetal (%):", "pct_cobertura"),
             ("Sobrevivencia de especies (%):", "sobrevivencia"),
-            ("Longitud ejecutada de zanjas (ml):", "longitud_zanjas"),
-            ("Volumen retención sedimentos estimado (m³):", "vol_retencion"),
         ]
 
         self.ind_entries = {}
-        for i, (label, key) in enumerate(indicadores_campos, 4):
-            ttk.Label(frame, text=label).grid(row=i, column=0, sticky="w", padx=0, pady=5)
+        for i, (label, key) in enumerate(indicadores_campos, 5):
+            ttk.Label(frame, text=label).grid(row=i, column=0, sticky="w", padx=10, pady=5)
             entry = ttk.Entry(frame, width=16)
             entry.grid(row=i, column=1, sticky="w", padx=6, pady=5)
             entry.insert(0, "0")
             self.ind_entries[key] = entry
 
+        # Tipo de cobertura vegetal (combo)
+        fila_tipo_cob = 5 + len(indicadores_campos)
+        ttk.Label(frame, text="Tipo de cobertura vegetal:").grid(
+            row=fila_tipo_cob, column=0, sticky="w", padx=10, pady=5)
+        self.combo_tipo_cobertura = ttk.Combobox(
+            frame, values=TIPOS_COBERTURA_VEGETAL, state="readonly", width=20)
+        self.combo_tipo_cobertura.grid(row=fila_tipo_cob, column=1, sticky="w", padx=6, pady=5)
+
+        # Vigor / calidad de cobertura vegetal (combo)
+        fila_vigor = fila_tipo_cob + 1
+        ttk.Label(frame, text="Calidad / vigor cobertura vegetal:").grid(
+            row=fila_vigor, column=0, sticky="w", padx=10, pady=5)
+        self.combo_vigor = ttk.Combobox(
+            frame, values=VIGOR_COBERTURA_VEGETAL, state="readonly", width=20)
+        self.combo_vigor.grid(row=fila_vigor, column=1, sticky="w", padx=6, pady=5)
+
         # Botones
+        fila_btn = fila_vigor + 1
         btn_frame = ttk.Frame(frame)
-        btn_frame.grid(row=10, column=0, columnspan=4, pady=14)
+        btn_frame.grid(row=fila_btn, column=0, columnspan=4, pady=14, padx=10)
         ttk.Button(btn_frame, text="Guardar Indicadores",
                    command=self.guardar_indicadores, style="Accent.TButton").pack(side="left", padx=4)
         ttk.Button(btn_frame, text="Limpiar", command=self.limpiar_formulario).pack(side="left", padx=4)
 
         # Tabla de indicadores registrados
+        fila_tabla_label = fila_btn + 1
         ttk.Label(frame, text="Indicadores Registrados", style="Header.TLabel").grid(
-            row=11, column=0, columnspan=4, sticky="w", pady=(14, 6))
+            row=fila_tabla_label, column=0, columnspan=4, sticky="w", padx=10, pady=(14, 6))
 
-        columnas = ("fecha", "dens_plan", "dens_logr", "sobrev", "zanjas", "vol_ret")
+        columnas = ("fecha", "microcuenca", "pct_cob", "tipo_cob", "vigor",
+                    "sobrev")
         self.tree_ind = ttk.Treeview(frame, columns=columnas, show="headings", height=8)
         self.tree_ind.heading("fecha", text="Fecha Visita")
-        self.tree_ind.heading("dens_plan", text="Dens. Plan. (pl/ha)")
-        self.tree_ind.heading("dens_logr", text="Dens. Logr. (pl/ha)")
+        self.tree_ind.heading("microcuenca", text="Microcuenca")
+        self.tree_ind.heading("pct_cob", text="Cobert. (%)")
+        self.tree_ind.heading("tipo_cob", text="Tipo Cobert.")
+        self.tree_ind.heading("vigor", text="Vigor")
         self.tree_ind.heading("sobrev", text="Sobreviv. (%)")
-        self.tree_ind.heading("zanjas", text="Zanjas (ml)")
-        self.tree_ind.heading("vol_ret", text="Vol. Ret. (m³)")
 
-        for col in columnas:
-            self.tree_ind.column(col, width=110)
+        self.tree_ind.column("fecha", width=95)
+        self.tree_ind.column("microcuenca", width=120)
+        self.tree_ind.column("pct_cob", width=80)
+        self.tree_ind.column("tipo_cob", width=90)
+        self.tree_ind.column("vigor", width=80)
+        self.tree_ind.column("sobrev", width=80)
 
-        self.tree_ind.grid(row=12, column=0, columnspan=4, sticky="ew", pady=(0, 10))
+        fila_tabla = fila_tabla_label + 1
+        self.tree_ind.grid(row=fila_tabla, column=0, columnspan=4, sticky="ew", padx=10, pady=(0, 10))
 
     def cargar_combos(self):
         bloques = db.obtener_bloques()
         self.bloques_map = {f"{b['codigo']} - {b['tipo_intervencion']}": b["id"] for b in bloques}
+        self.bloques_microcuenca_map = {
+            f"{b['codigo']} - {b['tipo_intervencion']}": b.get("microcuenca", "") or ""
+            for b in bloques
+        }
         self.combo_bloque["values"] = list(self.bloques_map.keys())
 
     def on_bloque_seleccionado(self, event=None):
@@ -621,6 +1096,18 @@ class TabIndicadores(ttk.Frame):
         if sel not in self.bloques_map:
             return
         bloque_id = self.bloques_map[sel]
+
+        # Auto-vincular microcuenca del bloque seleccionado
+        microcuenca = self.bloques_microcuenca_map.get(sel, "")
+        # Fallback: buscar en los 83 bloques predefinidos si la BD no tiene microcuenca
+        if not microcuenca or microcuenca not in MICROCUENCAS:
+            codigo = sel.split(" - ")[0].strip() if " - " in sel else sel.strip()
+            datos_83 = BLOQUES_83_MAP.get(codigo, {})
+            microcuenca = datos_83.get("microcuenca", "")
+        if microcuenca and microcuenca in MICROCUENCAS:
+            self.combo_microcuenca.set(microcuenca)
+        else:
+            self.combo_microcuenca.set("")
 
         # Cargar inspecciones del bloque
         inspecciones = db.obtener_inspecciones_por_bloque(bloque_id)
@@ -641,11 +1128,11 @@ class TabIndicadores(ttk.Frame):
         for ind in indicadores:
             self.tree_ind.insert("", "end", values=(
                 ind.get("fecha_visita", ""),
-                f"{ind['densidad_planificada']:.0f}",
-                f"{ind['densidad_lograda']:.0f}",
+                ind.get("microcuenca", "") or "",
+                f"{ind.get('porcentaje_cobertura_vegetal', 0):.1f}",
+                ind.get("tipo_cobertura_vegetal", "") or "",
+                ind.get("vigor_cobertura_vegetal", "") or "",
                 f"{ind['sobrevivencia_especies']:.1f}",
-                f"{ind['longitud_zanjas_ejecutada']:.2f}",
-                f"{ind['volumen_retencion_sedimentos']:.2f}",
             ))
 
     def guardar_indicadores(self):
@@ -660,14 +1147,15 @@ class TabIndicadores(ttk.Frame):
             return
 
         try:
-            densidad_plan = float(self.ind_entries["densidad_plan"].get().strip())
-            densidad_logr = float(self.ind_entries["densidad_logr"].get().strip())
+            pct_cobertura = float(self.ind_entries["pct_cobertura"].get().strip())
             sobrevivencia = float(self.ind_entries["sobrevivencia"].get().strip())
-            longitud_zanjas = float(self.ind_entries["longitud_zanjas"].get().strip())
-            vol_retencion = float(self.ind_entries["vol_retencion"].get().strip())
         except ValueError:
-            messagebox.showwarning("Validación", "Todos los indicadores deben ser valores numéricos.")
+            messagebox.showwarning("Validación", "Los indicadores numéricos deben ser valores válidos.")
             return
+
+        tipo_cobertura = self.combo_tipo_cobertura.get()
+        vigor_cobertura = self.combo_vigor.get()
+        microcuenca = self.combo_microcuenca.get()
 
         bloque_id = self.bloques_map[sel_bloque]
         inspeccion_id = self.inspecciones_map[sel_insp]
@@ -676,11 +1164,15 @@ class TabIndicadores(ttk.Frame):
             db.insertar_indicadores(
                 bloque_id=bloque_id,
                 inspeccion_id=inspeccion_id,
-                densidad_planificada=densidad_plan,
-                densidad_lograda=densidad_logr,
+                cobertura_vegetal_planificada=0,
+                cobertura_vegetal_lograda=0,
                 sobrevivencia_especies=sobrevivencia,
-                longitud_zanjas_ejecutada=longitud_zanjas,
-                volumen_retencion_sedimentos=vol_retencion,
+                longitud_zanjas_ejecutada=0,
+                volumen_retencion_sedimentos=0,
+                porcentaje_cobertura_vegetal=pct_cobertura,
+                tipo_cobertura_vegetal=tipo_cobertura,
+                vigor_cobertura_vegetal=vigor_cobertura,
+                microcuenca=microcuenca,
             )
             messagebox.showinfo("Éxito", "Indicadores guardados correctamente.")
             self.cargar_tabla_indicadores(bloque_id)
@@ -691,6 +1183,9 @@ class TabIndicadores(ttk.Frame):
         for entry in self.ind_entries.values():
             entry.delete(0, tk.END)
             entry.insert(0, "0")
+        self.combo_tipo_cobertura.set("")
+        self.combo_vigor.set("")
+        self.combo_microcuenca.set("")
 
 
 # ── Tab 4: Reportes ──────────────────────────────────────────────────────

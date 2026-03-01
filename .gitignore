@@ -4,6 +4,8 @@ __pycache__/
 in_piura.db
 reportes/
 formularios/
+adjuntos_pdf/
+adjuntos_ds/
 *.egg-info/
 dist/
 build/
@@ -12,3 +14,4 @@ build/
 english_assessment/instance/
 english_assessment/*.db
 english_assessment/english_assessments.db
+english_assessment/.secret_key

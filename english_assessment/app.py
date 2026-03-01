@@ -17,10 +17,30 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from models import (db, Teacher, Grade, EnglishLevel, Assessment, Question,
                     QuestionOption, StudentResult, StudentAnswer)
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+
+def get_or_create_secret_key():
+    """Read or generate a stable SECRET_KEY so sessions survive restarts."""
+    key_file = os.path.join(basedir, '.secret_key')
+    if os.path.exists(key_file):
+        with open(key_file, 'r') as f:
+            return f.read().strip()
+    key = secrets.token_hex(32)
+    with open(key_file, 'w') as f:
+        f.write(key)
+    return key
+
+
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', secrets.token_hex(32))
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-    'DATABASE_URL', 'sqlite:///english_assessments.db')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or get_or_create_secret_key()
+
+# Database configuration: use PostgreSQL on Render, SQLite locally
+database_url = os.environ.get('DATABASE_URL', f'sqlite:///{os.path.join(basedir, "english_assessments.db")}')
+# Render provides postgres:// but SQLAlchemy requires postgresql://
+if database_url.startswith('postgres://'):
+    database_url = database_url.replace('postgres://', 'postgresql://', 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
@@ -140,13 +160,19 @@ def submit_assessment(assessment_id):
     """Process submitted answers and calculate score."""
     assessment = Assessment.query.get_or_404(assessment_id)
     result_id = session.get(f'result_{assessment_id}')
+    if not result_id:
+        # Fallback: recover result_id from the hidden form field
+        result_id = request.form.get('result_id', type=int)
 
     if not result_id:
         flash('Session expired. Please start the assessment again.', 'error')
         return redirect(url_for('start_assessment', assessment_id=assessment_id))
 
     result = db.session.get(StudentResult, result_id)
-    if not result or result.is_completed:
+    if not result or result.assessment_id != assessment_id:
+        flash('Invalid submission. Please start the assessment again.', 'error')
+        return redirect(url_for('start_assessment', assessment_id=assessment_id))
+    if result.is_completed:
         flash('This assessment has already been submitted.', 'error')
         return redirect(url_for('start_assessment', assessment_id=assessment_id))
 
