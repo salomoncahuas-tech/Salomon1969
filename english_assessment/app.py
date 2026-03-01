@@ -66,36 +66,14 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-    """Landing page with grade and level selection."""
-    grades_primaria = Grade.query.filter_by(level_type='primaria').order_by(Grade.order).all()
-    grades_secundaria = Grade.query.filter_by(level_type='secundaria').order_by(Grade.order).all()
-    levels = EnglishLevel.query.order_by(EnglishLevel.order).all()
-    return render_template('index.html',
-                           grades_primaria=grades_primaria,
-                           grades_secundaria=grades_secundaria,
-                           levels=levels)
+    """Landing page with access code form only."""
+    return render_template('index.html')
 
 
 @app.route('/assessments')
 def list_assessments():
-    """List available assessments filtered by grade and/or level."""
-    grade_id = request.args.get('grade_id', type=int)
-    level_id = request.args.get('level_id', type=int)
-
-    query = Assessment.query.filter_by(is_active=True)
-    if grade_id:
-        query = query.filter_by(grade_id=grade_id)
-    if level_id:
-        query = query.filter_by(english_level_id=level_id)
-
-    assessments = query.order_by(Assessment.created_at.desc()).all()
-    grade = db.session.get(Grade, grade_id) if grade_id else None
-    level = db.session.get(EnglishLevel, level_id) if level_id else None
-
-    return render_template('assessments.html',
-                           assessments=assessments,
-                           grade=grade,
-                           level=level)
+    """Redirect to home - assessments are only accessible via access code."""
+    return redirect(url_for('index'))
 
 
 @app.route('/access', methods=['GET', 'POST'])
@@ -105,6 +83,7 @@ def access_by_code():
         code = request.form.get('access_code', '').strip().upper()
         assessment = Assessment.query.filter_by(access_code=code, is_active=True).first()
         if assessment:
+            session[f'access_{assessment.id}'] = True
             return redirect(url_for('start_assessment', assessment_id=assessment.id))
         flash('Invalid access code. Please verify and try again.', 'error')
     return render_template('access_code.html')
@@ -112,10 +91,13 @@ def access_by_code():
 
 @app.route('/assessment/<int:assessment_id>')
 def start_assessment(assessment_id):
-    """Assessment info page before starting."""
+    """Assessment info page before starting - requires access code."""
     assessment = Assessment.query.get_or_404(assessment_id)
     if not assessment.is_active:
         abort(404)
+    if not session.get(f'access_{assessment_id}'):
+        flash('Please enter the access code to start this assessment.', 'error')
+        return redirect(url_for('access_by_code'))
     return render_template('start_assessment.html', assessment=assessment)
 
 
@@ -125,6 +107,9 @@ def take_assessment(assessment_id):
     assessment = Assessment.query.get_or_404(assessment_id)
     if not assessment.is_active:
         abort(404)
+    if not session.get(f'access_{assessment_id}'):
+        flash('Please enter the access code to start this assessment.', 'error')
+        return redirect(url_for('access_by_code'))
 
     if request.method == 'POST':
         student_name = request.form.get('student_name', '').strip()
@@ -487,21 +472,6 @@ def admin_delete_assessment(assessment_id):
     return redirect(url_for('admin_dashboard'))
 
 
-@app.route('/admin/cleanup-seed', methods=['POST'])
-@login_required
-def admin_cleanup_seed():
-    """Delete all seed-data assessments that don't belong to the current teacher."""
-    seed_assessments = Assessment.query.filter(
-        Assessment.teacher_id != current_user.id
-    ).all()
-    count = len(seed_assessments)
-    for a in seed_assessments:
-        db.session.delete(a)
-    db.session.commit()
-    flash(f'{count} sample assessments removed.', 'success')
-    return redirect(url_for('admin_dashboard'))
-
-
 @app.route('/admin/assessment/<int:assessment_id>/results')
 @login_required
 def admin_view_results(assessment_id):
@@ -529,14 +499,9 @@ def admin_result_detail(result_id):
 # ---------------------------------------------------------------------------
 
 @app.route('/api/assessments')
+@login_required
 def api_assessments():
-    grade_id = request.args.get('grade_id', type=int)
-    level_id = request.args.get('level_id', type=int)
-    query = Assessment.query.filter_by(is_active=True)
-    if grade_id:
-        query = query.filter_by(grade_id=grade_id)
-    if level_id:
-        query = query.filter_by(english_level_id=level_id)
+    query = Assessment.query.filter_by(teacher_id=current_user.id)
     assessments = query.order_by(Assessment.created_at.desc()).all()
     return jsonify([{
         'id': a.id,

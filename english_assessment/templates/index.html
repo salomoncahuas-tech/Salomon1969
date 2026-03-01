@@ -5,69 +5,24 @@
 <section class="hero">
     <div class="hero-content">
         <h1>English Language Assessments</h1>
-        <p>Select your grade and level to access your evaluations and homework assignments.</p>
-        <div class="hero-actions">
-            <a href="#grades" class="btn btn-primary btn-lg">Browse by Grade</a>
-            <a href="{{ url_for('access_by_code') }}" class="btn btn-secondary btn-lg">Enter Access Code</a>
-        </div>
-    </div>
-</section>
-
-<section id="grades" class="section">
-    <div class="container">
-        <h2 class="section-title">Select Your Grade</h2>
-
-        <div class="level-group">
-            <h3 class="group-title">Primary School</h3>
-            <div class="grade-grid">
-                {% for grade in grades_primaria %}
-                <a href="{{ url_for('list_assessments', grade_id=grade.id) }}" class="grade-card primary">
-                    <div class="grade-number">{{ grade.order }}</div>
-                    <div class="grade-name">{{ grade.name }}</div>
-                </a>
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="level-group">
-            <h3 class="group-title">Secondary School</h3>
-            <div class="grade-grid">
-                {% for grade in grades_secundaria %}
-                <a href="{{ url_for('list_assessments', grade_id=grade.id) }}" class="grade-card secondary">
-                    <div class="grade-number">{{ grade.order - 6 }}</div>
-                    <div class="grade-name">{{ grade.name }}</div>
-                </a>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="levels" class="section section-alt">
-    <div class="container">
-        <h2 class="section-title">Browse by English Level</h2>
-        <div class="level-cards">
-            {% for level in levels %}
-            <a href="{{ url_for('list_assessments', level_id=level.id) }}" class="level-card">
-                <div class="level-code">{{ level.code }}</div>
-                <div class="level-name">{{ level.name }}</div>
-                <div class="level-desc">{{ level.description }}</div>
-            </a>
-            {% endfor %}
-        </div>
+        <p>Enter the access code provided by your teacher to start your assessment.</p>
     </div>
 </section>
 
 <section class="section">
-    <div class="container">
-        <h2 class="section-title">Quick Access</h2>
-        <div class="access-box">
-            <form action="{{ url_for('access_by_code') }}" method="POST" class="code-form-inline">
-                <input type="text" name="access_code" placeholder="Enter your access code"
-                       class="input-code" maxlength="20" required>
-                <button type="submit" class="btn btn-primary">Go</button>
+    <div class="container container-sm">
+        <div class="card">
+            <h2 class="section-title">Enter Access Code</h2>
+            <p class="card-text">Your teacher will provide you with a unique code for each assessment.</p>
+            <form action="{{ url_for('access_by_code') }}" method="POST" class="form-vertical">
+                <div class="form-group">
+                    <input type="text" name="access_code"
+                           class="input-code-large" placeholder="e.g. A1B2C3D4"
+                           maxlength="20" required autofocus
+                           style="text-transform: uppercase;">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Access Assessment</button>
             </form>
-            <p class="access-hint">Your teacher will provide you with an access code for each assessment.</p>
         </div>
     </div>
 </section>
