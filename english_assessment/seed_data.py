@@ -91,6 +91,68 @@ def get_level(code):
     return EnglishLevel.query.filter_by(code=code).first()
 
 
+def seed_freq2sec():
+    """Standalone seeder for Adverbs of Frequency practice (FREQ2SEC)."""
+    if Assessment.query.filter_by(access_code='FREQ2SEC').first():
+        return
+    teacher = Teacher.query.first()
+    if not teacher:
+        return
+    tid = teacher.id
+    a = Assessment(
+        title='Adverbs of Frequency',
+        description='Practice identifying and using adverbs of frequency: always, usually, often, sometimes, never.',
+        assessment_type='practice',
+        grade_id=get_grade(8).id,
+        english_level_id=get_level('A2').id,
+        teacher_id=tid,
+        time_limit_minutes=20,
+        show_results=True,
+        access_code='FREQ2SEC'
+    )
+    db.session.add(a)
+    db.session.flush()
+
+    freq_adverbs = ['always', 'usually', 'often', 'sometimes', 'never']
+
+    def mc_freq(text, instruction, order, correct_adverb):
+        opts = [(adv, adv == correct_adverb) for adv in freq_adverbs]
+        add_mc(a.id, text, instruction, 1, order, opts)
+
+    mc_freq('My mother ______ cooks for dinner.',
+            'Frequency: \u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf (7/7). Choose the correct adverb of frequency.', 1, 'always')
+    mc_freq('I ______ exercise in the evening.',
+            'Frequency: \u25cf\u25cf\u25cf\u25cf\u25cf\u25cb\u25cb (5/7). Choose the correct adverb of frequency.', 2, 'usually')
+    mc_freq('I ______ go to school at 7 a.m.',
+            'Frequency: \u25cf\u25cf\u25cf\u25cf\u25cb\u25cb\u25cb (4/7). Choose the correct adverb of frequency.', 3, 'often')
+    mc_freq('She ______ gets home at 8 p.m.',
+            'Frequency: \u25cf\u25cf\u25cb\u25cb\u25cb\u25cb\u25cb (2/7). Choose the correct adverb of frequency.', 4, 'sometimes')
+    mc_freq('We ______ watch TV while eating.',
+            'Frequency: \u25cb\u25cb\u25cb\u25cb\u25cb\u25cb\u25cb (0/7). Choose the correct adverb of frequency.', 5, 'never')
+    mc_freq('Michael ______ plays video games.',
+            'Frequency: \u25cf\u25cf\u25cf\u25cf\u25cb\u25cb\u25cb (4/7). Choose the correct adverb of frequency.', 6, 'often')
+    mc_freq('They ______ have lunch together.',
+            'Frequency: \u25cb\u25cb\u25cb\u25cb\u25cb\u25cb\u25cb (0/7). Choose the correct adverb of frequency.', 7, 'never')
+    mc_freq('You ______ sleep in my class.',
+            'Frequency: \u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf (7/7). Choose the correct adverb of frequency.', 8, 'always')
+    mc_freq('I ______ chat online with friends.',
+            'Frequency: \u25cf\u25cf\u25cb\u25cb\u25cb\u25cb\u25cb (2/7). Choose the correct adverb of frequency.', 9, 'sometimes')
+    mc_freq('We ______ play football together.',
+            'Frequency: \u25cf\u25cf\u25cf\u25cf\u25cf\u25cb\u25cb (5/7). Choose the correct adverb of frequency.', 10, 'usually')
+
+    add_tf(a.id, '"Always" means you do something 100% of the time.',
+           'Select True or False.', 1, 11, True)
+    add_tf(a.id, 'Adverbs of frequency go after the main verb in a sentence.',
+           'Select True or False. Example: "She always arrives on time."', 1, 12, False)
+    add_matching(a.id, 'Match each adverb of frequency with its approximate percentage.',
+                 'Match correctly.', 4, 13,
+                 [('Always', '100%'), ('Usually', '70-80%'),
+                  ('Sometimes', '30-40%'), ('Never', '0%')])
+
+    db.session.commit()
+    print(f'  Created: {a.title} (FREQ2SEC)')
+
+
 def seed_assessments():
     """Create comprehensive exam models for all grades and levels."""
     with app.app_context():
