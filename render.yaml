@@ -1,12 +1,13 @@
 databases:
   - name: english-assessment-db
-    plan: free
+    plan: starter
     databaseName: english_assessments
     user: english_admin
 
 services:
   - type: web
     name: english-assessment
+    plan: starter
     runtime: python
     rootDir: english_assessment
     buildCommand: "./render_build.sh"
