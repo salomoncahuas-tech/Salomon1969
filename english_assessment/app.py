@@ -582,6 +582,12 @@ def init_db():
 
 with app.app_context():
     init_db()
+    if not Assessment.query.first():
+        try:
+            from seed_data import seed_assessments
+            seed_assessments()
+        except Exception as e:
+            print(f'Warning: Could not auto-seed assessments: {e}')
 
 
 if __name__ == '__main__':
