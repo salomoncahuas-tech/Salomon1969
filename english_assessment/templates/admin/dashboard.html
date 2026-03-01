@@ -28,6 +28,10 @@
             <a href="{{ url_for('admin_new_assessment') }}" class="btn btn-primary">
                 + New Assessment
             </a>
+            <form action="{{ url_for('admin_cleanup_seed') }}" method="POST" style="display:inline"
+                  onsubmit="return confirm('This will delete all sample/seed assessments not created by you. Continue?')">
+                <button type="submit" class="btn btn-danger">Remove Sample Assessments</button>
+            </form>
         </div>
 
         {% if assessments %}

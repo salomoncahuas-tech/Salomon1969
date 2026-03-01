@@ -487,6 +487,21 @@ def admin_delete_assessment(assessment_id):
     return redirect(url_for('admin_dashboard'))
 
 
+@app.route('/admin/cleanup-seed', methods=['POST'])
+@login_required
+def admin_cleanup_seed():
+    """Delete all seed-data assessments that don't belong to the current teacher."""
+    seed_assessments = Assessment.query.filter(
+        Assessment.teacher_id != current_user.id
+    ).all()
+    count = len(seed_assessments)
+    for a in seed_assessments:
+        db.session.delete(a)
+    db.session.commit()
+    flash(f'{count} sample assessments removed.', 'success')
+    return redirect(url_for('admin_dashboard'))
+
+
 @app.route('/admin/assessment/<int:assessment_id>/results')
 @login_required
 def admin_view_results(assessment_id):
