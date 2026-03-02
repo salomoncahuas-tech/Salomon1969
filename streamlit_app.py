@@ -1359,8 +1359,17 @@ def pagina_diagnostico_social():
         # ── Datos comunes ─────────────────────────────────────────────
         bl = st.selectbox("Bloque de Intervencion", list(bm.keys()), key="ds_bl")
         bid = bm[bl]
+
+        # Auto-resolver microcuenca del bloque seleccionado
+        mc_auto_ds = _resolver_microcuenca(bl)
+        if mc_auto_ds:
+            mc_idx_ds = MICROCUENCAS.index(mc_auto_ds) + 1  # +1 por el "" inicial
+            st.info(f"Microcuenca vinculada automaticamente: **{mc_auto_ds}**")
+        else:
+            mc_idx_ds = 0
+
         r1, r2, r3, r4 = st.columns(4)
-        mc = r1.selectbox("Microcuenca", [""] + MICROCUENCAS, key="ds_mc")
+        mc = r1.selectbox("Microcuenca", [""] + MICROCUENCAS, index=mc_idx_ds, key="ds_mc")
         fecha_ev = r2.date_input("Fecha", value=datetime.now(), key="ds_fecha")
         evaluador = r3.text_input("Responsable", key="ds_eval")
         ficha_num = r4.text_input("Ficha N", key="ds_fnum")

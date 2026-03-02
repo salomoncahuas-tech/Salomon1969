@@ -1,55 +1,44 @@
 """
-IN Piura - Plan de Ingreso / Verificación de Campo
-Módulo de base de datos PostgreSQL (Supabase) para registro y consulta de bloques,
+IN Piura - Plan de Ingreso / Verificacion de Campo
+Modulo de base de datos SQLite para registro y consulta de bloques,
 inspecciones, indicadores de calidad, presupuesto, cronograma y personal.
-Cuenca alta del río Piura, Perú.
+Cuenca alta del rio Piura, Peru.
 
-MIGRACIÓN: SQLite → Supabase (PostgreSQL)
-- Requiere: psycopg2-binary en requirements.txt
-- Requiere: secrets en Streamlit Cloud (Settings → Secrets):
-    [supabase]
-    host = "db.XXXX.supabase.co"
-    database = "postgres"
-    user = "postgres"
-    password = "tu_password"
-    port = "5432"
+Base de datos local SQLite - no requiere servidor externo.
+El archivo 'in_piura.db' se crea automaticamente en el directorio de la app.
 """
 
-import psycopg2
-import psycopg2.extras
-import streamlit as st
+import sqlite3
+import os
 from datetime import datetime
 
+# Ruta del archivo de base de datos (mismo directorio que este script)
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "in_piura.db")
 
-# ── Conexión ──────────────────────────────────────────────────────────────
+
+# ── Conexion ──────────────────────────────────────────────────────────────
 
 def get_connection():
-    """Retorna una conexión a Supabase PostgreSQL usando st.secrets."""
-    secrets = st.secrets["supabase"]
-    conn = psycopg2.connect(
-        host=secrets["host"],
-        database=secrets["database"],
-        user=secrets["user"],
-        password=secrets["password"],
-        port=int(secrets["port"])
-    )
+    """Retorna una conexion a la base de datos SQLite local."""
+    conn = sqlite3.connect(DB_PATH)
+    conn.execute("PRAGMA foreign_keys = ON")
+    conn.row_factory = sqlite3.Row
     return conn
 
 
 def _dictfetch(cursor):
     """Convierte los resultados del cursor en lista de dicts."""
-    columns = [col.name for col in cursor.description]
-    return [dict(zip(columns, row)) for row in cursor.fetchall()]
+    rows = cursor.fetchall()
+    return [dict(row) for row in rows]
 
 
 def _dictfetchone(cursor):
     """Convierte un resultado del cursor en dict."""
-    columns = [col.name for col in cursor.description]
     row = cursor.fetchone()
-    return dict(zip(columns, row)) if row else None
+    return dict(row) if row else None
 
 
-# ── Inicialización de tablas ──────────────────────────────────────────────
+# ── Inicializacion de tablas ──────────────────────────────────────────────
 
 def inicializar_bd():
     """Crea las tablas si no existen (idempotente)."""
@@ -58,7 +47,7 @@ def inicializar_bd():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS bloques (
-            id SERIAL PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             codigo TEXT UNIQUE NOT NULL,
             tipo_intervencion TEXT NOT NULL,
             cuenca TEXT NOT NULL,
@@ -78,7 +67,7 @@ def inicializar_bd():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS inspecciones (
-            id SERIAL PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             bloque_id INTEGER NOT NULL REFERENCES bloques(id) ON DELETE CASCADE,
             fecha_visita TEXT NOT NULL,
             inspector TEXT NOT NULL,
@@ -96,7 +85,7 @@ def inicializar_bd():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS indicadores_calidad (
-            id SERIAL PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             bloque_id INTEGER NOT NULL REFERENCES bloques(id) ON DELETE CASCADE,
             inspeccion_id INTEGER NOT NULL REFERENCES inspecciones(id) ON DELETE CASCADE,
             cobertura_vegetal_planificada REAL DEFAULT 0,
@@ -114,7 +103,7 @@ def inicializar_bd():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS presupuesto (
-            id SERIAL PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             bloque_id INTEGER NOT NULL REFERENCES bloques(id) ON DELETE CASCADE,
             categoria TEXT NOT NULL,
             descripcion TEXT DEFAULT '',
@@ -127,7 +116,7 @@ def inicializar_bd():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS cronograma (
-            id SERIAL PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             bloque_id INTEGER NOT NULL REFERENCES bloques(id) ON DELETE CASCADE,
             actividad TEXT NOT NULL,
             fecha_inicio_plan TEXT NOT NULL,
@@ -144,7 +133,7 @@ def inicializar_bd():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS personal (
-            id SERIAL PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             nombre TEXT NOT NULL,
             cargo TEXT NOT NULL,
             especialidad TEXT DEFAULT '',
@@ -158,7 +147,7 @@ def inicializar_bd():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS diagnostico_territorial (
-            id SERIAL PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             bloque_id INTEGER NOT NULL REFERENCES bloques(id) ON DELETE CASCADE,
             inspeccion_id INTEGER REFERENCES inspecciones(id) ON DELETE SET NULL,
             ficha TEXT NOT NULL,
@@ -207,7 +196,7 @@ def inicializar_bd():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS diagnostico_social (
-            id SERIAL PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             bloque_id INTEGER NOT NULL REFERENCES bloques(id) ON DELETE CASCADE,
             inspeccion_id INTEGER REFERENCES inspecciones(id) ON DELETE SET NULL,
             ficha TEXT NOT NULL,
@@ -326,13 +315,12 @@ def insertar_bloque(codigo, tipo_intervencion, cuenca, distrito,
                              utm_este, utm_norte, utm_zona, altitud,
                              area_hectareas, responsable, estado, microcuenca,
                              provincia, fecha_registro)
-        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-        RETURNING id
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, (codigo, tipo_intervencion, cuenca, distrito,
           utm_este, utm_norte, utm_zona, altitud,
           area_hectareas, responsable, estado, microcuenca, provincia,
           datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-    bloque_id = cursor.fetchone()[0]
+    bloque_id = cursor.lastrowid
     conn.commit()
     conn.close()
     return bloque_id
@@ -344,11 +332,11 @@ def actualizar_bloque(bloque_id, codigo, tipo_intervencion, cuenca, distrito,
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        UPDATE bloques SET codigo=%s, tipo_intervencion=%s, cuenca=%s, distrito=%s,
-                           utm_este=%s, utm_norte=%s, utm_zona=%s, altitud=%s,
-                           area_hectareas=%s, responsable=%s, estado=%s, microcuenca=%s,
-                           provincia=%s
-        WHERE id=%s
+        UPDATE bloques SET codigo=?, tipo_intervencion=?, cuenca=?, distrito=?,
+                           utm_este=?, utm_norte=?, utm_zona=?, altitud=?,
+                           area_hectareas=?, responsable=?, estado=?, microcuenca=?,
+                           provincia=?
+        WHERE id=?
     """, (codigo, tipo_intervencion, cuenca, distrito,
           utm_este, utm_norte, utm_zona, altitud,
           area_hectareas, responsable, estado, microcuenca, provincia,
@@ -360,7 +348,7 @@ def actualizar_bloque(bloque_id, codigo, tipo_intervencion, cuenca, distrito,
 def eliminar_bloque(bloque_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM bloques WHERE id=%s", (bloque_id,))
+    cursor.execute("DELETE FROM bloques WHERE id=?", (bloque_id,))
     conn.commit()
     conn.close()
 
@@ -377,7 +365,7 @@ def obtener_bloques():
 def obtener_bloque_por_id(bloque_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM bloques WHERE id=%s", (bloque_id,))
+    cursor.execute("SELECT * FROM bloques WHERE id=?", (bloque_id,))
     row = _dictfetchone(cursor)
     conn.close()
     return row
@@ -386,7 +374,7 @@ def obtener_bloque_por_id(bloque_id):
 def obtener_bloque_por_codigo(codigo):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM bloques WHERE codigo=%s", (codigo,))
+    cursor.execute("SELECT * FROM bloques WHERE codigo=?", (codigo,))
     row = _dictfetchone(cursor)
     conn.close()
     return row
@@ -407,15 +395,14 @@ def insertar_inspeccion(bloque_id, fecha_visita, inspector,
                                   observaciones, desviaciones,
                                   registro_fotografico, codigo_verificacion,
                                   microcuenca, archivos_pdf, fecha_registro)
-        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-        RETURNING id
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
     """, (bloque_id, fecha_visita, inspector,
           condiciones_climaticas, avance_fisico,
           observaciones, desviaciones,
           registro_fotografico, codigo_verificacion,
           microcuenca, archivos_pdf,
           datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-    inspeccion_id = cursor.fetchone()[0]
+    inspeccion_id = cursor.lastrowid
     conn.commit()
     conn.close()
     return inspeccion_id
@@ -425,7 +412,7 @@ def obtener_inspecciones_por_bloque(bloque_id):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        SELECT * FROM inspecciones WHERE bloque_id=%s ORDER BY fecha_visita DESC
+        SELECT * FROM inspecciones WHERE bloque_id=? ORDER BY fecha_visita DESC
     """, (bloque_id,))
     rows = _dictfetch(cursor)
     conn.close()
@@ -457,7 +444,7 @@ def obtener_inspeccion_por_id(inspeccion_id):
                b.area_hectareas, b.estado AS bloque_estado
         FROM inspecciones i
         JOIN bloques b ON i.bloque_id = b.id
-        WHERE i.id=%s
+        WHERE i.id=?
     """, (inspeccion_id,))
     row = _dictfetchone(cursor)
     conn.close()
@@ -467,7 +454,7 @@ def obtener_inspeccion_por_id(inspeccion_id):
 def actualizar_archivos_pdf_inspeccion(inspeccion_id, archivos_pdf):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("UPDATE inspecciones SET archivos_pdf=%s WHERE id=%s",
+    cursor.execute("UPDATE inspecciones SET archivos_pdf=? WHERE id=?",
                    (archivos_pdf, inspeccion_id))
     conn.commit()
     conn.close()
@@ -492,13 +479,12 @@ def insertar_indicadores(bloque_id, inspeccion_id, cobertura_vegetal_planificada
                                          porcentaje_cobertura_vegetal,
                                          tipo_cobertura_vegetal, vigor_cobertura_vegetal,
                                          microcuenca, fecha_registro)
-        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-        RETURNING id
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
     """, (bloque_id, inspeccion_id, cobertura_vegetal_planificada, cobertura_vegetal_lograda,
           sobrevivencia_especies, longitud_zanjas_ejecutada, volumen_retencion_sedimentos,
           porcentaje_cobertura_vegetal, tipo_cobertura_vegetal, vigor_cobertura_vegetal,
           microcuenca, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-    indicador_id = cursor.fetchone()[0]
+    indicador_id = cursor.lastrowid
     conn.commit()
     conn.close()
     return indicador_id
@@ -511,7 +497,7 @@ def obtener_indicadores_por_bloque(bloque_id):
         SELECT ic.*, i.fecha_visita, i.inspector
         FROM indicadores_calidad ic
         JOIN inspecciones i ON ic.inspeccion_id = i.id
-        WHERE ic.bloque_id=%s
+        WHERE ic.bloque_id=?
         ORDER BY i.fecha_visita DESC
     """, (bloque_id,))
     rows = _dictfetch(cursor)
@@ -522,7 +508,7 @@ def obtener_indicadores_por_bloque(bloque_id):
 def obtener_indicadores_por_inspeccion(inspeccion_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM indicadores_calidad WHERE inspeccion_id=%s", (inspeccion_id,))
+    cursor.execute("SELECT * FROM indicadores_calidad WHERE inspeccion_id=?", (inspeccion_id,))
     row = _dictfetchone(cursor)
     conn.close()
     return row
@@ -553,8 +539,8 @@ def buscar_bloques(texto_busqueda):
     patron = f"%{texto_busqueda}%"
     cursor.execute("""
         SELECT * FROM bloques
-        WHERE codigo ILIKE %s OR distrito ILIKE %s
-              OR tipo_intervencion ILIKE %s OR responsable ILIKE %s
+        WHERE codigo LIKE ? OR distrito LIKE ?
+              OR tipo_intervencion LIKE ? OR responsable LIKE ?
         ORDER BY codigo
     """, (patron, patron, patron, patron))
     rows = _dictfetch(cursor)
@@ -572,11 +558,10 @@ def insertar_presupuesto(bloque_id, categoria, descripcion,
         INSERT INTO presupuesto (bloque_id, categoria, descripcion,
                                  monto_planificado, monto_ejecutado,
                                  fuente_financiamiento, fecha_registro)
-        VALUES (%s,%s,%s,%s,%s,%s,%s)
-        RETURNING id
+        VALUES (?,?,?,?,?,?,?)
     """, (bloque_id, categoria, descripcion, monto_planificado, monto_ejecutado,
           fuente_financiamiento, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-    pid = cursor.fetchone()[0]
+    pid = cursor.lastrowid
     conn.commit()
     conn.close()
     return pid
@@ -587,10 +572,10 @@ def actualizar_presupuesto(presupuesto_id, categoria, descripcion,
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        UPDATE presupuesto SET categoria=%s, descripcion=%s,
-                               monto_planificado=%s, monto_ejecutado=%s,
-                               fuente_financiamiento=%s
-        WHERE id=%s
+        UPDATE presupuesto SET categoria=?, descripcion=?,
+                               monto_planificado=?, monto_ejecutado=?,
+                               fuente_financiamiento=?
+        WHERE id=?
     """, (categoria, descripcion, monto_planificado, monto_ejecutado,
           fuente_financiamiento, presupuesto_id))
     conn.commit()
@@ -600,7 +585,7 @@ def actualizar_presupuesto(presupuesto_id, categoria, descripcion,
 def eliminar_presupuesto(presupuesto_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM presupuesto WHERE id=%s", (presupuesto_id,))
+    cursor.execute("DELETE FROM presupuesto WHERE id=?", (presupuesto_id,))
     conn.commit()
     conn.close()
 
@@ -608,7 +593,7 @@ def eliminar_presupuesto(presupuesto_id):
 def obtener_presupuesto_por_bloque(bloque_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM presupuesto WHERE bloque_id=%s ORDER BY categoria", (bloque_id,))
+    cursor.execute("SELECT * FROM presupuesto WHERE bloque_id=? ORDER BY categoria", (bloque_id,))
     rows = _dictfetch(cursor)
     conn.close()
     return rows
@@ -658,13 +643,12 @@ def insertar_actividad(bloque_id, actividad, fecha_inicio_plan, fecha_fin_plan,
                                 fecha_fin_plan, fecha_inicio_real, fecha_fin_real,
                                 porcentaje_avance, responsable, observaciones,
                                 estado, fecha_registro)
-        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-        RETURNING id
+        VALUES (?,?,?,?,?,?,?,?,?,?,?)
     """, (bloque_id, actividad, fecha_inicio_plan, fecha_fin_plan,
           fecha_inicio_real, fecha_fin_real, porcentaje_avance,
           responsable, observaciones, estado,
           datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-    aid = cursor.fetchone()[0]
+    aid = cursor.lastrowid
     conn.commit()
     conn.close()
     return aid
@@ -676,11 +660,11 @@ def actualizar_actividad(actividad_id, actividad, fecha_inicio_plan,
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        UPDATE cronograma SET actividad=%s, fecha_inicio_plan=%s,
-                              fecha_fin_plan=%s, fecha_inicio_real=%s,
-                              fecha_fin_real=%s, porcentaje_avance=%s,
-                              responsable=%s, observaciones=%s, estado=%s
-        WHERE id=%s
+        UPDATE cronograma SET actividad=?, fecha_inicio_plan=?,
+                              fecha_fin_plan=?, fecha_inicio_real=?,
+                              fecha_fin_real=?, porcentaje_avance=?,
+                              responsable=?, observaciones=?, estado=?
+        WHERE id=?
     """, (actividad, fecha_inicio_plan, fecha_fin_plan,
           fecha_inicio_real, fecha_fin_real, porcentaje_avance,
           responsable, observaciones, estado, actividad_id))
@@ -691,7 +675,7 @@ def actualizar_actividad(actividad_id, actividad, fecha_inicio_plan,
 def eliminar_actividad(actividad_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM cronograma WHERE id=%s", (actividad_id,))
+    cursor.execute("DELETE FROM cronograma WHERE id=?", (actividad_id,))
     conn.commit()
     conn.close()
 
@@ -700,7 +684,7 @@ def obtener_actividades_por_bloque(bloque_id):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        SELECT * FROM cronograma WHERE bloque_id=%s ORDER BY fecha_inicio_plan
+        SELECT * FROM cronograma WHERE bloque_id=? ORDER BY fecha_inicio_plan
     """, (bloque_id,))
     rows = _dictfetch(cursor)
     conn.close()
@@ -741,11 +725,10 @@ def insertar_personal(nombre, cargo, especialidad="", telefono="",
     cursor.execute("""
         INSERT INTO personal (nombre, cargo, especialidad, telefono,
                               email, bloque_asignado, activo, fecha_registro)
-        VALUES (%s,%s,%s,%s,%s,%s,1,%s)
-        RETURNING id
+        VALUES (?,?,?,?,?,?,1,?)
     """, (nombre, cargo, especialidad, telefono, email,
           bloque_asignado, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-    pid = cursor.fetchone()[0]
+    pid = cursor.lastrowid
     conn.commit()
     conn.close()
     return pid
@@ -756,9 +739,9 @@ def actualizar_personal(personal_id, nombre, cargo, especialidad,
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        UPDATE personal SET nombre=%s, cargo=%s, especialidad=%s,
-                            telefono=%s, email=%s, bloque_asignado=%s, activo=%s
-        WHERE id=%s
+        UPDATE personal SET nombre=?, cargo=?, especialidad=?,
+                            telefono=?, email=?, bloque_asignado=?, activo=?
+        WHERE id=?
     """, (nombre, cargo, especialidad, telefono, email,
           bloque_asignado, activo, personal_id))
     conn.commit()
@@ -768,7 +751,7 @@ def actualizar_personal(personal_id, nombre, cargo, especialidad,
 def eliminar_personal(personal_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM personal WHERE id=%s", (personal_id,))
+    cursor.execute("DELETE FROM personal WHERE id=?", (personal_id,))
     conn.commit()
     conn.close()
 
@@ -859,7 +842,7 @@ def obtener_estadisticas_generales():
     return stats
 
 
-# ── Diagnóstico Territorial ───────────────────────────────────────────────
+# ── Diagnostico Territorial ───────────────────────────────────────────────
 
 def insertar_diagnostico_territorial(bloque_id, ficha, fecha_evaluacion, evaluador="",
                                      inspeccion_id=None, microcuenca="",
@@ -901,9 +884,8 @@ def insertar_diagnostico_territorial(bloque_id, ficha, fecha_evaluacion, evaluad
             tenencia_tierra, organizacion_comunal, actividad_economica,
             accesibilidad_via, distancia_centro_poblado, servicios_basicos,
             observaciones_generales, fecha_registro
-        ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,
-                  %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-        RETURNING id
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,
+                  ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, (bloque_id, inspeccion_id, ficha, microcuenca, fecha_evaluacion, evaluador,
           forma_terreno, pendiente, posicion_fisiografica, exposicion_orientacion,
           paisaje_dominante, rango_altitudinal,
@@ -918,7 +900,7 @@ def insertar_diagnostico_territorial(bloque_id, ficha, fecha_evaluacion, evaluad
           tenencia_tierra, organizacion_comunal, actividad_economica,
           accesibilidad_via, distancia_centro_poblado, servicios_basicos,
           observaciones_generales, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-    did = cursor.fetchone()[0]
+    did = cursor.lastrowid
     conn.commit()
     conn.close()
     return did
@@ -931,7 +913,7 @@ def obtener_diagnosticos_por_bloque(bloque_id):
         SELECT dt.*, b.codigo AS bloque_codigo
         FROM diagnostico_territorial dt
         JOIN bloques b ON dt.bloque_id = b.id
-        WHERE dt.bloque_id=%s ORDER BY dt.fecha_evaluacion DESC
+        WHERE dt.bloque_id=? ORDER BY dt.fecha_evaluacion DESC
     """, (bloque_id,))
     rows = _dictfetch(cursor)
     conn.close()
@@ -959,7 +941,7 @@ def obtener_diagnostico_por_id(diagnostico_id):
         SELECT dt.*, b.codigo AS bloque_codigo, b.tipo_intervencion, b.distrito
         FROM diagnostico_territorial dt
         JOIN bloques b ON dt.bloque_id = b.id
-        WHERE dt.id=%s
+        WHERE dt.id=?
     """, (diagnostico_id,))
     row = _dictfetchone(cursor)
     conn.close()
@@ -969,7 +951,7 @@ def obtener_diagnostico_por_id(diagnostico_id):
 def eliminar_diagnostico(diagnostico_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM diagnostico_territorial WHERE id=%s", (diagnostico_id,))
+    cursor.execute("DELETE FROM diagnostico_territorial WHERE id=?", (diagnostico_id,))
     conn.commit()
     conn.close()
 
@@ -980,7 +962,7 @@ def obtener_resumen_diagnosticos():
     cursor.execute("""
         SELECT b.codigo, b.tipo_intervencion, b.distrito,
                COUNT(dt.id) AS total_fichas,
-               STRING_AGG(DISTINCT dt.ficha, ',') AS fichas_completadas
+               GROUP_CONCAT(DISTINCT dt.ficha) AS fichas_completadas
         FROM bloques b
         LEFT JOIN diagnostico_territorial dt ON dt.bloque_id = b.id
         GROUP BY b.id, b.codigo, b.tipo_intervencion, b.distrito
@@ -991,17 +973,17 @@ def obtener_resumen_diagnosticos():
     return rows
 
 
-# ── Diagnóstico Social ────────────────────────────────────────────────────
+# ── Diagnostico Social ────────────────────────────────────────────────────
 
 def insertar_diagnostico_social(datos):
     conn = get_connection()
     cursor = conn.cursor()
     datos["fecha_registro"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     columnas = list(datos.keys())
-    placeholders = ",".join(["%s"] * len(columnas))
-    sql = f"INSERT INTO diagnostico_social ({','.join(columnas)}) VALUES ({placeholders}) RETURNING id"
+    placeholders = ",".join(["?"] * len(columnas))
+    sql = f"INSERT INTO diagnostico_social ({','.join(columnas)}) VALUES ({placeholders})"
     cursor.execute(sql, list(datos.values()))
-    did = cursor.fetchone()[0]
+    did = cursor.lastrowid
     conn.commit()
     conn.close()
     return did
@@ -1011,8 +993,8 @@ def actualizar_diagnostico_social(diagnostico_id, datos):
     conn = get_connection()
     cursor = conn.cursor()
     datos["fecha_registro"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    sets = ", ".join([f"{k}=%s" for k in datos.keys()])
-    sql = f"UPDATE diagnostico_social SET {sets} WHERE id=%s"
+    sets = ", ".join([f"{k}=?" for k in datos.keys()])
+    sql = f"UPDATE diagnostico_social SET {sets} WHERE id=?"
     cursor.execute(sql, list(datos.values()) + [diagnostico_id])
     conn.commit()
     conn.close()
@@ -1025,7 +1007,7 @@ def obtener_diagnosticos_sociales_por_bloque(bloque_id):
         SELECT ds.*, b.codigo AS bloque_codigo
         FROM diagnostico_social ds
         JOIN bloques b ON ds.bloque_id = b.id
-        WHERE ds.bloque_id=%s ORDER BY ds.fecha_evaluacion DESC
+        WHERE ds.bloque_id=? ORDER BY ds.fecha_evaluacion DESC
     """, (bloque_id,))
     rows = _dictfetch(cursor)
     conn.close()
@@ -1053,7 +1035,7 @@ def obtener_diagnostico_social_por_id(diagnostico_id):
         SELECT ds.*, b.codigo AS bloque_codigo, b.tipo_intervencion, b.distrito
         FROM diagnostico_social ds
         JOIN bloques b ON ds.bloque_id = b.id
-        WHERE ds.id=%s
+        WHERE ds.id=?
     """, (diagnostico_id,))
     row = _dictfetchone(cursor)
     conn.close()
@@ -1063,7 +1045,7 @@ def obtener_diagnostico_social_por_id(diagnostico_id):
 def eliminar_diagnostico_social(diagnostico_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM diagnostico_social WHERE id=%s", (diagnostico_id,))
+    cursor.execute("DELETE FROM diagnostico_social WHERE id=?", (diagnostico_id,))
     conn.commit()
     conn.close()
 
@@ -1074,7 +1056,7 @@ def obtener_resumen_diagnosticos_sociales():
     cursor.execute("""
         SELECT b.codigo, b.tipo_intervencion, b.distrito,
                COUNT(ds.id) AS total_fichas,
-               STRING_AGG(DISTINCT ds.ficha, ',') AS fichas_completadas
+               GROUP_CONCAT(DISTINCT ds.ficha) AS fichas_completadas
         FROM bloques b
         LEFT JOIN diagnostico_social ds ON ds.bloque_id = b.id
         GROUP BY b.id, b.codigo, b.tipo_intervencion, b.distrito
