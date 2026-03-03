@@ -1,29 +1,106 @@
 """
 IN Piura - Plan de Ingreso / Verificacion de Campo
-Modulo de base de datos SQLite para registro y consulta de bloques,
-inspecciones, indicadores de calidad, presupuesto, cronograma y personal.
+Modulo de base de datos con PERSISTENCIA EN LA NUBE.
+Usa PostgreSQL (Supabase) - los datos sobreviven al ciclo
+de sueno/despertar de Streamlit Community Cloud.
 Cuenca alta del rio Piura, Peru.
 
-Base de datos local SQLite - no requiere servidor externo.
-El archivo 'in_piura.db' se crea automaticamente en el directorio de la app.
+CAMBIO: SQLite local -> PostgreSQL en Supabase.
+Capa de compatibilidad automatica: el resto del codigo NO cambia.
+
+CONFIGURACION en .streamlit/secrets.toml:
+  DATABASE_URL = "postgresql://postgres.xxxx:password@host:port/postgres"
 """
 
-import sqlite3
-import os
+import re
+import streamlit as st
+import psycopg2
+from psycopg2.extras import RealDictCursor
 from datetime import datetime
 
-# Ruta del archivo de base de datos (mismo directorio que este script)
-DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "in_piura.db")
+DATABASE_URL = st.secrets["DATABASE_URL"]
 
 
-# ── Conexion ──────────────────────────────────────────────────────────────
+# == CAPA DE COMPATIBILIDAD SQLite -> PostgreSQL ===========================
+# Traduce automaticamente:
+#   ? -> %s  |  AUTOINCREMENT -> (nada)  |  GROUP_CONCAT -> STRING_AGG
+#   cursor.lastrowid -> via RETURNING id
+# ==========================================================================
+
+def _translate_sql(sql):
+    """Traduce SQL de SQLite a PostgreSQL."""
+    sql = sql.replace('?', '%s')
+    sql = sql.replace('AUTOINCREMENT', '')
+    if 'PRAGMA' in sql.upper():
+        return None
+    sql = re.sub(
+        r"GROUP_CONCAT\(([^)]+)\)",
+        r"STRING_AGG(\1, ',')",
+        sql)
+    return sql
+
+
+class _CursorWrapper:
+    """Envuelve psycopg2 cursor para simular sqlite3.Cursor."""
+    def __init__(self, pg_cursor):
+        self._c = pg_cursor
+        self.lastrowid = None
+        self.description = None
+
+    def execute(self, sql, params=None):
+        sql = _translate_sql(sql)
+        if sql is None:
+            return
+        is_insert = sql.strip().upper().startswith('INSERT')
+        if is_insert and 'RETURNING' not in sql.upper():
+            sql = sql.rstrip().rstrip(';') + ' RETURNING id'
+        if params:
+            self._c.execute(sql, params)
+        else:
+            self._c.execute(sql)
+        self.description = self._c.description
+        if is_insert:
+            row = self._c.fetchone()
+            self.lastrowid = row['id'] if row else None
+
+    def fetchall(self):
+        return self._c.fetchall()
+
+    def fetchone(self):
+        return self._c.fetchone()
+
+
+class _ConnectionWrapper:
+    """Envuelve psycopg2 connection para simular sqlite3.Connection."""
+    def __init__(self):
+        self._conn = psycopg2.connect(
+            DATABASE_URL, cursor_factory=RealDictCursor)
+
+    def cursor(self):
+        return _CursorWrapper(self._conn.cursor())
+
+    def execute(self, sql, params=None):
+        sql = _translate_sql(sql)
+        if sql is None:
+            return
+        cur = self._conn.cursor()
+        if params:
+            cur.execute(sql, params)
+        else:
+            cur.execute(sql)
+
+    def commit(self):
+        self._conn.commit()
+
+    def close(self):
+        self._conn.close()
+
+
+# == INTERFAZ PUBLICA (identica a version SQLite) ==========================
 
 def get_connection():
-    """Retorna una conexion a la base de datos SQLite local."""
-    conn = sqlite3.connect(DB_PATH)
-    conn.execute("PRAGMA foreign_keys = ON")
-    conn.row_factory = sqlite3.Row
-    return conn
+    """Retorna conexion a PostgreSQL (Supabase)."""
+    return _ConnectionWrapper()
 
 
 def _dictfetch(cursor):
@@ -37,17 +114,14 @@ def _dictfetchone(cursor):
     row = cursor.fetchone()
     return dict(row) if row else None
 
-
-# ── Inicializacion de tablas ──────────────────────────────────────────────
-
 def inicializar_bd():
     """Crea las tablas si no existen (idempotente)."""
-    conn = get_connection()
+    conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor()
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS bloques (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             codigo TEXT UNIQUE NOT NULL,
             tipo_intervencion TEXT NOT NULL,
             cuenca TEXT NOT NULL,
@@ -67,7 +141,7 @@ def inicializar_bd():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS inspecciones (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             bloque_id INTEGER NOT NULL REFERENCES bloques(id) ON DELETE CASCADE,
             fecha_visita TEXT NOT NULL,
             inspector TEXT NOT NULL,
@@ -85,7 +159,7 @@ def inicializar_bd():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS indicadores_calidad (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             bloque_id INTEGER NOT NULL REFERENCES bloques(id) ON DELETE CASCADE,
             inspeccion_id INTEGER NOT NULL REFERENCES inspecciones(id) ON DELETE CASCADE,
             cobertura_vegetal_planificada REAL DEFAULT 0,
@@ -103,7 +177,7 @@ def inicializar_bd():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS presupuesto (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             bloque_id INTEGER NOT NULL REFERENCES bloques(id) ON DELETE CASCADE,
             categoria TEXT NOT NULL,
             descripcion TEXT DEFAULT '',
@@ -116,7 +190,7 @@ def inicializar_bd():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS cronograma (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             bloque_id INTEGER NOT NULL REFERENCES bloques(id) ON DELETE CASCADE,
             actividad TEXT NOT NULL,
             fecha_inicio_plan TEXT NOT NULL,
@@ -133,7 +207,7 @@ def inicializar_bd():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS personal (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             nombre TEXT NOT NULL,
             cargo TEXT NOT NULL,
             especialidad TEXT DEFAULT '',
@@ -147,7 +221,7 @@ def inicializar_bd():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS diagnostico_territorial (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             bloque_id INTEGER NOT NULL REFERENCES bloques(id) ON DELETE CASCADE,
             inspeccion_id INTEGER REFERENCES inspecciones(id) ON DELETE SET NULL,
             ficha TEXT NOT NULL,
@@ -196,7 +270,7 @@ def inicializar_bd():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS diagnostico_social (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             bloque_id INTEGER NOT NULL REFERENCES bloques(id) ON DELETE CASCADE,
             inspeccion_id INTEGER REFERENCES inspecciones(id) ON DELETE SET NULL,
             ficha TEXT NOT NULL,
@@ -301,7 +375,6 @@ def inicializar_bd():
 
     conn.commit()
     conn.close()
-
 
 # ── Bloques ───────────────────────────────────────────────────────────────
 
