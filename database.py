@@ -533,6 +533,33 @@ def actualizar_archivos_pdf_inspeccion(inspeccion_id, archivos_pdf):
     conn.close()
 
 
+def actualizar_inspeccion(inspeccion_id, fecha_visita, inspector,
+                          condiciones_climaticas, avance_fisico,
+                          observaciones, desviaciones,
+                          codigo_verificacion, microcuenca=""):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE inspecciones SET fecha_visita=?, inspector=?,
+               condiciones_climaticas=?, avance_fisico=?,
+               observaciones=?, desviaciones=?,
+               codigo_verificacion=?, microcuenca=?
+        WHERE id=?
+    """, (fecha_visita, inspector, condiciones_climaticas, avance_fisico,
+          observaciones, desviaciones, codigo_verificacion, microcuenca,
+          inspeccion_id))
+    conn.commit()
+    conn.close()
+
+
+def eliminar_inspeccion(inspeccion_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM inspecciones WHERE id=?", (inspeccion_id,))
+    conn.commit()
+    conn.close()
+
+
 # ── Indicadores de Calidad ────────────────────────────────────────────────
 
 def insertar_indicadores(bloque_id, inspeccion_id, cobertura_vegetal_planificada,
@@ -561,6 +588,29 @@ def insertar_indicadores(bloque_id, inspeccion_id, cobertura_vegetal_planificada
     conn.commit()
     conn.close()
     return indicador_id
+
+
+def actualizar_indicadores(indicador_id, porcentaje_cobertura_vegetal=0,
+                           tipo_cobertura_vegetal="", vigor_cobertura_vegetal="",
+                           microcuenca=""):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE indicadores_calidad SET porcentaje_cobertura_vegetal=?,
+               tipo_cobertura_vegetal=?, vigor_cobertura_vegetal=?, microcuenca=?
+        WHERE id=?
+    """, (porcentaje_cobertura_vegetal, tipo_cobertura_vegetal,
+          vigor_cobertura_vegetal, microcuenca, indicador_id))
+    conn.commit()
+    conn.close()
+
+
+def eliminar_indicadores(indicador_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM indicadores_calidad WHERE id=?", (indicador_id,))
+    conn.commit()
+    conn.close()
 
 
 def obtener_indicadores_por_bloque(bloque_id):
@@ -1019,6 +1069,65 @@ def obtener_diagnostico_por_id(diagnostico_id):
     row = _dictfetchone(cursor)
     conn.close()
     return row
+
+
+def actualizar_diagnostico_territorial(diagnostico_id, ficha="", fecha_evaluacion="",
+                                       evaluador="", microcuenca="",
+                                       forma_terreno="", pendiente="",
+                                       posicion_fisiografica="", exposicion_orientacion="",
+                                       paisaje_dominante="", rango_altitudinal="",
+                                       precipitacion_anual="", temperatura_media="",
+                                       humedad_relativa="", zona_vida="",
+                                       presencia_heladas="", regimen_vientos="",
+                                       textura_suelo="", color_suelo="",
+                                       profundidad_efectiva="", pedregosidad="",
+                                       drenaje="", presencia_erosion="",
+                                       materia_organica="",
+                                       tipo_cobertura="", densidad_cobertura="",
+                                       estado_conservacion="", uso_actual_suelo="",
+                                       conflicto_uso="",
+                                       fuente_agua="", regimen_hidrico="",
+                                       calidad_agua="", distancia_fuente_agua="",
+                                       uso_recurso_hidrico="",
+                                       tenencia_tierra="", organizacion_comunal="",
+                                       actividad_economica="", accesibilidad_via="",
+                                       distancia_centro_poblado="", servicios_basicos="",
+                                       observaciones_generales=""):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE diagnostico_territorial SET
+            ficha=?, fecha_evaluacion=?, evaluador=?, microcuenca=?,
+            forma_terreno=?, pendiente=?, posicion_fisiografica=?, exposicion_orientacion=?,
+            paisaje_dominante=?, rango_altitudinal=?,
+            precipitacion_anual=?, temperatura_media=?, humedad_relativa=?, zona_vida=?,
+            presencia_heladas=?, regimen_vientos=?,
+            textura_suelo=?, color_suelo=?, profundidad_efectiva=?, pedregosidad=?,
+            drenaje=?, presencia_erosion=?, materia_organica=?,
+            tipo_cobertura=?, densidad_cobertura=?, estado_conservacion=?,
+            uso_actual_suelo=?, conflicto_uso=?,
+            fuente_agua=?, regimen_hidrico=?, calidad_agua=?,
+            distancia_fuente_agua=?, uso_recurso_hidrico=?,
+            tenencia_tierra=?, organizacion_comunal=?, actividad_economica=?,
+            accesibilidad_via=?, distancia_centro_poblado=?, servicios_basicos=?,
+            observaciones_generales=?
+        WHERE id=?
+    """, (ficha, fecha_evaluacion, evaluador, microcuenca,
+          forma_terreno, pendiente, posicion_fisiografica, exposicion_orientacion,
+          paisaje_dominante, rango_altitudinal,
+          precipitacion_anual, temperatura_media, humedad_relativa, zona_vida,
+          presencia_heladas, regimen_vientos,
+          textura_suelo, color_suelo, profundidad_efectiva, pedregosidad,
+          drenaje, presencia_erosion, materia_organica,
+          tipo_cobertura, densidad_cobertura, estado_conservacion,
+          uso_actual_suelo, conflicto_uso,
+          fuente_agua, regimen_hidrico, calidad_agua,
+          distancia_fuente_agua, uso_recurso_hidrico,
+          tenencia_tierra, organizacion_comunal, actividad_economica,
+          accesibilidad_via, distancia_centro_poblado, servicios_basicos,
+          observaciones_generales, diagnostico_id))
+    conn.commit()
+    conn.close()
 
 
 def eliminar_diagnostico(diagnostico_id):

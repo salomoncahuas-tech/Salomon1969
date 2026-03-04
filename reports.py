@@ -191,8 +191,16 @@ def generar_ficha_pdf(bloque_id, inspeccion_id=None):
                     pdf._campo("Vigor cobertura vegetal", vigor_cob)
                 pdf.ln(3)
 
-    # Diagnostico Territorial del bloque
-    diagnosticos_dt = db.obtener_diagnosticos_por_bloque(bloque_id)
+    # Diagnostico Territorial del bloque (deduplicar: solo el mas reciente por ficha)
+    diagnosticos_dt_raw = db.obtener_diagnosticos_por_bloque(bloque_id)
+    diagnosticos_dt = []
+    _dt_vistas = set()
+    for dt in diagnosticos_dt_raw:
+        fichas = dt.get("ficha", "")
+        clave = (fichas, dt.get("evaluador", ""))
+        if clave not in _dt_vistas:
+            _dt_vistas.add(clave)
+            diagnosticos_dt.append(dt)
     if diagnosticos_dt:
         pdf._seccion("3. Diagnostico Territorial")
         for idx_dt, dt in enumerate(diagnosticos_dt, 1):
@@ -294,8 +302,16 @@ def generar_ficha_pdf(bloque_id, inspeccion_id=None):
                 pdf._campo_largo("Observaciones generales", obs_dt)
             pdf.ln(2)
 
-    # Diagnostico Social del bloque
-    diagnosticos_ds = db.obtener_diagnosticos_sociales_por_bloque(bloque_id)
+    # Diagnostico Social del bloque (deduplicar: solo el mas reciente por ficha)
+    diagnosticos_ds_raw = db.obtener_diagnosticos_sociales_por_bloque(bloque_id)
+    diagnosticos_ds = []
+    _ds_vistas = set()
+    for ds in diagnosticos_ds_raw:
+        ficha = ds.get("ficha", "")
+        clave = (ficha, ds.get("evaluador", ""))
+        if clave not in _ds_vistas:
+            _ds_vistas.add(clave)
+            diagnosticos_ds.append(ds)
     if diagnosticos_ds:
         pdf._seccion("4. Diagnostico Social")
         for idx_ds, ds in enumerate(diagnosticos_ds, 1):
