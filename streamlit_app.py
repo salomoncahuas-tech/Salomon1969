@@ -544,93 +544,183 @@ def _extraer_codigo_bloque_79(opcion):
         return None
     return opcion.strip()
 
+def _bl_load_edit(bloque):
+    """Carga un registro de bloque en session_state para edicion."""
+    st.session_state["bl_edit_id"] = bloque["id"]
+    st.session_state["bl_codigo"] = bloque["codigo"]
+    st.session_state["bl_cuenca"] = bloque.get("cuenca", "Cuenca Alta del Rio Piura") or "Cuenca Alta del Rio Piura"
+    st.session_state["bl_microcuenca"] = bloque.get("microcuenca", "") or ""
+    st.session_state["bl_provincia"] = bloque.get("provincia", "") or ""
+    st.session_state["bl_distrito"] = bloque.get("distrito", "") or ""
+    st.session_state["bl_tipo"] = bloque.get("tipo_intervencion", "") or ""
+    st.session_state["bl_utm_este"] = str(bloque.get("utm_este", 0) or 0)
+    st.session_state["bl_utm_norte"] = str(bloque.get("utm_norte", 0) or 0)
+    st.session_state["bl_utm_zona"] = bloque.get("utm_zona", "17S") or "17S"
+    st.session_state["bl_altitud"] = str(bloque.get("altitud", 0) or 0)
+    st.session_state["bl_area"] = str(bloque.get("area_hectareas", 0) or 0)
+    st.session_state["bl_responsable"] = bloque.get("responsable", "") or ""
+    st.session_state["bl_estado"] = bloque.get("estado", "Pendiente") or "Pendiente"
+
 def pagina_bloques():
     st.subheader("Bloques de Intervencion")
+
+    # Inicializar estado de edicion
+    if "bl_edit_id" not in st.session_state:
+        st.session_state["bl_edit_id"] = None
+
+    edit_id = st.session_state.get("bl_edit_id")
+
     cf,ct = st.columns([1,2])
     with cf:
-        st.markdown("**Registro de Bloque**")
+        if edit_id:
+            st.markdown("**Editar Bloque**")
+            st.info(f"Editando bloque ID {edit_id}. Modifique los campos y presione Actualizar.")
+            if st.button("Cancelar edicion", key="bl_cancel_edit"):
+                st.session_state["bl_edit_id"] = None
+                for k in list(st.session_state.keys()):
+                    if k.startswith("bl_") and k != "bl_edit_id":
+                        del st.session_state[k]
+                st.rerun()
+        else:
+            st.markdown("**Registro de Bloque**")
 
-        # Selector rapido de los 79 bloques preliminares
-        st.markdown("##### Seleccion rapida - 79 Bloques Preliminares")
-        sel_79 = st.selectbox(
-            "Seleccionar bloque predefinido",
-            ["(Seleccionar bloque predefinido)"] + BLOQUES_79_OPCIONES,
-            key="sel_bloque_79",
-            help="Seleccione un bloque de la lista de 79 bloques preliminares para autocompletar los campos"
-        )
+        # Selector rapido de los 79 bloques preliminares (solo en modo nuevo)
+        if not edit_id:
+            st.markdown("##### Seleccion rapida - 79 Bloques Preliminares")
+            sel_79 = st.selectbox(
+                "Seleccionar bloque predefinido",
+                ["(Seleccionar bloque predefinido)"] + BLOQUES_79_OPCIONES,
+                key="sel_bloque_79",
+                help="Seleccione un bloque de la lista de 79 bloques preliminares para autocompletar los campos"
+            )
 
-        # Determinar valores por defecto segun seleccion
-        cod_sel = _extraer_codigo_bloque_79(sel_79 if sel_79 != "(Seleccionar bloque predefinido)" else "")
-        datos_79 = BLOQUES_79_MAP.get(cod_sel, {}) if cod_sel else {}
+            # Determinar valores por defecto segun seleccion
+            cod_sel = _extraer_codigo_bloque_79(sel_79 if sel_79 != "(Seleccionar bloque predefinido)" else "")
+            datos_79 = BLOQUES_79_MAP.get(cod_sel, {}) if cod_sel else {}
 
-        def_codigo = datos_79.get("codigo", "")
-        def_microcuenca = datos_79.get("microcuenca", "")
-        def_area = str(datos_79.get("area_ha", "0"))
-        def_provincia = datos_79.get("provincia", "")
-        def_distrito = datos_79.get("distrito", "")
-        def_accesibilidad = datos_79.get("accesibilidad", 0)
-        def_dia = datos_79.get("dia_evaluacion", 0)
+            def_codigo = datos_79.get("codigo", "")
+            def_microcuenca = datos_79.get("microcuenca", "")
+            def_area = str(datos_79.get("area_ha", "0"))
+            def_provincia = datos_79.get("provincia", "")
+            def_distrito = datos_79.get("distrito", "")
+            def_accesibilidad = datos_79.get("accesibilidad", 0)
+            def_dia = datos_79.get("dia_evaluacion", 0)
 
-        if datos_79:
-            acc_txt = "Acceso limitado" if def_accesibilidad == 1 else "Acceso normal"
-            st.info(f"Bloque **{def_codigo}** | Microcuenca: {def_microcuenca} | "
-                    f"{def_distrito} ({def_provincia}) | {def_area} ha | "
-                    f"{acc_txt} | Dia eval.: {def_dia}")
+            if datos_79:
+                acc_txt = "Acceso limitado" if def_accesibilidad == 1 else "Acceso normal"
+                st.info(f"Bloque **{def_codigo}** | Microcuenca: {def_microcuenca} | "
+                        f"{def_distrito} ({def_provincia}) | {def_area} ha | "
+                        f"{acc_txt} | Dia eval.: {def_dia}")
+        else:
+            datos_79 = {}
+            def_codigo = st.session_state.get("bl_codigo", "")
+            def_microcuenca = st.session_state.get("bl_microcuenca", "")
+            def_area = st.session_state.get("bl_area", "0")
+            def_provincia = st.session_state.get("bl_provincia", "")
+            def_distrito = st.session_state.get("bl_distrito", "")
 
         st.markdown("---")
         with st.form("form_bloque", clear_on_submit=False):
-            codigo = st.text_input("Codigo de bloque", value=def_codigo)
-            cuenca = st.text_input("Cuenca", value="Cuenca Alta del Rio Piura")
-            # Microcuenca: preseleccionar si viene de los 79 bloques
+            codigo = st.text_input("Codigo de bloque",
+                value=st.session_state.get("bl_codigo", def_codigo) if edit_id else def_codigo)
+            cuenca = st.text_input("Cuenca",
+                value=st.session_state.get("bl_cuenca", "Cuenca Alta del Rio Piura") if edit_id else "Cuenca Alta del Rio Piura")
+            # Microcuenca: preseleccionar
             mc_idx = 0
-            if def_microcuenca and def_microcuenca in MICROCUENCAS:
-                mc_idx = MICROCUENCAS.index(def_microcuenca) + 1
+            mc_val = st.session_state.get("bl_microcuenca", def_microcuenca) if edit_id else def_microcuenca
+            if mc_val and mc_val in MICROCUENCAS:
+                mc_idx = MICROCUENCAS.index(mc_val) + 1
             microcuenca = st.selectbox("Microcuenca", [""]+MICROCUENCAS, index=mc_idx)
             # Provincia: preseleccionar
             prov_idx = 0
-            if def_provincia and def_provincia in PROVINCIAS:
-                prov_idx = PROVINCIAS.index(def_provincia) + 1
+            prov_val = st.session_state.get("bl_provincia", def_provincia) if edit_id else def_provincia
+            if prov_val and prov_val in PROVINCIAS:
+                prov_idx = PROVINCIAS.index(prov_val) + 1
             provincia = st.selectbox("Provincia", [""]+PROVINCIAS, index=prov_idx)
             # Distrito: preseleccionar
             dist_list = _distritos(provincia)
             dist_idx = 0
-            if def_distrito and def_distrito in dist_list:
-                dist_idx = dist_list.index(def_distrito) + 1
+            dist_val = st.session_state.get("bl_distrito", def_distrito) if edit_id else def_distrito
+            if dist_val and dist_val in dist_list:
+                dist_idx = dist_list.index(dist_val) + 1
             distrito = st.selectbox("Distrito", [""]+dist_list, index=dist_idx)
-            tipo = st.selectbox("Tipo intervencion", TIPOS_INTERVENCION)
+            # Tipo intervencion
+            tipo_idx = 0
+            if edit_id:
+                tipo_val = st.session_state.get("bl_tipo", "")
+                if tipo_val and tipo_val in TIPOS_INTERVENCION:
+                    tipo_idx = TIPOS_INTERVENCION.index(tipo_val)
+            tipo = st.selectbox("Tipo intervencion", TIPOS_INTERVENCION, index=tipo_idx)
             a1,a2 = st.columns(2)
-            ue = a1.text_input("UTM Este","0"); un = a2.text_input("UTM Norte","0")
+            ue = a1.text_input("UTM Este", st.session_state.get("bl_utm_este", "0") if edit_id else "0")
+            un = a2.text_input("UTM Norte", st.session_state.get("bl_utm_norte", "0") if edit_id else "0")
             b1,b2 = st.columns(2)
-            uz = b1.text_input("Zona UTM","17S"); alt = b2.text_input("Altitud","0")
-            area = st.text_input("Area (ha)", value=def_area if datos_79 else "0")
-            resp = st.text_input("Responsable")
-            estado = st.selectbox("Estado", ESTADOS_BLOQUE)
-            guardar = st.form_submit_button("Guardar", type="primary")
+            uz = b1.text_input("Zona UTM", st.session_state.get("bl_utm_zona", "17S") if edit_id else "17S")
+            alt = b2.text_input("Altitud", st.session_state.get("bl_altitud", "0") if edit_id else "0")
+            area = st.text_input("Area (ha)",
+                value=st.session_state.get("bl_area", def_area) if edit_id else (def_area if datos_79 else "0"))
+            resp = st.text_input("Responsable",
+                value=st.session_state.get("bl_responsable", "") if edit_id else "")
+            # Estado: preseleccionar
+            est_idx = 0
+            if edit_id:
+                est_val = st.session_state.get("bl_estado", "Pendiente")
+                if est_val and est_val in ESTADOS_BLOQUE:
+                    est_idx = ESTADOS_BLOQUE.index(est_val)
+            estado = st.selectbox("Estado", ESTADOS_BLOQUE, index=est_idx)
+            btn_label = "Actualizar Bloque" if edit_id else "Guardar"
+            guardar = st.form_submit_button(btn_label, type="primary")
         if guardar:
             if not codigo: st.warning("Codigo obligatorio.")
             elif not distrito: st.warning("Seleccione distrito.")
             else:
                 try:
-                    db.insertar_bloque(codigo=codigo,tipo_intervencion=tipo,cuenca=cuenca,
-                        distrito=distrito,utm_este=float(ue),utm_norte=float(un),
-                        utm_zona=uz,area_hectareas=float(area),estado=estado,
-                        altitud=float(alt or 0),responsable=resp,
-                        microcuenca=microcuenca,provincia=provincia)
-                    st.success(f"Bloque {codigo} registrado."); st.rerun()
+                    if edit_id:
+                        db.actualizar_bloque(bloque_id=edit_id,codigo=codigo,
+                            tipo_intervencion=tipo,cuenca=cuenca,
+                            distrito=distrito,utm_este=float(ue),utm_norte=float(un),
+                            utm_zona=uz,area_hectareas=float(area),estado=estado,
+                            altitud=float(alt or 0),responsable=resp,
+                            microcuenca=microcuenca,provincia=provincia)
+                        st.session_state["bl_edit_id"] = None
+                        for k in list(st.session_state.keys()):
+                            if k.startswith("bl_") and k != "bl_edit_id":
+                                del st.session_state[k]
+                        st.success(f"Bloque {codigo} actualizado correctamente.")
+                    else:
+                        db.insertar_bloque(codigo=codigo,tipo_intervencion=tipo,cuenca=cuenca,
+                            distrito=distrito,utm_este=float(ue),utm_norte=float(un),
+                            utm_zona=uz,area_hectareas=float(area),estado=estado,
+                            altitud=float(alt or 0),responsable=resp,
+                            microcuenca=microcuenca,provincia=provincia)
+                        st.success(f"Bloque {codigo} registrado.")
+                    st.rerun()
                 except Exception as e: st.error(f"Error: {e}")
     with ct:
         st.markdown("**Bloques Registrados**")
+        st.caption("Haga clic en **Editar** para modificar un bloque existente y evitar duplicidades.")
         busq = st.text_input("Buscar","",key="busq_bl")
         bloques = db.buscar_bloques(busq) if busq else db.obtener_bloques()
         if bloques:
-            st.dataframe(pd.DataFrame([{"ID":b["id"],"Codigo":b["codigo"],
-                "Microcuenca":b.get("microcuenca","") or "","Tipo":b["tipo_intervencion"],
-                "Provincia":b.get("provincia","") or "","Distrito":b["distrito"],
-                "UTM Este":f"{b['utm_este']:.2f}","UTM Norte":f"{b['utm_norte']:.2f}",
-                "Altitud":f"{(b.get('altitud',0) or 0):.0f}",
-                "Area":f"{b['area_hectareas']:.4f}",
-                "Responsable":b.get("responsable","") or "","Estado":b["estado"]
-                } for b in bloques]), use_container_width=True, hide_index=True)
+            # Tabla con botones de edicion por fila
+            header_cols = st.columns([0.5, 1.2, 1.2, 1.2, 1, 1, 0.8, 0.8, 0.7])
+            headers = ["ID", "Codigo", "Microcuenca", "Tipo", "Provincia", "Distrito", "Area", "Estado", ""]
+            for col, h in zip(header_cols, headers):
+                col.markdown(f"**{h}**")
+            st.markdown("---")
+            for b in bloques:
+                row_cols = st.columns([0.5, 1.2, 1.2, 1.2, 1, 1, 0.8, 0.8, 0.7])
+                row_cols[0].write(b["id"])
+                row_cols[1].write(b["codigo"])
+                row_cols[2].write(b.get("microcuenca", "") or "")
+                row_cols[3].write(b["tipo_intervencion"])
+                row_cols[4].write(b.get("provincia", "") or "")
+                row_cols[5].write(b["distrito"])
+                row_cols[6].write(f"{b['area_hectareas']:.4f}")
+                row_cols[7].write(b["estado"])
+                if row_cols[8].button("Editar", key=f"edit_bl_{b['id']}", type="primary"):
+                    _bl_load_edit(b)
+                    st.rerun()
             st.markdown("---")
             bm = {f"{b['codigo']} - {b['tipo_intervencion']}":b["id"] for b in bloques}
             sel = st.selectbox("Seleccionar bloque para eliminar",[""]+list(bm.keys()),key="del_bl")
