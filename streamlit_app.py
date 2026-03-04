@@ -747,77 +747,177 @@ def pagina_inspeccion():
     bm = _bloques_map()
     if not bm: st.warning("Registre un bloque primero."); return
 
+    # Inicializar estado de edicion
+    if "insp_edit_id" not in st.session_state:
+        st.session_state["insp_edit_id"] = None
+
+    edit_id = st.session_state.get("insp_edit_id")
+
+    if edit_id:
+        st.info(f"Editando inspeccion ID {edit_id}. Modifique los campos y presione Actualizar.")
+        if st.button("Cancelar edicion", key="insp_cancel_edit"):
+            st.session_state["insp_edit_id"] = None
+            for k in list(st.session_state.keys()):
+                if k.startswith("insp_e_"):
+                    del st.session_state[k]
+            st.rerun()
+
     # Selector de bloque FUERA del form para auto-enlazar microcuenca
     opciones_bloque = list(bm.keys())
-    bl = st.selectbox("Bloque", opciones_bloque, key="insp_bloque")
+    # En modo edicion, preseleccionar el bloque
+    bl_idx = 0
+    if edit_id:
+        bl_code = st.session_state.get("insp_e_bloque", "")
+        for i, op in enumerate(opciones_bloque):
+            if bl_code and bl_code in op:
+                bl_idx = i
+                break
+    bl = st.selectbox("Bloque", opciones_bloque, index=bl_idx, key="insp_bloque")
 
     # Auto-resolver microcuenca del bloque seleccionado
     mc_auto = _resolver_microcuenca(bl)
     if mc_auto:
-        mc_idx = MICROCUENCAS.index(mc_auto) + 1  # +1 por el "" inicial
+        mc_idx = MICROCUENCAS.index(mc_auto) + 1
         st.info(f"Microcuenca vinculada automaticamente: **{mc_auto}**")
     else:
         mc_idx = 0
+    if edit_id:
+        mc_val = st.session_state.get("insp_e_mc", "")
+        if mc_val and mc_val in MICROCUENCAS:
+            mc_idx = MICROCUENCAS.index(mc_val) + 1
 
     # Carga de archivos PDF (fuera del form por limitaciones de Streamlit)
-    pdf_files = st.file_uploader(
-        "Adjuntar archivos PDF (max. 25 MB por archivo)",
-        type=["pdf"], accept_multiple_files=True, key="insp_pdf_upload")
-    if pdf_files:
-        total_size = sum(f.size for f in pdf_files)
-        for f in pdf_files:
-            if f.size > 25 * 1024 * 1024:
-                st.warning(f"El archivo '{f.name}' excede 25 MB y no sera adjuntado.")
-        st.info(f"{len(pdf_files)} archivo(s) PDF seleccionado(s)")
+    if not edit_id:
+        pdf_files = st.file_uploader(
+            "Adjuntar archivos PDF (max. 25 MB por archivo)",
+            type=["pdf"], accept_multiple_files=True, key="insp_pdf_upload")
+        if pdf_files:
+            for f in pdf_files:
+                if f.size > 25 * 1024 * 1024:
+                    st.warning(f"El archivo '{f.name}' excede 25 MB y no sera adjuntado.")
+            st.info(f"{len(pdf_files)} archivo(s) PDF seleccionado(s)")
+    else:
+        pdf_files = None
 
-    with st.form("form_insp", clear_on_submit=True):
+    # Valores de edicion
+    def_fecha = datetime.now()
+    def_inspector = ""
+    def_clima_idx = 0
+    def_avance = 0.0
+    def_obs = ""
+    def_desv = ""
+    def_ver = f"VER-{datetime.now().strftime('%Y%m%d')}-{uuid.uuid4().hex[:8].upper()}"
+    if edit_id:
+        def_inspector = st.session_state.get("insp_e_inspector", "")
+        def_clima = st.session_state.get("insp_e_clima", "")
+        if def_clima and def_clima in CONDICIONES_CLIMATICAS:
+            def_clima_idx = CONDICIONES_CLIMATICAS.index(def_clima)
+        def_avance = float(st.session_state.get("insp_e_avance", 0))
+        def_obs = st.session_state.get("insp_e_obs", "")
+        def_desv = st.session_state.get("insp_e_desv", "")
+        def_ver = st.session_state.get("insp_e_ver", def_ver)
+        try:
+            def_fecha = datetime.strptime(st.session_state.get("insp_e_fecha", ""), "%Y-%m-%d")
+        except (ValueError, TypeError):
+            pass
+
+    with st.form("form_insp", clear_on_submit=not edit_id):
         mc = st.selectbox("Microcuenca", [""] + MICROCUENCAS, index=mc_idx)
-        fecha = st.date_input("Fecha de visita",value=datetime.now())
-        inspector = st.text_input("Inspector")
-        clima = st.selectbox("Condiciones climaticas",CONDICIONES_CLIMATICAS)
-        avance = st.number_input("Avance fisico (%)",0.0,100.0,0.0)
-        obs = st.text_area("Observaciones tecnicas")
-        desv = st.text_area("Desviaciones observadas al Plan de Trabajo")
-        ver = st.text_input("Codigo de verificacion",
-            value=f"VER-{datetime.now().strftime('%Y%m%d')}-{uuid.uuid4().hex[:8].upper()}")
-        guardar = st.form_submit_button("Guardar Inspeccion", type="primary")
+        fecha = st.date_input("Fecha de visita", value=def_fecha)
+        inspector = st.text_input("Inspector", value=def_inspector)
+        clima = st.selectbox("Condiciones climaticas", CONDICIONES_CLIMATICAS, index=def_clima_idx)
+        avance = st.number_input("Avance fisico (%)", 0.0, 100.0, def_avance)
+        obs = st.text_area("Observaciones tecnicas", value=def_obs)
+        desv = st.text_area("Desviaciones observadas al Plan de Trabajo", value=def_desv)
+        ver = st.text_input("Codigo de verificacion", value=def_ver)
+        btn_label = "Actualizar Inspeccion" if edit_id else "Guardar Inspeccion"
+        guardar = st.form_submit_button(btn_label, type="primary")
     if guardar:
         if not inspector: st.warning("Inspector obligatorio.")
         else:
             try:
-                # Guardar archivos PDF adjuntos
-                rutas_pdf = []
-                if pdf_files:
-                    pdf_dir = os.path.join(os.path.dirname(__file__), "adjuntos_pdf")
-                    os.makedirs(pdf_dir, exist_ok=True)
-                    for f in pdf_files:
-                        if f.size <= 25 * 1024 * 1024:
-                            nombre_pdf = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{f.name}"
-                            ruta_pdf = os.path.join(pdf_dir, nombre_pdf)
-                            with open(ruta_pdf, "wb") as fp:
-                                fp.write(f.getbuffer())
-                            rutas_pdf.append(ruta_pdf)
-                archivos_pdf_str = ";".join(rutas_pdf) if rutas_pdf else ""
+                if edit_id:
+                    db.actualizar_inspeccion(inspeccion_id=edit_id,
+                        fecha_visita=fecha.strftime("%Y-%m-%d"),
+                        inspector=inspector, condiciones_climaticas=clima,
+                        avance_fisico=avance, observaciones=obs, desviaciones=desv,
+                        codigo_verificacion=ver, microcuenca=mc)
+                    st.session_state["insp_edit_id"] = None
+                    for k in list(st.session_state.keys()):
+                        if k.startswith("insp_e_"):
+                            del st.session_state[k]
+                    st.success("Inspeccion actualizada."); st.rerun()
+                else:
+                    # Verificar duplicados antes de insertar
+                    existentes = db.obtener_inspecciones_por_bloque(bm[bl])
+                    dup = [e for e in existentes if e["fecha_visita"] == fecha.strftime("%Y-%m-%d")
+                           and e["inspector"] == inspector]
+                    if dup:
+                        st.warning(f"Ya existe una inspeccion para este bloque en {fecha.strftime('%Y-%m-%d')} "
+                                   f"por {inspector}. Use 'Editar' en el historial para modificarla.")
+                    else:
+                        # Guardar archivos PDF adjuntos
+                        rutas_pdf = []
+                        if pdf_files:
+                            pdf_dir = os.path.join(os.path.dirname(__file__), "adjuntos_pdf")
+                            os.makedirs(pdf_dir, exist_ok=True)
+                            for f in pdf_files:
+                                if f.size <= 25 * 1024 * 1024:
+                                    nombre_pdf = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{f.name}"
+                                    ruta_pdf = os.path.join(pdf_dir, nombre_pdf)
+                                    with open(ruta_pdf, "wb") as fp:
+                                        fp.write(f.getbuffer())
+                                    rutas_pdf.append(ruta_pdf)
+                        archivos_pdf_str = ";".join(rutas_pdf) if rutas_pdf else ""
 
-                db.insertar_inspeccion(bloque_id=bm[bl],fecha_visita=fecha.strftime("%Y-%m-%d"),
-                    inspector=inspector,condiciones_climaticas=clima,avance_fisico=avance,
-                    observaciones=obs,desviaciones=desv,registro_fotografico="",
-                    codigo_verificacion=ver,microcuenca=mc,archivos_pdf=archivos_pdf_str)
-                msg = "Inspeccion registrada."
-                if rutas_pdf:
-                    msg += f" {len(rutas_pdf)} PDF(s) adjuntado(s)."
-                st.success(msg); st.rerun()
+                        db.insertar_inspeccion(bloque_id=bm[bl],fecha_visita=fecha.strftime("%Y-%m-%d"),
+                            inspector=inspector,condiciones_climaticas=clima,avance_fisico=avance,
+                            observaciones=obs,desviaciones=desv,registro_fotografico="",
+                            codigo_verificacion=ver,microcuenca=mc,archivos_pdf=archivos_pdf_str)
+                        msg = "Inspeccion registrada."
+                        if rutas_pdf:
+                            msg += f" {len(rutas_pdf)} PDF(s) adjuntado(s)."
+                        st.success(msg); st.rerun()
             except Exception as e: st.error(f"Error: {e}")
     st.markdown("---")
     st.markdown("**Historial de Inspecciones**")
+    st.caption("Haga clic en **Editar** para modificar una inspeccion existente y evitar duplicidades.")
     insp = db.obtener_todas_inspecciones()
     if insp:
-        st.dataframe(pd.DataFrame([{"ID":i["id"],"Bloque":i["bloque_codigo"],
-            "Microcuenca":i.get("microcuenca","") or "","Fecha":i["fecha_visita"],
-            "Inspector":i["inspector"],"Avance %":f"{i['avance_fisico']:.1f}",
-            "Verificacion":i["codigo_verificacion"],
-            "PDFs":len([p for p in (i.get("archivos_pdf","") or "").split(";") if p.strip()])} for i in insp]),
-            use_container_width=True, hide_index=True)
+        # Tabla con botones de edicion
+        header_cols = st.columns([0.5, 1, 1, 0.9, 0.9, 0.7, 1, 0.5, 0.6])
+        for col, h in zip(header_cols, ["ID", "Bloque", "Microcuenca", "Fecha", "Inspector", "Avance%", "Verificacion", "PDFs", ""]):
+            col.markdown(f"**{h}**")
+        st.markdown("---")
+        for i in insp:
+            row = st.columns([0.5, 1, 1, 0.9, 0.9, 0.7, 1, 0.5, 0.6])
+            row[0].write(i["id"])
+            row[1].write(i["bloque_codigo"])
+            row[2].write(i.get("microcuenca", "") or "")
+            row[3].write(i["fecha_visita"])
+            row[4].write(i["inspector"])
+            row[5].write(f"{i['avance_fisico']:.1f}")
+            row[6].write(i["codigo_verificacion"])
+            row[7].write(len([p for p in (i.get("archivos_pdf", "") or "").split(";") if p.strip()]))
+            if row[8].button("Editar", key=f"edit_insp_{i['id']}", type="primary"):
+                st.session_state["insp_edit_id"] = i["id"]
+                st.session_state["insp_e_bloque"] = i["bloque_codigo"]
+                st.session_state["insp_e_mc"] = i.get("microcuenca", "") or ""
+                st.session_state["insp_e_fecha"] = i["fecha_visita"]
+                st.session_state["insp_e_inspector"] = i["inspector"]
+                st.session_state["insp_e_clima"] = i["condiciones_climaticas"]
+                st.session_state["insp_e_avance"] = i["avance_fisico"]
+                st.session_state["insp_e_obs"] = i.get("observaciones", "") or ""
+                st.session_state["insp_e_desv"] = i.get("desviaciones", "") or ""
+                st.session_state["insp_e_ver"] = i["codigo_verificacion"]
+                st.rerun()
+        st.markdown("---")
+
+        # Eliminar inspeccion
+        insp_del_map = {f"ID {i['id']} - {i['fecha_visita']} - {i['inspector']}": i["id"] for i in insp}
+        sel_del = st.selectbox("Seleccionar inspeccion a eliminar", [""] + list(insp_del_map.keys()), key="del_insp")
+        if sel_del and sel_del in insp_del_map and st.button("Eliminar inspeccion", key="btn_del_insp"):
+            db.eliminar_inspeccion(insp_del_map[sel_del]); st.success("Inspeccion eliminada."); st.rerun()
 
         # Seccion para descargar PDFs adjuntos de una inspeccion
         st.markdown("**Descargar PDFs adjuntos**")
@@ -875,6 +975,22 @@ def pagina_indicadores():
     st.subheader("Indicadores de Calidad")
     bm = _bloques_map()
     if not bm: st.warning("Registre un bloque primero."); return
+
+    # Inicializar estado de edicion
+    if "ind_edit_id" not in st.session_state:
+        st.session_state["ind_edit_id"] = None
+
+    edit_id = st.session_state.get("ind_edit_id")
+
+    if edit_id:
+        st.info(f"Editando indicador ID {edit_id}. Modifique los campos y presione Actualizar.")
+        if st.button("Cancelar edicion", key="ind_cancel_edit"):
+            st.session_state["ind_edit_id"] = None
+            for k in list(st.session_state.keys()):
+                if k.startswith("ind_e_"):
+                    del st.session_state[k]
+            st.rerun()
+
     bl = st.selectbox("Bloque", list(bm.keys()), key="ind_bl")
     bid = bm[bl]
 
@@ -885,36 +1001,83 @@ def pagina_indicadores():
         st.info(f"Microcuenca vinculada automaticamente: **{mc_auto}**")
     else:
         mc_idx = 0
+    if edit_id:
+        mc_val = st.session_state.get("ind_e_mc", "")
+        if mc_val and mc_val in MICROCUENCAS:
+            mc_idx = MICROCUENCAS.index(mc_val) + 1
 
     ins = db.obtener_inspecciones_por_bloque(bid)
     if not ins: st.warning("Sin inspecciones para este bloque."); return
     im = {f"{i['fecha_visita']} - {i['inspector']}":i["id"] for i in ins}
     isel = st.selectbox("Inspeccion", list(im.keys()))
-    with st.form("form_ind", clear_on_submit=True):
+
+    def_pc = float(st.session_state.get("ind_e_pc", 0)) if edit_id else 0.0
+    def_tc = st.session_state.get("ind_e_tc", "") if edit_id else ""
+    def_vi = st.session_state.get("ind_e_vi", "") if edit_id else ""
+    tc_idx = ([""]+TIPOS_COBERTURA).index(def_tc) if def_tc in ([""]+TIPOS_COBERTURA) else 0
+    vi_idx = ([""]+VIGOR_COBERTURA).index(def_vi) if def_vi in ([""]+VIGOR_COBERTURA) else 0
+
+    with st.form("form_ind", clear_on_submit=not edit_id):
         mc = st.selectbox("Microcuenca", [""] + MICROCUENCAS, index=mc_idx, key="ind_mc")
-        pc = st.number_input("Cobertura vegetal (%)",0.0,100.0,0.0)
-        tc = st.selectbox("Tipo cobertura",[""]+TIPOS_COBERTURA)
-        vi = st.selectbox("Vigor cobertura",[""]+VIGOR_COBERTURA)
-        guardar = st.form_submit_button("Guardar Indicadores", type="primary")
+        pc = st.number_input("Cobertura vegetal (%)", 0.0, 100.0, def_pc)
+        tc = st.selectbox("Tipo cobertura", [""]+TIPOS_COBERTURA, index=tc_idx)
+        vi = st.selectbox("Vigor cobertura", [""]+VIGOR_COBERTURA, index=vi_idx)
+        btn_label = "Actualizar Indicadores" if edit_id else "Guardar Indicadores"
+        guardar = st.form_submit_button(btn_label, type="primary")
     if guardar:
         try:
-            db.insertar_indicadores(bloque_id=bid,inspeccion_id=im[isel],
-                cobertura_vegetal_planificada=0,cobertura_vegetal_lograda=0,
-                sobrevivencia_especies=0,longitud_zanjas_ejecutada=0,
-                volumen_retencion_sedimentos=0,porcentaje_cobertura_vegetal=pc,
-                tipo_cobertura_vegetal=tc,vigor_cobertura_vegetal=vi,microcuenca=mc)
-            st.success("Indicadores guardados."); st.rerun()
+            if edit_id:
+                db.actualizar_indicadores(indicador_id=edit_id,
+                    porcentaje_cobertura_vegetal=pc,
+                    tipo_cobertura_vegetal=tc, vigor_cobertura_vegetal=vi,
+                    microcuenca=mc)
+                st.session_state["ind_edit_id"] = None
+                for k in list(st.session_state.keys()):
+                    if k.startswith("ind_e_"):
+                        del st.session_state[k]
+                st.success("Indicadores actualizados."); st.rerun()
+            else:
+                # Verificar duplicado: un indicador por inspeccion
+                existente = db.obtener_indicadores_por_inspeccion(im[isel])
+                if existente:
+                    st.warning("Ya existen indicadores para esta inspeccion. Use 'Editar' en la tabla para modificarlos.")
+                else:
+                    db.insertar_indicadores(bloque_id=bid,inspeccion_id=im[isel],
+                        cobertura_vegetal_planificada=0,cobertura_vegetal_lograda=0,
+                        sobrevivencia_especies=0,longitud_zanjas_ejecutada=0,
+                        volumen_retencion_sedimentos=0,porcentaje_cobertura_vegetal=pc,
+                        tipo_cobertura_vegetal=tc,vigor_cobertura_vegetal=vi,microcuenca=mc)
+                    st.success("Indicadores guardados."); st.rerun()
         except Exception as e: st.error(f"Error: {e}")
     st.markdown("---")
     st.markdown("**Indicadores Registrados**")
+    st.caption("Haga clic en **Editar** para modificar indicadores existentes.")
     ind = db.obtener_indicadores_por_bloque(bid)
     if ind:
-        st.dataframe(pd.DataFrame([{"Fecha":x.get("fecha_visita",""),
-            "Microcuenca":x.get("microcuenca","") or "",
-            "Cobert.%":f"{x.get('porcentaje_cobertura_vegetal',0):.1f}",
-            "Tipo":x.get("tipo_cobertura_vegetal","") or "",
-            "Vigor":x.get("vigor_cobertura_vegetal","") or ""} for x in ind]),
-            use_container_width=True, hide_index=True)
+        header_cols = st.columns([1, 1, 1, 1, 1, 0.6])
+        for col, h in zip(header_cols, ["Fecha", "Microcuenca", "Cobert.%", "Tipo", "Vigor", ""]):
+            col.markdown(f"**{h}**")
+        st.markdown("---")
+        for x in ind:
+            row = st.columns([1, 1, 1, 1, 1, 0.6])
+            row[0].write(x.get("fecha_visita", ""))
+            row[1].write(x.get("microcuenca", "") or "")
+            row[2].write(f"{x.get('porcentaje_cobertura_vegetal', 0):.1f}")
+            row[3].write(x.get("tipo_cobertura_vegetal", "") or "")
+            row[4].write(x.get("vigor_cobertura_vegetal", "") or "")
+            if row[5].button("Editar", key=f"edit_ind_{x['id']}", type="primary"):
+                st.session_state["ind_edit_id"] = x["id"]
+                st.session_state["ind_e_mc"] = x.get("microcuenca", "") or ""
+                st.session_state["ind_e_pc"] = x.get("porcentaje_cobertura_vegetal", 0)
+                st.session_state["ind_e_tc"] = x.get("tipo_cobertura_vegetal", "") or ""
+                st.session_state["ind_e_vi"] = x.get("vigor_cobertura_vegetal", "") or ""
+                st.rerun()
+        st.markdown("---")
+        # Eliminar indicador
+        ind_del = {f"ID {x['id']} - {x.get('fecha_visita', '')}": x["id"] for x in ind}
+        sel_del = st.selectbox("Seleccionar indicador a eliminar", [""] + list(ind_del.keys()), key="del_ind")
+        if sel_del and sel_del in ind_del and st.button("Eliminar indicador", key="btn_del_ind"):
+            db.eliminar_indicadores(ind_del[sel_del]); st.success("Indicador eliminado."); st.rerun()
 
 # ══════════════════════════════════════════════════════════════════════════
 # DIAGNOSTICO TERRITORIAL (F-DT-01 a F-DT-06)
@@ -927,9 +1090,25 @@ def pagina_diagnostico_territorial():
         st.warning("Registre un bloque primero.")
         return
 
+    # Inicializar estado de edicion DT
+    if "dt_edit_id" not in st.session_state:
+        st.session_state["dt_edit_id"] = None
+    if "dt_edit_data" not in st.session_state:
+        st.session_state["dt_edit_data"] = None
+
+    dt_edit_id = st.session_state.get("dt_edit_id")
+    dt_edit = st.session_state.get("dt_edit_data") or {}
+
     tab_reg, tab_hist = st.tabs(["Registro de Diagnostico", "Historial / Consulta"])
 
     with tab_reg:
+        if dt_edit_id:
+            st.info(f"Editando diagnostico ID {dt_edit_id}. Modifique los campos y presione Actualizar.")
+            if st.button("Cancelar edicion", key="dt_cancel_edit"):
+                st.session_state["dt_edit_id"] = None
+                st.session_state["dt_edit_data"] = None
+                st.rerun()
+
         bl = st.selectbox("Bloque de Intervencion", list(bm.keys()), key="dt_bl")
         bid = bm[bl]
 
@@ -940,11 +1119,25 @@ def pagina_diagnostico_territorial():
             st.info(f"Microcuenca vinculada automaticamente: **{mc_auto_dt}**")
         else:
             mc_idx_dt = 0
+        # En modo edicion, preseleccionar la microcuenca del registro
+        if dt_edit_id:
+            mc_val = dt_edit.get("microcuenca", "")
+            if mc_val and mc_val in MICROCUENCAS:
+                mc_idx_dt = MICROCUENCAS.index(mc_val) + 1
+
+        def_fecha_dt = datetime.now()
+        def_evaluador = ""
+        if dt_edit_id:
+            def_evaluador = dt_edit.get("evaluador", "") or ""
+            try:
+                def_fecha_dt = datetime.strptime(dt_edit.get("fecha_evaluacion", ""), "%Y-%m-%d")
+            except (ValueError, TypeError):
+                pass
 
         r1, r2, r3 = st.columns(3)
         mc = r1.selectbox("Microcuenca", [""] + MICROCUENCAS, index=mc_idx_dt, key="dt_mc")
-        fecha_ev = r2.date_input("Fecha de evaluacion", value=datetime.now(), key="dt_fecha")
-        evaluador = r3.text_input("Evaluador / Especialista", key="dt_eval")
+        fecha_ev = r2.date_input("Fecha de evaluacion", value=def_fecha_dt, key="dt_fecha")
+        evaluador = r3.text_input("Evaluador / Especialista", value=def_evaluador, key="dt_eval")
 
         st.markdown("---")
         st.markdown("### Seleccione los parametros de evaluacion por ficha")
@@ -1046,15 +1239,15 @@ def pagina_diagnostico_territorial():
         if fichas_sel:
             st.info(f"Fichas con datos: **{', '.join(fichas_sel)}** ({len(fichas_sel)}/6)")
 
-        if st.button("Guardar Diagnostico Territorial", type="primary", key="dt_guardar"):
+        btn_label_dt = "Actualizar Diagnostico Territorial" if dt_edit_id else "Guardar Diagnostico Territorial"
+        if st.button(btn_label_dt, type="primary", key="dt_guardar"):
             if not evaluador:
                 st.warning("Ingrese el nombre del evaluador.")
             elif not fichas_sel:
                 st.warning("Complete al menos una ficha de diagnostico.")
             else:
                 try:
-                    db.insertar_diagnostico_territorial(
-                        bloque_id=bid,
+                    _dt_kwargs = dict(
                         ficha=", ".join(fichas_sel),
                         fecha_evaluacion=fecha_ev.strftime("%Y-%m-%d"),
                         evaluador=evaluador,
@@ -1096,27 +1289,55 @@ def pagina_diagnostico_territorial():
                         servicios_basicos=", ".join(servicios) if servicios else "",
                         observaciones_generales=observ_gen,
                     )
-                    st.success(f"Diagnostico territorial guardado ({', '.join(fichas_sel)}).")
+                    if dt_edit_id:
+                        db.actualizar_diagnostico_territorial(dt_edit_id, **_dt_kwargs)
+                        st.session_state["dt_edit_id"] = None
+                        st.session_state["dt_edit_data"] = None
+                        st.success(f"Diagnostico territorial actualizado ({', '.join(fichas_sel)}).")
+                    else:
+                        # Verificar duplicados
+                        existentes = db.obtener_diagnosticos_por_bloque(bid)
+                        dup = [e for e in existentes
+                               if e.get("fecha_evaluacion") == fecha_ev.strftime("%Y-%m-%d")
+                               and e.get("evaluador") == evaluador]
+                        if dup:
+                            st.warning(f"Ya existe un diagnostico para este bloque en {fecha_ev.strftime('%Y-%m-%d')} "
+                                       f"por {evaluador}. Use 'Editar' en Historial para modificarlo.")
+                        else:
+                            db.insertar_diagnostico_territorial(bloque_id=bid, **_dt_kwargs)
+                            st.success(f"Diagnostico territorial guardado ({', '.join(fichas_sel)}).")
                     st.rerun()
                 except Exception as e:
                     st.error(f"Error: {e}")
 
     with tab_hist:
         st.markdown("### Historial de Diagnosticos Territoriales")
+        st.caption("Haga clic en **Editar** para modificar un diagnostico existente y evitar duplicidades.")
         todos_dt = db.obtener_todos_diagnosticos()
         if not todos_dt:
             st.info("No hay diagnosticos registrados.")
         else:
-            st.dataframe(pd.DataFrame([{
-                "ID": d["id"],
-                "Bloque": d.get("bloque_codigo", ""),
-                "Tipo": d.get("tipo_intervencion", ""),
-                "Distrito": d.get("distrito", ""),
-                "Fichas": d.get("ficha", ""),
-                "Fecha Eval.": d.get("fecha_evaluacion", ""),
-                "Evaluador": d.get("evaluador", ""),
-                "Microcuenca": d.get("microcuenca", "") or "",
-            } for d in todos_dt]), use_container_width=True, hide_index=True)
+            # Tabla con botones de edicion
+            header_cols = st.columns([0.4, 1, 0.8, 0.8, 0.8, 0.8, 0.8, 0.5])
+            for col, h in zip(header_cols, ["ID", "Bloque", "Fichas", "Fecha", "Evaluador", "Microcuenca", "Distrito", ""]):
+                col.markdown(f"**{h}**")
+            st.markdown("---")
+            for d in todos_dt:
+                row = st.columns([0.4, 1, 0.8, 0.8, 0.8, 0.8, 0.8, 0.5])
+                row[0].write(d["id"])
+                row[1].write(d.get("bloque_codigo", ""))
+                row[2].write(d.get("ficha", ""))
+                row[3].write(d.get("fecha_evaluacion", ""))
+                row[4].write(d.get("evaluador", ""))
+                row[5].write(d.get("microcuenca", "") or "")
+                row[6].write(d.get("distrito", ""))
+                if row[7].button("Editar", key=f"edit_dt_{d['id']}", type="primary"):
+                    # Cargar el diagnostico completo para edicion en tab_reg
+                    det = db.obtener_diagnostico_por_id(d["id"])
+                    if det:
+                        st.session_state["dt_edit_id"] = det["id"]
+                        st.session_state["dt_edit_data"] = det
+                    st.rerun()
 
             st.markdown("---")
             st.markdown("### Detalle de Diagnostico")
@@ -1809,18 +2030,31 @@ def pagina_diagnostico_social():
     # ══════════════════════════════════════════════════════════════════
     with tab_hist:
         st.markdown("### Historial de Diagnosticos Sociales")
+        st.caption("Haga clic en **Editar** para modificar un diagnostico existente y evitar duplicidades.")
         todos_ds = db.obtener_todos_diagnosticos_sociales()
         if not todos_ds:
             st.info("No hay diagnosticos sociales registrados.")
         else:
-            st.dataframe(pd.DataFrame([{
-                "ID": d["id"], "Bloque": d.get("bloque_codigo", ""),
-                "Ficha": d.get("ficha", ""), "N": d.get("ficha_numero", ""),
-                "Fecha": d.get("fecha_evaluacion", ""), "Responsable": d.get("evaluador", ""),
-                "Centro Poblado": d.get("centro_poblado", "") or "",
-                "Distrito": d.get("distrito", "") or "",
-                "Microcuenca": d.get("microcuenca", "") or "",
-            } for d in todos_ds]), use_container_width=True, hide_index=True)
+            # Tabla con botones de edicion
+            header_cols = st.columns([0.4, 0.9, 0.7, 0.8, 0.8, 0.8, 0.8, 0.5])
+            for col, h in zip(header_cols, ["ID", "Bloque", "Ficha", "Fecha", "Responsable", "C.Poblado", "Distrito", ""]):
+                col.markdown(f"**{h}**")
+            st.markdown("---")
+            for d in todos_ds:
+                row = st.columns([0.4, 0.9, 0.7, 0.8, 0.8, 0.8, 0.8, 0.5])
+                row[0].write(d["id"])
+                row[1].write(d.get("bloque_codigo", ""))
+                row[2].write(d.get("ficha", ""))
+                row[3].write(d.get("fecha_evaluacion", ""))
+                row[4].write(d.get("evaluador", ""))
+                row[5].write(d.get("centro_poblado", "") or "")
+                row[6].write(d.get("distrito", "") or "")
+                if row[7].button("Editar", key=f"edit_ds_{d['id']}", type="primary"):
+                    det = db.obtener_diagnostico_social_por_id(d["id"])
+                    if det:
+                        st.session_state["ds_edit_id"] = det["id"]
+                    st.rerun()
+            st.markdown("---")
 
             st.markdown("---")
             st.markdown("### Detalle de Ficha")
@@ -2027,34 +2261,100 @@ def pagina_presupuesto():
     st.subheader("Presupuesto y Recursos")
     bm = _bloques_map()
     if not bm: st.warning("Registre un bloque primero."); return
+
+    # Inicializar estado de edicion
+    if "pres_edit_id" not in st.session_state:
+        st.session_state["pres_edit_id"] = None
+
+    edit_id = st.session_state.get("pres_edit_id")
+
+    if edit_id:
+        st.info(f"Editando partida ID {edit_id}. Modifique los campos y presione Actualizar.")
+        if st.button("Cancelar edicion", key="pres_cancel_edit"):
+            st.session_state["pres_edit_id"] = None
+            for k in list(st.session_state.keys()):
+                if k.startswith("pres_e_"):
+                    del st.session_state[k]
+            st.rerun()
+
     bl = st.selectbox("Bloque", list(bm.keys()), key="pres_bl")
     bid = bm[bl]
-    with st.form("form_pres", clear_on_submit=True):
-        cat = st.selectbox("Categoria",CATEGORIAS_PRESUPUESTO)
-        desc = st.text_input("Descripcion")
+
+    def_cat_idx = 0
+    def_desc = ""
+    def_mp = 0.0
+    def_me = 0.0
+    def_fu_idx = 0
+    if edit_id:
+        def_cat = st.session_state.get("pres_e_cat", "")
+        if def_cat and def_cat in CATEGORIAS_PRESUPUESTO:
+            def_cat_idx = CATEGORIAS_PRESUPUESTO.index(def_cat)
+        def_desc = st.session_state.get("pres_e_desc", "")
+        def_mp = float(st.session_state.get("pres_e_mp", 0))
+        def_me = float(st.session_state.get("pres_e_me", 0))
+        def_fu = st.session_state.get("pres_e_fu", "")
+        if def_fu and def_fu in FUENTES_FINANCIAMIENTO:
+            def_fu_idx = FUENTES_FINANCIAMIENTO.index(def_fu)
+
+    with st.form("form_pres", clear_on_submit=not edit_id):
+        cat = st.selectbox("Categoria", CATEGORIAS_PRESUPUESTO, index=def_cat_idx)
+        desc = st.text_input("Descripcion", value=def_desc)
         x1,x2 = st.columns(2)
-        mp = x1.number_input("Monto planificado (S/)",0.0,value=0.0,format="%.2f")
-        me = x2.number_input("Monto ejecutado (S/)",0.0,value=0.0,format="%.2f")
-        fu = st.selectbox("Fuente financiamiento",FUENTES_FINANCIAMIENTO)
-        guardar = st.form_submit_button("Guardar Partida", type="primary")
+        mp = x1.number_input("Monto planificado (S/)", 0.0, value=def_mp, format="%.2f")
+        me = x2.number_input("Monto ejecutado (S/)", 0.0, value=def_me, format="%.2f")
+        fu = st.selectbox("Fuente financiamiento", FUENTES_FINANCIAMIENTO, index=def_fu_idx)
+        btn_label = "Actualizar Partida" if edit_id else "Guardar Partida"
+        guardar = st.form_submit_button(btn_label, type="primary")
     if guardar:
         try:
-            db.insertar_presupuesto(bid,cat,desc,mp,me,fu)
-            st.success("Partida registrada."); st.rerun()
+            if edit_id:
+                db.actualizar_presupuesto(edit_id, cat, desc, mp, me, fu)
+                st.session_state["pres_edit_id"] = None
+                for k in list(st.session_state.keys()):
+                    if k.startswith("pres_e_"):
+                        del st.session_state[k]
+                st.success("Partida actualizada."); st.rerun()
+            else:
+                # Verificar duplicados
+                existentes = db.obtener_presupuesto_por_bloque(bid)
+                dup = [e for e in existentes if e["categoria"] == cat and e["descripcion"] == desc]
+                if dup:
+                    st.warning(f"Ya existe una partida '{cat} - {desc}' para este bloque. "
+                               f"Use 'Editar' en la tabla para modificarla.")
+                else:
+                    db.insertar_presupuesto(bid, cat, desc, mp, me, fu)
+                    st.success("Partida registrada."); st.rerun()
         except Exception as e: st.error(f"Error: {e}")
     st.markdown("---")
     st.markdown("**Partidas del Bloque**")
+    st.caption("Haga clic en **Editar** para modificar una partida existente.")
     pa = db.obtener_presupuesto_por_bloque(bid)
     if pa:
         tp = sum(p["monto_planificado"] for p in pa)
         te = sum(p["monto_ejecutado"] for p in pa)
-        st.dataframe(pd.DataFrame([{"ID":p["id"],"Categoria":p["categoria"],
-            "Descripcion":p["descripcion"],
-            "Planificado":f"S/ {p['monto_planificado']:,.2f}",
-            "Ejecutado":f"S/ {p['monto_ejecutado']:,.2f}",
-            "%Ejec":f"{(p['monto_ejecutado']/p['monto_planificado']*100) if p['monto_planificado']>0 else 0:.1f}%",
-            "Fuente":p["fuente_financiamiento"]} for p in pa]),
-            use_container_width=True, hide_index=True)
+        # Tabla con botones de edicion
+        header_cols = st.columns([0.5, 1.2, 1.2, 1, 1, 0.7, 1, 0.5])
+        for col, h in zip(header_cols, ["ID", "Categoria", "Descripcion", "Planificado", "Ejecutado", "%Ejec", "Fuente", ""]):
+            col.markdown(f"**{h}**")
+        st.markdown("---")
+        for p in pa:
+            row = st.columns([0.5, 1.2, 1.2, 1, 1, 0.7, 1, 0.5])
+            row[0].write(p["id"])
+            row[1].write(p["categoria"])
+            row[2].write(p["descripcion"])
+            row[3].write(f"S/ {p['monto_planificado']:,.2f}")
+            row[4].write(f"S/ {p['monto_ejecutado']:,.2f}")
+            row[5].write(f"{(p['monto_ejecutado']/p['monto_planificado']*100) if p['monto_planificado']>0 else 0:.1f}%")
+            row[6].write(p["fuente_financiamiento"])
+            if row[7].button("Editar", key=f"edit_pres_{p['id']}", type="primary"):
+                st.session_state["pres_edit_id"] = p["id"]
+                st.session_state["pres_e_cat"] = p["categoria"]
+                st.session_state["pres_e_desc"] = p["descripcion"]
+                st.session_state["pres_e_mp"] = p["monto_planificado"]
+                st.session_state["pres_e_me"] = p["monto_ejecutado"]
+                st.session_state["pres_e_fu"] = p["fuente_financiamiento"]
+                st.rerun()
+        st.markdown("---")
         st.info(f"**Subtotal:** Plan S/ {tp:,.2f} | Ejec S/ {te:,.2f} | {(te/tp*100) if tp>0 else 0:.1f}%")
         pm = {f"ID {p['id']} - {p['categoria']}":p["id"] for p in pa}
         sp = st.selectbox("Partida a eliminar",[""]+list(pm.keys()),key="del_pa")
@@ -2082,38 +2382,120 @@ def pagina_cronograma():
     st.subheader("Cronograma de Actividades")
     bm = _bloques_map()
     if not bm: st.warning("Registre un bloque primero."); return
+
+    # Inicializar estado de edicion
+    if "crono_edit_id" not in st.session_state:
+        st.session_state["crono_edit_id"] = None
+
+    edit_id = st.session_state.get("crono_edit_id")
+
+    if edit_id:
+        st.info(f"Editando actividad ID {edit_id}. Modifique los campos y presione Actualizar.")
+        if st.button("Cancelar edicion", key="crono_cancel_edit"):
+            st.session_state["crono_edit_id"] = None
+            for k in list(st.session_state.keys()):
+                if k.startswith("crono_e_"):
+                    del st.session_state[k]
+            st.rerun()
+
     bl = st.selectbox("Bloque", list(bm.keys()), key="crono_bl")
     bid = bm[bl]
-    with st.form("form_crono", clear_on_submit=True):
-        act = st.selectbox("Actividad",ACTIVIDADES_TIPO)
+
+    def_act_idx = 0
+    def_ip = datetime.now()
+    def_fp = datetime.now()
+    def_ir = ""
+    def_fr = ""
+    def_av = 0.0
+    def_ea_idx = 0
+    def_re = ""
+    def_ob = ""
+    if edit_id:
+        def_act = st.session_state.get("crono_e_act", "")
+        if def_act and def_act in ACTIVIDADES_TIPO:
+            def_act_idx = ACTIVIDADES_TIPO.index(def_act)
+        try:
+            def_ip = datetime.strptime(st.session_state.get("crono_e_ip", ""), "%Y-%m-%d")
+        except (ValueError, TypeError):
+            pass
+        try:
+            def_fp = datetime.strptime(st.session_state.get("crono_e_fp", ""), "%Y-%m-%d")
+        except (ValueError, TypeError):
+            pass
+        def_ir = st.session_state.get("crono_e_ir", "") or ""
+        def_fr = st.session_state.get("crono_e_fr", "") or ""
+        def_av = float(st.session_state.get("crono_e_av", 0))
+        def_ea = st.session_state.get("crono_e_ea", "")
+        if def_ea and def_ea in ESTADOS_ACTIVIDAD:
+            def_ea_idx = ESTADOS_ACTIVIDAD.index(def_ea)
+        def_re = st.session_state.get("crono_e_re", "")
+        def_ob = st.session_state.get("crono_e_ob", "")
+
+    with st.form("form_crono", clear_on_submit=not edit_id):
+        act = st.selectbox("Actividad", ACTIVIDADES_TIPO, index=def_act_idx)
         x1,x2 = st.columns(2)
-        ip = x1.date_input("Inicio plan.",value=datetime.now())
-        fp = x2.date_input("Fin plan.",value=datetime.now())
+        ip = x1.date_input("Inicio plan.", value=def_ip)
+        fp = x2.date_input("Fin plan.", value=def_fp)
         x3,x4 = st.columns(2)
-        ir = x3.text_input("Inicio real",""); fr = x4.text_input("Fin real","")
+        ir = x3.text_input("Inicio real", def_ir); fr = x4.text_input("Fin real", def_fr)
         x5,x6 = st.columns(2)
-        av = x5.number_input("Avance %",0.0,100.0,0.0)
-        ea = x6.selectbox("Estado",ESTADOS_ACTIVIDAD)
-        re = st.text_input("Responsable"); ob = st.text_area("Observaciones")
-        guardar = st.form_submit_button("Guardar Actividad", type="primary")
+        av = x5.number_input("Avance %", 0.0, 100.0, def_av)
+        ea = x6.selectbox("Estado", ESTADOS_ACTIVIDAD, index=def_ea_idx)
+        re = st.text_input("Responsable", value=def_re); ob = st.text_area("Observaciones", value=def_ob)
+        btn_label = "Actualizar Actividad" if edit_id else "Guardar Actividad"
+        guardar = st.form_submit_button(btn_label, type="primary")
     if guardar:
         try:
-            db.insertar_actividad(bloque_id=bid,actividad=act,
-                fecha_inicio_plan=ip.strftime("%Y-%m-%d"),fecha_fin_plan=fp.strftime("%Y-%m-%d"),
-                fecha_inicio_real=ir,fecha_fin_real=fr,porcentaje_avance=av,
-                responsable=re,observaciones=ob,estado=ea)
-            st.success("Actividad registrada."); st.rerun()
+            if edit_id:
+                db.actualizar_actividad(actividad_id=edit_id, actividad=act,
+                    fecha_inicio_plan=ip.strftime("%Y-%m-%d"), fecha_fin_plan=fp.strftime("%Y-%m-%d"),
+                    fecha_inicio_real=ir, fecha_fin_real=fr, porcentaje_avance=av,
+                    responsable=re, observaciones=ob, estado=ea)
+                st.session_state["crono_edit_id"] = None
+                for k in list(st.session_state.keys()):
+                    if k.startswith("crono_e_"):
+                        del st.session_state[k]
+                st.success("Actividad actualizada."); st.rerun()
+            else:
+                db.insertar_actividad(bloque_id=bid, actividad=act,
+                    fecha_inicio_plan=ip.strftime("%Y-%m-%d"), fecha_fin_plan=fp.strftime("%Y-%m-%d"),
+                    fecha_inicio_real=ir, fecha_fin_real=fr, porcentaje_avance=av,
+                    responsable=re, observaciones=ob, estado=ea)
+                st.success("Actividad registrada."); st.rerun()
         except Exception as e: st.error(f"Error: {e}")
     st.markdown("---")
     st.markdown("**Actividades del Bloque**")
+    st.caption("Haga clic en **Editar** para modificar una actividad existente.")
     acs = db.obtener_actividades_por_bloque(bid)
     if acs:
-        st.dataframe(pd.DataFrame([{"ID":a["id"],"Actividad":a["actividad"],
-            "Inicio":a["fecha_inicio_plan"],"Fin":a["fecha_fin_plan"],
-            "Inicio Real":a["fecha_inicio_real"] or "-","Fin Real":a["fecha_fin_real"] or "-",
-            "Avance":f"{a['porcentaje_avance']:.0f}%","Estado":a["estado"],
-            "Responsable":a["responsable"]} for a in acs]),
-            use_container_width=True, hide_index=True)
+        header_cols = st.columns([0.4, 1.2, 0.8, 0.8, 0.7, 0.7, 0.6, 0.7, 0.8, 0.5])
+        for col, h in zip(header_cols, ["ID", "Actividad", "Inicio", "Fin", "Ini.Real", "Fin Real", "Avance", "Estado", "Resp.", ""]):
+            col.markdown(f"**{h}**")
+        st.markdown("---")
+        for a in acs:
+            row = st.columns([0.4, 1.2, 0.8, 0.8, 0.7, 0.7, 0.6, 0.7, 0.8, 0.5])
+            row[0].write(a["id"])
+            row[1].write(a["actividad"])
+            row[2].write(a["fecha_inicio_plan"])
+            row[3].write(a["fecha_fin_plan"])
+            row[4].write(a["fecha_inicio_real"] or "-")
+            row[5].write(a["fecha_fin_real"] or "-")
+            row[6].write(f"{a['porcentaje_avance']:.0f}%")
+            row[7].write(a["estado"])
+            row[8].write(a["responsable"])
+            if row[9].button("Editar", key=f"edit_crono_{a['id']}", type="primary"):
+                st.session_state["crono_edit_id"] = a["id"]
+                st.session_state["crono_e_act"] = a["actividad"]
+                st.session_state["crono_e_ip"] = a["fecha_inicio_plan"]
+                st.session_state["crono_e_fp"] = a["fecha_fin_plan"]
+                st.session_state["crono_e_ir"] = a["fecha_inicio_real"] or ""
+                st.session_state["crono_e_fr"] = a["fecha_fin_real"] or ""
+                st.session_state["crono_e_av"] = a["porcentaje_avance"]
+                st.session_state["crono_e_ea"] = a["estado"]
+                st.session_state["crono_e_re"] = a["responsable"]
+                st.session_state["crono_e_ob"] = a.get("observaciones", "") or ""
+                st.rerun()
+        st.markdown("---")
         am = {f"ID {a['id']} - {a['actividad']}":a["id"] for a in acs}
         sa = st.selectbox("Actividad a eliminar",[""]+list(am.keys()),key="del_ac")
         if sa and sa in am and st.button("Eliminar actividad"):
