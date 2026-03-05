@@ -19,6 +19,12 @@ import reports
 from georeferenciacion import utm_a_latlon, latlon_a_utm
 from odk_kobo import generar_xlsform, importar_csv_odk, importar_desde_kobo, KoBoClient
 
+try:
+    import pdf_converter as pdfconv
+    PDF_CONV_OK = True
+except ImportError:
+    PDF_CONV_OK = False
+
 # ── Configuracion ─────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="IN Piura - Plan de Ingreso",
@@ -452,6 +458,7 @@ pagina = st.sidebar.selectbox("Navegacion", [
     "Indicadores de Calidad","Diagnostico Territorial","Diagnostico Social",
     "Presupuesto","Cronograma",
     "Georreferenciacion","ODK / KoBoToolbox","Reportes",
+    "Conversor PDF -> Excel",
 ])
 st.sidebar.markdown("---")
 st.sidebar.markdown("**IN Piura** v2.0 Web\n\nRestauracion de Ecosistemas\nCuenca Alta del Rio Piura")
@@ -2697,6 +2704,282 @@ def pagina_reportes():
 # ══════════════════════════════════════════════════════════════════════════
 # ROUTER
 # ══════════════════════════════════════════════════════════════════════════
+# == CONVERSOR PDF -> EXCEL ================================================
+# Pegar este bloque completo en streamlit_app.py, antes del bloque ROUTER
+# =========================================================================
+
+def pagina_conversor_pdf():
+    """Pagina de conversion de reportes PDF a Excel con formato ANIN."""
+
+    st.subheader("Conversor PDF → Excel")
+    st.caption(
+        "Carga cualquier reporte PDF del proyecto, extrae sus tablas automaticamente, "
+        "agrega coordenadas UTM WGS84 Zona 17S y genera un Excel con formato institucional ANIN."
+    )
+
+    if not PDF_CONV_OK:
+        st.error(
+            "El modulo pdf_converter no esta disponible. "
+            "Verifica que pdf_converter.py este en el repositorio "
+            "y que 'pdfplumber' y 'pyproj' esten en requirements.txt."
+        )
+        return
+
+    # ── Panel de carga ─────────────────────────────────────────────────
+    st.markdown("### 1. Cargar archivo PDF")
+
+    col_upload, col_opts = st.columns([2, 1])
+
+    with col_upload:
+        pdf_file = st.file_uploader(
+            "Selecciona el PDF a convertir (max. 25 MB)",
+            type=["pdf"],
+            key="pdfconv_upload",
+        )
+
+    with col_opts:
+        st.markdown("**Opciones de conversion**")
+        opt_dedup = st.checkbox(
+            "Eliminar duplicados",
+            value=True,
+            key="pdfconv_dedup",
+            help="Elimina filas duplicadas del resultado final.",
+        )
+        opt_solo_utm = st.checkbox(
+            "Solo filas con coordenadas UTM validas",
+            value=False,
+            key="pdfconv_solo_utm",
+            help="Filtra filas que no tienen coordenadas UTM validas.",
+        )
+        tipos_disponibles = [
+            "Auto-detectar",
+            "centros_poblados",
+            "bloques_intervencion",
+            "areas_conservacion",
+            "catastro_minero",
+            "areas_degradadas",
+            "meteorologico",
+            "generico",
+        ]
+        tipo_forzado = st.selectbox(
+            "Tipo de reporte",
+            tipos_disponibles,
+            key="pdfconv_tipo",
+            help="Selecciona manualmente si la deteccion automatica no es correcta.",
+        )
+
+    # ── Procesamiento ──────────────────────────────────────────────────
+    if pdf_file is None:
+        st.info("Carga un archivo PDF para comenzar.")
+        _mostrar_tipos_soportados()
+        return
+
+    if pdf_file.size > 25 * 1024 * 1024:
+        st.error("El archivo excede el limite de 25 MB.")
+        return
+
+    pdf_bytes    = pdf_file.read()
+    nombre_pdf   = pdf_file.name
+    forzar_tipo  = "" if tipo_forzado == "Auto-detectar" else tipo_forzado
+
+    # Ejecutar extraccion con spinner
+    with st.spinner(f"Extrayendo tablas de '{nombre_pdf}'..."):
+        try:
+            resultado = pdfconv.procesar_pdf(
+                pdf_bytes,
+                nombre_archivo=nombre_pdf,
+                forzar_tipo=forzar_tipo,
+            )
+        except ImportError as e:
+            st.error(f"Dependencia faltante: {e}. Agrega 'pdfplumber' a requirements.txt.")
+            return
+        except Exception as e:
+            st.error(f"Error al procesar el PDF: {e}")
+            return
+
+    df         = resultado["df"]
+    tipo_det   = resultado["tipo"]
+    n_tablas   = resultado["n_tablas"]
+    texto_prev = resultado["texto_prev"]
+
+    # ── Panel de resultados ────────────────────────────────────────────
+    st.markdown("---")
+    st.markdown("### 2. Resultado de la extraccion")
+
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("Tablas encontradas",  n_tablas)
+    m2.metric("Registros extraidos", len(df))
+    m3.metric("Columnas",            len(df.columns))
+    m4.metric("Tipo detectado",      tipo_det.replace("_", " ").title())
+
+    if df.empty:
+        st.warning(
+            "No se encontraron tablas estructuradas en el PDF. "
+            "Verifica que el archivo no sea una imagen escaneada. "
+            "Si es un PDF con texto seleccionable, prueba con tipo 'generico'."
+        )
+        if texto_prev:
+            with st.expander("Texto extraido del PDF (primeros 600 caracteres)"):
+                st.text(texto_prev)
+        return
+
+    # Validacion de coordenadas UTM
+    validacion = pdfconv.validar_utm(df)
+    if validacion["estado"] == "ok":
+        cov = validacion["cobertura"]
+        val = validacion["validos"]
+        tot = validacion["total"]
+        if val == tot:
+            st.success(f"✅ Coordenadas UTM Zona 17S: {val}/{tot} registros validos ({cov})")
+        elif val > 0:
+            st.warning(
+                f"⚠️ Coordenadas UTM Zona 17S: {val}/{tot} validas ({cov}). "
+                f"{validacion['invalidos']} registros fuera del rango de la cuenca del Piura."
+            )
+        else:
+            st.info("ℹ️ No se encontraron columnas de latitud/longitud para convertir a UTM.")
+    else:
+        st.info("ℹ️ El reporte no contiene columnas de coordenadas geograficas.")
+
+    # Preview de la tabla
+    st.markdown("**Vista previa (primeros 20 registros)**")
+    st.dataframe(df.head(20), use_container_width=True, hide_index=True)
+
+    # ── Generacion del Excel ───────────────────────────────────────────
+    st.markdown("---")
+    st.markdown("### 3. Generar y descargar Excel")
+
+    col_gen, col_info = st.columns([1, 2])
+
+    with col_gen:
+        nombre_salida = st.text_input(
+            "Nombre del archivo de salida",
+            value=nombre_pdf.replace(".pdf", "").replace(".PDF", "") + "_ANIN",
+            key="pdfconv_nombre_salida",
+        )
+        hoja_nombre = st.text_input(
+            "Nombre de la hoja de calculo",
+            value=tipo_det.replace("_", " ").title()[:31],
+            key="pdfconv_hoja",
+        )
+        btn_generar = st.button(
+            "Generar Excel ANIN",
+            type="primary",
+            key="pdfconv_generar",
+        )
+
+    with col_info:
+        st.markdown("**El Excel incluira:**")
+        st.markdown(
+            "- Encabezado institucional ANIN completo\n"
+            "- Columnas UTM en verde (si corresponde)\n"
+            "- Filas alternas para facilitar lectura\n"
+            "- Fila de totales con suma de areas\n"
+            "- Paneles congelados desde la fila de datos\n"
+            "- Nota metodologica UTM WGS84 Zona 17S al pie"
+        )
+
+    if btn_generar:
+        opciones = {
+            "deduplicar":   opt_dedup,
+            "solo_con_utm": opt_solo_utm,
+            "hoja_nombre":  hoja_nombre,
+        }
+        with st.spinner("Generando Excel con formato ANIN..."):
+            try:
+                excel_bytes = pdfconv.generar_excel(
+                    df,
+                    tipo=tipo_det,
+                    nombre_origen=nombre_pdf,
+                    opciones=opciones,
+                )
+                nombre_xlsx = (nombre_salida.strip() or "reporte") + ".xlsx"
+
+                st.download_button(
+                    label=f"⬇️ Descargar {nombre_xlsx}",
+                    data=excel_bytes,
+                    file_name=nombre_xlsx,
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    key="pdfconv_download",
+                )
+                st.success(
+                    f"Excel generado: {len(df)} registros, "
+                    f"{len(df.columns)} columnas, "
+                    f"tipo '{tipo_det}'."
+                )
+
+                # Registrar conversion en historial (Supabase)
+                _registrar_historial_conversion(
+                    nombre_archivo=nombre_pdf,
+                    tipo=tipo_det,
+                    n_registros=len(df),
+                    n_columnas=len(df.columns),
+                    utm_ok=validacion["estado"] == "ok",
+                )
+
+            except Exception as e:
+                st.error(f"Error al generar el Excel: {e}")
+
+    # ── Historial de conversiones ──────────────────────────────────────
+    st.markdown("---")
+    st.markdown("### Historial de conversiones")
+    _mostrar_historial()
+
+
+def _mostrar_tipos_soportados():
+    """Muestra un panel informativo de los tipos de reporte soportados."""
+    with st.expander("Tipos de reporte soportados", expanded=False):
+        st.markdown("""
+| Tipo | Se detecta cuando el PDF contiene |
+|---|---|
+| **Centros Poblados** | columnas NOMCP, CPINEI, UBIGEO, coordenadas lat/lon |
+| **Bloques de Intervencion** | codigos tipo M10B1, microcuenca, area_ha |
+| **Areas de Conservacion** | ACR, ACP, denominacion, resolucion ministerial |
+| **Catastro Minero** | concesion, titular, derecho minero |
+| **Areas Degradadas** | categoria de degradacion, ecosistema, superficie |
+| **Meteorologico** | estacion, precipitacion, temperatura, altitud |
+| **Generico** | cualquier tabla estructurada (fallback) |
+
+**Nota:** Si la deteccion automatica no es correcta, usa el selector de tipo en las opciones.
+        """)
+
+
+def _registrar_historial_conversion(nombre_archivo, tipo, n_registros,
+                                    n_columnas, utm_ok):
+    """Guarda un registro de la conversion en session_state (historial en memoria)."""
+    if "pdfconv_historial" not in st.session_state:
+        st.session_state["pdfconv_historial"] = []
+    st.session_state["pdfconv_historial"].insert(0, {
+        "Fecha/Hora":  datetime.now().strftime("%d/%m/%Y %H:%M"),
+        "Archivo PDF": nombre_archivo,
+        "Tipo":        tipo.replace("_", " ").title(),
+        "Registros":   n_registros,
+        "Columnas":    n_columnas,
+        "UTM 17S":     "Si" if utm_ok else "No",
+    })
+    # Mantener solo los ultimos 20
+    st.session_state["pdfconv_historial"] = st.session_state["pdfconv_historial"][:20]
+
+
+def _mostrar_historial():
+    """Muestra el historial de conversiones de la sesion actual."""
+    historial = st.session_state.get("pdfconv_historial", [])
+    if not historial:
+        st.caption("Aun no hay conversiones en esta sesion.")
+        return
+    st.caption(f"Conversiones en esta sesion: {len(historial)}")
+    st.dataframe(
+        pd.DataFrame(historial),
+        use_container_width=True,
+        hide_index=True,
+    )
+
+# == FIN BLOQUE CONVERSOR ==
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# ROUTER
+# ══════════════════════════════════════════════════════════════════════════
 if pagina == "Panel de Control": pagina_dashboard()
 elif pagina == "Bloques de Intervencion": pagina_bloques()
 elif pagina == "Inspeccion de Campo": pagina_inspeccion()
@@ -2708,3 +2991,4 @@ elif pagina == "Cronograma": pagina_cronograma()
 elif pagina == "Georreferenciacion": pagina_georreferenciacion()
 elif pagina == "ODK / KoBoToolbox": pagina_odk()
 elif pagina == "Reportes": pagina_reportes()
+elif pagina == "Conversor PDF -> Excel": pagina_conversor_pdf()
