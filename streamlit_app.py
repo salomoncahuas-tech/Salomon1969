@@ -18,6 +18,7 @@ import database as db
 import reports
 from georeferenciacion import utm_a_latlon, latlon_a_utm
 from odk_kobo import generar_xlsform, importar_csv_odk, importar_desde_kobo, KoBoClient
+from excel_diagnostico_social import generar_plantilla_ds, parsear_excel_ds, mapear_a_session_state
 
 try:
     import pdf_converter as pdfconv
@@ -1661,7 +1662,7 @@ def pagina_diagnostico_social():
 
     ficha_sel = st.radio("Seleccionar ficha", FICHAS_DS, horizontal=True, key="ds_ficha_sel")
 
-    tab_reg, tab_hist = st.tabs(["Registro", "Historial / Consulta"])
+    tab_reg, tab_hist, tab_excel = st.tabs(["Registro", "Historial / Consulta", "Importar desde Excel"])
 
     with tab_reg:
         edit_id = st.session_state.get("ds_edit_id")
@@ -2259,6 +2260,247 @@ def pagina_diagnostico_social():
                     "Distrito": r["distrito"], "Total Fichas": r["total_fichas"],
                     "Fichas Completadas": r.get("fichas_completadas", "") or "Ninguna",
                 } for r in resumen_ds]), use_container_width=True, hide_index=True)
+
+    # ══════════════════════════════════════════════════════════════════
+    # TAB IMPORTAR DESDE EXCEL
+    # ══════════════════════════════════════════════════════════════════
+    with tab_excel:
+        st.markdown("### Importar Diagnostico Social desde Excel")
+        st.caption("Suba un archivo Excel llenado por el tecnico de campo para autocompletar "
+                   "los formularios. Puede descargar la plantilla estandarizada para su uso en campo.")
+
+        # ── Descargar plantilla ──────────────────────────────────────
+        st.markdown("---")
+        st.markdown("**1. Descargar Plantilla para Tecnicos**")
+        col_dl1, col_dl2 = st.columns(2)
+        fichas_descarga = col_dl1.multiselect(
+            "Fichas a incluir en la plantilla",
+            FICHAS_DS, default=FICHAS_DS, key="ds_excel_fichas_dl")
+        if col_dl2.button("Generar Plantilla Excel", type="secondary", key="ds_gen_plantilla"):
+            if fichas_descarga:
+                plantilla_bytes = generar_plantilla_ds(fichas_descarga)
+                st.session_state["ds_plantilla_bytes"] = plantilla_bytes
+                st.success("Plantilla generada correctamente.")
+
+        if st.session_state.get("ds_plantilla_bytes"):
+            st.download_button(
+                "Descargar Plantilla Excel",
+                st.session_state["ds_plantilla_bytes"],
+                file_name="Plantilla_Diagnostico_Social_IN_Piura.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                key="ds_dl_plantilla")
+
+        # ── Subir Excel llenado ──────────────────────────────────────
+        st.markdown("---")
+        st.markdown("**2. Subir Excel Llenado por el Tecnico**")
+        st.info("Al cargar el archivo, el sistema leera los datos y autocompletara "
+                "el formulario en la pestana **Registro**. Podra revisar y ajustar "
+                "antes de guardar.")
+
+        uploaded_excel = st.file_uploader(
+            "Seleccionar archivo Excel (.xlsx)",
+            type=["xlsx"], key="ds_excel_upload")
+
+        if uploaded_excel is not None:
+            try:
+                resultados = parsear_excel_ds(uploaded_excel)
+                if not resultados:
+                    st.error("No se pudieron detectar fichas en el archivo. "
+                             "Verifique que el formato sea correcto.")
+                else:
+                    st.success(f"Se detectaron {len(resultados)} ficha(s) en el archivo.")
+                    for i, res in enumerate(resultados):
+                        ficha_det = res["ficha"]
+                        datos_res = res["datos"]
+
+                        with st.expander(f"Vista previa: {ficha_det}", expanded=True):
+                            # Mostrar datos generales
+                            cols_prev = st.columns(4)
+                            cols_prev[0].markdown(f"**Fecha:** {datos_res.get('fecha', '-')}")
+                            cols_prev[1].markdown(f"**Responsable:** {datos_res.get('evaluador', '-')}")
+                            cols_prev[2].markdown(f"**Bloque:** {datos_res.get('codigo_bloque', '-')}")
+                            cols_prev[3].markdown(f"**Ficha N:** {datos_res.get('ficha_numero', '-')}")
+
+                            cols_prev2 = st.columns(4)
+                            cols_prev2[0].markdown(f"**Provincia:** {datos_res.get('provincia', '-')}")
+                            cols_prev2[1].markdown(f"**Distrito:** {datos_res.get('distrito', '-')}")
+                            cols_prev2[2].markdown(f"**C. Poblado:** {datos_res.get('centro_poblado', '-')}")
+                            cols_prev2[3].markdown(f"**Microcuenca:** {datos_res.get('microcuenca', '-')}")
+
+                            # Contar campos llenados
+                            campos_llenos = sum(1 for k, v in datos_res.items()
+                                                if v and str(v).strip() and
+                                                k not in ("fecha", "evaluador", "codigo_bloque",
+                                                          "ficha_numero", "provincia", "distrito",
+                                                          "centro_poblado", "microcuenca",
+                                                          "comunidad_campesina", "coordenada_este",
+                                                          "coordenada_norte", "altitud",
+                                                          "codigo_ubigeo", "observaciones"))
+                            st.markdown(f"**Campos especificos llenados:** {campos_llenos}")
+
+                            # Mostrar datos especificos segun ficha
+                            if ficha_det == "F-DS-01":
+                                acts = datos_res.get("ds01_actividades_economicas", [])
+                                if acts:
+                                    st.markdown(f"**Actividades economicas registradas:** {len(acts)}")
+                                    st.dataframe(pd.DataFrame(acts), use_container_width=True, hide_index=True)
+                            elif ficha_det == "F-DS-02":
+                                actores = datos_res.get("ds02_registro_actores", [])
+                                if actores:
+                                    st.markdown(f"**Actores registrados:** {len(actores)}")
+                                    st.dataframe(pd.DataFrame(actores), use_container_width=True, hide_index=True)
+                            elif ficha_det == "F-DS-04":
+                                parts = datos_res.get("ds04_lista_participantes", [])
+                                if parts:
+                                    st.markdown(f"**Participantes registrados:** {len(parts)}")
+                                    st.dataframe(pd.DataFrame(parts), use_container_width=True, hide_index=True)
+                            elif ficha_det == "F-DS-05":
+                                confs = datos_res.get("ds05_conflictos", [])
+                                opors = datos_res.get("ds05_oportunidades", [])
+                                if confs:
+                                    st.markdown(f"**Conflictos registrados:** {len(confs)}")
+                                    st.dataframe(pd.DataFrame(confs), use_container_width=True, hide_index=True)
+                                if opors:
+                                    st.markdown(f"**Oportunidades registradas:** {len(opors)}")
+                                    st.dataframe(pd.DataFrame(opors), use_container_width=True, hide_index=True)
+
+                        # Boton para autocompletar
+                        col_ac1, col_ac2 = st.columns(2)
+                        if col_ac1.button(
+                            f"Autocompletar formulario {ficha_det}",
+                            type="primary", key=f"ds_autocompletar_{i}"):
+                            ss_vals = mapear_a_session_state(res, bm)
+                            for k, v in ss_vals.items():
+                                st.session_state[k] = v
+                            st.session_state["ds_edit_id"] = None
+                            st.success(f"Formulario {ficha_det} autocompletado. "
+                                       f"Cambie a la pestana **Registro** para revisar y guardar.")
+                            st.rerun()
+
+                        # Boton para guardar directo
+                        if col_ac2.button(
+                            f"Guardar directamente {ficha_det}",
+                            type="secondary", key=f"ds_guardar_directo_{i}"):
+                            try:
+                                # Construir registro para BD
+                                codigo_bloque = datos_res.get("codigo_bloque", "")
+                                bid_excel = None
+                                for label, id_val in bm.items():
+                                    if codigo_bloque and codigo_bloque in label:
+                                        bid_excel = id_val
+                                        break
+                                if not bid_excel:
+                                    bid_excel = list(bm.values())[0]
+                                    st.warning(f"Bloque '{codigo_bloque}' no encontrado. "
+                                               f"Se asigno al primer bloque disponible.")
+
+                                fecha_str = str(datos_res.get("fecha", ""))
+                                if not fecha_str:
+                                    fecha_str = datetime.now().strftime("%Y-%m-%d")
+                                # Normalizar fecha
+                                for fmt in ("%Y-%m-%d", "%d/%m/%Y", "%d-%m-%Y"):
+                                    try:
+                                        fecha_str = datetime.strptime(
+                                            fecha_str.split(" ")[0], fmt).strftime("%Y-%m-%d")
+                                        break
+                                    except (ValueError, TypeError):
+                                        continue
+
+                                reg = {
+                                    "bloque_id": bid_excel,
+                                    "ficha": ficha_det,
+                                    "ficha_numero": datos_res.get("ficha_numero", ""),
+                                    "microcuenca": datos_res.get("microcuenca", ""),
+                                    "fecha_evaluacion": fecha_str,
+                                    "evaluador": datos_res.get("evaluador", ""),
+                                    "provincia": datos_res.get("provincia", ""),
+                                    "distrito": datos_res.get("distrito", ""),
+                                    "centro_poblado": datos_res.get("centro_poblado", ""),
+                                    "comunidad_campesina": datos_res.get("comunidad_campesina", ""),
+                                    "coordenada_este": float(datos_res.get("coordenada_este") or 0),
+                                    "coordenada_norte": float(datos_res.get("coordenada_norte") or 0),
+                                    "altitud": float(datos_res.get("altitud") or 0),
+                                    "codigo_ubigeo": datos_res.get("codigo_ubigeo", ""),
+                                    "observaciones_generales": datos_res.get("observaciones", ""),
+                                    "archivos_adjuntos": "",
+                                }
+
+                                # Agregar campos especificos por ficha
+                                if ficha_det == "F-DS-01":
+                                    acts = datos_res.get("ds01_actividades_economicas", [])
+                                    reg.update({
+                                        k: v for k, v in datos_res.items()
+                                        if k.startswith("ds01_") and k != "ds01_actividades_economicas"
+                                           and k != "ds01_nombre_cp"
+                                    })
+                                    if acts:
+                                        reg["ds01_actividades_economicas"] = json.dumps(
+                                            acts, ensure_ascii=False)
+                                    else:
+                                        reg["ds01_actividades_economicas"] = ""
+                                elif ficha_det == "F-DS-02":
+                                    actores = datos_res.get("ds02_registro_actores", [])
+                                    reg.update({
+                                        k: v for k, v in datos_res.items()
+                                        if k.startswith("ds02_") and k != "ds02_registro_actores"
+                                    })
+                                    if actores:
+                                        reg["ds02_registro_actores"] = json.dumps(
+                                            actores, ensure_ascii=False)
+                                    else:
+                                        reg["ds02_registro_actores"] = ""
+                                elif ficha_det == "F-DS-03":
+                                    reg.update({
+                                        k: v for k, v in datos_res.items()
+                                        if k.startswith("ds03_")
+                                    })
+                                elif ficha_det == "F-DS-04":
+                                    parts = datos_res.get("ds04_lista_participantes", [])
+                                    reg.update({
+                                        k: v for k, v in datos_res.items()
+                                        if k.startswith("ds04_") and k != "ds04_lista_participantes"
+                                           and k != "ds04_observaciones_taller"
+                                    })
+                                    reg["ds04_observaciones"] = datos_res.get(
+                                        "ds04_observaciones_taller", "")
+                                    if parts:
+                                        reg["ds04_lista_participantes"] = json.dumps(
+                                            parts, ensure_ascii=False)
+                                    else:
+                                        reg["ds04_lista_participantes"] = ""
+                                elif ficha_det == "F-DS-05":
+                                    confs = datos_res.get("ds05_conflictos", [])
+                                    opors = datos_res.get("ds05_oportunidades", [])
+                                    reg["ds05_conflictos"] = json.dumps(
+                                        confs, ensure_ascii=False) if confs else ""
+                                    reg["ds05_oportunidades"] = json.dumps(
+                                        opors, ensure_ascii=False) if opors else ""
+
+                                # Limpiar keys que no son columnas de BD
+                                keys_no_db = {"fecha", "evaluador", "codigo_bloque",
+                                              "observaciones", "ds01_nombre_cp",
+                                              "ds04_observaciones_taller"}
+                                for k in keys_no_db:
+                                    reg.pop(k, None)
+
+                                db.insertar_diagnostico_social(reg)
+                                st.success(f"Ficha {ficha_det} guardada directamente en la BD.")
+                                st.rerun()
+                            except Exception as e:
+                                st.error(f"Error al guardar: {e}")
+
+            except Exception as e:
+                st.error(f"Error al leer el archivo Excel: {e}")
+
+        # ── Importacion masiva ───────────────────────────────────────
+        st.markdown("---")
+        st.markdown("**3. Importacion Masiva (multiples fichas)**")
+        st.caption("Si el archivo Excel contiene multiples hojas (una por ficha), "
+                   "puede importar todas a la vez usando el boton de arriba. "
+                   "Cada hoja sera detectada automaticamente.")
+        st.caption("Tambien puede subir la plantilla original "
+                   "(`Formatos_Sociales_Registros_de_Campo_IN_Piura_2026.xlsx`) "
+                   "llenada por el tecnico.")
 
 
 # ══════════════════════════════════════════════════════════════════════════
