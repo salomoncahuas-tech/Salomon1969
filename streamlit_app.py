@@ -1457,7 +1457,8 @@ def pagina_diagnostico_territorial():
             FICHAS_DT, default=FICHAS_DT, key="dt_excel_fichas_dl")
         if col_dl2.button("Generar Plantilla Excel", type="secondary", key="dt_gen_plantilla"):
             if fichas_descarga_dt:
-                plantilla_bytes_dt = generar_plantilla_dt(fichas_descarga_dt)
+                bloques_data_dt = [(b[1], b[2], b[4], b[5]) for b in BLOQUES_79]
+                plantilla_bytes_dt = generar_plantilla_dt(fichas_descarga_dt, bloques_data_dt)
                 st.session_state["dt_plantilla_bytes"] = plantilla_bytes_dt
                 st.success("Plantilla generada correctamente.")
 
@@ -2476,7 +2477,8 @@ def pagina_diagnostico_social():
             FICHAS_DS, default=FICHAS_DS, key="ds_excel_fichas_dl")
         if col_dl2.button("Generar Plantilla Excel", type="secondary", key="ds_gen_plantilla"):
             if fichas_descarga:
-                plantilla_bytes = generar_plantilla_ds(fichas_descarga)
+                bloques_data_ds = [(b[1], b[2], b[4], b[5]) for b in BLOQUES_79]
+                plantilla_bytes = generar_plantilla_ds(fichas_descarga, bloques_data_ds)
                 st.session_state["ds_plantilla_bytes"] = plantilla_bytes
                 st.success("Plantilla generada correctamente.")
 
