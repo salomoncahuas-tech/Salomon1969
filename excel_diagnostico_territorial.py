@@ -31,6 +31,8 @@ THIN_BORDER = Border(
     top=Side(style="thin"), bottom=Side(style="thin"),
 )
 INSTRUCCION_FONT = Font(name="Calibri", size=9, italic=True, color="7F8C8D")
+AUTOFILL_FILL = PatternFill(start_color="D5F5E3", end_color="D5F5E3", fill_type="solid")
+AUTOFILL_FONT = Font(name="Calibri", size=10, italic=True)
 
 # ── Opciones de listas (deben coincidir con streamlit_app.py) ──────────
 FDT01_FORMA_TERRENO = [
@@ -264,8 +266,39 @@ def _add_header(ws, ficha_titulo, max_col=4):
           INSTRUCCION_FONT, None, Alignment(horizontal="center"))
 
 
-def _add_datos_generales(ws, start_row=5):
-    """Agrega la seccion de datos generales. Retorna la fila siguiente disponible."""
+def _add_datos_sheet(wb, bloques_data):
+    """Crea una hoja oculta '_Datos' con la tabla de referencia de bloques.
+
+    Args:
+        wb: Workbook
+        bloques_data: lista de tuplas (codigo, microcuenca, provincia, distrito)
+
+    Returns:
+        int: numero de bloques agregados
+    """
+    ws = wb.create_sheet("_Datos")
+    ws.cell(row=1, column=1, value="Codigo")
+    ws.cell(row=1, column=2, value="Microcuenca")
+    ws.cell(row=1, column=3, value="Provincia")
+    ws.cell(row=1, column=4, value="Distrito")
+    for i, (codigo, mc, prov, dist) in enumerate(bloques_data, start=2):
+        ws.cell(row=i, column=1, value=codigo)
+        ws.cell(row=i, column=2, value=mc)
+        ws.cell(row=i, column=3, value=prov)
+        ws.cell(row=i, column=4, value=dist)
+    ws.sheet_state = "hidden"
+    return len(bloques_data)
+
+
+def _add_datos_generales(ws, start_row=5, num_bloques=0):
+    """Agrega la seccion de datos generales con validacion y autocompletado.
+
+    Si num_bloques > 0, agrega validacion de lista para Codigo de Bloque
+    y formulas VLOOKUP para autocompletar Microcuenca, Provincia y Distrito.
+
+    Returns:
+        int: fila siguiente disponible
+    """
     r = start_row
     ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=4)
     _cell(ws, r, 1, "DATOS GENERALES", SECTION_FONT, SECTION_FILL,
@@ -274,17 +307,79 @@ def _add_datos_generales(ws, start_row=5):
         ws.cell(row=r, column=c).fill = SECTION_FILL
     r += 1
 
-    campos = [
-        ("Fecha (AAAA-MM-DD)", ""),
-        ("Evaluador / Especialista", ""),
-        ("Codigo de Bloque", ""),
-        ("Microcuenca", ""),
-    ]
-    for label, default in campos:
-        _cell(ws, r, 1, label, LABEL_FONT, LABEL_FILL, border=THIN_BORDER)
-        ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=4)
-        _cell(ws, r, 2, default, VALUE_FONT, VALUE_FILL, border=THIN_BORDER)
-        r += 1
+    # Fecha
+    _cell(ws, r, 1, "Fecha (AAAA-MM-DD)", LABEL_FONT, LABEL_FILL, border=THIN_BORDER)
+    ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=4)
+    _cell(ws, r, 2, "", VALUE_FONT, VALUE_FILL, border=THIN_BORDER)
+    r += 1
+
+    # Evaluador
+    _cell(ws, r, 1, "Evaluador / Especialista", LABEL_FONT, LABEL_FILL, border=THIN_BORDER)
+    ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=4)
+    _cell(ws, r, 2, "", VALUE_FONT, VALUE_FILL, border=THIN_BORDER)
+    r += 1
+
+    # Codigo de Bloque (con validacion dropdown si hay datos)
+    bloque_row = r
+    _cell(ws, r, 1, "Codigo de Bloque", LABEL_FONT, LABEL_FILL, border=THIN_BORDER)
+    ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=4)
+    _cell(ws, r, 2, "", VALUE_FONT, VALUE_FILL, border=THIN_BORDER)
+    if num_bloques > 0:
+        last_data_row = num_bloques + 1
+        dv = DataValidation(
+            type="list",
+            formula1=f"_Datos!$A$2:$A${last_data_row}",
+            allow_blank=True,
+        )
+        dv.error = "Seleccione un bloque registrado en el aplicativo"
+        dv.errorTitle = "Bloque no valido"
+        dv.prompt = "Seleccione un bloque registrado"
+        dv.promptTitle = "Bloques disponibles"
+        ws.add_data_validation(dv)
+        dv.add(f"B{r}")
+    r += 1
+
+    # Microcuenca (VLOOKUP auto-completado)
+    _cell(ws, r, 1, "Microcuenca (auto)", LABEL_FONT, LABEL_FILL, border=THIN_BORDER)
+    ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=4)
+    if num_bloques > 0:
+        last_data_row = num_bloques + 1
+        ws.cell(row=r, column=2).value = (
+            f'=IFERROR(VLOOKUP(B{bloque_row},_Datos!$A$2:$D${last_data_row},2,FALSE),"")')
+        ws.cell(row=r, column=2).font = AUTOFILL_FONT
+        ws.cell(row=r, column=2).fill = AUTOFILL_FILL
+        ws.cell(row=r, column=2).border = THIN_BORDER
+    else:
+        _cell(ws, r, 2, "", VALUE_FONT, VALUE_FILL, border=THIN_BORDER)
+    r += 1
+
+    # Provincia (VLOOKUP auto-completado)
+    _cell(ws, r, 1, "Provincia (auto)", LABEL_FONT, LABEL_FILL, border=THIN_BORDER)
+    ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=4)
+    if num_bloques > 0:
+        last_data_row = num_bloques + 1
+        ws.cell(row=r, column=2).value = (
+            f'=IFERROR(VLOOKUP(B{bloque_row},_Datos!$A$2:$D${last_data_row},3,FALSE),"")')
+        ws.cell(row=r, column=2).font = AUTOFILL_FONT
+        ws.cell(row=r, column=2).fill = AUTOFILL_FILL
+        ws.cell(row=r, column=2).border = THIN_BORDER
+    else:
+        _cell(ws, r, 2, "", VALUE_FONT, VALUE_FILL, border=THIN_BORDER)
+    r += 1
+
+    # Distrito (VLOOKUP auto-completado)
+    _cell(ws, r, 1, "Distrito (auto)", LABEL_FONT, LABEL_FILL, border=THIN_BORDER)
+    ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=4)
+    if num_bloques > 0:
+        last_data_row = num_bloques + 1
+        ws.cell(row=r, column=2).value = (
+            f'=IFERROR(VLOOKUP(B{bloque_row},_Datos!$A$2:$D${last_data_row},4,FALSE),"")')
+        ws.cell(row=r, column=2).font = AUTOFILL_FONT
+        ws.cell(row=r, column=2).fill = AUTOFILL_FILL
+        ws.cell(row=r, column=2).border = THIN_BORDER
+    else:
+        _cell(ws, r, 2, "", VALUE_FONT, VALUE_FILL, border=THIN_BORDER)
+    r += 1
 
     return r + 1  # fila vacia de separacion
 
@@ -319,7 +414,7 @@ def _generar_dt01(wb):
     """Genera la hoja F-DT-01: Caracteristicas Fisiograficas."""
     ws = wb.create_sheet("F-DT-01")
     _add_header(ws, "F-DT-01: CARACTERISTICAS FISIOGRAFICAS")
-    r = _add_datos_generales(ws)
+    r = _add_datos_generales(ws, num_bloques=wb._num_bloques)
 
     ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=4)
     _cell(ws, r, 1, "PARAMETROS DE EVALUACION", SECTION_FONT, SECTION_FILL,
@@ -350,7 +445,7 @@ def _generar_dt02(wb):
     """Genera la hoja F-DT-02: Condiciones Climaticas."""
     ws = wb.create_sheet("F-DT-02")
     _add_header(ws, "F-DT-02: CONDICIONES CLIMATICAS")
-    r = _add_datos_generales(ws)
+    r = _add_datos_generales(ws, num_bloques=wb._num_bloques)
 
     ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=4)
     _cell(ws, r, 1, "PARAMETROS DE EVALUACION", SECTION_FONT, SECTION_FILL,
@@ -381,7 +476,7 @@ def _generar_dt03(wb):
     """Genera la hoja F-DT-03: Caracteristicas del Suelo."""
     ws = wb.create_sheet("F-DT-03")
     _add_header(ws, "F-DT-03: CARACTERISTICAS DEL SUELO (Observacion de campo)")
-    r = _add_datos_generales(ws)
+    r = _add_datos_generales(ws, num_bloques=wb._num_bloques)
 
     ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=4)
     _cell(ws, r, 1, "PARAMETROS DE EVALUACION", SECTION_FONT, SECTION_FILL,
@@ -413,7 +508,7 @@ def _generar_dt04(wb):
     """Genera la hoja F-DT-04: Cobertura Vegetal y Uso del Suelo."""
     ws = wb.create_sheet("F-DT-04")
     _add_header(ws, "F-DT-04: COBERTURA VEGETAL Y USO DEL SUELO")
-    r = _add_datos_generales(ws)
+    r = _add_datos_generales(ws, num_bloques=wb._num_bloques)
 
     ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=4)
     _cell(ws, r, 1, "PARAMETROS DE EVALUACION", SECTION_FONT, SECTION_FILL,
@@ -443,7 +538,7 @@ def _generar_dt05(wb):
     """Genera la hoja F-DT-05: Recursos Hidricos."""
     ws = wb.create_sheet("F-DT-05")
     _add_header(ws, "F-DT-05: RECURSOS HIDRICOS")
-    r = _add_datos_generales(ws)
+    r = _add_datos_generales(ws, num_bloques=wb._num_bloques)
 
     ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=4)
     _cell(ws, r, 1, "PARAMETROS DE EVALUACION", SECTION_FONT, SECTION_FILL,
@@ -473,7 +568,7 @@ def _generar_dt06(wb):
     """Genera la hoja F-DT-06: Aspectos Socioeconomicos y Accesibilidad."""
     ws = wb.create_sheet("F-DT-06")
     _add_header(ws, "F-DT-06: ASPECTOS SOCIOECONOMICOS Y ACCESIBILIDAD")
-    r = _add_datos_generales(ws)
+    r = _add_datos_generales(ws, num_bloques=wb._num_bloques)
 
     ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=4)
     _cell(ws, r, 1, "PARAMETROS DE EVALUACION", SECTION_FONT, SECTION_FILL,
@@ -515,13 +610,16 @@ def _generar_dt06(wb):
 
 # ── Funcion publica para generar plantilla combinada ─────────────────────
 
-def generar_plantilla_dt(fichas=None):
+def generar_plantilla_dt(fichas=None, bloques_data=None):
     """
     Genera un archivo Excel con plantillas para las fichas especificadas.
 
     Args:
         fichas: Lista de fichas a generar (ej: ["F-DT-01", "F-DT-03"]).
                 Si es None, genera todas (F-DT-01 a F-DT-06).
+        bloques_data: Lista de tuplas (codigo, microcuenca, provincia, distrito)
+                      para validacion y autocompletado. Si es None, no agrega
+                      validacion de bloque.
 
     Returns:
         bytes: Contenido del archivo Excel listo para descarga.
@@ -532,6 +630,12 @@ def generar_plantilla_dt(fichas=None):
     wb = Workbook()
     if "Sheet" in wb.sheetnames:
         del wb["Sheet"]
+
+    # Crear hoja de datos de referencia y guardar cantidad en el workbook
+    if bloques_data:
+        wb._num_bloques = _add_datos_sheet(wb, bloques_data)
+    else:
+        wb._num_bloques = 0
 
     generadores = {
         "F-DT-01": _generar_dt01,
@@ -594,7 +698,7 @@ def _parse_datos_generales(ws):
     if dg_start is None:
         dg_start = 6
 
-    pairs = _read_label_value_pairs(ws, dg_start, dg_start + 6)
+    pairs = _read_label_value_pairs(ws, dg_start, dg_start + 10)
 
     def _get(pairs, *keywords):
         for k, v in pairs.items():
@@ -609,6 +713,8 @@ def _parse_datos_generales(ws):
         "evaluador": _get(pairs, "evaluador", "especialista"),
         "codigo_bloque": _get(pairs, "codigo de bloque", "bloque"),
         "microcuenca": _get(pairs, "microcuenca"),
+        "provincia": _get(pairs, "provincia"),
+        "distrito": _get(pairs, "distrito"),
     }
 
 
