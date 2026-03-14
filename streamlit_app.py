@@ -19,6 +19,7 @@ import reports
 from georeferenciacion import utm_a_latlon, latlon_a_utm
 from odk_kobo import generar_xlsform, importar_csv_odk, importar_desde_kobo, KoBoClient
 from excel_diagnostico_social import generar_plantilla_ds, parsear_excel_ds, mapear_a_session_state
+from excel_diagnostico_territorial import generar_plantilla_dt, parsear_excel_dt, mapear_dt_a_session_state
 
 try:
     import pdf_converter as pdfconv
@@ -1107,7 +1108,7 @@ def pagina_diagnostico_territorial():
     dt_edit_id = st.session_state.get("dt_edit_id")
     dt_edit = st.session_state.get("dt_edit_data") or {}
 
-    tab_reg, tab_hist = st.tabs(["Registro de Diagnostico", "Historial / Consulta"])
+    tab_reg, tab_hist, tab_excel = st.tabs(["Registro de Diagnostico", "Historial / Consulta", "Importar desde Excel"])
 
     with tab_reg:
         if dt_edit_id:
@@ -1438,6 +1439,203 @@ def pagina_diagnostico_territorial():
                     "Total Fichas": r["total_fichas"],
                     "Fichas Completadas": r.get("fichas_completadas", "") or "Ninguna",
                 } for r in resumen]), use_container_width=True, hide_index=True)
+
+    # ══════════════════════════════════════════════════════════════════
+    # TAB IMPORTAR DESDE EXCEL
+    # ══════════════════════════════════════════════════════════════════
+    with tab_excel:
+        st.markdown("### Importar Diagnostico Territorial desde Excel")
+        st.caption("Suba un archivo Excel llenado por el tecnico de campo para autocompletar "
+                   "los formularios. Puede descargar la plantilla estandarizada para su uso en campo.")
+
+        # ── Descargar plantilla ──────────────────────────────────────
+        st.markdown("---")
+        st.markdown("**1. Descargar Plantilla para Tecnicos**")
+        col_dl1, col_dl2 = st.columns(2)
+        fichas_descarga_dt = col_dl1.multiselect(
+            "Fichas a incluir en la plantilla",
+            FICHAS_DT, default=FICHAS_DT, key="dt_excel_fichas_dl")
+        if col_dl2.button("Generar Plantilla Excel", type="secondary", key="dt_gen_plantilla"):
+            if fichas_descarga_dt:
+                plantilla_bytes_dt = generar_plantilla_dt(fichas_descarga_dt)
+                st.session_state["dt_plantilla_bytes"] = plantilla_bytes_dt
+                st.success("Plantilla generada correctamente.")
+
+        if st.session_state.get("dt_plantilla_bytes"):
+            st.download_button(
+                "Descargar Plantilla Excel",
+                st.session_state["dt_plantilla_bytes"],
+                file_name="Plantilla_Diagnostico_Territorial_IN_Piura.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                key="dt_dl_plantilla")
+
+        # ── Subir Excel llenado ──────────────────────────────────────
+        st.markdown("---")
+        st.markdown("**2. Subir Excel Llenado por el Tecnico**")
+        st.info("Al cargar el archivo, el sistema leera los datos y autocompletara "
+                "el formulario en la pestana **Registro de Diagnostico**. Podra revisar "
+                "y ajustar antes de guardar.")
+
+        uploaded_excel_dt = st.file_uploader(
+            "Seleccionar archivo Excel (.xlsx)",
+            type=["xlsx"], key="dt_excel_upload")
+
+        if uploaded_excel_dt is not None:
+            try:
+                resultados_dt = parsear_excel_dt(uploaded_excel_dt)
+                if not resultados_dt:
+                    st.error("No se pudieron detectar fichas en el archivo. "
+                             "Verifique que el formato sea correcto.")
+                else:
+                    st.success(f"Se detectaron {len(resultados_dt)} ficha(s) en el archivo.")
+
+                    # Consolidar datos de todas las fichas para vista previa
+                    datos_consolidados = {}
+                    fichas_detectadas = []
+                    for res in resultados_dt:
+                        ficha_det = res["ficha"]
+                        datos_res = res["datos"]
+                        fichas_detectadas.append(ficha_det)
+
+                        with st.expander(f"Vista previa: {ficha_det}", expanded=True):
+                            cols_prev = st.columns(4)
+                            cols_prev[0].markdown(f"**Fecha:** {datos_res.get('fecha', '-')}")
+                            cols_prev[1].markdown(f"**Evaluador:** {datos_res.get('evaluador', '-')}")
+                            cols_prev[2].markdown(f"**Bloque:** {datos_res.get('codigo_bloque', '-')}")
+                            cols_prev[3].markdown(f"**Microcuenca:** {datos_res.get('microcuenca', '-')}")
+
+                            # Mostrar parametros segun ficha
+                            campos_ficha = {k: v for k, v in datos_res.items()
+                                            if k not in ("fecha", "evaluador", "codigo_bloque",
+                                                         "microcuenca", "observaciones")
+                                            and v}
+                            if campos_ficha:
+                                st.markdown(f"**Parametros completados:** {len(campos_ficha)}")
+                                for k, v in campos_ficha.items():
+                                    label = k.replace("_", " ").title()
+                                    st.markdown(f"- **{label}:** {v}")
+
+                        datos_consolidados.update(datos_res)
+
+                    # Botones de accion
+                    col_ac1, col_ac2 = st.columns(2)
+
+                    if col_ac1.button(
+                        "Autocompletar formulario",
+                        type="primary", key="dt_autocompletar"):
+                        # Consolidar todos los datos de todas las fichas
+                        datos_todos = {}
+                        for res in resultados_dt:
+                            datos_todos.update(res["datos"])
+                        # Crear un objeto consolidado para mapear
+                        consolidado = {"ficha": ", ".join(fichas_detectadas), "datos": datos_todos}
+                        ss_vals = mapear_dt_a_session_state(consolidado, bm)
+                        for k, v in ss_vals.items():
+                            st.session_state[k] = v
+                        st.session_state["dt_edit_id"] = None
+                        st.success(f"Formulario autocompletado con {len(fichas_detectadas)} ficha(s): "
+                                   f"{', '.join(fichas_detectadas)}. "
+                                   f"Cambie a la pestana **Registro de Diagnostico** para revisar y guardar.")
+                        st.rerun()
+
+                    if col_ac2.button(
+                        "Guardar directamente",
+                        type="secondary", key="dt_guardar_directo"):
+                        try:
+                            # Consolidar datos
+                            datos_todos = {}
+                            for res in resultados_dt:
+                                datos_todos.update(res["datos"])
+
+                            # Resolver bloque
+                            codigo_bloque = datos_todos.get("codigo_bloque", "")
+                            bid_excel = None
+                            for label, id_val in bm.items():
+                                if codigo_bloque and codigo_bloque in label:
+                                    bid_excel = id_val
+                                    break
+                            if not bid_excel:
+                                bid_excel = list(bm.values())[0]
+                                st.warning(f"Bloque '{codigo_bloque}' no encontrado. "
+                                           f"Se asigno al primer bloque disponible.")
+
+                            # Normalizar fecha
+                            fecha_str = str(datos_todos.get("fecha", ""))
+                            if not fecha_str:
+                                fecha_str = datetime.now().strftime("%Y-%m-%d")
+                            for fmt in ("%Y-%m-%d", "%d/%m/%Y", "%d-%m-%Y"):
+                                try:
+                                    fecha_str = datetime.strptime(
+                                        fecha_str.split(" ")[0], fmt).strftime("%Y-%m-%d")
+                                    break
+                                except (ValueError, TypeError):
+                                    continue
+
+                            # Servicios basicos
+                            serv_str = datos_todos.get("servicios_basicos", "")
+
+                            _dt_kwargs = dict(
+                                ficha=", ".join(fichas_detectadas),
+                                fecha_evaluacion=fecha_str,
+                                evaluador=datos_todos.get("evaluador", ""),
+                                microcuenca=datos_todos.get("microcuenca", ""),
+                                forma_terreno=datos_todos.get("forma_terreno", ""),
+                                pendiente=datos_todos.get("pendiente", ""),
+                                posicion_fisiografica=datos_todos.get("posicion_fisiografica", ""),
+                                exposicion_orientacion=datos_todos.get("exposicion_orientacion", ""),
+                                paisaje_dominante=datos_todos.get("paisaje_dominante", ""),
+                                rango_altitudinal=datos_todos.get("rango_altitudinal", ""),
+                                precipitacion_anual=datos_todos.get("precipitacion_anual", ""),
+                                temperatura_media=datos_todos.get("temperatura_media", ""),
+                                humedad_relativa=datos_todos.get("humedad_relativa", ""),
+                                zona_vida=datos_todos.get("zona_vida", ""),
+                                presencia_heladas=datos_todos.get("presencia_heladas", ""),
+                                regimen_vientos=datos_todos.get("regimen_vientos", ""),
+                                textura_suelo=datos_todos.get("textura_suelo", ""),
+                                color_suelo=datos_todos.get("color_suelo", ""),
+                                profundidad_efectiva=datos_todos.get("profundidad_efectiva", ""),
+                                pedregosidad=datos_todos.get("pedregosidad", ""),
+                                drenaje=datos_todos.get("drenaje", ""),
+                                presencia_erosion=datos_todos.get("presencia_erosion", ""),
+                                materia_organica=datos_todos.get("materia_organica", ""),
+                                tipo_cobertura=datos_todos.get("tipo_cobertura", ""),
+                                densidad_cobertura=datos_todos.get("densidad_cobertura", ""),
+                                estado_conservacion=datos_todos.get("estado_conservacion", ""),
+                                uso_actual_suelo=datos_todos.get("uso_actual_suelo", ""),
+                                conflicto_uso=datos_todos.get("conflicto_uso", ""),
+                                fuente_agua=datos_todos.get("fuente_agua", ""),
+                                regimen_hidrico=datos_todos.get("regimen_hidrico", ""),
+                                calidad_agua=datos_todos.get("calidad_agua", ""),
+                                distancia_fuente_agua=datos_todos.get("distancia_fuente_agua", ""),
+                                uso_recurso_hidrico=datos_todos.get("uso_recurso_hidrico", ""),
+                                tenencia_tierra=datos_todos.get("tenencia_tierra", ""),
+                                organizacion_comunal=datos_todos.get("organizacion_comunal", ""),
+                                actividad_economica=datos_todos.get("actividad_economica", ""),
+                                accesibilidad_via=datos_todos.get("accesibilidad_via", ""),
+                                distancia_centro_poblado=datos_todos.get("distancia_centro_poblado", ""),
+                                servicios_basicos=serv_str,
+                                observaciones_generales=datos_todos.get("observaciones", ""),
+                            )
+
+                            db.insertar_diagnostico_territorial(bloque_id=bid_excel, **_dt_kwargs)
+                            st.success(f"Diagnostico territorial guardado directamente "
+                                       f"({', '.join(fichas_detectadas)}).")
+                            st.rerun()
+                        except Exception as e:
+                            st.error(f"Error al guardar: {e}")
+
+            except Exception as e:
+                st.error(f"Error al leer el archivo Excel: {e}")
+
+        # ── Importacion masiva ───────────────────────────────────────
+        st.markdown("---")
+        st.markdown("**3. Importacion Masiva (multiples fichas)**")
+        st.caption("Si el archivo Excel contiene multiples hojas (una por ficha), "
+                   "puede importar todas a la vez usando el boton de arriba. "
+                   "Cada hoja sera detectada automaticamente.")
+        st.caption("Tambien puede subir la plantilla original "
+                   "(`Formatos_Diagnostico_Territorial_IN_Piura_2026.xlsx`) "
+                   "llenada por el tecnico.")
 
 
 # ══════════════════════════════════════════════════════════════════════════
