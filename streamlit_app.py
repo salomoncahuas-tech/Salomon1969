@@ -6,7 +6,7 @@ Restauracion de ecosistemas - Cuenca alta del rio Piura, Peru.
 
 import streamlit as st
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, date, timedelta
 import os
 import uuid
 import io
@@ -15,6 +15,77 @@ import json
 import tempfile
 
 import database as db
+
+# ── Constante de version de cache (incrementar tras escritura) ───────────
+# Usada para invalidar @st.cache_data despues de inserciones/actualizaciones.
+def _cache_version():
+    """Retorna un contador que se incrementa con cada escritura a la BD."""
+    if "db_cache_version" not in st.session_state:
+        st.session_state["db_cache_version"] = 0
+    return st.session_state["db_cache_version"]
+
+def _invalidar_cache():
+    """Incrementa el contador de cache para forzar recarga de datos."""
+    st.session_state["db_cache_version"] = st.session_state.get("db_cache_version", 0) + 1
+
+# ── Funciones cacheadas de lectura de BD ─────────────────────────────────
+@st.cache_data(ttl=300, show_spinner=False)
+def _cached_obtener_bloques(_version):
+    return db.obtener_bloques()
+
+@st.cache_data(ttl=300, show_spinner=False)
+def _cached_obtener_todas_inspecciones(_version):
+    return db.obtener_todas_inspecciones()
+
+@st.cache_data(ttl=300, show_spinner=False)
+def _cached_obtener_estadisticas(_version):
+    return db.obtener_estadisticas_generales()
+
+@st.cache_data(ttl=300, show_spinner=False)
+def _cached_obtener_resumen_bloques(_version):
+    return db.obtener_resumen_bloques()
+
+@st.cache_data(ttl=300, show_spinner=False)
+def _cached_obtener_todos_diagnosticos(_version):
+    return db.obtener_todos_diagnosticos()
+
+@st.cache_data(ttl=300, show_spinner=False)
+def _cached_obtener_todos_diagnosticos_sociales(_version):
+    return db.obtener_todos_diagnosticos_sociales()
+
+# ── Constantes de fecha para validacion ──────────────────────────────────
+FECHA_MIN_PROYECTO = date(2024, 1, 1)
+FECHA_MAX_PROYECTO = date.today() + timedelta(days=365)
+
+# ── Helper de paginacion ─────────────────────────────────────────────────
+def _paginar(items, page_key, items_por_pagina=15):
+    """Retorna (items_pagina, total_paginas, pagina_actual) para listas largas."""
+    total = len(items)
+    total_paginas = max(1, (total + items_por_pagina - 1) // items_por_pagina)
+    if page_key not in st.session_state:
+        st.session_state[page_key] = 1
+    pagina = st.session_state[page_key]
+    pagina = max(1, min(pagina, total_paginas))
+    inicio = (pagina - 1) * items_por_pagina
+    fin = inicio + items_por_pagina
+    return items[inicio:fin], total_paginas, pagina
+
+def _controles_paginacion(total_paginas, pagina_actual, page_key):
+    """Muestra controles de paginacion si hay mas de 1 pagina."""
+    if total_paginas <= 1:
+        return
+    cols = st.columns([1, 2, 1])
+    with cols[0]:
+        if st.button("Anterior", key=f"{page_key}_prev", disabled=pagina_actual <= 1):
+            st.session_state[page_key] = pagina_actual - 1
+            st.rerun()
+    with cols[1]:
+        st.markdown(f"<div style='text-align:center'>Pagina **{pagina_actual}** de **{total_paginas}**</div>",
+                    unsafe_allow_html=True)
+    with cols[2]:
+        if st.button("Siguiente", key=f"{page_key}_next", disabled=pagina_actual >= total_paginas):
+            st.session_state[page_key] = pagina_actual + 1
+            st.rerun()
 import reports
 from georeferenciacion import utm_a_latlon, latlon_a_utm
 from odk_kobo import generar_xlsform, importar_csv_odk, importar_desde_kobo, KoBoClient
@@ -447,6 +518,10 @@ st.markdown("""<style>
 .main-header{background:#2C3E50;padding:1rem 2rem;border-radius:.5rem;margin-bottom:1rem}
 .main-header h1{color:#fff!important;margin:0!important;font-size:1.8rem!important}
 .main-header p{color:#BDC3C7!important;margin:0!important}
+.edit-mode-banner{background:linear-gradient(90deg,#f39c12,#e67e22);color:#fff;padding:.6rem 1.2rem;
+    border-radius:.4rem;margin-bottom:.8rem;font-weight:600;display:flex;align-items:center;gap:.5rem}
+.edit-mode-banner .icon{font-size:1.2rem}
+.dup-warning{background:#fff3cd;border-left:4px solid #ffc107;padding:.8rem 1rem;border-radius:0 .4rem .4rem 0;margin:.5rem 0}
 </style>""", unsafe_allow_html=True)
 
 st.markdown("""<div class="main-header">
@@ -463,21 +538,22 @@ pagina = st.sidebar.selectbox("Navegacion", [
     "Conversor PDF -> Excel",
 ])
 st.sidebar.markdown("---")
-st.sidebar.markdown("**IN Piura** v2.0 Web\n\nRestauracion de Ecosistemas\nCuenca Alta del Rio Piura")
+st.sidebar.markdown("**IN Piura** v2.1 Web\n\nRestauracion de Ecosistemas\nCuenca Alta del Rio Piura")
 
 # ── Helpers ───────────────────────────────────────────────────────────────
 def _bloques_map():
-    return {f"{b['codigo']} - {b['tipo_intervencion']}": b["id"] for b in db.obtener_bloques()}
+    return {f"{b['codigo']} - {b['tipo_intervencion']}": b["id"]
+            for b in _cached_obtener_bloques(_cache_version())}
 
 def _distritos(prov):
     return PROVINCIAS_DISTRITOS.get(prov, DISTRITOS_PIURA) if prov else DISTRITOS_PIURA
 
 def _resolver_microcuenca(bloque_label):
     """Resuelve la microcuenca para un bloque dado su label 'CODIGO - TIPO'.
-    Busca primero en la BD y luego en BLOQUES_79_MAP como fallback."""
+    Busca primero en la BD (cacheada) y luego en BLOQUES_79_MAP como fallback."""
     codigo = bloque_label.split(" - ")[0].strip() if " - " in bloque_label else bloque_label.strip()
-    # Buscar en BD
-    for b in db.obtener_bloques():
+    # Buscar en BD (cacheada)
+    for b in _cached_obtener_bloques(_cache_version()):
         if b["codigo"] == codigo:
             mc = b.get("microcuenca", "") or ""
             if mc and mc in MICROCUENCAS:
@@ -495,7 +571,7 @@ def _resolver_microcuenca(bloque_label):
 # ══════════════════════════════════════════════════════════════════════════
 def pagina_dashboard():
     st.subheader("Panel de Control - Resumen Ejecutivo")
-    stats = db.obtener_estadisticas_generales()
+    stats = _cached_obtener_estadisticas(_cache_version())
     c1,c2,c3,c4,c5,c6,c7 = st.columns(7)
     c1.metric("Total Bloques", stats["total_bloques"])
     c2.metric("Area Total", f"{stats['area_total_ha']:.2f} ha")
@@ -536,7 +612,7 @@ def pagina_dashboard():
             cn = ae.get(en,0); st.progress((cn/ta) if ta>0 else 0, text=f"{en}: {cn}")
     st.markdown("---")
     st.markdown("**Resumen de Bloques**")
-    res = db.obtener_resumen_bloques()
+    res = _cached_obtener_resumen_bloques(_cache_version())
     if res:
         st.dataframe(pd.DataFrame([{"Codigo":b["codigo"],"Tipo":b["tipo_intervencion"],
             "Distrito":b["distrito"],"Area (ha)":f"{b['area_hectareas']:.4f}",
@@ -582,8 +658,8 @@ def pagina_bloques():
     cf,ct = st.columns([1,2])
     with cf:
         if edit_id:
-            st.markdown("**Editar Bloque**")
-            st.info(f"Editando bloque ID {edit_id}. Modifique los campos y presione Actualizar.")
+            st.markdown('<div class="edit-mode-banner"><span class="icon">&#9998;</span> '
+                        f'Modo Edicion - Bloque ID {edit_id}</div>', unsafe_allow_html=True)
             if st.button("Cancelar edicion", key="bl_cancel_edit"):
                 st.session_state["bl_edit_id"] = None
                 for k in list(st.session_state.keys()):
@@ -691,6 +767,7 @@ def pagina_bloques():
                             utm_zona=uz,area_hectareas=float(area),estado=estado,
                             altitud=float(alt or 0),responsable=resp,
                             microcuenca=microcuenca,provincia=provincia)
+                        _invalidar_cache()
                         st.session_state["bl_edit_id"] = None
                         for k in list(st.session_state.keys()):
                             if k.startswith("bl_") and k != "bl_edit_id":
@@ -702,6 +779,7 @@ def pagina_bloques():
                             utm_zona=uz,area_hectareas=float(area),estado=estado,
                             altitud=float(alt or 0),responsable=resp,
                             microcuenca=microcuenca,provincia=provincia)
+                        _invalidar_cache()
                         st.success(f"Bloque {codigo} registrado.")
                     st.rerun()
                 except Exception as e: st.error(f"Error: {e}")
@@ -709,15 +787,18 @@ def pagina_bloques():
         st.markdown("**Bloques Registrados**")
         st.caption("Haga clic en **Editar** para modificar un bloque existente y evitar duplicidades.")
         busq = st.text_input("Buscar","",key="busq_bl")
-        bloques = db.buscar_bloques(busq) if busq else db.obtener_bloques()
+        bloques = db.buscar_bloques(busq) if busq else _cached_obtener_bloques(_cache_version())
         if bloques:
+            # Paginacion
+            bloques_pag, total_pags, pag_actual = _paginar(bloques, "pag_bloques")
+            _controles_paginacion(total_pags, pag_actual, "pag_bloques")
             # Tabla con botones de edicion por fila
             header_cols = st.columns([0.5, 1.2, 1.2, 1.2, 1, 1, 0.8, 0.8, 0.7])
             headers = ["ID", "Codigo", "Microcuenca", "Tipo", "Provincia", "Distrito", "Area", "Estado", ""]
             for col, h in zip(header_cols, headers):
                 col.markdown(f"**{h}**")
             st.markdown("---")
-            for b in bloques:
+            for b in bloques_pag:
                 row_cols = st.columns([0.5, 1.2, 1.2, 1.2, 1, 1, 0.8, 0.8, 0.7])
                 row_cols[0].write(b["id"])
                 row_cols[1].write(b["codigo"])
@@ -734,7 +815,7 @@ def pagina_bloques():
             bm = {f"{b['codigo']} - {b['tipo_intervencion']}":b["id"] for b in bloques}
             sel = st.selectbox("Seleccionar bloque para eliminar",[""]+list(bm.keys()),key="del_bl")
             if sel and sel in bm and st.button("Eliminar bloque"):
-                db.eliminar_bloque(bm[sel]); st.success("Eliminado."); st.rerun()
+                db.eliminar_bloque(bm[sel]); _invalidar_cache(); st.success("Eliminado."); st.rerun()
         else: st.info("Sin bloques.")
 
         st.markdown("---")
@@ -763,7 +844,8 @@ def pagina_inspeccion():
     edit_id = st.session_state.get("insp_edit_id")
 
     if edit_id:
-        st.info(f"Editando inspeccion ID {edit_id}. Modifique los campos y presione Actualizar.")
+        st.markdown('<div class="edit-mode-banner"><span class="icon">&#9998;</span> '
+                    f'Modo Edicion - Inspeccion ID {edit_id}</div>', unsafe_allow_html=True)
         if st.button("Cancelar edicion", key="insp_cancel_edit"):
             st.session_state["insp_edit_id"] = None
             for k in list(st.session_state.keys()):
@@ -832,7 +914,9 @@ def pagina_inspeccion():
 
     with st.form("form_insp", clear_on_submit=not edit_id):
         mc = st.selectbox("Microcuenca", [""] + MICROCUENCAS, index=mc_idx)
-        fecha = st.date_input("Fecha de visita", value=def_fecha)
+        fecha = st.date_input("Fecha de visita", value=def_fecha,
+                              min_value=FECHA_MIN_PROYECTO, max_value=date.today(),
+                              help="Seleccione la fecha de la visita de campo")
         inspector = st.text_input("Inspector", value=def_inspector)
         clima = st.selectbox("Condiciones climaticas", CONDICIONES_CLIMATICAS, index=def_clima_idx)
         avance = st.number_input("Avance fisico (%)", 0.0, 100.0, def_avance)
@@ -851,6 +935,7 @@ def pagina_inspeccion():
                         inspector=inspector, condiciones_climaticas=clima,
                         avance_fisico=avance, observaciones=obs, desviaciones=desv,
                         codigo_verificacion=ver, microcuenca=mc)
+                    _invalidar_cache()
                     st.session_state["insp_edit_id"] = None
                     for k in list(st.session_state.keys()):
                         if k.startswith("insp_e_"):
@@ -883,6 +968,7 @@ def pagina_inspeccion():
                             inspector=inspector,condiciones_climaticas=clima,avance_fisico=avance,
                             observaciones=obs,desviaciones=desv,registro_fotografico="",
                             codigo_verificacion=ver,microcuenca=mc,archivos_pdf=archivos_pdf_str)
+                        _invalidar_cache()
                         msg = "Inspeccion registrada."
                         if rutas_pdf:
                             msg += f" {len(rutas_pdf)} PDF(s) adjuntado(s)."
@@ -891,14 +977,17 @@ def pagina_inspeccion():
     st.markdown("---")
     st.markdown("**Historial de Inspecciones**")
     st.caption("Haga clic en **Editar** para modificar una inspeccion existente y evitar duplicidades.")
-    insp = db.obtener_todas_inspecciones()
+    insp = _cached_obtener_todas_inspecciones(_cache_version())
     if insp:
+        # Paginacion
+        insp_pag, total_pags_i, pag_actual_i = _paginar(insp, "pag_insp")
+        _controles_paginacion(total_pags_i, pag_actual_i, "pag_insp")
         # Tabla con botones de edicion
         header_cols = st.columns([0.5, 1, 1, 0.9, 0.9, 0.7, 1, 0.5, 0.6])
         for col, h in zip(header_cols, ["ID", "Bloque", "Microcuenca", "Fecha", "Inspector", "Avance%", "Verificacion", "PDFs", ""]):
             col.markdown(f"**{h}**")
         st.markdown("---")
-        for i in insp:
+        for i in insp_pag:
             row = st.columns([0.5, 1, 1, 0.9, 0.9, 0.7, 1, 0.5, 0.6])
             row[0].write(i["id"])
             row[1].write(i["bloque_codigo"])
@@ -926,7 +1015,7 @@ def pagina_inspeccion():
         insp_del_map = {f"ID {i['id']} - {i['fecha_visita']} - {i['inspector']}": i["id"] for i in insp}
         sel_del = st.selectbox("Seleccionar inspeccion a eliminar", [""] + list(insp_del_map.keys()), key="del_insp")
         if sel_del and sel_del in insp_del_map and st.button("Eliminar inspeccion", key="btn_del_insp"):
-            db.eliminar_inspeccion(insp_del_map[sel_del]); st.success("Inspeccion eliminada."); st.rerun()
+            db.eliminar_inspeccion(insp_del_map[sel_del]); _invalidar_cache(); st.success("Inspeccion eliminada."); st.rerun()
 
         # Seccion para descargar PDFs adjuntos de una inspeccion
         st.markdown("**Descargar PDFs adjuntos**")
@@ -992,7 +1081,8 @@ def pagina_indicadores():
     edit_id = st.session_state.get("ind_edit_id")
 
     if edit_id:
-        st.info(f"Editando indicador ID {edit_id}. Modifique los campos y presione Actualizar.")
+        st.markdown('<div class="edit-mode-banner"><span class="icon">&#9998;</span> '
+                    f'Modo Edicion - Indicador ID {edit_id}</div>', unsafe_allow_html=True)
         if st.button("Cancelar edicion", key="ind_cancel_edit"):
             st.session_state["ind_edit_id"] = None
             for k in list(st.session_state.keys()):
@@ -1040,6 +1130,7 @@ def pagina_indicadores():
                     porcentaje_cobertura_vegetal=pc,
                     tipo_cobertura_vegetal=tc, vigor_cobertura_vegetal=vi,
                     microcuenca=mc)
+                _invalidar_cache()
                 st.session_state["ind_edit_id"] = None
                 for k in list(st.session_state.keys()):
                     if k.startswith("ind_e_"):
@@ -1056,6 +1147,7 @@ def pagina_indicadores():
                         sobrevivencia_especies=0,longitud_zanjas_ejecutada=0,
                         volumen_retencion_sedimentos=0,porcentaje_cobertura_vegetal=pc,
                         tipo_cobertura_vegetal=tc,vigor_cobertura_vegetal=vi,microcuenca=mc)
+                    _invalidar_cache()
                     st.success("Indicadores guardados."); st.rerun()
         except Exception as e: st.error(f"Error: {e}")
     st.markdown("---")
@@ -1086,7 +1178,7 @@ def pagina_indicadores():
         ind_del = {f"ID {x['id']} - {x.get('fecha_visita', '')}": x["id"] for x in ind}
         sel_del = st.selectbox("Seleccionar indicador a eliminar", [""] + list(ind_del.keys()), key="del_ind")
         if sel_del and sel_del in ind_del and st.button("Eliminar indicador", key="btn_del_ind"):
-            db.eliminar_indicadores(ind_del[sel_del]); st.success("Indicador eliminado."); st.rerun()
+            db.eliminar_indicadores(ind_del[sel_del]); _invalidar_cache(); st.success("Indicador eliminado."); st.rerun()
 
 # ══════════════════════════════════════════════════════════════════════════
 # DIAGNOSTICO TERRITORIAL (F-DT-01 a F-DT-06)
@@ -1112,7 +1204,8 @@ def pagina_diagnostico_territorial():
 
     with tab_reg:
         if dt_edit_id:
-            st.info(f"Editando diagnostico ID {dt_edit_id}. Modifique los campos y presione Actualizar.")
+            st.markdown('<div class="edit-mode-banner"><span class="icon">&#9998;</span> '
+                        f'Modo Edicion - Diagnostico Territorial ID {dt_edit_id}</div>', unsafe_allow_html=True)
             if st.button("Cancelar edicion", key="dt_cancel_edit"):
                 st.session_state["dt_edit_id"] = None
                 st.session_state["dt_edit_data"] = None
@@ -1145,7 +1238,9 @@ def pagina_diagnostico_territorial():
 
         r1, r2, r3 = st.columns(3)
         mc = r1.selectbox("Microcuenca", [""] + MICROCUENCAS, index=mc_idx_dt, key="dt_mc")
-        fecha_ev = r2.date_input("Fecha de evaluacion", value=def_fecha_dt, key="dt_fecha")
+        fecha_ev = r2.date_input("Fecha de evaluacion", value=def_fecha_dt, key="dt_fecha",
+                                 min_value=FECHA_MIN_PROYECTO, max_value=date.today(),
+                                 help="Seleccione la fecha de evaluacion en campo")
         evaluador = r3.text_input("Evaluador / Especialista", value=def_evaluador, key="dt_eval")
 
         st.markdown("---")
@@ -1300,6 +1395,7 @@ def pagina_diagnostico_territorial():
                     )
                     if dt_edit_id:
                         db.actualizar_diagnostico_territorial(dt_edit_id, **_dt_kwargs)
+                        _invalidar_cache()
                         st.session_state["dt_edit_id"] = None
                         st.session_state["dt_edit_data"] = None
                         st.success(f"Diagnostico territorial actualizado ({', '.join(fichas_sel)}).")
@@ -1310,10 +1406,13 @@ def pagina_diagnostico_territorial():
                                if e.get("fecha_evaluacion") == fecha_ev.strftime("%Y-%m-%d")
                                and e.get("evaluador") == evaluador]
                         if dup:
-                            st.warning(f"Ya existe un diagnostico para este bloque en {fecha_ev.strftime('%Y-%m-%d')} "
-                                       f"por {evaluador}. Use 'Editar' en Historial para modificarlo.")
+                            st.markdown('<div class="dup-warning">Ya existe un diagnostico para este bloque en '
+                                       f'{fecha_ev.strftime("%Y-%m-%d")} por {evaluador}. '
+                                       f'Use <b>Editar</b> en Historial para modificarlo.</div>',
+                                       unsafe_allow_html=True)
                         else:
                             db.insertar_diagnostico_territorial(bloque_id=bid, **_dt_kwargs)
+                            _invalidar_cache()
                             st.success(f"Diagnostico territorial guardado ({', '.join(fichas_sel)}).")
                     st.rerun()
                 except Exception as e:
@@ -1322,16 +1421,19 @@ def pagina_diagnostico_territorial():
     with tab_hist:
         st.markdown("### Historial de Diagnosticos Territoriales")
         st.caption("Haga clic en **Editar** para modificar un diagnostico existente y evitar duplicidades.")
-        todos_dt = db.obtener_todos_diagnosticos()
+        todos_dt = _cached_obtener_todos_diagnosticos(_cache_version())
         if not todos_dt:
             st.info("No hay diagnosticos registrados.")
         else:
+            # Paginacion
+            dt_pag, total_pags_dt, pag_actual_dt = _paginar(todos_dt, "pag_dt")
+            _controles_paginacion(total_pags_dt, pag_actual_dt, "pag_dt")
             # Tabla con botones de edicion
             header_cols = st.columns([0.4, 1, 0.8, 0.8, 0.8, 0.8, 0.8, 0.5])
             for col, h in zip(header_cols, ["ID", "Bloque", "Fichas", "Fecha", "Evaluador", "Microcuenca", "Distrito", ""]):
                 col.markdown(f"**{h}**")
             st.markdown("---")
-            for d in todos_dt:
+            for d in dt_pag:
                 row = st.columns([0.4, 1, 0.8, 0.8, 0.8, 0.8, 0.8, 0.5])
                 row[0].write(d["id"])
                 row[1].write(d.get("bloque_codigo", ""))
@@ -1425,6 +1527,7 @@ def pagina_diagnostico_territorial():
 
                     if st.button("Eliminar este diagnostico", key="dt_eliminar"):
                         db.eliminar_diagnostico(dm[sel_dt])
+                        _invalidar_cache()
                         st.success("Diagnostico eliminado.")
                         st.rerun()
 
@@ -1619,6 +1722,7 @@ def pagina_diagnostico_territorial():
                             )
 
                             db.insertar_diagnostico_territorial(bloque_id=bid_excel, **_dt_kwargs)
+                            _invalidar_cache()
                             st.success(f"Diagnostico territorial guardado directamente "
                                        f"({', '.join(fichas_detectadas)}).")
                             st.rerun()
@@ -1866,7 +1970,8 @@ def pagina_diagnostico_social():
     with tab_reg:
         edit_id = st.session_state.get("ds_edit_id")
         if edit_id:
-            st.info(f"Editando registro ID {edit_id}. Modifique los campos necesarios y presione Guardar.")
+            st.markdown('<div class="edit-mode-banner"><span class="icon">&#9998;</span> '
+                        f'Modo Edicion - Diagnostico Social ID {edit_id}</div>', unsafe_allow_html=True)
             if st.button("Cancelar edicion (nuevo registro)", key="ds_cancel_edit"):
                 st.session_state["ds_edit_id"] = None
                 st.rerun()
@@ -1885,7 +1990,9 @@ def pagina_diagnostico_social():
 
         r1, r2, r3, r4 = st.columns(4)
         mc = r1.selectbox("Microcuenca", [""] + MICROCUENCAS, index=mc_idx_ds, key="ds_mc")
-        fecha_ev = r2.date_input("Fecha", value=datetime.now(), key="ds_fecha")
+        fecha_ev = r2.date_input("Fecha", value=datetime.now(), key="ds_fecha",
+                                 min_value=FECHA_MIN_PROYECTO, max_value=date.today(),
+                                 help="Seleccione la fecha de evaluacion")
         evaluador = r3.text_input("Responsable", key="ds_eval")
         ficha_num = r4.text_input("Ficha N", key="ds_fnum")
         dg = _ds_datos_generales()
@@ -2221,13 +2328,28 @@ def pagina_diagnostico_social():
 
                     if edit_id:
                         db.actualizar_diagnostico_social(edit_id, reg)
+                        _invalidar_cache()
                         st.session_state["ds_edit_id"] = None
                         st.success(f"Ficha {ficha_sel} actualizada correctamente (ID {edit_id}).")
                     else:
-                        if "archivos_adjuntos" not in reg:
-                            reg["archivos_adjuntos"] = ""
-                        db.insertar_diagnostico_social(reg)
-                        st.success(f"Ficha {ficha_sel} guardada correctamente.")
+                        # Verificar duplicados
+                        existentes_ds = db.obtener_diagnosticos_sociales_por_bloque(bid)
+                        dup_ds = [e for e in existentes_ds
+                                  if e.get("ficha") == ficha_sel
+                                  and e.get("fecha_evaluacion") == fecha_ev.strftime("%Y-%m-%d")
+                                  and e.get("evaluador") == evaluador]
+                        if dup_ds:
+                            st.markdown('<div class="dup-warning">Ya existe una ficha '
+                                       f'{ficha_sel} para este bloque en '
+                                       f'{fecha_ev.strftime("%Y-%m-%d")} por {evaluador}. '
+                                       f'Use <b>Editar</b> en Historial para modificarla.</div>',
+                                       unsafe_allow_html=True)
+                        else:
+                            if "archivos_adjuntos" not in reg:
+                                reg["archivos_adjuntos"] = ""
+                            db.insertar_diagnostico_social(reg)
+                            _invalidar_cache()
+                            st.success(f"Ficha {ficha_sel} guardada correctamente.")
                     st.rerun()
                 except Exception as e:
                     st.error(f"Error: {e}")
@@ -2238,16 +2360,19 @@ def pagina_diagnostico_social():
     with tab_hist:
         st.markdown("### Historial de Diagnosticos Sociales")
         st.caption("Haga clic en **Editar** para modificar un diagnostico existente y evitar duplicidades.")
-        todos_ds = db.obtener_todos_diagnosticos_sociales()
+        todos_ds = _cached_obtener_todos_diagnosticos_sociales(_cache_version())
         if not todos_ds:
             st.info("No hay diagnosticos sociales registrados.")
         else:
+            # Paginacion
+            ds_pag, total_pags_ds, pag_actual_ds = _paginar(todos_ds, "pag_ds")
+            _controles_paginacion(total_pags_ds, pag_actual_ds, "pag_ds")
             # Tabla con botones de edicion
             header_cols = st.columns([0.4, 0.9, 0.7, 0.8, 0.8, 0.8, 0.8, 0.5])
             for col, h in zip(header_cols, ["ID", "Bloque", "Ficha", "Fecha", "Responsable", "C.Poblado", "Distrito", ""]):
                 col.markdown(f"**{h}**")
             st.markdown("---")
-            for d in todos_ds:
+            for d in ds_pag:
                 row = st.columns([0.4, 0.9, 0.7, 0.8, 0.8, 0.8, 0.8, 0.5])
                 row[0].write(d["id"])
                 row[1].write(d.get("bloque_codigo", ""))
@@ -2447,6 +2572,7 @@ def pagina_diagnostico_social():
 
                     if st.button("Eliminar este registro", key="ds_eliminar"):
                         db.eliminar_diagnostico_social(dm_ds[sel_ds])
+                        _invalidar_cache()
                         st.success("Registro eliminado.")
                         st.rerun()
 
@@ -2684,6 +2810,7 @@ def pagina_diagnostico_social():
                                     reg.pop(k, None)
 
                                 db.insertar_diagnostico_social(reg)
+                                _invalidar_cache()
                                 st.success(f"Ficha {ficha_det} guardada directamente en la BD.")
                                 st.rerun()
                             except Exception as e:
@@ -2718,7 +2845,8 @@ def pagina_presupuesto():
     edit_id = st.session_state.get("pres_edit_id")
 
     if edit_id:
-        st.info(f"Editando partida ID {edit_id}. Modifique los campos y presione Actualizar.")
+        st.markdown('<div class="edit-mode-banner"><span class="icon">&#9998;</span> '
+                    f'Modo Edicion - Partida ID {edit_id}</div>', unsafe_allow_html=True)
         if st.button("Cancelar edicion", key="pres_cancel_edit"):
             st.session_state["pres_edit_id"] = None
             for k in list(st.session_state.keys()):
@@ -2758,6 +2886,7 @@ def pagina_presupuesto():
         try:
             if edit_id:
                 db.actualizar_presupuesto(edit_id, cat, desc, mp, me, fu)
+                _invalidar_cache()
                 st.session_state["pres_edit_id"] = None
                 for k in list(st.session_state.keys()):
                     if k.startswith("pres_e_"):
@@ -2772,6 +2901,7 @@ def pagina_presupuesto():
                                f"Use 'Editar' en la tabla para modificarla.")
                 else:
                     db.insertar_presupuesto(bid, cat, desc, mp, me, fu)
+                    _invalidar_cache()
                     st.success("Partida registrada."); st.rerun()
         except Exception as e: st.error(f"Error: {e}")
     st.markdown("---")
@@ -2808,7 +2938,7 @@ def pagina_presupuesto():
         pm = {f"ID {p['id']} - {p['categoria']}":p["id"] for p in pa}
         sp = st.selectbox("Partida a eliminar",[""]+list(pm.keys()),key="del_pa")
         if sp and sp in pm and st.button("Eliminar partida"):
-            db.eliminar_presupuesto(pm[sp]); st.success("Eliminada."); st.rerun()
+            db.eliminar_presupuesto(pm[sp]); _invalidar_cache(); st.success("Eliminada."); st.rerun()
     st.markdown("---")
     st.markdown("**Resumen General**")
     rp = db.obtener_resumen_presupuesto()
@@ -2839,7 +2969,8 @@ def pagina_cronograma():
     edit_id = st.session_state.get("crono_edit_id")
 
     if edit_id:
-        st.info(f"Editando actividad ID {edit_id}. Modifique los campos y presione Actualizar.")
+        st.markdown('<div class="edit-mode-banner"><span class="icon">&#9998;</span> '
+                    f'Modo Edicion - Actividad ID {edit_id}</div>', unsafe_allow_html=True)
         if st.button("Cancelar edicion", key="crono_cancel_edit"):
             st.session_state["crono_edit_id"] = None
             for k in list(st.session_state.keys()):
@@ -2853,8 +2984,8 @@ def pagina_cronograma():
     def_act_idx = 0
     def_ip = datetime.now()
     def_fp = datetime.now()
-    def_ir = ""
-    def_fr = ""
+    def_ir = None
+    def_fr = None
     def_av = 0.0
     def_ea_idx = 0
     def_re = ""
@@ -2871,8 +3002,16 @@ def pagina_cronograma():
             def_fp = datetime.strptime(st.session_state.get("crono_e_fp", ""), "%Y-%m-%d")
         except (ValueError, TypeError):
             pass
-        def_ir = st.session_state.get("crono_e_ir", "") or ""
-        def_fr = st.session_state.get("crono_e_fr", "") or ""
+        ir_str = st.session_state.get("crono_e_ir", "") or ""
+        fr_str = st.session_state.get("crono_e_fr", "") or ""
+        try:
+            def_ir = datetime.strptime(ir_str, "%Y-%m-%d").date() if ir_str else None
+        except (ValueError, TypeError):
+            def_ir = None
+        try:
+            def_fr = datetime.strptime(fr_str, "%Y-%m-%d").date() if fr_str else None
+        except (ValueError, TypeError):
+            def_fr = None
         def_av = float(st.session_state.get("crono_e_av", 0))
         def_ea = st.session_state.get("crono_e_ea", "")
         if def_ea and def_ea in ESTADOS_ACTIVIDAD:
@@ -2883,10 +3022,19 @@ def pagina_cronograma():
     with st.form("form_crono", clear_on_submit=not edit_id):
         act = st.selectbox("Actividad", ACTIVIDADES_TIPO, index=def_act_idx)
         x1,x2 = st.columns(2)
-        ip = x1.date_input("Inicio plan.", value=def_ip)
-        fp = x2.date_input("Fin plan.", value=def_fp)
+        ip = x1.date_input("Inicio planificado", value=def_ip,
+                           min_value=FECHA_MIN_PROYECTO, max_value=FECHA_MAX_PROYECTO,
+                           help="Fecha de inicio planificada")
+        fp = x2.date_input("Fin planificado", value=def_fp,
+                           min_value=FECHA_MIN_PROYECTO, max_value=FECHA_MAX_PROYECTO,
+                           help="Fecha de fin planificada")
         x3,x4 = st.columns(2)
-        ir = x3.text_input("Inicio real", def_ir); fr = x4.text_input("Fin real", def_fr)
+        ir = x3.date_input("Inicio real", value=def_ir,
+                           min_value=FECHA_MIN_PROYECTO, max_value=date.today(),
+                           help="Fecha de inicio real (dejar vacio si no ha iniciado)")
+        fr = x4.date_input("Fin real", value=def_fr,
+                           min_value=FECHA_MIN_PROYECTO, max_value=date.today(),
+                           help="Fecha de fin real (dejar vacio si no ha finalizado)")
         x5,x6 = st.columns(2)
         av = x5.number_input("Avance %", 0.0, 100.0, def_av)
         ea = x6.selectbox("Estado", ESTADOS_ACTIVIDAD, index=def_ea_idx)
@@ -2894,12 +3042,15 @@ def pagina_cronograma():
         btn_label = "Actualizar Actividad" if edit_id else "Guardar Actividad"
         guardar = st.form_submit_button(btn_label, type="primary")
     if guardar:
+        ir_str = ir.strftime("%Y-%m-%d") if ir else ""
+        fr_str = fr.strftime("%Y-%m-%d") if fr else ""
         try:
             if edit_id:
                 db.actualizar_actividad(actividad_id=edit_id, actividad=act,
                     fecha_inicio_plan=ip.strftime("%Y-%m-%d"), fecha_fin_plan=fp.strftime("%Y-%m-%d"),
-                    fecha_inicio_real=ir, fecha_fin_real=fr, porcentaje_avance=av,
+                    fecha_inicio_real=ir_str, fecha_fin_real=fr_str, porcentaje_avance=av,
                     responsable=re, observaciones=ob, estado=ea)
+                _invalidar_cache()
                 st.session_state["crono_edit_id"] = None
                 for k in list(st.session_state.keys()):
                     if k.startswith("crono_e_"):
@@ -2908,8 +3059,9 @@ def pagina_cronograma():
             else:
                 db.insertar_actividad(bloque_id=bid, actividad=act,
                     fecha_inicio_plan=ip.strftime("%Y-%m-%d"), fecha_fin_plan=fp.strftime("%Y-%m-%d"),
-                    fecha_inicio_real=ir, fecha_fin_real=fr, porcentaje_avance=av,
+                    fecha_inicio_real=ir_str, fecha_fin_real=fr_str, porcentaje_avance=av,
                     responsable=re, observaciones=ob, estado=ea)
+                _invalidar_cache()
                 st.success("Actividad registrada."); st.rerun()
         except Exception as e: st.error(f"Error: {e}")
     st.markdown("---")
@@ -2948,7 +3100,7 @@ def pagina_cronograma():
         am = {f"ID {a['id']} - {a['actividad']}":a["id"] for a in acs}
         sa = st.selectbox("Actividad a eliminar",[""]+list(am.keys()),key="del_ac")
         if sa and sa in am and st.button("Eliminar actividad"):
-            db.eliminar_actividad(am[sa]); st.success("Eliminada."); st.rerun()
+            db.eliminar_actividad(am[sa]); _invalidar_cache(); st.success("Eliminada."); st.rerun()
     st.markdown("---")
     st.markdown("**Cronograma General**")
     fe = st.selectbox("Filtrar estado",["Todos"]+ESTADOS_ACTIVIDAD,key="f_crono")
