@@ -373,6 +373,48 @@ def inicializar_bd():
         )
     """)
 
+    # ── Indices UNIQUE para evitar duplicados ────────────────────────────
+    cursor.execute("""
+        DO $$ BEGIN
+            IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'uq_inspeccion_bloque_fecha_inspector') THEN
+                CREATE UNIQUE INDEX uq_inspeccion_bloque_fecha_inspector
+                ON inspecciones (bloque_id, fecha_visita, inspector);
+            END IF;
+        END $$
+    """)
+    cursor.execute("""
+        DO $$ BEGIN
+            IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'uq_dt_bloque_fecha_evaluador') THEN
+                CREATE UNIQUE INDEX uq_dt_bloque_fecha_evaluador
+                ON diagnostico_territorial (bloque_id, fecha_evaluacion, evaluador);
+            END IF;
+        END $$
+    """)
+    cursor.execute("""
+        DO $$ BEGIN
+            IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'uq_ds_bloque_ficha_fecha_evaluador') THEN
+                CREATE UNIQUE INDEX uq_ds_bloque_ficha_fecha_evaluador
+                ON diagnostico_social (bloque_id, ficha, fecha_evaluacion, evaluador);
+            END IF;
+        END $$
+    """)
+    cursor.execute("""
+        DO $$ BEGIN
+            IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'uq_presupuesto_bloque_cat_desc') THEN
+                CREATE UNIQUE INDEX uq_presupuesto_bloque_cat_desc
+                ON presupuesto (bloque_id, categoria, descripcion);
+            END IF;
+        END $$
+    """)
+    cursor.execute("""
+        DO $$ BEGIN
+            IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'uq_cronograma_bloque_actividad_inicio') THEN
+                CREATE UNIQUE INDEX uq_cronograma_bloque_actividad_inicio
+                ON cronograma (bloque_id, actividad, fecha_inicio_plan);
+            END IF;
+        END $$
+    """)
+
     conn.commit()
     conn.close()
 
