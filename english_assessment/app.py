@@ -16,8 +16,9 @@ from flask import (Flask, render_template, request, redirect, url_for,
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
 
+from flask import Response
 from models import (db, Teacher, Grade, EnglishLevel, Assessment, Question,
-                    QuestionOption, StudentResult, StudentAnswer)
+                    QuestionOption, StudentResult, StudentAnswer, AudioFile)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -27,8 +28,28 @@ ALLOWED_AUDIO_EXTENSIONS = {'mp3', 'mp4', 'wav', 'ogg', 'webm', 'm4a'}
 MAX_AUDIO_SIZE_MB = 200  # Max 200 MB per audio/video file
 
 
+MIME_TYPES = {
+    'mp3': 'audio/mpeg', 'mp4': 'video/mp4', 'wav': 'audio/wav',
+    'ogg': 'audio/ogg', 'webm': 'audio/webm', 'm4a': 'audio/mp4',
+}
+
+
 def allowed_audio_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_AUDIO_EXTENSIONS
+
+
+def save_audio_to_db(file_storage):
+    """Save an uploaded audio file to the database. Returns the AudioFile id."""
+    filename = secure_filename(file_storage.filename)
+    name, ext = os.path.splitext(filename)
+    filename = f'{name}_{secrets.token_hex(4)}{ext}'
+    ext_lower = ext.lstrip('.').lower()
+    mimetype = MIME_TYPES.get(ext_lower, 'application/octet-stream')
+    data = file_storage.read()
+    audio = AudioFile(filename=filename, mimetype=mimetype, data=data, size=len(data))
+    db.session.add(audio)
+    db.session.flush()  # get the id before commit
+    return audio.id, filename
 
 
 def get_or_create_secret_key():
@@ -77,6 +98,17 @@ def load_user(user_id):
 # ---------------------------------------------------------------------------
 # PUBLIC ROUTES - Student access
 # ---------------------------------------------------------------------------
+
+@app.route('/audio/<int:audio_id>/<filename>')
+def serve_audio(audio_id, filename):
+    """Serve audio files stored in the database."""
+    audio = db.session.get(AudioFile, audio_id)
+    if not audio:
+        abort(404)
+    return Response(audio.data, mimetype=audio.mimetype,
+                    headers={'Content-Disposition': f'inline; filename="{audio.filename}"',
+                             'Cache-Control': 'public, max-age=86400'})
+
 
 @app.route('/')
 def index():
@@ -430,15 +462,11 @@ def admin_edit_questions(assessment_id):
                 if audio_url:
                     media_url = audio_url
                 else:
-                    # Check for uploaded audio file
+                    # Check for uploaded audio file - save to database
                     audio_file = request.files.get('audio_file')
                     if audio_file and audio_file.filename and allowed_audio_file(audio_file.filename):
-                        filename = secure_filename(audio_file.filename)
-                        # Add timestamp to avoid collisions
-                        name, ext = os.path.splitext(filename)
-                        filename = f'{name}_{secrets.token_hex(4)}{ext}'
-                        audio_file.save(os.path.join(AUDIO_UPLOAD_FOLDER, filename))
-                        media_url = url_for('static', filename=f'audio/{filename}')
+                        audio_id, audio_filename = save_audio_to_db(audio_file)
+                        media_url = url_for('serve_audio', audio_id=audio_id, filename=audio_filename)
 
             question = Question(
                 assessment_id=assessment_id,
@@ -531,11 +559,19 @@ def admin_edit_question(question_id):
         action = request.form.get('action', 'save')
 
         if action == 'delete_audio':
-            # Remove local audio file if it exists
-            if question.media_url and question.media_url.startswith('/static/audio/'):
-                filepath = os.path.join(basedir, question.media_url.lstrip('/'))
-                if os.path.exists(filepath):
-                    os.remove(filepath)
+            # Delete from audio_files table if stored in DB
+            if question.media_url and '/audio/' in question.media_url:
+                try:
+                    parts = question.media_url.rstrip('/').split('/')
+                    # URL format: /audio/<id>/<filename>
+                    audio_idx = parts.index('audio')
+                    if audio_idx + 1 < len(parts):
+                        old_audio_id = int(parts[audio_idx + 1])
+                        old_audio = db.session.get(AudioFile, old_audio_id)
+                        if old_audio:
+                            db.session.delete(old_audio)
+                except (ValueError, IndexError):
+                    pass
             # Always clear the audio fields regardless of URL type
             question.media_url = None
             question.media_type = 'image'
@@ -556,27 +592,14 @@ def admin_edit_question(question_id):
             # Check for new audio URL
             audio_url = request.form.get('audio_url', '').strip()
             if audio_url:
-                # Remove old local file if replacing
-                if question.media_url and question.media_url.startswith('/static/audio/'):
-                    old_path = os.path.join(basedir, question.media_url.lstrip('/'))
-                    if os.path.exists(old_path):
-                        os.remove(old_path)
                 question.media_url = audio_url
                 question.media_type = 'audio'
             else:
-                # Check for uploaded audio file
+                # Check for uploaded audio file - save to database
                 audio_file = request.files.get('audio_file')
                 if audio_file and audio_file.filename and allowed_audio_file(audio_file.filename):
-                    # Remove old local file
-                    if question.media_url and question.media_url.startswith('/static/audio/'):
-                        old_path = os.path.join(basedir, question.media_url.lstrip('/'))
-                        if os.path.exists(old_path):
-                            os.remove(old_path)
-                    filename = secure_filename(audio_file.filename)
-                    name, ext = os.path.splitext(filename)
-                    filename = f'{name}_{secrets.token_hex(4)}{ext}'
-                    audio_file.save(os.path.join(AUDIO_UPLOAD_FOLDER, filename))
-                    question.media_url = url_for('static', filename=f'audio/{filename}')
+                    audio_id, audio_filename = save_audio_to_db(audio_file)
+                    question.media_url = url_for('serve_audio', audio_id=audio_id, filename=audio_filename)
                     question.media_type = 'audio'
 
         # Update options
@@ -698,6 +721,12 @@ def api_assessments():
 # ---------------------------------------------------------------------------
 # Error handlers
 # ---------------------------------------------------------------------------
+
+@app.errorhandler(413)
+def request_entity_too_large(e):
+    flash('File is too large. Maximum size is 200 MB.', 'error')
+    return redirect(request.referrer or url_for('admin_dashboard'))
+
 
 @app.errorhandler(404)
 def not_found(e):

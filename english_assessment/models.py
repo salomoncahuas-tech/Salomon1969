@@ -165,3 +165,15 @@ class StudentAnswer(db.Model):
     points_earned = db.Column(db.Float, default=0)
 
     selected_option = db.relationship('QuestionOption', foreign_keys=[selected_option_id])
+
+
+class AudioFile(db.Model):
+    """Audio/video file stored in database for persistence on Render."""
+    __tablename__ = 'audio_files'
+
+    id = db.Column(db.Integer, primary_key=True)
+    filename = db.Column(db.String(255), nullable=False)
+    mimetype = db.Column(db.String(100), nullable=False)
+    data = db.Column(db.LargeBinary, nullable=False)
+    size = db.Column(db.Integer, default=0)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
