@@ -30,9 +30,15 @@
                     {% if question.media_url %}
                     <div class="current-audio-section">
                         <label><strong>Current Audio:</strong></label>
+                        {% if question.media_url.endswith('.mp4') %}
+                        <video controls preload="metadata" style="width:100%; max-height:300px; border-radius:8px; margin:0.5rem 0;">
+                            <source src="{{ question.media_url }}" type="video/mp4">
+                        </video>
+                        {% else %}
                         <audio controls preload="metadata" style="width:100%; margin:0.5rem 0;">
                             <source src="{{ question.media_url }}">
                         </audio>
+                        {% endif %}
                         <p style="font-size:0.85rem; color:#666;">{{ question.media_url }}</p>
                         <form action="{{ url_for('admin_edit_question', question_id=question.id) }}" method="POST" style="display:inline;">
                             <input type="hidden" name="action" value="delete_audio">
@@ -45,13 +51,13 @@
                     <hr>
                     <p class="audio-config-hint">Upload a new file or paste a URL to replace the current audio:</p>
                     {% else %}
-                    <p class="audio-config-hint">Upload an audio file (max 3 min, up to 15 MB) or provide a URL:</p>
+                    <p class="audio-config-hint">Upload an audio or video file (up to 200 MB) or provide a URL:</p>
                     {% endif %}
 
                     <div class="form-group">
-                        <label for="audio_file">Upload Audio File (MP3, WAV, OGG, M4A)</label>
+                        <label for="audio_file">Upload Audio/Video File (MP3, MP4, WAV, OGG, M4A)</label>
                         <input type="file" id="audio_file" name="audio_file"
-                               accept=".mp3,.wav,.ogg,.webm,.m4a"
+                               accept=".mp3,.mp4,.wav,.ogg,.webm,.m4a"
                                onchange="handleAudioSelect(this)">
                         <div id="audio-preview" style="display:none; margin-top:0.5rem;">
                             <audio id="audio-preview-player" controls style="width:100%"></audio>
@@ -169,12 +175,7 @@ function handleAudioSelect(input) {
             const minutes = Math.floor(duration / 60);
             const seconds = duration % 60;
             durationInfo.textContent = 'Duration: ' + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-            if (duration > 180) {
-                durationInfo.textContent += ' (Warning: audio exceeds 3 minutes)';
-                durationInfo.style.color = '#DC2626';
-            } else {
-                durationInfo.style.color = '';
-            }
+            durationInfo.style.color = '';
         });
     } else {
         preview.style.display = 'none';
