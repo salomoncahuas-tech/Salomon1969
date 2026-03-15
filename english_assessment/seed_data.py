@@ -1578,5 +1578,406 @@ def seed_assessments():
         print('Access assessments at: http://localhost:5000')
 
 
+def add_listening_mc(assessment_id, text, instruction, points, order, options, audio_url, transcript=None):
+    """Helper: add a listening multiple choice question with audio."""
+    q = Question(assessment_id=assessment_id, question_type='listening_multiple_choice',
+                 text=text, instruction=instruction, points=points, order=order,
+                 media_url=audio_url, media_type='audio', audio_transcript=transcript)
+    db.session.add(q)
+    db.session.flush()
+    for i, (opt_text, correct) in enumerate(options):
+        db.session.add(QuestionOption(question_id=q.id, text=opt_text,
+                                      is_correct=correct, order=i))
+    return q
+
+
+def add_listening_tf(assessment_id, text, instruction, points, order, correct_is_true, audio_url, transcript=None):
+    """Helper: add a listening true/false question with audio."""
+    q = Question(assessment_id=assessment_id, question_type='listening_true_false',
+                 text=text, instruction=instruction, points=points, order=order,
+                 media_url=audio_url, media_type='audio', audio_transcript=transcript)
+    db.session.add(q)
+    db.session.flush()
+    db.session.add(QuestionOption(question_id=q.id, text='true',
+                                  is_correct=correct_is_true, order=0))
+    db.session.add(QuestionOption(question_id=q.id, text='false',
+                                  is_correct=not correct_is_true, order=1))
+    return q
+
+
+def add_listening_fill(assessment_id, text, instruction, points, order, answer, audio_url, transcript=None):
+    """Helper: add a listening fill-in-the-blank question with audio."""
+    q = Question(assessment_id=assessment_id, question_type='listening_fill_blank',
+                 text=text, instruction=instruction, points=points, order=order,
+                 media_url=audio_url, media_type='audio', audio_transcript=transcript)
+    db.session.add(q)
+    db.session.flush()
+    db.session.add(QuestionOption(question_id=q.id, text=answer,
+                                  is_correct=True, order=0))
+    return q
+
+
+def add_listening_short(assessment_id, text, instruction, points, order, audio_url, transcript=None):
+    """Helper: add a listening short answer question with audio."""
+    q = Question(assessment_id=assessment_id, question_type='listening_short_answer',
+                 text=text, instruction=instruction, points=points, order=order,
+                 media_url=audio_url, media_type='audio', audio_transcript=transcript)
+    db.session.add(q)
+    db.session.flush()
+    return q
+
+
+def seed_listening_comprehension():
+    """Create sample listening comprehension assessments for various grades and levels.
+
+    NOTE: These assessments use placeholder audio URLs. Teachers should replace
+    them with real audio files through the admin panel (upload or paste URL).
+    The placeholder URL points to a public-domain sample so the UI is functional.
+    """
+
+    print('\nSeeding Listening Comprehension assessments...')
+    all_codes = []
+
+    # Use a well-known public domain audio placeholder
+    # Teachers will replace with their actual class audio recordings
+    SAMPLE_AUDIO = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
+
+    with app.app_context():
+        teacher = Teacher.query.filter_by(username='admin').first()
+        if not teacher:
+            print('  No admin teacher found. Run seed_assessments() first.')
+            return
+
+        # ===============================================================
+        # 1. LISTENING - 3rd Grade Primary / Beginner (A1)
+        # Topic: My Family - Describing family members
+        # ===============================================================
+        grade = Grade.query.filter_by(name='3rd Grade Primary').first()
+        level = EnglishLevel.query.filter_by(code='A1').first()
+        if grade and level:
+            a = Assessment(
+                title='Listening: My Family',
+                description='Listen to a short audio about a family and answer the questions. '
+                            'The audio describes family members and their activities.',
+                assessment_type='practice',
+                grade_id=grade.id, english_level_id=level.id, teacher_id=teacher.id,
+                time_limit_minutes=15, access_code='LIST3PA1',
+                show_results=True, shuffle_questions=False
+            )
+            db.session.add(a)
+            db.session.commit()
+
+            transcript_family = (
+                "Hello! My name is Tom. I have a big family. My mother's name is Sarah. "
+                "She is a teacher. My father's name is John. He is a doctor. "
+                "I have one sister. Her name is Lucy. She is seven years old. "
+                "We have a pet dog named Max. We live in a blue house. "
+                "Every Sunday, we go to the park together."
+            )
+
+            add_listening_mc(a.id,
+                'What is the name of Tom\'s mother?',
+                'Listen to the audio and choose the correct answer.',
+                2, 1,
+                [('Sarah', True), ('Lucy', False), ('Mary', False), ('Jane', False)],
+                SAMPLE_AUDIO, transcript_family)
+
+            add_listening_mc(a.id,
+                'What is Tom\'s father\'s job?',
+                'Listen carefully and select the correct option.',
+                2, 2,
+                [('Teacher', False), ('Doctor', True), ('Engineer', False), ('Driver', False)],
+                SAMPLE_AUDIO, transcript_family)
+
+            add_listening_tf(a.id,
+                'Tom has two sisters.',
+                'Listen to the audio and decide: True or False?',
+                2, 3, False, SAMPLE_AUDIO, transcript_family)
+
+            add_listening_tf(a.id,
+                'The family goes to the park every Sunday.',
+                'Listen to the audio and decide: True or False?',
+                2, 4, True, SAMPLE_AUDIO, transcript_family)
+
+            add_listening_fill(a.id,
+                'Tom\'s pet dog is named ___.',
+                'Listen and fill in the missing word.',
+                2, 5, 'Max', SAMPLE_AUDIO, transcript_family)
+
+            add_listening_short(a.id,
+                'What color is Tom\'s house? Write a complete sentence.',
+                'Listen to the audio and write your answer.',
+                2, 6, SAMPLE_AUDIO, transcript_family)
+
+            db.session.commit()
+            all_codes.append(('LIST3PA1', '3rd Primary', 'Beginner (A1)', a.title))
+            print(f'  Created: {a.title}')
+
+        # ===============================================================
+        # 2. LISTENING - 5th Grade Primary / Elementary (A2)
+        # Topic: A Day at School - Daily routines
+        # ===============================================================
+        grade = Grade.query.filter_by(name='5th Grade Primary').first()
+        level = EnglishLevel.query.filter_by(code='A2').first()
+        if grade and level:
+            a = Assessment(
+                title='Listening: A Day at School',
+                description='Listen to a student describing a typical school day and answer '
+                            'comprehension questions about the daily routine.',
+                assessment_type='practice',
+                grade_id=grade.id, english_level_id=level.id, teacher_id=teacher.id,
+                time_limit_minutes=20, access_code='LIST5PA2',
+                show_results=True, shuffle_questions=False
+            )
+            db.session.add(a)
+            db.session.commit()
+
+            transcript_school = (
+                "Hi, I'm Emma. Let me tell you about my school day. I wake up at six thirty "
+                "in the morning. I eat breakfast with my family at seven o'clock. Then I take "
+                "the bus to school. School starts at eight o'clock. My favorite subject is "
+                "science because we do fun experiments. At noon, I have lunch in the cafeteria "
+                "with my best friend, Anna. After lunch, we have English class. I like English "
+                "because the teacher tells us interesting stories. School finishes at three "
+                "o'clock. After school, I play soccer with my friends. I go home at five and "
+                "do my homework before dinner."
+            )
+
+            add_listening_mc(a.id,
+                'What time does Emma wake up?',
+                'Listen and choose the correct time.',
+                2, 1,
+                [('6:00', False), ('6:30', True), ('7:00', False), ('7:30', False)],
+                SAMPLE_AUDIO, transcript_school)
+
+            add_listening_mc(a.id,
+                'What is Emma\'s favorite subject?',
+                'Listen carefully and select the correct answer.',
+                2, 2,
+                [('English', False), ('Math', False), ('Science', True), ('History', False)],
+                SAMPLE_AUDIO, transcript_school)
+
+            add_listening_mc(a.id,
+                'Who does Emma have lunch with?',
+                'Choose the correct answer.',
+                2, 3,
+                [('Her mother', False), ('Her teacher', False), ('Her sister', False), ('Her best friend Anna', True)],
+                SAMPLE_AUDIO, transcript_school)
+
+            add_listening_tf(a.id,
+                'Emma walks to school every day.',
+                'True or False?',
+                2, 4, False, SAMPLE_AUDIO, transcript_school)
+
+            add_listening_tf(a.id,
+                'School finishes at three o\'clock.',
+                'True or False?',
+                2, 5, True, SAMPLE_AUDIO, transcript_school)
+
+            add_listening_fill(a.id,
+                'After school, Emma plays ___ with her friends.',
+                'Fill in the blank with the correct sport.',
+                2, 6, 'soccer', SAMPLE_AUDIO, transcript_school)
+
+            add_listening_fill(a.id,
+                'Emma likes English because the teacher tells them interesting ___.',
+                'Complete the sentence.',
+                2, 7, 'stories', SAMPLE_AUDIO, transcript_school)
+
+            add_listening_short(a.id,
+                'What does Emma do after she gets home at five o\'clock? Write your answer in a complete sentence.',
+                'Listen to the audio and write your answer.',
+                2, 8, SAMPLE_AUDIO, transcript_school)
+
+            db.session.commit()
+            all_codes.append(('LIST5PA2', '5th Primary', 'Elementary (A2)', a.title))
+            print(f'  Created: {a.title}')
+
+        # ===============================================================
+        # 3. LISTENING - 2nd Grade Secondary / Pre-Intermediate (B1)
+        # Topic: Travel Plans - Vacation conversations
+        # ===============================================================
+        grade = Grade.query.filter_by(name='2nd Grade Secondary').first()
+        level = EnglishLevel.query.filter_by(code='B1').first()
+        if grade and level:
+            a = Assessment(
+                title='Listening: Travel Plans',
+                description='Listen to a conversation between two friends discussing their '
+                            'vacation plans. Answer the comprehension questions in writing.',
+                assessment_type='quiz',
+                grade_id=grade.id, english_level_id=level.id, teacher_id=teacher.id,
+                time_limit_minutes=25, access_code='LIST2SB1',
+                show_results=True, shuffle_questions=False
+            )
+            db.session.add(a)
+            db.session.commit()
+
+            transcript_travel = (
+                "Mark: Hey Lisa, have you decided where to go for vacation this summer?\n"
+                "Lisa: Yes! I'm going to visit my aunt in London for two weeks.\n"
+                "Mark: That sounds amazing! What are you planning to do there?\n"
+                "Lisa: Well, I want to visit the British Museum, see Big Ben, and ride the "
+                "London Eye. My aunt lives near Hyde Park, so we'll probably have picnics there.\n"
+                "Mark: Are you going to try any British food?\n"
+                "Lisa: Of course! I really want to try fish and chips and traditional English "
+                "breakfast. My aunt is a great cook, so she's going to make some dishes for me.\n"
+                "Mark: How are you getting there?\n"
+                "Lisa: I'm flying from Lima. The flight takes about twelve hours. I'm a bit "
+                "nervous because it's my first time on a plane.\n"
+                "Mark: Don't worry, flying is very safe. I'm sure you'll have a wonderful time!"
+            )
+
+            add_listening_mc(a.id,
+                'Where is Lisa going for vacation?',
+                'Listen and choose the correct answer.',
+                2, 1,
+                [('Paris', False), ('New York', False), ('London', True), ('Madrid', False)],
+                SAMPLE_AUDIO, transcript_travel)
+
+            add_listening_mc(a.id,
+                'How long will Lisa stay?',
+                'Select the correct answer.',
+                2, 2,
+                [('One week', False), ('Two weeks', True), ('Three weeks', False), ('One month', False)],
+                SAMPLE_AUDIO, transcript_travel)
+
+            add_listening_tf(a.id,
+                'Lisa has flown on a plane many times before.',
+                'Listen carefully and decide.',
+                2, 3, False, SAMPLE_AUDIO, transcript_travel)
+
+            add_listening_tf(a.id,
+                'Lisa\'s aunt lives near Hyde Park.',
+                'True or False?',
+                2, 4, True, SAMPLE_AUDIO, transcript_travel)
+
+            add_listening_fill(a.id,
+                'The flight from Lima takes about ___ hours.',
+                'Listen and complete.',
+                2, 5, 'twelve', SAMPLE_AUDIO, transcript_travel)
+
+            add_listening_short(a.id,
+                'Name two places Lisa wants to visit in London.',
+                'Write your answer based on what you heard.',
+                3, 6, SAMPLE_AUDIO, transcript_travel)
+
+            add_listening_short(a.id,
+                'What British food does Lisa want to try? Why is she not worried about food?',
+                'Write a complete answer.',
+                3, 7, SAMPLE_AUDIO, transcript_travel)
+
+            add_listening_short(a.id,
+                'Why is Lisa nervous about the trip? Explain in your own words.',
+                'Write 2-3 sentences.',
+                3, 8, SAMPLE_AUDIO, transcript_travel)
+
+            db.session.commit()
+            all_codes.append(('LIST2SB1', '2nd Secondary', 'Pre-Intermediate (B1)', a.title))
+            print(f'  Created: {a.title}')
+
+        # ===============================================================
+        # 4. LISTENING - 4th Grade Secondary / Intermediate (B2)
+        # Topic: Environment & Climate Change
+        # ===============================================================
+        grade = Grade.query.filter_by(name='4th Grade Secondary').first()
+        level = EnglishLevel.query.filter_by(code='B2').first()
+        if grade and level:
+            a = Assessment(
+                title='Listening: Environment & Climate Change',
+                description='Listen to a short presentation about environmental issues and '
+                            'climate change. Answer the comprehension questions thoroughly.',
+                assessment_type='exam',
+                grade_id=grade.id, english_level_id=level.id, teacher_id=teacher.id,
+                time_limit_minutes=30, access_code='LIST4SB2',
+                show_results=True, shuffle_questions=False
+            )
+            db.session.add(a)
+            db.session.commit()
+
+            transcript_environ = (
+                "Good morning, everyone. Today I'd like to talk about one of the most important "
+                "issues of our time: climate change. Over the past century, the average global "
+                "temperature has risen by about one point one degrees Celsius. This may not sound "
+                "like much, but it has dramatic effects on our planet.\n\n"
+                "The main cause of climate change is the burning of fossil fuels like coal, oil, "
+                "and natural gas. When we burn these fuels, they release carbon dioxide and other "
+                "greenhouse gases into the atmosphere. These gases trap heat from the sun, causing "
+                "the Earth's temperature to rise.\n\n"
+                "The consequences are serious. Glaciers are melting, sea levels are rising, and "
+                "extreme weather events like hurricanes and droughts are becoming more frequent. "
+                "Many animal species are losing their habitats and facing extinction.\n\n"
+                "But there is hope. We can all make a difference by reducing our carbon footprint. "
+                "Using renewable energy sources like solar and wind power, recycling, using public "
+                "transportation, and planting trees are just some of the things we can do. "
+                "Remember, every small action counts. Together, we can protect our planet for "
+                "future generations. Thank you."
+            )
+
+            add_listening_mc(a.id,
+                'By how much has the average global temperature risen in the past century?',
+                'Choose the correct answer.',
+                2, 1,
+                [('0.5 degrees', False), ('1.1 degrees', True), ('2.0 degrees', False), ('3.5 degrees', False)],
+                SAMPLE_AUDIO, transcript_environ)
+
+            add_listening_mc(a.id,
+                'According to the speaker, what is the main cause of climate change?',
+                'Select the best answer.',
+                2, 2,
+                [('Deforestation', False), ('Burning of fossil fuels', True),
+                 ('Ocean pollution', False), ('Overpopulation', False)],
+                SAMPLE_AUDIO, transcript_environ)
+
+            add_listening_tf(a.id,
+                'The speaker mentions that hurricanes are becoming less frequent.',
+                'True or False?',
+                2, 3, False, SAMPLE_AUDIO, transcript_environ)
+
+            add_listening_tf(a.id,
+                'Renewable energy sources mentioned include solar and wind power.',
+                'True or False?',
+                2, 4, True, SAMPLE_AUDIO, transcript_environ)
+
+            add_listening_fill(a.id,
+                'Greenhouse gases trap ___ from the sun.',
+                'Listen and fill in the blank.',
+                2, 5, 'heat', SAMPLE_AUDIO, transcript_environ)
+
+            add_listening_short(a.id,
+                'What are three consequences of climate change mentioned in the audio?',
+                'Write at least three effects in complete sentences.',
+                4, 6, SAMPLE_AUDIO, transcript_environ)
+
+            add_listening_short(a.id,
+                'Name four actions that individuals can take to reduce their carbon footprint, according to the speaker.',
+                'List the actions mentioned.',
+                4, 7, SAMPLE_AUDIO, transcript_environ)
+
+            add_listening_short(a.id,
+                'Do you agree with the speaker that "every small action counts"? '
+                'Explain your opinion in 3-4 sentences.',
+                'Write a thoughtful response based on the audio.',
+                4, 8, SAMPLE_AUDIO, transcript_environ)
+
+            db.session.commit()
+            all_codes.append(('LIST4SB2', '4th Secondary', 'Intermediate (B2)', a.title))
+            print(f'  Created: {a.title}')
+
+        # ==============================================================
+        # SUMMARY
+        # ==============================================================
+        print('\n' + '=' * 65)
+        print('LISTENING COMPREHENSION SEED COMPLETE!')
+        print('=' * 65)
+        print(f'\nTotal listening assessments created: {len(all_codes)}')
+        print(f'\n{"CODE":<12} {"GRADE":<18} {"LEVEL":<28} TITLE')
+        print('-' * 95)
+        for code, grade_name, level_name, title in all_codes:
+            print(f'{code:<12} {grade_name:<18} {level_name:<28} {title}')
+        print('\nNOTE: These assessments use placeholder audio URLs.')
+        print('Teachers should replace them with actual class recordings')
+        print('via the admin panel (upload file or paste audio URL).')
+
+
 if __name__ == '__main__':
     seed_assessments()

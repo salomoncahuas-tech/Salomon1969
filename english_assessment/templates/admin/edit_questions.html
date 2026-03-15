@@ -1,0 +1,335 @@
+{% extends 'base.html' %}
+{% block title %}Edit Questions - {{ assessment.title }}{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="{{ url_for('admin_dashboard') }}">Dashboard</a> &raquo;
+            <span>{{ assessment.title }} - Questions</span>
+        </div>
+
+        <div class="questions-header">
+            <div>
+                <h2>{{ assessment.title }}</h2>
+                <p class="assessment-meta-bar">
+                    <span class="badge badge-{{ assessment.assessment_type }}">{{ assessment.assessment_type|capitalize }}</span>
+                    <span>{{ assessment.grade.name }}</span>
+                    <span>{{ assessment.english_level.name }}</span>
+                    <span>Access Code: <strong>{{ assessment.access_code }}</strong></span>
+                </p>
+            </div>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+
+        <!-- Existing Questions -->
+        {% if assessment.questions %}
+        <div class="existing-questions">
+            <h3>Questions ({{ assessment.questions|length }})</h3>
+            {% for q in assessment.questions %}
+            <div class="question-edit-card">
+                <div class="qe-header">
+                    <span class="qe-number">#{{ loop.index }}</span>
+                    <span class="badge">{{ q.question_type|replace('_', ' ')|capitalize }}</span>
+                    <span class="qe-points">{{ q.points }} pts</span>
+                    <form action="{{ url_for('admin_edit_questions', assessment_id=assessment.id) }}" method="POST" style="display:inline">
+                        <input type="hidden" name="action" value="delete_question">
+                        <input type="hidden" name="question_id" value="{{ q.id }}">
+                        <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('Delete this question?')">Delete</button>
+                    </form>
+                </div>
+                {% if q.instruction %}<p class="qe-instruction"><em>{{ q.instruction }}</em></p>{% endif %}
+                {% if q.media_url and q.media_type == 'audio' %}
+                <div class="qe-audio">
+                    <audio controls preload="metadata">
+                        <source src="{{ q.media_url }}">
+                    </audio>
+                </div>
+                {% endif %}
+                <p class="qe-text">{{ q.text }}</p>
+                {% if q.options %}
+                <ul class="qe-options">
+                    {% for opt in q.options %}
+                    <li class="{% if opt.is_correct %}option-correct{% endif %}">
+                        {{ opt.text }}
+                        {% if opt.is_correct %} &#10004;{% endif %}
+                        {% if opt.match_text %} &rarr; {{ opt.match_text }}{% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Add New Question -->
+        <div class="add-question-section">
+            <h3>Add New Question</h3>
+            <div class="card">
+                <form action="{{ url_for('admin_edit_questions', assessment_id=assessment.id) }}" method="POST"
+                      class="form-vertical" id="add-question-form" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="add_question">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="question_type">Question Type *</label>
+                            <select id="question_type" name="question_type" required onchange="updateOptionsUI()">
+                                <optgroup label="Standard Questions">
+                                    <option value="multiple_choice">Multiple Choice</option>
+                                    <option value="true_false">True / False</option>
+                                    <option value="fill_blank">Fill in the Blank</option>
+                                    <option value="matching">Matching</option>
+                                    <option value="ordering">Ordering</option>
+                                    <option value="short_answer">Short Answer</option>
+                                </optgroup>
+                                <optgroup label="Listening Comprehension (Audio)">
+                                    <option value="listening_multiple_choice">Listening - Multiple Choice</option>
+                                    <option value="listening_true_false">Listening - True / False</option>
+                                    <option value="listening_fill_blank">Listening - Fill in the Blank</option>
+                                    <option value="listening_short_answer">Listening - Short Answer</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="points">Points</label>
+                            <input type="number" id="points" name="points" value="1" min="0.5" step="0.5">
+                        </div>
+                    </div>
+
+                    <!-- Audio section (only for listening types) -->
+                    <div id="audio-section" style="display:none;">
+                        <div class="audio-config-card">
+                            <h4>Audio Configuration</h4>
+                            <p class="audio-config-hint">Upload an audio file (max 3 min, up to 15 MB) or provide a URL to an audio hosted online.</p>
+
+                            <div class="form-group">
+                                <label for="audio_file">Upload Audio File (MP3, WAV, OGG, M4A)</label>
+                                <input type="file" id="audio_file" name="audio_file"
+                                       accept=".mp3,.wav,.ogg,.webm,.m4a"
+                                       onchange="handleAudioSelect(this)">
+                                <div id="audio-preview" style="display:none; margin-top:0.5rem;">
+                                    <audio id="audio-preview-player" controls style="width:100%"></audio>
+                                    <p id="audio-duration-info" class="audio-config-hint"></p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="audio_url">Or paste Audio URL</label>
+                                <input type="text" id="audio_url" name="audio_url"
+                                       placeholder="https://example.com/audio/lesson.mp3">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="audio_transcript">Audio Transcript (optional, for teacher reference only)</label>
+                                <textarea id="audio_transcript" name="audio_transcript" rows="3"
+                                          placeholder="Full text of what is spoken in the audio..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="instruction">Instruction (optional)</label>
+                        <input type="text" id="instruction" name="instruction"
+                               placeholder="e.g. Choose the correct answer.">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question_text">Question Text *</label>
+                        <textarea id="question_text" name="question_text" rows="2" required
+                                  placeholder="Type your question here..."></textarea>
+                    </div>
+
+                    <!-- Options area - dynamic -->
+                    <div id="options-area">
+                        <div id="mc-options" class="options-editor">
+                            <label>Answer Options</label>
+                            <div id="options-list">
+                                <div class="option-row">
+                                    <input type="text" name="option_text[]" placeholder="Option A" class="option-input">
+                                    <input type="hidden" name="match_text[]" value="">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="correct[]" value="0"> Correct
+                                    </label>
+                                </div>
+                                <div class="option-row">
+                                    <input type="text" name="option_text[]" placeholder="Option B" class="option-input">
+                                    <input type="hidden" name="match_text[]" value="">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="correct[]" value="1"> Correct
+                                    </label>
+                                </div>
+                                <div class="option-row">
+                                    <input type="text" name="option_text[]" placeholder="Option C" class="option-input">
+                                    <input type="hidden" name="match_text[]" value="">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="correct[]" value="2"> Correct
+                                    </label>
+                                </div>
+                                <div class="option-row">
+                                    <input type="text" name="option_text[]" placeholder="Option D" class="option-input">
+                                    <input type="hidden" name="match_text[]" value="">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="correct[]" value="3"> Correct
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-secondary" onclick="addOption()">+ Add Option</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Add Question</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let optionCount = 4;
+
+function isListeningType(type) {
+    return type.startsWith('listening_');
+}
+
+function getBaseType(type) {
+    return type.replace('listening_', '');
+}
+
+function handleAudioSelect(input) {
+    const preview = document.getElementById('audio-preview');
+    const player = document.getElementById('audio-preview-player');
+    const durationInfo = document.getElementById('audio-duration-info');
+
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const url = URL.createObjectURL(file);
+        player.src = url;
+        preview.style.display = 'block';
+
+        player.addEventListener('loadedmetadata', function() {
+            const duration = Math.round(player.duration);
+            const minutes = Math.floor(duration / 60);
+            const seconds = duration % 60;
+            durationInfo.textContent = 'Duration: ' + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+            if (duration > 180) {
+                durationInfo.textContent += ' (Warning: audio exceeds 3 minutes)';
+                durationInfo.style.color = '#DC2626';
+            } else {
+                durationInfo.style.color = '';
+            }
+        });
+    } else {
+        preview.style.display = 'none';
+    }
+}
+
+function updateOptionsUI() {
+    const type = document.getElementById('question_type').value;
+    const area = document.getElementById('options-area');
+    const mcOptions = document.getElementById('mc-options');
+    const audioSection = document.getElementById('audio-section');
+
+    // Show/hide audio section
+    audioSection.style.display = isListeningType(type) ? 'block' : 'none';
+
+    const baseType = getBaseType(type);
+
+    if (baseType === 'short_answer') {
+        area.style.display = 'none';
+    } else if (baseType === 'true_false') {
+        area.style.display = 'block';
+        document.getElementById('options-list').innerHTML = `
+            <div class="option-row">
+                <input type="text" name="option_text[]" value="True" readonly class="option-input">
+                <input type="hidden" name="match_text[]" value="">
+                <label class="checkbox-label"><input type="checkbox" name="correct[]" value="0"> Correct</label>
+            </div>
+            <div class="option-row">
+                <input type="text" name="option_text[]" value="False" readonly class="option-input">
+                <input type="hidden" name="match_text[]" value="">
+                <label class="checkbox-label"><input type="checkbox" name="correct[]" value="1"> Correct</label>
+            </div>
+        `;
+        optionCount = 2;
+    } else if (baseType === 'fill_blank') {
+        area.style.display = 'block';
+        document.getElementById('options-list').innerHTML = `
+            <div class="option-row">
+                <input type="text" name="option_text[]" placeholder="Correct answer" class="option-input">
+                <input type="hidden" name="match_text[]" value="">
+                <label class="checkbox-label"><input type="checkbox" name="correct[]" value="0" checked> Correct</label>
+            </div>
+        `;
+        optionCount = 1;
+    } else if (baseType === 'matching') {
+        area.style.display = 'block';
+        document.getElementById('options-list').innerHTML = '';
+        optionCount = 0;
+        for (let i = 0; i < 4; i++) addMatchOption();
+    } else if (baseType === 'ordering') {
+        area.style.display = 'block';
+        document.getElementById('options-list').innerHTML = '';
+        optionCount = 0;
+        for (let i = 0; i < 4; i++) addOrderOption();
+    } else {
+        area.style.display = 'block';
+        resetMCOptions();
+    }
+}
+
+function resetMCOptions() {
+    document.getElementById('options-list').innerHTML = '';
+    optionCount = 0;
+    for (let i = 0; i < 4; i++) addOption();
+}
+
+function addOption() {
+    const list = document.getElementById('options-list');
+    const letters = 'ABCDEFGHIJKLMNOP';
+    const div = document.createElement('div');
+    div.className = 'option-row';
+    div.innerHTML = `
+        <input type="text" name="option_text[]" placeholder="Option ${letters[optionCount]}" class="option-input">
+        <input type="hidden" name="match_text[]" value="">
+        <label class="checkbox-label"><input type="checkbox" name="correct[]" value="${optionCount}"> Correct</label>
+        <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.remove()">X</button>
+    `;
+    list.appendChild(div);
+    optionCount++;
+}
+
+function addMatchOption() {
+    const list = document.getElementById('options-list');
+    const div = document.createElement('div');
+    div.className = 'option-row matching-row-edit';
+    div.innerHTML = `
+        <input type="text" name="option_text[]" placeholder="Item ${optionCount + 1}" class="option-input">
+        <span class="match-arrow">&rarr;</span>
+        <input type="text" name="match_text[]" placeholder="Match ${optionCount + 1}" class="option-input">
+        <input type="hidden" name="correct[]" value="${optionCount}">
+        <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.remove()">X</button>
+    `;
+    list.appendChild(div);
+    optionCount++;
+}
+
+function addOrderOption() {
+    const list = document.getElementById('options-list');
+    const div = document.createElement('div');
+    div.className = 'option-row';
+    div.innerHTML = `
+        <span class="order-num">${optionCount + 1}.</span>
+        <input type="text" name="option_text[]" placeholder="Item in correct order" class="option-input">
+        <input type="hidden" name="match_text[]" value="">
+        <input type="hidden" name="correct[]" value="${optionCount}">
+        <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.remove()">X</button>
+    `;
+    list.appendChild(div);
+    optionCount++;
+}
+</script>
+{% endblock %}
