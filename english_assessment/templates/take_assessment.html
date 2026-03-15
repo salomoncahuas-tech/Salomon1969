@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+{% block title %}Taking: {{ assessment.title }}{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container container-md">
+        <div class="assessment-taking-header">
+            <h2>{{ assessment.title }}</h2>
+            <div class="assessment-meta-bar">
+                <span>{{ assessment.grade.name }}</span>
+                <span>{{ assessment.english_level.name }}</span>
+                <span>{{ assessment.question_count }} questions</span>
+                <span>{{ assessment.total_points }} points</span>
+            </div>
+            {% if assessment.time_limit_minutes > 0 %}
+            <div class="timer" id="timer" data-minutes="{{ assessment.time_limit_minutes }}">
+                Time remaining: <span id="timer-display">{{ assessment.time_limit_minutes }}:00</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <form action="{{ url_for('submit_assessment', assessment_id=assessment.id) }}" method="POST" id="assessment-form">
+            <input type="hidden" name="result_id" value="{{ result.id }}">
+            <div class="questions-container">
+                {% for question in questions %}
+                <div class="question-card" id="q-{{ question.id }}">
+                    <div class="question-header">
+                        <span class="question-number">Question {{ loop.index }}</span>
+                        <span class="question-points">{{ question.points }} pt{{ 's' if question.points != 1 }}</span>
+                    </div>
+
+                    {% if question.question_type.startswith('listening_') %}
+                        <span class="badge badge-listening">Listening</span>
+                    {% endif %}
+
+                    {% if question.instruction %}
+                        <p class="question-instruction"><em>{{ question.instruction }}</em></p>
+                    {% endif %}
+
+                    {% if question.media_url and question.media_type == 'audio' %}
+                        <div class="audio-player-container">
+                            <div class="audio-player-header">
+                                <span class="audio-icon">&#9835;</span>
+                                <span>Listen to the audio carefully</span>
+                            </div>
+                            <audio controls controlsList="nodownload" preload="metadata"
+                                   class="audio-player" id="audio-{{ question.id }}">
+                                <source src="{{ question.media_url }}">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <p class="audio-hint">You may replay the audio as needed to answer the question.</p>
+                        </div>
+                    {% elif question.media_url and question.media_type != 'audio' %}
+                        <div class="question-media">
+                            <img src="{{ question.media_url }}" alt="Question image">
+                        </div>
+                    {% endif %}
+
+                    <p class="question-text">{{ question.text }}</p>
+
+                    <div class="answer-area">
+                        {% if question.question_type in ['multiple_choice', 'listening_multiple_choice'] %}
+                            <div class="options-list">
+                                {% for option in question.options %}
+                                <label class="option-label">
+                                    <input type="radio" name="question_{{ question.id }}"
+                                           value="{{ option.id }}">
+                                    <span class="option-marker">{{ 'ABCDEFGH'[loop.index0] }}</span>
+                                    <span class="option-text">{{ option.text }}</span>
+                                </label>
+                                {% endfor %}
+                            </div>
+
+                        {% elif question.question_type in ['true_false', 'listening_true_false'] %}
+                            <div class="options-list options-horizontal">
+                                <label class="option-label">
+                                    <input type="radio" name="question_{{ question.id }}" value="true">
+                                    <span class="option-text">True</span>
+                                </label>
+                                <label class="option-label">
+                                    <input type="radio" name="question_{{ question.id }}" value="false">
+                                    <span class="option-text">False</span>
+                                </label>
+                            </div>
+
+                        {% elif question.question_type in ['fill_blank', 'listening_fill_blank'] %}
+                            <div class="fill-blank">
+                                <input type="text" name="question_{{ question.id }}"
+                                       class="input-fill" placeholder="Type your answer here..."
+                                       autocomplete="off">
+                            </div>
+
+                        {% elif question.question_type == 'matching' %}
+                            <div class="matching-area">
+                                <p class="matching-instruction">Match each item on the left with the correct item on the right:</p>
+                                {% set match_options = question.options|selectattr('match_text')|list %}
+                                {% set match_values = match_options|map(attribute='match_text')|list|sort %}
+                                {% for option in match_options %}
+                                <div class="matching-row">
+                                    <span class="match-left">{{ option.text }}</span>
+                                    <span class="match-arrow">&rarr;</span>
+                                    <select name="match_{{ question.id }}_{{ option.id }}" class="match-select">
+                                        <option value="">-- Select --</option>
+                                        {% for val in match_values %}
+                                            <option value="{{ val }}">{{ val }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                {% endfor %}
+                            </div>
+
+                        {% elif question.question_type == 'ordering' %}
+                            <div class="ordering-area" data-question-id="{{ question.id }}">
+                                <p class="ordering-instruction">Drag and drop to put the items in the correct order:</p>
+                                <ul class="ordering-list" id="ordering-{{ question.id }}">
+                                    {% for option in question.options|sort(attribute='text') %}
+                                    <li class="ordering-item" data-id="{{ option.id }}" draggable="true">
+                                        <span class="drag-handle">&#9776;</span>
+                                        {{ option.text }}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                <input type="hidden" name="question_{{ question.id }}" id="order-input-{{ question.id }}">
+                            </div>
+
+                        {% elif question.question_type in ['short_answer', 'listening_short_answer'] %}
+                            <div class="short-answer">
+                                <textarea name="question_{{ question.id }}" rows="4"
+                                          placeholder="Write your answer here..."
+                                          class="textarea-answer"></textarea>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="submit-area">
+                <p class="submit-warning">Make sure you have answered all questions before submitting.</p>
+                <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit-btn">
+                    Submit Assessment
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Timer functionality
+(function() {
+    const timerEl = document.getElementById('timer');
+    if (!timerEl) return;
+
+    const minutes = parseInt(timerEl.dataset.minutes);
+    let totalSeconds = minutes * 60;
+    const display = document.getElementById('timer-display');
+
+    const interval = setInterval(function() {
+        totalSeconds--;
+        if (totalSeconds <= 0) {
+            clearInterval(interval);
+            document.getElementById('assessment-form').submit();
+            return;
+        }
+        const m = Math.floor(totalSeconds / 60);
+        const s = totalSeconds % 60;
+        display.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+        if (totalSeconds <= 60) {
+            timerEl.classList.add('timer-warning');
+        }
+    }, 1000);
+})();
+
+// Ordering drag & drop
+document.querySelectorAll('.ordering-list').forEach(function(list) {
+    let draggedItem = null;
+
+    list.querySelectorAll('.ordering-item').forEach(function(item) {
+        item.addEventListener('dragstart', function(e) {
+            draggedItem = this;
+            this.classList.add('dragging');
+        });
+        item.addEventListener('dragend', function() {
+            this.classList.remove('dragging');
+            updateOrderInput(list);
+        });
+        item.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(list, e.clientY);
+            if (afterElement == null) {
+                list.appendChild(draggedItem);
+            } else {
+                list.insertBefore(draggedItem, afterElement);
+            }
+        });
+    });
+
+    function getDragAfterElement(container, y) {
+        const elements = [...container.querySelectorAll('.ordering-item:not(.dragging)')];
+        return elements.reduce(function(closest, child) {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            }
+            return closest;
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    function updateOrderInput(list) {
+        const questionId = list.id.replace('ordering-', '');
+        const ids = [...list.querySelectorAll('.ordering-item')].map(function(item) {
+            return item.dataset.id;
+        });
+        document.getElementById('order-input-' + questionId).value = ids.join(',');
+    }
+
+    updateOrderInput(list);
+});
+
+// Submit confirmation
+document.getElementById('submit-btn').addEventListener('click', function(e) {
+    if (!confirm('Are you sure you want to submit your assessment? You cannot change your answers after submitting.')) {
+        e.preventDefault();
+    }
+});
+</script>
+{% endblock %}
