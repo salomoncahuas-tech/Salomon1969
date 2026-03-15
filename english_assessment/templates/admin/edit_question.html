@@ -17,8 +17,13 @@
             <span>{{ assessment.title }}</span>
         </p>
 
-        <!-- Separate delete-audio form OUTSIDE the main edit form -->
-        {% if question.question_type.startswith('listening_') and question.media_url %}
+        <!-- ============================================================ -->
+        <!-- AUDIO SECTION: completely separate forms, no nesting issues   -->
+        <!-- ============================================================ -->
+        {% if question.question_type.startswith('listening_') %}
+
+        <!-- Current audio display + delete -->
+        {% if question.media_url %}
         <div class="card" style="margin-bottom:1rem;">
             <div class="audio-config-card">
                 <h4>Current Audio</h4>
@@ -33,56 +38,84 @@
                     </audio>
                     {% endif %}
                     <p style="font-size:0.85rem; color:#666;">{{ question.media_url }}</p>
-                    <form action="{{ url_for('admin_edit_question', question_id=question.id) }}" method="POST">
-                        <input type="hidden" name="action" value="delete_audio">
-                        <button type="submit" class="btn btn-sm btn-danger"
-                                onclick="return confirm('Remove audio from this question? This cannot be undone.')">
-                            Remove Audio
-                        </button>
-                    </form>
                 </div>
+                <form action="{{ url_for('admin_edit_question', question_id=question.id) }}" method="POST">
+                    <input type="hidden" name="action" value="delete_audio">
+                    <button type="submit" class="btn btn-sm btn-danger"
+                            onclick="return confirm('Remove audio from this question?')">
+                        Remove Audio
+                    </button>
+                </form>
             </div>
         </div>
         {% endif %}
 
-        <div class="card">
-            <form action="{{ url_for('admin_edit_question', question_id=question.id) }}" method="POST"
-                  class="form-vertical" enctype="multipart/form-data">
-                <input type="hidden" name="action" value="save">
+        <!-- Upload new audio: dedicated form with its own route -->
+        <div class="card" style="margin-bottom:1rem;">
+            <div class="audio-config-card">
+                <h4>{% if question.media_url %}Replace Audio{% else %}Upload Audio{% endif %}</h4>
+                <p class="audio-config-hint">Upload an MP3 or MP4 file (max 50 MB). The file is saved immediately when you click "Upload Audio".</p>
 
-                <!-- Audio upload section for listening types -->
-                {% if question.question_type.startswith('listening_') %}
-                <div class="audio-config-card">
-                    {% if question.media_url %}
-                    <h4>Replace Audio</h4>
-                    <p class="audio-config-hint">Upload a new file or paste a URL to replace the current audio:</p>
-                    {% else %}
-                    <h4>Audio Configuration</h4>
-                    <p class="audio-config-hint">Upload an audio or video file (up to 200 MB) or provide a URL:</p>
-                    {% endif %}
-
+                <form action="{{ url_for('admin_upload_audio', question_id=question.id) }}" method="POST"
+                      enctype="multipart/form-data" id="upload-audio-form">
                     <div class="form-group">
-                        <label for="audio_file">Upload Audio/Video File (MP3, MP4, WAV, OGG, M4A)</label>
+                        <label for="audio_file">Select Audio/Video File (MP3, MP4, WAV, OGG, M4A)</label>
                         <input type="file" id="audio_file" name="audio_file"
                                accept=".mp3,.mp4,.wav,.ogg,.webm,.m4a"
-                               onchange="handleAudioSelect(this)">
+                               onchange="handleAudioSelect(this)" required>
                         <div id="audio-preview" style="display:none; margin-top:0.5rem;">
                             <audio id="audio-preview-player" controls style="width:100%"></audio>
                             <p id="audio-duration-info" class="audio-config-hint"></p>
                         </div>
                     </div>
+                    <button type="submit" class="btn btn-primary" id="upload-btn">
+                        Upload Audio
+                    </button>
+                    <p id="upload-status" style="display:none; margin-top:0.5rem; color:#4F46E5; font-weight:bold;">
+                        Uploading... please wait.
+                    </p>
+                </form>
 
-                    <div class="form-group">
-                        <label for="audio_url">Or paste Audio URL</label>
-                        <input type="text" id="audio_url" name="audio_url"
-                               placeholder="https://example.com/audio/lesson.mp3">
+                <hr style="margin:1rem 0;">
+                <p class="audio-config-hint">Or paste an external audio URL instead:</p>
+                <form action="{{ url_for('admin_edit_question', question_id=question.id) }}" method="POST">
+                    <input type="hidden" name="action" value="save">
+                    <input type="hidden" name="question_text" value="{{ question.text }}">
+                    <input type="hidden" name="instruction" value="{{ question.instruction or '' }}">
+                    <input type="hidden" name="points" value="{{ question.points }}">
+                    {% if question.audio_transcript %}
+                    <input type="hidden" name="audio_transcript" value="{{ question.audio_transcript }}">
+                    {% endif %}
+                    {% for opt in question.options|sort(attribute='order') %}
+                    <input type="hidden" name="option_text[]" value="{{ opt.text }}">
+                    <input type="hidden" name="match_text[]" value="{{ opt.match_text or '' }}">
+                    {% if opt.is_correct %}<input type="hidden" name="correct[]" value="{{ loop.index0 }}">{% endif %}
+                    {% endfor %}
+                    <div class="form-group" style="display:flex; gap:0.5rem; align-items:flex-end;">
+                        <div style="flex:1;">
+                            <input type="text" name="audio_url" placeholder="https://example.com/audio.mp3" required>
+                        </div>
+                        <button type="submit" class="btn btn-secondary">Set URL</button>
                     </div>
+                </form>
+            </div>
+        </div>
 
-                    <div class="form-group">
-                        <label for="audio_transcript">Audio Transcript (optional, for teacher reference only)</label>
-                        <textarea id="audio_transcript" name="audio_transcript" rows="3"
-                                  placeholder="Full text of what is spoken in the audio...">{{ question.audio_transcript or '' }}</textarea>
-                    </div>
+        {% endif %}
+
+        <!-- ============================================================ -->
+        <!-- QUESTION TEXT & OPTIONS: separate form                        -->
+        <!-- ============================================================ -->
+        <div class="card">
+            <form action="{{ url_for('admin_edit_question', question_id=question.id) }}" method="POST"
+                  class="form-vertical">
+                <input type="hidden" name="action" value="save">
+
+                {% if question.question_type.startswith('listening_') %}
+                <div class="form-group">
+                    <label for="audio_transcript">Audio Transcript (optional, teacher reference)</label>
+                    <textarea id="audio_transcript" name="audio_transcript" rows="3"
+                              placeholder="Full text of what is spoken...">{{ question.audio_transcript or '' }}</textarea>
                 </div>
                 {% endif %}
 
@@ -164,7 +197,7 @@
 
 {% block extra_js %}
 <script>
-let optionCount = document.querySelectorAll('#options-list .option-row').length;
+let optionCount = document.querySelectorAll('#options-list .option-row').length || 0;
 
 function handleAudioSelect(input) {
     const preview = document.getElementById('audio-preview');
@@ -173,6 +206,14 @@ function handleAudioSelect(input) {
 
     if (input.files && input.files[0]) {
         const file = input.files[0];
+        // Check size client-side
+        const maxMB = 50;
+        if (file.size > maxMB * 1024 * 1024) {
+            alert('File is too large (' + Math.round(file.size / 1024 / 1024) + ' MB). Maximum is ' + maxMB + ' MB.');
+            input.value = '';
+            preview.style.display = 'none';
+            return;
+        }
         const url = URL.createObjectURL(file);
         player.src = url;
         preview.style.display = 'block';
@@ -181,12 +222,24 @@ function handleAudioSelect(input) {
             const duration = Math.round(player.duration);
             const minutes = Math.floor(duration / 60);
             const seconds = duration % 60;
-            durationInfo.textContent = 'Duration: ' + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-            durationInfo.style.color = '';
+            durationInfo.textContent = 'Duration: ' + minutes + ':' + (seconds < 10 ? '0' : '') + seconds +
+                                       ' | Size: ' + Math.round(file.size / 1024 / 1024 * 10) / 10 + ' MB';
         });
     } else {
         preview.style.display = 'none';
     }
+}
+
+// Show uploading status
+var uploadForm = document.getElementById('upload-audio-form');
+if (uploadForm) {
+    uploadForm.addEventListener('submit', function() {
+        var btn = document.getElementById('upload-btn');
+        var status = document.getElementById('upload-status');
+        btn.disabled = true;
+        btn.textContent = 'Uploading...';
+        status.style.display = 'block';
+    });
 }
 
 function addEditOption() {

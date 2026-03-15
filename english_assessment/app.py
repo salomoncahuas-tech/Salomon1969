@@ -25,7 +25,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 # Audio upload configuration
 AUDIO_UPLOAD_FOLDER = os.path.join(basedir, 'static', 'audio')
 ALLOWED_AUDIO_EXTENSIONS = {'mp3', 'mp4', 'wav', 'ogg', 'webm', 'm4a'}
-MAX_AUDIO_SIZE_MB = 200  # Max 200 MB per audio/video file
+MAX_AUDIO_SIZE_MB = 50  # Max 50 MB per file (Render free tier limit)
 
 
 MIME_TYPES = {
@@ -442,67 +442,69 @@ def admin_edit_questions(assessment_id):
         action = request.form.get('action')
 
         if action == 'add_question':
-            q_type = request.form['question_type']
-            text = request.form['question_text']
-            instruction = request.form.get('instruction', '')
-            points = float(request.form.get('points', 1))
-            order = len(assessment.questions) + 1
+            try:
+                q_type = request.form['question_type']
+                text = request.form['question_text']
+                instruction = request.form.get('instruction', '')
+                points = float(request.form.get('points', 1))
+                order = len(assessment.questions) + 1
 
-            # Handle audio URL or file upload
-            media_url = None
-            media_type = 'image'
-            audio_transcript = None
+                media_url = None
+                media_type = 'image'
+                audio_transcript = None
 
-            if q_type.startswith('listening_'):
-                media_type = 'audio'
-                audio_transcript = request.form.get('audio_transcript', '').strip() or None
+                if q_type.startswith('listening_'):
+                    media_type = 'audio'
+                    audio_transcript = request.form.get('audio_transcript', '').strip() or None
 
-                # Check for audio URL first
-                audio_url = request.form.get('audio_url', '').strip()
-                if audio_url:
-                    media_url = audio_url
-                else:
-                    # Check for uploaded audio file - save to database
-                    audio_file = request.files.get('audio_file')
-                    if audio_file and audio_file.filename and allowed_audio_file(audio_file.filename):
-                        audio_id, audio_filename = save_audio_to_db(audio_file)
-                        media_url = url_for('serve_audio', audio_id=audio_id, filename=audio_filename)
+                    audio_url = request.form.get('audio_url', '').strip()
+                    if audio_url:
+                        media_url = audio_url
+                    else:
+                        audio_file = request.files.get('audio_file')
+                        if audio_file and audio_file.filename and allowed_audio_file(audio_file.filename):
+                            audio_id, audio_filename = save_audio_to_db(audio_file)
+                            media_url = url_for('serve_audio', audio_id=audio_id, filename=audio_filename)
+                            app.logger.info('Audio saved for new question: id=%d, file=%s', audio_id, audio_filename)
 
-            question = Question(
-                assessment_id=assessment_id,
-                question_type=q_type,
-                text=text,
-                instruction=instruction,
-                points=points,
-                order=order,
-                media_url=media_url,
-                media_type=media_type,
-                audio_transcript=audio_transcript
-            )
-            db.session.add(question)
-            db.session.commit()
-
-            # Add options
-            if q_type in ('multiple_choice', 'true_false', 'fill_blank', 'matching', 'ordering',
-                          'listening_multiple_choice', 'listening_true_false', 'listening_fill_blank'):
-                option_texts = request.form.getlist('option_text[]')
-                correct_indices = request.form.getlist('correct[]')
-                match_texts = request.form.getlist('match_text[]')
-
-                for i, opt_text in enumerate(option_texts):
-                    if not opt_text.strip():
-                        continue
-                    option = QuestionOption(
-                        question_id=question.id,
-                        text=opt_text.strip(),
-                        is_correct=(str(i) in correct_indices),
-                        match_text=match_texts[i].strip() if i < len(match_texts) and match_texts[i].strip() else None,
-                        order=i
-                    )
-                    db.session.add(option)
+                question = Question(
+                    assessment_id=assessment_id,
+                    question_type=q_type,
+                    text=text,
+                    instruction=instruction,
+                    points=points,
+                    order=order,
+                    media_url=media_url,
+                    media_type=media_type,
+                    audio_transcript=audio_transcript
+                )
+                db.session.add(question)
                 db.session.commit()
 
-            flash('Question added successfully.', 'success')
+                if q_type in ('multiple_choice', 'true_false', 'fill_blank', 'matching', 'ordering',
+                              'listening_multiple_choice', 'listening_true_false', 'listening_fill_blank'):
+                    option_texts = request.form.getlist('option_text[]')
+                    correct_indices = request.form.getlist('correct[]')
+                    match_texts = request.form.getlist('match_text[]')
+
+                    for i, opt_text in enumerate(option_texts):
+                        if not opt_text.strip():
+                            continue
+                        option = QuestionOption(
+                            question_id=question.id,
+                            text=opt_text.strip(),
+                            is_correct=(str(i) in correct_indices),
+                            match_text=match_texts[i].strip() if i < len(match_texts) and match_texts[i].strip() else None,
+                            order=i
+                        )
+                        db.session.add(option)
+                    db.session.commit()
+
+                flash('Question added successfully.', 'success')
+            except Exception as e:
+                db.session.rollback()
+                app.logger.error('Error adding question: %s', str(e))
+                flash(f'Error adding question: {str(e)}', 'error')
 
         elif action == 'delete_question':
             q_id = int(request.form['question_id'])
@@ -563,7 +565,6 @@ def admin_edit_question(question_id):
             if question.media_url and '/audio/' in question.media_url:
                 try:
                     parts = question.media_url.rstrip('/').split('/')
-                    # URL format: /audio/<id>/<filename>
                     audio_idx = parts.index('audio')
                     if audio_idx + 1 < len(parts):
                         old_audio_id = int(parts[audio_idx + 1])
@@ -572,7 +573,6 @@ def admin_edit_question(question_id):
                             db.session.delete(old_audio)
                 except (ValueError, IndexError):
                     pass
-            # Always clear the audio fields regardless of URL type
             question.media_url = None
             question.media_type = 'image'
             question.audio_transcript = None
@@ -580,58 +580,106 @@ def admin_edit_question(question_id):
             flash('Audio removed successfully.', 'success')
             return redirect(url_for('admin_edit_question', question_id=question_id))
 
-        # Update question text and instruction
-        question.text = request.form['question_text']
-        question.instruction = request.form.get('instruction', '')
-        question.points = float(request.form.get('points', 1))
+        # --- action == 'save' ---
+        try:
+            question.text = request.form['question_text']
+            question.instruction = request.form.get('instruction', '')
+            question.points = float(request.form.get('points', 1))
 
-        # Handle audio for listening types
-        if question.question_type.startswith('listening_'):
-            question.audio_transcript = request.form.get('audio_transcript', '').strip() or None
+            # Handle audio for listening types
+            if question.question_type.startswith('listening_'):
+                question.audio_transcript = request.form.get('audio_transcript', '').strip() or None
 
-            # Check for new audio URL
-            audio_url = request.form.get('audio_url', '').strip()
-            if audio_url:
-                question.media_url = audio_url
-                question.media_type = 'audio'
-            else:
-                # Check for uploaded audio file - save to database
+                audio_url = request.form.get('audio_url', '').strip()
                 audio_file = request.files.get('audio_file')
-                if audio_file and audio_file.filename and allowed_audio_file(audio_file.filename):
+
+                if audio_url:
+                    # External URL provided
+                    question.media_url = audio_url
+                    question.media_type = 'audio'
+                    app.logger.info('Audio URL set for question %d: %s', question_id, audio_url)
+                elif audio_file and audio_file.filename:
+                    # File uploaded
+                    if not allowed_audio_file(audio_file.filename):
+                        flash(f'File type not allowed: {audio_file.filename}. Use MP3, MP4, WAV, OGG, or M4A.', 'error')
+                        return redirect(url_for('admin_edit_question', question_id=question_id))
+
                     audio_id, audio_filename = save_audio_to_db(audio_file)
                     question.media_url = url_for('serve_audio', audio_id=audio_id, filename=audio_filename)
                     question.media_type = 'audio'
+                    app.logger.info('Audio file saved to DB for question %d: id=%d, file=%s',
+                                    question_id, audio_id, audio_filename)
 
-        # Update options
-        if question.question_type in ('multiple_choice', 'true_false', 'fill_blank',
-                                       'matching', 'ordering',
-                                       'listening_multiple_choice', 'listening_true_false',
-                                       'listening_fill_blank'):
-            # Delete old options and recreate
-            QuestionOption.query.filter_by(question_id=question.id).delete()
+            # Update options
+            if question.question_type in ('multiple_choice', 'true_false', 'fill_blank',
+                                           'matching', 'ordering',
+                                           'listening_multiple_choice', 'listening_true_false',
+                                           'listening_fill_blank'):
+                QuestionOption.query.filter_by(question_id=question.id).delete()
 
-            option_texts = request.form.getlist('option_text[]')
-            correct_indices = request.form.getlist('correct[]')
-            match_texts = request.form.getlist('match_text[]')
+                option_texts = request.form.getlist('option_text[]')
+                correct_indices = request.form.getlist('correct[]')
+                match_texts = request.form.getlist('match_text[]')
 
-            for i, opt_text in enumerate(option_texts):
-                if not opt_text.strip():
-                    continue
-                option = QuestionOption(
-                    question_id=question.id,
-                    text=opt_text.strip(),
-                    is_correct=(str(i) in correct_indices),
-                    match_text=match_texts[i].strip() if i < len(match_texts) and match_texts[i].strip() else None,
-                    order=i
-                )
-                db.session.add(option)
+                for i, opt_text in enumerate(option_texts):
+                    if not opt_text.strip():
+                        continue
+                    option = QuestionOption(
+                        question_id=question.id,
+                        text=opt_text.strip(),
+                        is_correct=(str(i) in correct_indices),
+                        match_text=match_texts[i].strip() if i < len(match_texts) and match_texts[i].strip() else None,
+                        order=i
+                    )
+                    db.session.add(option)
 
-        db.session.commit()
-        flash('Question updated successfully.', 'success')
-        return redirect(url_for('admin_edit_questions', assessment_id=assessment.id))
+            db.session.commit()
+            flash('Question updated successfully.', 'success')
+            return redirect(url_for('admin_edit_questions', assessment_id=assessment.id))
+
+        except Exception as e:
+            db.session.rollback()
+            app.logger.error('Error saving question %d: %s', question_id, str(e))
+            flash(f'Error saving changes: {str(e)}', 'error')
+            return redirect(url_for('admin_edit_question', question_id=question_id))
 
     return render_template('admin/edit_question.html',
                            question=question, assessment=assessment)
+
+
+@app.route('/admin/question/<int:question_id>/upload-audio', methods=['POST'])
+@login_required
+def admin_upload_audio(question_id):
+    """Dedicated route to upload audio for a question (separate from edit form)."""
+    question = Question.query.get_or_404(question_id)
+    assessment = question.assessment
+    if assessment.teacher_id != current_user.id:
+        abort(403)
+
+    try:
+        audio_file = request.files.get('audio_file')
+        if not audio_file or not audio_file.filename:
+            flash('No file selected.', 'error')
+            return redirect(url_for('admin_edit_question', question_id=question_id))
+
+        if not allowed_audio_file(audio_file.filename):
+            flash(f'File type not allowed: {audio_file.filename}. Use MP3, MP4, WAV, OGG, or M4A.', 'error')
+            return redirect(url_for('admin_edit_question', question_id=question_id))
+
+        audio_id, audio_filename = save_audio_to_db(audio_file)
+        question.media_url = url_for('serve_audio', audio_id=audio_id, filename=audio_filename)
+        question.media_type = 'audio'
+        db.session.commit()
+
+        app.logger.info('Audio uploaded via dedicated route for question %d: id=%d', question_id, audio_id)
+        flash(f'Audio "{audio_filename}" uploaded successfully.', 'success')
+
+    except Exception as e:
+        db.session.rollback()
+        app.logger.error('Error uploading audio for question %d: %s', question_id, str(e))
+        flash(f'Error uploading audio: {str(e)}', 'error')
+
+    return redirect(url_for('admin_edit_question', question_id=question_id))
 
 
 @app.route('/admin/assessment/<int:assessment_id>/toggle', methods=['POST'])
