@@ -17,40 +17,47 @@
             <span>{{ assessment.title }}</span>
         </p>
 
+        <!-- Separate delete-audio form OUTSIDE the main edit form -->
+        {% if question.question_type.startswith('listening_') and question.media_url %}
+        <div class="card" style="margin-bottom:1rem;">
+            <div class="audio-config-card">
+                <h4>Current Audio</h4>
+                <div class="current-audio-section">
+                    {% if question.media_url.endswith('.mp4') %}
+                    <video controls preload="metadata" style="width:100%; max-height:300px; border-radius:8px; margin:0.5rem 0;">
+                        <source src="{{ question.media_url }}" type="video/mp4">
+                    </video>
+                    {% else %}
+                    <audio controls preload="metadata" style="width:100%; margin:0.5rem 0;">
+                        <source src="{{ question.media_url }}">
+                    </audio>
+                    {% endif %}
+                    <p style="font-size:0.85rem; color:#666;">{{ question.media_url }}</p>
+                    <form action="{{ url_for('admin_edit_question', question_id=question.id) }}" method="POST">
+                        <input type="hidden" name="action" value="delete_audio">
+                        <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('Remove audio from this question? This cannot be undone.')">
+                            Remove Audio
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
         <div class="card">
             <form action="{{ url_for('admin_edit_question', question_id=question.id) }}" method="POST"
                   class="form-vertical" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="save">
 
-                <!-- Audio section for listening types -->
+                <!-- Audio upload section for listening types -->
                 {% if question.question_type.startswith('listening_') %}
                 <div class="audio-config-card">
-                    <h4>Audio Configuration</h4>
-
                     {% if question.media_url %}
-                    <div class="current-audio-section">
-                        <label><strong>Current Audio:</strong></label>
-                        {% if question.media_url.endswith('.mp4') %}
-                        <video controls preload="metadata" style="width:100%; max-height:300px; border-radius:8px; margin:0.5rem 0;">
-                            <source src="{{ question.media_url }}" type="video/mp4">
-                        </video>
-                        {% else %}
-                        <audio controls preload="metadata" style="width:100%; margin:0.5rem 0;">
-                            <source src="{{ question.media_url }}">
-                        </audio>
-                        {% endif %}
-                        <p style="font-size:0.85rem; color:#666;">{{ question.media_url }}</p>
-                        <form action="{{ url_for('admin_edit_question', question_id=question.id) }}" method="POST" style="display:inline;">
-                            <input type="hidden" name="action" value="delete_audio">
-                            <button type="submit" class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Remove audio from this question?')">
-                                Remove Audio
-                            </button>
-                        </form>
-                    </div>
-                    <hr>
+                    <h4>Replace Audio</h4>
                     <p class="audio-config-hint">Upload a new file or paste a URL to replace the current audio:</p>
                     {% else %}
+                    <h4>Audio Configuration</h4>
                     <p class="audio-config-hint">Upload an audio or video file (up to 200 MB) or provide a URL:</p>
                     {% endif %}
 

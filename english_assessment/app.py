@@ -531,16 +531,17 @@ def admin_edit_question(question_id):
         action = request.form.get('action', 'save')
 
         if action == 'delete_audio':
-            # Remove audio file if it's a local upload
+            # Remove local audio file if it exists
             if question.media_url and question.media_url.startswith('/static/audio/'):
                 filepath = os.path.join(basedir, question.media_url.lstrip('/'))
                 if os.path.exists(filepath):
                     os.remove(filepath)
+            # Always clear the audio fields regardless of URL type
             question.media_url = None
             question.media_type = 'image'
             question.audio_transcript = None
             db.session.commit()
-            flash('Audio removed.', 'success')
+            flash('Audio removed successfully.', 'success')
             return redirect(url_for('admin_edit_question', question_id=question_id))
 
         # Update question text and instruction
