@@ -40,6 +40,7 @@
                         <th>Grade</th>
                         <th>Level</th>
                         <th>Questions</th>
+                        <th>Time</th>
                         <th>Code</th>
                         <th>Status</th>
                         <th>Actions</th>
@@ -53,6 +54,7 @@
                         <td>{{ a.grade.name }}</td>
                         <td>{{ a.english_level.code }}</td>
                         <td>{{ a.question_count }}</td>
+                        <td>{% if a.time_limit_minutes > 0 %}{{ a.time_limit_minutes }} min{% else %}<span style="color:#999;">--</span>{% endif %}</td>
                         <td><code>{{ a.access_code }}</code></td>
                         <td>
                             {% if a.is_active %}
@@ -63,7 +65,8 @@
                         </td>
                         <td class="actions-cell">
                             <a href="{{ url_for('admin_preview_assessment', assessment_id=a.id) }}" class="btn btn-sm btn-primary" target="_blank">Preview</a>
-                            <a href="{{ url_for('admin_edit_questions', assessment_id=a.id) }}" class="btn btn-sm btn-secondary">Edit</a>
+                            <a href="{{ url_for('admin_edit_assessment', assessment_id=a.id) }}" class="btn btn-sm btn-secondary">Settings</a>
+                            <a href="{{ url_for('admin_edit_questions', assessment_id=a.id) }}" class="btn btn-sm btn-secondary">Questions</a>
                             <a href="{{ url_for('admin_view_results', assessment_id=a.id) }}" class="btn btn-sm btn-info">Results</a>
                             <form action="{{ url_for('admin_toggle_assessment', assessment_id=a.id) }}" method="POST" style="display:inline">
                                 <button type="submit" class="btn btn-sm {% if a.is_active %}btn-warning{% else %}btn-success{% endif %}">

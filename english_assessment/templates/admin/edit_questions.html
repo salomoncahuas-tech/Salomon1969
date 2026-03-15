@@ -19,6 +19,7 @@
                     <span>Access Code: <strong>{{ assessment.access_code }}</strong></span>
                 </p>
             </div>
+            <a href="{{ url_for('admin_edit_assessment', assessment_id=assessment.id) }}" class="btn btn-secondary">Settings</a>
             <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
         </div>
 
@@ -32,6 +33,7 @@
                     <span class="qe-number">#{{ loop.index }}</span>
                     <span class="badge">{{ q.question_type|replace('_', ' ')|capitalize }}</span>
                     <span class="qe-points">{{ q.points }} pts</span>
+                    <a href="{{ url_for('admin_edit_question', question_id=q.id) }}" class="btn btn-sm btn-secondary">Edit</a>
                     <form action="{{ url_for('admin_edit_questions', assessment_id=assessment.id) }}" method="POST" style="display:inline">
                         <input type="hidden" name="action" value="delete_question">
                         <input type="hidden" name="question_id" value="{{ q.id }}">
