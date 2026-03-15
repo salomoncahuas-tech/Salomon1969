@@ -103,12 +103,16 @@ class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     assessment_id = db.Column(db.Integer, db.ForeignKey('assessments.id'), nullable=False)
     question_type = db.Column(db.String(30), nullable=False)
-    # Tipos: 'multiple_choice', 'true_false', 'fill_blank', 'matching', 'ordering', 'short_answer'
+    # Tipos: 'multiple_choice', 'true_false', 'fill_blank', 'matching', 'ordering',
+    #        'short_answer', 'listening_multiple_choice', 'listening_true_false',
+    #        'listening_fill_blank', 'listening_short_answer'
     text = db.Column(db.Text, nullable=False)
     instruction = db.Column(db.Text)  # Instrucción específica para la pregunta
     points = db.Column(db.Float, default=1.0)
     order = db.Column(db.Integer, default=0)
     media_url = db.Column(db.String(500))  # URL de imagen o audio opcional
+    media_type = db.Column(db.String(20), default='image')  # 'image' o 'audio'
+    audio_transcript = db.Column(db.Text)  # Transcripción del audio (visible solo para el profesor)
 
     options = db.relationship('QuestionOption', backref='question', lazy=True,
                               order_by='QuestionOption.order', cascade='all, delete-orphan')

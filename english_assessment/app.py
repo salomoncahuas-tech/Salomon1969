@@ -12,13 +12,23 @@ from datetime import datetime
 from functools import wraps
 
 from flask import (Flask, render_template, request, redirect, url_for,
-                   flash, session, jsonify, abort)
+                   flash, session, jsonify, abort, send_from_directory)
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from werkzeug.utils import secure_filename
 
 from models import (db, Teacher, Grade, EnglishLevel, Assessment, Question,
                     QuestionOption, StudentResult, StudentAnswer)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
+
+# Audio upload configuration
+AUDIO_UPLOAD_FOLDER = os.path.join(basedir, 'static', 'audio')
+ALLOWED_AUDIO_EXTENSIONS = {'mp3', 'wav', 'ogg', 'webm', 'm4a'}
+MAX_AUDIO_SIZE_MB = 15  # Max 15 MB per audio file (enough for 3 min)
+
+
+def allowed_audio_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_AUDIO_EXTENSIONS
 
 
 def get_or_create_secret_key():
@@ -43,6 +53,10 @@ if database_url.startswith('postgres://'):
     database_url = database_url.replace('postgres://', 'postgresql://', 1)
 app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['MAX_CONTENT_LENGTH'] = MAX_AUDIO_SIZE_MB * 1024 * 1024
+
+# Ensure audio upload directory exists
+os.makedirs(AUDIO_UPLOAD_FOLDER, exist_ok=True)
 
 # Configure logging for production
 if not app.debug:
@@ -182,7 +196,7 @@ def submit_assessment(assessment_id):
         for question in assessment.questions:
             answer_key = f'question_{question.id}'
 
-            if question.question_type == 'multiple_choice':
+            if question.question_type in ('multiple_choice', 'listening_multiple_choice'):
                 selected_id = request.form.get(answer_key, type=int)
                 selected_option = db.session.get(QuestionOption, selected_id) if selected_id else None
                 is_correct = selected_option.is_correct if selected_option else False
@@ -198,7 +212,7 @@ def submit_assessment(assessment_id):
                     points_earned=points
                 )
 
-            elif question.question_type == 'true_false':
+            elif question.question_type in ('true_false', 'listening_true_false'):
                 answer_val = request.form.get(answer_key, '').strip().lower()
                 correct_option = next((o for o in question.options if o.is_correct), None)
                 correct_val = correct_option.text.strip().lower() if correct_option else ''
@@ -214,7 +228,7 @@ def submit_assessment(assessment_id):
                     points_earned=points
                 )
 
-            elif question.question_type == 'fill_blank':
+            elif question.question_type in ('fill_blank', 'listening_fill_blank'):
                 answer_text = request.form.get(answer_key, '').strip()
                 correct_option = next((o for o in question.options if o.is_correct), None)
                 correct_text = correct_option.text.strip() if correct_option else ''
@@ -267,7 +281,7 @@ def submit_assessment(assessment_id):
                     points_earned=points
                 )
 
-            else:  # short_answer
+            else:  # short_answer, listening_short_answer
                 answer_text = request.form.get(answer_key, '').strip()
                 student_answer = StudentAnswer(
                     result_id=result.id,
@@ -402,19 +416,47 @@ def admin_edit_questions(assessment_id):
             points = float(request.form.get('points', 1))
             order = len(assessment.questions) + 1
 
+            # Handle audio URL or file upload
+            media_url = None
+            media_type = 'image'
+            audio_transcript = None
+
+            if q_type.startswith('listening_'):
+                media_type = 'audio'
+                audio_transcript = request.form.get('audio_transcript', '').strip() or None
+
+                # Check for audio URL first
+                audio_url = request.form.get('audio_url', '').strip()
+                if audio_url:
+                    media_url = audio_url
+                else:
+                    # Check for uploaded audio file
+                    audio_file = request.files.get('audio_file')
+                    if audio_file and audio_file.filename and allowed_audio_file(audio_file.filename):
+                        filename = secure_filename(audio_file.filename)
+                        # Add timestamp to avoid collisions
+                        name, ext = os.path.splitext(filename)
+                        filename = f'{name}_{secrets.token_hex(4)}{ext}'
+                        audio_file.save(os.path.join(AUDIO_UPLOAD_FOLDER, filename))
+                        media_url = url_for('static', filename=f'audio/{filename}')
+
             question = Question(
                 assessment_id=assessment_id,
                 question_type=q_type,
                 text=text,
                 instruction=instruction,
                 points=points,
-                order=order
+                order=order,
+                media_url=media_url,
+                media_type=media_type,
+                audio_transcript=audio_transcript
             )
             db.session.add(question)
             db.session.commit()
 
             # Add options
-            if q_type in ('multiple_choice', 'true_false', 'fill_blank', 'matching', 'ordering'):
+            if q_type in ('multiple_choice', 'true_false', 'fill_blank', 'matching', 'ordering',
+                          'listening_multiple_choice', 'listening_true_false', 'listening_fill_blank'):
                 option_texts = request.form.getlist('option_text[]')
                 correct_indices = request.form.getlist('correct[]')
                 match_texts = request.form.getlist('match_text[]')
@@ -596,6 +638,14 @@ with app.app_context():
             print('Added new practice: Adverbs of Frequency (FREQ2SEC)')
         except Exception as e:
             print(f'Warning: Could not add FREQ2SEC: {e}')
+    # Add listening comprehension assessments
+    if not Assessment.query.filter_by(access_code='LIST3PA1').first():
+        try:
+            from seed_data import seed_listening_comprehension
+            seed_listening_comprehension()
+            print('Added new: Listening Comprehension assessments')
+        except Exception as e:
+            print(f'Warning: Could not add Listening Comprehension: {e}')
 
 
 if __name__ == '__main__':

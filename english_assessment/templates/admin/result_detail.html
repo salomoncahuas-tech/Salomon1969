@@ -45,6 +45,22 @@
                         {% endif %}
                     </span>
                 </div>
+                {% if answer.question.question_type.startswith('listening_') %}
+                    <span class="badge badge-listening" style="margin-bottom:0.5rem">Listening</span>
+                {% endif %}
+                {% if answer.question.media_url and answer.question.media_type == 'audio' %}
+                <div class="audio-player-container audio-player-compact">
+                    <audio controls controlsList="nodownload" preload="metadata" class="audio-player">
+                        <source src="{{ answer.question.media_url }}">
+                    </audio>
+                </div>
+                {% if answer.question.audio_transcript %}
+                <details class="audio-transcript-toggle">
+                    <summary>View Audio Transcript</summary>
+                    <p class="audio-transcript-text">{{ answer.question.audio_transcript }}</p>
+                </details>
+                {% endif %}
+                {% endif %}
                 <p class="rq-text">{{ answer.question.text }}</p>
                 <div class="rq-answers">
                     <p><strong>Student's answer:</strong>
