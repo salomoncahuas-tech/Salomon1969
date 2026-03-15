@@ -998,6 +998,21 @@ img {
     line-height: 1.5;
 }
 
+/* Preview banner */
+.preview-banner {
+    background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+    border: 2px solid #D97706;
+    border-radius: var(--radius);
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #92400E;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
 .qe-audio {
     margin: 0.5rem 0;
 }
