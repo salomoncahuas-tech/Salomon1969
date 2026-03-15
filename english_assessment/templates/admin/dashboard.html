@@ -62,6 +62,7 @@
                             {% endif %}
                         </td>
                         <td class="actions-cell">
+                            <a href="{{ url_for('admin_preview_assessment', assessment_id=a.id) }}" class="btn btn-sm btn-primary" target="_blank">Preview</a>
                             <a href="{{ url_for('admin_edit_questions', assessment_id=a.id) }}" class="btn btn-sm btn-secondary">Edit</a>
                             <a href="{{ url_for('admin_view_results', assessment_id=a.id) }}" class="btn btn-sm btn-info">Results</a>
                             <form action="{{ url_for('admin_toggle_assessment', assessment_id=a.id) }}" method="POST" style="display:inline">

@@ -19,8 +19,15 @@
             {% endif %}
         </div>
 
-        <form action="{{ url_for('submit_assessment', assessment_id=assessment.id) }}" method="POST" id="assessment-form">
-            <input type="hidden" name="result_id" value="{{ result.id }}">
+        {% if preview_mode %}
+        <div class="preview-banner">
+            <strong>PREVIEW MODE</strong> - This is how students will see this assessment. No answers will be submitted.
+            <a href="{{ url_for('admin_edit_questions', assessment_id=assessment.id) }}" class="btn btn-sm btn-secondary" style="margin-left:1rem;">Edit Questions</a>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-sm btn-secondary">Back to Dashboard</a>
+        </div>
+        {% endif %}
+        <form action="{% if not preview_mode %}{{ url_for('submit_assessment', assessment_id=assessment.id) }}{% else %}#{% endif %}" method="POST" id="assessment-form">
+            <input type="hidden" name="result_id" value="{{ result.id if result else '' }}">
             <div class="questions-container">
                 {% for question in questions %}
                 <div class="question-card" id="q-{{ question.id }}">
@@ -136,10 +143,15 @@
             </div>
 
             <div class="submit-area">
+                {% if preview_mode %}
+                <p class="submit-warning">Preview mode - submissions are disabled.</p>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary btn-lg btn-block">Back to Dashboard</a>
+                {% else %}
                 <p class="submit-warning">Make sure you have answered all questions before submitting.</p>
                 <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit-btn">
                     Submit Assessment
                 </button>
+                {% endif %}
             </div>
         </form>
     </div>

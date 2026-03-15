@@ -536,6 +536,21 @@ def admin_result_detail(result_id):
     return render_template('admin/result_detail.html', result=result)
 
 
+@app.route('/admin/assessment/<int:assessment_id>/preview')
+@login_required
+def admin_preview_assessment(assessment_id):
+    """Preview an assessment as a student would see it (without submitting)."""
+    assessment = Assessment.query.get_or_404(assessment_id)
+    if assessment.teacher_id != current_user.id:
+        abort(403)
+    questions = list(assessment.questions)
+    return render_template('take_assessment.html',
+                           assessment=assessment,
+                           questions=questions,
+                           result=None,
+                           preview_mode=True)
+
+
 # ---------------------------------------------------------------------------
 # API endpoints for dynamic UI
 # ---------------------------------------------------------------------------
@@ -656,9 +671,16 @@ with app.app_context():
             print('Added new practice: Adverbs of Frequency (FREQ2SEC)')
         except Exception as e:
             print(f'Warning: Could not add FREQ2SEC: {e}')
-    # Add listening comprehension assessments
-    if not Assessment.query.filter_by(access_code='LIST3PA1').first():
+    # Add listening comprehension assessments (re-seed if assessment has no questions)
+    list_assessment = Assessment.query.filter_by(access_code='LIST3PA1').first()
+    if not list_assessment or list_assessment.question_count == 0:
         try:
+            # Delete empty listening assessments if they exist
+            for code in ['LIST3PA1', 'LIST5PA2', 'LIST2SB1', 'LIST4SB2']:
+                empty = Assessment.query.filter_by(access_code=code).first()
+                if empty and empty.question_count == 0:
+                    db.session.delete(empty)
+            db.session.commit()
             from seed_data import seed_listening_comprehension
             seed_listening_comprehension()
             print('Added new: Listening Comprehension assessments')
