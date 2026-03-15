@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Enter Access Code{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container container-sm">
+        <h2 class="section-title">Enter Access Code</h2>
+        <div class="card">
+            <p class="card-text">Enter the access code provided by your teacher to start your assessment.</p>
+            <form action="{{ url_for('access_by_code') }}" method="POST" class="form-vertical">
+                <div class="form-group">
+                    <label for="access_code">Access Code</label>
+                    <input type="text" id="access_code" name="access_code"
+                           class="input-code-large" placeholder="e.g. A1B2C3D4"
+                           maxlength="20" required autofocus
+                           style="text-transform: uppercase;">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Access Assessment</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
