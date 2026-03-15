@@ -586,9 +586,27 @@ def internal_error(e):
 # App initialization
 # ---------------------------------------------------------------------------
 
+def migrate_db():
+    """Add new columns to existing tables if they don't exist."""
+    from sqlalchemy import inspect, text
+    inspector = inspect(db.engine)
+    if 'questions' in inspector.get_table_names():
+        columns = [col['name'] for col in inspector.get_columns('questions')]
+        with db.engine.connect() as conn:
+            if 'media_type' not in columns:
+                conn.execute(text("ALTER TABLE questions ADD COLUMN media_type VARCHAR(20) DEFAULT 'image'"))
+                conn.commit()
+                print('Added column: questions.media_type')
+            if 'audio_transcript' not in columns:
+                conn.execute(text("ALTER TABLE questions ADD COLUMN audio_transcript TEXT"))
+                conn.commit()
+                print('Added column: questions.audio_transcript')
+
+
 def init_db():
     """Initialize database with default data."""
     db.create_all()
+    migrate_db()
 
     if Grade.query.first():
         return
