@@ -489,6 +489,127 @@ def admin_edit_questions(assessment_id):
     return render_template('admin/edit_questions.html', assessment=assessment)
 
 
+@app.route('/admin/assessment/<int:assessment_id>/settings', methods=['GET', 'POST'])
+@login_required
+def admin_edit_assessment(assessment_id):
+    """Edit assessment settings (title, time limit, etc.)."""
+    assessment = Assessment.query.get_or_404(assessment_id)
+    if assessment.teacher_id != current_user.id:
+        abort(403)
+    grades = Grade.query.order_by(Grade.order).all()
+    levels = EnglishLevel.query.order_by(EnglishLevel.order).all()
+
+    if request.method == 'POST':
+        assessment.title = request.form['title']
+        assessment.description = request.form.get('description', '')
+        assessment.assessment_type = request.form['assessment_type']
+        assessment.grade_id = int(request.form['grade_id'])
+        assessment.english_level_id = int(request.form['english_level_id'])
+        assessment.time_limit_minutes = int(request.form.get('time_limit', 0))
+        assessment.shuffle_questions = 'shuffle' in request.form
+        assessment.show_results = 'show_results' in request.form
+        due_date_str = request.form.get('due_date', '').strip()
+        assessment.due_date = datetime.strptime(due_date_str, '%Y-%m-%d') if due_date_str else None
+        db.session.commit()
+        flash('Assessment settings updated.', 'success')
+        return redirect(url_for('admin_dashboard'))
+
+    return render_template('admin/edit_assessment.html',
+                           assessment=assessment, grades=grades, levels=levels)
+
+
+@app.route('/admin/question/<int:question_id>/edit', methods=['GET', 'POST'])
+@login_required
+def admin_edit_question(question_id):
+    """Edit an existing question: text, options, audio."""
+    question = Question.query.get_or_404(question_id)
+    assessment = question.assessment
+    if assessment.teacher_id != current_user.id:
+        abort(403)
+
+    if request.method == 'POST':
+        action = request.form.get('action', 'save')
+
+        if action == 'delete_audio':
+            # Remove audio file if it's a local upload
+            if question.media_url and question.media_url.startswith('/static/audio/'):
+                filepath = os.path.join(basedir, question.media_url.lstrip('/'))
+                if os.path.exists(filepath):
+                    os.remove(filepath)
+            question.media_url = None
+            question.media_type = 'image'
+            question.audio_transcript = None
+            db.session.commit()
+            flash('Audio removed.', 'success')
+            return redirect(url_for('admin_edit_question', question_id=question_id))
+
+        # Update question text and instruction
+        question.text = request.form['question_text']
+        question.instruction = request.form.get('instruction', '')
+        question.points = float(request.form.get('points', 1))
+
+        # Handle audio for listening types
+        if question.question_type.startswith('listening_'):
+            question.audio_transcript = request.form.get('audio_transcript', '').strip() or None
+
+            # Check for new audio URL
+            audio_url = request.form.get('audio_url', '').strip()
+            if audio_url:
+                # Remove old local file if replacing
+                if question.media_url and question.media_url.startswith('/static/audio/'):
+                    old_path = os.path.join(basedir, question.media_url.lstrip('/'))
+                    if os.path.exists(old_path):
+                        os.remove(old_path)
+                question.media_url = audio_url
+                question.media_type = 'audio'
+            else:
+                # Check for uploaded audio file
+                audio_file = request.files.get('audio_file')
+                if audio_file and audio_file.filename and allowed_audio_file(audio_file.filename):
+                    # Remove old local file
+                    if question.media_url and question.media_url.startswith('/static/audio/'):
+                        old_path = os.path.join(basedir, question.media_url.lstrip('/'))
+                        if os.path.exists(old_path):
+                            os.remove(old_path)
+                    filename = secure_filename(audio_file.filename)
+                    name, ext = os.path.splitext(filename)
+                    filename = f'{name}_{secrets.token_hex(4)}{ext}'
+                    audio_file.save(os.path.join(AUDIO_UPLOAD_FOLDER, filename))
+                    question.media_url = url_for('static', filename=f'audio/{filename}')
+                    question.media_type = 'audio'
+
+        # Update options
+        if question.question_type in ('multiple_choice', 'true_false', 'fill_blank',
+                                       'matching', 'ordering',
+                                       'listening_multiple_choice', 'listening_true_false',
+                                       'listening_fill_blank'):
+            # Delete old options and recreate
+            QuestionOption.query.filter_by(question_id=question.id).delete()
+
+            option_texts = request.form.getlist('option_text[]')
+            correct_indices = request.form.getlist('correct[]')
+            match_texts = request.form.getlist('match_text[]')
+
+            for i, opt_text in enumerate(option_texts):
+                if not opt_text.strip():
+                    continue
+                option = QuestionOption(
+                    question_id=question.id,
+                    text=opt_text.strip(),
+                    is_correct=(str(i) in correct_indices),
+                    match_text=match_texts[i].strip() if i < len(match_texts) and match_texts[i].strip() else None,
+                    order=i
+                )
+                db.session.add(option)
+
+        db.session.commit()
+        flash('Question updated successfully.', 'success')
+        return redirect(url_for('admin_edit_questions', assessment_id=assessment.id))
+
+    return render_template('admin/edit_question.html',
+                           question=question, assessment=assessment)
+
+
 @app.route('/admin/assessment/<int:assessment_id>/toggle', methods=['POST'])
 @login_required
 def admin_toggle_assessment(assessment_id):

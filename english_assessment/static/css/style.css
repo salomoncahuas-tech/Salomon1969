@@ -1017,6 +1017,14 @@ img {
     margin: 0.5rem 0;
 }
 
+/* Current audio section in edit question */
+.current-audio-section {
+    background: #F3F4F6;
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
 .qe-audio audio {
     width: 100%;
     max-width: 400px;
