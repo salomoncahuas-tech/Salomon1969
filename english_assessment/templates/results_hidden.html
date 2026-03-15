@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Assessment Submitted{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container container-sm">
+        <div class="card text-center">
+            <div class="success-icon">&#10004;</div>
+            <h2>Assessment Submitted Successfully</h2>
+            <p>Thank you, <strong>{{ result.student_name }}</strong>!</p>
+            <p>Your assessment "<strong>{{ result.assessment.title }}</strong>" has been submitted.</p>
+            <p>Your teacher will review your results and share them with you.</p>
+            <a href="{{ url_for('index') }}" class="btn btn-primary">Back to Home</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
