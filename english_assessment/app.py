@@ -23,8 +23,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 # Audio upload configuration
 AUDIO_UPLOAD_FOLDER = os.path.join(basedir, 'static', 'audio')
-ALLOWED_AUDIO_EXTENSIONS = {'mp3', 'wav', 'ogg', 'webm', 'm4a'}
-MAX_AUDIO_SIZE_MB = 15  # Max 15 MB per audio file (enough for 3 min)
+ALLOWED_AUDIO_EXTENSIONS = {'mp3', 'mp4', 'wav', 'ogg', 'webm', 'm4a'}
+MAX_AUDIO_SIZE_MB = 200  # Max 200 MB per audio/video file
 
 
 def allowed_audio_file(filename):
