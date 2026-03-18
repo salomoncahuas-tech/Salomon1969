@@ -13,6 +13,7 @@ import io
 import csv
 import json
 import tempfile
+import math
 
 import database as db
 
@@ -307,6 +308,295 @@ CENTROS_POBLADOS_BLOQUE = {
     "M8B4": {"centros_poblados": ["Naranjo de Guayaquil"], "comunidades_campesinas": ["San Jose"], "poblacion_total": 87},
     "M8B5": {"centros_poblados": ["Chapica Carmelo", "Papelillo"], "comunidades_campesinas": [], "poblacion_total": 704},
     "M9B1": {"centros_poblados": ["La Pena", "Sancor", "Las Pampas"], "comunidades_campesinas": ["Maria Angela Alvarado Zeta"], "poblacion_total": 2263},
+}
+
+# ── Detalle de Centros Poblados con coordenadas UTM aproximadas ──────────
+# Coordenadas generadas a partir del centroide de cada bloque,
+# distribuyendo los CC.PP. a distancia proporcional al area del bloque.
+# Fuente base: Centros Poblados Bloques_V3.xlsx + Centroides Bloques.xls
+# Zona UTM 17S, WGS84. Las coordenadas son APROXIMADAS.
+CENTROS_POBLADOS_DETALLE = {
+    "M10B1": [
+        {"nombre": "Rio Seco Bajo", "comunidad_campesina": "", "poblacion": 598, "hombres": 302, "mujeres": 296, "tipo": "Rural", "utm_este": 596841, "utm_norte": 9445789},
+    ],
+    "M10B4": [
+        {"nombre": "Rio Seco Alto", "comunidad_campesina": "", "poblacion": 233, "hombres": 118, "mujeres": 115, "tipo": "Rural", "utm_este": 597610, "utm_norte": 9448595},
+    ],
+    "M11B3": [
+        {"nombre": "Quemazon", "comunidad_campesina": "", "poblacion": 19, "hombres": 7, "mujeres": 12, "tipo": "Rural", "utm_este": 642102, "utm_norte": 9413756},
+    ],
+    "M12B1": [
+        {"nombre": "Nueva Esperanza", "comunidad_campesina": "San Jose de Hualcas", "poblacion": 40, "hombres": 20, "mujeres": 20, "tipo": "Rural", "utm_este": 646272, "utm_norte": 9388813},
+        {"nombre": "Faicalito", "comunidad_campesina": "San Juan de Mamayaco", "poblacion": 118, "hombres": 59, "mujeres": 59, "tipo": "Rural", "utm_este": 645302, "utm_norte": 9387843},
+    ],
+    "M12B2": [
+        {"nombre": "Molulo", "comunidad_campesina": "Chalpa Molulo", "poblacion": 288, "hombres": 154, "mujeres": 134, "tipo": "Rural", "utm_este": 652301, "utm_norte": 9384464},
+    ],
+    "M12B3": [
+        {"nombre": "Molulo", "comunidad_campesina": "Chalpa Molulo", "poblacion": 288, "hombres": 154, "mujeres": 134, "tipo": "Rural", "utm_este": 654197, "utm_norte": 9385669},
+        {"nombre": "Lapicero de oro", "comunidad_campesina": "", "poblacion": 19, "hombres": 9, "mujeres": 10, "tipo": "Rural", "utm_este": 653455, "utm_norte": 9384927},
+    ],
+    "M12B4": [
+        {"nombre": "Chalpa", "comunidad_campesina": "Cabeza Succhirca", "poblacion": 67, "hombres": 34, "mujeres": 33, "tipo": "Rural", "utm_este": 653102, "utm_norte": 9388797},
+    ],
+    "M12B8": [
+        {"nombre": "Nueva Esperanza", "comunidad_campesina": "", "poblacion": 40, "hombres": 20, "mujeres": 20, "tipo": "Rural", "utm_este": 646875, "utm_norte": 9389710},
+    ],
+    "M15B1": [
+        {"nombre": "Laccho", "comunidad_campesina": "Cabeza Succhirca", "poblacion": 26, "hombres": 10, "mujeres": 16, "tipo": "Rural", "utm_este": 654219, "utm_norte": 9388760},
+    ],
+    "M15B2": [
+        {"nombre": "Nuevo Jerusalen", "comunidad_campesina": "Cabeza Succhirca", "poblacion": 55, "hombres": 32, "mujeres": 23, "tipo": "Rural", "utm_este": 655870, "utm_norte": 9387615},
+    ],
+    "M15B5": [
+        {"nombre": "Piedra Blanca", "comunidad_campesina": "", "poblacion": 142, "hombres": 71, "mujeres": 71, "tipo": "Rural", "utm_este": 658743, "utm_norte": 9392289},
+    ],
+    "M16B2": [
+        {"nombre": "Franco Alto", "comunidad_campesina": "", "poblacion": 198, "hombres": 104, "mujeres": 94, "tipo": "Rural", "utm_este": 609277, "utm_norte": 9429838},
+    ],
+    "M16B3": [
+        {"nombre": "Franco Bajo", "comunidad_campesina": "", "poblacion": 226, "hombres": 112, "mujeres": 114, "tipo": "Rural", "utm_este": 606654, "utm_norte": 9429070},
+    ],
+    "M17B1": [
+        {"nombre": "Papelillo", "comunidad_campesina": "", "poblacion": 367, "hombres": 192, "mujeres": 175, "tipo": "Rural", "utm_este": 600144, "utm_norte": 9439968},
+    ],
+    "M17B10": [
+        {"nombre": "Chililique Alto", "comunidad_campesina": "", "poblacion": 360, "hombres": 176, "mujeres": 184, "tipo": "Rural", "utm_este": 606765, "utm_norte": 9448710},
+        {"nombre": "Platanal Alto", "comunidad_campesina": "", "poblacion": 155, "hombres": 84, "mujeres": 71, "tipo": "Rural", "utm_este": 605704, "utm_norte": 9447649},
+    ],
+    "M17B11": [
+        {"nombre": "Chililique Bajo", "comunidad_campesina": "", "poblacion": 125, "hombres": 56, "mujeres": 69, "tipo": "Rural", "utm_este": 602003, "utm_norte": 9444601},
+        {"nombre": "Platanal Bajo", "comunidad_campesina": "", "poblacion": 197, "hombres": 101, "mujeres": 96, "tipo": "Rural", "utm_este": 600748, "utm_norte": 9444265},
+        {"nombre": "Panecillo", "comunidad_campesina": "", "poblacion": 0, "hombres": 0, "mujeres": 0, "tipo": "Rural", "utm_este": 601667, "utm_norte": 9443346},
+    ],
+    "M17B4": [
+        {"nombre": "Chililique Alto", "comunidad_campesina": "Juan Velasco Alvarado Franco de Chililique Alto", "poblacion": 360, "hombres": 176, "mujeres": 184, "tipo": "Rural", "utm_este": 604602, "utm_norte": 9443447},
+    ],
+    "M17B5": [
+        {"nombre": "El Guabo", "comunidad_campesina": "Misquis", "poblacion": 74, "hombres": 43, "mujeres": 31, "tipo": "Rural", "utm_este": 608834, "utm_norte": 9445570},
+    ],
+    "M17B6": [
+        {"nombre": "Platanal Alto", "comunidad_campesina": "", "poblacion": 155, "hombres": 84, "mujeres": 71, "tipo": "Rural", "utm_este": 607368, "utm_norte": 9446451},
+        {"nombre": "El Guabo", "comunidad_campesina": "Misquis", "poblacion": 74, "hombres": 43, "mujeres": 31, "tipo": "Rural", "utm_este": 606956, "utm_norte": 9446039},
+    ],
+    "M17B7": [
+        {"nombre": "Pampa de Ramada", "comunidad_campesina": "", "poblacion": 107, "hombres": 51, "mujeres": 56, "tipo": "Rural", "utm_este": 608901, "utm_norte": 9448413},
+        {"nombre": "Platanal Alto", "comunidad_campesina": "Misquis", "poblacion": 155, "hombres": 84, "mujeres": 71, "tipo": "Rural", "utm_este": 608259, "utm_norte": 9447771},
+    ],
+    "M18B1": [
+        {"nombre": "Hualas", "comunidad_campesina": "", "poblacion": 63, "hombres": 29, "mujeres": 34, "tipo": "Rural", "utm_este": 621088, "utm_norte": 9410445},
+    ],
+    "M18B3": [
+        {"nombre": "Huaro Quispampa", "comunidad_campesina": "", "poblacion": 81, "hombres": 42, "mujeres": 39, "tipo": "Rural", "utm_este": 621641, "utm_norte": 9412116},
+        {"nombre": "Mangomanguia", "comunidad_campesina": "", "poblacion": 155, "hombres": 89, "mujeres": 66, "tipo": "Rural", "utm_este": 620868, "utm_norte": 9411916},
+        {"nombre": "Selva Andina", "comunidad_campesina": "", "poblacion": 16, "hombres": 9, "mujeres": 7, "tipo": "Rural", "utm_este": 621441, "utm_norte": 9411342},
+    ],
+    "M18B5": [
+        {"nombre": "Hualas", "comunidad_campesina": "", "poblacion": 63, "hombres": 29, "mujeres": 34, "tipo": "Rural", "utm_este": 621421, "utm_norte": 9413013},
+    ],
+    "M19B2": [
+        {"nombre": "Boca Negra", "comunidad_campesina": "", "poblacion": 186, "hombres": 99, "mujeres": 87, "tipo": "Rural", "utm_este": 617686, "utm_norte": 9427289},
+    ],
+    "M19B5": [
+        {"nombre": "Chachacomal Alto", "comunidad_campesina": "", "poblacion": 68, "hombres": 36, "mujeres": 32, "tipo": "Rural", "utm_este": 626576, "utm_norte": 9451333},
+        {"nombre": "Nuevo Florecer", "comunidad_campesina": "", "poblacion": 130, "hombres": 62, "mujeres": 68, "tipo": "Rural", "utm_este": 626345, "utm_norte": 9451101},
+    ],
+    "M19B7": [
+        {"nombre": "El Faique", "comunidad_campesina": "Caracucho y Jacanacas", "poblacion": 172, "hombres": 86, "mujeres": 86, "tipo": "Rural", "utm_este": 620817, "utm_norte": 9436916},
+        {"nombre": "Jacanacas", "comunidad_campesina": "", "poblacion": 130, "hombres": 57, "mujeres": 73, "tipo": "Rural", "utm_este": 620486, "utm_norte": 9436585},
+    ],
+    "M1B1": [
+        {"nombre": "Rio Seco", "comunidad_campesina": "", "poblacion": 0, "hombres": 0, "mujeres": 0, "tipo": "Urbano", "utm_este": 618138, "utm_norte": 9409227},
+        {"nombre": "Juan Velasco", "comunidad_campesina": "", "poblacion": 64, "hombres": 32, "mujeres": 32, "tipo": "Rural", "utm_este": 617313, "utm_norte": 9408402},
+    ],
+    "M20B1": [
+        {"nombre": "Las Huacas", "comunidad_campesina": "", "poblacion": 0, "hombres": 0, "mujeres": 0, "tipo": "Urbano", "utm_este": 641305, "utm_norte": 9398784},
+    ],
+    "M22B1": [
+        {"nombre": "Santa Rosa", "comunidad_campesina": "", "poblacion": 111, "hombres": 54, "mujeres": 57, "tipo": "Rural", "utm_este": 664105, "utm_norte": 9404190},
+    ],
+    "M25B1": [
+        {"nombre": "Cerro El Ereo", "comunidad_campesina": "", "poblacion": 36, "hombres": 19, "mujeres": 17, "tipo": "Rural", "utm_este": 572947, "utm_norte": 9473463},
+        {"nombre": "Froylan Alama", "comunidad_campesina": "", "poblacion": 111, "hombres": 51, "mujeres": 60, "tipo": "Rural", "utm_este": 572241, "utm_norte": 9472757},
+    ],
+    "M26B4": [
+        {"nombre": "Canchamachay", "comunidad_campesina": "Andajo", "poblacion": 0, "hombres": 0, "mujeres": 0, "tipo": "Rural", "utm_este": 658213, "utm_norte": 9411853},
+    ],
+    "M27B1": [
+        {"nombre": "Huasimal", "comunidad_campesina": "", "poblacion": 220, "hombres": 106, "mujeres": 114, "tipo": "Rural", "utm_este": 593718, "utm_norte": 9430655},
+        {"nombre": "Vicus Santa Rosa", "comunidad_campesina": "", "poblacion": 133, "hombres": 66, "mujeres": 67, "tipo": "Rural", "utm_este": 592872, "utm_norte": 9430655},
+        {"nombre": "Vicus Linderos", "comunidad_campesina": "", "poblacion": 181, "hombres": 104, "mujeres": 77, "tipo": "Rural", "utm_este": 592872, "utm_norte": 9429809},
+        {"nombre": "Vicus La Merced", "comunidad_campesina": "", "poblacion": 145, "hombres": 75, "mujeres": 70, "tipo": "Rural", "utm_este": 593718, "utm_norte": 9429809},
+    ],
+    "M27B4": [
+        {"nombre": "Piura La Vieja", "comunidad_campesina": "", "poblacion": 0, "hombres": 0, "mujeres": 0, "tipo": "Urbano", "utm_este": 606600, "utm_norte": 9432992},
+        {"nombre": "Solumbre", "comunidad_campesina": "", "poblacion": 0, "hombres": 0, "mujeres": 0, "tipo": "Urbano", "utm_este": 605632, "utm_norte": 9432992},
+        {"nombre": "San Jose del Chorro", "comunidad_campesina": "", "poblacion": 273, "hombres": 143, "mujeres": 130, "tipo": "Rural", "utm_este": 605632, "utm_norte": 9432024},
+        {"nombre": "El Porvenir", "comunidad_campesina": "Abad Berru Gonzaga de San Pedro", "poblacion": 438, "hombres": 229, "mujeres": 209, "tipo": "Rural", "utm_este": 606600, "utm_norte": 9432024},
+    ],
+    "M27B5": [
+        {"nombre": "Franco Bajo", "comunidad_campesina": "", "poblacion": 226, "hombres": 112, "mujeres": 114, "tipo": "Rural", "utm_este": 605591, "utm_norte": 9428762},
+        {"nombre": "La Talanquera", "comunidad_campesina": "", "poblacion": 0, "hombres": 0, "mujeres": 0, "tipo": "Urbano", "utm_este": 605197, "utm_norte": 9428367},
+    ],
+    "M28B1": [
+        {"nombre": "Jose Carlos Mariategui", "comunidad_campesina": "", "poblacion": 23, "hombres": 10, "mujeres": 13, "tipo": "Rural", "utm_este": 627491, "utm_norte": 9425694},
+        {"nombre": "Alto Mambluque", "comunidad_campesina": "", "poblacion": 62, "hombres": 34, "mujeres": 28, "tipo": "Rural", "utm_este": 626865, "utm_norte": 9425068},
+    ],
+    "M28B2": [
+        {"nombre": "Flor de agua", "comunidad_campesina": "Yamango", "poblacion": 121, "hombres": 60, "mujeres": 61, "tipo": "Rural", "utm_este": 636450, "utm_norte": 9425915},
+        {"nombre": "Victor Raul (El Checo)", "comunidad_campesina": "", "poblacion": 114, "hombres": 59, "mujeres": 55, "tipo": "Rural", "utm_este": 636071, "utm_norte": 9425536},
+    ],
+    "M28B3": [
+        {"nombre": "Ricardo Palma", "comunidad_campesina": "Coca Mambluqe San Cristobal", "poblacion": 74, "hombres": 45, "mujeres": 29, "tipo": "Rural", "utm_este": 633694, "utm_norte": 9426586},
+    ],
+    "M28B4": [
+        {"nombre": "Mambluque", "comunidad_campesina": "Coca Mambluqe San Cristobal", "poblacion": 121, "hombres": 64, "mujeres": 57, "tipo": "Rural", "utm_este": 626457, "utm_norte": 9427487},
+        {"nombre": "Alto Mambluque", "comunidad_campesina": "", "poblacion": 62, "hombres": 34, "mujeres": 28, "tipo": "Rural", "utm_este": 625786, "utm_norte": 9426815},
+    ],
+    "M29B1": [
+        {"nombre": "Nuevo Florecer", "comunidad_campesina": "", "poblacion": 130, "hombres": 62, "mujeres": 68, "tipo": "Rural", "utm_este": 626146, "utm_norte": 9451835},
+    ],
+    "M2B1": [
+        {"nombre": "Santa Rosa", "comunidad_campesina": "", "poblacion": 111, "hombres": 54, "mujeres": 57, "tipo": "Rural", "utm_este": 635900, "utm_norte": 9397976},
+    ],
+    "M2B5": [
+        {"nombre": "Hornopampa", "comunidad_campesina": "", "poblacion": 261, "hombres": 134, "mujeres": 127, "tipo": "Rural", "utm_este": 640013, "utm_norte": 9394399},
+    ],
+    "M2B8": [
+        {"nombre": "Huacas Baja", "comunidad_campesina": "", "poblacion": 140, "hombres": 66, "mujeres": 74, "tipo": "Rural", "utm_este": 639029, "utm_norte": 9398251},
+    ],
+    "M30B1": [
+        {"nombre": "Papayal Alto", "comunidad_campesina": "", "poblacion": 71, "hombres": 31, "mujeres": 40, "tipo": "Rural", "utm_este": 658180, "utm_norte": 9420484},
+    ],
+    "M30B5": [
+        {"nombre": "Flor de Cafe", "comunidad_campesina": "", "poblacion": 111, "hombres": 63, "mujeres": 48, "tipo": "Rural", "utm_este": 655442, "utm_norte": 9427276},
+    ],
+    "M30B6": [
+        {"nombre": "Pariamaca Centro", "comunidad_campesina": "", "poblacion": 311, "hombres": 152, "mujeres": 159, "tipo": "Rural", "utm_este": 657852, "utm_norte": 9428880},
+    ],
+    "M32B1": [
+        {"nombre": "Ingenio de Buenos Aires", "comunidad_campesina": "", "poblacion": 0, "hombres": 0, "mujeres": 0, "tipo": "Urbano", "utm_este": 620065, "utm_norte": 9425427},
+        {"nombre": "Pampa Flores", "comunidad_campesina": "", "poblacion": 232, "hombres": 108, "mujeres": 124, "tipo": "Rural", "utm_este": 619081, "utm_norte": 9425163},
+        {"nombre": "Vista Alegre", "comunidad_campesina": "", "poblacion": 176, "hombres": 74, "mujeres": 102, "tipo": "Rural", "utm_este": 619801, "utm_norte": 9424443},
+    ],
+    "M32B2": [
+        {"nombre": "Maray", "comunidad_campesina": "", "poblacion": 74, "hombres": 41, "mujeres": 33, "tipo": "Rural", "utm_este": 620402, "utm_norte": 9427198},
+        {"nombre": "Linderos de Maray", "comunidad_campesina": "", "poblacion": 0, "hombres": 0, "mujeres": 0, "tipo": "Rural", "utm_este": 620040, "utm_norte": 9426836},
+    ],
+    "M32B3": [
+        {"nombre": "Maray", "comunidad_campesina": "", "poblacion": 74, "hombres": 41, "mujeres": 33, "tipo": "Rural", "utm_este": 617860, "utm_norte": 9426269},
+    ],
+    "M34B1": [
+        {"nombre": "El Tongo", "comunidad_campesina": "", "poblacion": 75, "hombres": 36, "mujeres": 39, "tipo": "Rural", "utm_este": 601728, "utm_norte": 9417866},
+        {"nombre": "Km 65", "comunidad_campesina": "", "poblacion": 195, "hombres": 100, "mujeres": 95, "tipo": "Rural", "utm_este": 600667, "utm_norte": 9416806},
+    ],
+    "M35B1": [
+        {"nombre": "Valle San Juan", "comunidad_campesina": "", "poblacion": 230, "hombres": 120, "mujeres": 110, "tipo": "Rural", "utm_este": 570955, "utm_norte": 9470406},
+        {"nombre": "CP 11", "comunidad_campesina": "", "poblacion": 381, "hombres": 202, "mujeres": 179, "tipo": "Rural", "utm_este": 570332, "utm_norte": 9469782},
+    ],
+    "M36B1": [
+        {"nombre": "Inampampa", "comunidad_campesina": "Changra", "poblacion": 116, "hombres": 60, "mujeres": 56, "tipo": "Rural", "utm_este": 634292, "utm_norte": 9447588},
+        {"nombre": "Nueva Alianza", "comunidad_campesina": "Chalaco Trigopampa", "poblacion": 0, "hombres": 0, "mujeres": 0, "tipo": "Rural", "utm_este": 633825, "utm_norte": 9447121},
+    ],
+    "M36B2": [
+        {"nombre": "Santa Rosa de Chirimoyos", "comunidad_campesina": "Santa Catalina de Moza", "poblacion": 131, "hombres": 63, "mujeres": 68, "tipo": "Rural", "utm_este": 625859, "utm_norte": 9434570},
+    ],
+    "M3B1": [
+        {"nombre": "Piedra Blanca", "comunidad_campesina": "Andajo", "poblacion": 142, "hombres": 71, "mujeres": 71, "tipo": "Rural", "utm_este": 630648, "utm_norte": 9410800},
+    ],
+    "M3B3": [
+        {"nombre": "Alan Garcia", "comunidad_campesina": "Andajo", "poblacion": 146, "hombres": 71, "mujeres": 75, "tipo": "Rural", "utm_este": 633145, "utm_norte": 9411679},
+        {"nombre": "Bigote", "comunidad_campesina": "", "poblacion": 0, "hombres": 0, "mujeres": 0, "tipo": "Urbano", "utm_este": 632777, "utm_norte": 9411312},
+    ],
+    "M3B5": [
+        {"nombre": "San Juan Bautista", "comunidad_campesina": "Andajo", "poblacion": 116, "hombres": 51, "mujeres": 65, "tipo": "Rural", "utm_este": 635828, "utm_norte": 9411731},
+    ],
+    "M3B6": [
+        {"nombre": "Bado de Garzas", "comunidad_campesina": "Andajo", "poblacion": 85, "hombres": 47, "mujeres": 38, "tipo": "Rural", "utm_este": 638158, "utm_norte": 9412309},
+        {"nombre": "Manzanares", "comunidad_campesina": "", "poblacion": 117, "hombres": 64, "mujeres": 53, "tipo": "Rural", "utm_este": 637848, "utm_norte": 9411999},
+    ],
+    "M3B7": [
+        {"nombre": "Polluco", "comunidad_campesina": "", "poblacion": 254, "hombres": 144, "mujeres": 110, "tipo": "Rural", "utm_este": 638547, "utm_norte": 9415480},
+        {"nombre": "Sinai", "comunidad_campesina": "", "poblacion": 23, "hombres": 12, "mujeres": 11, "tipo": "Rural", "utm_este": 638105, "utm_norte": 9415038},
+    ],
+    "M3B8": [
+        {"nombre": "Santa Rosa", "comunidad_campesina": "", "poblacion": 111, "hombres": 54, "mujeres": 57, "tipo": "Rural", "utm_este": 632591, "utm_norte": 9415652},
+        {"nombre": "San Pedro", "comunidad_campesina": "", "poblacion": 166, "hombres": 89, "mujeres": 77, "tipo": "Rural", "utm_este": 631642, "utm_norte": 9414703},
+    ],
+    "M3B9": [
+        {"nombre": "San Pedro", "comunidad_campesina": "", "poblacion": 166, "hombres": 89, "mujeres": 77, "tipo": "Rural", "utm_este": 629768, "utm_norte": 9413579},
+        {"nombre": "Tortola", "comunidad_campesina": "", "poblacion": 198, "hombres": 99, "mujeres": 99, "tipo": "Rural", "utm_este": 629083, "utm_norte": 9412894},
+    ],
+    "M4B1": [
+        {"nombre": "Chignia Alta", "comunidad_campesina": "", "poblacion": 271, "hombres": 137, "mujeres": 134, "tipo": "Rural", "utm_este": 646455, "utm_norte": 9381866},
+    ],
+    "M4B3": [
+        {"nombre": "Chignia Baja", "comunidad_campesina": "San Jose de Hualcas", "poblacion": 161, "hombres": 81, "mujeres": 80, "tipo": "Rural", "utm_este": 643506, "utm_norte": 9385590},
+    ],
+    "M4B4": [
+        {"nombre": "Hualcas I", "comunidad_campesina": "San Jose de Hualcas", "poblacion": 151, "hombres": 77, "mujeres": 74, "tipo": "Rural", "utm_este": 643132, "utm_norte": 9388906},
+        {"nombre": "Hualcas II", "comunidad_campesina": "", "poblacion": 128, "hombres": 68, "mujeres": 60, "tipo": "Rural", "utm_este": 642453, "utm_norte": 9388227},
+    ],
+    "M5B1": [
+        {"nombre": "Puerta Pulache", "comunidad_campesina": "", "poblacion": 853, "hombres": 444, "mujeres": 409, "tipo": "Rural", "utm_este": 590760, "utm_norte": 9477253},
+    ],
+    "M5B3": [
+        {"nombre": "Santa Elena", "comunidad_campesina": "", "poblacion": 314, "hombres": 149, "mujeres": 165, "tipo": "Rural", "utm_este": 583625, "utm_norte": 9475763},
+    ],
+    "M6B10": [
+        {"nombre": "La Maravilla", "comunidad_campesina": "", "poblacion": 218, "hombres": 116, "mujeres": 102, "tipo": "Rural", "utm_este": 619246, "utm_norte": 9423588},
+        {"nombre": "La Pilca", "comunidad_campesina": "", "poblacion": 0, "hombres": 0, "mujeres": 0, "tipo": "Urbano", "utm_este": 618438, "utm_norte": 9422781},
+    ],
+    "M6B2": [
+        {"nombre": "Buenos Aires", "comunidad_campesina": "", "poblacion": 166, "hombres": 86, "mujeres": 80, "tipo": "Rural", "utm_este": 613349, "utm_norte": 9416158},
+        {"nombre": "Pedregal", "comunidad_campesina": "", "poblacion": 22, "hombres": 14, "mujeres": 8, "tipo": "Rural", "utm_este": 612288, "utm_norte": 9415098},
+    ],
+    "M6B5": [
+        {"nombre": "Rio Seco", "comunidad_campesina": "", "poblacion": 0, "hombres": 0, "mujeres": 0, "tipo": "Urbano", "utm_este": 616269, "utm_norte": 9410268},
+        {"nombre": "Juan Velasco", "comunidad_campesina": "", "poblacion": 64, "hombres": 32, "mujeres": 32, "tipo": "Rural", "utm_este": 615667, "utm_norte": 9409665},
+    ],
+    "M6B6": [
+        {"nombre": "Olgin", "comunidad_campesina": "", "poblacion": 2, "hombres": 1, "mujeres": 1, "tipo": "Rural", "utm_este": 619249, "utm_norte": 9415262},
+    ],
+    "M6B7": [
+        {"nombre": "Cajalobos", "comunidad_campesina": "", "poblacion": 8, "hombres": 3, "mujeres": 5, "tipo": "Rural", "utm_este": 618896, "utm_norte": 9419486},
+        {"nombre": "Piedra Herrada", "comunidad_campesina": "", "poblacion": 261, "hombres": 147, "mujeres": 114, "tipo": "Rural", "utm_este": 618340, "utm_norte": 9418930},
+    ],
+    "M6B8": [
+        {"nombre": "Piedra Herrada", "comunidad_campesina": "", "poblacion": 261, "hombres": 147, "mujeres": 114, "tipo": "Rural", "utm_este": 617998, "utm_norte": 9420835},
+    ],
+    "M7B1": [
+        {"nombre": "La Alberca", "comunidad_campesina": "", "poblacion": 0, "hombres": 0, "mujeres": 0, "tipo": "Urbano", "utm_este": 629316, "utm_norte": 9407909},
+        {"nombre": "Nuevo Progreso", "comunidad_campesina": "", "poblacion": 140, "hombres": 76, "mujeres": 64, "tipo": "Rural", "utm_este": 628777, "utm_norte": 9407765},
+        {"nombre": "Victor Raul", "comunidad_campesina": "", "poblacion": 24, "hombres": 12, "mujeres": 12, "tipo": "Rural", "utm_este": 629172, "utm_norte": 9407370},
+    ],
+    "M7B2": [
+        {"nombre": "La Alberca", "comunidad_campesina": "", "poblacion": 0, "hombres": 0, "mujeres": 0, "tipo": "Urbano", "utm_este": 631484, "utm_norte": 9403551},
+    ],
+    "M7B3": [
+        {"nombre": "Palo Blanco - El Cerezo", "comunidad_campesina": "", "poblacion": 0, "hombres": 0, "mujeres": 0, "tipo": "Urbano", "utm_este": 633308, "utm_norte": 9401252},
+    ],
+    "M7B6": [
+        {"nombre": "Serran", "comunidad_campesina": "", "poblacion": 0, "hombres": 0, "mujeres": 0, "tipo": "Urbano", "utm_este": 635089, "utm_norte": 9399048},
+    ],
+    "M8B1": [
+        {"nombre": "Quebrada de las Damas", "comunidad_campesina": "Abad Berru Gonzaga de San Pedro", "poblacion": 290, "hombres": 139, "mujeres": 151, "tipo": "Rural", "utm_este": 607001, "utm_norte": 9434428},
+    ],
+    "M8B2": [
+        {"nombre": "Botijas (La vaqueria)", "comunidad_campesina": "Simiris", "poblacion": 0, "hombres": 0, "mujeres": 0, "tipo": "Rural", "utm_este": 617436, "utm_norte": 9435998},
+    ],
+    "M8B4": [
+        {"nombre": "Naranjo de Guayaquil", "comunidad_campesina": "San Jose", "poblacion": 87, "hombres": 46, "mujeres": 41, "tipo": "Rural", "utm_este": 608258, "utm_norte": 9443829},
+    ],
+    "M8B5": [
+        {"nombre": "Chapica Carmelo", "comunidad_campesina": "", "poblacion": 337, "hombres": 175, "mujeres": 162, "tipo": "Rural", "utm_este": 600776, "utm_norte": 9439920},
+        {"nombre": "Papelillo", "comunidad_campesina": "", "poblacion": 367, "hombres": 192, "mujeres": 175, "tipo": "Rural", "utm_este": 600391, "utm_norte": 9439535},
+    ],
+    "M9B1": [
+        {"nombre": "La Pena", "comunidad_campesina": "Maria Angela Alvarado Zeta", "poblacion": 59, "hombres": 32, "mujeres": 27, "tipo": "Rural", "utm_este": 595625, "utm_norte": 9450600},
+        {"nombre": "Sancor", "comunidad_campesina": "", "poblacion": 925, "hombres": 490, "mujeres": 435, "tipo": "Rural", "utm_este": 594370, "utm_norte": 9450264},
+        {"nombre": "Las Pampas", "comunidad_campesina": "", "poblacion": 1279, "hombres": 641, "mujeres": 638, "tipo": "Rural", "utm_este": 595288, "utm_norte": 9449346},
+    ],
 }
 
 PROVINCIAS_DISTRITOS = {
@@ -2075,6 +2365,50 @@ def pagina_diagnostico_social():
         # ── Datos comunes ─────────────────────────────────────────────
         bl = st.selectbox("Bloque de Intervencion", list(bm.keys()), key="ds_bl")
         bid = bm[bl]
+
+        # Extraer codigo del bloque
+        codigo_bl = bl.split(" - ")[0].strip() if " - " in bl else bl.strip()
+
+        # ── Centros Poblados y Comunidades Campesinas vinculados ──
+        cp_detalle = CENTROS_POBLADOS_DETALLE.get(codigo_bl, [])
+        if cp_detalle:
+            with st.expander(f"Centros Poblados y Comunidades Campesinas del Bloque {codigo_bl} ({len(cp_detalle)} registros)", expanded=True):
+                df_cp = pd.DataFrame(cp_detalle)
+                df_cp_display = df_cp.rename(columns={
+                    "nombre": "Centro Poblado",
+                    "comunidad_campesina": "Comunidad Campesina",
+                    "poblacion": "Pob. Total",
+                    "hombres": "Hombres",
+                    "mujeres": "Mujeres",
+                    "tipo": "Tipo",
+                    "utm_este": "UTM Este",
+                    "utm_norte": "UTM Norte",
+                })
+                st.dataframe(df_cp_display, use_container_width=True, hide_index=True)
+
+                # Selector para auto-completar datos generales
+                opciones_cp = ["(Seleccionar para auto-completar)"] + [
+                    f"{cp['nombre']}" + (f" - CC: {cp['comunidad_campesina']}" if cp["comunidad_campesina"] else "")
+                    for cp in cp_detalle
+                ]
+                sel_cp = st.selectbox("Seleccionar CC.PP. para auto-completar coordenadas",
+                                      opciones_cp, key="ds_sel_cp")
+                if sel_cp != "(Seleccionar para auto-completar)":
+                    # Buscar el CP seleccionado
+                    idx_sel = opciones_cp.index(sel_cp) - 1
+                    cp_sel = cp_detalle[idx_sel]
+                    # Auto-llenar en session_state
+                    st.session_state["ds_cpob"] = cp_sel["nombre"]
+                    st.session_state["ds_ccam"] = cp_sel.get("comunidad_campesina", "")
+                    st.session_state["ds_este"] = float(cp_sel["utm_este"])
+                    st.session_state["ds_norte"] = float(cp_sel["utm_norte"])
+                    # Auto-llenar provincia y distrito del bloque
+                    bl_datos = BLOQUES_79_MAP.get(codigo_bl, {})
+                    if bl_datos:
+                        st.session_state["ds_prov"] = bl_datos.get("provincia", "")
+                        st.session_state["ds_dist"] = bl_datos.get("distrito", "")
+                    st.success(f"Datos auto-completados: **{cp_sel['nombre']}** "
+                               f"(UTM {cp_sel['utm_este']} E, {cp_sel['utm_norte']} N)")
 
         # Auto-resolver microcuenca del bloque seleccionado
         mc_auto_ds = _resolver_microcuenca(bl)
