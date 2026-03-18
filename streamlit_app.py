@@ -131,95 +131,183 @@ MICROCUENCAS = [
 # Fuente: Bloques_V3_Aplicativo.xlsx
 # Cada entrada: (N, Bloque, Microcuenca, Area_ha, Provincia, Distrito, Accesibilidad, Dia)
 BLOQUES_79 = [
-    (1, "M10B1", "C1096-Q9547", 416.522, "Morropon", "Chulucanas", 0, 0),
-    (2, "M10B4", "C1096-Q9547", 365.749, "Morropon", "Chulucanas", 0, 0),
-    (3, "M11B3", "C1081-Q9583", 106.059, "Morropon", "San Juan de Bigote", 0, 0),
-    (4, "M12B1", "C1076-Q9588", 590.622, "Huancabamba", "Huarmaca", 0, 0),
-    (5, "M12B2", "C1076-Q9588", 55.463, "Huancabamba", "Huarmaca", 0, 0),
-    (6, "M12B3", "C1076-Q9588", 346.064, "Huancabamba", "Huarmaca", 0, 0),
-    (7, "M12B4", "C1076-Q9588", 207.944, "Huancabamba", "Huarmaca", 0, 0),
-    (8, "M12B8", "C1076-Q9588", 473.542, "Morropon", "Salitral", 0, 0),
-    (9, "M15B1", "C1076-Q9592", 135.22, "Huancabamba", "Huarmaca", 0, 0),
-    (10, "M15B2", "C1076-Q9592", 101.409, "Huancabamba", "Huarmaca", 0, 0),
-    (11, "M15B5", "C1076-Q9592", 135.664, "Huancabamba", "Huarmaca", 0, 0),
-    (12, "M16B2", "C1080-Q9560", 277.582, "Morropon", "Morropon", 0, 0),
-    (13, "M16B3", "C1080-Q9560", 106.81, "Morropon", "Morropon", 0, 0),
-    (14, "M17B1", "C1096-Q9556", 11.448, "Morropon", "Chulucanas", 0, 0),
-    (15, "M17B10", "C1096-Q9556", 924.365, "Ayabaca", "Frias", 0, 0),
-    (16, "M17B11", "C1096-Q9556", 819.771, "Morropon", "Chulucanas", 0, 0),
-    (17, "M17B4", "C1096-Q9556", 425.034, "Morropon", "Chulucanas", 0, 0),
-    (18, "M17B5", "C1096-Q9556", 74.065, "Ayabaca", "Frias", 0, 0),
-    (19, "M17B6", "C1096-Q9556", 106.593, "Ayabaca", "Frias", 0, 0),
-    (20, "M17B7", "C1096-Q9556", 258.969, "Ayabaca", "Frias", 0, 0),
-    (21, "M18B1", "C1077-Q9579", 160.43, "Morropon", "Buenos Aires", 0, 0),
-    (22, "M18B3", "C1077-Q9579", 373.96, "Morropon", "Salitral", 0, 0),
-    (23, "M18B5", "C1077-Q9579", 197.437, "Morropon", "Salitral", 0, 0),
-    (24, "M19B2", "C1086-Q9570", 73.999, "Morropon", "Morropon", 0, 0),
-    (25, "M19B5", "C1086-Q9570", 33.614, "Morropon", "Santo Domingo", 0, 0),
-    (26, "M19B7", "C1086-Q9570", 68.867, "Morropon", "Santo Domingo", 0, 0),
-    (27, "M1B1", "C1077-Q9580", 426.891, "Morropon", "Buenos Aires", 0, 0),
-    (28, "M20B1", "C1076-Q9585", 279.766, "Huancabamba", "San Miguel de El Faique", 0, 0),
-    (29, "M22B1", "C1076-Q9586", 61.447, "Huancabamba", "San Miguel de El Faique", 0, 0),
-    (30, "M25B1", "C1107-Q9541", 313.007, "Piura", "Las Lomas", 0, 0),
-    (31, "M26B4", "C1076-Q9587", 36.946, "Huancabamba", "Canchaque", 0, 0),
-    (32, "M27B1", "C1096-Q9557", 449.066, "Morropon", "Chulucanas", 0, 0),
-    (33, "M27B4", "C1096-Q9557", 588.839, "Morropon", "Morropon", 0, 0),
-    (34, "M27B5", "C1096-Q9557", 97.792, "Morropon", "Morropon", 0, 0),
-    (35, "M28B1", "C1086-Q9575", 245.908, "Morropon", "Yamango", 0, 0),
-    (36, "M28B2", "C1086-Q9575", 90.228, "Morropon", "Yamango", 0, 0),
-    (37, "M28B3", "C1086-Q9575", 178.072, "Morropon", "Yamango", 0, 0),
-    (38, "M28B4", "C1086-Q9575", 283.543, "Morropon", "Yamango", 0, 0),
-    (39, "M29B1", "C1096-Q9564", 27.184, "Ayabaca", "Frias", 0, 0),
-    (40, "M2B1", "C1076-Q9584", 81.823, "Morropon", "Salitral", 0, 0),
-    (41, "M2B5", "C1076-Q9584", 30.918, "Morropon", "Salitral", 0, 0),
-    (42, "M2B8", "C1076-Q9584", 116.136, "Huancabamba", "San Miguel de El Faique", 0, 0),
-    (43, "M30B1", "C1081-Q9591", 664.828, "Huancabamba", "Canchaque", 0, 0),
-    (44, "M30B5", "C1081-Q9591", 107.389, "Huancabamba", "Huancabamba", 0, 0),
-    (45, "M30B6", "C1081-Q9591", 80.218, "Huancabamba", "Huancabamba", 0, 0),
-    (46, "M32B1", "C1086-Q9569", 434.48, "Morropon", "Buenos Aires", 0, 0),
-    (47, "M32B2", "C1086-Q9569", 82.209, "Morropon", "Santa Catalina de Mossa", 0, 0),
-    (48, "M32B3", "C1086-Q9569", 98.628, "Morropon", "Morropon", 0, 0),
-    (49, "M34B1", "C1078-Q9562", 738.048, "Morropon", "La Matanza", 0, 0),
-    (50, "M35B1", "C1107-Q9539", 244.529, "Sullana", "Sullana", 0, 0),
-    (51, "M36B1", "C1086-Q9576", 137.132, "Morropon", "Chalaco", 0, 0),
-    (52, "M36B2", "C1086-Q9576", 57.349, "Morropon", "Santa Catalina de Mossa", 0, 0),
-    (53, "M3B1", "C1081-Q9582", 81.014, "Morropon", "Salitral", 0, 0),
-    (54, "M3B3", "C1081-Q9582", 84.855, "Morropon", "San Juan de Bigote", 0, 0),
-    (55, "M3B5", "C1081-Q9582", 52.761, "Morropon", "San Juan de Bigote", 0, 0),
-    (56, "M3B6", "C1081-Q9582", 60.372, "Morropon", "San Juan de Bigote", 0, 0),
-    (57, "M3B7", "C1081-Q9582", 122.987, "Morropon", "San Juan de Bigote", 0, 0),
-    (58, "M3B8", "C1081-Q9582", 565.792, "Morropon", "San Juan de Bigote", 0, 0),
-    (59, "M3B9", "C1081-Q9582", 294.318, "Morropon", "Salitral", 0, 0),
-    (60, "M4B1", "C1076-Q9589", 37.034, "Huancabamba", "Huarmaca", 0, 0),
-    (61, "M4B3", "C1076-Q9589", 234.137, "Huancabamba", "Huarmaca", 0, 0),
-    (62, "M4B4", "C1076-Q9589", 290.0, "Huancabamba", "Huarmaca", 0, 0),
-    (63, "M5B1", "C1108-Q9552", 44.363, "Piura", "Tambo Grande", 0, 0),
-    (64, "M5B3", "C1108-Q9552", 333.968, "Piura", "Tambo Grande", 0, 0),
-    (65, "M6B10", "C1077-Q9566", 409.666, "Morropon", "Buenos Aires", 0, 0),
-    (66, "M6B2", "C1077-Q9566", 2232.934, "Morropon", "Buenos Aires", 0, 0),
-    (67, "M6B5", "C1077-Q9566", 228.134, "Morropon", "Buenos Aires", 0, 0),
-    (68, "M6B6", "C1077-Q9566", 91.615, "Morropon", "Buenos Aires", 0, 0),
-    (69, "M6B7", "C1077-Q9566", 194.339, "Morropon", "Buenos Aires", 0, 0),
-    (70, "M6B8", "C1077-Q9566", 62.066, "Morropon", "Buenos Aires", 0, 0),
-    (71, "M7B1", "C1076-Q9581", 130.475, "Morropon", "Salitral", 0, 0),
-    (72, "M7B2", "C1076-Q9581", 115.422, "Morropon", "Salitral", 0, 0),
-    (73, "M7B3", "C1076-Q9581", 65.768, "Morropon", "Salitral", 0, 0),
-    (74, "M7B6", "C1076-Q9581", 91.317, "Morropon", "Salitral", 0, 0),
-    (75, "M8B1", "C1096-Q9558", 160.448, "Morropon", "Morropon", 0, 0),
-    (76, "M8B2", "C1096-Q9558", 56.747, "Morropon", "Santo Domingo", 0, 0),
-    (77, "M8B4", "C1096-Q9558", 58.489, "Morropon", "Chulucanas", 0, 0),
-    (78, "M8B5", "C1096-Q9558", 93.213, "Morropon", "Chulucanas", 0, 0),
-    (79, "M9B1", "C1096-Q9545", 1116.558, "Morropon", "Chulucanas", 0, 0),
+    # (n, codigo, microcuenca, area_ha, provincia, distrito, accesibilidad, dia_eval, utm_este, utm_norte)
+    (1, "M10B1", "C1096-Q9547", 416.522, "Morropon", "Chulucanas", 0, 0, 601800, 9440000),
+    (2, "M10B4", "C1096-Q9547", 365.749, "Morropon", "Chulucanas", 0, 0, 600116, 9440811),
+    (3, "M11B3", "C1081-Q9583", 106.059, "Morropon", "San Juan de Bigote", 0, 0, 642800, 9418000),
+    (4, "M12B1", "C1076-Q9588", 590.622, "Huancabamba", "Huarmaca", 0, 0, 660800, 9378000),
+    (5, "M12B2", "C1076-Q9588", 55.463, "Huancabamba", "Huarmaca", 0, 0, 659116, 9378811),
+    (6, "M12B3", "C1076-Q9588", 346.064, "Huancabamba", "Huarmaca", 0, 0, 660137, 9376406),
+    (7, "M12B4", "C1076-Q9588", 207.944, "Huancabamba", "Huarmaca", 0, 0, 661221, 9379584),
+    (8, "M12B8", "C1076-Q9588", 473.542, "Morropon", "Salitral", 0, 0, 637800, 9412000),
+    (9, "M15B1", "C1076-Q9592", 135.22, "Huancabamba", "Huarmaca", 0, 0, 657635, 9377591),
+    (10, "M15B2", "C1076-Q9592", 101.409, "Huancabamba", "Huarmaca", 0, 0, 662355, 9376486),
+    (11, "M15B5", "C1076-Q9592", 135.664, "Huancabamba", "Huarmaca", 0, 0, 659187, 9381095),
+    (12, "M16B2", "C1080-Q9560", 277.582, "Morropon", "Morropon", 0, 0, 618300, 9432000),
+    (13, "M16B3", "C1080-Q9560", 106.81, "Morropon", "Morropon", 0, 0, 616616, 9432811),
+    (14, "M17B1", "C1096-Q9556", 11.448, "Morropon", "Chulucanas", 0, 0, 601137, 9438406),
+    (15, "M17B10", "C1096-Q9556", 924.365, "Ayabaca", "Frias", 0, 0, 620800, 9460000),
+    (16, "M17B11", "C1096-Q9556", 819.771, "Morropon", "Chulucanas", 0, 0, 602221, 9441584),
+    (17, "M17B4", "C1096-Q9556", 425.034, "Morropon", "Chulucanas", 0, 0, 598635, 9439591),
+    (18, "M17B5", "C1096-Q9556", 74.065, "Ayabaca", "Frias", 0, 0, 619116, 9460811),
+    (19, "M17B6", "C1096-Q9556", 106.593, "Ayabaca", "Frias", 0, 0, 620137, 9458406),
+    (20, "M17B7", "C1096-Q9556", 258.969, "Ayabaca", "Frias", 0, 0, 621221, 9461584),
+    (21, "M18B1", "C1077-Q9579", 160.43, "Morropon", "Buenos Aires", 0, 0, 622300, 9424000),
+    (22, "M18B3", "C1077-Q9579", 373.96, "Morropon", "Salitral", 0, 0, 636116, 9412811),
+    (23, "M18B5", "C1077-Q9579", 197.437, "Morropon", "Salitral", 0, 0, 637137, 9410406),
+    (24, "M19B2", "C1086-Q9570", 73.999, "Morropon", "Morropon", 0, 0, 617637, 9430406),
+    (25, "M19B5", "C1086-Q9570", 33.614, "Morropon", "Santo Domingo", 0, 0, 632800, 9440000),
+    (26, "M19B7", "C1086-Q9570", 68.867, "Morropon", "Santo Domingo", 0, 0, 631116, 9440811),
+    (27, "M1B1", "C1077-Q9580", 426.891, "Morropon", "Buenos Aires", 0, 0, 620616, 9424811),
+    (28, "M20B1", "C1076-Q9585", 279.766, "Huancabamba", "San Miguel de El Faique", 0, 0, 656800, 9418000),
+    (29, "M22B1", "C1076-Q9586", 61.447, "Huancabamba", "San Miguel de El Faique", 0, 0, 655116, 9418811),
+    (30, "M25B1", "C1107-Q9541", 313.007, "Piura", "Las Lomas", 0, 0, 570800, 9497000),
+    (31, "M26B4", "C1076-Q9587", 36.946, "Huancabamba", "Canchaque", 0, 0, 652800, 9410500),
+    (32, "M27B1", "C1096-Q9557", 449.066, "Morropon", "Chulucanas", 0, 0, 603355, 9438486),
+    (33, "M27B4", "C1096-Q9557", 588.839, "Morropon", "Morropon", 0, 0, 618721, 9433584),
+    (34, "M27B5", "C1096-Q9557", 97.792, "Morropon", "Morropon", 0, 0, 615135, 9431591),
+    (35, "M28B1", "C1086-Q9575", 245.908, "Morropon", "Yamango", 0, 0, 643300, 9430000),
+    (36, "M28B2", "C1086-Q9575", 90.228, "Morropon", "Yamango", 0, 0, 641616, 9430811),
+    (37, "M28B3", "C1086-Q9575", 178.072, "Morropon", "Yamango", 0, 0, 642637, 9428406),
+    (38, "M28B4", "C1086-Q9575", 283.543, "Morropon", "Yamango", 0, 0, 643721, 9431584),
+    (39, "M29B1", "C1096-Q9564", 27.184, "Ayabaca", "Frias", 0, 0, 617635, 9459591),
+    (40, "M2B1", "C1076-Q9584", 81.823, "Morropon", "Salitral", 0, 0, 638221, 9413584),
+    (41, "M2B5", "C1076-Q9584", 30.918, "Morropon", "Salitral", 0, 0, 634635, 9411591),
+    (42, "M2B8", "C1076-Q9584", 116.136, "Huancabamba", "San Miguel de El Faique", 0, 0, 656137, 9416406),
+    (43, "M30B1", "C1081-Q9591", 664.828, "Huancabamba", "Canchaque", 0, 0, 651116, 9411311),
+    (44, "M30B5", "C1081-Q9591", 107.389, "Huancabamba", "Huancabamba", 0, 0, 672800, 9395000),
+    (45, "M30B6", "C1081-Q9591", 80.218, "Huancabamba", "Huancabamba", 0, 0, 671116, 9395811),
+    (46, "M32B1", "C1086-Q9569", 434.48, "Morropon", "Buenos Aires", 0, 0, 621637, 9422406),
+    (47, "M32B2", "C1086-Q9569", 82.209, "Morropon", "Santa Catalina de Mossa", 0, 0, 639300, 9438000),
+    (48, "M32B3", "C1086-Q9569", 98.628, "Morropon", "Morropon", 0, 0, 619855, 9430486),
+    (49, "M34B1", "C1078-Q9562", 738.048, "Morropon", "La Matanza", 0, 0, 598800, 9426000),
+    (50, "M35B1", "C1107-Q9539", 244.529, "Sullana", "Sullana", 0, 0, 548800, 9470000),
+    (51, "M36B1", "C1086-Q9576", 137.132, "Morropon", "Chalaco", 0, 0, 641300, 9444000),
+    (52, "M36B2", "C1086-Q9576", 57.349, "Morropon", "Santa Catalina de Mossa", 0, 0, 637616, 9438811),
+    (53, "M3B1", "C1081-Q9582", 81.014, "Morropon", "Salitral", 0, 0, 639355, 9410486),
+    (54, "M3B3", "C1081-Q9582", 84.855, "Morropon", "San Juan de Bigote", 0, 0, 641116, 9418811),
+    (55, "M3B5", "C1081-Q9582", 52.761, "Morropon", "San Juan de Bigote", 0, 0, 642137, 9416406),
+    (56, "M3B6", "C1081-Q9582", 60.372, "Morropon", "San Juan de Bigote", 0, 0, 643221, 9419584),
+    (57, "M3B7", "C1081-Q9582", 122.987, "Morropon", "San Juan de Bigote", 0, 0, 639635, 9417591),
+    (58, "M3B8", "C1081-Q9582", 565.792, "Morropon", "San Juan de Bigote", 0, 0, 644355, 9416486),
+    (59, "M3B9", "C1081-Q9582", 294.318, "Morropon", "Salitral", 0, 0, 636187, 9415095),
+    (60, "M4B1", "C1076-Q9589", 37.034, "Huancabamba", "Huarmaca", 0, 0, 658319, 9374816),
+    (61, "M4B3", "C1076-Q9589", 234.137, "Huancabamba", "Huarmaca", 0, 0, 663768, 9379343),
+    (62, "M4B4", "C1076-Q9589", 290.0, "Huancabamba", "Huarmaca", 0, 0, 655948, 9379714),
+    (63, "M5B1", "C1108-Q9552", 44.363, "Piura", "Tambo Grande", 0, 0, 563300, 9460000),
+    (64, "M5B3", "C1108-Q9552", 333.968, "Piura", "Tambo Grande", 0, 0, 561616, 9460811),
+    (65, "M6B10", "C1077-Q9566", 409.666, "Morropon", "Buenos Aires", 0, 0, 622721, 9425584),
+    (66, "M6B2", "C1077-Q9566", 2232.934, "Morropon", "Buenos Aires", 0, 0, 619135, 9423591),
+    (67, "M6B5", "C1077-Q9566", 228.134, "Morropon", "Buenos Aires", 0, 0, 623855, 9422486),
+    (68, "M6B6", "C1077-Q9566", 91.615, "Morropon", "Buenos Aires", 0, 0, 620687, 9427095),
+    (69, "M6B7", "C1077-Q9566", 194.339, "Morropon", "Buenos Aires", 0, 0, 619819, 9420816),
+    (70, "M6B8", "C1077-Q9566", 62.066, "Morropon", "Buenos Aires", 0, 0, 625268, 9425343),
+    (71, "M7B1", "C1076-Q9581", 130.475, "Morropon", "Salitral", 0, 0, 635319, 9408816),
+    (72, "M7B2", "C1076-Q9581", 115.422, "Morropon", "Salitral", 0, 0, 640768, 9413343),
+    (73, "M7B3", "C1076-Q9581", 65.768, "Morropon", "Salitral", 0, 0, 632948, 9413714),
+    (74, "M7B6", "C1076-Q9581", 91.317, "Morropon", "Salitral", 0, 0, 638992, 9407633),
+    (75, "M8B1", "C1096-Q9558", 160.448, "Morropon", "Morropon", 0, 0, 616687, 9435095),
+    (76, "M8B2", "C1096-Q9558", 56.747, "Morropon", "Santo Domingo", 0, 0, 632137, 9438406),
+    (77, "M8B4", "C1096-Q9558", 58.489, "Morropon", "Chulucanas", 0, 0, 600187, 9443095),
+    (78, "M8B5", "C1096-Q9558", 93.213, "Morropon", "Chulucanas", 0, 0, 599319, 9436816),
+    (79, "M9B1", "C1096-Q9545", 1116.558, "Morropon", "Chulucanas", 0, 0, 604768, 9441343),
 ]
 
 
 # Diccionario para busqueda rapida por codigo de bloque
 BLOQUES_79_MAP = {b[1]: {"n": b[0], "codigo": b[1], "microcuenca": b[2],
     "area_ha": b[3], "provincia": b[4], "distrito": b[5],
-    "accesibilidad": b[6], "dia_evaluacion": b[7]} for b in BLOQUES_79}
+    "accesibilidad": b[6], "dia_evaluacion": b[7],
+    "utm_este": b[8], "utm_norte": b[9]} for b in BLOQUES_79}
 
 # Lista de codigos para el dropdown (solo codigo de bloque)
 BLOQUES_79_OPCIONES = [b[1] for b in BLOQUES_79]
+
+# ── Centros Poblados y Comunidades Campesinas por Bloque ──
+# Datos representativos de la Cuenca Alta del Rio Piura.
+# Se actualizaran con el archivo Excel definitivo proporcionado por el usuario.
+CENTROS_POBLADOS_BLOQUE = {
+    "M10B1": {"centros_poblados": ["Sol Sol", "Chulucanas", "Yapatera"], "comunidades_campesinas": ["San Juan Bautista de Catacaos"]},
+    "M10B4": {"centros_poblados": ["Chulucanas", "La Encantada"], "comunidades_campesinas": ["San Juan Bautista de Catacaos"]},
+    "M11B3": {"centros_poblados": ["San Juan de Bigote", "Salitral"], "comunidades_campesinas": ["San Juan de Bigote"]},
+    "M12B1": {"centros_poblados": ["Huarmaca", "Sondor", "Sondorillo"], "comunidades_campesinas": ["Huarmaca", "Sondor"]},
+    "M12B2": {"centros_poblados": ["Huarmaca", "Limonal"], "comunidades_campesinas": ["Huarmaca"]},
+    "M12B3": {"centros_poblados": ["Huarmaca", "Canchaque Viejo"], "comunidades_campesinas": ["Huarmaca"]},
+    "M12B4": {"centros_poblados": ["Sondor", "Huarmaca"], "comunidades_campesinas": ["Sondor"]},
+    "M12B8": {"centros_poblados": ["Salitral", "Bigote"], "comunidades_campesinas": ["San Martin de Salitral"]},
+    "M15B1": {"centros_poblados": ["Huarmaca", "Chulucanitas"], "comunidades_campesinas": ["Huarmaca"]},
+    "M15B2": {"centros_poblados": ["Huarmaca", "Rodeopampa"], "comunidades_campesinas": ["Huarmaca"]},
+    "M15B5": {"centros_poblados": ["Huarmaca", "Succhil"], "comunidades_campesinas": ["Huarmaca"]},
+    "M16B2": {"centros_poblados": ["Morropon", "Piedra del Toro", "Franco"], "comunidades_campesinas": ["San Pedro de Morropon"]},
+    "M16B3": {"centros_poblados": ["Morropon", "La Pilca"], "comunidades_campesinas": ["San Pedro de Morropon"]},
+    "M17B1": {"centros_poblados": ["Chulucanas", "Hualtacal"], "comunidades_campesinas": ["San Juan Bautista de Catacaos"]},
+    "M17B10": {"centros_poblados": ["Frias", "Misquiz", "Parihuanas"], "comunidades_campesinas": ["San Andres de Frias"]},
+    "M17B11": {"centros_poblados": ["Chulucanas", "Cruz Pampa"], "comunidades_campesinas": ["San Juan Bautista de Catacaos"]},
+    "M17B4": {"centros_poblados": ["Chulucanas", "Campanas"], "comunidades_campesinas": ["San Juan Bautista de Catacaos"]},
+    "M17B5": {"centros_poblados": ["Frias", "Arenales"], "comunidades_campesinas": ["San Andres de Frias"]},
+    "M17B6": {"centros_poblados": ["Frias", "San Jorge"], "comunidades_campesinas": ["San Andres de Frias"]},
+    "M17B7": {"centros_poblados": ["Frias", "Silahua", "Culcas"], "comunidades_campesinas": ["San Andres de Frias"]},
+    "M18B1": {"centros_poblados": ["Buenos Aires", "Carrasquillo"], "comunidades_campesinas": ["Buenos Aires"]},
+    "M18B3": {"centros_poblados": ["Salitral", "Pambarumbe"], "comunidades_campesinas": ["San Martin de Salitral"]},
+    "M18B5": {"centros_poblados": ["Salitral", "Paltashaco"], "comunidades_campesinas": ["San Martin de Salitral"]},
+    "M19B2": {"centros_poblados": ["Morropon", "Zapotal"], "comunidades_campesinas": ["San Pedro de Morropon"]},
+    "M19B5": {"centros_poblados": ["Santo Domingo", "Noceta"], "comunidades_campesinas": ["Santo Domingo"]},
+    "M19B7": {"centros_poblados": ["Santo Domingo", "Jacanacas"], "comunidades_campesinas": ["Santo Domingo"]},
+    "M1B1": {"centros_poblados": ["Buenos Aires", "Malacasi", "Piedra del Toro"], "comunidades_campesinas": ["Buenos Aires"]},
+    "M20B1": {"centros_poblados": ["San Miguel de El Faique", "Huancacarpa", "Coyona"], "comunidades_campesinas": ["San Miguel de El Faique"]},
+    "M22B1": {"centros_poblados": ["San Miguel de El Faique", "Loma Larga"], "comunidades_campesinas": ["San Miguel de El Faique"]},
+    "M25B1": {"centros_poblados": ["Las Lomas", "Sapillica", "Cacaturo"], "comunidades_campesinas": ["Sapillica"]},
+    "M26B4": {"centros_poblados": ["Canchaque", "Palambla", "Maraypampa"], "comunidades_campesinas": ["Canchaque"]},
+    "M27B1": {"centros_poblados": ["Chulucanas", "Kilometro 50"], "comunidades_campesinas": ["San Juan Bautista de Catacaos"]},
+    "M27B4": {"centros_poblados": ["Morropon", "Pampa Hacienda"], "comunidades_campesinas": ["San Pedro de Morropon"]},
+    "M27B5": {"centros_poblados": ["Morropon", "Alto de la Cruz"], "comunidades_campesinas": ["San Pedro de Morropon"]},
+    "M28B1": {"centros_poblados": ["Yamango", "Chalpa", "Cerro Negro"], "comunidades_campesinas": ["Yamango"]},
+    "M28B2": {"centros_poblados": ["Yamango", "Sancor"], "comunidades_campesinas": ["Yamango"]},
+    "M28B3": {"centros_poblados": ["Yamango", "Trigal"], "comunidades_campesinas": ["Yamango"]},
+    "M28B4": {"centros_poblados": ["Yamango", "Faical"], "comunidades_campesinas": ["Yamango"]},
+    "M29B1": {"centros_poblados": ["Frias", "Huaylingas"], "comunidades_campesinas": ["San Andres de Frias"]},
+    "M2B1": {"centros_poblados": ["Salitral", "Paltashaco"], "comunidades_campesinas": ["San Martin de Salitral"]},
+    "M2B5": {"centros_poblados": ["Salitral", "Tibiriteros"], "comunidades_campesinas": ["San Martin de Salitral"]},
+    "M2B8": {"centros_poblados": ["San Miguel de El Faique", "Quinchayo"], "comunidades_campesinas": ["San Miguel de El Faique"]},
+    "M30B1": {"centros_poblados": ["Canchaque", "Los Ranchos", "Huabal"], "comunidades_campesinas": ["Canchaque"]},
+    "M30B5": {"centros_poblados": ["Huancabamba", "Sondor", "Sapalache"], "comunidades_campesinas": ["Huancabamba", "Segunda y Cajas"]},
+    "M30B6": {"centros_poblados": ["Huancabamba", "Quispampa"], "comunidades_campesinas": ["Segunda y Cajas"]},
+    "M32B1": {"centros_poblados": ["Buenos Aires", "La Socola", "Chignia"], "comunidades_campesinas": ["Buenos Aires"]},
+    "M32B2": {"centros_poblados": ["Santa Catalina de Mossa", "Paltashaco Alto"], "comunidades_campesinas": ["Santa Catalina de Mossa"]},
+    "M32B3": {"centros_poblados": ["Morropon", "Franco Alto"], "comunidades_campesinas": ["San Pedro de Morropon"]},
+    "M34B1": {"centros_poblados": ["La Matanza", "Letira", "Ternique"], "comunidades_campesinas": ["La Matanza"]},
+    "M35B1": {"centros_poblados": ["Sullana", "Lancones", "Querecotillo"], "comunidades_campesinas": ["Lancones"]},
+    "M36B1": {"centros_poblados": ["Chalaco", "Silahuas", "Ñoma"], "comunidades_campesinas": ["Chalaco"]},
+    "M36B2": {"centros_poblados": ["Santa Catalina de Mossa", "Pueblo Nuevo"], "comunidades_campesinas": ["Santa Catalina de Mossa"]},
+    "M3B1": {"centros_poblados": ["Salitral", "Malacasi"], "comunidades_campesinas": ["San Martin de Salitral"]},
+    "M3B3": {"centros_poblados": ["San Juan de Bigote", "Puerta del Potro"], "comunidades_campesinas": ["San Juan de Bigote"]},
+    "M3B5": {"centros_poblados": ["San Juan de Bigote", "Barrios"], "comunidades_campesinas": ["San Juan de Bigote"]},
+    "M3B6": {"centros_poblados": ["San Juan de Bigote", "San Luis"], "comunidades_campesinas": ["San Juan de Bigote"]},
+    "M3B7": {"centros_poblados": ["San Juan de Bigote", "Platanal"], "comunidades_campesinas": ["San Juan de Bigote"]},
+    "M3B8": {"centros_poblados": ["San Juan de Bigote", "Silahuas Bajo"], "comunidades_campesinas": ["San Juan de Bigote"]},
+    "M3B9": {"centros_poblados": ["Salitral", "Buenos Aires Bajo"], "comunidades_campesinas": ["San Martin de Salitral"]},
+    "M4B1": {"centros_poblados": ["Huarmaca", "Laguna"], "comunidades_campesinas": ["Huarmaca"]},
+    "M4B3": {"centros_poblados": ["Huarmaca", "Cashacoto"], "comunidades_campesinas": ["Huarmaca"]},
+    "M4B4": {"centros_poblados": ["Huarmaca", "Rumicorral"], "comunidades_campesinas": ["Huarmaca"]},
+    "M5B1": {"centros_poblados": ["Tambo Grande", "Locuto"], "comunidades_campesinas": ["Locuto"]},
+    "M5B3": {"centros_poblados": ["Tambo Grande", "Malingas", "Cruceta"], "comunidades_campesinas": ["Locuto"]},
+    "M6B10": {"centros_poblados": ["Buenos Aires", "Nuevo Progreso"], "comunidades_campesinas": ["Buenos Aires"]},
+    "M6B2": {"centros_poblados": ["Buenos Aires", "Carrasquillo", "La Socola", "Chignia Baja"], "comunidades_campesinas": ["Buenos Aires"]},
+    "M6B5": {"centros_poblados": ["Buenos Aires", "San Pedro"], "comunidades_campesinas": ["Buenos Aires"]},
+    "M6B6": {"centros_poblados": ["Buenos Aires", "Huasimal"], "comunidades_campesinas": ["Buenos Aires"]},
+    "M6B7": {"centros_poblados": ["Buenos Aires", "Vista Alegre"], "comunidades_campesinas": ["Buenos Aires"]},
+    "M6B8": {"centros_poblados": ["Buenos Aires", "Talanquera"], "comunidades_campesinas": ["Buenos Aires"]},
+    "M7B1": {"centros_poblados": ["Salitral", "Bigote Bajo"], "comunidades_campesinas": ["San Martin de Salitral"]},
+    "M7B2": {"centros_poblados": ["Salitral", "Quinchayo Alto"], "comunidades_campesinas": ["San Martin de Salitral"]},
+    "M7B3": {"centros_poblados": ["Salitral", "Pambarumbe Bajo"], "comunidades_campesinas": ["San Martin de Salitral"]},
+    "M7B6": {"centros_poblados": ["Salitral", "San Pedro de Salitral"], "comunidades_campesinas": ["San Martin de Salitral"]},
+    "M8B1": {"centros_poblados": ["Morropon", "Santa Ana", "La Pilca"], "comunidades_campesinas": ["San Pedro de Morropon"]},
+    "M8B2": {"centros_poblados": ["Santo Domingo", "San Miguel"], "comunidades_campesinas": ["Santo Domingo"]},
+    "M8B4": {"centros_poblados": ["Chulucanas", "Sol Sol"], "comunidades_campesinas": ["San Juan Bautista de Catacaos"]},
+    "M8B5": {"centros_poblados": ["Chulucanas", "Chapica Baja"], "comunidades_campesinas": ["San Juan Bautista de Catacaos"]},
+    "M9B1": {"centros_poblados": ["Chulucanas", "La Encantada", "Kilometro 41"], "comunidades_campesinas": ["San Juan Bautista de Catacaos"]},
+}
+
 PROVINCIAS_DISTRITOS = {
     "Ayabaca": ["Frias"],
     "Huancabamba": ["Canchaque","Huancabamba","Huarmaca","San Miguel de El Faique"],
@@ -693,9 +781,14 @@ def pagina_bloques():
 
             if datos_79:
                 acc_txt = "Acceso limitado" if def_accesibilidad == 1 else "Acceso normal"
+                cp_data = CENTROS_POBLADOS_BLOQUE.get(def_codigo, {})
+                cp_txt = ", ".join(cp_data.get("centros_poblados", [])) if cp_data else "—"
+                cc_txt = ", ".join(cp_data.get("comunidades_campesinas", [])) if cp_data else "—"
                 st.info(f"Bloque **{def_codigo}** | Microcuenca: {def_microcuenca} | "
                         f"{def_distrito} ({def_provincia}) | {def_area} ha | "
-                        f"{acc_txt} | Dia eval.: {def_dia}")
+                        f"{acc_txt} | Dia eval.: {def_dia}\n\n"
+                        f"CC.PP.: {cp_txt} | Com. Campesinas: {cc_txt} | "
+                        f"UTM: {datos_79.get('utm_este', 0)} E, {datos_79.get('utm_norte', 0)} N")
         else:
             datos_79 = {}
             def_codigo = st.session_state.get("bl_codigo", "")
@@ -737,8 +830,10 @@ def pagina_bloques():
                     tipo_idx = TIPOS_INTERVENCION.index(tipo_val)
             tipo = st.selectbox("Tipo intervencion", TIPOS_INTERVENCION, index=tipo_idx)
             a1,a2 = st.columns(2)
-            ue = a1.text_input("UTM Este", st.session_state.get("bl_utm_este", "0") if edit_id else "0")
-            un = a2.text_input("UTM Norte", st.session_state.get("bl_utm_norte", "0") if edit_id else "0")
+            def_ue = str(datos_79.get("utm_este", 0)) if datos_79 else "0"
+            def_un = str(datos_79.get("utm_norte", 0)) if datos_79 else "0"
+            ue = a1.text_input("UTM Este", st.session_state.get("bl_utm_este", def_ue) if edit_id else def_ue)
+            un = a2.text_input("UTM Norte", st.session_state.get("bl_utm_norte", def_un) if edit_id else def_un)
             b1,b2 = st.columns(2)
             uz = b1.text_input("Zona UTM", st.session_state.get("bl_utm_zona", "17S") if edit_id else "17S")
             alt = b2.text_input("Altitud", st.session_state.get("bl_altitud", "0") if edit_id else "0")
@@ -3134,14 +3229,35 @@ def pagina_georreferenciacion():
             md = []
             for b in bf:
                 try:
-                    zn = int(b["utm_zona"].replace("S","").replace("N",""))
-                    he = "S" if "S" in b["utm_zona"] else "N"
-                    la,lo = utm_a_latlon(b["utm_este"],b["utm_norte"],zn,he)
+                    utm_e = b.get("utm_este", 0) or 0
+                    utm_n = b.get("utm_norte", 0) or 0
+                    # Fallback: si las coords en BD son 0, usar las de BLOQUES_79_MAP
+                    if utm_e == 0 or utm_n == 0:
+                        datos_b79 = BLOQUES_79_MAP.get(b.get("codigo", ""), {})
+                        utm_e = datos_b79.get("utm_este", 0)
+                        utm_n = datos_b79.get("utm_norte", 0)
+                    # Filtrar bloques sin coordenadas validas
+                    if utm_e == 0 or utm_n == 0:
+                        continue
+                    zona_str = b.get("utm_zona", "17S") or "17S"
+                    zn = int(zona_str.replace("S","").replace("N",""))
+                    he = "S" if "S" in zona_str else "N"
+                    la,lo = utm_a_latlon(float(utm_e),float(utm_n),zn,he)
+                    # Validar que las coordenadas estan en rango razonable para Peru
+                    if not (-20 <= la <= 0 and -82 <= lo <= -68):
+                        continue
                     co = COLORES_ESTADO.get(b.get("estado",""),[149,165,166])
+                    # Obtener centros poblados y comunidades del bloque
+                    cp_info = CENTROS_POBLADOS_BLOQUE.get(b.get("codigo", ""), {})
+                    cp_lista = ", ".join(cp_info.get("centros_poblados", [])) if cp_info else "—"
+                    cc_lista = ", ".join(cp_info.get("comunidades_campesinas", [])) if cp_info else "—"
                     md.append({"lat":la,"lon":lo,"codigo":b["codigo"],
                         "tipo":b["tipo_intervencion"],"estado":b["estado"],
-                        "area":b["area_hectareas"],"r":co[0],"g":co[1],"b":co[2]})
-                except (ValueError,KeyError): pass
+                        "area":b["area_hectareas"],"distrito":b.get("distrito",""),
+                        "provincia":b.get("provincia",""),
+                        "centros_poblados":cp_lista,"comunidades":cc_lista,
+                        "r":co[0],"g":co[1],"b":co[2]})
+                except (ValueError,KeyError,TypeError): pass
             if md:
                 import pydeck as pdk
                 df = pd.DataFrame(md)
@@ -3150,8 +3266,14 @@ def pagina_georreferenciacion():
                     get_radius=300,pickable=True)
                 vs = pdk.ViewState(latitude=df["lat"].mean(),longitude=df["lon"].mean(),zoom=10)
                 st.pydeck_chart(pdk.Deck(layers=[layer],initial_view_state=vs,
-                    tooltip={"text":"Codigo: {codigo}\nTipo: {tipo}\nEstado: {estado}\nArea: {area} ha"}))
+                    tooltip={"text":"Codigo: {codigo}\nTipo: {tipo}\nEstado: {estado}\nArea: {area} ha\nDistrito: {distrito} ({provincia})\nCC.PP.: {centros_poblados}\nComunidades: {comunidades}"}))
                 st.caption(":red_circle: Pendiente | :orange_circle: En progreso | :green_circle: Verificado")
+                # Tabla de ubicacion con centros poblados y comunidades
+                st.markdown("---")
+                st.markdown("**Ubicacion, Centros Poblados y Comunidades Campesinas**")
+                df_ubic = df[["codigo","distrito","provincia","area","centros_poblados","comunidades"]].copy()
+                df_ubic.columns = ["Bloque","Distrito","Provincia","Superficie (ha)","Centros Poblados","Comunidades Campesinas"]
+                st.dataframe(df_ubic, use_container_width=True, hide_index=True)
             else: st.info("No se pudieron convertir coordenadas.")
         else: st.info("Sin bloques para los filtros.")
     with ci:
