@@ -1842,18 +1842,102 @@ def pagina_diagnostico_territorial():
 # ══════════════════════════════════════════════════════════════════════════
 # DIAGNOSTICO SOCIAL
 # ══════════════════════════════════════════════════════════════════════════
-def _ds_datos_generales():
-    """Campos de datos generales compartidos por todas las fichas DS."""
+def _ds_datos_generales(bloque_label=""):
+    """Campos de datos generales compartidos por todas las fichas DS.
+    Auto-vincula centros poblados, comunidades campesinas, provincia,
+    distrito y coordenadas aproximadas del bloque seleccionado."""
+    codigo_bloque = bloque_label.split(" - ")[0].strip() if " - " in bloque_label else bloque_label.strip()
+    bloque_info = BLOQUES_79_MAP.get(codigo_bloque, {})
+    cp_info = CENTROS_POBLADOS_BLOQUE.get(codigo_bloque, {})
+    lista_cp = cp_info.get("centros_poblados", [])
+    lista_cc = cp_info.get("comunidades_campesinas", [])
+    pob_total = cp_info.get("poblacion_total", 0)
+
+    # ── Vinculacion automatica de centros poblados ──
+    if lista_cp:
+        n_cp = len(lista_cp)
+        n_cc = len(lista_cc)
+        resumen = f"**{n_cp}** centro(s) poblado(s)"
+        if lista_cc:
+            resumen += f" y **{n_cc}** comunidad(es) campesina(s)"
+        resumen += f" vinculado(s) al bloque **{codigo_bloque}**"
+        if pob_total:
+            resumen += f" | Poblacion total: **{pob_total:,}** hab."
+        st.info(resumen)
+
+        # Mostrar tabla resumen si hay multiples centros poblados
+        if n_cp > 1:
+            with st.expander(f"Ver {n_cp} centros poblados asociados al bloque {codigo_bloque}", expanded=False):
+                df_cp = pd.DataFrame({"N": range(1, n_cp + 1), "Centro Poblado": lista_cp})
+                if lista_cc:
+                    df_cp_cc = pd.DataFrame({
+                        "Centros Poblados": ", ".join(lista_cp),
+                        "Comunidades Campesinas": ", ".join(lista_cc),
+                    }, index=[0])
+                    st.dataframe(df_cp_cc, use_container_width=True, hide_index=True)
+                else:
+                    st.dataframe(df_cp, use_container_width=True, hide_index=True)
+
+    # ── Auto-resolver provincia y distrito del bloque ──
+    prov_auto = bloque_info.get("provincia", "")
+    dist_auto = bloque_info.get("distrito", "")
+    utm_este_auto = float(bloque_info.get("utm_este", 0))
+    utm_norte_auto = float(bloque_info.get("utm_norte", 0))
+
+    # Pre-poblar session_state con valores del bloque si estan vacios
+    if "ds_prov" not in st.session_state and prov_auto:
+        st.session_state["ds_prov"] = prov_auto
+    if "ds_dist" not in st.session_state and dist_auto:
+        st.session_state["ds_dist"] = dist_auto
+    if "ds_cpob" not in st.session_state and lista_cp:
+        st.session_state["ds_cpob"] = " / ".join(lista_cp)
+    if "ds_ccam" not in st.session_state and lista_cc:
+        st.session_state["ds_ccam"] = " / ".join(lista_cc)
+    if "ds_este" not in st.session_state and utm_este_auto:
+        st.session_state["ds_este"] = utm_este_auto
+    if "ds_norte" not in st.session_state and utm_norte_auto:
+        st.session_state["ds_norte"] = utm_norte_auto
+
     c1, c2, c3, c4 = st.columns(4)
     prov = c1.text_input("Provincia", key="ds_prov")
     dist = c2.text_input("Distrito", key="ds_dist")
-    cpob = c3.text_input("Centro Poblado / Localidad", key="ds_cpob")
-    ccam = c4.text_input("Comunidad Campesina", key="ds_ccam")
+
+    # Selector de centro poblado cuando hay multiples opciones
+    if len(lista_cp) > 1:
+        opciones_cp = [" / ".join(lista_cp)] + lista_cp
+        # Asegurar que el valor en session_state sea valido para el selectbox
+        val_cpob = st.session_state.get("ds_cpob", "")
+        if val_cpob and val_cpob not in opciones_cp:
+            st.session_state["ds_cpob"] = opciones_cp[0]
+        cpob = c3.selectbox("Centro Poblado / Localidad", opciones_cp,
+                            key="ds_cpob",
+                            help="Seleccione un centro poblado especifico o todos los asociados al bloque")
+    else:
+        cpob = c3.text_input("Centro Poblado / Localidad", key="ds_cpob")
+
+    if len(lista_cc) > 1:
+        opciones_cc = [" / ".join(lista_cc)] + lista_cc
+        val_ccam = st.session_state.get("ds_ccam", "")
+        if val_ccam and val_ccam not in opciones_cc:
+            st.session_state["ds_ccam"] = opciones_cc[0]
+        ccam = c4.selectbox("Comunidad Campesina", opciones_cc,
+                            key="ds_ccam",
+                            help="Seleccione una comunidad campesina especifica o todas las asociadas")
+    else:
+        ccam = c4.text_input("Comunidad Campesina", key="ds_ccam")
+
+    # ── Coordenadas: usar centroide del bloque como aproximacion ──
     c5, c6, c7, c8 = st.columns(4)
-    este = c5.number_input("Coordenada Este (UTM)", value=0.0, format="%.1f", key="ds_este")
-    norte = c6.number_input("Coordenada Norte (UTM)", value=0.0, format="%.1f", key="ds_norte")
+    este = c5.number_input("Coordenada Este (UTM)", format="%.1f", key="ds_este",
+                           help="Coordenada UTM Este (Zona 17S). Auto-completada con centroide del bloque.")
+    norte = c6.number_input("Coordenada Norte (UTM)", format="%.1f", key="ds_norte",
+                            help="Coordenada UTM Norte (Zona 17S). Auto-completada con centroide del bloque.")
     alt_v = c7.number_input("Altitud (msnm)", value=0.0, format="%.0f", key="ds_alt")
     ubigeo = c8.text_input("Codigo UBIGEO", key="ds_ubigeo")
+
+    if utm_este_auto and utm_norte_auto and (este == utm_este_auto and norte == utm_norte_auto):
+        st.caption("📍 Coordenadas aproximadas (centroide del bloque). Ajuste manualmente si dispone de la ubicacion exacta del centro poblado.")
+
     return dict(provincia=prov, distrito=dist, centro_poblado=cpob,
                 comunidad_campesina=ccam, coordenada_este=este,
                 coordenada_norte=norte, altitud=alt_v, codigo_ubigeo=ubigeo)
@@ -2076,6 +2160,13 @@ def pagina_diagnostico_social():
         bl = st.selectbox("Bloque de Intervencion", list(bm.keys()), key="ds_bl")
         bid = bm[bl]
 
+        # Detectar cambio de bloque para resetear campos de ubicacion auto-completados
+        prev_bl = st.session_state.get("_ds_prev_bl", "")
+        if prev_bl and prev_bl != bl and not edit_id:
+            for k in ("ds_prov", "ds_dist", "ds_cpob", "ds_ccam", "ds_este", "ds_norte"):
+                st.session_state.pop(k, None)
+        st.session_state["_ds_prev_bl"] = bl
+
         # Auto-resolver microcuenca del bloque seleccionado
         mc_auto_ds = _resolver_microcuenca(bl)
         if mc_auto_ds:
@@ -2091,7 +2182,7 @@ def pagina_diagnostico_social():
                                  help="Seleccione la fecha de evaluacion")
         evaluador = r3.text_input("Responsable", key="ds_eval")
         ficha_num = r4.text_input("Ficha N", key="ds_fnum")
-        dg = _ds_datos_generales()
+        dg = _ds_datos_generales(bloque_label=bl)
         st.markdown("---")
 
         datos = {}  # se llenara segun la ficha
