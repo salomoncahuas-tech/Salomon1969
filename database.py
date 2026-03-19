@@ -462,10 +462,15 @@ def actualizar_bloque(bloque_id, codigo, tipo_intervencion, cuenca, distrito,
 
 def eliminar_bloque(bloque_id):
     conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM bloques WHERE id=?", (bloque_id,))
-    conn.commit()
-    conn.close()
+    try:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM bloques WHERE id=?", (bloque_id,))
+        conn.commit()
+    except Exception:
+        conn._conn.rollback()
+        raise
+    finally:
+        conn.close()
 
 
 def obtener_bloques():
