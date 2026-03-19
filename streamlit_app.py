@@ -910,8 +910,14 @@ def pagina_bloques():
             st.markdown("---")
             bm = {f"{b['codigo']} - {b['tipo_intervencion']}":b["id"] for b in bloques}
             sel = st.selectbox("Seleccionar bloque para eliminar",[""]+list(bm.keys()),key="del_bl")
-            if sel and sel in bm and st.button("Eliminar bloque"):
-                db.eliminar_bloque(bm[sel]); _invalidar_cache(); st.success("Eliminado."); st.rerun()
+            if sel and sel in bm and st.button("Eliminar bloque", key="btn_del_bl"):
+                try:
+                    db.eliminar_bloque(bm[sel])
+                    _invalidar_cache()
+                    st.success(f"Bloque {sel} eliminado correctamente.")
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Error al eliminar bloque: {e}")
         else: st.info("Sin bloques.")
 
         st.markdown("---")
