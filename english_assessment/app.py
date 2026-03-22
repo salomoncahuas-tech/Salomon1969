@@ -124,6 +124,42 @@ def list_assessments():
     return redirect(url_for('index'))
 
 
+@app.route('/listening-comprehension')
+def listening_comprehension():
+    """Page listing all listening comprehension assessments and their questions."""
+    listening_types = [
+        'listening_multiple_choice', 'listening_true_false',
+        'listening_fill_blank', 'listening_short_answer',
+    ]
+    # Get assessments that contain at least one listening question
+    assessment_ids = (
+        db.session.query(Question.assessment_id)
+        .filter(Question.question_type.in_(listening_types))
+        .distinct()
+        .subquery()
+    )
+    assessments = (
+        Assessment.query
+        .filter(Assessment.id.in_(db.session.query(assessment_ids)))
+        .filter(Assessment.is_active == True)
+        .order_by(Assessment.grade_id, Assessment.english_level_id)
+        .all()
+    )
+    # For each assessment, collect only the listening questions
+    assessment_data = []
+    for a in assessments:
+        listening_questions = [
+            q for q in a.questions if q.question_type in listening_types
+        ]
+        if listening_questions:
+            assessment_data.append({
+                'assessment': a,
+                'questions': listening_questions,
+            })
+    return render_template('listening_comprehension.html',
+                           assessment_data=assessment_data)
+
+
 @app.route('/access', methods=['GET', 'POST'])
 def access_by_code():
     """Access an assessment by its unique code."""
