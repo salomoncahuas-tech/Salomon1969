@@ -817,6 +817,138 @@ img {
     font-size: 0.95rem;
 }
 
+/* True/False Statements */
+.tf-statements-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.tf-statement-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: white;
+    transition: all 0.2s;
+}
+
+.tf-statement-row:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.tf-statement-marker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--bg);
+    font-weight: 700;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    color: var(--primary);
+}
+
+.tf-statement-text {
+    flex: 1;
+    font-size: 0.95rem;
+}
+
+.tf-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.tf-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    min-width: 70px;
+    text-align: center;
+}
+
+.tf-btn input[type="radio"] {
+    display: none;
+}
+
+.tf-btn:hover {
+    border-color: var(--primary);
+}
+
+.tf-btn-true:has(input:checked) {
+    background: #16A34A;
+    border-color: #16A34A;
+    color: white;
+}
+
+.tf-btn-false:has(input:checked) {
+    background: #DC2626;
+    border-color: #DC2626;
+    color: white;
+}
+
+/* TF Statements Results */
+.tf-results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.tf-result-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+}
+
+.tf-result-row.correct {
+    background: #f0fdf4;
+}
+
+.tf-result-row.incorrect {
+    background: #fef2f2;
+}
+
+.tf-result-answer {
+    margin-left: auto;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.tf-result-row.correct .tf-result-answer {
+    color: #16A34A;
+}
+
+.tf-result-row.incorrect .tf-result-answer {
+    color: #DC2626;
+}
+
+@media (max-width: 600px) {
+    .tf-statement-row {
+        flex-wrap: wrap;
+    }
+    .tf-buttons {
+        width: 100%;
+        justify-content: flex-end;
+        margin-top: 0.25rem;
+    }
+}
+
 /* Fill blank */
 .input-fill {
     width: 100%;
