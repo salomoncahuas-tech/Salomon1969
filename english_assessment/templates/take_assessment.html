@@ -87,6 +87,26 @@
                                 {% endfor %}
                             </div>
 
+                        {% elif question.question_type == 'listening_tf_statements' %}
+                            <div class="tf-statements-list">
+                                {% for option in question.options %}
+                                <div class="tf-statement-row">
+                                    <span class="tf-statement-marker">{{ 'ABCDEFGH'[loop.index0] }}</span>
+                                    <span class="tf-statement-text">{{ option.text }}</span>
+                                    <div class="tf-buttons">
+                                        <label class="tf-btn tf-btn-true">
+                                            <input type="radio" name="tf_{{ question.id }}_{{ option.id }}" value="true">
+                                            <span>True</span>
+                                        </label>
+                                        <label class="tf-btn tf-btn-false">
+                                            <input type="radio" name="tf_{{ question.id }}_{{ option.id }}" value="false">
+                                            <span>False</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+
                         {% elif question.question_type in ['true_false', 'listening_true_false'] %}
                             <div class="options-list options-horizontal">
                                 <label class="option-label">

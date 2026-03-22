@@ -55,6 +55,42 @@
                 {% endif %}
                 <p class="rq-text">{{ answer.question.text }}</p>
                 <div class="rq-answers">
+                    {% if answer.question.question_type == 'listening_tf_statements' %}
+                        {% set tf_answers = {} %}
+                        {% if answer.answer_text %}
+                            {% for part in answer.answer_text.split('|') %}
+                                {% if ':' in part %}
+                                    {% set _ = tf_answers.update({part.split(':')[0]: part.split(':')[1]}) %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <div class="tf-results-list">
+                            {% for option in answer.question.options %}
+                            {% set student_val = tf_answers.get(option.id|string, '') %}
+                            {% set expected_val = 'true' if option.is_correct else 'false' %}
+                            {% set is_stmt_correct = student_val == expected_val %}
+                            <div class="tf-result-row {% if is_stmt_correct %}correct{% else %}incorrect{% endif %}">
+                                <span class="tf-statement-marker">{{ 'ABCDEFGH'[loop.index0] }}</span>
+                                <span class="tf-statement-text">{{ option.text }}</span>
+                                <span class="tf-result-answer">
+                                    {% if student_val %}
+                                        {{ student_val|capitalize }}
+                                    {% else %}
+                                        <em>No answer</em>
+                                    {% endif %}
+                                    {% if is_stmt_correct %}
+                                        &#10004;
+                                    {% else %}
+                                        &#10008; ({{ expected_val|capitalize }})
+                                    {% endif %}
+                                </span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <p class="rq-your-answer" style="margin-top:0.5rem">
+                            <strong>Score:</strong> {{ '%.1f'|format(answer.points_earned) }} / {{ answer.question.points }} pts
+                        </p>
+                    {% else %}
                     <p class="rq-your-answer">
                         <strong>Your answer:</strong>
                         {% if answer.selected_option %}
@@ -72,6 +108,7 @@
                             <strong>Correct answer:</strong> {{ correct.text }}
                         </p>
                         {% endif %}
+                    {% endif %}
                     {% endif %}
                 </div>
             </div>

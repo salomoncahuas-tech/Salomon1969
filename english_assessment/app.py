@@ -282,6 +282,29 @@ def submit_assessment(assessment_id):
                     points_earned=points
                 )
 
+            elif question.question_type == 'listening_tf_statements':
+                correct_count = 0
+                total_statements = len(question.options)
+                answers_parts = []
+                for option in question.options:
+                    tf_key = f'tf_{question.id}_{option.id}'
+                    student_val = request.form.get(tf_key, '').strip().lower()
+                    expected_val = 'true' if option.is_correct else 'false'
+                    is_stmt_correct = student_val == expected_val
+                    if is_stmt_correct:
+                        correct_count += 1
+                    answers_parts.append(f'{option.id}:{student_val}')
+                points = (correct_count / total_statements * question.points) if total_statements > 0 else 0
+                total_score += points
+
+                student_answer = StudentAnswer(
+                    result_id=result.id,
+                    question_id=question.id,
+                    answer_text='|'.join(answers_parts),
+                    is_correct=correct_count == total_statements,
+                    points_earned=points
+                )
+
             elif question.question_type in ('true_false', 'listening_true_false'):
                 answer_val = request.form.get(answer_key, '').strip().lower()
                 correct_option = next((o for o in question.options if o.is_correct), None)

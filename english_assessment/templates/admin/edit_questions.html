@@ -104,6 +104,7 @@
                                     <option value="listening_true_false">Listening - True / False</option>
                                     <option value="listening_fill_blank">Listening - Fill in the Blank</option>
                                     <option value="listening_short_answer">Listening - Short Answer</option>
+                                    <option value="listening_tf_statements">Listening - True/False Statements (A-E)</option>
                                 </optgroup>
                             </select>
                         </div>
@@ -190,7 +191,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-sm btn-secondary" onclick="addOption()">+ Add Option</button>
+                            <button type="button" class="btn btn-sm btn-secondary" id="add-option-btn" onclick="addOptionDynamic()">+ Add Option</button>
                         </div>
                     </div>
 
@@ -250,6 +251,11 @@ function updateOptionsUI() {
 
     if (baseType === 'short_answer') {
         area.style.display = 'none';
+    } else if (type === 'listening_tf_statements') {
+        area.style.display = 'block';
+        document.getElementById('options-list').innerHTML = '';
+        optionCount = 0;
+        for (let i = 0; i < 5; i++) addTFStatementOption();
     } else if (baseType === 'true_false') {
         area.style.display = 'block';
         document.getElementById('options-list').innerHTML = `
@@ -321,6 +327,35 @@ function addMatchOption() {
         <span class="match-arrow">&rarr;</span>
         <input type="text" name="match_text[]" placeholder="Match ${optionCount + 1}" class="option-input">
         <input type="hidden" name="correct[]" value="${optionCount}">
+        <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.remove()">X</button>
+    `;
+    list.appendChild(div);
+    optionCount++;
+}
+
+function addOptionDynamic() {
+    const type = document.getElementById('question_type').value;
+    if (type === 'listening_tf_statements') {
+        addTFStatementOption();
+    } else if (getBaseType(type) === 'matching') {
+        addMatchOption();
+    } else if (getBaseType(type) === 'ordering') {
+        addOrderOption();
+    } else {
+        addOption();
+    }
+}
+
+function addTFStatementOption() {
+    const list = document.getElementById('options-list');
+    const letters = 'ABCDEFGHIJKLMNOP';
+    const div = document.createElement('div');
+    div.className = 'option-row';
+    div.innerHTML = `
+        <span style="font-weight:700; min-width:24px;">${letters[optionCount]}</span>
+        <input type="text" name="option_text[]" placeholder="Statement ${letters[optionCount]}" class="option-input">
+        <input type="hidden" name="match_text[]" value="">
+        <label class="checkbox-label"><input type="checkbox" name="correct[]" value="${optionCount}"> True</label>
         <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.remove()">X</button>
     `;
     list.appendChild(div);
