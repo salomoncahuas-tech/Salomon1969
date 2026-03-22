@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block title %}Listening Comprehension - English Assessments{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="{{ url_for('index') }}">Home</a> &raquo;
+            <span>Listening Comprehension</span>
+        </div>
+
+        <div class="listening-hero" style="text-align:center; margin-bottom:2rem;">
+            <h1 style="font-size:2rem; color:var(--primary-dark); margin-bottom:0.5rem;">
+                &#9835; Listening Comprehension
+            </h1>
+            <p style="color:var(--text-light); max-width:600px; margin:0 auto;">
+                Browse the listening comprehension assessments below. Each assessment includes
+                an audio passage and comprehension questions to test your understanding.
+            </p>
+        </div>
+
+        {% if assessment_data %}
+            {% for item in assessment_data %}
+            {% set a = item.assessment %}
+            {% set questions = item.questions %}
+            <div class="card" style="margin-bottom:2rem; border-left:4px solid var(--primary); padding:1.5rem;">
+                <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
+                    <span class="badge badge-{{ a.assessment_type }}">{{ a.assessment_type|capitalize }}</span>
+                    <span class="badge" style="background:var(--info-light); color:var(--info);">&#9835; Listening</span>
+                    <span style="color:var(--text-light); font-size:0.85rem;">{{ a.grade.name }} &mdash; {{ a.english_level.name }} ({{ a.english_level.code }})</span>
+                </div>
+
+                <h2 style="font-size:1.35rem; margin-bottom:0.5rem;">{{ a.title }}</h2>
+                <p style="color:var(--text-light); margin-bottom:1rem;">{{ a.description }}</p>
+
+                <div style="display:flex; flex-wrap:wrap; gap:1rem; margin-bottom:1rem; font-size:0.9rem; color:var(--secondary);">
+                    <span>{{ questions|length }} listening question{{ 's' if questions|length != 1 }}</span>
+                    <span>{{ a.total_points }} total points</span>
+                    {% if a.time_limit_minutes > 0 %}
+                        <span>{{ a.time_limit_minutes }} min time limit</span>
+                    {% endif %}
+                    <span>Code: <strong>{{ a.access_code }}</strong></span>
+                </div>
+
+                {# Audio player - show if any question has audio #}
+                {% set audio_url = questions[0].media_url if questions[0].media_url else None %}
+                {% if audio_url %}
+                <div class="audio-player-container" style="margin-bottom:1.25rem;">
+                    <div class="audio-player-header">
+                        <span class="audio-icon">&#9835;</span>
+                        <span>Listen to the audio passage</span>
+                    </div>
+                    {% if audio_url.endswith('.mp4') %}
+                    <video controls controlsList="nodownload" preload="metadata"
+                           style="width:100%; max-height:400px; border-radius:8px;">
+                        <source src="{{ audio_url }}" type="video/mp4">
+                        Your browser does not support the video element.
+                    </video>
+                    {% else %}
+                    <audio controls controlsList="nodownload" preload="metadata"
+                           style="width:100%;">
+                        <source src="{{ audio_url }}">
+                        Your browser does not support the audio element.
+                    </audio>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                {# Questions list #}
+                <div style="border-top:1px solid var(--border); padding-top:1rem;">
+                    <h3 style="font-size:1.05rem; margin-bottom:0.75rem; color:var(--primary-dark);">
+                        Comprehension Questions
+                    </h3>
+                    <ol style="padding-left:1.25rem;">
+                        {% for q in questions %}
+                        <li style="margin-bottom:0.85rem; padding:0.6rem 0.75rem; background:var(--bg); border-radius:var(--radius-sm);">
+                            <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
+                                {% if 'multiple_choice' in q.question_type %}
+                                    <span class="badge" style="background:#EDE9FE; color:#7C3AED; font-size:0.75rem;">Multiple Choice</span>
+                                {% elif 'true_false' in q.question_type %}
+                                    <span class="badge" style="background:var(--success-light); color:var(--success); font-size:0.75rem;">True / False</span>
+                                {% elif 'fill_blank' in q.question_type %}
+                                    <span class="badge" style="background:var(--warning-light); color:var(--warning); font-size:0.75rem;">Fill in the Blank</span>
+                                {% elif 'short_answer' in q.question_type %}
+                                    <span class="badge" style="background:var(--info-light); color:var(--info); font-size:0.75rem;">Short Answer</span>
+                                {% endif %}
+                                <span style="font-size:0.8rem; color:var(--text-light);">{{ q.points }} pt{{ 's' if q.points != 1 }}</span>
+                            </div>
+
+                            {% if q.instruction %}
+                                <p style="font-style:italic; font-size:0.85rem; color:var(--text-light); margin-bottom:0.25rem;">{{ q.instruction }}</p>
+                            {% endif %}
+
+                            <p style="font-weight:500;">{{ q.text }}</p>
+
+                            {% if 'multiple_choice' in q.question_type and q.options %}
+                                <div style="margin-top:0.4rem; padding-left:1rem;">
+                                    {% for opt in q.options %}
+                                        <div style="font-size:0.9rem; color:var(--text-light); margin-bottom:0.15rem;">
+                                            <span style="font-weight:600;">{{ 'ABCD'[loop.index0] }}.</span> {{ opt.text }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% elif 'true_false' in q.question_type %}
+                                <div style="margin-top:0.4rem; padding-left:1rem; font-size:0.9rem; color:var(--text-light);">
+                                    <span style="margin-right:1rem;"><strong>A.</strong> True</span>
+                                    <span><strong>B.</strong> False</span>
+                                </div>
+                            {% elif 'fill_blank' in q.question_type %}
+                                <div style="margin-top:0.4rem; padding-left:1rem; font-size:0.85rem; color:var(--text-light);">
+                                    (Write the missing word)
+                                </div>
+                            {% elif 'short_answer' in q.question_type %}
+                                <div style="margin-top:0.4rem; padding-left:1rem; font-size:0.85rem; color:var(--text-light);">
+                                    (Write your answer in complete sentences)
+                                </div>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+
+                <div style="margin-top:1rem; display:flex; gap:0.75rem;">
+                    <a href="{{ url_for('start_assessment', assessment_id=a.id) }}" class="btn btn-primary"
+                       onclick="sessionStorage.setItem('listening_access', '1');">
+                        Take This Assessment
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">&#127911;</div>
+                <h3>No listening comprehension assessments available</h3>
+                <p>There are no listening assessments at the moment. Please check back later or ask your teacher to create one.</p>
+                <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Home</a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

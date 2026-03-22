@@ -1981,3 +1981,4 @@ def seed_listening_comprehension():
 
 if __name__ == '__main__':
     seed_assessments()
+    seed_listening_comprehension()
