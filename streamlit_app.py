@@ -3871,19 +3871,19 @@ def pagina_migracion_v4():
         import database as db
 
         try:
+            # Usar _ConnectionWrapper que si tiene execute/commit/close
             conn = db.get_connection()
-            cursor = conn.cursor()
 
-            # 1. Contar bloques existentes antes de eliminar
+            # 1. Contar bloques existentes
+            cursor = conn.cursor()
             cursor.execute("SELECT COUNT(*) FROM bloques")
             row = cursor.fetchone()
             eliminados = list(row.values())[0] if hasattr(row, 'values') else row[0]
 
-            # Eliminar todos los bloques (CASCADE borra registros vinculados)
-            cursor.execute("DELETE FROM bloques")
+            # 2. Eliminar todos los bloques usando conn.execute (no cursor)
+            conn.execute("DELETE FROM bloques")
 
-            # 2. Insertar 128 bloques V4
-            fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            # 3. Insertar 128 bloques V4
             bloques_v4 = [
                 ("1",      "C1076-Q9584", 1371.335, "Morropon",    "Salitral",                 ),
                 ("2",      "C1096-Q9558",  330.776, "Morropon",    "Chulucanas",               ),
@@ -4015,20 +4015,24 @@ def pagina_migracion_v4():
                 ("M36B2",  "C1086-Q9576",   28.202, "Morropon",    "Santa Catalina de Mossa",  ),
             ]
 
-            for (codigo, microcuenca, area_ha, provincia, distrito) in bloques_v4:
-                cursor.execute("""
-                    INSERT INTO bloques (codigo, tipo_intervencion, cuenca, distrito,
-                                         utm_este, utm_norte, utm_zona, altitud,
-                                         area_hectareas, responsable, estado,
-                                         microcuenca, provincia, fecha_registro)
-                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-                """, (codigo, "Restauracion", microcuenca, distrito,
-                      0.0, 0.0, "17S", 0.0, area_ha, "", "Pendiente",
-                      microcuenca, provincia, fecha))
-
             conn.commit()
-            cursor.close()
             conn.close()
+
+            # 3. Insertar 128 bloques usando la funcion publica del modulo
+            for (codigo, microcuenca, area_ha, provincia, distrito) in bloques_v4:
+                db.insertar_bloque(
+                    codigo=codigo,
+                    tipo_intervencion="Restauracion",
+                    cuenca=microcuenca,
+                    distrito=distrito,
+                    utm_este=0.0,
+                    utm_norte=0.0,
+                    utm_zona="17S",
+                    area_hectareas=area_ha,
+                    estado="Pendiente",
+                    microcuenca=microcuenca,
+                    provincia=provincia,
+                )
 
             st.success(f"✅ Migracion completada: {eliminados} bloques eliminados, 128 bloques V4 insertados.")
             st.info("Recarga la pagina o navega al Panel de Control para ver los cambios.")
