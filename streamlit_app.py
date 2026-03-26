@@ -813,14 +813,14 @@ def pagina_bloques():
         else:
             st.markdown("**Registro de Bloque**")
 
-        # Selector rapido de los 79 bloques preliminares (solo en modo nuevo)
+        # Selector rapido de los 128 bloques V4 (solo en modo nuevo)
         if not edit_id:
-            st.markdown("##### Seleccion rapida - 79 Bloques Preliminares")
+            st.markdown("##### Seleccion rapida - 128 Bloques de Intervencion V4")
             sel_79 = st.selectbox(
                 "Seleccionar bloque predefinido",
                 ["(Seleccionar bloque predefinido)"] + BLOQUES_128_OPCIONES,
                 key="sel_bloque_128",
-                help="Seleccione un bloque de la lista de 79 bloques preliminares para autocompletar los campos"
+                help="Seleccione un bloque de la lista de 128 bloques V4 para autocompletar los campos"
             )
 
             # Determinar valores por defecto segun seleccion
