@@ -3105,6 +3105,11 @@ def pagina_presupuesto():
     bl = st.selectbox("Bloque", list(bm.keys()), key="pres_bl")
     bid = bm[bl]
 
+    # Auto-resolver microcuenca del bloque seleccionado
+    mc_auto_pres = _resolver_microcuenca(bl)
+    if mc_auto_pres:
+        st.info(f"Microcuenca vinculada automaticamente: **{mc_auto_pres}**")
+
     def_cat_idx = 0
     def_desc = ""
     def_mp = 0.0
@@ -3228,6 +3233,11 @@ def pagina_cronograma():
 
     bl = st.selectbox("Bloque", list(bm.keys()), key="crono_bl")
     bid = bm[bl]
+
+    # Auto-resolver microcuenca del bloque seleccionado
+    mc_auto_crono = _resolver_microcuenca(bl)
+    if mc_auto_crono:
+        st.info(f"Microcuenca vinculada automaticamente: **{mc_auto_crono}**")
 
     def_act_idx = 0
     def_ip = datetime.now()
@@ -3543,6 +3553,10 @@ def pagina_reportes():
     st.markdown("### Ficha de Inspeccion (PDF)")
     if bm:
         bl = st.selectbox("Bloque",list(bm.keys()),key="rep_bl")
+        # Auto-resolver microcuenca del bloque seleccionado
+        mc_auto_rep = _resolver_microcuenca(bl)
+        if mc_auto_rep:
+            st.info(f"Microcuenca vinculada automaticamente: **{mc_auto_rep}**")
         if st.button("Generar Ficha PDF", type="primary"):
             try:
                 ruta = reports.generar_ficha_pdf(bm[bl])
