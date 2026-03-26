@@ -680,6 +680,7 @@ pagina = st.sidebar.selectbox("Navegacion", [
     "Presupuesto","Cronograma",
     "Georreferenciacion","ODK / KoBoToolbox","Reportes",
     "Conversor PDF -> Excel",
+    "⚙️ Migracion V4 (temporal)",
 ])
 st.sidebar.markdown("---")
 st.sidebar.markdown("**IN Piura** v2.1 Web\n\nRestauracion de Ecosistemas\nCuenca Alta del Rio Piura")
@@ -3848,6 +3849,192 @@ def _mostrar_historial():
 
 
 # ══════════════════════════════════════════════════════════════════════════
+# MIGRACION V4 — PAGINA TEMPORAL
+# ══════════════════════════════════════════════════════════════════════════
+def pagina_migracion_v4():
+    st.subheader("⚙️ Migracion: Reemplazar Bloques por V4")
+    st.warning(
+        "**ATENCION:** Esta accion eliminara TODOS los bloques actuales de la base de datos "
+        "(incluyendo inspecciones, diagnosticos y registros vinculados) "
+        "e insertara los 128 bloques del Proyecto IN Piura V4.",
+        icon="⚠️",
+    )
+
+    confirmar = st.checkbox("Entiendo que se borraran todos los datos existentes y quiero continuar")
+
+    if not confirmar:
+        st.info("Marca la casilla de confirmacion para habilitar la migracion.")
+        return
+
+    if st.button("🚀 Ejecutar Migracion V4", type="primary"):
+        from datetime import datetime
+        import database as db
+
+        try:
+            conn = db.get_connection()
+            cursor = conn.cursor()
+
+            # 1. Eliminar todos los bloques (CASCADE borra registros vinculados)
+            cursor.execute("DELETE FROM bloques")
+            eliminados = cursor.rowcount
+
+            # 2. Insertar 128 bloques V4
+            fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            bloques_v4 = [
+                ("1",      "C1076-Q9584", 1371.335, "Morropon",    "Salitral",                 ),
+                ("2",      "C1096-Q9558",  330.776, "Morropon",    "Chulucanas",               ),
+                ("3",      "C1096-Q9545",  459.532, "Ayabaca",     "Frias",                    ),
+                ("4",      "C1076-Q9588",  230.143, "Huancabamba", "Huarmaca",                 ),
+                ("5",      "C1077-Q9566",  295.861, "Morropon",    "Buenos Aires",             ),
+                ("6",      "C1096-Q9547",  168.499, "Ayabaca",     "Frias",                    ),
+                ("7",      "C1076-Q9584",  173.482, "Morropon",    "Salitral",                 ),
+                ("8",      "C1076-Q9593",  126.981, "Huancabamba", "Huarmaca",                 ),
+                ("9",      "C1076-Q9586",  109.882, "Huancabamba", "San Miguel de El Faique",  ),
+                ("10",     "C1076-Q9593",  150.25,  "Huancabamba", "Huarmaca",                 ),
+                ("11",     "C1086-Q9570",  103.993, "Morropon",    "Santo Domingo",            ),
+                ("12",     "C1086-Q9570",  119.587, "Morropon",    "Santo Domingo",            ),
+                ("13",     "C1096-Q9564",  100.558, "Morropon",    "Santo Domingo",            ),
+                ("14",     "C1086-Q9570",   92.944, "Morropon",    "Santa Catalina de Mossa",  ),
+                ("15",     "C1086-Q9570",   86.185, "Morropon",    "Santo Domingo",            ),
+                ("16",     "C1076-Q9593",   83.346, "Huancabamba", "Huarmaca",                 ),
+                ("17",     "C1086-Q9570",   96.123, "Morropon",    "Santo Domingo",            ),
+                ("18",     "C1076-Q9592",  103.637, "Huancabamba", "Huarmaca",                 ),
+                ("19",     "C1076-Q9592",   82.098, "Huancabamba", "Huarmaca",                 ),
+                ("20",     "C1076-Q9593",   81.354, "Huancabamba", "Huarmaca",                 ),
+                ("21",     "C1081-Q9591",   84.244, "Huancabamba", "Canchaque",                ),
+                ("22",     "C1096-Q9556",   79.374, "Morropon",    "Chulucanas",               ),
+                ("23",     "C1086-Q9570",   81.812, "Morropon",    "Santo Domingo",            ),
+                ("24",     "C1081-Q9583",   90.18,  "Huancabamba", "Canchaque",                ),
+                ("25",     "C1096-Q9547",   53.515, "Morropon",    "Chulucanas",               ),
+                ("26",     "C1081-Q9591",   46.973, "Huancabamba", "Lalaquiz",                 ),
+                ("27",     "C1096-Q9556",   78.192, "Ayabaca",     "Frias",                    ),
+                ("28",     "C1081-Q9591",   52.977, "Huancabamba", "Canchaque",                ),
+                ("29",     "C1076-Q9592",   40.11,  "Huancabamba", "Huarmaca",                 ),
+                ("30",     "C1081-Q9591",   34.882, "Huancabamba", "Canchaque",                ),
+                ("31",     "C1076-Q9592",   47.588, "Huancabamba", "Huarmaca",                 ),
+                ("32",     "C1096-Q9556",   35.85,  "Morropon",    "Chulucanas",               ),
+                ("33",     "C1081-Q9590",   29.689, "Huancabamba", "Lalaquiz",                 ),
+                ("34",     "C1081-Q9590",   28.458, "Huancabamba", "Lalaquiz",                 ),
+                ("35",     "C1076-Q9586",   30.811, "Huancabamba", "San Miguel de El Faique",  ),
+                ("36",     "C1096-Q9547",   24.856, "Ayabaca",     "Frias",                    ),
+                ("37",     "C1081-Q9591",   35.5,   "Huancabamba", "Lalaquiz",                 ),
+                ("38",     "C1081-Q9590",   44.212, "Huancabamba", "Lalaquiz",                 ),
+                ("39",     "C1096-Q9564",   68.6,   "Ayabaca",     "Frias",                    ),
+                ("40",     "C1081-Q9591",   28.529, "Huancabamba", "Canchaque",                ),
+                ("41",     "C1076-Q9592",   64.933, "Huancabamba", "Huarmaca",                 ),
+                ("42",     "C1086-Q9570",   80.649, "Morropon",    "Santa Catalina de Mossa",  ),
+                ("43",     "C1076-Q9586",   23.176, "Huancabamba", "San Miguel de El Faique",  ),
+                ("44",     "C1076-Q9586",   28.238, "Huancabamba", "San Miguel de El Faique",  ),
+                ("45",     "C1076-Q9592",   17.626, "Huancabamba", "Huarmaca",                 ),
+                ("46",     "C1086-Q9575",   18.872, "Morropon",    "Yamango",                  ),
+                ("47",     "C1076-Q9586",   13.554, "Huancabamba", "San Miguel de El Faique",  ),
+                ("48",     "C1086-Q9575",    5.755, "Morropon",    "Yamango",                  ),
+                ("49",     "C1086-Q9575",   15.844, "Morropon",    "Yamango",                  ),
+                ("50",     "C1081-Q9590",   19.272, "Huancabamba", "Lalaquiz",                 ),
+                ("51",     "C1076-Q9593",   22.932, "Huancabamba", "Huarmaca",                 ),
+                ("52",     "C1086-Q9575",   11.063, "Morropon",    "Yamango",                  ),
+                ("53",     "C1076-Q9592",   13.066, "Huancabamba", "Huarmaca",                 ),
+                ("54",     "C1081-Q9591",   40.27,  "Huancabamba", "Huancabamba",              ),
+                ("55",     "C1086-Q9575",    0.859, "Morropon",    "Yamango",                  ),
+                ("56",     "C1096-Q9564",   77.699, "Ayabaca",     "Frias",                    ),
+                ("57",     "C1086-Q9576",   25.677, "Morropon",    "Chalaco",                  ),
+                ("58",     "C1086-Q9569",   11.48,  "Morropon",    "Santa Catalina de Mossa",  ),
+                ("59",     "C1086-Q9570",   13.559, "Morropon",    "Chalaco",                  ),
+                ("60",     "C1081-Q9591",   40.14,  "Huancabamba", "Canchaque",                ),
+                ("61",     "C1081-Q9590",   26.833, "Huancabamba", "Lalaquiz",                 ),
+                ("62",     "C1081-Q9591",   73.837, "Huancabamba", "Canchaque",                ),
+                ("63",     "C1081-Q9583",   50.469, "Huancabamba", "Canchaque",                ),
+                ("64",     "C1081-Q9591",   35.78,  "Huancabamba", "Huancabamba",              ),
+                ("65",     "C1081-Q9591",   53.944, "Huancabamba", "Canchaque",                ),
+                ("66",     "C1081-Q9591",  102.358, "Huancabamba", "Canchaque",                ),
+                ("67",     "C1076-Q9586",   13.187, "Huancabamba", "San Miguel de El Faique",  ),
+                ("68",     "C1076-Q9592",   21.294, "Huancabamba", "Huarmaca",                 ),
+                ("69",     "C1076-Q9592",   19.428, "Huancabamba", "Huarmaca",                 ),
+                ("70",     "C1076-Q9592",   22.39,  "Huancabamba", "Huarmaca",                 ),
+                ("71",     "C1076-Q9593",   10.676, "Huancabamba", "Huarmaca",                 ),
+                ("72",     "C1076-Q9592",   12.4,   "Huancabamba", "Huarmaca",                 ),
+                ("73",     "C1076-Q9592",   54.3,   "Huancabamba", "Huarmaca",                 ),
+                ("74",     "C1076-Q9588",   29.233, "Huancabamba", "Huarmaca",                 ),
+                ("75",     "C1076-Q9587",   15.179, "Huancabamba", "San Miguel de El Faique",  ),
+                ("76",     "C1076-Q9593",   19.619, "Huancabamba", "Huarmaca",                 ),
+                ("77",     "C1081-Q9583",   17.827, "Morropon",    "San Juan de Bigote",       ),
+                ("78",     "C1086-Q9570",   35.116, "Morropon",    "Santo Domingo",            ),
+                ("79",     "C1076-Q9587",   94.834, "Huancabamba", "Canchaque",                ),
+                ("80",     "C1076-Q9593",   28.835, "Huancabamba", "Huarmaca",                 ),
+                ("81",     "C1076-Q9585",    8.931, "Huancabamba", "Canchaque",                ),
+                ("82",     "C1086-Q9570",   35.677, "Morropon",    "Santo Domingo",            ),
+                ("M1B1",   "C1077-Q9580",  188.883, "Morropon",    "Buenos Aires",             ),
+                ("M2B1",   "C1076-Q9584",   81.823, "Morropon",    "Salitral",                 ),
+                ("M2B5",   "C1076-Q9584",   30.918, "Morropon",    "Salitral",                 ),
+                ("M2B8",   "C1076-Q9584",  116.136, "Huancabamba", "San Miguel de El Faique",  ),
+                ("M3B1",   "C1081-Q9582",   81.014, "Morropon",    "Salitral",                 ),
+                ("M3B3",   "C1081-Q9582",   84.855, "Morropon",    "San Juan de Bigote",       ),
+                ("M3B5",   "C1081-Q9582",   52.761, "Morropon",    "San Juan de Bigote",       ),
+                ("M3B6",   "C1081-Q9582",   60.372, "Morropon",    "San Juan de Bigote",       ),
+                ("M3B7",   "C1081-Q9582",  122.987, "Morropon",    "San Juan de Bigote",       ),
+                ("M3B8",   "C1081-Q9582",  565.792, "Morropon",    "San Juan de Bigote",       ),
+                ("M3B9",   "C1081-Q9582",  294.318, "Morropon",    "Salitral",                 ),
+                ("M4B3",   "C1076-Q9589",  234.137, "Huancabamba", "Huarmaca",                 ),
+                ("M4B4",   "C1076-Q9589",  290.0,   "Huancabamba", "Huarmaca",                 ),
+                ("M6B2-1", "C1077-Q9566",  514.608, "Morropon",    "Buenos Aires",             ),
+                ("M6B2-2", "C1077-Q9566",  333.176, "Morropon",    "Buenos Aires",             ),
+                ("M6B2-3", "C1077-Q9566",  161.058, "Morropon",    "Buenos Aires",             ),
+                ("M6B10",  "C1077-Q9566",  250.004, "Morropon",    "Buenos Aires",             ),
+                ("M7B1",   "C1076-Q9581",  130.475, "Morropon",    "Salitral",                 ),
+                ("M7B2",   "C1076-Q9581",  115.422, "Morropon",    "Salitral",                 ),
+                ("M7B3",   "C1076-Q9581",   65.768, "Morropon",    "Salitral",                 ),
+                ("M7B6",   "C1076-Q9581",   91.317, "Morropon",    "Salitral",                 ),
+                ("M8B2",   "C1096-Q9558",   35.363, "Morropon",    "Santo Domingo",            ),
+                ("M9B1",   "C1096-Q9545",  355.568, "Morropon",    "Chulucanas",               ),
+                ("M10B4",  "C1096-Q9547",   68.926, "Morropon",    "Chulucanas",               ),
+                ("M11B3",  "C1081-Q9583",  106.059, "Morropon",    "San Juan de Bigote",       ),
+                ("M12B1",  "C1076-Q9588",  268.469, "Huancabamba", "Huarmaca",                 ),
+                ("M17B1",  "C1096-Q9556",   42.472, "Morropon",    "Chulucanas",               ),
+                ("M17B4",  "C1096-Q9556",  124.775, "Morropon",    "Chulucanas",               ),
+                ("M17B5",  "C1096-Q9556",   74.065, "Ayabaca",     "Frias",                    ),
+                ("M17B6",  "C1096-Q9556",  106.593, "Ayabaca",     "Frias",                    ),
+                ("M17B7",  "C1096-Q9556",  258.969, "Ayabaca",     "Frias",                    ),
+                ("M17B10", "C1096-Q9556",   75.403, "Ayabaca",     "Frias",                    ),
+                ("M18B1",  "C1077-Q9579",  160.43,  "Morropon",    "Buenos Aires",             ),
+                ("M18B3",  "C1077-Q9579",  373.96,  "Morropon",    "Salitral",                 ),
+                ("M18B5",  "C1077-Q9579",  197.437, "Morropon",    "Salitral",                 ),
+                ("M19B2",  "C1086-Q9570",   74.406, "Morropon",    "Morropon",                 ),
+                ("M19B7",  "C1086-Q9570",   34.186, "Morropon",    "Santo Domingo",            ),
+                ("M20B1",  "C1076-Q9585",  279.766, "Huancabamba", "San Miguel de El Faique",  ),
+                ("M22B1",  "C1076-Q9586",   55.177, "Huancabamba", "San Miguel de El Faique",  ),
+                ("M27B1",  "C1096-Q9557",  449.066, "Morropon",    "Chulucanas",               ),
+                ("M28B2",  "C1086-Q9575",   90.228, "Morropon",    "Yamango",                  ),
+                ("M28B3",  "C1086-Q9575",   58.312, "Morropon",    "Yamango",                  ),
+                ("M28B4",  "C1086-Q9575",  283.543, "Morropon",    "Yamango",                  ),
+                ("M30B5",  "C1081-Q9591",   90.922, "Huancabamba", "Huancabamba",              ),
+                ("M32B3",  "C1086-Q9569",   50.996, "Morropon",    "Morropon",                 ),
+                ("M36B2",  "C1086-Q9576",   28.202, "Morropon",    "Santa Catalina de Mossa",  ),
+            ]
+
+            for (codigo, microcuenca, area_ha, provincia, distrito) in bloques_v4:
+                cursor.execute("""
+                    INSERT INTO bloques (codigo, tipo_intervencion, cuenca, distrito,
+                                         utm_este, utm_norte, utm_zona, altitud,
+                                         area_hectareas, responsable, estado,
+                                         microcuenca, provincia, fecha_registro)
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                """, (codigo, "Restauracion", microcuenca, distrito,
+                      0.0, 0.0, "17S", 0.0, area_ha, "", "Pendiente",
+                      microcuenca, provincia, fecha))
+
+            conn.commit()
+            cursor.close()
+            conn.close()
+
+            st.success(f"✅ Migracion completada: {eliminados} bloques eliminados, 128 bloques V4 insertados.")
+            st.info("Recarga la pagina o navega al Panel de Control para ver los cambios.")
+            st.cache_data.clear()
+
+        except Exception as e:
+            st.error(f"Error durante la migracion: {e}")
+
+
+# ══════════════════════════════════════════════════════════════════════════
 # ROUTER
 # ══════════════════════════════════════════════════════════════════════════
 if pagina == "Panel de Control": pagina_dashboard()
@@ -3862,3 +4049,4 @@ elif pagina == "Georreferenciacion": pagina_georreferenciacion()
 elif pagina == "ODK / KoBoToolbox": pagina_odk()
 elif pagina == "Reportes": pagina_reportes()
 elif pagina == "Conversor PDF -> Excel": pagina_conversor_pdf()
+elif pagina == "⚙️ Migracion V4 (temporal)": pagina_migracion_v4()
