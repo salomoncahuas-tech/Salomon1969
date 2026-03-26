@@ -3874,9 +3874,13 @@ def pagina_migracion_v4():
             conn = db.get_connection()
             cursor = conn.cursor()
 
-            # 1. Eliminar todos los bloques (CASCADE borra registros vinculados)
+            # 1. Contar bloques existentes antes de eliminar
+            cursor.execute("SELECT COUNT(*) FROM bloques")
+            row = cursor.fetchone()
+            eliminados = list(row.values())[0] if hasattr(row, 'values') else row[0]
+
+            # Eliminar todos los bloques (CASCADE borra registros vinculados)
             cursor.execute("DELETE FROM bloques")
-            eliminados = cursor.rowcount
 
             # 2. Insertar 128 bloques V4
             fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
