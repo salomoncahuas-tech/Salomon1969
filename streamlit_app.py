@@ -1221,6 +1221,7 @@ def pagina_inspeccion():
                 existentes = insp_sel.get("archivos_pdf", "") or ""
                 todas = [p.strip() for p in existentes.split(";") if p.strip()] + nuevas_rutas
                 db.actualizar_archivos_pdf_inspeccion(insp_sel["id"], ";".join(todas))
+                _invalidar_cache()
                 st.success(f"{len(nuevas_rutas)} PDF(s) adjuntado(s)."); st.rerun()
 
 # ══════════════════════════════════════════════════════════════════════════
