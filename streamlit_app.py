@@ -683,15 +683,11 @@ pagina = st.sidebar.selectbox("Navegacion", [
     "⚙️ Migracion V4 (temporal)",
 ])
 st.sidebar.markdown("---")
-st.sidebar.markdown("**IN Piura** v2.1 Web\n\nRestauracion de Ecosistemas\nCuenca Alta del Rio Piura")
 
 # ── Helpers ───────────────────────────────────────────────────────────────
 def _bloques_map():
     return {f"{b['codigo']} - {b['tipo_intervencion']}": b["id"]
             for b in _cached_obtener_bloques(_cache_version())}
-
-def _distritos(prov):
-    return PROVINCIAS_DISTRITOS.get(prov, DISTRITOS_PIURA) if prov else DISTRITOS_PIURA
 
 def _resolver_microcuenca(bloque_label):
     """Resuelve la microcuenca para un bloque dado su label 'CODIGO - TIPO'.
@@ -710,6 +706,56 @@ def _resolver_microcuenca(bloque_label):
     if mc and mc in MICROCUENCAS:
         return mc
     return ""
+
+# ── Selector global de bloque en sidebar ─────────────────────────────────
+PAGINAS_CON_BLOQUE = {
+    "Inspeccion de Campo", "Indicadores de Calidad",
+    "Diagnostico Territorial", "Diagnostico Social",
+    "Presupuesto", "Cronograma", "Reportes",
+}
+if pagina in PAGINAS_CON_BLOQUE:
+    _bm_sidebar = _bloques_map()
+    if _bm_sidebar:
+        st.sidebar.markdown("### Bloque activo")
+        _bl_global = st.sidebar.selectbox(
+            "Seleccionar bloque",
+            list(_bm_sidebar.keys()),
+            key="bloque_global",
+            help="Este bloque se usara en todas las pestanas de registro",
+        )
+        # Resumen rapido de registros del bloque
+        _bid_sb = _bm_sidebar.get(_bl_global)
+        if _bid_sb:
+            _mc_sb = _resolver_microcuenca(_bl_global)
+            if _mc_sb:
+                st.sidebar.caption(f"Microcuenca: {_mc_sb}")
+        st.sidebar.markdown("---")
+    else:
+        _bl_global = None
+else:
+    _bl_global = None
+
+st.sidebar.markdown("**IN Piura** v2.1 Web\n\nRestauracion de Ecosistemas\nCuenca Alta del Rio Piura")
+
+def _bloque_global_seleccionado():
+    """Retorna (label, id) del bloque seleccionado en sidebar, o (None, None)."""
+    bm = _bloques_map()
+    bl = st.session_state.get("bloque_global")
+    if bl and bl in bm:
+        return bl, bm[bl]
+    return None, None
+
+def _mostrar_bloque_activo(bl_label):
+    """Muestra un banner con info del bloque activo y su microcuenca."""
+    codigo = bl_label.split(" - ")[0].strip() if " - " in bl_label else bl_label
+    mc = _resolver_microcuenca(bl_label)
+    info = f"Bloque: **{codigo}**"
+    if mc:
+        info += f" | Microcuenca: **{mc}**"
+    st.info(info)
+
+def _distritos(prov):
+    return PROVINCIAS_DISTRITOS.get(prov, DISTRITOS_PIURA) if prov else DISTRITOS_PIURA
 
 # ══════════════════════════════════════════════════════════════════════════
 # PANEL DE CONTROL
@@ -945,13 +991,13 @@ def pagina_bloques():
             bloques_pag, total_pags, pag_actual = _paginar(bloques, "pag_bloques")
             _controles_paginacion(total_pags, pag_actual, "pag_bloques")
             # Tabla con botones de edicion por fila
-            header_cols = st.columns([0.5, 1.2, 1.2, 1.2, 1, 1, 0.8, 0.8, 0.7])
-            headers = ["ID", "Codigo", "Microcuenca", "Tipo", "Provincia", "Distrito", "Area", "Estado", ""]
+            header_cols = st.columns([0.5, 1.2, 1.2, 1.2, 1, 1, 0.8, 0.8, 0.6, 0.7])
+            headers = ["ID", "Codigo", "Microcuenca", "Tipo", "Provincia", "Distrito", "Area", "Estado", "", ""]
             for col, h in zip(header_cols, headers):
                 col.markdown(f"**{h}**")
             st.markdown("---")
             for b in bloques_pag:
-                row_cols = st.columns([0.5, 1.2, 1.2, 1.2, 1, 1, 0.8, 0.8, 0.7])
+                row_cols = st.columns([0.5, 1.2, 1.2, 1.2, 1, 1, 0.8, 0.8, 0.6, 0.7])
                 row_cols[0].write(b["id"])
                 row_cols[1].write(b["codigo"])
                 row_cols[2].write(b.get("microcuenca", "") or "")
@@ -960,7 +1006,12 @@ def pagina_bloques():
                 row_cols[5].write(b["distrito"])
                 row_cols[6].write(f"{b['area_hectareas']:.4f}")
                 row_cols[7].write(b["estado"])
-                if row_cols[8].button("Editar", key=f"edit_bl_{b['id']}", type="primary"):
+                bl_label = f"{b['codigo']} - {b['tipo_intervencion']}"
+                if row_cols[8].button("Usar", key=f"sel_bl_{b['id']}",
+                                      help="Seleccionar como bloque activo"):
+                    st.session_state["bloque_global"] = bl_label
+                    st.rerun()
+                if row_cols[9].button("Editar", key=f"edit_bl_{b['id']}", type="primary"):
                     _bl_load_edit(b)
                     st.rerun()
             st.markdown("---")
@@ -994,6 +1045,14 @@ def pagina_inspeccion():
     bm = _bloques_map()
     if not bm: st.warning("Registre un bloque primero."); return
 
+    # Usar bloque global del sidebar
+    bl_global, bid_global = _bloque_global_seleccionado()
+    if not bl_global:
+        st.info("Seleccione un bloque en la barra lateral para continuar.")
+        return
+    bl = bl_global
+    _mostrar_bloque_activo(bl)
+
     # Inicializar estado de edicion
     if "insp_edit_id" not in st.session_state:
         st.session_state["insp_edit_id"] = None
@@ -1010,25 +1069,9 @@ def pagina_inspeccion():
                     del st.session_state[k]
             st.rerun()
 
-    # Selector de bloque FUERA del form para auto-enlazar microcuenca
-    opciones_bloque = list(bm.keys())
-    # En modo edicion, preseleccionar el bloque
-    bl_idx = 0
-    if edit_id:
-        bl_code = st.session_state.get("insp_e_bloque", "")
-        for i, op in enumerate(opciones_bloque):
-            if bl_code and bl_code in op:
-                bl_idx = i
-                break
-    bl = st.selectbox("Bloque", opciones_bloque, index=bl_idx, key="insp_bloque")
-
     # Auto-resolver microcuenca del bloque seleccionado
     mc_auto = _resolver_microcuenca(bl)
-    if mc_auto:
-        mc_idx = MICROCUENCAS.index(mc_auto) + 1
-        st.info(f"Microcuenca vinculada automaticamente: **{mc_auto}**")
-    else:
-        mc_idx = 0
+    mc_idx = MICROCUENCAS.index(mc_auto) + 1 if mc_auto else 0
     if edit_id:
         mc_val = st.session_state.get("insp_e_mc", "")
         if mc_val and mc_val in MICROCUENCAS:
@@ -1134,7 +1177,8 @@ def pagina_inspeccion():
     st.markdown("---")
     st.markdown("**Historial de Inspecciones**")
     st.caption("Haga clic en **Editar** para modificar una inspeccion existente y evitar duplicidades.")
-    insp = _cached_obtener_todas_inspecciones(_cache_version())
+    _all_insp = _cached_obtener_todas_inspecciones(_cache_version())
+    insp = [i for i in _all_insp if i.get("bloque_id") == bm[bl]]
     if insp:
         # Paginacion
         insp_pag, total_pags_i, pag_actual_i = _paginar(insp, "pag_insp")
@@ -1232,6 +1276,15 @@ def pagina_indicadores():
     bm = _bloques_map()
     if not bm: st.warning("Registre un bloque primero."); return
 
+    # Usar bloque global del sidebar
+    bl_global, bid_global = _bloque_global_seleccionado()
+    if not bl_global:
+        st.info("Seleccione un bloque en la barra lateral para continuar.")
+        return
+    bl = bl_global
+    bid = bid_global
+    _mostrar_bloque_activo(bl)
+
     # Inicializar estado de edicion
     if "ind_edit_id" not in st.session_state:
         st.session_state["ind_edit_id"] = None
@@ -1248,16 +1301,9 @@ def pagina_indicadores():
                     del st.session_state[k]
             st.rerun()
 
-    bl = st.selectbox("Bloque", list(bm.keys()), key="ind_bl")
-    bid = bm[bl]
-
     # Auto-resolver microcuenca del bloque seleccionado
     mc_auto = _resolver_microcuenca(bl)
-    if mc_auto:
-        mc_idx = MICROCUENCAS.index(mc_auto) + 1
-        st.info(f"Microcuenca vinculada automaticamente: **{mc_auto}**")
-    else:
-        mc_idx = 0
+    mc_idx = MICROCUENCAS.index(mc_auto) + 1 if mc_auto else 0
     if edit_id:
         mc_val = st.session_state.get("ind_e_mc", "")
         if mc_val and mc_val in MICROCUENCAS:
@@ -1349,6 +1395,15 @@ def pagina_diagnostico_territorial():
         st.warning("Registre un bloque primero.")
         return
 
+    # Usar bloque global del sidebar
+    bl_global, bid_global = _bloque_global_seleccionado()
+    if not bl_global:
+        st.info("Seleccione un bloque en la barra lateral para continuar.")
+        return
+    bl = bl_global
+    bid = bid_global
+    _mostrar_bloque_activo(bl)
+
     # Inicializar estado de edicion DT
     if "dt_edit_id" not in st.session_state:
         st.session_state["dt_edit_id"] = None
@@ -1369,16 +1424,9 @@ def pagina_diagnostico_territorial():
                 st.session_state["dt_edit_data"] = None
                 st.rerun()
 
-        bl = st.selectbox("Bloque de Intervencion", list(bm.keys()), key="dt_bl")
-        bid = bm[bl]
-
         # Auto-resolver microcuenca del bloque seleccionado
         mc_auto_dt = _resolver_microcuenca(bl)
-        if mc_auto_dt:
-            mc_idx_dt = MICROCUENCAS.index(mc_auto_dt) + 1
-            st.info(f"Microcuenca vinculada automaticamente: **{mc_auto_dt}**")
-        else:
-            mc_idx_dt = 0
+        mc_idx_dt = MICROCUENCAS.index(mc_auto_dt) + 1 if mc_auto_dt else 0
         # En modo edicion, preseleccionar la microcuenca del registro
         if dt_edit_id:
             mc_val = dt_edit.get("microcuenca", "")
@@ -1579,7 +1627,8 @@ def pagina_diagnostico_territorial():
     with tab_hist:
         st.markdown("### Historial de Diagnosticos Territoriales")
         st.caption("Haga clic en **Editar** para modificar un diagnostico existente y evitar duplicidades.")
-        todos_dt = _cached_obtener_todos_diagnosticos(_cache_version())
+        _all_dt = _cached_obtener_todos_diagnosticos(_cache_version())
+        todos_dt = [d for d in _all_dt if d.get("bloque_id") == bid]
         if not todos_dt:
             st.info("No hay diagnosticos registrados.")
         else:
@@ -2201,6 +2250,15 @@ def pagina_diagnostico_social():
         st.warning("Registre un bloque primero.")
         return
 
+    # Usar bloque global del sidebar
+    bl_global, bid_global = _bloque_global_seleccionado()
+    if not bl_global:
+        st.info("Seleccione un bloque en la barra lateral para continuar.")
+        return
+    bl = bl_global
+    bid = bid_global
+    _mostrar_bloque_activo(bl)
+
     # Inicializar estado de edicion
     if "ds_edit_id" not in st.session_state:
         st.session_state["ds_edit_id"] = None
@@ -2218,10 +2276,6 @@ def pagina_diagnostico_social():
                 st.session_state["ds_edit_id"] = None
                 st.rerun()
 
-        # ── Datos comunes ─────────────────────────────────────────────
-        bl = st.selectbox("Bloque de Intervencion", list(bm.keys()), key="ds_bl")
-        bid = bm[bl]
-
         # Detectar cambio de bloque para resetear campos de ubicacion auto-completados
         prev_bl = st.session_state.get("_ds_prev_bl", "")
         if prev_bl and prev_bl != bl and not edit_id:
@@ -2231,11 +2285,7 @@ def pagina_diagnostico_social():
 
         # Auto-resolver microcuenca del bloque seleccionado
         mc_auto_ds = _resolver_microcuenca(bl)
-        if mc_auto_ds:
-            mc_idx_ds = MICROCUENCAS.index(mc_auto_ds) + 1  # +1 por el "" inicial
-            st.info(f"Microcuenca vinculada automaticamente: **{mc_auto_ds}**")
-        else:
-            mc_idx_ds = 0
+        mc_idx_ds = MICROCUENCAS.index(mc_auto_ds) + 1 if mc_auto_ds else 0
 
         r1, r2, r3, r4 = st.columns(4)
         mc = r1.selectbox("Microcuenca", [""] + MICROCUENCAS, index=mc_idx_ds, key="ds_mc")
@@ -2609,7 +2659,8 @@ def pagina_diagnostico_social():
     with tab_hist:
         st.markdown("### Historial de Diagnosticos Sociales")
         st.caption("Haga clic en **Editar** para modificar un diagnostico existente y evitar duplicidades.")
-        todos_ds = _cached_obtener_todos_diagnosticos_sociales(_cache_version())
+        _all_ds = _cached_obtener_todos_diagnosticos_sociales(_cache_version())
+        todos_ds = [d for d in _all_ds if d.get("bloque_id") == bid]
         if not todos_ds:
             st.info("No hay diagnosticos sociales registrados.")
         else:
@@ -3087,6 +3138,15 @@ def pagina_presupuesto():
     bm = _bloques_map()
     if not bm: st.warning("Registre un bloque primero."); return
 
+    # Usar bloque global del sidebar
+    bl_global, bid_global = _bloque_global_seleccionado()
+    if not bl_global:
+        st.info("Seleccione un bloque en la barra lateral para continuar.")
+        return
+    bl = bl_global
+    bid = bid_global
+    _mostrar_bloque_activo(bl)
+
     # Inicializar estado de edicion
     if "pres_edit_id" not in st.session_state:
         st.session_state["pres_edit_id"] = None
@@ -3102,9 +3162,6 @@ def pagina_presupuesto():
                 if k.startswith("pres_e_"):
                     del st.session_state[k]
             st.rerun()
-
-    bl = st.selectbox("Bloque", list(bm.keys()), key="pres_bl")
-    bid = bm[bl]
 
     def_cat_idx = 0
     def_desc = ""
@@ -3211,6 +3268,15 @@ def pagina_cronograma():
     bm = _bloques_map()
     if not bm: st.warning("Registre un bloque primero."); return
 
+    # Usar bloque global del sidebar
+    bl_global, bid_global = _bloque_global_seleccionado()
+    if not bl_global:
+        st.info("Seleccione un bloque en la barra lateral para continuar.")
+        return
+    bl = bl_global
+    bid = bid_global
+    _mostrar_bloque_activo(bl)
+
     # Inicializar estado de edicion
     if "crono_edit_id" not in st.session_state:
         st.session_state["crono_edit_id"] = None
@@ -3226,9 +3292,6 @@ def pagina_cronograma():
                 if k.startswith("crono_e_"):
                     del st.session_state[k]
             st.rerun()
-
-    bl = st.selectbox("Bloque", list(bm.keys()), key="crono_bl")
-    bid = bm[bl]
 
     def_act_idx = 0
     def_ip = datetime.now()
@@ -3541,17 +3604,22 @@ def pagina_odk():
 def pagina_reportes():
     st.subheader("Generacion de Reportes")
     bm = _bloques_map()
+
+    # Usar bloque global del sidebar
+    bl_global, bid_global = _bloque_global_seleccionado()
+    if not bl_global:
+        st.info("Seleccione un bloque en la barra lateral para continuar.")
+        return
+    _mostrar_bloque_activo(bl_global)
+
     st.markdown("### Ficha de Inspeccion (PDF)")
-    if bm:
-        bl = st.selectbox("Bloque",list(bm.keys()),key="rep_bl")
-        if st.button("Generar Ficha PDF", type="primary"):
-            try:
-                ruta = reports.generar_ficha_pdf(bm[bl])
-                with open(ruta,"rb") as f: data = f.read()
-                st.download_button("Descargar PDF",data,os.path.basename(ruta),"application/pdf")
-                st.success("PDF generado.")
-            except Exception as e: st.error(f"Error: {e}")
-    else: st.info("Registre bloques primero.")
+    if st.button("Generar Ficha PDF", type="primary"):
+        try:
+            ruta = reports.generar_ficha_pdf(bid_global)
+            with open(ruta,"rb") as f: data = f.read()
+            st.download_button("Descargar PDF",data,os.path.basename(ruta),"application/pdf")
+            st.success("PDF generado.")
+        except Exception as e: st.error(f"Error: {e}")
     st.markdown("---")
     st.markdown("### Tabla Resumen (Excel)")
     if st.button("Generar Resumen Excel"):
