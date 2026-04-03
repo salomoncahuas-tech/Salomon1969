@@ -98,6 +98,16 @@ def load_user(user_id):
 
 
 # ---------------------------------------------------------------------------
+# Health check for Render
+# ---------------------------------------------------------------------------
+
+@app.route('/health')
+def health_check():
+    """Health check endpoint for Render."""
+    return jsonify({'status': 'ok'}), 200
+
+
+# ---------------------------------------------------------------------------
 # PUBLIC ROUTES - Student access
 # ---------------------------------------------------------------------------
 
@@ -915,27 +925,35 @@ def init_db():
     db.session.commit()
 
 
-with app.app_context():
-    init_db()
-    if not Assessment.query.first():
-        try:
+def run_seed():
+    """Run database seeding in a safe way, with error recovery."""
+    try:
+        init_db()
+    except Exception as e:
+        app.logger.error('Failed to initialize database: %s', e)
+        return
+
+    try:
+        if not Assessment.query.first():
             from seed_data import seed_assessments
             seed_assessments()
-        except Exception as e:
-            print(f'Warning: Could not auto-seed assessments: {e}')
-    # Add new assessments that may not exist in older databases
-    if not Assessment.query.filter_by(access_code='FREQ2SEC').first():
-        try:
+            app.logger.info('Seeded initial assessments')
+    except Exception as e:
+        db.session.rollback()
+        app.logger.warning('Could not auto-seed assessments: %s', e)
+
+    try:
+        if not Assessment.query.filter_by(access_code='FREQ2SEC').first():
             from seed_data import seed_freq2sec
             seed_freq2sec()
-            print('Added new practice: Adverbs of Frequency (FREQ2SEC)')
-        except Exception as e:
-            print(f'Warning: Could not add FREQ2SEC: {e}')
-    # Add listening comprehension assessments (re-seed if assessment has no questions)
-    list_assessment = Assessment.query.filter_by(access_code='LIST3PA1').first()
-    if not list_assessment or list_assessment.question_count == 0:
-        try:
-            # Delete empty listening assessments if they exist
+            app.logger.info('Added new practice: Adverbs of Frequency (FREQ2SEC)')
+    except Exception as e:
+        db.session.rollback()
+        app.logger.warning('Could not add FREQ2SEC: %s', e)
+
+    try:
+        list_assessment = Assessment.query.filter_by(access_code='LIST3PA1').first()
+        if not list_assessment or list_assessment.question_count == 0:
             for code in ['LIST3PA1', 'LIST5PA2', 'LIST2SB1', 'LIST4SB2']:
                 empty = Assessment.query.filter_by(access_code=code).first()
                 if empty and empty.question_count == 0:
@@ -943,9 +961,14 @@ with app.app_context():
             db.session.commit()
             from seed_data import seed_listening_comprehension
             seed_listening_comprehension()
-            print('Added new: Listening Comprehension assessments')
-        except Exception as e:
-            print(f'Warning: Could not add Listening Comprehension: {e}')
+            app.logger.info('Added new: Listening Comprehension assessments')
+    except Exception as e:
+        db.session.rollback()
+        app.logger.warning('Could not add Listening Comprehension: %s', e)
+
+
+with app.app_context():
+    run_seed()
 
 
 if __name__ == '__main__':

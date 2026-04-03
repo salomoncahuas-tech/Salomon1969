@@ -11,7 +11,8 @@ services:
     runtime: python
     rootDir: english_assessment
     buildCommand: "./render_build.sh"
-    startCommand: "gunicorn app:app --bind 0.0.0.0:$PORT"
+    startCommand: "gunicorn app:app --bind 0.0.0.0:$PORT --timeout 120 --workers 2 --preload"
+    healthCheckPath: /health
     envVars:
       - key: SECRET_KEY
         generateValue: true
