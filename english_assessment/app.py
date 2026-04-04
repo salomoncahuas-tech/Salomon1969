@@ -112,7 +112,18 @@ def load_user(user_id):
 @app.route('/health')
 def health_check():
     """Health check endpoint for Render."""
-    return jsonify({'status': 'ok'}), 200
+    status = {'app': 'ok'}
+    try:
+        db.session.execute(db.text('SELECT 1'))
+        status['database'] = 'ok'
+        teacher_count = Teacher.query.count()
+        status['teachers'] = teacher_count
+        grade_count = Grade.query.count()
+        status['grades'] = grade_count
+    except Exception as e:
+        status['database'] = f'error: {str(e)}'
+        db.session.rollback()
+    return jsonify(status), 200
 
 
 # ---------------------------------------------------------------------------
@@ -443,17 +454,22 @@ def show_results(result_id):
 
 @app.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
-    if current_user.is_authenticated:
-        return redirect(url_for('admin_dashboard'))
-    if request.method == 'POST':
-        username = request.form.get('username', '').strip()
-        password = request.form.get('password', '')
-        teacher = Teacher.query.filter_by(username=username).first()
-        if teacher and teacher.check_password(password):
-            login_user(teacher)
+    try:
+        if current_user.is_authenticated:
             return redirect(url_for('admin_dashboard'))
-        flash('Invalid username or password.', 'error')
-    return render_template('admin/login.html')
+        if request.method == 'POST':
+            username = request.form.get('username', '').strip()
+            password = request.form.get('password', '')
+            teacher = Teacher.query.filter_by(username=username).first()
+            if teacher and teacher.check_password(password):
+                login_user(teacher)
+                return redirect(url_for('admin_dashboard'))
+            flash('Invalid username or password.', 'error')
+        return render_template('admin/login.html')
+    except Exception as e:
+        db.session.rollback()
+        app.logger.error('admin_login error: %s', str(e))
+        return f'<h1>Login Error</h1><p>Debug: {str(e)}</p><p><a href="/">Back to Home</a></p>', 500
 
 
 @app.route('/admin/logout')
