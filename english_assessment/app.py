@@ -76,6 +76,10 @@ if database_url.startswith('postgres://'):
     database_url = database_url.replace('postgres://', 'postgresql://', 1)
 app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'pool_pre_ping': True,
+    'pool_recycle': 300,
+}
 app.config['MAX_CONTENT_LENGTH'] = MAX_AUDIO_SIZE_MB * 1024 * 1024
 
 # Ensure audio upload directory exists
@@ -94,7 +98,11 @@ login_manager.login_message = 'Please log in to access the admin panel.'
 
 @login_manager.user_loader
 def load_user(user_id):
-    return db.session.get(Teacher, int(user_id))
+    try:
+        return db.session.get(Teacher, int(user_id))
+    except Exception:
+        db.session.rollback()
+        return None
 
 
 # ---------------------------------------------------------------------------
@@ -969,6 +977,8 @@ def run_seed():
 
 with app.app_context():
     run_seed()
+    # Dispose connections so forked gunicorn workers get fresh ones (--preload safe)
+    db.engine.dispose()
 
 
 if __name__ == '__main__':
