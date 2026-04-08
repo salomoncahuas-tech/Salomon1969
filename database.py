@@ -318,6 +318,10 @@ def inicializar_bd():
             ds01_percepcion_cambios TEXT DEFAULT '',
             ds01_disposicion_participar TEXT DEFAULT '',
             ds01_comentario_disposicion TEXT DEFAULT '',
+            ds01_activos_asociados TEXT DEFAULT '',
+            ds01_tenencia_comunal_ha TEXT DEFAULT '',
+            ds01_tenencia_privada_ha TEXT DEFAULT '',
+            ds01_tenencia_estatal_ha TEXT DEFAULT '',
             ds02_registro_actores TEXT DEFAULT '',
             ds02_actores_gob_local TEXT DEFAULT '',
             ds02_actores_gob_regional TEXT DEFAULT '',
@@ -346,6 +350,7 @@ def inicializar_bd():
             ds03_resp_decisiones_territorio TEXT DEFAULT '',
             ds03_resp_conflictos TEXT DEFAULT '',
             ds03_resp_proyectos_anteriores TEXT DEFAULT '',
+            ds03_resp_experiencia_reforestacion TEXT DEFAULT '',
             ds03_resp_conocimiento_restauracion TEXT DEFAULT '',
             ds03_resp_expectativas TEXT DEFAULT '',
             ds03_resp_disposicion_participar TEXT DEFAULT '',
@@ -414,6 +419,22 @@ def inicializar_bd():
             END IF;
         END $$
     """)
+
+    # ── Migracion: agregar columnas nuevas a tablas existentes ─────────────
+    nuevas_columnas_ds = [
+        ("ds01_activos_asociados", "TEXT DEFAULT ''"),
+        ("ds01_tenencia_comunal_ha", "TEXT DEFAULT ''"),
+        ("ds01_tenencia_privada_ha", "TEXT DEFAULT ''"),
+        ("ds01_tenencia_estatal_ha", "TEXT DEFAULT ''"),
+        ("ds03_resp_experiencia_reforestacion", "TEXT DEFAULT ''"),
+    ]
+    for col_name, col_type in nuevas_columnas_ds:
+        cursor.execute(f"""
+            DO $$ BEGIN
+                ALTER TABLE diagnostico_social ADD COLUMN {col_name} {col_type};
+            EXCEPTION WHEN duplicate_column THEN NULL;
+            END $$
+        """)
 
     conn.commit()
     conn.close()
