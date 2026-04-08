@@ -364,6 +364,46 @@ def _generar_ds01(wb):
     _add_validation(ws, "B", r - 2, r - 2, FDS01_DISPOSICION)  # Disposicion
 
     r += 1
+
+    # -- Seccion 4b: Activos Asociados y Tenencia --
+    ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=4)
+    _cell(ws, r, 1, "4b. ACTIVOS ASOCIADOS Y PROPIEDADES DE AREAS A INTERVENIR",
+          SECTION_FONT, SECTION_FILL)
+    for c in range(1, 5):
+        ws.cell(row=r, column=c).fill = SECTION_FILL
+    r += 1
+
+    # Activos asociados (campo de texto amplio)
+    _cell(ws, r, 1, "Activos asociados al bloque", LABEL_FONT, LABEL_FILL,
+          Alignment(wrap_text=True), THIN_BORDER)
+    ws.merge_cells(start_row=r, start_column=2, end_row=r + 2, end_column=4)
+    _cell(ws, r, 2, "", VALUE_FONT, VALUE_FILL, border=THIN_BORDER)
+    r += 3
+
+    # Instruccion para activos
+    ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=4)
+    _cell(ws, r, 1,
+          "Indique los activos vinculados al bloque: cultivos, ganado, infraestructura de riego, "
+          "vias, viviendas, infraestructura publica, etc. (critico para analisis de exposicion - "
+          "Guia GRD-CC)",
+          INSTRUCCION_FONT, None, Alignment(horizontal="left", wrap_text=True))
+    r += 1
+
+    # Propiedades de areas a intervenir por regimen de tenencia
+    _cell(ws, r, 1, "Propiedades de areas a intervenir",
+          LABEL_FONT, LABEL_FILL, border=THIN_BORDER)
+    ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=4)
+    _cell(ws, r, 2, "(Superficie en hectareas por regimen de tenencia)",
+          INSTRUCCION_FONT, LABEL_FILL, border=THIN_BORDER)
+    r += 1
+
+    for label_ten in ("Area comunal (ha)", "Area privada (ha)", "Area estatal (ha)"):
+        _cell(ws, r, 1, label_ten, LABEL_FONT, LABEL_FILL, border=THIN_BORDER)
+        ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=4)
+        _cell(ws, r, 2, "", VALUE_FONT, VALUE_FILL, border=THIN_BORDER)
+        r += 1
+
+    r += 1
     # Observaciones
     _cell(ws, r, 1, "Observaciones generales", LABEL_FONT, LABEL_FILL, border=THIN_BORDER)
     ws.merge_cells(start_row=r, start_column=2, end_row=r + 2, end_column=4)
@@ -491,6 +531,7 @@ def _generar_ds03(wb):
             "3.2 Como se toman las decisiones sobre el uso del territorio?",
             "3.3 Existen conflictos por el uso del agua o la tierra? Entre quienes?",
             "3.4 Han participado en proyectos similares antes? Cual fue la experiencia?",
+            "3.5 Existe experiencia previa en reforestacion en la zona? Describa especies utilizadas, superficie intervenida y resultados obtenidos.",
         ]),
         ("4. CONOCIMIENTO Y EXPECTATIVAS SOBRE EL PROYECTO", [
             "4.1 Tiene conocimiento sobre infraestructura natural o restauracion?",
@@ -859,6 +900,12 @@ def _parse_ds01(ws):
     datos["ds01_disposicion_participar"] = _g("disposicion a particip", "disposicion participar")
     datos["ds01_comentario_disposicion"] = _g("comentario disp")
 
+    # Activos asociados y tenencia
+    datos["ds01_activos_asociados"] = _g("activos asociados")
+    datos["ds01_tenencia_comunal_ha"] = _g("area comunal")
+    datos["ds01_tenencia_privada_ha"] = _g("area privada")
+    datos["ds01_tenencia_estatal_ha"] = _g("area estatal")
+
     # Observaciones
     datos["observaciones"] = _g("observaciones general")
 
@@ -958,6 +1005,7 @@ def _parse_ds03(ws):
         ("ds03_resp_decisiones_territorio", "3.2"),
         ("ds03_resp_conflictos", "3.3"),
         ("ds03_resp_proyectos_anteriores", "3.4"),
+        ("ds03_resp_experiencia_reforestacion", "3.5"),
         ("ds03_resp_conocimiento_restauracion", "4.1"),
         ("ds03_resp_expectativas", "4.2"),
         ("ds03_resp_disposicion_participar", "4.3"),
@@ -1273,6 +1321,10 @@ def mapear_a_session_state(datos_parseados, bloques_map):
         ss["s01_pcam"] = datos.get("ds01_percepcion_cambios", "")
         ss["s01_disp"] = datos.get("ds01_disposicion_participar", "")
         ss["s01_cdisp"] = datos.get("ds01_comentario_disposicion", "")
+        ss["s01_activos"] = datos.get("ds01_activos_asociados", "")
+        ss["s01_ten_com"] = datos.get("ds01_tenencia_comunal_ha", "")
+        ss["s01_ten_pri"] = datos.get("ds01_tenencia_privada_ha", "")
+        ss["s01_ten_est"] = datos.get("ds01_tenencia_estatal_ha", "")
 
     elif ficha == "F-DS-02":
         actores = datos.get("ds02_registro_actores", [])
@@ -1343,6 +1395,7 @@ def mapear_a_session_state(datos_parseados, bloques_map):
             "s03_r10": "ds03_resp_decisiones_territorio",
             "s03_r11": "ds03_resp_conflictos",
             "s03_r12": "ds03_resp_proyectos_anteriores",
+            "s03_r12b": "ds03_resp_experiencia_reforestacion",
             "s03_r13": "ds03_resp_conocimiento_restauracion",
             "s03_r14": "ds03_resp_expectativas",
             "s03_r15": "ds03_resp_disposicion_participar",

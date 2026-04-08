@@ -2068,6 +2068,10 @@ def _ds_load_edit(det, bm):
         st.session_state["s01_pcam"] = det.get("ds01_percepcion_cambios", "") or ""
         st.session_state["s01_disp"] = det.get("ds01_disposicion_participar", "") or ""
         st.session_state["s01_cdisp"] = det.get("ds01_comentario_disposicion", "") or ""
+        st.session_state["s01_activos"] = det.get("ds01_activos_asociados", "") or ""
+        st.session_state["s01_ten_com"] = det.get("ds01_tenencia_comunal_ha", "") or ""
+        st.session_state["s01_ten_pri"] = det.get("ds01_tenencia_privada_ha", "") or ""
+        st.session_state["s01_ten_est"] = det.get("ds01_tenencia_estatal_ha", "") or ""
         # Actividades economicas (JSON)
         act_json = det.get("ds01_actividades_economicas", "") or ""
         if act_json:
@@ -2130,6 +2134,7 @@ def _ds_load_edit(det, bm):
             "s03_r7": "ds03_resp_productos_bosque", "s03_r8": "ds03_resp_cadenas_productivas",
             "s03_r9": "ds03_resp_organizaciones", "s03_r10": "ds03_resp_decisiones_territorio",
             "s03_r11": "ds03_resp_conflictos", "s03_r12": "ds03_resp_proyectos_anteriores",
+            "s03_r12b": "ds03_resp_experiencia_reforestacion",
             "s03_r13": "ds03_resp_conocimiento_restauracion", "s03_r14": "ds03_resp_expectativas",
             "s03_r15": "ds03_resp_disposicion_participar", "s03_r16": "ds03_resp_condiciones",
             "s03_r17": "ds03_resp_conocimiento_merese", "s03_r18": "ds03_resp_beneficiarios",
@@ -2319,6 +2324,19 @@ def pagina_diagnostico_social():
             ds01_disp = c3.selectbox("Disposicion a participar en el proyecto", [""] + FDS01_DISPOSICION, key="s01_disp")
             ds01_com_disp = c4.text_input("Comentario disposicion", key="s01_cdisp")
 
+            st.markdown("**4b. Activos Asociados y Propiedades de Areas a Intervenir**")
+            ds01_activos = st.text_area(
+                "Activos asociados al bloque (cultivos, ganado, infraestructura de riego, "
+                "vias, viviendas, infraestructura publica, etc.)",
+                key="s01_activos", height=100,
+                help="Dato critico para el analisis de exposicion conforme a la Guia GRD-CC. "
+                     "Indique los activos vinculados a los bloques preliminares.")
+            st.caption("Propiedades de areas a intervenir (superficie en hectareas por regimen de tenencia)")
+            ct1, ct2, ct3 = st.columns(3)
+            ds01_ten_com = ct1.text_input("Area comunal (ha)", key="s01_ten_com")
+            ds01_ten_pri = ct2.text_input("Area privada (ha)", key="s01_ten_pri")
+            ds01_ten_est = ct3.text_input("Area estatal (ha)", key="s01_ten_est")
+
             datos = {
                 "ds01_num_familias": ds01_nfam,
                 "ds01_poblacion_hombres": ds01_pob_h, "ds01_poblacion_mujeres": ds01_pob_m,
@@ -2343,6 +2361,10 @@ def pagina_diagnostico_social():
                 "ds01_percepcion_cambios": ds01_percep_cambios,
                 "ds01_disposicion_participar": ds01_disp,
                 "ds01_comentario_disposicion": ds01_com_disp,
+                "ds01_activos_asociados": ds01_activos,
+                "ds01_tenencia_comunal_ha": ds01_ten_com,
+                "ds01_tenencia_privada_ha": ds01_ten_pri,
+                "ds01_tenencia_estatal_ha": ds01_ten_est,
             }
 
         # ══════════════════════════════════════════════════════════════
@@ -2422,6 +2444,12 @@ def pagina_diagnostico_social():
             ds03_r10 = st.text_area("3.2 Como se toman las decisiones sobre el uso del territorio y los recursos naturales?", key="s03_r10", height=80)
             ds03_r11 = st.text_area("3.3 Existen conflictos por el uso del agua o la tierra? Entre quienes?", key="s03_r11", height=80)
             ds03_r12 = st.text_area("3.4 Han participado en proyectos similares antes? Cual fue la experiencia?", key="s03_r12", height=80)
+            ds03_r12b = st.text_area(
+                "3.5 Existe experiencia previa en reforestacion en la zona? "
+                "Describa especies utilizadas, superficie intervenida y resultados obtenidos.",
+                key="s03_r12b", height=100,
+                help="Campo con alta relevancia tecnica para el diseno de medidas de "
+                     "infraestructura natural (linea 1 del proyecto).")
 
             st.markdown("**4. Conocimiento y Expectativas sobre el Proyecto**")
             ds03_r13 = st.text_area("4.1 Tiene conocimiento sobre infraestructura natural o proyectos de restauracion?", key="s03_r13", height=80)
@@ -2445,6 +2473,7 @@ def pagina_diagnostico_social():
                 "ds03_resp_productos_bosque": ds03_r7, "ds03_resp_cadenas_productivas": ds03_r8,
                 "ds03_resp_organizaciones": ds03_r9, "ds03_resp_decisiones_territorio": ds03_r10,
                 "ds03_resp_conflictos": ds03_r11, "ds03_resp_proyectos_anteriores": ds03_r12,
+                "ds03_resp_experiencia_reforestacion": ds03_r12b,
                 "ds03_resp_conocimiento_restauracion": ds03_r13, "ds03_resp_expectativas": ds03_r14,
                 "ds03_resp_disposicion_participar": ds03_r15, "ds03_resp_condiciones": ds03_r16,
                 "ds03_resp_conocimiento_merese": ds03_r17, "ds03_resp_beneficiarios": ds03_r18,
@@ -2685,6 +2714,12 @@ def pagina_diagnostico_social():
                             st.markdown(f"**Uso forestal:** {det.get('ds01_uso_recursos_forestales','') or '-'}")
                             st.markdown(f"**Percepcion cambios:** {det.get('ds01_percepcion_cambios','') or '-'}")
                             st.markdown(f"**Disposicion participar:** {det.get('ds01_disposicion_participar','') or '-'}")
+                        with st.expander("ACTIVOS ASOCIADOS Y PROPIEDADES DE AREAS", expanded=True):
+                            st.markdown(f"**Activos asociados:** {det.get('ds01_activos_asociados','') or '-'}")
+                            c1, c2, c3 = st.columns(3)
+                            c1.markdown(f"**Area comunal (ha):** {det.get('ds01_tenencia_comunal_ha','') or '-'}")
+                            c2.markdown(f"**Area privada (ha):** {det.get('ds01_tenencia_privada_ha','') or '-'}")
+                            c3.markdown(f"**Area estatal (ha):** {det.get('ds01_tenencia_estatal_ha','') or '-'}")
 
                     elif ficha_t == "F-DS-02":
                         act_json = det.get("ds02_registro_actores", "")
@@ -2735,6 +2770,7 @@ def pagina_diagnostico_social():
                                 ("ds03_resp_decisiones_territorio", "Decisiones territorio"),
                                 ("ds03_resp_conflictos", "Conflictos"),
                                 ("ds03_resp_proyectos_anteriores", "Proyectos anteriores"),
+                                ("ds03_resp_experiencia_reforestacion", "Experiencia en reforestacion"),
                             ]),
                             ("4. Conocimiento y Expectativas", [
                                 ("ds03_resp_conocimiento_restauracion", "Conocimiento restauracion"),
