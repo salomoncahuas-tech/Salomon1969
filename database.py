@@ -378,6 +378,52 @@ def inicializar_bd():
         )
     """)
 
+    # ── Tabla de Elementos Expuestos (AdR / Riesgos) ────────────────────
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS elementos_expuestos (
+            id SERIAL PRIMARY KEY,
+            bloque_id INTEGER NOT NULL REFERENCES bloques(id) ON DELETE CASCADE,
+            inspeccion_id INTEGER REFERENCES inspecciones(id) ON DELETE SET NULL,
+            ficha TEXT NOT NULL,
+            fecha_campo TEXT DEFAULT '',
+            responsable_brigada TEXT DEFAULT '',
+            centro_poblado TEXT DEFAULT '',
+            coordenada_este TEXT DEFAULT '',
+            coordenada_norte TEXT DEFAULT '',
+            altitud TEXT DEFAULT '',
+            ee01_registros TEXT DEFAULT '',
+            ee02_registros TEXT DEFAULT '',
+            ee02_total_viviendas TEXT DEFAULT '',
+            ee02_total_poblacion TEXT DEFAULT '',
+            ee03_registros TEXT DEFAULT '',
+            ee04_registros TEXT DEFAULT '',
+            ee05_tipo_ecosistema TEXT DEFAULT '',
+            ee05_zona_vida TEXT DEFAULT '',
+            ee05_cobertura_vegetal TEXT DEFAULT '',
+            ee05_pct_cobertura TEXT DEFAULT '',
+            ee05_especies_dominantes TEXT DEFAULT '',
+            ee05_evidencia_degradacion TEXT DEFAULT '',
+            ee05_tipo_degradacion TEXT DEFAULT '',
+            ee05_nivel_degradacion TEXT DEFAULT '',
+            ee05_pendiente TEXT DEFAULT '',
+            ee05_tipo_suelo TEXT DEFAULT '',
+            ee05_profundidad_efectiva TEXT DEFAULT '',
+            ee05_presencia_carcavas TEXT DEFAULT '',
+            ee05_presencia_quebrada TEXT DEFAULT '',
+            ee05_nombre_quebrada TEXT DEFAULT '',
+            ee05_fuentes_agua TEXT DEFAULT '',
+            ee05_peligros_observados TEXT DEFAULT '',
+            ee06_cuantificacion TEXT DEFAULT '',
+            ee06_valoracion_vulnerabilidad TEXT DEFAULT '',
+            ee06_nivel_vulnerabilidad TEXT DEFAULT '',
+            ee06_nivel_riesgo TEXT DEFAULT '',
+            ee07_registros TEXT DEFAULT '',
+            observaciones_generales TEXT DEFAULT '',
+            archivos_adjuntos TEXT DEFAULT '',
+            fecha_registro TEXT NOT NULL
+        )
+    """)
+
     # ── Indices UNIQUE para evitar duplicados ────────────────────────────
     cursor.execute("""
         DO $$ BEGIN
@@ -416,6 +462,14 @@ def inicializar_bd():
             IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'uq_cronograma_bloque_actividad_inicio') THEN
                 CREATE UNIQUE INDEX uq_cronograma_bloque_actividad_inicio
                 ON cronograma (bloque_id, actividad, fecha_inicio_plan);
+            END IF;
+        END $$
+    """)
+    cursor.execute("""
+        DO $$ BEGIN
+            IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'uq_ee_bloque_ficha_fecha_responsable') THEN
+                CREATE UNIQUE INDEX uq_ee_bloque_ficha_fecha_responsable
+                ON elementos_expuestos (bloque_id, ficha, fecha_campo, responsable_brigada);
             END IF;
         END $$
     """)
@@ -1309,6 +1363,100 @@ def obtener_resumen_diagnosticos_sociales():
                GROUP_CONCAT(DISTINCT ds.ficha) AS fichas_completadas
         FROM bloques b
         LEFT JOIN diagnostico_social ds ON ds.bloque_id = b.id
+        GROUP BY b.id, b.codigo, b.tipo_intervencion, b.distrito
+        ORDER BY b.codigo
+    """)
+    rows = _dictfetch(cursor)
+    conn.close()
+    return rows
+
+
+# ── Elementos Expuestos (AdR / Riesgos) ──────────────────────────────────
+
+def insertar_elementos_expuestos(datos):
+    conn = get_connection()
+    cursor = conn.cursor()
+    datos["fecha_registro"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    columnas = list(datos.keys())
+    placeholders = ",".join(["?"] * len(columnas))
+    sql = f"INSERT INTO elementos_expuestos ({','.join(columnas)}) VALUES ({placeholders})"
+    cursor.execute(sql, list(datos.values()))
+    eid = cursor.lastrowid
+    conn.commit()
+    conn.close()
+    return eid
+
+
+def actualizar_elementos_expuestos(elemento_id, datos):
+    conn = get_connection()
+    cursor = conn.cursor()
+    datos["fecha_registro"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    sets = ", ".join([f"{k}=?" for k in datos.keys()])
+    sql = f"UPDATE elementos_expuestos SET {sets} WHERE id=?"
+    cursor.execute(sql, list(datos.values()) + [elemento_id])
+    conn.commit()
+    conn.close()
+
+
+def obtener_elementos_expuestos_por_bloque(bloque_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT ee.*, b.codigo AS bloque_codigo
+        FROM elementos_expuestos ee
+        JOIN bloques b ON ee.bloque_id = b.id
+        WHERE ee.bloque_id=? ORDER BY ee.fecha_campo DESC
+    """, (bloque_id,))
+    rows = _dictfetch(cursor)
+    conn.close()
+    return rows
+
+
+def obtener_todos_elementos_expuestos():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT ee.*, b.codigo AS bloque_codigo, b.tipo_intervencion, b.distrito
+        FROM elementos_expuestos ee
+        JOIN bloques b ON ee.bloque_id = b.id
+        ORDER BY ee.fecha_campo DESC
+    """)
+    rows = _dictfetch(cursor)
+    conn.close()
+    return rows
+
+
+def obtener_elementos_expuestos_por_id(elemento_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT ee.*, b.codigo AS bloque_codigo, b.tipo_intervencion, b.distrito
+        FROM elementos_expuestos ee
+        JOIN bloques b ON ee.bloque_id = b.id
+        WHERE ee.id=?
+    """, (elemento_id,))
+    row = _dictfetchone(cursor)
+    conn.close()
+    return row
+
+
+def eliminar_elementos_expuestos(elemento_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM elementos_expuestos WHERE id=?", (elemento_id,))
+    conn.commit()
+    conn.close()
+
+
+def obtener_resumen_elementos_expuestos():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT b.codigo, b.tipo_intervencion, b.distrito,
+               COUNT(ee.id) AS total_fichas,
+               GROUP_CONCAT(DISTINCT ee.ficha) AS fichas_completadas
+        FROM bloques b
+        LEFT JOIN elementos_expuestos ee ON ee.bloque_id = b.id
         GROUP BY b.id, b.codigo, b.tipo_intervencion, b.distrito
         ORDER BY b.codigo
     """)

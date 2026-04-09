@@ -91,6 +91,12 @@ from georeferenciacion import utm_a_latlon, latlon_a_utm
 from odk_kobo import generar_xlsform, importar_csv_odk, importar_desde_kobo, KoBoClient
 from excel_diagnostico_social import generar_plantilla_ds, parsear_excel_ds, mapear_a_session_state
 from excel_diagnostico_territorial import generar_plantilla_dt, parsear_excel_dt, mapear_dt_a_session_state
+from excel_elementos_expuestos import (generar_plantilla_ee, parsear_excel_ee,
+    mapear_a_session_state as mapear_ee_a_session_state,
+    FEE01_TIPO_ELEMENTO, FEE01_UBICACION_PELIGRO, FEE_ESTADO, FEE_NIVEL_AMB,
+    FEE_SI_NO, FEE02_MATERIAL_VIV, FEE03_SECTOR, FEE_TIPO_PELIGRO,
+    FEE04_TIPO_ACTIVIDAD, FEE05_TIPO_DEGRADACION, FEE05_FUENTES_AGUA,
+    FEE05_PROB_RECURRENCIA, FEE06_NIVEL_VULN, FEE06_ELEMENTOS, FEE06_FACTORES)
 
 try:
     import pdf_converter as pdfconv
@@ -677,6 +683,7 @@ st.markdown("""<div class="main-header">
 pagina = st.sidebar.selectbox("Navegacion", [
     "Panel de Control","Bloques de Intervencion","Inspeccion de Campo",
     "Indicadores de Calidad","Diagnostico Territorial","Diagnostico Social",
+    "Elementos Expuestos (AdR)",
     "Presupuesto","Cronograma",
     "Georreferenciacion","ODK / KoBoToolbox","Reportes",
     "Conversor PDF -> Excel",
@@ -3115,6 +3122,429 @@ def pagina_diagnostico_social():
                    "llenada por el tecnico.")
 
 
+
+# ══════════════════════════════════════════════════════════════════════════
+# ELEMENTOS EXPUESTOS (AdR / RIESGOS)
+# ══════════════════════════════════════════════════════════════════════════
+def pagina_elementos_expuestos():
+    st.subheader("Elementos Expuestos - Analisis de Riesgos (AdR)")
+    st.caption("Formatos F-EE-01 a F-EE-07 | Registro de activos expuestos, vulnerabilidad y peligros.")
+
+    # Obtener bloques
+    bloques = db.obtener_todos_bloques()
+    if not bloques:
+        st.warning("No hay bloques registrados. Registre bloques primero.")
+        return
+
+    bloques_map = {f"{b['codigo']} - {b['distrito']}": b["id"] for b in bloques}
+    bloques_labels = list(bloques_map.keys())
+    bloques_data = [(b["codigo"], b.get("microcuenca", ""), b.get("provincia", ""),
+                     b["distrito"]) for b in bloques]
+
+    # ── Toolbar ──────────────────────────────────────────────────────────
+    col_dl, col_up = st.columns(2)
+    with col_dl:
+        st.markdown("**Descargar plantilla Excel F-EE**")
+        excel_bytes = generar_plantilla_ee(bloques_data)
+        st.download_button("Descargar Plantilla F-EE (Excel)", excel_bytes,
+                           "Plantilla_Elementos_Expuestos_IN_Piura.xlsx",
+                           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                           key="dl_ee")
+
+    with col_up:
+        st.markdown("**Importar Excel llenado**")
+        archivo = st.file_uploader("Cargar Excel F-EE llenado", type=["xlsx"], key="up_ee")
+        if archivo and st.button("Procesar Excel F-EE", key="btn_proc_ee"):
+            try:
+                resultados = parsear_excel_ee(archivo.read())
+                if resultados:
+                    st.success(f"Se procesaron {len(resultados)} fichas: {', '.join(resultados.keys())}")
+                    st.session_state["ee_import"] = resultados
+                else:
+                    st.warning("No se encontraron fichas validas en el archivo.")
+            except Exception as e:
+                st.error(f"Error al procesar: {e}")
+
+    st.markdown("---")
+
+    # ── Tabs: Registrar / Consultar ──────────────────────────────────────
+    tab_reg, tab_con = st.tabs(["Registrar / Editar", "Consultar Registros"])
+
+    with tab_reg:
+        fichas_ee = ["F-EE-01", "F-EE-02", "F-EE-03", "F-EE-04", "F-EE-05", "F-EE-06", "F-EE-07"]
+        ficha_sel = st.selectbox("Seleccionar Ficha", fichas_ee, key="ee_ficha_sel")
+
+        # Bloque
+        bloque_label = st.selectbox("Bloque de Intervencion", [""] + bloques_labels, key="ee_bl")
+        if not bloque_label:
+            st.info("Seleccione un bloque para continuar.")
+            return
+
+        bloque_id = bloques_map[bloque_label]
+        bloque_info = next((b for b in bloques if b["id"] == bloque_id), {})
+
+        # Datos generales
+        st.markdown("**Datos de Identificacion**")
+        c1, c2 = st.columns(2)
+        ee_fecha = c1.text_input("Fecha de campo (DD/MM/AAAA)", key="ee_fecha")
+        ee_resp = c2.text_input("Responsable / Brigada", key="ee_resp")
+        ee_cp = st.text_input("Centro(s) Poblado(s)", key="ee_cp")
+        c3, c4, c5 = st.columns(3)
+        ee_este = c3.text_input("Coord. UTM Este (m)", value=str(bloque_info.get("utm_este", "")), key="ee_este")
+        ee_norte = c4.text_input("Coord. UTM Norte (m)", value=str(bloque_info.get("utm_norte", "")), key="ee_norte")
+        ee_alt = c5.text_input("Altitud (msnm)", value=str(bloque_info.get("altitud", "")), key="ee_alt")
+
+        st.markdown("---")
+        datos = {}
+
+        # ── F-EE-01: Inventario ──────────────────────────────────────────
+        if ficha_sel == "F-EE-01":
+            st.markdown("### F-EE-01: INVENTARIO DE ELEMENTOS EXPUESTOS")
+            st.caption("Registro general de activos dentro del area de impacto de cada bloque.")
+            n_reg = st.number_input("N de elementos a registrar", 1, 20, 5, key="e01_n")
+            registros = []
+            for i in range(int(n_reg)):
+                with st.expander(f"Elemento {i+1}", expanded=(i < 3)):
+                    cx = st.columns([2, 2, 2])
+                    tipo = cx[0].selectbox("Tipo", [""] + FEE01_TIPO_ELEMENTO, key=f"e01_t{i}")
+                    subtipo = cx[1].text_input("Subtipo/Categoria", key=f"e01_st{i}")
+                    nombre = cx[2].text_input("Nombre/Identificador", key=f"e01_nm{i}")
+                    cx2 = st.columns([1, 1, 1, 1])
+                    ub = cx2[0].selectbox("Ubicacion Peligro", [""] + FEE01_UBICACION_PELIGRO, key=f"e01_ub{i}")
+                    estado = cx2[1].selectbox("Estado (B/R/M)", [""] + FEE_ESTADO, key=f"e01_es{i}")
+                    dist = cx2[2].text_input("Distancia Bloque (m)", key=f"e01_di{i}")
+                    benef = cx2[3].text_input("N Beneficiarios", key=f"e01_be{i}")
+                    material = st.text_input("Material predominante", key=f"e01_ma{i}")
+                    if tipo:
+                        registros.append({"tipo_elemento": tipo, "subtipo": subtipo,
+                            "nombre": nombre, "ubicacion_peligro": ub, "estado": estado,
+                            "distancia_bloque": dist, "beneficiarios": benef, "material": material})
+            datos["ee01_registros"] = json.dumps(registros, ensure_ascii=False) if registros else ""
+
+        # ── F-EE-02: Poblacion y Viviendas ───────────────────────────────
+        elif ficha_sel == "F-EE-02":
+            st.markdown("### F-EE-02: POBLACION Y VIVIENDAS")
+            st.caption("Detalle de centros poblados, poblacion y viviendas en area de peligro.")
+            n_reg = st.number_input("N de centros poblados", 1, 15, 3, key="e02_n")
+            registros = []
+            for i in range(int(n_reg)):
+                with st.expander(f"Centro Poblado {i+1}", expanded=(i < 2)):
+                    cx = st.columns([2, 1, 1, 1])
+                    cp_nom = cx[0].text_input("Nombre", key=f"e02_cp{i}")
+                    viv_t = cx[1].text_input("N Viviendas Total", key=f"e02_vt{i}")
+                    viv_p = cx[2].text_input("Viviendas en Peligro", key=f"e02_vp{i}")
+                    pob_t = cx[3].text_input("Poblacion Total", key=f"e02_pt{i}")
+                    cx2 = st.columns([1, 1, 1, 1])
+                    mat = cx2[0].selectbox("Material Viviendas", [""] + FEE02_MATERIAL_VIV, key=f"e02_mat{i}")
+                    agua = cx2[1].selectbox("Agua Potable", [""] + FEE_SI_NO, key=f"e02_ag{i}")
+                    elec = cx2[2].selectbox("Electricidad", [""] + FEE_SI_NO, key=f"e02_el{i}")
+                    antec = cx2[3].selectbox("Antecedente Evento", [""] + FEE_SI_NO, key=f"e02_ant{i}")
+                    cx3 = st.columns([1, 1])
+                    nd = cx3[0].selectbox("Nivel Danio Anterior", [""] + FEE_NIVEL_AMB, key=f"e02_nd{i}")
+                    obs = cx3[1].text_input("Observaciones", key=f"e02_obs{i}")
+                    if cp_nom:
+                        registros.append({"centro_poblado": cp_nom, "viviendas_total": viv_t,
+                            "viviendas_peligro": viv_p, "poblacion_total": pob_t,
+                            "material_viviendas": mat, "agua_potable": agua,
+                            "electricidad": elec, "antecedente_evento": antec,
+                            "nivel_danio": nd, "observaciones": obs})
+            datos["ee02_registros"] = json.dumps(registros, ensure_ascii=False) if registros else ""
+
+        # ── F-EE-03: Infraestructura Publica ─────────────────────────────
+        elif ficha_sel == "F-EE-03":
+            st.markdown("### F-EE-03: INFRAESTRUCTURA PUBLICA EXPUESTA")
+            st.caption("I.E., EESS, locales comunales, infraestructura vial, riego, saneamiento.")
+            n_reg = st.number_input("N de infraestructuras", 1, 15, 3, key="e03_n")
+            registros = []
+            for i in range(int(n_reg)):
+                with st.expander(f"Infraestructura {i+1}", expanded=(i < 2)):
+                    cx = st.columns([1, 2, 2])
+                    sector = cx[0].selectbox("Sector", [""] + FEE03_SECTOR, key=f"e03_sec{i}")
+                    tipo_inf = cx[1].text_input("Tipo Infraestructura", key=f"e03_ti{i}")
+                    nombre = cx[2].text_input("Nombre/Identificador", key=f"e03_nm{i}")
+                    cx2 = st.columns([1, 1, 1, 1])
+                    estado = cx2[0].selectbox("Estado", [""] + FEE_ESTADO, key=f"e03_es{i}")
+                    nexp = cx2[1].selectbox("Nivel Exposicion", [""] + FEE_NIVEL_AMB, key=f"e03_ne{i}")
+                    tpel = cx2[2].selectbox("Tipo Peligro", [""] + FEE_TIPO_PELIGRO, key=f"e03_tp{i}")
+                    antd = cx2[3].selectbox("Antecedente Danio", [""] + FEE_SI_NO, key=f"e03_ad{i}")
+                    cx3 = st.columns([1, 1])
+                    costo = cx3[0].text_input("Costo Estimado Activo (S/)", key=f"e03_ca{i}")
+                    crepo = cx3[1].text_input("Costo Reposicion (S/)", key=f"e03_cr{i}")
+                    if sector or nombre:
+                        registros.append({"sector": sector, "tipo_infraestructura": tipo_inf,
+                            "nombre": nombre, "estado": estado, "nivel_exposicion": nexp,
+                            "tipo_peligro": tpel, "antecedente_danio": antd,
+                            "costo_activo": costo, "costo_reposicion": crepo})
+            datos["ee03_registros"] = json.dumps(registros, ensure_ascii=False) if registros else ""
+
+        # ── F-EE-04: Actividades Economicas ──────────────────────────────
+        elif ficha_sel == "F-EE-04":
+            st.markdown("### F-EE-04: ACTIVIDADES ECONOMICAS Y AGROPECUARIAS")
+            st.caption("Parcelas agricolas, ganado, actividades productivas expuestas.")
+            n_reg = st.number_input("N de actividades", 1, 14, 3, key="e04_n")
+            registros = []
+            for i in range(int(n_reg)):
+                with st.expander(f"Actividad {i+1}", expanded=(i < 2)):
+                    cx = st.columns([1, 2, 1])
+                    tipo_act = cx[0].selectbox("Tipo", [""] + FEE04_TIPO_ACTIVIDAD, key=f"e04_ta{i}")
+                    desc = cx[1].text_input("Descripcion/Cultivo Principal", key=f"e04_de{i}")
+                    area = cx[2].text_input("Area (ha)", key=f"e04_ar{i}")
+                    cx2 = st.columns([1, 1, 1, 1])
+                    fam = cx2[0].text_input("N Familias Depend.", key=f"e04_fa{i}")
+                    val_prod = cx2[1].text_input("Valor Prod. Anual (S/)", key=f"e04_vp{i}")
+                    nexp = cx2[2].selectbox("Nivel Exposicion", [""] + FEE_NIVEL_AMB, key=f"e04_ne{i}")
+                    tpel = cx2[3].selectbox("Tipo Peligro", [""] + FEE_TIPO_PELIGRO, key=f"e04_tp{i}")
+                    cx3 = st.columns([1, 1])
+                    perd = cx3[0].selectbox("Perdidas Anteriores", [""] + FEE_SI_NO, key=f"e04_pe{i}")
+                    monto = cx3[1].text_input("Monto Perdida (S/)", key=f"e04_mp{i}")
+                    if tipo_act:
+                        registros.append({"tipo_actividad": tipo_act, "descripcion": desc,
+                            "area_ha": area, "familias_dependientes": fam,
+                            "valor_produccion": val_prod, "nivel_exposicion": nexp,
+                            "tipo_peligro": tpel, "perdidas_anteriores": perd,
+                            "monto_perdida": monto})
+            datos["ee04_registros"] = json.dumps(registros, ensure_ascii=False) if registros else ""
+
+        # ── F-EE-05: Ecosistema ──────────────────────────────────────────
+        elif ficha_sel == "F-EE-05":
+            st.markdown("### F-EE-05: ECOSISTEMA (UP) Y ACTIVOS AMBIENTALES")
+            st.caption("Estado del ecosistema, cobertura vegetal, suelos, peligros observados.")
+
+            st.markdown("**A. Caracterizacion del Ecosistema**")
+            c1, c2 = st.columns(2)
+            e05_eco = c1.text_input("Tipo de Ecosistema (MINAM)", key="e05_eco")
+            e05_zv = c2.text_input("Zona de Vida (Holdridge)", key="e05_zv")
+            e05_cv = st.text_input("Cobertura Vegetal Predominante", key="e05_cv")
+            c3, c4 = st.columns(2)
+            e05_pcv = c3.text_input("% Cobertura Vegetal Estimado", key="e05_pcv")
+            e05_esp = c4.text_input("Especies Dominantes (listar)", key="e05_esp")
+            c5, c6 = st.columns(2)
+            e05_deg = c5.selectbox("Evidencia de Degradacion", [""] + FEE_SI_NO, key="e05_deg")
+            e05_tdeg = c6.selectbox("Tipo de Degradacion", [""] + FEE05_TIPO_DEGRADACION, key="e05_tdeg")
+            c7, c8 = st.columns(2)
+            e05_ndeg = c7.selectbox("Nivel de Degradacion (1-5)", ["", "1", "2", "3", "4", "5"], key="e05_ndeg")
+            e05_pend = c8.text_input("Pendiente Predominante (%)", key="e05_pend")
+            c9, c10 = st.columns(2)
+            e05_suelo = c9.text_input("Tipo de Suelo Observado", key="e05_suelo")
+            e05_prof = c10.text_input("Profundidad Efectiva Estimada (cm)", key="e05_prof")
+            c11, c12 = st.columns(2)
+            e05_carc = c11.selectbox("Presencia de Carcavas/Surcos", [""] + FEE_SI_NO, key="e05_carc")
+            e05_queb = c12.selectbox("Presencia de Quebrada/Cauce", [""] + FEE_SI_NO, key="e05_queb")
+            c13, c14 = st.columns(2)
+            e05_nqueb = c13.text_input("Nombre de Quebrada", key="e05_nqueb")
+            e05_fag = c14.selectbox("Fuentes de Agua Identificadas", [""] + FEE05_FUENTES_AGUA, key="e05_fag")
+
+            datos.update({
+                "ee05_tipo_ecosistema": e05_eco, "ee05_zona_vida": e05_zv,
+                "ee05_cobertura_vegetal": e05_cv, "ee05_pct_cobertura": e05_pcv,
+                "ee05_especies_dominantes": e05_esp, "ee05_evidencia_degradacion": e05_deg,
+                "ee05_tipo_degradacion": e05_tdeg, "ee05_nivel_degradacion": e05_ndeg,
+                "ee05_pendiente": e05_pend, "ee05_tipo_suelo": e05_suelo,
+                "ee05_profundidad_efectiva": e05_prof, "ee05_presencia_carcavas": e05_carc,
+                "ee05_presencia_quebrada": e05_queb, "ee05_nombre_quebrada": e05_nqueb,
+                "ee05_fuentes_agua": e05_fag,
+            })
+
+            st.markdown("**B. Evidencias de Peligros Observados en Campo**")
+            n_pel = st.number_input("N de peligros observados", 1, 8, 2, key="e05_np")
+            peligros = []
+            for i in range(int(n_pel)):
+                with st.expander(f"Peligro {i+1}", expanded=(i < 2)):
+                    cx = st.columns([2, 3])
+                    tp = cx[0].selectbox("Tipo Peligro", [""] + FEE_TIPO_PELIGRO, key=f"e05p_tp{i}")
+                    desc = cx[1].text_input("Descripcion Indicio/Evidencia", key=f"e05p_de{i}")
+                    cx2 = st.columns([1, 1, 1])
+                    niv = cx2[0].selectbox("Nivel Estimado", [""] + FEE_NIVEL_AMB, key=f"e05p_ni{i}")
+                    prob = cx2[1].selectbox("Prob. Recurrencia", [""] + FEE05_PROB_RECURRENCIA, key=f"e05p_pr{i}")
+                    actam = cx2[2].text_input("Activos Amenazados", key=f"e05p_aa{i}")
+                    if tp:
+                        peligros.append({"tipo_peligro": tp, "descripcion": desc,
+                            "nivel_estimado": niv, "probabilidad": prob,
+                            "activos_amenazados": actam})
+            datos["ee05_peligros_observados"] = json.dumps(peligros, ensure_ascii=False) if peligros else ""
+
+        # ── F-EE-06: Resumen Vulnerabilidad ──────────────────────────────
+        elif ficha_sel == "F-EE-06":
+            st.markdown("### F-EE-06: RESUMEN DE VULNERABILIDAD DEL BLOQUE")
+            st.caption("Sintesis de exposicion, fragilidad y resiliencia del bloque.")
+
+            st.markdown("**A. Cuantificacion de Elementos Expuestos**")
+            cuant = []
+            for idx, elem in enumerate(FEE06_ELEMENTOS):
+                cx = st.columns([3, 1, 1, 1, 2])
+                cx[0].text_input("Elemento", value=elem, disabled=True, key=f"e06e_lb{idx}")
+                gab = cx[1].text_input("Gabinete", key=f"e06e_gab{idx}")
+                campo = cx[2].text_input("Campo", key=f"e06e_cam{idx}")
+                coinc = cx[3].selectbox("Coincide", [""] + FEE_SI_NO, key=f"e06e_co{idx}")
+                obs = cx[4].text_input("Obs.", key=f"e06e_obs{idx}")
+                cuant.append({"elemento": elem, "cantidad_gabinete": gab,
+                    "cantidad_campo": campo, "coincide": coinc, "observaciones": obs})
+            datos["ee06_cuantificacion"] = json.dumps(cuant, ensure_ascii=False)
+
+            st.markdown("**B. Valoracion Cualitativa de Vulnerabilidad**")
+            valor = []
+            for idx, (factor, descriptor) in enumerate(FEE06_FACTORES):
+                cx = st.columns([2, 2, 1, 1, 3])
+                cx[0].text_input("Factor", value=factor, disabled=True, key=f"e06v_fc{idx}")
+                cx[1].text_input("Descriptor", value=descriptor, disabled=True, key=f"e06v_ds{idx}")
+                nivel = cx[2].selectbox("Nivel", [""] + FEE06_NIVEL_VULN, key=f"e06v_nv{idx}")
+                peso = cx[3].text_input("Peso", key=f"e06v_pe{idx}")
+                just = cx[4].text_input("Justificacion", key=f"e06v_ju{idx}")
+                valor.append({"factor": factor, "descriptor": descriptor,
+                    "nivel": nivel, "peso": peso, "justificacion": just})
+            datos["ee06_valoracion_vulnerabilidad"] = json.dumps(valor, ensure_ascii=False)
+
+            st.markdown("---")
+            c1, c2 = st.columns(2)
+            e06_nvuln = c1.selectbox("NIVEL DE VULNERABILIDAD DEL BLOQUE",
+                                      [""] + FEE06_NIVEL_VULN, key="e06_nvuln")
+            e06_nriesgo = c2.selectbox("NIVEL DE RIESGO PRELIMINAR DEL BLOQUE",
+                                        [""] + FEE06_NIVEL_VULN, key="e06_nriesgo")
+            datos["ee06_nivel_vulnerabilidad"] = e06_nvuln
+            datos["ee06_nivel_riesgo"] = e06_nriesgo
+
+        # ── F-EE-07: Control Fotografico ─────────────────────────────────
+        elif ficha_sel == "F-EE-07":
+            st.markdown("### F-EE-07: CONTROL DE REGISTRO FOTOGRAFICO")
+            st.caption("Inventario de fotografias georeferenciadas vinculadas a elementos expuestos.")
+            n_reg = st.number_input("N de fotos a registrar", 1, 25, 5, key="e07_n")
+            registros = []
+            for i in range(int(n_reg)):
+                with st.expander(f"Foto {i+1}", expanded=(i < 3)):
+                    cx = st.columns([1, 1, 1, 2])
+                    cod = cx[0].text_input("Codigo Foto", key=f"e07_cf{i}")
+                    fecha = cx[1].text_input("Fecha", key=f"e07_fe{i}")
+                    hora = cx[2].text_input("Hora", key=f"e07_ho{i}")
+                    elem = cx[3].text_input("Elemento Fotografiado", key=f"e07_el{i}")
+                    cx2 = st.columns([1, 2])
+                    ref = cx2[0].text_input("Formato Ref. (F-EE-XX)", key=f"e07_rf{i}")
+                    desc = cx2[1].text_input("Descripcion", key=f"e07_de{i}")
+                    if cod:
+                        registros.append({"codigo_foto": cod, "fecha": fecha, "hora": hora,
+                            "elemento_fotografiado": elem, "formato_referencia": ref,
+                            "descripcion": desc})
+            datos["ee07_registros"] = json.dumps(registros, ensure_ascii=False) if registros else ""
+
+        # ── Guardar ──────────────────────────────────────────────────────
+        st.markdown("---")
+        observaciones = st.text_area("Observaciones generales", key="ee_obs", height=80)
+
+        if st.button("Guardar Ficha", type="primary", key="btn_guardar_ee"):
+            if not ee_fecha or not ee_resp:
+                st.error("Fecha de campo y Responsable son obligatorios.")
+                return
+
+            datos_guardar = {
+                "bloque_id": bloque_id,
+                "ficha": ficha_sel,
+                "fecha_campo": ee_fecha,
+                "responsable_brigada": ee_resp,
+                "centro_poblado": ee_cp,
+                "coordenada_este": ee_este,
+                "coordenada_norte": ee_norte,
+                "altitud": ee_alt,
+                "observaciones_generales": observaciones,
+            }
+            datos_guardar.update(datos)
+
+            try:
+                edit_id = st.session_state.get("ee_edit_id")
+                if edit_id:
+                    db.actualizar_elementos_expuestos(edit_id, datos_guardar)
+                    st.success(f"Ficha {ficha_sel} actualizada correctamente.")
+                    st.session_state.pop("ee_edit_id", None)
+                else:
+                    db.insertar_elementos_expuestos(datos_guardar)
+                    st.success(f"Ficha {ficha_sel} guardada correctamente.")
+                _invalidar_cache()
+            except Exception as e:
+                if "uq_ee_bloque_ficha_fecha_responsable" in str(e):
+                    st.error("Ya existe un registro con ese bloque/ficha/fecha/responsable.")
+                else:
+                    st.error(f"Error al guardar: {e}")
+
+    # ── Tab Consultar ────────────────────────────────────────────────────
+    with tab_con:
+        registros_ee = db.obtener_todos_elementos_expuestos()
+        if not registros_ee:
+            st.info("No hay fichas de Elementos Expuestos registradas.")
+            return
+
+        df = pd.DataFrame(registros_ee)
+        cols_show = ["id", "bloque_codigo", "ficha", "fecha_campo", "responsable_brigada"]
+        cols_available = [c for c in cols_show if c in df.columns]
+        st.dataframe(df[cols_available], use_container_width=True, hide_index=True)
+
+        sel_id = st.selectbox("Seleccionar ficha para ver detalle",
+                              df["id"].tolist() if "id" in df.columns else [],
+                              format_func=lambda x: f"ID {x} - {df[df['id']==x].iloc[0].get('ficha','')} - {df[df['id']==x].iloc[0].get('bloque_codigo','')}",
+                              key="ee_sel_det")
+
+        if sel_id:
+            det = db.obtener_elementos_expuestos_por_id(sel_id)
+            if det:
+                ficha_t = det.get("ficha", "")
+                st.markdown(f"**{ficha_t}** | Bloque: {det.get('bloque_codigo','')} | "
+                            f"Fecha: {det.get('fecha_campo','')} | Resp: {det.get('responsable_brigada','')}")
+
+                # Mostrar datos de tabla segun ficha
+                for json_field in ["ee01_registros", "ee02_registros", "ee03_registros",
+                                   "ee04_registros", "ee05_peligros_observados",
+                                   "ee06_cuantificacion", "ee06_valoracion_vulnerabilidad",
+                                   "ee07_registros"]:
+                    val = det.get(json_field, "")
+                    if val:
+                        try:
+                            items = json.loads(val)
+                            if items:
+                                label = json_field.replace("ee0", "F-EE-0").replace("_", " ").upper()
+                                with st.expander(label, expanded=True):
+                                    st.dataframe(pd.DataFrame(items), use_container_width=True, hide_index=True)
+                        except (json.JSONDecodeError, TypeError):
+                            pass
+
+                # F-EE-05 campos individuales
+                if ficha_t == "F-EE-05":
+                    with st.expander("ECOSISTEMA - CARACTERIZACION", expanded=True):
+                        for campo, label in [
+                            ("ee05_tipo_ecosistema", "Tipo Ecosistema"),
+                            ("ee05_zona_vida", "Zona de Vida"),
+                            ("ee05_cobertura_vegetal", "Cobertura Vegetal"),
+                            ("ee05_pct_cobertura", "% Cobertura"),
+                            ("ee05_evidencia_degradacion", "Evidencia Degradacion"),
+                            ("ee05_tipo_degradacion", "Tipo Degradacion"),
+                            ("ee05_nivel_degradacion", "Nivel Degradacion"),
+                            ("ee05_presencia_carcavas", "Carcavas/Surcos"),
+                            ("ee05_presencia_quebrada", "Quebrada/Cauce"),
+                            ("ee05_fuentes_agua", "Fuentes Agua"),
+                        ]:
+                            v = det.get(campo, "") or ""
+                            if v:
+                                st.markdown(f"**{label}:** {v}")
+
+                # F-EE-06 resumen
+                if ficha_t == "F-EE-06":
+                    c1, c2 = st.columns(2)
+                    c1.metric("Nivel Vulnerabilidad", det.get("ee06_nivel_vulnerabilidad", "-"))
+                    c2.metric("Nivel Riesgo Preliminar", det.get("ee06_nivel_riesgo", "-"))
+
+                obs = det.get("observaciones_generales", "")
+                if obs:
+                    st.markdown(f"**Observaciones:** {obs}")
+
+                # Botones de accion
+                c1, c2 = st.columns(2)
+                if c1.button("Editar", key="btn_edit_ee"):
+                    st.session_state["ee_edit_id"] = sel_id
+                    st.session_state["ee_ficha_sel"] = ficha_t
+                    st.rerun()
+                if c2.button("Eliminar", key="btn_del_ee"):
+                    db.eliminar_elementos_expuestos(sel_id)
+                    st.success("Ficha eliminada.")
+                    _invalidar_cache()
+                    st.rerun()
+
+
 # ══════════════════════════════════════════════════════════════════════════
 # PRESUPUESTO
 # ══════════════════════════════════════════════════════════════════════════
@@ -4088,6 +4518,7 @@ elif pagina == "Inspeccion de Campo": pagina_inspeccion()
 elif pagina == "Indicadores de Calidad": pagina_indicadores()
 elif pagina == "Diagnostico Territorial": pagina_diagnostico_territorial()
 elif pagina == "Diagnostico Social": pagina_diagnostico_social()
+elif pagina == "Elementos Expuestos (AdR)": pagina_elementos_expuestos()
 elif pagina == "Presupuesto": pagina_presupuesto()
 elif pagina == "Cronograma": pagina_cronograma()
 elif pagina == "Georreferenciacion": pagina_georreferenciacion()
