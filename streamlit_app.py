@@ -3131,7 +3131,7 @@ def pagina_elementos_expuestos():
     st.caption("Formatos F-EE-01 a F-EE-07 | Registro de activos expuestos, vulnerabilidad y peligros.")
 
     # Obtener bloques
-    bloques = db.obtener_todos_bloques()
+    bloques = db.obtener_bloques()
     if not bloques:
         st.warning("No hay bloques registrados. Registre bloques primero.")
         return
