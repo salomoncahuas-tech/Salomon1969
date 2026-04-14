@@ -25,8 +25,21 @@ def _cache_version():
     return st.session_state["db_cache_version"]
 
 def _invalidar_cache():
-    """Incrementa el contador de cache para forzar recarga de datos."""
+    """Incrementa el contador de cache y limpia la memoria cache de Streamlit."""
     st.session_state["db_cache_version"] = st.session_state.get("db_cache_version", 0) + 1
+    st.cache_data.clear()
+
+def _limpiar_cache_completa():
+    """Limpieza completa de toda la memoria cache de la aplicacion.
+
+    Limpia:
+    - st.cache_data: datos cacheados de consultas a la BD
+    - st.cache_resource: recursos cacheados (conexiones, modelos, etc.)
+    - Session state: reinicia el contador de version de cache
+    """
+    st.cache_data.clear()
+    st.cache_resource.clear()
+    st.session_state["db_cache_version"] = 0
 
 # ── Funciones cacheadas de lectura de BD ─────────────────────────────────
 @st.cache_data(ttl=300, show_spinner=False)
@@ -691,6 +704,13 @@ pagina = st.sidebar.selectbox("Navegacion", [
 ])
 st.sidebar.markdown("---")
 st.sidebar.markdown("**IN Piura** v2.1 Web\n\nRestauracion de Ecosistemas\nCuenca Alta del Rio Piura")
+
+# ── Boton de limpieza de cache ───────────────────────────────────────────
+st.sidebar.markdown("---")
+if st.sidebar.button("Limpiar memoria cache"):
+    _limpiar_cache_completa()
+    st.sidebar.success("Cache limpiada correctamente.")
+    st.rerun()
 
 # ── Helpers ───────────────────────────────────────────────────────────────
 def _bloques_map():
