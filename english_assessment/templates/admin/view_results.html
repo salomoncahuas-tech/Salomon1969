@@ -9,13 +9,25 @@
             <span>Results: {{ assessment.title }}</span>
         </div>
 
-        <h2 class="section-title">Student Results</h2>
-        <h3>{{ assessment.title }}</h3>
-        <p class="assessment-meta-bar">
-            <span>{{ assessment.grade.name }}</span>
-            <span>{{ assessment.english_level.name }}</span>
-            <span>{{ results|length }} submissions</span>
-        </p>
+        <div style="display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom:0.5rem;">
+            <div>
+                <h2 class="section-title" style="margin-bottom:0.25rem;">Student Results</h2>
+                <h3 style="margin:0;">{{ assessment.title }}</h3>
+                <p class="assessment-meta-bar">
+                    <span>{{ assessment.grade.name }}</span>
+                    <span>{{ assessment.english_level.name }}</span>
+                    <span>{{ results|length }} submission{{ 's' if results|length != 1 else '' }}</span>
+                </p>
+            </div>
+            {% if results %}
+            <div style="display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap;">
+                <a href="{{ url_for('admin_results_pdf', assessment_id=assessment.id) }}"
+                   class="btn btn-primary" title="Descargar resultados en PDF">
+                    &#128462; Descargar PDF
+                </a>
+            </div>
+            {% endif %}
+        </div>
 
         {% if results %}
         <div class="results-stats">
@@ -38,50 +50,75 @@
             </div>
         </div>
 
-        <div class="assessment-table-wrapper">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Student Name</th>
-                        <th>Code</th>
-                        <th>Section</th>
-                        <th>Score</th>
-                        <th>Percentage</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for r in results %}
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td><strong>{{ r.student_name }}</strong></td>
-                        <td>{{ r.student_code or '-' }}</td>
-                        <td>{{ r.grade_section or '-' }}</td>
-                        <td>{{ '%.1f'|format(r.score) }} / {{ '%.1f'|format(r.total_points) }}</td>
-                        <td>
-                            <span class="score-badge {% if r.percentage >= 70 %}score-pass{% elif r.percentage >= 50 %}score-average{% else %}score-fail{% endif %}">
-                                {{ '%.0f'|format(r.percentage) }}%
-                            </span>
-                        </td>
-                        <td>
-                            {% if r.percentage >= 70 %}
-                                <span class="status-active">Approved</span>
-                            {% else %}
-                                <span class="status-inactive">Not Approved</span>
-                            {% endif %}
-                        </td>
-                        <td>{{ r.completed_at.strftime('%b %d, %H:%M') if r.completed_at else '-' }}</td>
-                        <td>
-                            <a href="{{ url_for('admin_result_detail', result_id=r.id) }}" class="btn btn-sm btn-info">Detail</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        {# Tabla agrupada por sección #}
+        {% for section_name, section_results in sections|dictsort %}
+        <div class="section-group" style="margin-bottom:2rem;">
+            <h4 style="margin:1.2rem 0 0.5rem; padding:0.4rem 0.8rem;
+                       background:var(--primary-color, #1a3c5e); color:#fff;
+                       border-radius:4px; font-size:0.95rem; display:inline-block;">
+                Sección: {{ section_name }}
+                <span style="font-weight:normal; font-size:0.85em; margin-left:0.5rem;">
+                    ({{ section_results|length }} alumno{{ 's' if section_results|length != 1 else '' }})
+                </span>
+            </h4>
+
+            <div class="assessment-table-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Student Name</th>
+                            <th>Code</th>
+                            <th>Section</th>
+                            <th>Score</th>
+                            <th>Percentage</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in section_results %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td><strong>{{ r.student_name }}</strong></td>
+                            <td>{{ r.student_code or '-' }}</td>
+                            <td>{{ r.grade_section or '-' }}</td>
+                            <td>{{ '%.1f'|format(r.score) }} / {{ '%.1f'|format(r.total_points) }}</td>
+                            <td>
+                                <span class="score-badge {% if r.percentage >= 70 %}score-pass{% elif r.percentage >= 50 %}score-average{% else %}score-fail{% endif %}">
+                                    {{ '%.0f'|format(r.percentage) }}%
+                                </span>
+                            </td>
+                            <td>
+                                {% if r.percentage >= 70 %}
+                                    <span class="status-active">Approved</span>
+                                {% else %}
+                                    <span class="status-inactive">Not Approved</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ r.completed_at.strftime('%b %d, %H:%M') if r.completed_at else '-' }}</td>
+                            <td style="white-space:nowrap;">
+                                <a href="{{ url_for('admin_result_detail', result_id=r.id) }}"
+                                   class="btn btn-sm btn-info">Detail</a>
+                                <form method="POST"
+                                      action="{{ url_for('admin_delete_result', result_id=r.id) }}"
+                                      style="display:inline;"
+                                      onsubmit="return confirm('¿Eliminar resultado de {{ r.student_name }}? Esta acción no se puede deshacer.');">
+                                    <button type="submit" class="btn btn-sm btn-danger"
+                                            title="Eliminar este resultado">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
+        {% endfor %}
+
         {% else %}
         <div class="empty-state">
             <h3>No submissions yet</h3>

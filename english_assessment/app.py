@@ -4,6 +4,7 @@ Aplicación web para evaluaciones y tareas de inglés.
 Permite a alumnos de distintos grados y niveles acceder a evaluaciones mediante un enlace.
 """
 
+import io
 import os
 import logging
 import secrets
@@ -810,9 +811,18 @@ def admin_view_results(assessment_id):
         abort(403)
     results = StudentResult.query.filter_by(
         assessment_id=assessment_id, is_completed=True
-    ).order_by(StudentResult.completed_at.desc()).all()
+    ).order_by(
+        StudentResult.grade_section.nullslast(),
+        StudentResult.student_name
+    ).all()
+    # Agrupar por sección para la vista
+    sections = {}
+    for r in results:
+        key = r.grade_section or 'Sin Sección'
+        sections.setdefault(key, []).append(r)
     return render_template('admin/view_results.html',
-                           assessment=assessment, results=results)
+                           assessment=assessment, results=results,
+                           sections=sections)
 
 
 @app.route('/admin/result/<int:result_id>/detail')
@@ -822,6 +832,181 @@ def admin_result_detail(result_id):
     if result.assessment.teacher_id != current_user.id:
         abort(403)
     return render_template('admin/result_detail.html', result=result)
+
+
+@app.route('/admin/result/<int:result_id>/delete', methods=['POST'])
+@login_required
+def admin_delete_result(result_id):
+    result = StudentResult.query.get_or_404(result_id)
+    if result.assessment.teacher_id != current_user.id:
+        abort(403)
+    assessment_id = result.assessment_id
+    student_name = result.student_name
+    db.session.delete(result)
+    db.session.commit()
+    flash(f'Resultado de "{student_name}" eliminado correctamente.', 'success')
+    return redirect(url_for('admin_view_results', assessment_id=assessment_id))
+
+
+@app.route('/admin/assessment/<int:assessment_id>/results/pdf')
+@login_required
+def admin_results_pdf(assessment_id):
+    """Genera y descarga los resultados de una evaluación en formato PDF."""
+    from reportlab.lib.pagesizes import A4, landscape
+    from reportlab.lib import colors
+    from reportlab.lib.units import cm
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.platypus import (SimpleDocTemplate, Table, TableStyle,
+                                    Paragraph, Spacer, HRFlowable)
+    from reportlab.lib.enums import TA_CENTER, TA_LEFT
+
+    assessment = Assessment.query.get_or_404(assessment_id)
+    if assessment.teacher_id != current_user.id:
+        abort(403)
+
+    results = StudentResult.query.filter_by(
+        assessment_id=assessment_id, is_completed=True
+    ).order_by(
+        StudentResult.grade_section.nullslast(),
+        StudentResult.student_name
+    ).all()
+
+    buffer = io.BytesIO()
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=landscape(A4),
+        rightMargin=1.5 * cm,
+        leftMargin=1.5 * cm,
+        topMargin=1.5 * cm,
+        bottomMargin=1.5 * cm,
+    )
+
+    styles = getSampleStyleSheet()
+    title_style = ParagraphStyle('Title', parent=styles['Title'], fontSize=16,
+                                  spaceAfter=4, alignment=TA_CENTER)
+    subtitle_style = ParagraphStyle('Subtitle', parent=styles['Normal'], fontSize=10,
+                                     spaceAfter=2, alignment=TA_CENTER,
+                                     textColor=colors.HexColor('#555555'))
+    section_style = ParagraphStyle('Section', parent=styles['Normal'], fontSize=11,
+                                    spaceBefore=10, spaceAfter=4,
+                                    textColor=colors.HexColor('#1a3c5e'),
+                                    fontName='Helvetica-Bold')
+    cell_style = ParagraphStyle('Cell', parent=styles['Normal'], fontSize=9)
+
+    story = []
+
+    # Encabezado
+    story.append(Paragraph('English Assessment Results', title_style))
+    story.append(Paragraph(assessment.title, subtitle_style))
+    story.append(Paragraph(
+        f'{assessment.grade.name} &bull; {assessment.english_level.name} &bull; '
+        f'Código: {assessment.access_code}',
+        subtitle_style
+    ))
+    story.append(Paragraph(
+        f'Generado el: {datetime.utcnow().strftime("%d/%m/%Y %H:%M")} UTC &bull; '
+        f'Total de sumisiones: {len(results)}',
+        subtitle_style
+    ))
+    story.append(Spacer(1, 0.3 * cm))
+    story.append(HRFlowable(width='100%', thickness=1, color=colors.HexColor('#1a3c5e')))
+    story.append(Spacer(1, 0.3 * cm))
+
+    # Estadísticas generales
+    if results:
+        scores = [r.percentage for r in results]
+        avg = sum(scores) / len(scores)
+        approved = sum(1 for s in scores if s >= 70)
+        stats_data = [
+            ['Promedio', 'Puntaje más alto', 'Puntaje más bajo', 'Aprobados'],
+            [f'{avg:.1f}%', f'{max(scores):.0f}%', f'{min(scores):.0f}%',
+             f'{approved} / {len(results)}'],
+        ]
+        stats_table = Table(stats_data, colWidths=[6 * cm, 6 * cm, 6 * cm, 6 * cm])
+        stats_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1a3c5e')),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, -1), 10),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+            ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.HexColor('#eaf0fb'), colors.white]),
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#cccccc')),
+            ('TOPPADDING', (0, 0), (-1, -1), 6),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+        ]))
+        story.append(stats_table)
+        story.append(Spacer(1, 0.5 * cm))
+
+    # Tabla de resultados agrupada por sección
+    sections = {}
+    for r in results:
+        key = r.grade_section or 'Sin Sección'
+        sections.setdefault(key, []).append(r)
+
+    col_widths = [1 * cm, 6.5 * cm, 2.5 * cm, 2.5 * cm, 4 * cm, 3 * cm, 3 * cm, 4 * cm]
+    header_row = ['#', 'Nombre del Alumno', 'Código', 'Sección',
+                  'Puntaje', 'Porcentaje', 'Estado', 'Fecha']
+
+    for section_name in sorted(sections.keys()):
+        story.append(Paragraph(f'Sección: {section_name}', section_style))
+
+        table_data = [header_row]
+        for i, r in enumerate(sections[section_name], 1):
+            if r.percentage >= 70:
+                status = 'Aprobado'
+            else:
+                status = 'No aprobado'
+            date_str = r.completed_at.strftime('%d/%m/%Y %H:%M') if r.completed_at else '-'
+            table_data.append([
+                str(i),
+                Paragraph(r.student_name, cell_style),
+                r.student_code or '-',
+                r.grade_section or '-',
+                f'{r.score:.1f} / {r.total_points:.1f}',
+                f'{r.percentage:.0f}%',
+                status,
+                date_str,
+            ])
+
+        result_table = Table(table_data, colWidths=col_widths, repeatRows=1)
+
+        row_colors = []
+        for i, r in enumerate(sections[section_name], 1):
+            bg = colors.HexColor('#d4edda') if r.percentage >= 70 else colors.HexColor('#f8d7da')
+            row_colors.append(('BACKGROUND', (0, i), (-1, i), bg))
+
+        result_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1a3c5e')),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, -1), 8),
+            ('ALIGN', (0, 0), (0, -1), 'CENTER'),
+            ('ALIGN', (4, 0), (-1, -1), 'CENTER'),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#cccccc')),
+            ('TOPPADDING', (0, 0), (-1, -1), 5),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
+            ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.HexColor('#f5f5f5'), colors.white]),
+        ] + row_colors))
+
+        story.append(result_table)
+        story.append(Spacer(1, 0.4 * cm))
+
+    doc.build(story)
+    buffer.seek(0)
+
+    safe_title = ''.join(c if c.isalnum() or c in (' ', '-', '_') else '_' for c in assessment.title)
+    filename = f'resultados_{safe_title}_{datetime.utcnow().strftime("%Y%m%d")}.pdf'
+
+    return Response(
+        buffer.getvalue(),
+        mimetype='application/pdf',
+        headers={
+            'Content-Disposition': f'attachment; filename="{filename}"',
+            'Content-Type': 'application/pdf',
+        }
+    )
 
 
 @app.route('/admin/assessment/<int:assessment_id>/preview')
