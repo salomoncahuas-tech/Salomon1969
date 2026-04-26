@@ -133,241 +133,274 @@ MICROCUENCAS = [
     "C1096-Q9564","C1107-Q9539","C1107-Q9541","C1108-Q9552",
 ]
 
-# ── Datos de Origen: 128 Bloques de Intervencion V4 ──────────────────
-# Fuente: REPORTE BLOQUES V4 PARA APLICATIVO.xlsx
+# ── Datos de Origen: 124 Bloques de Intervencion V5 ──────────────────
+# Fuente: Reporte_Bloques_V5_25abril.xlsx (124 bloques con centroides UTM Zona 17S WGS84)
 # Cada entrada: (N, Bloque, Microcuenca, Area_ha, Provincia, Distrito, Accesibilidad, Dia, UTM_Este, UTM_Norte, MSAVI_2024)
-BLOQUES_128 = [
+BLOQUES_124 = [
     # (n, codigo, microcuenca, area_ha, provincia, distrito, accesibilidad, dia_eval, utm_este, utm_norte, msavi_2024)
-    (1, "1", "C1076-Q9584", 1371.335, "Morropon", "Salitral", 0, 0, 645575, 9393500, 0.454493),
-    (2, "2", "C1096-Q9558", 330.776, "Morropon", "Chulucanas", 0, 0, 603653, 9439351, 0.358601),
-    (3, "3", "C1096-Q9545", 459.532, "Ayabaca", "Frias", 0, 0, 606816, 9458469, 0.567707),
-    (4, "4", "C1076-Q9588", 230.143, "Huancabamba", "Huarmaca", 0, 0, 656549, 9382009, 0.660111),
-    (5, "5", "C1077-Q9566", 295.861, "Morropon", "Buenos Aires", 0, 0, 617860, 9413182, 0.3394),
-    (6, "6", "C1096-Q9547", 168.499, "Ayabaca", "Frias", 0, 0, 605636, 9455269, 0.538144),
-    (7, "7", "C1076-Q9584", 173.482, "Morropon", "Salitral", 0, 0, 639728, 9396836, 0.375288),
-    (8, "8", "C1076-Q9593", 126.981, "Huancabamba", "Huarmaca", 0, 0, 651673, 9373383, 0.554802),
-    (9, "9", "C1076-Q9586", 109.882, "Huancabamba", "San Miguel de El Faique", 0, 0, 656578, 9397762, 0.574527),
-    (10, "10", "C1076-Q9593", 150.25, "Huancabamba", "Huarmaca", 0, 0, 650830, 9382303, 0.546492),
-    (11, "11", "C1086-Q9570", 103.993, "Morropon", "Santo Domingo", 0, 0, 620759, 9439988, 0.604743),
-    (12, "12", "C1086-Q9570", 119.587, "Morropon", "Santo Domingo", 0, 0, 625419, 9444932, 0.706689),
-    (13, "13", "C1096-Q9564", 100.558, "Morropon", "Santo Domingo", 0, 0, 620263, 9442343, 0.671094),
-    (14, "14", "C1086-Q9570", 92.944, "Morropon", "Santa Catalina de Mossa", 0, 0, 624397, 9437085, 0.51974),
-    (15, "15", "C1086-Q9570", 86.185, "Morropon", "Santo Domingo", 0, 0, 620200, 9437862, 0.560518),
-    (16, "16", "C1076-Q9593", 83.346, "Huancabamba", "Huarmaca", 0, 0, 652939, 9382105, 0.628423),
-    (17, "17", "C1086-Q9570", 96.123, "Morropon", "Santo Domingo", 0, 0, 618661, 9438267, 0.647895),
-    (18, "18", "C1076-Q9592", 103.637, "Huancabamba", "Huarmaca", 0, 0, 656445, 9393180, 0.640219),
-    (19, "19", "C1076-Q9592", 82.098, "Huancabamba", "Huarmaca", 0, 0, 665942, 9391144, 0.537184),
-    (20, "20", "C1076-Q9593", 81.354, "Huancabamba", "Huarmaca", 0, 0, 649847, 9376260, 0.48513),
-    (21, "21", "C1081-Q9591", 84.244, "Huancabamba", "Canchaque", 0, 0, 654604, 9417736, 0.620078),
-    (22, "22", "C1096-Q9556", 79.374, "Morropon", "Chulucanas", 0, 0, 601122, 9443651, 0.42317),
-    (23, "23", "C1086-Q9570", 81.812, "Morropon", "Santo Domingo", 0, 0, 619939, 9438544, 0.573141),
-    (24, "24", "C1081-Q9583", 90.18, "Huancabamba", "Canchaque", 0, 0, 652191, 9414358, 0.674839),
-    (25, "25", "C1096-Q9547", 53.515, "Morropon", "Chulucanas", 0, 0, 596578, 9442453, 0.256543),
-    (26, "26", "C1081-Q9591", 46.973, "Huancabamba", "Lalaquiz", 0, 0, 649472, 9425705, 0.673303),
-    (27, "27", "C1096-Q9556", 78.192, "Ayabaca", "Frias", 0, 0, 613302, 9450231, 0.53228),
-    (28, "28", "C1081-Q9591", 52.977, "Huancabamba", "Canchaque", 0, 0, 654188, 9422849, 0.639425),
-    (29, "29", "C1076-Q9592", 40.11, "Huancabamba", "Huarmaca", 0, 0, 662123, 9397575, 0.548192),
-    (30, "30", "C1081-Q9591", 34.882, "Huancabamba", "Canchaque", 0, 0, 652758, 9424380, 0.663804),
-    (31, "31", "C1076-Q9592", 47.588, "Huancabamba", "Huarmaca", 0, 0, 663334, 9392820, 0.435805),
-    (32, "32", "C1096-Q9556", 35.85, "Morropon", "Chulucanas", 0, 0, 599927, 9442604, 0.371619),
-    (33, "33", "C1081-Q9590", 29.689, "Huancabamba", "Lalaquiz", 0, 0, 646466, 9431126, 0.71923),
-    (34, "34", "C1081-Q9590", 28.458, "Huancabamba", "Lalaquiz", 0, 0, 646483, 9426305, 0.648975),
-    (35, "35", "C1076-Q9586", 30.811, "Huancabamba", "San Miguel de El Faique", 0, 0, 654607, 9395038, 0.624477),
-    (36, "36", "C1096-Q9547", 24.856, "Ayabaca", "Frias", 0, 0, 606468, 9454689, 0.539458),
-    (37, "37", "C1081-Q9591", 35.5, "Huancabamba", "Lalaquiz", 0, 0, 649081, 9424506, 0.658846),
-    (38, "38", "C1081-Q9590", 44.212, "Huancabamba", "Lalaquiz", 0, 0, 647123, 9427602, 0.672487),
-    (39, "39", "C1096-Q9564", 68.6, "Ayabaca", "Frias", 0, 0, 618523, 9448918, 0.701601),
-    (40, "40", "C1081-Q9591", 28.529, "Huancabamba", "Canchaque", 0, 0, 654137, 9424425, 0.640099),
-    (41, "41", "C1076-Q9592", 64.933, "Huancabamba", "Huarmaca", 0, 0, 660525, 9394327, 0.592669),
-    (42, "42", "C1086-Q9570", 80.649, "Morropon", "Santa Catalina de Mossa", 0, 0, 625152, 9435011, 0.634841),
-    (43, "43", "C1076-Q9586", 23.176, "Huancabamba", "San Miguel de El Faique", 0, 0, 656489, 9395403, 0.551525),
-    (44, "44", "C1076-Q9586", 28.238, "Huancabamba", "San Miguel de El Faique", 0, 0, 663637, 9400618, 0.511324),
-    (45, "45", "C1076-Q9592", 17.626, "Huancabamba", "Huarmaca", 0, 0, 663317, 9392479, 0.445813),
-    (46, "46", "C1086-Q9575", 18.872, "Morropon", "Yamango", 0, 0, 638751, 9433236, 0.724382),
-    (47, "47", "C1076-Q9586", 13.554, "Huancabamba", "San Miguel de El Faique", 0, 0, 659649, 9401436, 0.593628),
-    (48, "48", "C1086-Q9575", 5.755, "Morropon", "Yamango", 0, 0, 639496, 9433679, 0.697809),
-    (49, "49", "C1086-Q9575", 15.844, "Morropon", "Yamango", 0, 0, 642334, 9438263, 0.686036),
-    (50, "50", "C1081-Q9590", 19.272, "Huancabamba", "Lalaquiz", 0, 0, 647350, 9427252, 0.68307),
-    (51, "51", "C1076-Q9593", 22.932, "Huancabamba", "Huarmaca", 0, 0, 656291, 9379096, 0.523788),
-    (52, "52", "C1086-Q9575", 11.063, "Morropon", "Yamango", 0, 0, 641522, 9438064, 0.66855),
-    (53, "53", "C1076-Q9592", 13.066, "Huancabamba", "Huarmaca", 0, 0, 666537, 9395918, 0.596277),
-    (54, "54", "C1081-Q9591", 40.27, "Huancabamba", "Huancabamba", 0, 0, 656897, 9426033, 0.600447),
-    (55, "55", "C1086-Q9575", 0.859, "Morropon", "Yamango", 0, 0, 642690, 9438409, 0.630032),
-    (56, "56", "C1096-Q9564", 77.699, "Ayabaca", "Frias", 0, 0, 621613, 9452884, 0.677658),
-    (57, "57", "C1086-Q9576", 25.677, "Morropon", "Chalaco", 0, 0, 631723, 9439702, 0.603055),
-    (58, "58", "C1086-Q9569", 11.48, "Morropon", "Santa Catalina de Mossa", 0, 0, 619094, 9426406, 0.420325),
-    (59, "59", "C1086-Q9570", 13.559, "Morropon", "Chalaco", 0, 0, 631195, 9441777, 0.614739),
-    (60, "60", "C1081-Q9591", 40.14, "Huancabamba", "Canchaque", 0, 0, 653850, 9426236, 0.67447),
-    (61, "61", "C1081-Q9590", 26.833, "Huancabamba", "Lalaquiz", 0, 0, 646236, 9425052, 0.611186),
-    (62, "62", "C1081-Q9591", 73.837, "Huancabamba", "Canchaque", 0, 0, 655046, 9420450, 0.681648),
-    (63, "63", "C1081-Q9583", 50.469, "Huancabamba", "Canchaque", 0, 0, 655059, 9413845, 0.603582),
-    (64, "64", "C1081-Q9591", 35.78, "Huancabamba", "Huancabamba", 0, 0, 657819, 9428541, 0.525448),
-    (65, "65", "C1081-Q9591", 53.944, "Huancabamba", "Canchaque", 0, 0, 657541, 9421083, 0.649297),
-    (66, "66", "C1081-Q9591", 102.358, "Huancabamba", "Canchaque", 0, 0, 652566, 9417311, 0.640254),
-    (67, "67", "C1076-Q9586", 13.187, "Huancabamba", "San Miguel de El Faique", 0, 0, 654207, 9394210, 0.605293),
-    (68, "68", "C1076-Q9592", 21.294, "Huancabamba", "Huarmaca", 0, 0, 664225, 9396339, 0.482981),
-    (69, "69", "C1076-Q9592", 19.428, "Huancabamba", "Huarmaca", 0, 0, 663291, 9392332, 0.448926),
-    (70, "70", "C1076-Q9592", 22.39, "Huancabamba", "Huarmaca", 0, 0, 666781, 9395573, 0.622295),
-    (71, "71", "C1076-Q9593", 10.676, "Huancabamba", "Huarmaca", 0, 0, 652104, 9373045, 0.557066),
-    (72, "72", "C1076-Q9592", 12.4, "Huancabamba", "Huarmaca", 0, 0, 662236, 9391211, 0.518477),
-    (73, "73", "C1076-Q9592", 54.3, "Huancabamba", "Huarmaca", 0, 0, 658547, 9395594, 0.554974),
-    (74, "74", "C1076-Q9588", 29.233, "Huancabamba", "Huarmaca", 0, 0, 652449, 9389179, 0.356463),
-    (75, "75", "C1076-Q9587", 15.179, "Huancabamba", "San Miguel de El Faique", 0, 0, 657722, 9401669, 0.630888),
-    (76, "76", "C1076-Q9593", 19.619, "Huancabamba", "Huarmaca", 0, 0, 657922, 9377477, 0.492462),
-    (77, "77", "C1081-Q9583", 17.827, "Morropon", "San Juan de Bigote", 0, 0, 638648, 9411370, 0.272488),
-    (78, "78", "C1086-Q9570", 35.116, "Morropon", "Santo Domingo", 0, 0, 619630, 9440043, 0.707402),
-    (79, "79", "C1076-Q9587", 94.834, "Huancabamba", "Canchaque", 0, 0, 650305, 9402785, 0.547879),
-    (80, "80", "C1076-Q9593", 28.835, "Huancabamba", "Huarmaca", 0, 0, 657160, 9373050, 0.593069),
-    (81, "81", "C1076-Q9585", 8.931, "Huancabamba", "Canchaque", 0, 0, 641538, 9401360, 0.274714),
-    (82, "82", "C1086-Q9570", 35.677, "Morropon", "Santo Domingo", 0, 0, 621452, 9443855, 0.62835),
-    (83, "M1B1", "C1077-Q9580", 188.883, "Morropon", "Buenos Aires", 0, 0, 617695, 9409136, 0.319305),
-    (84, "M2B1", "C1076-Q9584", 81.823, "Morropon", "Salitral", 0, 0, 635876, 9397941, 0.29836),
-    (85, "M2B5", "C1076-Q9584", 30.918, "Morropon", "Salitral", 0, 0, 639987, 9394392, 0.304733),
-    (86, "M2B8", "C1076-Q9584", 116.136, "Huancabamba", "San Miguel de El Faique", 0, 0, 639059, 9398295, 0.375171),
-    (87, "M3B1", "C1081-Q9582", 81.014, "Morropon", "Salitral", 0, 0, 630685, 9410800, 0.323882),
-    (88, "M3B3", "C1081-Q9582", 84.855, "Morropon", "San Juan de Bigote", 0, 0, 633015, 9411483, 0.298483),
-    (89, "M3B5", "C1081-Q9582", 52.761, "Morropon", "San Juan de Bigote", 0, 0, 635887, 9411738, 0.283016),
-    (90, "M3B6", "C1081-Q9582", 60.372, "Morropon", "San Juan de Bigote", 0, 0, 637918, 9412134, 0.342535),
-    (91, "M3B7", "C1081-Q9582", 122.987, "Morropon", "San Juan de Bigote", 0, 0, 638309, 9415217, 0.370678),
-    (92, "M3B8", "C1081-Q9582", 565.792, "Morropon", "San Juan de Bigote", 0, 0, 632119, 9415141, 0.293351),
-    (93, "M3B9", "C1081-Q9582", 294.318, "Morropon", "Salitral", 0, 0, 629338, 9413305, 0.321386),
-    (94, "M4B3", "C1076-Q9589", 234.137, "Huancabamba", "Huarmaca", 0, 0, 643474, 9385620, 0.322153),
-    (95, "M4B4", "C1076-Q9589", 290.0, "Huancabamba", "Huarmaca", 0, 0, 642775, 9388574, 0.319788),
-    (96, "M6B2-1", "C1077-Q9566", 514.608, "Morropon", "Buenos Aires", 0, 0, 612864, 9413345, 0.3381),
-    (97, "M6B2-2", "C1077-Q9566", 333.176, "Morropon", "Buenos Aires", 0, 0, 611196, 9416725, 0.302636),
-    (98, "M6B2-3", "C1077-Q9566", 161.058, "Morropon", "Buenos Aires", 0, 0, 611305, 9419274, 0.406259),
-    (99, "M6B10", "C1077-Q9566", 250.004, "Morropon", "Buenos Aires", 0, 0, 618299, 9423119, 0.30989),
-    (100, "M7B1", "C1076-Q9581", 130.475, "Morropon", "Salitral", 0, 0, 629006, 9407536, 0.313647),
-    (101, "M7B2", "C1076-Q9581", 115.422, "Morropon", "Salitral", 0, 0, 631438, 9403547, 0.287689),
-    (102, "M7B3", "C1076-Q9581", 65.768, "Morropon", "Salitral", 0, 0, 633232, 9401227, 0.298017),
-    (103, "M7B6", "C1076-Q9581", 91.317, "Morropon", "Salitral", 0, 0, 635110, 9399092, 0.287833),
-    (104, "M8B2", "C1096-Q9558", 35.363, "Morropon", "Santo Domingo", 0, 0, 617596, 9436227, 0.530453),
-    (105, "M9B1", "C1096-Q9545", 355.568, "Morropon", "Chulucanas", 0, 0, 595552, 9451222, 0.314312),
-    (106, "M10B4", "C1096-Q9547", 68.926, "Morropon", "Chulucanas", 0, 0, 596773, 9448273, 0.313301),
-    (107, "M11B3", "C1081-Q9583", 106.059, "Morropon", "San Juan de Bigote", 0, 0, 642079, 9413823, 0.395609),
-    (108, "M12B1", "C1076-Q9588", 268.469, "Huancabamba", "Huarmaca", 0, 0, 644546, 9389106, 0.34753),
-    (109, "M17B1", "C1096-Q9556", 42.472, "Morropon", "Chulucanas", 0, 0, 600644, 9440436, 0.332263),
-    (110, "M17B4", "C1096-Q9556", 124.775, "Morropon", "Chulucanas", 0, 0, 604926, 9444327, 0.423543),
-    (111, "M17B5", "C1096-Q9556", 74.065, "Ayabaca", "Frias", 0, 0, 608800, 9445585, 0.54817),
-    (112, "M17B6", "C1096-Q9556", 106.593, "Ayabaca", "Frias", 0, 0, 607036, 9446211, 0.446441),
-    (113, "M17B7", "C1096-Q9556", 258.969, "Ayabaca", "Frias", 0, 0, 608472, 9448056, 0.508715),
-    (114, "M17B10", "C1096-Q9556", 75.403, "Ayabaca", "Frias", 0, 0, 606173, 9447361, 0.472466),
-    (115, "M18B1", "C1077-Q9579", 160.43, "Morropon", "Buenos Aires", 0, 0, 621058, 9410427, 0.334299),
-    (116, "M18B3", "C1077-Q9579", 373.96, "Morropon", "Salitral", 0, 0, 625311, 9412195, 0.369424),
-    (117, "M18B5", "C1077-Q9579", 197.437, "Morropon", "Salitral", 0, 0, 621551, 9412989, 0.356522),
-    (118, "M19B2", "C1086-Q9570", 74.406, "Morropon", "Morropon", 0, 0, 617715, 9427284, 0.401185),
-    (119, "M19B7", "C1086-Q9570", 34.186, "Morropon", "Santo Domingo", 0, 0, 620770, 9436562, 0.591921),
-    (120, "M20B1", "C1076-Q9585", 279.766, "Huancabamba", "San Miguel de El Faique", 0, 0, 641196, 9398710, 0.355329),
-    (121, "M22B1", "C1076-Q9586", 55.177, "Huancabamba", "San Miguel de El Faique", 0, 0, 664082, 9404172, 0.594025),
-    (122, "M27B1", "C1096-Q9557", 449.066, "Morropon", "Chulucanas", 0, 0, 593246, 9430139, 0.363228),
-    (123, "M28B2", "C1086-Q9575", 90.228, "Morropon", "Yamango", 0, 0, 636249, 9425665, 0.475342),
-    (124, "M28B3", "C1086-Q9575", 58.312, "Morropon", "Yamango", 0, 0, 634061, 9426778, 0.507529),
-    (125, "M28B4", "C1086-Q9575", 283.543, "Morropon", "Yamango", 0, 0, 626078, 9427110, 0.42751),
-    (126, "M30B5", "C1081-Q9591", 90.922, "Huancabamba", "Huancabamba", 0, 0, 655263, 9427340, 0.5564),
-    (127, "M32B3", "C1086-Q9569", 50.996, "Morropon", "Morropon", 0, 0, 618248, 9426493, 0.385213),
-    (128, "M36B2", "C1086-Q9576", 28.202, "Morropon", "Santa Catalina de Mossa", 0, 0, 626438, 9435060, 0.597433),
+    (1, "56", "C1096-Q9564", 77.666, "Ayabaca", "Frias", 0, 0, 621613, 9452884, 0.677658),
+    (2, "57", "C1086-Q9576", 25.668, "Morropon", "Chalaco", 0, 0, 631723, 9439702, 0.603055),
+    (3, "59", "C1086-Q9570", 13.554, "Morropon", "Chalaco", 0, 0, 631195, 9441777, 0.614739),
+    (4, "58", "C1086-Q9569", 11.475, "Morropon", "Santa Catalina de Mossa", 0, 0, 619094, 9426406, 0.420325),
+    (5, "61", "C1081-Q9590", 26.826, "Huancabamba", "Lalaquiz", 0, 0, 646236, 9425052, 0.611186),
+    (6, "60", "C1081-Q9591", 40.132, "Huancabamba", "Canchaque", 0, 0, 653850, 9426236, 0.67447),
+    (7, "64", "C1081-Q9591", 35.774, "Huancabamba", "Huancabamba", 0, 0, 657819, 9428541, 0.525448),
+    (8, "66", "C1081-Q9591", 102.335, "Huancabamba", "Canchaque", 0, 0, 652566, 9417311, 0.640254),
+    (9, "63", "C1081-Q9583", 50.459, "Huancabamba", "Canchaque", 0, 0, 655059, 9413845, 0.603582),
+    (10, "75", "C1076-Q9587", 15.176, "Huancabamba", "San Miguel de El Faique", 0, 0, 657722, 9401669, 0.630888),
+    (11, "67", "C1076-Q9586", 13.184, "Huancabamba", "San Miguel de El Faique", 0, 0, 654207, 9394210, 0.605293),
+    (12, "70", "C1076-Q9592", 22.388, "Huancabamba", "Huarmaca", 0, 0, 666781, 9395573, 0.622295),
+    (13, "68", "C1076-Q9592", 21.291, "Huancabamba", "Huarmaca", 0, 0, 664225, 9396339, 0.482981),
+    (14, "73", "C1076-Q9592", 54.29, "Huancabamba", "Huarmaca", 0, 0, 658547, 9395594, 0.554974),
+    (15, "69", "C1076-Q9592", 19.425, "Huancabamba", "Huarmaca", 0, 0, 663291, 9392332, 0.448926),
+    (16, "72", "C1076-Q9592", 12.398, "Huancabamba", "Huarmaca", 0, 0, 662236, 9391211, 0.518477),
+    (17, "71", "C1076-Q9593", 10.673, "Huancabamba", "Huarmaca", 0, 0, 652104, 9373045, 0.557066),
+    (18, "80", "C1076-Q9593", 28.83, "Huancabamba", "Huarmaca", 0, 0, 657160, 9373050, 0.593069),
+    (19, "74", "C1076-Q9588", 29.226, "Huancabamba", "Huarmaca", 0, 0, 652449, 9389179, 0.356463),
+    (20, "76", "C1076-Q9593", 19.615, "Huancabamba", "Huarmaca", 0, 0, 657922, 9377477, 0.492462),
+    (21, "79", "C1076-Q9587", 94.812, "Huancabamba", "Canchaque", 0, 0, 650305, 9402785, 0.547879),
+    (22, "77", "C1081-Q9583", 17.821, "Morropon", "San Juan de Bigote", 0, 0, 638648, 9411370, 0.272488),
+    (23, "82", "C1086-Q9570", 35.661, "Morropon", "Santo Domingo", 0, 0, 621452, 9443855, 0.62835),
+    (24, "M17B1", "C1096-Q9556", 42.449, "Morropon", "Chulucanas", 0, 0, 600644, 9440436, 0.332263),
+    (25, "32", "C1096-Q9556", 35.83, "Morropon", "Chulucanas", 0, 0, 599927, 9442604, 0.371619),
+    (26, "M22B1", "C1076-Q9586", 55.17, "Huancabamba", "San Miguel de El Faique", 0, 0, 664082, 9404172, 0.594025),
+    (27, "M6B2-1", "C1077-Q9566", 514.359, "Morropon", "Buenos Aires", 0, 0, 612864, 9413345, 0.3381),
+    (28, "M6B2-2", "C1077-Q9566", 333.011, "Morropon", "Buenos Aires", 0, 0, 611196, 9416725, 0.302636),
+    (29, "M6B10", "C1077-Q9566", 249.89, "Morropon", "Buenos Aires", 0, 0, 618299, 9423119, 0.30989),
+    (30, "M17B4", "C1096-Q9556", 124.709, "Morropon", "Chulucanas", 0, 0, 604926, 9444327, 0.423543),
+    (31, "M10B4", "C1096-Q9547", 68.887, "Morropon", "Chulucanas", 0, 0, 596773, 9448273, 0.313301),
+    (32, "M12B1", "C1076-Q9588", 268.393, "Huancabamba", "Huarmaca", 0, 0, 644546, 9389106, 0.34753),
+    (33, "M3B3", "C1081-Q9582", 84.825, "Morropon", "San Juan de Bigote", 0, 0, 633015, 9411483, 0.298483),
+    (34, "M17B7", "C1096-Q9556", 258.837, "Ayabaca", "Frias", 0, 0, 608472, 9448056, 0.508715),
+    (35, "M18B5", "C1077-Q9579", 197.352, "Morropon", "Salitral", 0, 0, 621551, 9412989, 0.356522),
+    (36, "M28B4", "C1086-Q9575", 283.428, "Morropon", "Yamango", 0, 0, 626078, 9427110, 0.42751),
+    (37, "M8B2", "C1096-Q9558", 35.347, "Morropon", "Santo Domingo", 0, 0, 617596, 9436227, 0.530453),
+    (38, "M4B3", "C1076-Q9589", 234.069, "Huancabamba", "Huarmaca", 0, 0, 643474, 9385620, 0.322153),
+    (39, "M4B4", "C1076-Q9589", 289.914, "Huancabamba", "Huarmaca", 0, 0, 642775, 9388574, 0.319788),
+    (40, "M3B9", "C1081-Q9582", 294.204, "Morropon", "Salitral", 0, 0, 629338, 9413305, 0.321386),
+    (41, "M3B8", "C1081-Q9582", 565.584, "Morropon", "San Juan de Bigote", 0, 0, 632119, 9415141, 0.293351),
+    (42, "M3B7", "C1081-Q9582", 122.946, "Morropon", "San Juan de Bigote", 0, 0, 638309, 9415217, 0.370678),
+    (43, "M3B5", "C1081-Q9582", 52.743, "Morropon", "San Juan de Bigote", 0, 0, 635887, 9411738, 0.283016),
+    (44, "M3B6", "C1081-Q9582", 60.352, "Morropon", "San Juan de Bigote", 0, 0, 637918, 9412134, 0.342535),
+    (45, "M11B3", "C1081-Q9583", 106.027, "Morropon", "San Juan de Bigote", 0, 0, 642079, 9413823, 0.395609),
+    (46, "M18B3", "C1077-Q9579", 373.807, "Morropon", "Salitral", 0, 0, 625311, 9412195, 0.369424),
+    (47, "M17B6", "C1096-Q9556", 106.538, "Ayabaca", "Frias", 0, 0, 607036, 9446211, 0.446441),
+    (48, "M28B2", "C1086-Q9575", 90.197, "Morropon", "Yamango", 0, 0, 636249, 9425665, 0.475342),
+    (49, "M2B5", "C1076-Q9584", 30.909, "Morropon", "Salitral", 0, 0, 639987, 9394392, 0.304733),
+    (50, "M17B5", "C1096-Q9556", 74.028, "Ayabaca", "Frias", 0, 0, 608800, 9445585, 0.54817),
+    (51, "M28B3", "C1086-Q9575", 58.292, "Morropon", "Yamango", 0, 0, 634061, 9426778, 0.507529),
+    (52, "33", "C1081-Q9590", 29.681, "Huancabamba", "Lalaquiz", 0, 0, 646466, 9431126, 0.71923),
+    (53, "50", "C1081-Q9590", 19.266, "Huancabamba", "Lalaquiz", 0, 0, 647350, 9427252, 0.68307),
+    (54, "38", "C1081-Q9590", 44.201, "Huancabamba", "Lalaquiz", 0, 0, 647123, 9427602, 0.672487),
+    (55, "34", "C1081-Q9590", 28.45, "Huancabamba", "Lalaquiz", 0, 0, 646483, 9426305, 0.648975),
+    (56, "26", "C1081-Q9591", 46.962, "Huancabamba", "Lalaquiz", 0, 0, 649472, 9425705, 0.673303),
+    (57, "37", "C1081-Q9591", 35.491, "Huancabamba", "Lalaquiz", 0, 0, 649081, 9424506, 0.658846),
+    (58, "28", "C1081-Q9591", 52.966, "Huancabamba", "Canchaque", 0, 0, 654188, 9422849, 0.639425),
+    (59, "40", "C1081-Q9591", 28.523, "Huancabamba", "Canchaque", 0, 0, 654137, 9424425, 0.640099),
+    (60, "21", "C1081-Q9591", 84.227, "Huancabamba", "Canchaque", 0, 0, 654604, 9417736, 0.620078),
+    (61, "24", "C1081-Q9583", 90.159, "Huancabamba", "Canchaque", 0, 0, 652191, 9414358, 0.674839),
+    (62, "47", "C1076-Q9586", 13.551, "Huancabamba", "San Miguel de El Faique", 0, 0, 659649, 9401436, 0.593628),
+    (63, "43", "C1076-Q9586", 23.171, "Huancabamba", "San Miguel de El Faique", 0, 0, 656489, 9395403, 0.551525),
+    (64, "35", "C1076-Q9586", 30.804, "Huancabamba", "San Miguel de El Faique", 0, 0, 654607, 9395038, 0.624477),
+    (65, "44", "C1076-Q9586", 28.234, "Huancabamba", "San Miguel de El Faique", 0, 0, 663637, 9400618, 0.511324),
+    (66, "53", "C1076-Q9592", 13.065, "Huancabamba", "Huarmaca", 0, 0, 666537, 9395918, 0.596277),
+    (67, "41", "C1076-Q9592", 64.923, "Huancabamba", "Huarmaca", 0, 0, 660525, 9394327, 0.592669),
+    (68, "19", "C1076-Q9592", 82.088, "Huancabamba", "Huarmaca", 0, 0, 665942, 9391144, 0.537184),
+    (69, "31", "C1076-Q9592", 47.581, "Huancabamba", "Huarmaca", 0, 0, 663334, 9392820, 0.435805),
+    (70, "20", "C1076-Q9593", 81.334, "Huancabamba", "Huarmaca", 0, 0, 649847, 9376260, 0.48513),
+    (71, "51", "C1076-Q9593", 22.927, "Huancabamba", "Huarmaca", 0, 0, 656291, 9379096, 0.523788),
+    (72, "29", "C1076-Q9592", 40.104, "Huancabamba", "Huarmaca", 0, 0, 662123, 9397575, 0.548192),
+    (73, "1", "C1076-Q9584", 1370.958, "Morropon", "Salitral", 0, 0, 645575, 9393500, 0.454493),
+    (74, "7", "C1076-Q9584", 173.428, "Morropon", "Salitral", 0, 0, 639728, 9396836, 0.375288),
+    (75, "5", "C1077-Q9566", 295.726, "Morropon", "Buenos Aires", 0, 0, 617860, 9413182, 0.3394),
+    (76, "2", "C1096-Q9558", 330.599, "Morropon", "Chulucanas", 0, 0, 603653, 9439351, 0.358601),
+    (77, "25", "C1096-Q9547", 53.484, "Morropon", "Chulucanas", 0, 0, 596578, 9442453, 0.256543),
+    (78, "9", "C1076-Q9586", 109.861, "Huancabamba", "San Miguel de El Faique", 0, 0, 656578, 9397762, 0.574527),
+    (79, "4", "C1076-Q9588", 230.098, "Huancabamba", "Huarmaca", 0, 0, 656549, 9382009, 0.660111),
+    (80, "18", "C1076-Q9592", 103.617, "Huancabamba", "Huarmaca", 0, 0, 656445, 9393180, 0.640219),
+    (81, "10", "C1076-Q9593", 150.214, "Huancabamba", "Huarmaca", 0, 0, 650830, 9382303, 0.546492),
+    (82, "49", "C1086-Q9575", 15.839, "Morropon", "Yamango", 0, 0, 642334, 9438263, 0.686036),
+    (83, "55", "C1086-Q9575", 0.859, "Morropon", "Yamango", 0, 0, 642690, 9438409, 0.630032),
+    (84, "52", "C1086-Q9575", 11.059, "Morropon", "Yamango", 0, 0, 641522, 9438064, 0.66855),
+    (85, "46", "C1086-Q9575", 18.866, "Morropon", "Yamango", 0, 0, 638751, 9433236, 0.724382),
+    (86, "48", "C1086-Q9575", 5.754, "Morropon", "Yamango", 0, 0, 639496, 9433679, 0.697809),
+    (87, "3", "C1096-Q9545", 459.295, "Ayabaca", "Frias", 0, 0, 606816, 9458469, 0.567707),
+    (88, "6", "C1096-Q9547", 168.411, "Ayabaca", "Frias", 0, 0, 605636, 9455269, 0.538144),
+    (89, "36", "C1096-Q9547", 24.843, "Ayabaca", "Frias", 0, 0, 606468, 9454689, 0.539458),
+    (90, "27", "C1096-Q9556", 78.154, "Ayabaca", "Frias", 0, 0, 613302, 9450231, 0.53228),
+    (91, "12", "C1086-Q9570", 119.538, "Morropon", "Santo Domingo", 0, 0, 625419, 9444932, 0.706689),
+    (92, "13", "C1096-Q9564", 100.514, "Morropon", "Santo Domingo", 0, 0, 620263, 9442343, 0.671094),
+    (93, "11", "C1086-Q9570", 103.948, "Morropon", "Santo Domingo", 0, 0, 620759, 9439988, 0.604743),
+    (94, "17", "C1086-Q9570", 96.079, "Morropon", "Santo Domingo", 0, 0, 618661, 9438267, 0.647895),
+    (95, "23", "C1086-Q9570", 81.776, "Morropon", "Santo Domingo", 0, 0, 619939, 9438544, 0.573141),
+    (96, "15", "C1086-Q9570", 86.147, "Morropon", "Santo Domingo", 0, 0, 620200, 9437862, 0.560518),
+    (97, "14", "C1086-Q9570", 92.905, "Morropon", "Santa Catalina de Mossa", 0, 0, 624397, 9437085, 0.51974),
+    (98, "42", "C1086-Q9570", 80.616, "Morropon", "Santa Catalina de Mossa", 0, 0, 625152, 9435011, 0.634841),
+    (99, "30", "C1081-Q9591", 34.874, "Huancabamba", "Canchaque", 0, 0, 652758, 9424380, 0.663804),
+    (100, "8", "C1076-Q9593", 126.952, "Huancabamba", "Huarmaca", 0, 0, 651673, 9373383, 0.554802),
+    (101, "M17B10", "C1096-Q9556", 75.363, "Ayabaca", "Frias", 0, 0, 606173, 9447361, 0.472466),
+    (102, "39", "C1096-Q9564", 68.569, "Ayabaca", "Frias", 0, 0, 618523, 9448918, 0.701601),
+    (103, "M19B7", "C1086-Q9570", 34.171, "Morropon", "Santo Domingo", 0, 0, 620770, 9436562, 0.591921),
+    (104, "M36B2", "C1086-Q9576", 28.19, "Morropon", "Santa Catalina de Mossa", 0, 0, 626438, 9435060, 0.597433),
+    (105, "M30B5", "C1081-Q9591", 90.903, "Huancabamba", "Huancabamba", 0, 0, 655263, 9427340, 0.5564),
+    (106, "16", "C1076-Q9593", 83.327, "Huancabamba", "Huarmaca", 0, 0, 652939, 9382105, 0.628423),
+    (107, "M18B1", "C1077-Q9579", 160.36, "Morropon", "Buenos Aires", 0, 0, 621058, 9410427, 0.334299),
+    (108, "M1B1", "C1077-Q9580", 188.797, "Morropon", "Buenos Aires", 0, 0, 617695, 9409136, 0.319305),
+    (109, "M6B2-3", "C1077-Q9566", 160.978, "Morropon", "Buenos Aires", 0, 0, 611305, 9419274, 0.406259),
+    (110, "M32B3", "C1086-Q9569", 50.972, "Morropon", "Morropon", 0, 0, 618248, 9426493, 0.385213),
+    (111, "M19B2", "C1086-Q9570", 74.372, "Morropon", "Morropon", 0, 0, 617715, 9427284, 0.401185),
+    (112, "22", "C1096-Q9556", 79.33, "Morropon", "Chulucanas", 0, 0, 601122, 9443651, 0.42317),
+    (113, "M2B8", "C1076-Q9584", 116.099, "Huancabamba", "San Miguel de El Faique", 0, 0, 639059, 9398295, 0.375171),
+    (114, "M3B1", "C1081-Q9582", 80.983, "Morropon", "Salitral", 0, 0, 630685, 9410800, 0.323882),
+    (115, "M20B1", "C1076-Q9585", 279.68, "Huancabamba", "San Miguel de El Faique", 0, 0, 641196, 9398710, 0.355329),
+    (116, "M7B1", "C1076-Q9581", 130.425, "Morropon", "Salitral", 0, 0, 629006, 9407536, 0.313647),
+    (117, "M7B6", "C1076-Q9581", 91.285, "Morropon", "Salitral", 0, 0, 635110, 9399092, 0.287833),
+    (118, "M7B2", "C1076-Q9581", 115.379, "Morropon", "Salitral", 0, 0, 631438, 9403547, 0.287689),
+    (119, "M2B1", "C1076-Q9584", 81.795, "Morropon", "Salitral", 0, 0, 635876, 9397941, 0.29836),
+    (120, "M7B3", "C1076-Q9581", 65.745, "Morropon", "Salitral", 0, 0, 633232, 9401227, 0.298017),
+    (121, "M27B1", "C1096-Q9557", 448.804, "Morropon", "Chulucanas", 0, 0, 593246, 9430139, 0.363228),
+    (122, "M9B1", "C1096-Q9545", 355.364, "Morropon", "Chulucanas", 0, 0, 595552, 9451222, 0.314312),
+    (123, "78", "C1086-Q9570", 35.1, "Morropon", "Santo Domingo", 0, 0, 619630, 9440043, 0.707402),
+    (124, "81", "C1076-Q9585", 8.929, "Huancabamba", "Canchaque", 0, 0, 641538, 9401360, 0.274714),
 ]
 
 
 # Diccionario para busqueda rapida por codigo de bloque
-BLOQUES_128_MAP = {b[1]: {"n": b[0], "codigo": b[1], "microcuenca": b[2],
+BLOQUES_124_MAP = {b[1]: {"n": b[0], "codigo": b[1], "microcuenca": b[2],
     "area_ha": b[3], "provincia": b[4], "distrito": b[5],
     "accesibilidad": b[6], "dia_evaluacion": b[7],
-    "utm_este": b[8], "utm_norte": b[9], "msavi_2024": b[10]} for b in BLOQUES_128}
+    "utm_este": b[8], "utm_norte": b[9], "msavi_2024": b[10]} for b in BLOQUES_124}
 
 # Lista de codigos para el dropdown (solo codigo de bloque)
-BLOQUES_128_OPCIONES = [b[1] for b in BLOQUES_128]
+BLOQUES_124_OPCIONES = [b[1] for b in BLOQUES_124]
 
-# ── Centros Poblados por Bloque de Intervencion ──────────────────────
-# Fuente: REPORTE BLOQUES V4 PARA APLICATIVO.xlsx (sin duplicados, buffer 500m)
+# ── Centros Poblados por Bloque de Intervencion V5 ───────────────────
+# Fuente: CP´s y Bloques_V5.xls
 CENTROS_POBLADOS_BLOQUE = {
-    "1": {"centros_poblados": ["Gramadal"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "3": {"centros_poblados": ["Huayabal", "Rincon De Geraldo", "El Mirador", "Los Checches", "Huasipe de Geraldo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "5": {"centros_poblados": ["Juan Velasco", "El Ala", "Hacienda El Muerto", "Lindero del Ala"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "6": {"centros_poblados": ["Nogal", "Guanabano / Huanabano", "Huanabano Alto", "Loma Guabal", "Cascajal"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "8": {"centros_poblados": ["Pirga"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "10": {"centros_poblados": ["La Pena", "Pena Grande"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "11": {"centros_poblados": ["Taylin de Tunali", "Tailin"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "13": {"centros_poblados": ["La Cruz", "Huacas", "Simiris"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "14": {"centros_poblados": ["Las Velas / Las Vegas", "Brasal", "El Murcielago"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "1": {"centros_poblados": ["Gramadal", "Mamayaco"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "2": {"centros_poblados": ["Balcon de Talandracas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "3": {"centros_poblados": ["Huayabal", "El mirador", "Los checches", "Huasipe de Geraldo", "Rincon de Geraldo"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "4": {"centros_poblados": ["La rinconada", "San Antonio de Succhirca"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "5": {"centros_poblados": ["Juan Velasco", "El ala", "Linderos del ala"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "6": {"centros_poblados": ["Guanabano alto", "Nogal", "Guabal"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "7": {"centros_poblados": ["Hornopampa"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "8": {"centros_poblados": ["Pirga", "Chonta de Platanal"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "9": {"centros_poblados": ["La capilla", "El higueron"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "10": {"centros_poblados": ["La peña"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "11": {"centros_poblados": ["Taylin de Tuñali"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "12": {"centros_poblados": ["Santo Domingo", "Chacayo"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "13": {"centros_poblados": ["Huacas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "14": {"centros_poblados": ["La laja", "Overazal"], "comunidades_campesinas": [], "poblacion_total": 0},
     "15": {"centros_poblados": ["Jacanacas"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "16": {"centros_poblados": ["Laguna de Paltama"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "16": {"centros_poblados": ["Laguna de paltama"], "comunidades_campesinas": [], "poblacion_total": 0},
     "17": {"centros_poblados": ["El Checo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "18": {"centros_poblados": ["Piedra Blanca"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "19": {"centros_poblados": ["Nuevo Progreso"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "20": {"centros_poblados": ["San Juan", "Lanchipuque", "Tupac Amaru"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "21": {"centros_poblados": ["Huamala Alto"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "22": {"centros_poblados": ["Platanal Bajo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "23": {"centros_poblados": ["Jacanacas", "Nueva Esperanza"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "24": {"centros_poblados": ["Villanueva"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "26": {"centros_poblados": ["La Laguna"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "27": {"centros_poblados": ["Nueva Esperanza de Misquis"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "18": {"centros_poblados": ["Piedra blanca"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "19": {"centros_poblados": ["Nuevo progreso"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "20": {"centros_poblados": ["Tupac Amaru"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "21": {"centros_poblados": ["Huamala alto"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "22": {"centros_poblados": ["Platanal bajo"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "23": {"centros_poblados": ["Nueva esperanza", "Jacanacas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "24": {"centros_poblados": ["Coyona"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "25": {"centros_poblados": ["Cruzpampa-Yapatera"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "26": {"centros_poblados": ["La laguna"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "27": {"centros_poblados": ["linderos de Misquis", "Nueva Esperanza de Misquis"], "comunidades_campesinas": [], "poblacion_total": 0},
     "28": {"centros_poblados": ["Abalque"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "30": {"centros_poblados": ["La Virgen"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "29": {"centros_poblados": ["Santa Cruz"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "30": {"centros_poblados": ["Chamelico", "Sapce"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "31": {"centros_poblados": ["Molle", "Hualanga pampa"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "32": {"centros_poblados": ["Panecillo"], "comunidades_campesinas": [], "poblacion_total": 0},
     "33": {"centros_poblados": ["Sambe"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "34": {"centros_poblados": ["Maray"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "35": {"centros_poblados": ["Quitahuajara", "Chamelico"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "36": {"centros_poblados": ["Cascajal"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "37": {"centros_poblados": ["La Oficina", "El Papayo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "38": {"centros_poblados": ["Curana"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "39": {"centros_poblados": ["La Cria"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "40": {"centros_poblados": ["Chorro Blanco", "Chacchacal / Chorro Blanco"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "42": {"centros_poblados": ["Portachuelo", "Santa Rosa de Chirimoyos", "El Ceibo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "43": {"centros_poblados": ["Coyona", "Collona", "Pizarrume"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "49": {"centros_poblados": ["Las Huacas", "Pajal"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "51": {"centros_poblados": ["Talla"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "52": {"centros_poblados": ["Miraflores", "Pajal"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "34": {"centros_poblados": ["Maray grande", "Maray chico"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "35": {"centros_poblados": ["Chamelico"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "36": {"centros_poblados": ["Guabal"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "37": {"centros_poblados": ["El papayo"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "38": {"centros_poblados": ["Ullma"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "39": {"centros_poblados": ["La cria"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "40": {"centros_poblados": ["Chacchacal", "Chorro blanco"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "41": {"centros_poblados": ["Cambruran"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "42": {"centros_poblados": ["Santa Rosa de Chirimoyos"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "43": {"centros_poblados": ["Coyona", "Pizarrume"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "44": {"centros_poblados": ["Cruz de piedra"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "46": {"centros_poblados": ["Nangay"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "47": {"centros_poblados": ["Gaspar"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "48": {"centros_poblados": ["Nangay"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "49": {"centros_poblados": ["Las huacas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "50": {"centros_poblados": ["Ullma"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "51": {"centros_poblados": ["Talla", "Shain"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "52": {"centros_poblados": ["Miraflores"], "comunidades_campesinas": [], "poblacion_total": 0},
     "53": {"centros_poblados": ["Zururan"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "55": {"centros_poblados": ["Pajal"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "61": {"centros_poblados": ["Pedregal", "Alto Zonal"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "55": {"centros_poblados": ["Las huacas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "56": {"centros_poblados": ["Putagas", "Banda de la cruz"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "57": {"centros_poblados": ["Taspa", "San Lorenzo"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "58": {"centros_poblados": ["Maray"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "59": {"centros_poblados": ["Guabo"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "60": {"centros_poblados": ["Flor de café"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "61": {"centros_poblados": ["Pedregal"], "comunidades_campesinas": [], "poblacion_total": 0},
     "63": {"centros_poblados": ["Shuturumbe"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "66": {"centros_poblados": ["Huamala", "Naranjo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "67": {"centros_poblados": ["El Palto"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "68": {"centros_poblados": ["Tabluran"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "64": {"centros_poblados": ["Pariamarca centro"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "66": {"centros_poblados": ["Huamala"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "67": {"centros_poblados": ["Piedra grande", "Quitahuajara"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "68": {"centros_poblados": ["Tablurán"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "69": {"centros_poblados": ["Molle", "Hualanga pampa"], "comunidades_campesinas": [], "poblacion_total": 0},
     "70": {"centros_poblados": ["Zururan"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "71": {"centros_poblados": ["Pirga"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "71": {"centros_poblados": ["Pirga", "Chonta de platanal"], "comunidades_campesinas": [], "poblacion_total": 0},
     "72": {"centros_poblados": ["Ramon Castilla"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "73": {"centros_poblados": ["Chococa"], "comunidades_campesinas": [], "poblacion_total": 0},
     "74": {"centros_poblados": ["Chalpa"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "76": {"centros_poblados": ["Hualanga", "Sahuate"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "75": {"centros_poblados": ["San Cristobal", "Sanchez Cerro"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "76": {"centros_poblados": ["Sahuate Hualanga", "Hualanga"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "77": {"centros_poblados": ["Miguelpampa"], "comunidades_campesinas": [], "poblacion_total": 0},
     "78": {"centros_poblados": ["Tasajeras"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "80": {"centros_poblados": ["Cruz Roja"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "79": {"centros_poblados": ["Almirante Miguel Grau", "Huabal"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "80": {"centros_poblados": ["Yumbe", "Cruz roja"], "comunidades_campesinas": [], "poblacion_total": 0},
     "81": {"centros_poblados": ["Hualtacal"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "82": {"centros_poblados": ["Portachuelo/Portachuelo de San Francisco"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M10B4": {"centros_poblados": ["Rio Seco Alto"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M12B1": {"centros_poblados": ["Nueva Esperanza de Los Molinos", "Hualcas", "Gramadal"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "82": {"centros_poblados": ["Santa fe de Portachuelo"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M10B4": {"centros_poblados": ["Rio seco alto"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M11B3": {"centros_poblados": ["Quemazon", "La pareja"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M12B1": {"centros_poblados": ["Nueva esperanza", "Faicalito"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M17B1": {"centros_poblados": ["Papelillo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M17B4": {"centros_poblados": ["Chililique Alto"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M17B5": {"centros_poblados": ["El Guabo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M17B6": {"centros_poblados": ["Chililique Alto", "Platanal Alto"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M17B7": {"centros_poblados": ["Pampa de Ramada"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M18B3": {"centros_poblados": ["Huaroquispampa", "Selva Andina", "Mangamanguilla"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M19B2": {"centros_poblados": ["Boca Negra"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M1B1": {"centros_poblados": ["Rio Seco"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M20B1": {"centros_poblados": ["Las Huacas", "Mantequillera"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M22B1": {"centros_poblados": ["Santa Rosa La Antena"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M27B1": {"centros_poblados": ["Vicus la Merced", "Huasimal", "Linderos de Vicus"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M28B2": {"centros_poblados": ["Flor de Agua", "Victor Raul Haya de La Torre"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M17B10": {"centros_poblados": ["Platanal alto"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M17B4": {"centros_poblados": ["Chililique alto"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M17B5": {"centros_poblados": ["El guabo"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M17B6": {"centros_poblados": ["Platanal alto", "El guabo"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M17B7": {"centros_poblados": ["Pampa de ramada"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M18B1": {"centros_poblados": ["Hualas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M18B3": {"centros_poblados": ["Selva andina", "Huaro quispampa", "Mangomanguia"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M18B5": {"centros_poblados": ["Morroponcito"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M19B2": {"centros_poblados": ["Boca negra"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M19B7": {"centros_poblados": ["El Faique"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M1B1": {"centros_poblados": ["Rio seco"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M20B1": {"centros_poblados": ["Las huacas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M22B1": {"centros_poblados": ["Santa Rosa"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M27B1": {"centros_poblados": ["Vicus linderos", "Vicus la merced", "Vicus santa Rosa", "Huasimal"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M28B2": {"centros_poblados": ["Flor de agua", "Victor Raul (El Checo)"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M28B3": {"centros_poblados": ["Ricardo Palma"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M28B4": {"centros_poblados": ["Alto Mambluque", "Mambluque", "Nueva Esperanza"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M28B4": {"centros_poblados": ["Mambluque", "Alto Mambluque"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M2B1": {"centros_poblados": ["Santa Rosa"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M2B5": {"centros_poblados": ["Hornopampa"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M2B8": {"centros_poblados": ["Las Huacas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M2B8": {"centros_poblados": ["Huacas baja"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M30B5": {"centros_poblados": ["Pariamarca centro"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M32B3": {"centros_poblados": ["Maray"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M36B2": {"centros_poblados": ["Portachuelo", "Santa Rosa de Chirimoyos", "Laguna Colorada"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M3B1": {"centros_poblados": ["Piedra Blanca"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M3B3": {"centros_poblados": ["Alan Garcia", "Bigote", "Bigote de Gato"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M36B2": {"centros_poblados": ["Santa Rosa de Chirimoyos"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M3B1": {"centros_poblados": ["Piedra blanca"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M3B3": {"centros_poblados": ["Alan Garcia", "Bigote"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M3B5": {"centros_poblados": ["San Juan Bautista"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M3B6": {"centros_poblados": ["San Juan Bautista", "Manzanares", "Bado De Garzas"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M3B7": {"centros_poblados": ["Polluco", "Sinai"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M3B8": {"centros_poblados": ["San Pedro", "Santa Rosa"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M4B3": {"centros_poblados": ["La Huaca"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M4B4": {"centros_poblados": ["Hualcas Alto", "Hualcas"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M6B10": {"centros_poblados": ["La Maravilla", "La Pilca"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M7B1": {"centros_poblados": ["La Alberca", "Nuevo Progreso", "Victor Raul"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M7B2": {"centros_poblados": ["El Cerezo", "La Alberca"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M7B3": {"centros_poblados": ["La Tranca", "Palo Blanco"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M7B6": {"centros_poblados": ["Santa Rosa", "Serran"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M8B2": {"centros_poblados": ["Hualtacal"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M3B6": {"centros_poblados": ["Bado de garzas", "Manzanares"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M3B7": {"centros_poblados": ["Sinai", "Polluco"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M3B8": {"centros_poblados": ["Santa Rosa"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M3B9": {"centros_poblados": ["San Pedro", "Tortola"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M4B3": {"centros_poblados": ["Chignia baja"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M4B4": {"centros_poblados": ["Hualcas I", "Hualcas II"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M6B10": {"centros_poblados": ["La Maravilla", "La Pilca", "Ingenio de Buenos Aires"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M6B2-1": {"centros_poblados": ["Buenos Aires"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M6B2-2": {"centros_poblados": ["Buenos Aires"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M6B2-3": {"centros_poblados": ["Buenos Aires"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M7B1": {"centros_poblados": ["Victor Raul", "Nuevo progreso", "La alberca"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M7B2": {"centros_poblados": ["Palo blanco-El cerezo", "La alberca"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M7B3": {"centros_poblados": ["Palo blanco-El cerezo", "La tranca"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M7B6": {"centros_poblados": ["Serran", "Nuevo san Juan"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M8B2": {"centros_poblados": ["Botijas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M9B1": {"centros_poblados": ["La peña"], "comunidades_campesinas": [], "poblacion_total": 0},
 }
 
 PROVINCIAS_DISTRITOS = {
@@ -612,7 +645,7 @@ FDT06_SERVICIOS = [
 ]
 
 # ── Fichas de Diagnostico Social (F-DS-01 a F-DS-05) ─────────────────────
-# Fuente: Formatos_Sociales_Registros_de_Campo_IN_Piura_2026.xlsx
+# Fuente: Plantilla_Diagnostico_Social_IN_Piura_rev_22abril.xlsx
 FICHAS_DS = ["F-DS-01","F-DS-02","F-DS-03","F-DS-04","F-DS-05"]
 
 # F-DS-01: DIAGNOSTICO SOCIOECONOMICO DE CENTRO POBLADO
@@ -702,7 +735,7 @@ def _distritos(prov):
 
 def _resolver_microcuenca(bloque_label):
     """Resuelve la microcuenca para un bloque dado su label 'CODIGO - TIPO'.
-    Busca primero en la BD (cacheada) y luego en BLOQUES_128_MAP como fallback."""
+    Busca primero en la BD (cacheada) y luego en BLOQUES_124_MAP como fallback."""
     codigo = bloque_label.split(" - ")[0].strip() if " - " in bloque_label else bloque_label.strip()
     # Buscar en BD (cacheada)
     for b in _cached_obtener_bloques(_cache_version()):
@@ -712,7 +745,7 @@ def _resolver_microcuenca(bloque_label):
                 return mc
             break
     # Fallback: buscar en los 128 bloques predefinidos
-    datos = BLOQUES_128_MAP.get(codigo, {})
+    datos = BLOQUES_124_MAP.get(codigo, {})
     mc = datos.get("microcuenca", "")
     if mc and mc in MICROCUENCAS:
         return mc
@@ -826,14 +859,14 @@ def pagina_bloques():
             st.markdown("##### Seleccion rapida - 128 Bloques de Intervencion V4")
             sel_79 = st.selectbox(
                 "Seleccionar bloque predefinido",
-                ["(Seleccionar bloque predefinido)"] + BLOQUES_128_OPCIONES,
+                ["(Seleccionar bloque predefinido)"] + BLOQUES_124_OPCIONES,
                 key="sel_bloque_128",
                 help="Seleccione un bloque de la lista de 128 bloques V4 para autocompletar los campos"
             )
 
             # Determinar valores por defecto segun seleccion
             cod_sel = _extraer_codigo_bloque_128(sel_79 if sel_79 != "(Seleccionar bloque predefinido)" else "")
-            datos_79 = BLOQUES_128_MAP.get(cod_sel, {}) if cod_sel else {}
+            datos_79 = BLOQUES_124_MAP.get(cod_sel, {}) if cod_sel else {}
 
             def_codigo = datos_79.get("codigo", "")
             def_microcuenca = datos_79.get("microcuenca", "")
@@ -985,12 +1018,12 @@ def pagina_bloques():
 
         st.markdown("---")
         with st.expander("Tabla de Referencia - 128 Bloques de Intervencion V4", expanded=False):
-            st.caption("Fuente: REPORTE BLOQUES V4 PARA APLICATIVO.xlsx - Base de datos completa del proyecto IN Piura")
+            st.caption("Fuente: Reporte_Bloques_V5_25abril.xlsx - Base de datos completa del proyecto IN Piura (124 bloques)")
             df_128 = pd.DataFrame([{
                 "N":b[0], "Bloque":b[1], "Microcuenca":b[2],
                 "Area (ha)":b[3], "Provincia":b[4], "Distrito":b[5],
                 "MSAVI 2024":b[10],
-            } for b in BLOQUES_128])
+            } for b in BLOQUES_124])
             st.dataframe(df_128, use_container_width=True, hide_index=True, height=400)
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -1725,7 +1758,7 @@ def pagina_diagnostico_territorial():
             FICHAS_DT, default=FICHAS_DT, key="dt_excel_fichas_dl")
         if col_dl2.button("Generar Plantilla Excel", type="secondary", key="dt_gen_plantilla"):
             if fichas_descarga_dt:
-                bloques_data_dt = [(b[1], b[2], b[4], b[5]) for b in BLOQUES_128]
+                bloques_data_dt = [(b[1], b[2], b[4], b[5]) for b in BLOQUES_124]
                 plantilla_bytes_dt = generar_plantilla_dt(fichas_descarga_dt, bloques_data_dt)
                 st.session_state["dt_plantilla_bytes"] = plantilla_bytes_dt
                 st.success("Plantilla generada correctamente.")
@@ -1904,7 +1937,7 @@ def pagina_diagnostico_territorial():
                    "puede importar todas a la vez usando el boton de arriba. "
                    "Cada hoja sera detectada automaticamente.")
         st.caption("Tambien puede subir la plantilla original "
-                   "(`Formatos_Diagnostico_Territorial_IN_Piura_2026.xlsx`) "
+                   "(`Plantilla_DT_Campo_Check_24abr_hscm.xlsx`) "
                    "llenada por el tecnico.")
 
 
@@ -1916,7 +1949,7 @@ def _ds_datos_generales(bloque_label=""):
     Auto-vincula centros poblados, comunidades campesinas, provincia,
     distrito y coordenadas aproximadas del bloque seleccionado."""
     codigo_bloque = bloque_label.split(" - ")[0].strip() if " - " in bloque_label else bloque_label.strip()
-    bloque_info = BLOQUES_128_MAP.get(codigo_bloque, {})
+    bloque_info = BLOQUES_124_MAP.get(codigo_bloque, {})
     cp_info = CENTROS_POBLADOS_BLOQUE.get(codigo_bloque, {})
     lista_cp = cp_info.get("centros_poblados", [])
     lista_cc = cp_info.get("comunidades_campesinas", [])
@@ -2895,7 +2928,7 @@ def pagina_diagnostico_social():
             FICHAS_DS, default=FICHAS_DS, key="ds_excel_fichas_dl")
         if col_dl2.button("Generar Plantilla Excel", type="secondary", key="ds_gen_plantilla"):
             if fichas_descarga:
-                bloques_data_ds = [(b[1], b[2], b[4], b[5]) for b in BLOQUES_128]
+                bloques_data_ds = [(b[1], b[2], b[4], b[5]) for b in BLOQUES_124]
                 plantilla_bytes = generar_plantilla_ds(fichas_descarga, bloques_data_ds)
                 st.session_state["ds_plantilla_bytes"] = plantilla_bytes
                 st.success("Plantilla generada correctamente.")
@@ -3118,7 +3151,7 @@ def pagina_diagnostico_social():
                    "puede importar todas a la vez usando el boton de arriba. "
                    "Cada hoja sera detectada automaticamente.")
         st.caption("Tambien puede subir la plantilla original "
-                   "(`Formatos_Sociales_Registros_de_Campo_IN_Piura_2026.xlsx`) "
+                   "(`Plantilla_Diagnostico_Social_IN_Piura_rev_22abril.xlsx`) "
                    "llenada por el tecnico.")
 
 
@@ -3851,9 +3884,9 @@ def pagina_georreferenciacion():
                 try:
                     utm_e = b.get("utm_este", 0) or 0
                     utm_n = b.get("utm_norte", 0) or 0
-                    # Fallback: si las coords en BD son 0, usar las de BLOQUES_128_MAP
+                    # Fallback: si las coords en BD son 0, usar las de BLOQUES_124_MAP
                     if utm_e == 0 or utm_n == 0:
-                        datos_b79 = BLOQUES_128_MAP.get(b.get("codigo", ""), {})
+                        datos_b79 = BLOQUES_124_MAP.get(b.get("codigo", ""), {})
                         utm_e = datos_b79.get("utm_este", 0)
                         utm_n = datos_b79.get("utm_norte", 0)
                     # Filtrar bloques sin coordenadas validas
