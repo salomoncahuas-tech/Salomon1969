@@ -116,7 +116,26 @@ st.set_page_config(
 def _inicializar_bd_una_vez():
     db.inicializar_bd()
 
-_inicializar_bd_una_vez()
+def _arrancar_con_reintento():
+    """Intenta inicializar la BD; si falla muestra error y botón de reintento."""
+    try:
+        _inicializar_bd_una_vez()
+    except Exception as e:
+        st.error(
+            "**No se pudo conectar a la base de datos.**\n\n"
+            "La base de datos puede estar pausada (esto ocurre en el plan gratuito de Supabase "
+            "cuando no hay actividad por varios días).\n\n"
+            "**¿Qué hacer?**\n"
+            "1. Entra a [supabase.com](https://supabase.com) y verifica que tu proyecto esté activo (no pausado).\n"
+            "2. Si está pausado, haz clic en **Resume project** y espera 1-2 minutos.\n"
+            "3. Luego presiona el botón de abajo para reintentar."
+        )
+        if st.button("🔄 Reintentar conexión"):
+            st.cache_resource.clear()
+            st.rerun()
+        st.stop()
+
+_arrancar_con_reintento()
 
 # ── Constantes ────────────────────────────────────────────────────────────
 TIPOS_INTERVENCION = [
