@@ -27,6 +27,7 @@ _CONNECT_KWARGS = {
     "keepalives_idle": 30,
     "keepalives_interval": 10,
     "keepalives_count": 5,
+    "sslmode": "require",
 }
 
 
@@ -139,7 +140,7 @@ def _dictfetchone(cursor):
 
 def inicializar_bd():
     """Crea las tablas si no existen (idempotente)."""
-    conn = _connect_with_retry(DATABASE_URL)
+    conn = _connect_with_retry(DATABASE_URL, sslmode="require")
     cursor = conn.cursor()
 
     cursor.execute("""
