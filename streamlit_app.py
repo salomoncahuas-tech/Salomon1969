@@ -121,15 +121,39 @@ def _arrancar_con_reintento():
     try:
         _inicializar_bd_una_vez()
     except Exception as e:
-        st.error(
-            "**No se pudo conectar a la base de datos.**\n\n"
-            "La base de datos puede estar pausada (esto ocurre en el plan gratuito de Supabase "
-            "cuando no hay actividad por varios días).\n\n"
-            "**¿Qué hacer?**\n"
-            "1. Entra a [supabase.com](https://supabase.com) y verifica que tu proyecto esté activo (no pausado).\n"
-            "2. Si está pausado, haz clic en **Resume project** y espera 1-2 minutos.\n"
-            "3. Luego presiona el botón de abajo para reintentar."
-        )
+        err_str = str(e).lower()
+        es_ssl = "ssl" in err_str or "certificate" in err_str
+        es_auth = "password" in err_str or "authentication" in err_str or "role" in err_str
+        if es_ssl:
+            st.error(
+                "**Error de SSL al conectar a la base de datos.**\n\n"
+                "La conexión requiere SSL pero hubo un problema de certificado o configuración.\n\n"
+                "**¿Qué hacer?**\n"
+                "1. Verifica que la variable `DATABASE_URL` en los secretos de Streamlit sea correcta.\n"
+                "2. Si la URL ya incluye `sslmode=`, elimina ese parámetro de la URL (el código lo agrega automáticamente).\n"
+                "3. Presiona el botón de abajo para reintentar."
+            )
+        elif es_auth:
+            st.error(
+                "**Error de autenticación con la base de datos.**\n\n"
+                "Las credenciales de conexión no son válidas.\n\n"
+                "**¿Qué hacer?**\n"
+                "1. Verifica la variable `DATABASE_URL` en los secretos de Streamlit.\n"
+                "2. Asegúrate de que el usuario y contraseña de Supabase sean correctos.\n"
+                "3. Presiona el botón de abajo para reintentar."
+            )
+        else:
+            st.error(
+                "**No se pudo conectar a la base de datos.**\n\n"
+                "La base de datos puede estar pausada (esto ocurre en el plan gratuito de Supabase "
+                "cuando no hay actividad por varios días).\n\n"
+                "**¿Qué hacer?**\n"
+                "1. Entra a [supabase.com](https://supabase.com) y verifica que tu proyecto esté activo (no pausado).\n"
+                "2. Si está pausado, haz clic en **Resume project** y espera 1-2 minutos.\n"
+                "3. Luego presiona el botón de abajo para reintentar."
+            )
+        with st.expander("Ver detalle técnico del error"):
+            st.code(str(e), language="text")
         if st.button("🔄 Reintentar conexión"):
             st.cache_resource.clear()
             st.rerun()

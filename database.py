@@ -40,6 +40,15 @@ def _connect_with_retry(dsn, **kwargs):
             return psycopg2.connect(dsn, **merged)
         except psycopg2.OperationalError as e:
             last_err = e
+            err_str = str(e).lower()
+            # Si el error es de SSL y estamos pidiendo sslmode=require, intentar
+            # con sslmode=prefer para evitar conflictos con la URL de conexion.
+            if "ssl" in err_str and merged.get("sslmode") == "require" and attempt == 0:
+                fallback = {**merged, "sslmode": "prefer"}
+                try:
+                    return psycopg2.connect(dsn, **fallback)
+                except psycopg2.OperationalError:
+                    pass
             if attempt < 3:
                 time.sleep(2 ** attempt)
     raise last_err
