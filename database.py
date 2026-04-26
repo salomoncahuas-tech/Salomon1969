@@ -13,12 +13,35 @@ CONFIGURACION en .streamlit/secrets.toml:
 """
 
 import re
+import time
 import streamlit as st
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from datetime import datetime
 
 DATABASE_URL = st.secrets["DATABASE_URL"]
+
+_CONNECT_KWARGS = {
+    "connect_timeout": 15,
+    "keepalives": 1,
+    "keepalives_idle": 30,
+    "keepalives_interval": 10,
+    "keepalives_count": 5,
+}
+
+
+def _connect_with_retry(dsn, **kwargs):
+    """Conecta a PostgreSQL con reintentos y backoff exponencial."""
+    merged = {**_CONNECT_KWARGS, **kwargs}
+    last_err = None
+    for attempt in range(4):
+        try:
+            return psycopg2.connect(dsn, **merged)
+        except psycopg2.OperationalError as e:
+            last_err = e
+            if attempt < 3:
+                time.sleep(2 ** attempt)
+    raise last_err
 
 
 # == CAPA DE COMPATIBILIDAD SQLite -> PostgreSQL ===========================
@@ -73,7 +96,7 @@ class _CursorWrapper:
 class _ConnectionWrapper:
     """Envuelve psycopg2 connection para simular sqlite3.Connection."""
     def __init__(self):
-        self._conn = psycopg2.connect(
+        self._conn = _connect_with_retry(
             DATABASE_URL, cursor_factory=RealDictCursor)
 
     def cursor(self):
@@ -116,7 +139,7 @@ def _dictfetchone(cursor):
 
 def inicializar_bd():
     """Crea las tablas si no existen (idempotente)."""
-    conn = psycopg2.connect(DATABASE_URL)
+    conn = _connect_with_retry(DATABASE_URL)
     cursor = conn.cursor()
 
     cursor.execute("""
