@@ -112,7 +112,11 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-db.inicializar_bd()
+@st.cache_resource
+def _inicializar_bd_una_vez():
+    db.inicializar_bd()
+
+_inicializar_bd_una_vez()
 
 # ── Constantes ────────────────────────────────────────────────────────────
 TIPOS_INTERVENCION = [
