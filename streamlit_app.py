@@ -717,7 +717,7 @@ st.sidebar.markdown("**IN Piura** v2.1 Web\n\nRestauracion de Ecosistemas\nCuenc
 
 # ── Helpers ───────────────────────────────────────────────────────────────
 def _bloques_map():
-    return {f"{b['codigo']} - {b['tipo_intervencion']}": b["id"]
+    return {b["codigo"]: b["id"]
             for b in _cached_obtener_bloques(_cache_version())}
 
 def _distritos(prov):
@@ -747,14 +747,13 @@ def _resolver_microcuenca(bloque_label):
 def pagina_dashboard():
     st.subheader("Panel de Control - Resumen Ejecutivo")
     stats = _cached_obtener_estadisticas(_cache_version())
-    c1,c2,c3,c4,c5,c6,c7 = st.columns(7)
+    c1,c2,c3,c4,c5,c6 = st.columns(6)
     c1.metric("Total Bloques", stats["total_bloques"])
     c2.metric("Area Total", f"{stats['area_total_ha']:.2f} ha")
     c3.metric("Inspecciones", stats["total_inspecciones"])
     c4.metric("Avance Promedio", f"{stats['avance_promedio']:.1f}%")
     c5.metric("Diag. Territorial", stats.get("total_diagnosticos", 0))
     c6.metric("Diag. Social", stats.get("total_diagnosticos_sociales", 0))
-    c7.metric("Personal Activo", stats["personal_activo"])
     st.markdown("---")
     ci,cd = st.columns(2)
     with ci:
@@ -789,10 +788,34 @@ def pagina_dashboard():
     st.markdown("**Resumen de Bloques**")
     res = _cached_obtener_resumen_bloques(_cache_version())
     if res:
-        st.dataframe(pd.DataFrame([{"Codigo":b["codigo"],"Tipo":b["tipo_intervencion"],
-            "Distrito":b["distrito"],"Area (ha)":f"{b['area_hectareas']:.4f}",
-            "Estado":b["estado"],"Avance %":f"{(b.get('ultimo_avance') or 0):.1f}",
-            "Inspecciones":b.get("total_inspecciones",0)} for b in res]),
+        def _fmt_area(v):
+            try:
+                return f"{float(v):.4f}" if v not in (None, "", 0, 0.0) else ""
+            except (TypeError, ValueError):
+                return ""
+        def _fmt_avance(b):
+            v = b.get("ultimo_avance")
+            if v in (None, "", 0, 0.0) and not b.get("total_inspecciones"):
+                return ""
+            try:
+                return f"{float(v or 0):.1f}"
+            except (TypeError, ValueError):
+                return ""
+        def _fmt_int(v):
+            try:
+                iv = int(v)
+                return iv if iv else ""
+            except (TypeError, ValueError):
+                return ""
+        st.dataframe(pd.DataFrame([{
+            "Codigo": b["codigo"],
+            "Tipo": b.get("tipo_intervencion", "") or "",
+            "Distrito": b.get("distrito", "") or "",
+            "Area (ha)": _fmt_area(b.get("area_hectareas")),
+            "Estado": b.get("estado", "") or "",
+            "Avance %": _fmt_avance(b),
+            "Inspecciones": _fmt_int(b.get("total_inspecciones")),
+        } for b in res]),
             use_container_width=True, hide_index=True)
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -983,18 +1006,23 @@ def pagina_bloques():
             for b in bloques_pag:
                 row_cols = st.columns([0.5, 1.2, 1.2, 1.2, 1, 1, 0.8, 0.8, 0.7])
                 row_cols[0].write(b["id"])
-                row_cols[1].write(b["codigo"])
+                row_cols[1].write(b.get("codigo", "") or "")
                 row_cols[2].write(b.get("microcuenca", "") or "")
-                row_cols[3].write(b["tipo_intervencion"])
+                row_cols[3].write(b.get("tipo_intervencion", "") or "")
                 row_cols[4].write(b.get("provincia", "") or "")
-                row_cols[5].write(b["distrito"])
-                row_cols[6].write(f"{b['area_hectareas']:.4f}")
-                row_cols[7].write(b["estado"])
+                row_cols[5].write(b.get("distrito", "") or "")
+                area_val = b.get("area_hectareas")
+                try:
+                    area_txt = f"{float(area_val):.4f}" if area_val not in (None, "", 0, 0.0) else ""
+                except (TypeError, ValueError):
+                    area_txt = ""
+                row_cols[6].write(area_txt)
+                row_cols[7].write(b.get("estado", "Pendiente") or "Pendiente")
                 if row_cols[8].button("Editar", key=f"edit_bl_{b['id']}", type="primary"):
                     _bl_load_edit(b)
                     st.rerun()
             st.markdown("---")
-            bm = {f"{b['codigo']} - {b['tipo_intervencion']}":b["id"] for b in bloques}
+            bm = {b["codigo"]: b["id"] for b in bloques}
             sel = st.selectbox("Seleccionar bloque para eliminar",[""]+list(bm.keys()),key="del_bl")
             if sel and sel in bm and st.button("Eliminar bloque", key="btn_del_bl"):
                 try:
@@ -1004,7 +1032,6 @@ def pagina_bloques():
                     st.rerun()
                 except Exception as e:
                     st.error(f"Error al eliminar bloque: {e}")
-        else: st.info("Sin bloques.")
 
         st.markdown("---")
         with st.expander("Tabla de Referencia - 128 Bloques de Intervencion V4", expanded=False):
@@ -1089,7 +1116,7 @@ def pagina_inspeccion():
         def_inspector = st.session_state.get("insp_e_inspector", "")
         def_clima = st.session_state.get("insp_e_clima", "")
         if def_clima and def_clima in CONDICIONES_CLIMATICAS:
-            def_clima_idx = CONDICIONES_CLIMATICAS.index(def_clima)
+            def_clima_idx = CONDICIONES_CLIMATICAS.index(def_clima) + 1
         def_avance = float(st.session_state.get("insp_e_avance", 0))
         def_obs = st.session_state.get("insp_e_obs", "")
         def_desv = st.session_state.get("insp_e_desv", "")
@@ -1105,7 +1132,7 @@ def pagina_inspeccion():
                               min_value=FECHA_MIN_PROYECTO, max_value=date.today(),
                               help="Seleccione la fecha de la visita de campo")
         inspector = st.text_input("Inspector", value=def_inspector)
-        clima = st.selectbox("Condiciones climaticas", CONDICIONES_CLIMATICAS, index=def_clima_idx)
+        clima = st.selectbox("Condiciones climaticas", [""] + CONDICIONES_CLIMATICAS, index=def_clima_idx)
         avance = st.number_input("Avance fisico (%)", 0.0, 100.0, def_avance)
         obs = st.text_area("Observaciones tecnicas", value=def_obs)
         desv = st.text_area("Desviaciones observadas al Plan de Trabajo", value=def_desv)
@@ -2896,9 +2923,9 @@ def pagina_diagnostico_social():
             resumen_ds = db.obtener_resumen_diagnosticos_sociales()
             if resumen_ds:
                 st.dataframe(pd.DataFrame([{
-                    "Bloque": r["codigo"], "Tipo": r["tipo_intervencion"],
-                    "Distrito": r["distrito"], "Total Fichas": r["total_fichas"],
-                    "Fichas Completadas": r.get("fichas_completadas", "") or "Ninguna",
+                    "Bloque": r["codigo"],
+                    "Total Fichas": r.get("total_fichas", "") or "",
+                    "Fichas Completadas": r.get("fichas_completadas", "") or "",
                 } for r in resumen_ds]), use_container_width=True, hide_index=True)
 
     # ══════════════════════════════════════════════════════════════════
@@ -3159,7 +3186,7 @@ def pagina_elementos_expuestos():
         st.warning("No hay bloques registrados. Registre bloques primero.")
         return
 
-    bloques_map = {f"{b['codigo']} - {b['distrito']}": b["id"] for b in bloques}
+    bloques_map = {b["codigo"]: b["id"] for b in bloques}
     bloques_labels = list(bloques_map.keys())
     bloques_data = [(b["codigo"], b.get("microcuenca", ""), b.get("provincia", ""),
                      b["distrito"]) for b in bloques]
@@ -3681,12 +3708,30 @@ def pagina_presupuesto():
     st.markdown("**Resumen General**")
     rp = db.obtener_resumen_presupuesto()
     if rp:
-        st.dataframe(pd.DataFrame([{"Codigo":r["codigo"],"Tipo":r["tipo_intervencion"],
-            "Distrito":r["distrito"],
-            "Planificado":f"S/ {r['total_planificado']:,.2f}",
-            "Ejecutado":f"S/ {r['total_ejecutado']:,.2f}",
-            "%Ejec":f"{(r['total_ejecutado']/r['total_planificado']*100) if r['total_planificado']>0 else 0:.1f}%",
-            "Partidas":r["num_partidas"]} for r in rp]),
+        def _fmt_money(v):
+            try:
+                return f"S/ {float(v):,.2f}" if v not in (None, "", 0, 0.0) else ""
+            except (TypeError, ValueError):
+                return ""
+        def _fmt_pct(num, den):
+            try:
+                num_f = float(num or 0); den_f = float(den or 0)
+                if den_f <= 0: return ""
+                return f"{(num_f/den_f*100):.1f}%"
+            except (TypeError, ValueError):
+                return ""
+        def _fmt_count(v):
+            try:
+                iv = int(v); return iv if iv else ""
+            except (TypeError, ValueError):
+                return ""
+        st.dataframe(pd.DataFrame([{
+            "Codigo": r["codigo"],
+            "Planificado": _fmt_money(r.get("total_planificado")),
+            "Ejecutado": _fmt_money(r.get("total_ejecutado")),
+            "%Ejec": _fmt_pct(r.get("total_ejecutado"), r.get("total_planificado")),
+            "Partidas": _fmt_count(r.get("num_partidas")),
+        } for r in rp]),
             use_container_width=True, hide_index=True)
         t = db.obtener_presupuesto_total()
         pt,et = t["total_planificado"],t["total_ejecutado"]
