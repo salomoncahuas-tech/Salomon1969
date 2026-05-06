@@ -6,7 +6,7 @@ Restauracion de ecosistemas - Cuenca alta del rio Piura, Peru.
 
 import streamlit as st
 import pandas as pd
-from datetime import datetime, date, timedelta
+from datetime import datetime, date, time as dtime, timedelta
 import os
 import uuid
 import io
@@ -1105,7 +1105,9 @@ def pagina_inspeccion():
         pdf_files = None
 
     # Valores de edicion
-    def_fecha = datetime.now()
+    _now = datetime.now()
+    def_fecha = _now
+    def_hora = _now.time().replace(second=0, microsecond=0)
     def_inspector = ""
     def_clima_idx = 0
     def_avance = 0.0
@@ -1121,16 +1123,25 @@ def pagina_inspeccion():
         def_obs = st.session_state.get("insp_e_obs", "")
         def_desv = st.session_state.get("insp_e_desv", "")
         def_ver = st.session_state.get("insp_e_ver", def_ver)
-        try:
-            def_fecha = datetime.strptime(st.session_state.get("insp_e_fecha", ""), "%Y-%m-%d")
-        except (ValueError, TypeError):
-            pass
+        _fecha_e = (st.session_state.get("insp_e_fecha", "") or "").strip()
+        for _fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M", "%Y-%m-%d"):
+            try:
+                _parsed = datetime.strptime(_fecha_e, _fmt)
+                def_fecha = _parsed
+                if _fmt != "%Y-%m-%d":
+                    def_hora = _parsed.time().replace(second=0, microsecond=0)
+                break
+            except (ValueError, TypeError):
+                continue
 
     with st.form("form_insp", clear_on_submit=not edit_id):
         mc = st.selectbox("Microcuenca", [""] + MICROCUENCAS, index=mc_idx)
-        fecha = st.date_input("Fecha de visita", value=def_fecha,
+        c_fh1, c_fh2 = st.columns(2)
+        fecha = c_fh1.date_input("Fecha de visita", value=def_fecha,
                               min_value=FECHA_MIN_PROYECTO, max_value=date.today(),
                               help="Seleccione la fecha de la visita de campo")
+        hora = c_fh2.time_input("Hora de visita", value=def_hora,
+                              help="Seleccione la hora de la visita de campo")
         inspector = st.text_input("Inspector", value=def_inspector)
         clima = st.selectbox("Condiciones climaticas", [""] + CONDICIONES_CLIMATICAS, index=def_clima_idx)
         avance = st.number_input("Avance fisico (%)", 0.0, 100.0, def_avance)
@@ -1143,9 +1154,11 @@ def pagina_inspeccion():
         if not inspector: st.warning("Inspector obligatorio.")
         else:
             try:
+                fecha_hora_str = datetime.combine(fecha, hora).strftime("%Y-%m-%d %H:%M:%S")
+                fecha_str = fecha.strftime("%Y-%m-%d")
                 if edit_id:
                     db.actualizar_inspeccion(inspeccion_id=edit_id,
-                        fecha_visita=fecha.strftime("%Y-%m-%d"),
+                        fecha_visita=fecha_hora_str,
                         inspector=inspector, condiciones_climaticas=clima,
                         avance_fisico=avance, observaciones=obs, desviaciones=desv,
                         codigo_verificacion=ver, microcuenca=mc)
@@ -1156,12 +1169,13 @@ def pagina_inspeccion():
                             del st.session_state[k]
                     st.success("Inspeccion actualizada."); st.rerun()
                 else:
-                    # Verificar duplicados antes de insertar
+                    # Verificar duplicados antes de insertar (compara solo la fecha)
                     existentes = db.obtener_inspecciones_por_bloque(bm[bl])
-                    dup = [e for e in existentes if e["fecha_visita"] == fecha.strftime("%Y-%m-%d")
+                    dup = [e for e in existentes
+                           if (e["fecha_visita"] or "")[:10] == fecha_str
                            and e["inspector"] == inspector]
                     if dup:
-                        st.warning(f"Ya existe una inspeccion para este bloque en {fecha.strftime('%Y-%m-%d')} "
+                        st.warning(f"Ya existe una inspeccion para este bloque en {fecha_str} "
                                    f"por {inspector}. Use 'Editar' en el historial para modificarla.")
                     else:
                         # Guardar archivos PDF adjuntos
@@ -1178,7 +1192,7 @@ def pagina_inspeccion():
                                     rutas_pdf.append(ruta_pdf)
                         archivos_pdf_str = ";".join(rutas_pdf) if rutas_pdf else ""
 
-                        db.insertar_inspeccion(bloque_id=bm[bl],fecha_visita=fecha.strftime("%Y-%m-%d"),
+                        db.insertar_inspeccion(bloque_id=bm[bl],fecha_visita=fecha_hora_str,
                             inspector=inspector,condiciones_climaticas=clima,avance_fisico=avance,
                             observaciones=obs,desviaciones=desv,registro_fotografico="",
                             codigo_verificacion=ver,microcuenca=mc,archivos_pdf=archivos_pdf_str)
@@ -1190,28 +1204,34 @@ def pagina_inspeccion():
             except Exception as e: st.error(f"Error: {e}")
     st.markdown("---")
     st.markdown("**Historial de Inspecciones**")
-    st.caption("Haga clic en **Editar** para modificar una inspeccion existente y evitar duplicidades.")
+    st.caption("Haga clic en **Editar** para modificar una inspeccion existente o en **Eliminar** para descartar una version.")
     insp = _cached_obtener_todas_inspecciones(_cache_version())
     if insp:
         # Paginacion
         insp_pag, total_pags_i, pag_actual_i = _paginar(insp, "pag_insp")
         _controles_paginacion(total_pags_i, pag_actual_i, "pag_insp")
-        # Tabla con botones de edicion
-        header_cols = st.columns([0.5, 1, 1, 0.9, 0.9, 0.7, 1, 0.5, 0.6])
-        for col, h in zip(header_cols, ["ID", "Bloque", "Microcuenca", "Fecha", "Inspector", "Avance%", "Verificacion", "PDFs", ""]):
+        # Tabla con botones de edicion / eliminacion
+        col_widths = [0.4, 0.9, 0.9, 0.9, 0.6, 0.85, 0.55, 0.9, 0.45, 0.6, 0.7]
+        header_cols = st.columns(col_widths)
+        for col, h in zip(header_cols, ["ID", "Bloque", "Microcuenca", "Fecha", "Hora", "Inspector", "Avance%", "Verificacion", "PDFs", "", ""]):
             col.markdown(f"**{h}**")
         st.markdown("---")
+        confirm_del_id = st.session_state.get("insp_confirm_del_id")
         for i in insp_pag:
-            row = st.columns([0.5, 1, 1, 0.9, 0.9, 0.7, 1, 0.5, 0.6])
+            row = st.columns(col_widths)
             row[0].write(i["id"])
             row[1].write(i["bloque_codigo"])
             row[2].write(i.get("microcuenca", "") or "")
-            row[3].write(i["fecha_visita"])
-            row[4].write(i["inspector"])
-            row[5].write(f"{i['avance_fisico']:.1f}")
-            row[6].write(i["codigo_verificacion"])
-            row[7].write(len([p for p in (i.get("archivos_pdf", "") or "").split(";") if p.strip()]))
-            if row[8].button("Editar", key=f"edit_insp_{i['id']}", type="primary"):
+            fv = (i.get("fecha_visita") or "").strip()
+            fecha_part = fv[:10] if len(fv) >= 10 else fv
+            hora_part = fv[11:16] if len(fv) >= 16 else "—"
+            row[3].write(fecha_part)
+            row[4].write(hora_part)
+            row[5].write(i["inspector"])
+            row[6].write(f"{i['avance_fisico']:.1f}")
+            row[7].write(i["codigo_verificacion"])
+            row[8].write(len([p for p in (i.get("archivos_pdf", "") or "").split(";") if p.strip()]))
+            if row[9].button("Editar", key=f"edit_insp_{i['id']}", type="primary"):
                 st.session_state["insp_edit_id"] = i["id"]
                 st.session_state["insp_e_bloque"] = i["bloque_codigo"]
                 st.session_state["insp_e_mc"] = i.get("microcuenca", "") or ""
@@ -1222,6 +1242,24 @@ def pagina_inspeccion():
                 st.session_state["insp_e_obs"] = i.get("observaciones", "") or ""
                 st.session_state["insp_e_desv"] = i.get("desviaciones", "") or ""
                 st.session_state["insp_e_ver"] = i["codigo_verificacion"]
+                st.session_state.pop("insp_confirm_del_id", None)
+                st.rerun()
+            if confirm_del_id == i["id"]:
+                if row[10].button("Confirmar", key=f"del_confirm_insp_{i['id']}", type="primary"):
+                    db.eliminar_inspeccion(i["id"])
+                    _invalidar_cache()
+                    st.session_state.pop("insp_confirm_del_id", None)
+                    st.success(f"Inspeccion ID {i['id']} eliminada.")
+                    st.rerun()
+            else:
+                if row[10].button("Eliminar", key=f"del_insp_{i['id']}", type="secondary"):
+                    st.session_state["insp_confirm_del_id"] = i["id"]
+                    st.rerun()
+        if confirm_del_id is not None:
+            st.warning(f"Confirme la eliminacion de la inspeccion ID {confirm_del_id} pulsando 'Confirmar' en su fila. "
+                       "Esta accion no puede deshacerse.")
+            if st.button("Cancelar eliminacion", key="insp_cancel_del"):
+                st.session_state.pop("insp_confirm_del_id", None)
                 st.rerun()
         st.markdown("---")
 
