@@ -514,6 +514,108 @@ def inicializar_bd():
             END $$
         """)
 
+    # ── Diagnostico Territorial V5: nuevas columnas (Plantilla DT V5) ──────
+    # F-DT-01..05 V5 reemplazan a las 6 fichas previas. Las columnas viejas
+    # (textura_suelo, condiciones climaticas, etc.) se mantienen para
+    # historico pero la nueva UI no las escribe.
+    nuevas_columnas_dt = [
+        # Comunes V5
+        ("brigada", "TEXT DEFAULT ''"),
+        ("ficha_correlativo", "TEXT DEFAULT ''"),
+        ("altitud_gps", "TEXT DEFAULT ''"),
+        ("centro_poblado_cercano", "TEXT DEFAULT ''"),
+        ("comunidad_campesina_dt", "TEXT DEFAULT ''"),
+        ("hora_registro", "TEXT DEFAULT ''"),
+        ("utm_este_dt", "TEXT DEFAULT ''"),
+        ("utm_norte_dt", "TEXT DEFAULT ''"),
+        # F-DT-01 (reusa forma_terreno, pendiente, posicion_fisiografica,
+        # exposicion_orientacion, rango_altitudinal, paisaje_dominante)
+        ("dt01_afloramientos_rocosos", "TEXT DEFAULT ''"),
+        ("dt01_escarpes_activos", "TEXT DEFAULT ''"),
+        ("dt01_reptacion_suelo", "TEXT DEFAULT ''"),
+        ("dt01_deslizamientos_antiguos", "TEXT DEFAULT ''"),
+        ("dt01_remociones_masa_activas", "TEXT DEFAULT ''"),
+        ("dt01_observaciones", "TEXT DEFAULT ''"),
+        # F-DT-02
+        ("dt02_sellamiento_costra", "TEXT DEFAULT ''"),
+        ("dt02_compactacion_pisoteo", "TEXT DEFAULT ''"),
+        ("dt02_raices_expuestas", "TEXT DEFAULT ''"),
+        ("dt02_nivel_erosion_general", "TEXT DEFAULT ''"),
+        ("dt02_carcavas_json", "TEXT DEFAULT ''"),
+        ("dt02_nivel_erosion_sintesis", "TEXT DEFAULT ''"),
+        ("dt02_num_carcavas", "TEXT DEFAULT ''"),
+        ("dt02_longitud_total_carcavas", "TEXT DEFAULT ''"),
+        ("dt02_pct_bloque_carcavas", "TEXT DEFAULT ''"),
+        ("dt02_erosion_laminar_pct", "TEXT DEFAULT ''"),
+        ("dt02_patron_carcavas", "TEXT DEFAULT ''"),
+        ("dt02_socavamiento_cauce", "TEXT DEFAULT ''"),
+        ("dt02_urgencia_control", "TEXT DEFAULT ''"),
+        ("dt02_observaciones", "TEXT DEFAULT ''"),
+        # F-DT-03
+        ("dt03_parcela_muestreo", "TEXT DEFAULT ''"),
+        ("dt03_dim_parcela", "TEXT DEFAULT ''"),
+        ("dt03_pendiente_parcela", "TEXT DEFAULT ''"),
+        ("dt03_cobertura_total", "TEXT DEFAULT ''"),
+        ("dt03_tipo_ecosistema", "TEXT DEFAULT ''"),
+        ("dt03_superficie_ecosistema", "TEXT DEFAULT ''"),
+        ("dt03_estado_conservacion_eco", "TEXT DEFAULT ''"),
+        ("dt03_uso_dominante", "TEXT DEFAULT ''"),
+        ("dt03_cobertura_dosel", "TEXT DEFAULT ''"),
+        ("dt03_cobertura_arbustiva", "TEXT DEFAULT ''"),
+        ("dt03_cobertura_herbacea", "TEXT DEFAULT ''"),
+        ("dt03_cobertura_hojarasca", "TEXT DEFAULT ''"),
+        ("dt03_suelo_desnudo", "TEXT DEFAULT ''"),
+        ("dt03_altura_estrato_dom", "TEXT DEFAULT ''"),
+        ("dt03_altura_max", "TEXT DEFAULT ''"),
+        ("dt03_dap_promedio", "TEXT DEFAULT ''"),
+        ("dt03_regeneracion_natural", "TEXT DEFAULT ''"),
+        ("dt03_estado_sanitario", "TEXT DEFAULT ''"),
+        ("dt03_presencia_epifitas", "TEXT DEFAULT ''"),
+        ("dt03_fenologia_dominante", "TEXT DEFAULT ''"),
+        ("dt03_tipo_cobertura_dom", "TEXT DEFAULT ''"),
+        ("dt03_floristica_json", "TEXT DEFAULT ''"),
+        ("dt03_especies_clave_json", "TEXT DEFAULT ''"),
+        ("dt03_observaciones", "TEXT DEFAULT ''"),
+        # F-DT-04
+        ("dt04_causas_json", "TEXT DEFAULT ''"),
+        ("dt04_indicadores_json", "TEXT DEFAULT ''"),
+        ("dt04_causas_directas_texto", "TEXT DEFAULT ''"),
+        ("dt04_causa_subyacente", "TEXT DEFAULT ''"),
+        ("dt04_velocidad_degradacion", "TEXT DEFAULT ''"),
+        ("dt04_reversibilidad", "TEXT DEFAULT ''"),
+        ("dt04_urgencia_intervencion", "TEXT DEFAULT ''"),
+        ("dt04_observaciones", "TEXT DEFAULT ''"),
+        # F-DT-05
+        ("dt05_fuentes_agua_json", "TEXT DEFAULT ''"),
+        ("dt05_zona_recarga", "TEXT DEFAULT ''"),
+        ("dt05_humedad_persistente", "TEXT DEFAULT ''"),
+        ("dt05_escorrentia_concentrada", "TEXT DEFAULT ''"),
+        ("dt05_dist_captacion", "TEXT DEFAULT ''"),
+        ("dt05_jass_captacion", "TEXT DEFAULT ''"),
+        ("dt05_interferencia_riego", "TEXT DEFAULT ''"),
+        ("dt05_sistema_riego_nombre", "TEXT DEFAULT ''"),
+        ("dt05_modalidad_acceso", "TEXT DEFAULT ''"),
+        ("dt05_via_principal", "TEXT DEFAULT ''"),
+        ("dt05_tipo_via_final", "TEXT DEFAULT ''"),
+        ("dt05_transitabilidad_seca", "TEXT DEFAULT ''"),
+        ("dt05_transitabilidad_lluviosa", "TEXT DEFAULT ''"),
+        ("dt05_tiempo_dist_capital", "TEXT DEFAULT ''"),
+        ("dt05_tiempo_prov_capital", "TEXT DEFAULT ''"),
+        ("dt05_senal_celular", "TEXT DEFAULT ''"),
+        ("dt05_operador_celular", "TEXT DEFAULT ''"),
+        ("dt05_alojamiento", "TEXT DEFAULT ''"),
+        ("dt05_requiere_ronda", "TEXT DEFAULT ''"),
+        ("dt05_contacto_ronda", "TEXT DEFAULT ''"),
+        ("dt05_observaciones", "TEXT DEFAULT ''"),
+    ]
+    for col_name, col_type in nuevas_columnas_dt:
+        cursor.execute(f"""
+            DO $$ BEGIN
+                ALTER TABLE diagnostico_territorial ADD COLUMN {col_name} {col_type};
+            EXCEPTION WHEN duplicate_column THEN NULL;
+            END $$
+        """)
+
     conn.commit()
     conn.close()
 
@@ -1272,6 +1374,95 @@ def actualizar_diagnostico_territorial(diagnostico_id, ficha="", fecha_evaluacio
           tenencia_tierra, organizacion_comunal, actividad_economica,
           accesibilidad_via, distancia_centro_poblado, servicios_basicos,
           observaciones_generales, diagnostico_id))
+    conn.commit()
+    conn.close()
+
+
+# ── Diagnostico Territorial V5 (Plantilla DT V5: F-DT-01..05) ────────────
+# Lista canonica de columnas escribibles por la UI V5. Todas son TEXT.
+DT_V5_COLUMNS = [
+    "ficha", "fecha_evaluacion", "evaluador", "microcuenca",
+    # Datos generales V5
+    "brigada", "ficha_correlativo", "altitud_gps",
+    "centro_poblado_cercano", "comunidad_campesina_dt", "hora_registro",
+    "utm_este_dt", "utm_norte_dt",
+    # F-DT-01 (reusa columnas legacy + nuevas dt01_*)
+    "forma_terreno", "pendiente", "posicion_fisiografica",
+    "exposicion_orientacion", "rango_altitudinal", "paisaje_dominante",
+    "dt01_afloramientos_rocosos", "dt01_escarpes_activos",
+    "dt01_reptacion_suelo", "dt01_deslizamientos_antiguos",
+    "dt01_remociones_masa_activas", "dt01_observaciones",
+    # F-DT-02
+    "dt02_sellamiento_costra", "dt02_compactacion_pisoteo",
+    "dt02_raices_expuestas", "dt02_nivel_erosion_general",
+    "dt02_carcavas_json", "dt02_nivel_erosion_sintesis",
+    "dt02_num_carcavas", "dt02_longitud_total_carcavas",
+    "dt02_pct_bloque_carcavas", "dt02_erosion_laminar_pct",
+    "dt02_patron_carcavas", "dt02_socavamiento_cauce",
+    "dt02_urgencia_control", "dt02_observaciones",
+    # F-DT-03
+    "dt03_parcela_muestreo", "dt03_dim_parcela", "dt03_pendiente_parcela",
+    "dt03_cobertura_total", "dt03_tipo_ecosistema",
+    "dt03_superficie_ecosistema", "dt03_estado_conservacion_eco",
+    "dt03_uso_dominante", "dt03_cobertura_dosel", "dt03_cobertura_arbustiva",
+    "dt03_cobertura_herbacea", "dt03_cobertura_hojarasca",
+    "dt03_suelo_desnudo", "dt03_altura_estrato_dom", "dt03_altura_max",
+    "dt03_dap_promedio", "dt03_regeneracion_natural",
+    "dt03_estado_sanitario", "dt03_presencia_epifitas",
+    "dt03_fenologia_dominante", "dt03_tipo_cobertura_dom",
+    "dt03_floristica_json", "dt03_especies_clave_json", "dt03_observaciones",
+    # F-DT-04
+    "dt04_causas_json", "dt04_indicadores_json",
+    "dt04_causas_directas_texto", "dt04_causa_subyacente",
+    "dt04_velocidad_degradacion", "dt04_reversibilidad",
+    "dt04_urgencia_intervencion", "dt04_observaciones",
+    # F-DT-05
+    "dt05_fuentes_agua_json", "dt05_zona_recarga",
+    "dt05_humedad_persistente", "dt05_escorrentia_concentrada",
+    "dt05_dist_captacion", "dt05_jass_captacion",
+    "dt05_interferencia_riego", "dt05_sistema_riego_nombre",
+    "dt05_modalidad_acceso", "dt05_via_principal", "dt05_tipo_via_final",
+    "dt05_transitabilidad_seca", "dt05_transitabilidad_lluviosa",
+    "dt05_tiempo_dist_capital", "dt05_tiempo_prov_capital",
+    "dt05_senal_celular", "dt05_operador_celular", "dt05_alojamiento",
+    "dt05_requiere_ronda", "dt05_contacto_ronda", "dt05_observaciones",
+    # Observaciones generales (compartidas)
+    "observaciones_generales",
+]
+
+
+def insertar_diagnostico_territorial_v5(bloque_id, data, inspeccion_id=None):
+    """Inserta un diagnostico territorial V5. `data` es un dict; las claves
+    no presentes se almacenan como cadena vacia. Retorna el id insertado."""
+    cols = ["bloque_id", "inspeccion_id", "fecha_registro"] + DT_V5_COLUMNS
+    placeholders = ",".join(["?"] * len(cols))
+    cols_sql = ", ".join(cols)
+    fecha_reg = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    values = [bloque_id, inspeccion_id, fecha_reg] + [
+        str(data.get(c, "") or "") for c in DT_V5_COLUMNS
+    ]
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        f"INSERT INTO diagnostico_territorial ({cols_sql}) VALUES ({placeholders})",
+        tuple(values),
+    )
+    did = cursor.lastrowid
+    conn.commit()
+    conn.close()
+    return did
+
+
+def actualizar_diagnostico_territorial_v5(diagnostico_id, data):
+    """Actualiza un diagnostico territorial V5 a partir de un dict."""
+    set_clause = ", ".join(f"{c}=?" for c in DT_V5_COLUMNS)
+    values = [str(data.get(c, "") or "") for c in DT_V5_COLUMNS] + [diagnostico_id]
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        f"UPDATE diagnostico_territorial SET {set_clause} WHERE id=?",
+        tuple(values),
+    )
     conn.commit()
     conn.close()
 

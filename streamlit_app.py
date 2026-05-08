@@ -434,216 +434,172 @@ ACTIVIDADES_TIPO = [
 ]
 COLORES_ESTADO = {"Pendiente":[231,76,60],"En progreso":[243,156,18],"Verificado":[39,174,96]}
 
-# ── Fichas de Diagnostico Territorial (F-DT-01 a F-DT-06) ───────────────
-FICHAS_DT = ["F-DT-01","F-DT-02","F-DT-03","F-DT-04","F-DT-05","F-DT-06"]
+# ── Fichas de Diagnostico Territorial V5 (F-DT-01 a F-DT-05) ────────────
+# Fuente: Plantilla_DT_Campo_Check_Validada_V5.xlsx
+FICHAS_DT = ["F-DT-01","F-DT-02","F-DT-03","F-DT-04","F-DT-05"]
 
-# F-DT-01: CARACTERÍSTICAS FISIOGRÁFICAS  (Plantilla DT Campo Validada)
-FDT01_FORMA_TERRENO = [
-    "Plano (0-2%)", "Ondulado (2-8%)", "Colinado (8-25%)",
-    "Montañoso (25-50%)", "Escarpado (>50%)",
+# Listas de opciones (dropdowns) — extraidas de la hoja '_Listas' del V5
+FDT_FORMA_TERRENO = ["Plano", "Ondulado", "Colinoso", "Montañoso", "Muy escarpado"]
+FDT_RANGO_PENDIENTE = [
+    "0-8% (Plano-lig. inclinado)", "8-15% (Mod. inclinado)",
+    "15-25% (Fuert. inclinado)", "25-50% (Mod. escarpado)",
+    "50-75% (Escarpado)", ">75% (Muy escarpado)",
 ]
-FDT01_PENDIENTE = [
-    "0-5% (Plano a ligeramente inclinado)",
-    "5-15% (Ligeramente inclinado a moderadamente empinado)",
-    "15-25% (Moderadamente empinado)",
-    "25-50% (Empinado)",
-    ">50% (Muy empinado a extremadamente empinado)",
+FDT_POSICION_FISIO = [
+    "Cresta / Divortium", "Ladera alta", "Ladera media", "Ladera baja",
+    "Pie de ladera", "Terraza aluvial", "Cauce / Ribera",
+    "Llanura / Pampa", "Cima (sin exp.)",
 ]
-FDT01_POSICION_FISIOGRAFICA = [
-    "Cima / Cresta", "Ladera superior (tercio superior)",
-    "Ladera media (tercio medio)", "Ladera inferior (tercio inferior)",
-    "Pie de ladera / Base", "Fondo de valle", "Terraza fluvial", "Llanura",
+FDT_EXPOSICION = [
+    "Norte", "Sur", "Este", "Oeste", "Noreste",
+    "Noroeste", "Sureste", "Suroeste", "Cima (sin dom.)",
 ]
-FDT01_EXPOSICION = [
-    "Norte (N)", "Sur (S)", "Este (E)", "Oeste (O)",
-    "Noreste (NE)", "Noroeste (NO)", "Sureste (SE)", "Suroeste (SO)",
-    "Variable / Sin predominancia",
+FDT_RANGO_ALTITUD = [
+    "<1000 m (Yunga)", "1000-1500 m (Quechua baja)",
+    "1500-2000 m (Quechua media)", "2000-2500 m (Quechua alta)",
+    "2500-3000 m (Suni)", "3000-3500 m (Puna baja)",
+    ">3500 m (Puna/Jalca)",
 ]
-FDT01_PAISAJE = [
-    "Montaña", "Colina", "Piedemonte", "Planicie / Llanura",
-    "Valle interandino", "Terraza aluvial",
+FDT_NIVEL_EROSION = [
+    "Nula", "Ligera (laminar)", "Moderada (surcos)",
+    "Fuerte (cárcavas incipientes)", "Severa (cárcavas activas)", "Extrema",
 ]
-FDT01_RANGO_ALTITUDINAL = [
-    "<500 msnm", "500-1500 msnm", "1500-2000 msnm",
-    "2000-2500 msnm", "2500-3000 msnm",
-    "3000-3500 msnm", ">3500 msnm",
+FDT_TIPO_CARCAVA = [
+    "Surco (<30 cm)", "Cárcava incipiente (30-50 cm)",
+    "Cárcava somera (0.5-2 m)", "Cárcava profunda (2-5 m)",
+    "Cárcava muy profunda (>5 m)",
 ]
-
-# F-DT-02: CONDICIONES CLIMÁTICAS
-FDT02_PRECIPITACION = [
-    "<250 mm/año (Muy seco / Árido)",
-    "250-500 mm/año (Seco / Semiárido)",
-    "500-1000 mm/año (Sub-húmedo)",
-    "1000-2000 mm/año (Húmedo / Lluvioso)",
-    ">2000 mm/año (Muy húmedo / Pluvial)",
+FDT_ESTADO_CARCAVA = [
+    "Activa", "Semi-activa", "Estabilizada con vegetación",
+    "Estabilizada con obras", "Inactiva",
 ]
-FDT02_TEMPERATURA = [
-    "<5 °C (Muy frío / Gélido)",
-    "5-12 °C (Frío)",
-    "12-18 °C (Templado)",
-    "18-24 °C (Cálido / Semicálido)",
-    ">24 °C (Muy cálido / Tropical)",
+FDT_CAUSA_CARCAVA = [
+    "Sobrepastoreo", "Tala / pérdida de cobertura", "Quema",
+    "Surcos de labranza en pendiente", "Caminos / huellas de ganado",
+    "Concentración natural de escorrentía", "Socavamiento de cauce",
+    "Cambio de uso del suelo", "Otro",
 ]
-FDT02_HUMEDAD = [
-    "Muy baja (<30%)", "Baja (30-50%)", "Media (50-70%)",
-    "Alta (70-85%)", "Muy alta (>85%)",
+FDT_PATRON_CARCAVAS = ["Dendrítico", "Paralelo", "Lineal", "Aislado", "Mixto"]
+FDT_URGENCIA = ["Crítica", "Alta", "Media", "Baja"]
+FDT_TIPO_ECOSISTEMA = [
+    "Páramo", "Bosque Relicto Montano V. Occidental (BMVO)",
+    "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+    "Bosque Estacionalmente Seco Llanura (Bes-ll)",
+    "Bosque Estacionalmente Seco Ribereño (Bes-rb)",
+    "Matorral Andino árido", "Matorral Andino semiárido",
+    "Matorral Andino subhúmedo", "Matorral Andino húmedo",
+    "Pastizal andino / Jalca", "Agroecosistema / Mosaico",
+    "Área urbana / rural", "Otro",
 ]
-FDT02_ZONA_VIDA = [
-    "Desierto superárido", "Desierto árido", "Matorral desértico",
-    "Monte espinoso", "Bosque seco", "Bosque húmedo premontano",
-    "Bosque húmedo montano bajo", "Bosque húmedo montano",
-    "Bosque muy húmedo premontano", "Bosque muy húmedo montano",
-    "Páramo / Jalca", "Puna",
+FDT_ESTADO_CONSERVACION = [
+    "Conservado (sin intervención evidente)", "Levemente alterado",
+    "Medianamente alterado", "Alterado (intervención marcada)",
+    "Muy alterado / Degradado", "En restauración / Recuperación",
 ]
-FDT02_HELADAS = [
-    "Frecuente (>30 días/año)", "Ocasional (10-30 días/año)",
-    "Rara (<10 días/año)", "Ausente",
+FDT_USO_SUELO_DOM = [
+    "Forestal protección", "Forestal producción", "Pastoreo extensivo",
+    "Pastoreo intensivo", "Agricultura secano", "Agricultura bajo riego",
+    "Sin uso aparente / Abandonado", "Uso mixto", "Otro",
 ]
-FDT02_VIENTOS = [
-    "Calmo (<2 m/s)", "Suave (2-4 m/s)", "Moderado (4-8 m/s)",
-    "Fuerte (8-14 m/s)", "Muy fuerte (>14 m/s)",
+FDT_REGENERACION = [
+    "Abundante (>50 pl./100m²)", "Regular (10-50 pl./100m²)",
+    "Escasa (<10 pl./100m²)", "Ausente",
 ]
-
-# F-DT-03: CARACTERÍSTICAS DEL SUELO (Observación de campo)
-FDT03_TEXTURA = [
-    "Arenoso", "Franco arenoso", "Franco", "Franco limoso",
-    "Franco arcilloso", "Franco arcillo arenoso", "Arcilloso", "Limoso",
+FDT_ESTADO_SANITARIO = [
+    "Sano", "Enfermo (plaga)", "Enfermo (hongo)", "Daño mecánico",
+    "Muerto en pie", "Rebrote vigoroso",
 ]
-FDT03_COLOR = [
-    "Negro / Muy oscuro", "Pardo oscuro", "Pardo / Marrón",
-    "Pardo claro / Amarillento", "Rojizo / Rojo amarillento",
-    "Gris / Gris claro",
+FDT_FENOLOGIA = [
+    "Vegetativo", "Floración", "Fructificación",
+    "Caducifolio (hojas caídas)", "Latencia / Estrés hídrico",
 ]
-FDT03_PROFUNDIDAD = [
-    "Muy superficial (<25 cm)", "Superficial (25-50 cm)",
-    "Moderadamente profundo (50-100 cm)", "Profundo (>100 cm)",
+FDT_TIPO_COBERTURA = [
+    "Bosque denso (>70%)", "Bosque ralo (30-70%)", "Matorral denso",
+    "Matorral ralo", "Pastizal natural", "Pastizal cultivado",
+    "Cultivo anual", "Cultivo permanente", "Suelo desnudo",
+    "Afloramiento rocoso", "Mixto / Mosaico",
 ]
-FDT03_PEDREGOSIDAD = [
-    "Sin piedras (0%)", "Pocas piedras (0-15%)",
-    "Frecuentes (15-35%)", "Abundantes (35-60%)",
-    "Muy pedregoso (>60%)",
+FDT_ESTRATO = [
+    "Arbóreo superior (>15 m)", "Arbóreo medio (8-15 m)",
+    "Arbóreo bajo (4-8 m)", "Arbustivo alto (1.5-4 m)",
+    "Arbustivo bajo (0.5-1.5 m)", "Herbáceo (<0.5 m)",
+    "Epífito", "Trepador",
 ]
-FDT03_DRENAJE = [
-    "Excesivo (suelo muy arenoso, seca rápido)",
-    "Bueno (suelo drena adecuadamente)",
-    "Moderado (drena con cierta lentitud)",
-    "Imperfecto (retiene humedad excesiva)",
-    "Pobre / Muy pobre (encharcamiento frecuente)",
+FDT_ORIGEN = ["Nativa", "Endémica", "Introducida", "Invasora"]
+FDT_ABUNDANCIA = [
+    "Dominante (>40%)", "Abundante (20-40%)", "Frecuente (5-20%)",
+    "Ocasional (1-5%)", "Rara (<1%)",
 ]
-FDT03_EROSION = [
-    "Sin erosión aparente",
-    "Erosión laminar leve",
-    "Erosión laminar moderada a severa",
-    "Erosión en surcos",
-    "Erosión en cárcavas",
-    "Erosión mixta (laminar + surcos/cárcavas)",
-    "Movimientos en masa (deslizamientos)",
+FDT_CATEGORIA_INDICADORA = [
+    "Indicadora de buen estado", "Indicadora de perturbación",
+    "Endémica del Perú", "Endémica norte / Piura",
+    "Amenazada (D.S. 043-2006-AG)", "Clave cultural",
 ]
-FDT03_MATERIA_ORGANICA = [
-    "Muy baja (suelo claro, sin restos orgánicos)",
-    "Baja (pocos restos, suelo claro)",
-    "Media (presencia moderada de restos orgánicos)",
-    "Alta (suelo oscuro, abundantes restos orgánicos)",
+FDT_ESTADO_UICN = [
+    "EX — Extinto", "EW — Extinto en Estado Silvestre",
+    "CR — En Peligro Crítico", "EN — En Peligro", "VU — Vulnerable",
+    "NT — Casi Amenazado", "LC — Preocupación Menor",
+    "DD — Datos Insuficientes", "NE — No Evaluado", "No aplica",
 ]
-
-# F-DT-04: COBERTURA VEGETAL Y USO DEL SUELO
-FDT04_TIPO_COBERTURA = [
-    "Bosque denso (natural)", "Bosque ralo / Abierto",
-    "Matorral / Arbustal", "Pastizal / Herbazal / Pajonal",
-    "Cultivo agrícola", "Plantación forestal",
-    "Suelo desnudo / Eriazo", "Vegetación ribereña",
-    "Área urbana / Infraestructura",
+FDT_INTENSIDAD = ["Nula", "Ligera", "Moderada", "Fuerte", "Muy fuerte"]
+FDT_NIVEL_IND = ["Alto", "Medio", "Bajo"]
+FDT_VELOCIDAD = ["Muy rápida", "Rápida", "Moderada", "Lenta", "Estable"]
+FDT_REVERSIBILIDAD = [
+    "Totalmente reversible", "Parcialmente reversible",
+    "Difícilmente reversible", "En recuperación",
 ]
-FDT04_DENSIDAD = [
-    "Muy rala (<10%)", "Rala (10-25%)", "Abierta (25-50%)",
-    "Semicerrada (50-75%)", "Cerrada (>75%)",
+FDT_TIPO_FUENTE = [
+    "Manantial / Puquio", "Quebrada permanente", "Quebrada estacional",
+    "Río", "Canal de riego", "Reservorio / Represa", "Laguna / Humedal",
+    "Pozo / Galería filtrante", "Bofedal", "Otro",
 ]
-FDT04_ESTADO_CONSERVACION = [
-    "Bueno (sin intervención significativa)",
-    "Regular (intervención parcial)",
-    "Degradado (intervención severa, con regeneración)",
-    "Muy degradado (sin regeneración natural evidente)",
+FDT_REGIMEN_HIDRICO = [
+    "Permanente", "Estacional (lluvias)", "Intermitente",
+    "Efímero", "Ausente",
 ]
-FDT04_USO_SUELO = [
-    "Forestal / Protección", "Agrícola (secano)",
-    "Agrícola (bajo riego)", "Pecuario / Pastoreo",
-    "Agrosilvopastoril", "Minero",
-    "Sin uso / En abandono", "Conservación / Área protegida",
-]
-FDT04_CONFLICTO_USO = [
-    "Sin conflicto (uso adecuado a capacidad)",
-    "Sobreuso severo",
-    "Subuso (capacidad no aprovechada)",
-]
-
-# F-DT-05: RECURSOS HÍDRICOS
-FDT05_FUENTE_AGUA = [
-    "Río permanente", "Quebrada / Riachuelo", "Manantial / Puquio",
-    "Laguna / Reservorio", "Canal de riego",
-    "Agua subterránea (pozo)", "Ninguna visible en el área",
-]
-FDT05_REGIMEN = [
-    "Permanente (flujo todo el año)",
-    "Estacional (flujo en temporada de lluvias)",
-    "Temporal / Efímero (solo con eventos de lluvia)",
-    "Sin escurrimiento superficial",
-]
-FDT05_CALIDAD_AGUA = [
+FDT_CALIDAD_AGUA = [
     "Buena (clara, sin olor, sin sedimentos)",
     "Regular (ligeramente turbia o con sedimentos)",
-    "Mala (turbia, con olor, con color)",
-    "Muy mala (contaminación evidente)",
-    "No evaluable (sin fuente de agua accesible)",
+    "Mala (turbia, con olor o color)",
+    "Muy mala (contaminación evidente)", "No evaluable",
 ]
-FDT05_DISTANCIA_AGUA = [
-    "<100 m", "100-500 m", "500-1000 m", "1-5 km", ">5 km",
+FDT_MODALIDAD_ACCESO = [
+    "Vehicular 4x4 hasta el bloque", "Vehicular + caminata <30 min",
+    "Vehicular + caminata 30-90 min", "Vehicular + caminata >90 min",
+    "Requiere acémila (páramo/jalca)", "Inaccesible en lluvias",
 ]
-FDT05_USO_HIDRICO = [
-    "Consumo humano", "Riego agrícola", "Pecuario / Abrevadero",
-    "Piscícola", "Uso múltiple", "Sin uso actual",
+FDT_TIPO_VIA = [
+    "Nacional asfaltada", "Nacional afirmada", "Departamental asfaltada",
+    "Departamental afirmada", "Vecinal afirmada",
+    "Trocha carrozable", "Camino de herradura",
 ]
+FDT_NIVEL_TRANSITAB = ["Alto", "Medio", "Bajo"]
+FDT_SENAL_CELULAR = ["Completa", "Parcial", "Intermitente", "Sin señal"]
+FDT_OPERADOR = ["Movistar", "Claro", "Entel", "Bitel", "Otro", "Sin señal"]
+FDT_SI_NO = ["Sí", "No"]
+FDT_SI_NO_NA = ["Sí", "No", "No aplica"]
 
-# F-DT-06: ASPECTOS SOCIOECONÓMICOS Y ACCESIBILIDAD
-FDT06_TENENCIA = [
-    "Comunal (comunidad campesina)",
-    "Privada individual (con título)",
-    "Privada individual (sin título / posesionario)",
-    "Estatal / Fiscal",
-    "Mixta (comunal + privada)",
-    "Sin información",
+# Causas predefinidas para la matriz de F-DT-04 (16 filas fijas)
+FDT04_CAUSAS_LABELS = [
+    "Sobrepastoreo (caprino/vacuno)", "Tala para leña", "Tala para carbón",
+    "Tala para madera", "Quema (renovación de pastos)",
+    "Quema accidental / Incendio", "Cambio de uso a agricultura",
+    "Cambio de uso a pastoreo", "Expansión urbana / vial",
+    "Minería informal", "Extracción de áridos (cauces)",
+    "Especies invasoras", "Erosión natural severa",
+    "Sequía prolongada / CC", "Plagas o enfermedades forestales", "Otro",
 ]
-FDT06_ORGANIZACION = [
-    "Bien organizada (junta directiva activa, asambleas regulares)",
-    "Moderadamente organizada (funcional pero irregular)",
-    "Débilmente organizada (directiva nominal, poca participación)",
-    "Sin organización comunitaria identificada",
+# Indicadores cuantitativos predefinidos para la matriz de F-DT-04 (8 filas)
+FDT04_INDICADORES_LABELS = [
+    ("Cobertura vegetal total", "%", ">60% bueno; 30-60% medio; <30% malo"),
+    ("Porcentaje de suelo desnudo", "%", "<10% bueno; 10-30% medio; >30% malo"),
+    ("Densidad de cárcavas", "N°/ha", "0 nulo; 1-3 medio; >3 alto"),
+    ("Presencia de especies invasoras", "% área", "<5% bueno; 5-20% medio; >20% alto"),
+    ("Carga ganadera estimada", "UA/ha", "Según tipo de ecosistema"),
+    ("Frecuencia de quemas últimos 5 años", "N°", "0 nulo; 1-2 medio; >2 alto"),
+    ("% área con pendiente >50%", "%", "Factor de susceptibilidad"),
+    ("Distancia a vía vecinal más cercana", "m", "A menor distancia → mayor presión"),
 ]
-FDT06_ACTIVIDAD_ECONOMICA = [
-    "Agricultura de subsistencia",
-    "Agricultura comercial",
-    "Ganadería extensiva",
-    "Ganadería intensiva",
-    "Actividad forestal / Extracción",
-    "Minería artesanal",
-    "Comercio / Servicios",
-    "Mixta (agropecuaria)",
-]
-FDT06_ACCESIBILIDAD = [
-    "Carretera asfaltada (acceso permanente)",
-    "Carretera afirmada (acceso con restricciones en lluvia)",
-    "Trocha carrozable (acceso limitado)",
-    "Camino de herradura (solo a pie o acémila)",
-    "Sin acceso vehicular (zona remota)",
-]
-FDT06_DISTANCIA_CENTRO = [
-    "<1 km", "1-5 km", "5-10 km", "10-20 km", ">20 km",
-]
-# Plantilla validada: 5 servicios evaluados con Sí/No individualmente
-FDT06_SERVICIOS_LABELS = [
-    "Agua potable", "Electricidad", "Telecomunicaciones / Internet",
-    "Puesto de salud", "Escuela / IE",
-]
-FDT06_SI_NO = ["Sí", "No"]
 
 # ── Fichas de Diagnostico Social (F-DS-01 a F-DS-05) ─────────────────────
 # Fuente: Formatos_Sociales_Registros_de_Campo_IN_Piura_2026.xlsx
@@ -1492,17 +1448,71 @@ def pagina_indicadores():
             db.eliminar_indicadores(ind_del[sel_del]); _invalidar_cache(); st.success("Indicador eliminado."); st.rerun()
 
 # ══════════════════════════════════════════════════════════════════════════
-# DIAGNOSTICO TERRITORIAL (F-DT-01 a F-DT-06)
+# DIAGNOSTICO TERRITORIAL V5 (F-DT-01 a F-DT-05)
 # ══════════════════════════════════════════════════════════════════════════
+def _dt_load_json(raw, default):
+    """Decodifica un JSON guardado o devuelve `default` si esta vacio o malformado."""
+    import json as _json
+    if not raw:
+        return default
+    try:
+        v = _json.loads(raw)
+        return v if isinstance(v, list) else default
+    except Exception:
+        return default
+
+
+def _dt_dump_json(rows):
+    """Serializa una lista de dicts (filas) a JSON, descartando filas totalmente vacias."""
+    import json as _json
+    limpios = []
+    for r in rows:
+        if any((str(v).strip() if v is not None else "") for v in r.values()):
+            limpios.append({k: ("" if v is None else str(v)) for k, v in r.items()})
+    return _json.dumps(limpios, ensure_ascii=False)
+
+
+def _dt_dataeditor(label, columns, num_rows, key, options=None, edit_data=None):
+    """Renderiza un st.data_editor con `num_rows` filas y columnas dadas."""
+    import pandas as _pd
+    options = options or {}
+    if edit_data:
+        df = _pd.DataFrame(edit_data)
+        for k, _ in columns:
+            if k not in df.columns:
+                df[k] = ""
+        while len(df) < num_rows:
+            df = _pd.concat([df, _pd.DataFrame([{k: "" for k, _ in columns}])],
+                            ignore_index=True)
+        df = df[[k for k, _ in columns]].head(num_rows).fillna("")
+    else:
+        df = _pd.DataFrame([{k: "" for k, _ in columns} for _ in range(num_rows)])
+
+    col_config = {}
+    for k, lbl in columns:
+        if k in options:
+            col_config[k] = st.column_config.SelectboxColumn(
+                lbl, options=[""] + list(options[k]))
+        else:
+            col_config[k] = st.column_config.TextColumn(lbl)
+    st.markdown(f"**{label}**")
+    edited = st.data_editor(
+        df, key=key, hide_index=True, num_rows="fixed",
+        use_container_width=True, column_config=col_config,
+    )
+    return edited.to_dict(orient="records")
+
+
 def pagina_diagnostico_territorial():
+    import json as _json
     st.subheader("Diagnostico Territorial - Fichas de Evaluacion")
-    st.caption("Fichas F-DT-01 a F-DT-06: Parametros de evaluacion en campo para el diagnostico del territorio")
+    st.caption("Fichas F-DT-01 a F-DT-05 (Plantilla V5): Parametros de evaluacion en campo "
+               "para el diagnostico del territorio del Proyecto IN Piura.")
     bm = _bloques_map()
     if not bm:
         st.warning("Registre un bloque primero.")
         return
 
-    # Inicializar estado de edicion DT
     if "dt_edit_id" not in st.session_state:
         st.session_state["dt_edit_id"] = None
     if "dt_edit_data" not in st.session_state:
@@ -1511,12 +1521,15 @@ def pagina_diagnostico_territorial():
     dt_edit_id = st.session_state.get("dt_edit_id")
     dt_edit = st.session_state.get("dt_edit_data") or {}
 
-    tab_reg, tab_hist, tab_excel = st.tabs(["Registro de Diagnostico", "Historial / Consulta", "Importar desde Excel"])
+    tab_reg, tab_hist, tab_excel = st.tabs([
+        "Registro de Diagnostico", "Historial / Consulta", "Importar desde Excel",
+    ])
 
     with tab_reg:
         if dt_edit_id:
             st.markdown('<div class="edit-mode-banner"><span class="icon">&#9998;</span> '
-                        f'Modo Edicion - Diagnostico Territorial ID {dt_edit_id}</div>', unsafe_allow_html=True)
+                        f'Modo Edicion - Diagnostico Territorial ID {dt_edit_id}</div>',
+                        unsafe_allow_html=True)
             if st.button("Cancelar edicion", key="dt_cancel_edit"):
                 st.session_state["dt_edit_id"] = None
                 st.session_state["dt_edit_data"] = None
@@ -1533,230 +1546,736 @@ def pagina_diagnostico_territorial():
         area_auto_dt = info_bl.get("area_ha") or 0.0
         utm_e_auto = info_bl.get("utm_este") or 0.0
         utm_n_auto = info_bl.get("utm_norte") or 0.0
+        zona_auto_dt = info_bl.get("zona") or ""
 
         if mc_auto_dt and mc_auto_dt in MICROCUENCAS:
             mc_idx_dt = MICROCUENCAS.index(mc_auto_dt) + 1
         else:
             mc_idx_dt = 0
-        # En modo edicion, preseleccionar la microcuenca del registro
         if dt_edit_id:
             mc_val = dt_edit.get("microcuenca", "")
             if mc_val and mc_val in MICROCUENCAS:
                 mc_idx_dt = MICROCUENCAS.index(mc_val) + 1
 
-        # Mostrar tarjeta de datos vinculados automaticamente
         if any([mc_auto_dt, prov_auto_dt, dist_auto_dt, area_auto_dt, utm_e_auto, utm_n_auto]):
             st.info(
                 f"**Datos vinculados automáticamente al bloque {bl}:**  \n"
-                f"• Microcuenca: **{mc_auto_dt or '-'}**  \n"
+                f"• Microcuenca: **{mc_auto_dt or '-'}** | Zona: **{zona_auto_dt or '-'}**  \n"
                 f"• Provincia: **{prov_auto_dt or '-'}** | Distrito: **{dist_auto_dt or '-'}**  \n"
                 f"• Superficie: **{area_auto_dt:.3f} ha**  \n"
                 f"• Centroide UTM (Zona 17S, WGS84): **{int(utm_e_auto):,} E / "
                 f"{int(utm_n_auto):,} N**"
             )
 
+        # ── Datos generales V5 (compartidos por todas las fichas) ────────
+        st.markdown("### 1. Datos Generales (compartidos)")
+
         def_fecha_dt = datetime.now()
         def_evaluador = ""
+        def_brigada = ""
+        def_correlativo = ""
+        def_hora = datetime.now().strftime("%H:%M")
+        def_altitud = ""
+        def_cp = ""
+        def_cc = ""
+        def_utm_e = str(int(utm_e_auto)) if utm_e_auto else ""
+        def_utm_n = str(int(utm_n_auto)) if utm_n_auto else ""
         if dt_edit_id:
             def_evaluador = dt_edit.get("evaluador", "") or ""
+            def_brigada = dt_edit.get("brigada", "") or ""
+            def_correlativo = dt_edit.get("ficha_correlativo", "") or ""
+            def_hora = dt_edit.get("hora_registro", "") or def_hora
+            def_altitud = dt_edit.get("altitud_gps", "") or ""
+            def_cp = dt_edit.get("centro_poblado_cercano", "") or ""
+            def_cc = dt_edit.get("comunidad_campesina_dt", "") or ""
+            def_utm_e = dt_edit.get("utm_este_dt", "") or def_utm_e
+            def_utm_n = dt_edit.get("utm_norte_dt", "") or def_utm_n
             try:
                 def_fecha_dt = datetime.strptime(dt_edit.get("fecha_evaluacion", ""), "%Y-%m-%d")
             except (ValueError, TypeError):
                 pass
 
-        r1, r2, r3 = st.columns(3)
-        mc = r1.selectbox("Microcuenca", [""] + MICROCUENCAS, index=mc_idx_dt, key="dt_mc")
-        fecha_ev = r2.date_input("Fecha de evaluacion", value=def_fecha_dt, key="dt_fecha",
-                                 min_value=FECHA_MIN_PROYECTO, max_value=date.today(),
-                                 help="Seleccione la fecha de evaluacion en campo")
-        evaluador = r3.text_input("Evaluador / Especialista", value=def_evaluador, key="dt_eval")
+        rA, rB, rC = st.columns(3)
+        fecha_ev = rA.date_input(
+            "Fecha de evaluacion *", value=def_fecha_dt, key="dt_fecha",
+            min_value=FECHA_MIN_PROYECTO, max_value=date.today())
+        hora_reg = rB.text_input("Hora de registro", value=def_hora, key="dt_hora")
+        correlativo = rC.text_input("Ficha N° (correlativo)", value=def_correlativo, key="dt_corr")
+
+        rD, rE, rF = st.columns(3)
+        evaluador = rD.text_input("Evaluador / Brigada / Responsable *",
+                                  value=def_evaluador or def_brigada, key="dt_eval")
+        brigada = rE.text_input("Brigada (si difiere del responsable)",
+                                value=def_brigada, key="dt_brigada")
+        mc = rF.selectbox("Microcuenca", [""] + MICROCUENCAS, index=mc_idx_dt, key="dt_mc")
+
+        rG, rH, rI = st.columns(3)
+        utm_e_in = rG.text_input("UTM Este (m) — punto de muestreo *",
+                                 value=def_utm_e, key="dt_utm_e")
+        utm_n_in = rH.text_input("UTM Norte (m) — punto de muestreo *",
+                                 value=def_utm_n, key="dt_utm_n")
+        altitud_gps = rI.text_input("Altitud GPS (msnm) *", value=def_altitud, key="dt_altitud")
+
+        rJ, rK = st.columns(2)
+        centro_poblado = rJ.text_input("Centro poblado más cercano",
+                                       value=def_cp, key="dt_cp")
+        comunidad_campesina = rK.text_input("Comunidad Campesina (si aplica)",
+                                            value=def_cc, key="dt_cc")
 
         st.markdown("---")
-        st.markdown("### Seleccione los parametros de evaluacion por ficha")
-        st.markdown("*Complete las fichas que correspondan a la visita de campo realizada.*")
+        st.markdown("### 2. Fichas de Diagnostico V5")
+        st.markdown("*Despliegue cada ficha y complete los parametros relevantes a la visita de campo.*")
 
-        # ── F-DT-01 ──────────────────────────────────────────────────────
-        with st.expander("F-DT-01: CARACTERISTICAS FISIOGRAFICAS", expanded=False):
-            st.markdown("*Evaluacion de las condiciones fisiograficas del area de intervencion.*")
+        # ╔════════════════════════════════════════════════════════════════╗
+        # ║ F-DT-01: DATOS GENERALES Y FISIOGRAFIA DEL BLOQUE              ║
+        # ╚════════════════════════════════════════════════════════════════╝
+        with st.expander("F-DT-01: DATOS GENERALES Y FISIOGRAFIA DEL BLOQUE", expanded=False):
+            st.markdown("**Caracterizacion fisiografica del bloque**")
             c1, c2 = st.columns(2)
-            forma_terreno = c1.selectbox("Forma del terreno", [""] + FDT01_FORMA_TERRENO, key="f01_ft")
-            pendiente = c2.selectbox("Pendiente del terreno", [""] + FDT01_PENDIENTE, key="f01_pe")
+            forma_terreno = c1.selectbox(
+                "Forma predominante del terreno *",
+                [""] + FDT_FORMA_TERRENO,
+                index=([""] + FDT_FORMA_TERRENO).index(dt_edit.get("forma_terreno", ""))
+                    if dt_edit.get("forma_terreno", "") in FDT_FORMA_TERRENO else 0,
+                key="f01_ft")
+            pendiente = c2.selectbox(
+                "Rango de pendiente dominante *",
+                [""] + FDT_RANGO_PENDIENTE,
+                index=([""] + FDT_RANGO_PENDIENTE).index(dt_edit.get("pendiente", ""))
+                    if dt_edit.get("pendiente", "") in FDT_RANGO_PENDIENTE else 0,
+                key="f01_pe")
             c3, c4 = st.columns(2)
-            posicion_fisio = c3.selectbox("Posicion fisiografica", [""] + FDT01_POSICION_FISIOGRAFICA, key="f01_pf")
-            exposicion = c4.selectbox("Exposicion / Orientacion", [""] + FDT01_EXPOSICION, key="f01_ex")
+            posicion_fisio = c3.selectbox(
+                "Posición fisiográfica *",
+                [""] + FDT_POSICION_FISIO,
+                index=([""] + FDT_POSICION_FISIO).index(dt_edit.get("posicion_fisiografica", ""))
+                    if dt_edit.get("posicion_fisiografica", "") in FDT_POSICION_FISIO else 0,
+                key="f01_pf")
+            exposicion = c4.selectbox(
+                "Exposición / Orientación dominante *",
+                [""] + FDT_EXPOSICION,
+                index=([""] + FDT_EXPOSICION).index(dt_edit.get("exposicion_orientacion", ""))
+                    if dt_edit.get("exposicion_orientacion", "") in FDT_EXPOSICION else 0,
+                key="f01_ex")
             c5, c6 = st.columns(2)
-            paisaje = c5.selectbox("Paisaje dominante", [""] + FDT01_PAISAJE, key="f01_pa")
-            rango_alt = c6.selectbox("Rango altitudinal", [""] + FDT01_RANGO_ALTITUDINAL, key="f01_ra")
+            rango_alt = c5.selectbox(
+                "Rango altitudinal del bloque *",
+                [""] + FDT_RANGO_ALTITUD,
+                index=([""] + FDT_RANGO_ALTITUD).index(dt_edit.get("rango_altitudinal", ""))
+                    if dt_edit.get("rango_altitudinal", "") in FDT_RANGO_ALTITUD else 0,
+                key="f01_ra")
+            paisaje = c6.text_input("Paisaje dominante (descripción libre)",
+                                    value=dt_edit.get("paisaje_dominante", ""), key="f01_pa")
 
-        # ── F-DT-02 ──────────────────────────────────────────────────────
-        with st.expander("F-DT-02: CONDICIONES CLIMATICAS", expanded=False):
-            st.markdown("*Evaluacion de las condiciones climaticas predominantes en la zona.*")
-            c1, c2 = st.columns(2)
-            precipitacion = c1.selectbox("Precipitacion anual estimada", [""] + FDT02_PRECIPITACION, key="f02_pr")
-            temperatura = c2.selectbox("Temperatura media anual", [""] + FDT02_TEMPERATURA, key="f02_te")
-            c3, c4 = st.columns(2)
-            humedad = c3.selectbox("Humedad relativa", [""] + FDT02_HUMEDAD, key="f02_hr")
-            zona_vida = c4.selectbox("Zona de vida (Holdridge)", [""] + FDT02_ZONA_VIDA, key="f02_zv")
-            c5, c6 = st.columns(2)
-            heladas = c5.selectbox("Presencia de heladas", [""] + FDT02_HELADAS, key="f02_he")
-            vientos = c6.selectbox("Regimen de vientos", [""] + FDT02_VIENTOS, key="f02_vi")
+            st.markdown("**Indicios de remoción en masa e inestabilidad**")
+            d1, d2 = st.columns(2)
+            f01_aflora = d1.selectbox(
+                "Presencia de afloramientos rocosos", [""] + FDT_SI_NO,
+                index=([""] + FDT_SI_NO).index(dt_edit.get("dt01_afloramientos_rocosos", ""))
+                    if dt_edit.get("dt01_afloramientos_rocosos", "") in FDT_SI_NO else 0,
+                key="f01_af")
+            f01_escarpe = d2.selectbox(
+                "Presencia de escarpes activos *", [""] + FDT_SI_NO,
+                index=([""] + FDT_SI_NO).index(dt_edit.get("dt01_escarpes_activos", ""))
+                    if dt_edit.get("dt01_escarpes_activos", "") in FDT_SI_NO else 0,
+                key="f01_es")
+            d3, d4 = st.columns(2)
+            f01_reptacion = d3.selectbox(
+                "Reptación de suelo observada *", [""] + FDT_SI_NO,
+                index=([""] + FDT_SI_NO).index(dt_edit.get("dt01_reptacion_suelo", ""))
+                    if dt_edit.get("dt01_reptacion_suelo", "") in FDT_SI_NO else 0,
+                key="f01_rp")
+            f01_desliz = d4.selectbox(
+                "Deslizamientos antiguos observados", [""] + FDT_SI_NO,
+                index=([""] + FDT_SI_NO).index(dt_edit.get("dt01_deslizamientos_antiguos", ""))
+                    if dt_edit.get("dt01_deslizamientos_antiguos", "") in FDT_SI_NO else 0,
+                key="f01_de")
+            f01_remocion = st.selectbox(
+                "Remociones en masa activas *", [""] + FDT_SI_NO,
+                index=([""] + FDT_SI_NO).index(dt_edit.get("dt01_remociones_masa_activas", ""))
+                    if dt_edit.get("dt01_remociones_masa_activas", "") in FDT_SI_NO else 0,
+                key="f01_rm")
 
-        # ── F-DT-03 ──────────────────────────────────────────────────────
-        with st.expander("F-DT-03: CARACTERISTICAS DEL SUELO (Observacion de campo)", expanded=False):
-            st.markdown("*Parametros del suelo evaluados mediante observacion directa en campo.*")
-            c1, c2 = st.columns(2)
-            textura = c1.selectbox("Textura al tacto", [""] + FDT03_TEXTURA, key="f03_tx")
-            color_suelo = c2.selectbox("Color predominante del suelo", [""] + FDT03_COLOR, key="f03_co")
-            c3, c4 = st.columns(2)
-            profundidad = c3.selectbox("Profundidad efectiva", [""] + FDT03_PROFUNDIDAD, key="f03_pr")
-            pedregosidad = c4.selectbox("Pedregosidad superficial", [""] + FDT03_PEDREGOSIDAD, key="f03_pd")
-            c5, c6 = st.columns(2)
-            drenaje = c5.selectbox("Drenaje", [""] + FDT03_DRENAJE, key="f03_dr")
-            erosion = c6.selectbox("Presencia de erosion", [""] + FDT03_EROSION, key="f03_er")
-            materia_org = st.selectbox("Materia organica (estimacion visual)", [""] + FDT03_MATERIA_ORGANICA, key="f03_mo")
+            f01_obs = st.text_area("Observaciones F-DT-01",
+                                   value=dt_edit.get("dt01_observaciones", ""),
+                                   key="f01_obs")
 
-        # ── F-DT-04 ──────────────────────────────────────────────────────
-        with st.expander("F-DT-04: COBERTURA VEGETAL Y USO DEL SUELO", expanded=False):
-            st.markdown("*Evaluacion de la cobertura vegetal existente y el uso actual del suelo.*")
-            c1, c2 = st.columns(2)
-            tipo_cob = c1.selectbox("Tipo de cobertura vegetal", [""] + FDT04_TIPO_COBERTURA, key="f04_tc")
-            densidad_cob = c2.selectbox("Densidad de cobertura", [""] + FDT04_DENSIDAD, key="f04_dc")
-            c3, c4 = st.columns(2)
-            estado_cons = c3.selectbox("Estado de conservacion", [""] + FDT04_ESTADO_CONSERVACION, key="f04_ec")
-            uso_suelo = c4.selectbox("Uso actual del suelo", [""] + FDT04_USO_SUELO, key="f04_us")
-            conflicto = st.selectbox("Estado de Uso del Suelo", [""] + FDT04_CONFLICTO_USO, key="f04_cu")
+        # ╔════════════════════════════════════════════════════════════════╗
+        # ║ F-DT-02: SUELO Y PROCESOS EROSIVOS (INCL. CARCAVAS)            ║
+        # ╚════════════════════════════════════════════════════════════════╝
+        with st.expander("F-DT-02: SUELO Y PROCESOS EROSIVOS", expanded=False):
+            st.markdown("**Descripción de procesos erosivos del suelo**")
+            e1, e2 = st.columns(2)
+            f02_sell = e1.selectbox(
+                "Sellamiento / Costra superficial", [""] + FDT_SI_NO,
+                index=([""] + FDT_SI_NO).index(dt_edit.get("dt02_sellamiento_costra", ""))
+                    if dt_edit.get("dt02_sellamiento_costra", "") in FDT_SI_NO else 0,
+                key="f02_sell")
+            f02_compa = e2.selectbox(
+                "Compactación por pisoteo de ganado", [""] + FDT_SI_NO,
+                index=([""] + FDT_SI_NO).index(dt_edit.get("dt02_compactacion_pisoteo", ""))
+                    if dt_edit.get("dt02_compactacion_pisoteo", "") in FDT_SI_NO else 0,
+                key="f02_compa")
+            e3, e4 = st.columns(2)
+            f02_raices = e3.selectbox(
+                "Raíces expuestas en superficie", [""] + FDT_SI_NO,
+                index=([""] + FDT_SI_NO).index(dt_edit.get("dt02_raices_expuestas", ""))
+                    if dt_edit.get("dt02_raices_expuestas", "") in FDT_SI_NO else 0,
+                key="f02_raices")
+            f02_nivel = e4.selectbox(
+                "Nivel general de erosión observado *", [""] + FDT_NIVEL_EROSION,
+                index=([""] + FDT_NIVEL_EROSION).index(dt_edit.get("dt02_nivel_erosion_general", ""))
+                    if dt_edit.get("dt02_nivel_erosion_general", "") in FDT_NIVEL_EROSION else 0,
+                key="f02_nivel")
 
-        # ── F-DT-05 ──────────────────────────────────────────────────────
-        with st.expander("F-DT-05: RECURSOS HIDRICOS", expanded=False):
-            st.markdown("*Evaluacion de la disponibilidad y calidad de los recursos hidricos.*")
-            c1, c2 = st.columns(2)
-            fuente = c1.selectbox("Fuente de agua mas cercana", [""] + FDT05_FUENTE_AGUA, key="f05_fa")
-            regimen_hid = c2.selectbox("Regimen hidrico", [""] + FDT05_REGIMEN, key="f05_rh")
-            c3, c4 = st.columns(2)
-            calidad_ag = c3.selectbox("Calidad aparente del agua", [""] + FDT05_CALIDAD_AGUA, key="f05_ca")
-            dist_agua = c4.selectbox("Distancia a fuente de agua", [""] + FDT05_DISTANCIA_AGUA, key="f05_da")
-            uso_hidrico = st.selectbox("Uso del recurso hidrico", [""] + FDT05_USO_HIDRICO, key="f05_uh")
+            st.markdown("**Inventario georreferenciado de cárcavas / surcos** "
+                        "(registre una fila por cárcava o grupo homogéneo)")
+            carcavas_cols = [
+                ("codigo", "Código"), ("tipo", "Tipo"),
+                ("utm_e_ini", "UTM E inicio"), ("utm_n_ini", "UTM N inicio"),
+                ("utm_e_fin", "UTM E fin"), ("utm_n_fin", "UTM N fin"),
+                ("longitud_m", "Long. (m)"), ("prof_m", "Prof. (m)"),
+                ("ancho_m", "Ancho (m)"), ("estado", "Estado"),
+                ("causa", "Causa principal"), ("foto", "Cód. foto"),
+            ]
+            carcavas_opts = {
+                "tipo": FDT_TIPO_CARCAVA,
+                "estado": FDT_ESTADO_CARCAVA,
+                "causa": FDT_CAUSA_CARCAVA,
+            }
+            carcavas_data = _dt_load_json(dt_edit.get("dt02_carcavas_json", ""), [])
+            carcavas_rows = _dt_dataeditor(
+                "Cárcavas / surcos (10 filas)", carcavas_cols, 10,
+                "f02_carcavas_ed", options=carcavas_opts, edit_data=carcavas_data)
 
-        # ── F-DT-06 ──────────────────────────────────────────────────────
-        with st.expander("F-DT-06: ASPECTOS SOCIOECONOMICOS Y ACCESIBILIDAD", expanded=False):
-            st.markdown("*Evaluacion de factores socioeconomicos y accesibilidad del area.*")
-            c1, c2 = st.columns(2)
-            tenencia = c1.selectbox("Tenencia de la tierra", [""] + FDT06_TENENCIA, key="f06_tt")
-            organizacion = c2.selectbox("Organización comunal", [""] + FDT06_ORGANIZACION, key="f06_oc")
-            c3, c4 = st.columns(2)
-            act_econ = c3.selectbox("Actividad económica principal", [""] + FDT06_ACTIVIDAD_ECONOMICA, key="f06_ae")
-            accesib = c4.selectbox("Accesibilidad (vía principal)", [""] + FDT06_ACCESIBILIDAD, key="f06_ac")
-            dist_centro = st.selectbox("Distancia al centro poblado", [""] + FDT06_DISTANCIA_CENTRO, key="f06_dp")
+            st.markdown("**Síntesis de procesos erosivos del bloque**")
+            f1, f2 = st.columns(2)
+            f02_sint = f1.selectbox(
+                "Nivel general de erosión (síntesis) *", [""] + FDT_NIVEL_EROSION,
+                index=([""] + FDT_NIVEL_EROSION).index(dt_edit.get("dt02_nivel_erosion_sintesis", ""))
+                    if dt_edit.get("dt02_nivel_erosion_sintesis", "") in FDT_NIVEL_EROSION else 0,
+                key="f02_sint")
+            f02_num = f2.text_input("N° total de cárcavas registradas",
+                                    value=dt_edit.get("dt02_num_carcavas", ""), key="f02_num")
+            f3, f4 = st.columns(2)
+            f02_long = f3.text_input("Longitud total de cárcavas (m)",
+                                     value=dt_edit.get("dt02_longitud_total_carcavas", ""), key="f02_long")
+            f02_pct = f4.text_input("% del bloque afectado por cárcavas",
+                                    value=dt_edit.get("dt02_pct_bloque_carcavas", ""), key="f02_pct")
+            f5, f6 = st.columns(2)
+            f02_lam = f5.text_input("Erosión laminar observada (%)",
+                                    value=dt_edit.get("dt02_erosion_laminar_pct", ""), key="f02_lam")
+            f02_pat = f6.selectbox(
+                "Patrón de cárcavas dominante", [""] + FDT_PATRON_CARCAVAS,
+                index=([""] + FDT_PATRON_CARCAVAS).index(dt_edit.get("dt02_patron_carcavas", ""))
+                    if dt_edit.get("dt02_patron_carcavas", "") in FDT_PATRON_CARCAVAS else 0,
+                key="f02_pat")
+            f7, f8 = st.columns(2)
+            f02_soc = f7.selectbox(
+                "Presencia de socavamiento de cauce", [""] + FDT_SI_NO,
+                index=([""] + FDT_SI_NO).index(dt_edit.get("dt02_socavamiento_cauce", ""))
+                    if dt_edit.get("dt02_socavamiento_cauce", "") in FDT_SI_NO else 0,
+                key="f02_soc")
+            f02_urg = f8.selectbox(
+                "Urgencia de control", [""] + FDT_URGENCIA,
+                index=([""] + FDT_URGENCIA).index(dt_edit.get("dt02_urgencia_control", ""))
+                    if dt_edit.get("dt02_urgencia_control", "") in FDT_URGENCIA else 0,
+                key="f02_urg")
+            f02_obs = st.text_area("Observaciones F-DT-02",
+                                   value=dt_edit.get("dt02_observaciones", ""), key="f02_obs")
 
-            st.markdown("**Servicios básicos disponibles** *(marque Sí/No para cada servicio)*")
-            sc1, sc2 = st.columns(2)
-            serv_agua = sc1.selectbox("Agua potable", [""] + FDT06_SI_NO, key="f06_sb_agua")
-            serv_elec = sc2.selectbox("Electricidad", [""] + FDT06_SI_NO, key="f06_sb_elec")
-            sc3, sc4 = st.columns(2)
-            serv_tel = sc3.selectbox("Telecomunicaciones / Internet", [""] + FDT06_SI_NO, key="f06_sb_tel")
-            serv_salud = sc4.selectbox("Puesto de salud", [""] + FDT06_SI_NO, key="f06_sb_salud")
-            serv_esc = st.selectbox("Escuela / IE", [""] + FDT06_SI_NO, key="f06_sb_esc")
+        # ╔════════════════════════════════════════════════════════════════╗
+        # ║ F-DT-03: ECOSISTEMA: COMPOSICION, ESTRUCTURA Y VALOR ECOLOGICO ║
+        # ╚════════════════════════════════════════════════════════════════╝
+        with st.expander("F-DT-03: ECOSISTEMA — COMPOSICION, ESTRUCTURA Y VALOR ECOLOGICO",
+                         expanded=False):
+            st.markdown("**Datos de la parcela de muestreo**")
+            g1, g2, g3 = st.columns(3)
+            f03_parcela = g1.text_input("Parcela de muestreo",
+                                        value=dt_edit.get("dt03_parcela_muestreo", ""), key="f03_parcela")
+            f03_dim = g2.text_input("Dimensiones (m × m)",
+                                    value=dt_edit.get("dt03_dim_parcela", ""), key="f03_dim")
+            f03_pend = g3.text_input("Pendiente promedio parcela (%)",
+                                     value=dt_edit.get("dt03_pendiente_parcela", ""), key="f03_pend")
+            g4, g5 = st.columns(2)
+            f03_cobtot = g4.text_input("Cobertura vegetal total estimada (%) *",
+                                       value=dt_edit.get("dt03_cobertura_total", ""), key="f03_cobtot")
+            f03_uso = g5.selectbox(
+                "Uso actual dominante del suelo *", [""] + FDT_USO_SUELO_DOM,
+                index=([""] + FDT_USO_SUELO_DOM).index(dt_edit.get("dt03_uso_dominante", ""))
+                    if dt_edit.get("dt03_uso_dominante", "") in FDT_USO_SUELO_DOM else 0,
+                key="f03_uso")
 
-            # Construir cadena estandarizada para almacenamiento en BD
-            _serv_pares = []
-            for _lbl, _v in [("Agua potable", serv_agua), ("Electricidad", serv_elec),
-                             ("Telecomunicaciones / Internet", serv_tel),
-                             ("Puesto de salud", serv_salud), ("Escuela / IE", serv_esc)]:
-                if _v:
-                    _serv_pares.append(f"{_lbl}: {_v}")
-            servicios_str = " | ".join(_serv_pares)
+            st.markdown("**Clasificación del ecosistema (UP)**")
+            h1, h2 = st.columns(2)
+            f03_eco = h1.selectbox(
+                "Tipo de ecosistema MINAM (dominante) *", [""] + FDT_TIPO_ECOSISTEMA,
+                index=([""] + FDT_TIPO_ECOSISTEMA).index(dt_edit.get("dt03_tipo_ecosistema", ""))
+                    if dt_edit.get("dt03_tipo_ecosistema", "") in FDT_TIPO_ECOSISTEMA else 0,
+                key="f03_eco")
+            f03_supe = h2.text_input("Superficie del ecosistema en el bloque (ha)",
+                                     value=dt_edit.get("dt03_superficie_ecosistema", ""), key="f03_supe")
+            f03_cons = st.selectbox(
+                "Estado de conservación general *", [""] + FDT_ESTADO_CONSERVACION,
+                index=([""] + FDT_ESTADO_CONSERVACION).index(dt_edit.get("dt03_estado_conservacion_eco", ""))
+                    if dt_edit.get("dt03_estado_conservacion_eco", "") in FDT_ESTADO_CONSERVACION else 0,
+                key="f03_cons")
+
+            st.markdown("**Estructura del ecosistema** (porcentajes y alturas)")
+            i1, i2 = st.columns(2)
+            f03_dosel = i1.text_input("Cobertura del dosel arbóreo (%)",
+                                      value=dt_edit.get("dt03_cobertura_dosel", ""), key="f03_dosel")
+            f03_arbus = i2.text_input("Cobertura arbustiva (%)",
+                                      value=dt_edit.get("dt03_cobertura_arbustiva", ""), key="f03_arbus")
+            i3, i4 = st.columns(2)
+            f03_herb = i3.text_input("Cobertura herbácea-graminoide (%)",
+                                     value=dt_edit.get("dt03_cobertura_herbacea", ""), key="f03_herb")
+            f03_hoja = i4.text_input("Cobertura de hojarasca (%)",
+                                     value=dt_edit.get("dt03_cobertura_hojarasca", ""), key="f03_hoja")
+            i5, i6 = st.columns(2)
+            f03_desn = i5.text_input("Cobertura de suelo desnudo (%)",
+                                     value=dt_edit.get("dt03_suelo_desnudo", ""), key="f03_desn")
+            f03_haltd = i6.text_input("Altura promedio estrato dominante (m)",
+                                      value=dt_edit.get("dt03_altura_estrato_dom", ""), key="f03_haltd")
+            i7, i8 = st.columns(2)
+            f03_hmax = i7.text_input("Altura máxima observada (m)",
+                                     value=dt_edit.get("dt03_altura_max", ""), key="f03_hmax")
+            f03_dap = i8.text_input("DAP promedio árboles DAP≥10 cm (cm)",
+                                    value=dt_edit.get("dt03_dap_promedio", ""), key="f03_dap")
+
+            j1, j2 = st.columns(2)
+            f03_regen = j1.selectbox(
+                "Regeneración natural observada *", [""] + FDT_REGENERACION,
+                index=([""] + FDT_REGENERACION).index(dt_edit.get("dt03_regeneracion_natural", ""))
+                    if dt_edit.get("dt03_regeneracion_natural", "") in FDT_REGENERACION else 0,
+                key="f03_regen")
+            f03_san = j2.selectbox(
+                "Estado sanitario general del dosel *", [""] + FDT_ESTADO_SANITARIO,
+                index=([""] + FDT_ESTADO_SANITARIO).index(dt_edit.get("dt03_estado_sanitario", ""))
+                    if dt_edit.get("dt03_estado_sanitario", "") in FDT_ESTADO_SANITARIO else 0,
+                key="f03_san")
+            j3, j4 = st.columns(2)
+            f03_epif = j3.text_input("Presencia de epífitas (cualitativa)",
+                                     value=dt_edit.get("dt03_presencia_epifitas", ""), key="f03_epif")
+            f03_feno = j4.selectbox(
+                "Fenología dominante (época de visita)", [""] + FDT_FENOLOGIA,
+                index=([""] + FDT_FENOLOGIA).index(dt_edit.get("dt03_fenologia_dominante", ""))
+                    if dt_edit.get("dt03_fenologia_dominante", "") in FDT_FENOLOGIA else 0,
+                key="f03_feno")
+            f03_tipocob = st.selectbox(
+                "Tipo de cobertura vegetal dominante *", [""] + FDT_TIPO_COBERTURA,
+                index=([""] + FDT_TIPO_COBERTURA).index(dt_edit.get("dt03_tipo_cobertura_dom", ""))
+                    if dt_edit.get("dt03_tipo_cobertura_dom", "") in FDT_TIPO_COBERTURA else 0,
+                key="f03_tipocob")
+
+            st.markdown("**Composición florística (mín. 15 especies)**")
+            flora_cols = [
+                ("nombre_comun", "Nombre común"),
+                ("nombre_cientifico", "Nombre científico"),
+                ("familia", "Familia"),
+                ("estrato", "Estrato"),
+                ("origen", "Origen"),
+                ("abundancia", "Abundancia"),
+                ("dap_cm", "DAP (cm)"),
+                ("altura_m", "Altura (m)"),
+            ]
+            flora_opts = {
+                "estrato": FDT_ESTRATO,
+                "origen": FDT_ORIGEN,
+                "abundancia": FDT_ABUNDANCIA,
+            }
+            flora_data = _dt_load_json(dt_edit.get("dt03_floristica_json", ""), [])
+            flora_rows = _dt_dataeditor(
+                "Especies (15 filas)", flora_cols, 15,
+                "f03_flora_ed", options=flora_opts, edit_data=flora_data)
+
+            st.markdown("**Especies clave / indicadoras**")
+            esp_cols = [
+                ("nombre", "Nombre científico/común"),
+                ("categoria", "Categoría"),
+                ("estado_uicn", "Estado UICN / D.S. 043"),
+                ("utm_e", "UTM Este"), ("utm_n", "UTM Norte"),
+                ("n_indiv", "N° indiv."), ("foto", "Foto N°"),
+                ("observacion", "Observación"),
+            ]
+            esp_opts = {
+                "categoria": FDT_CATEGORIA_INDICADORA,
+                "estado_uicn": FDT_ESTADO_UICN,
+            }
+            esp_data = _dt_load_json(dt_edit.get("dt03_especies_clave_json", ""), [])
+            esp_rows = _dt_dataeditor(
+                "Especies clave (10 filas)", esp_cols, 10,
+                "f03_esp_ed", options=esp_opts, edit_data=esp_data)
+
+            f03_obs = st.text_area("Observaciones F-DT-03",
+                                   value=dt_edit.get("dt03_observaciones", ""), key="f03_obs")
+
+        # ╔════════════════════════════════════════════════════════════════╗
+        # ║ F-DT-04: CAUSAS E INDICADORES DE DEGRADACION                   ║
+        # ╚════════════════════════════════════════════════════════════════╝
+        with st.expander("F-DT-04: CAUSAS E INDICADORES DE DEGRADACION", expanded=False):
+            st.markdown("**Matriz de causas de degradación** "
+                        "(intensidad: Nula/Ligera/Moderada/Fuerte/Muy fuerte)")
+            causas_cols = [
+                ("n", "N°"), ("causa", "Causa / Factor"),
+                ("presencia", "Presencia"), ("intensidad", "Intensidad"),
+                ("extension", "Extensión (%)"),
+                ("antiguedad", "Antigüedad (años)"),
+                ("evidencia", "Evidencia / Descripción"),
+            ]
+            causas_opts = {
+                "presencia": FDT_SI_NO,
+                "intensidad": FDT_INTENSIDAD,
+            }
+            # Datos predefinidos: 16 causas fijas con presencia/intensidad vacios
+            causas_existentes = _dt_load_json(dt_edit.get("dt04_causas_json", ""), [])
+            causas_default = []
+            for i, lbl in enumerate(FDT04_CAUSAS_LABELS, 1):
+                row = {"n": str(i), "causa": lbl, "presencia": "", "intensidad": "",
+                       "extension": "", "antiguedad": "", "evidencia": ""}
+                if i - 1 < len(causas_existentes):
+                    prev = causas_existentes[i - 1]
+                    for k in row:
+                        if prev.get(k):
+                            row[k] = prev[k]
+                causas_default.append(row)
+            causas_rows = _dt_dataeditor(
+                "Causas (16 fijas)", causas_cols, 16,
+                "f04_causas_ed", options=causas_opts, edit_data=causas_default)
+
+            st.markdown("**Indicadores cuantitativos de degradación**")
+            ind_cols = [
+                ("n", "N°"), ("indicador", "Indicador"), ("unidad", "Unidad"),
+                ("valor", "Valor"), ("fuente", "Fuente"),
+                ("umbral", "Umbral / Referencia"), ("nivel", "Nivel"),
+            ]
+            ind_opts = {"nivel": FDT_NIVEL_IND}
+            ind_existentes = _dt_load_json(dt_edit.get("dt04_indicadores_json", ""), [])
+            ind_default = []
+            for i, (nombre, unidad, umbral) in enumerate(FDT04_INDICADORES_LABELS, 1):
+                row = {"n": str(i), "indicador": nombre, "unidad": unidad,
+                       "valor": "", "fuente": "", "umbral": umbral, "nivel": ""}
+                if i - 1 < len(ind_existentes):
+                    prev = ind_existentes[i - 1]
+                    for k in row:
+                        if prev.get(k):
+                            row[k] = prev[k]
+                ind_default.append(row)
+            ind_rows = _dt_dataeditor(
+                "Indicadores (8 fijos)", ind_cols, 8,
+                "f04_ind_ed", options=ind_opts, edit_data=ind_default)
+
+            st.markdown("**Síntesis diagnóstica de la degradación**")
+            f04_dir = st.text_area(
+                "Principales causas directas (texto libre)",
+                value=dt_edit.get("dt04_causas_directas_texto", ""), key="f04_dir")
+            k1, k2 = st.columns(2)
+            f04_sub = k1.text_input("Principal causa subyacente (motor)",
+                                    value=dt_edit.get("dt04_causa_subyacente", ""), key="f04_sub")
+            f04_vel = k2.selectbox(
+                "Velocidad de degradación percibida", [""] + FDT_VELOCIDAD,
+                index=([""] + FDT_VELOCIDAD).index(dt_edit.get("dt04_velocidad_degradacion", ""))
+                    if dt_edit.get("dt04_velocidad_degradacion", "") in FDT_VELOCIDAD else 0,
+                key="f04_vel")
+            k3, k4 = st.columns(2)
+            f04_rev = k3.selectbox(
+                "Reversibilidad técnica", [""] + FDT_REVERSIBILIDAD,
+                index=([""] + FDT_REVERSIBILIDAD).index(dt_edit.get("dt04_reversibilidad", ""))
+                    if dt_edit.get("dt04_reversibilidad", "") in FDT_REVERSIBILIDAD else 0,
+                key="f04_rev")
+            f04_urg = k4.selectbox(
+                "Urgencia de intervención", [""] + FDT_URGENCIA,
+                index=([""] + FDT_URGENCIA).index(dt_edit.get("dt04_urgencia_intervencion", ""))
+                    if dt_edit.get("dt04_urgencia_intervencion", "") in FDT_URGENCIA else 0,
+                key="f04_urg")
+            f04_obs = st.text_area("Observaciones F-DT-04",
+                                   value=dt_edit.get("dt04_observaciones", ""), key="f04_obs")
+
+        # ╔════════════════════════════════════════════════════════════════╗
+        # ║ F-DT-05: RECURSOS HIDRICOS Y ACCESIBILIDAD                     ║
+        # ╚════════════════════════════════════════════════════════════════╝
+        with st.expander("F-DT-05: RECURSOS HIDRICOS Y ACCESIBILIDAD", expanded=False):
+            st.markdown("**Inventario de fuentes de agua** (dentro o hasta 500 m del bloque)")
+            fuente_cols = [
+                ("n", "N°"), ("tipo", "Tipo de fuente"),
+                ("utm_e", "UTM Este"), ("utm_n", "UTM Norte"),
+                ("regimen", "Régimen"), ("calidad", "Calidad aparente"),
+                ("distancia_m", "Distancia (m)"),
+                ("uso_obs", "Uso observado / Obs."),
+            ]
+            fuente_opts = {
+                "tipo": FDT_TIPO_FUENTE,
+                "regimen": FDT_REGIMEN_HIDRICO,
+                "calidad": FDT_CALIDAD_AGUA,
+            }
+            fuentes_existentes = _dt_load_json(dt_edit.get("dt05_fuentes_agua_json", ""), [])
+            fuente_default = []
+            for i in range(1, 11):
+                row = {"n": str(i), "tipo": "", "utm_e": "", "utm_n": "",
+                       "regimen": "", "calidad": "", "distancia_m": "", "uso_obs": ""}
+                if i - 1 < len(fuentes_existentes):
+                    prev = fuentes_existentes[i - 1]
+                    for k in row:
+                        if prev.get(k):
+                            row[k] = prev[k]
+                fuente_default.append(row)
+            fuente_rows = _dt_dataeditor(
+                "Fuentes (10 filas)", fuente_cols, 10,
+                "f05_fuentes_ed", options=fuente_opts, edit_data=fuente_default)
+
+            st.markdown("**Análisis hídrico preliminar**")
+            l1, l2 = st.columns(2)
+            f05_recarga = l1.selectbox(
+                "¿Bloque en zona de recarga hídrica?", [""] + FDT_SI_NO_NA,
+                index=([""] + FDT_SI_NO_NA).index(dt_edit.get("dt05_zona_recarga", ""))
+                    if dt_edit.get("dt05_zona_recarga", "") in FDT_SI_NO_NA else 0,
+                key="f05_recarga")
+            f05_humedad = l2.selectbox(
+                "¿Zonas de humedad persistente observadas?", [""] + FDT_SI_NO,
+                index=([""] + FDT_SI_NO).index(dt_edit.get("dt05_humedad_persistente", ""))
+                    if dt_edit.get("dt05_humedad_persistente", "") in FDT_SI_NO else 0,
+                key="f05_humedad")
+            l3, l4 = st.columns(2)
+            f05_escor = l3.selectbox(
+                "¿Escorrentía concentrada observada?", [""] + FDT_SI_NO,
+                index=([""] + FDT_SI_NO).index(dt_edit.get("dt05_escorrentia_concentrada", ""))
+                    if dt_edit.get("dt05_escorrentia_concentrada", "") in FDT_SI_NO else 0,
+                key="f05_escor")
+            f05_distcap = l4.text_input("Distancia a captación poblacional más cercana (m)",
+                                        value=dt_edit.get("dt05_dist_captacion", ""), key="f05_distcap")
+            l5, l6 = st.columns(2)
+            f05_jass = l5.text_input("Nombre JASS o captación asociada",
+                                     value=dt_edit.get("dt05_jass_captacion", ""), key="f05_jass")
+            f05_inter = l6.selectbox(
+                "¿Interferencia con obras de riego?", [""] + FDT_SI_NO,
+                index=([""] + FDT_SI_NO).index(dt_edit.get("dt05_interferencia_riego", ""))
+                    if dt_edit.get("dt05_interferencia_riego", "") in FDT_SI_NO else 0,
+                key="f05_inter")
+            f05_riego = st.text_input("Nombre del sistema de riego (si aplica)",
+                                      value=dt_edit.get("dt05_sistema_riego_nombre", ""), key="f05_riego")
+
+            st.markdown("**Accesibilidad y logística**")
+            m1, m2 = st.columns(2)
+            f05_modo = m1.selectbox(
+                "Modalidad de acceso al bloque *", [""] + FDT_MODALIDAD_ACCESO,
+                index=([""] + FDT_MODALIDAD_ACCESO).index(dt_edit.get("dt05_modalidad_acceso", ""))
+                    if dt_edit.get("dt05_modalidad_acceso", "") in FDT_MODALIDAD_ACCESO else 0,
+                key="f05_modo")
+            f05_via = m2.text_input("Vía principal de acceso (PE-/PI-/trocha) *",
+                                    value=dt_edit.get("dt05_via_principal", ""), key="f05_via")
+            m3, m4 = st.columns(2)
+            f05_tvia = m3.selectbox(
+                "Tipo de vía final", [""] + FDT_TIPO_VIA,
+                index=([""] + FDT_TIPO_VIA).index(dt_edit.get("dt05_tipo_via_final", ""))
+                    if dt_edit.get("dt05_tipo_via_final", "") in FDT_TIPO_VIA else 0,
+                key="f05_tvia")
+            f05_tseca = m4.selectbox(
+                "Transitabilidad — época seca", [""] + FDT_NIVEL_TRANSITAB,
+                index=([""] + FDT_NIVEL_TRANSITAB).index(dt_edit.get("dt05_transitabilidad_seca", ""))
+                    if dt_edit.get("dt05_transitabilidad_seca", "") in FDT_NIVEL_TRANSITAB else 0,
+                key="f05_tseca")
+            m5, m6 = st.columns(2)
+            f05_tllu = m5.selectbox(
+                "Transitabilidad — época lluviosa", [""] + FDT_NIVEL_TRANSITAB,
+                index=([""] + FDT_NIVEL_TRANSITAB).index(dt_edit.get("dt05_transitabilidad_lluviosa", ""))
+                    if dt_edit.get("dt05_transitabilidad_lluviosa", "") in FDT_NIVEL_TRANSITAB else 0,
+                key="f05_tllu")
+            f05_tcap = m6.text_input("Tiempo desde capital distrital (min)",
+                                     value=dt_edit.get("dt05_tiempo_dist_capital", ""), key="f05_tcap")
+            m7, m8 = st.columns(2)
+            f05_tprov = m7.text_input("Tiempo desde capital provincial (min)",
+                                      value=dt_edit.get("dt05_tiempo_prov_capital", ""), key="f05_tprov")
+            f05_senal = m8.selectbox(
+                "Señal celular", [""] + FDT_SENAL_CELULAR,
+                index=([""] + FDT_SENAL_CELULAR).index(dt_edit.get("dt05_senal_celular", ""))
+                    if dt_edit.get("dt05_senal_celular", "") in FDT_SENAL_CELULAR else 0,
+                key="f05_senal")
+            m9, m10 = st.columns(2)
+            f05_oper = m9.selectbox(
+                "Operador celular dominante", [""] + FDT_OPERADOR,
+                index=([""] + FDT_OPERADOR).index(dt_edit.get("dt05_operador_celular", ""))
+                    if dt_edit.get("dt05_operador_celular", "") in FDT_OPERADOR else 0,
+                key="f05_oper")
+            f05_aloj = m10.selectbox(
+                "Alojamiento rural disponible", [""] + FDT_SI_NO,
+                index=([""] + FDT_SI_NO).index(dt_edit.get("dt05_alojamiento", ""))
+                    if dt_edit.get("dt05_alojamiento", "") in FDT_SI_NO else 0,
+                key="f05_aloj")
+            m11, m12 = st.columns(2)
+            f05_ronda = m11.selectbox(
+                "¿Requiere autorización de Ronda Campesina? *", [""] + FDT_SI_NO,
+                index=([""] + FDT_SI_NO).index(dt_edit.get("dt05_requiere_ronda", ""))
+                    if dt_edit.get("dt05_requiere_ronda", "") in FDT_SI_NO else 0,
+                key="f05_ronda")
+            f05_contacto = m12.text_input("Nombre / Contacto responsable de Ronda",
+                                          value=dt_edit.get("dt05_contacto_ronda", ""), key="f05_contacto")
+            f05_obs = st.text_area("Observaciones F-DT-05",
+                                   value=dt_edit.get("dt05_observaciones", ""), key="f05_obs")
 
         st.markdown("---")
-        observ_gen = st.text_area("Observaciones generales del diagnostico", key="dt_obs")
+        observ_gen = st.text_area("Observaciones generales del diagnóstico",
+                                  value=dt_edit.get("observaciones_generales", ""),
+                                  key="dt_obs")
 
-        # Determinar fichas completadas
+        # ── Determinar fichas con datos ─────────────────────────────────
         fichas_sel = []
-        if any([forma_terreno, pendiente, posicion_fisio, exposicion, paisaje, rango_alt]):
+        if any([forma_terreno, pendiente, posicion_fisio, exposicion, rango_alt,
+                paisaje, f01_aflora, f01_escarpe, f01_reptacion, f01_desliz,
+                f01_remocion, f01_obs]):
             fichas_sel.append("F-DT-01")
-        if any([precipitacion, temperatura, humedad, zona_vida, heladas, vientos]):
+        if any([f02_sell, f02_compa, f02_raices, f02_nivel, f02_sint,
+                f02_num, f02_long, f02_pct, f02_lam, f02_pat, f02_soc,
+                f02_urg, f02_obs]) or any(any(r.values()) for r in carcavas_rows):
             fichas_sel.append("F-DT-02")
-        if any([textura, color_suelo, profundidad, pedregosidad, drenaje, erosion, materia_org]):
+        if any([f03_parcela, f03_dim, f03_pend, f03_cobtot, f03_uso,
+                f03_eco, f03_supe, f03_cons, f03_dosel, f03_arbus, f03_herb,
+                f03_hoja, f03_desn, f03_haltd, f03_hmax, f03_dap, f03_regen,
+                f03_san, f03_epif, f03_feno, f03_tipocob, f03_obs]) or \
+           any(any(r.values()) for r in flora_rows) or \
+           any(any(r.values()) for r in esp_rows):
             fichas_sel.append("F-DT-03")
-        if any([tipo_cob, densidad_cob, estado_cons, uso_suelo, conflicto]):
+        if any([f04_dir, f04_sub, f04_vel, f04_rev, f04_urg, f04_obs]) or \
+           any(r.get("presencia") or r.get("intensidad") or r.get("extension")
+               or r.get("antiguedad") or r.get("evidencia") for r in causas_rows) or \
+           any(r.get("valor") or r.get("fuente") or r.get("nivel") for r in ind_rows):
             fichas_sel.append("F-DT-04")
-        if any([fuente, regimen_hid, calidad_ag, dist_agua, uso_hidrico]):
+        if any([f05_recarga, f05_humedad, f05_escor, f05_distcap, f05_jass,
+                f05_inter, f05_riego, f05_modo, f05_via, f05_tvia, f05_tseca,
+                f05_tllu, f05_tcap, f05_tprov, f05_senal, f05_oper, f05_aloj,
+                f05_ronda, f05_contacto, f05_obs]) or \
+           any(any(r.values()) for r in fuente_rows):
             fichas_sel.append("F-DT-05")
-        if any([tenencia, organizacion, act_econ, accesib, dist_centro,
-                serv_agua, serv_elec, serv_tel, serv_salud, serv_esc]):
-            fichas_sel.append("F-DT-06")
 
         if fichas_sel:
-            st.info(f"Fichas con datos: **{', '.join(fichas_sel)}** ({len(fichas_sel)}/6)")
+            st.info(f"Fichas con datos: **{', '.join(fichas_sel)}** ({len(fichas_sel)}/5)")
 
         btn_label_dt = "Actualizar Diagnostico Territorial" if dt_edit_id else "Guardar Diagnostico Territorial"
         if st.button(btn_label_dt, type="primary", key="dt_guardar"):
             if not evaluador:
-                st.warning("Ingrese el nombre del evaluador.")
+                st.warning("Ingrese el nombre del evaluador / responsable.")
             elif not fichas_sel:
                 st.warning("Complete al menos una ficha de diagnostico.")
             else:
                 try:
-                    _dt_kwargs = dict(
-                        ficha=", ".join(fichas_sel),
-                        fecha_evaluacion=fecha_ev.strftime("%Y-%m-%d"),
-                        evaluador=evaluador,
-                        microcuenca=mc,
-                        forma_terreno=forma_terreno,
-                        pendiente=pendiente,
-                        posicion_fisiografica=posicion_fisio,
-                        exposicion_orientacion=exposicion,
-                        paisaje_dominante=paisaje,
-                        rango_altitudinal=rango_alt,
-                        precipitacion_anual=precipitacion,
-                        temperatura_media=temperatura,
-                        humedad_relativa=humedad,
-                        zona_vida=zona_vida,
-                        presencia_heladas=heladas,
-                        regimen_vientos=vientos,
-                        textura_suelo=textura,
-                        color_suelo=color_suelo,
-                        profundidad_efectiva=profundidad,
-                        pedregosidad=pedregosidad,
-                        drenaje=drenaje,
-                        presencia_erosion=erosion,
-                        materia_organica=materia_org,
-                        tipo_cobertura=tipo_cob,
-                        densidad_cobertura=densidad_cob,
-                        estado_conservacion=estado_cons,
-                        uso_actual_suelo=uso_suelo,
-                        conflicto_uso=conflicto,
-                        fuente_agua=fuente,
-                        regimen_hidrico=regimen_hid,
-                        calidad_agua=calidad_ag,
-                        distancia_fuente_agua=dist_agua,
-                        uso_recurso_hidrico=uso_hidrico,
-                        tenencia_tierra=tenencia,
-                        organizacion_comunal=organizacion,
-                        actividad_economica=act_econ,
-                        accesibilidad_via=accesib,
-                        distancia_centro_poblado=dist_centro,
-                        servicios_basicos=servicios_str,
-                        observaciones_generales=observ_gen,
-                    )
+                    data_v5 = {
+                        "ficha": ", ".join(fichas_sel),
+                        "fecha_evaluacion": fecha_ev.strftime("%Y-%m-%d"),
+                        "evaluador": evaluador,
+                        "microcuenca": mc,
+                        "brigada": brigada,
+                        "ficha_correlativo": correlativo,
+                        "altitud_gps": altitud_gps,
+                        "centro_poblado_cercano": centro_poblado,
+                        "comunidad_campesina_dt": comunidad_campesina,
+                        "hora_registro": hora_reg,
+                        "utm_este_dt": utm_e_in,
+                        "utm_norte_dt": utm_n_in,
+                        # F-DT-01
+                        "forma_terreno": forma_terreno,
+                        "pendiente": pendiente,
+                        "posicion_fisiografica": posicion_fisio,
+                        "exposicion_orientacion": exposicion,
+                        "rango_altitudinal": rango_alt,
+                        "paisaje_dominante": paisaje,
+                        "dt01_afloramientos_rocosos": f01_aflora,
+                        "dt01_escarpes_activos": f01_escarpe,
+                        "dt01_reptacion_suelo": f01_reptacion,
+                        "dt01_deslizamientos_antiguos": f01_desliz,
+                        "dt01_remociones_masa_activas": f01_remocion,
+                        "dt01_observaciones": f01_obs,
+                        # F-DT-02
+                        "dt02_sellamiento_costra": f02_sell,
+                        "dt02_compactacion_pisoteo": f02_compa,
+                        "dt02_raices_expuestas": f02_raices,
+                        "dt02_nivel_erosion_general": f02_nivel,
+                        "dt02_carcavas_json": _dt_dump_json(carcavas_rows),
+                        "dt02_nivel_erosion_sintesis": f02_sint,
+                        "dt02_num_carcavas": f02_num,
+                        "dt02_longitud_total_carcavas": f02_long,
+                        "dt02_pct_bloque_carcavas": f02_pct,
+                        "dt02_erosion_laminar_pct": f02_lam,
+                        "dt02_patron_carcavas": f02_pat,
+                        "dt02_socavamiento_cauce": f02_soc,
+                        "dt02_urgencia_control": f02_urg,
+                        "dt02_observaciones": f02_obs,
+                        # F-DT-03
+                        "dt03_parcela_muestreo": f03_parcela,
+                        "dt03_dim_parcela": f03_dim,
+                        "dt03_pendiente_parcela": f03_pend,
+                        "dt03_cobertura_total": f03_cobtot,
+                        "dt03_tipo_ecosistema": f03_eco,
+                        "dt03_superficie_ecosistema": f03_supe,
+                        "dt03_estado_conservacion_eco": f03_cons,
+                        "dt03_uso_dominante": f03_uso,
+                        "dt03_cobertura_dosel": f03_dosel,
+                        "dt03_cobertura_arbustiva": f03_arbus,
+                        "dt03_cobertura_herbacea": f03_herb,
+                        "dt03_cobertura_hojarasca": f03_hoja,
+                        "dt03_suelo_desnudo": f03_desn,
+                        "dt03_altura_estrato_dom": f03_haltd,
+                        "dt03_altura_max": f03_hmax,
+                        "dt03_dap_promedio": f03_dap,
+                        "dt03_regeneracion_natural": f03_regen,
+                        "dt03_estado_sanitario": f03_san,
+                        "dt03_presencia_epifitas": f03_epif,
+                        "dt03_fenologia_dominante": f03_feno,
+                        "dt03_tipo_cobertura_dom": f03_tipocob,
+                        "dt03_floristica_json": _dt_dump_json(flora_rows),
+                        "dt03_especies_clave_json": _dt_dump_json(esp_rows),
+                        "dt03_observaciones": f03_obs,
+                        # F-DT-04
+                        "dt04_causas_json": _dt_dump_json(causas_rows),
+                        "dt04_indicadores_json": _dt_dump_json(ind_rows),
+                        "dt04_causas_directas_texto": f04_dir,
+                        "dt04_causa_subyacente": f04_sub,
+                        "dt04_velocidad_degradacion": f04_vel,
+                        "dt04_reversibilidad": f04_rev,
+                        "dt04_urgencia_intervencion": f04_urg,
+                        "dt04_observaciones": f04_obs,
+                        # F-DT-05
+                        "dt05_fuentes_agua_json": _dt_dump_json(fuente_rows),
+                        "dt05_zona_recarga": f05_recarga,
+                        "dt05_humedad_persistente": f05_humedad,
+                        "dt05_escorrentia_concentrada": f05_escor,
+                        "dt05_dist_captacion": f05_distcap,
+                        "dt05_jass_captacion": f05_jass,
+                        "dt05_interferencia_riego": f05_inter,
+                        "dt05_sistema_riego_nombre": f05_riego,
+                        "dt05_modalidad_acceso": f05_modo,
+                        "dt05_via_principal": f05_via,
+                        "dt05_tipo_via_final": f05_tvia,
+                        "dt05_transitabilidad_seca": f05_tseca,
+                        "dt05_transitabilidad_lluviosa": f05_tllu,
+                        "dt05_tiempo_dist_capital": f05_tcap,
+                        "dt05_tiempo_prov_capital": f05_tprov,
+                        "dt05_senal_celular": f05_senal,
+                        "dt05_operador_celular": f05_oper,
+                        "dt05_alojamiento": f05_aloj,
+                        "dt05_requiere_ronda": f05_ronda,
+                        "dt05_contacto_ronda": f05_contacto,
+                        "dt05_observaciones": f05_obs,
+                        # Comun
+                        "observaciones_generales": observ_gen,
+                    }
                     if dt_edit_id:
-                        db.actualizar_diagnostico_territorial(dt_edit_id, **_dt_kwargs)
+                        db.actualizar_diagnostico_territorial_v5(dt_edit_id, data_v5)
                         _invalidar_cache()
                         st.session_state["dt_edit_id"] = None
                         st.session_state["dt_edit_data"] = None
                         st.success(f"Diagnostico territorial actualizado ({', '.join(fichas_sel)}).")
                     else:
-                        # Verificar duplicados
                         existentes = db.obtener_diagnosticos_por_bloque(bid)
                         dup = [e for e in existentes
                                if e.get("fecha_evaluacion") == fecha_ev.strftime("%Y-%m-%d")
                                and e.get("evaluador") == evaluador]
                         if dup:
-                            st.markdown('<div class="dup-warning">Ya existe un diagnostico para este bloque en '
-                                       f'{fecha_ev.strftime("%Y-%m-%d")} por {evaluador}. '
-                                       f'Use <b>Editar</b> en Historial para modificarlo.</div>',
-                                       unsafe_allow_html=True)
+                            st.markdown(
+                                '<div class="dup-warning">Ya existe un diagnostico para este bloque en '
+                                f'{fecha_ev.strftime("%Y-%m-%d")} por {evaluador}. '
+                                f'Use <b>Editar</b> en Historial para modificarlo.</div>',
+                                unsafe_allow_html=True)
                         else:
-                            db.insertar_diagnostico_territorial(bloque_id=bid, **_dt_kwargs)
+                            db.insertar_diagnostico_territorial_v5(bid, data_v5)
                             _invalidar_cache()
                             st.success(f"Diagnostico territorial guardado ({', '.join(fichas_sel)}).")
                     st.rerun()
@@ -1770,12 +2289,12 @@ def pagina_diagnostico_territorial():
         if not todos_dt:
             st.info("No hay diagnosticos registrados.")
         else:
-            # Paginacion
             dt_pag, total_pags_dt, pag_actual_dt = _paginar(todos_dt, "pag_dt")
             _controles_paginacion(total_pags_dt, pag_actual_dt, "pag_dt")
-            # Tabla con botones de edicion
             header_cols = st.columns([0.4, 1, 0.8, 0.8, 0.8, 0.8, 0.8, 0.5])
-            for col, h in zip(header_cols, ["ID", "Bloque", "Fichas", "Fecha", "Evaluador", "Microcuenca", "Distrito", ""]):
+            for col, h in zip(header_cols,
+                              ["ID", "Bloque", "Fichas", "Fecha", "Evaluador",
+                               "Microcuenca", "Distrito", ""]):
                 col.markdown(f"**{h}**")
             st.markdown("---")
             for d in dt_pag:
@@ -1788,7 +2307,6 @@ def pagina_diagnostico_territorial():
                 row[5].write(d.get("microcuenca", "") or "")
                 row[6].write(d.get("distrito", ""))
                 if row[7].button("Editar", key=f"edit_dt_{d['id']}", type="primary"):
-                    # Cargar el diagnostico completo para edicion en tab_reg
                     det = db.obtener_diagnostico_por_id(d["id"])
                     if det:
                         st.session_state["dt_edit_id"] = det["id"]
@@ -1797,7 +2315,8 @@ def pagina_diagnostico_territorial():
 
             st.markdown("---")
             st.markdown("### Detalle de Diagnostico")
-            dm = {f"ID {d['id']} - {d.get('bloque_codigo','')} ({d.get('ficha','')})": d["id"] for d in todos_dt}
+            dm = {f"ID {d['id']} - {d.get('bloque_codigo','')} ({d.get('ficha','')})": d["id"]
+                  for d in todos_dt}
             sel_dt = st.selectbox("Seleccionar diagnostico", [""] + list(dm.keys()), key="dt_det")
             if sel_dt and sel_dt in dm:
                 det = db.obtener_diagnostico_por_id(dm[sel_dt])
@@ -1805,70 +2324,107 @@ def pagina_diagnostico_territorial():
                     st.markdown(f"**Bloque:** {det.get('bloque_codigo','')} | "
                                 f"**Fecha:** {det.get('fecha_evaluacion','')} | "
                                 f"**Evaluador:** {det.get('evaluador','')}")
-
-                    # Mostrar cada ficha completada
                     fichas_str = det.get("ficha", "")
+
                     if "F-DT-01" in fichas_str:
-                        with st.expander("F-DT-01: CARACTERISTICAS FISIOGRAFICAS", expanded=True):
-                            c1, c2, c3 = st.columns(3)
+                        with st.expander("F-DT-01: Datos generales y fisiografía", expanded=True):
+                            c1, c2 = st.columns(2)
                             c1.markdown(f"**Forma terreno:** {det.get('forma_terreno','') or '-'}")
                             c2.markdown(f"**Pendiente:** {det.get('pendiente','') or '-'}")
-                            c3.markdown(f"**Posicion:** {det.get('posicion_fisiografica','') or '-'}")
-                            c1.markdown(f"**Exposicion:** {det.get('exposicion_orientacion','') or '-'}")
+                            c1.markdown(f"**Posición fisio.:** {det.get('posicion_fisiografica','') or '-'}")
+                            c2.markdown(f"**Exposición:** {det.get('exposicion_orientacion','') or '-'}")
+                            c1.markdown(f"**Altitud:** {det.get('rango_altitudinal','') or '-'}")
                             c2.markdown(f"**Paisaje:** {det.get('paisaje_dominante','') or '-'}")
-                            c3.markdown(f"**Altitud:** {det.get('rango_altitudinal','') or '-'}")
+                            c1.markdown(f"**Afloramientos rocosos:** {det.get('dt01_afloramientos_rocosos','') or '-'}")
+                            c2.markdown(f"**Escarpes activos:** {det.get('dt01_escarpes_activos','') or '-'}")
+                            c1.markdown(f"**Reptación suelo:** {det.get('dt01_reptacion_suelo','') or '-'}")
+                            c2.markdown(f"**Deslizamientos antiguos:** {det.get('dt01_deslizamientos_antiguos','') or '-'}")
+                            st.markdown(f"**Remociones masa activas:** {det.get('dt01_remociones_masa_activas','') or '-'}")
+                            if det.get("dt01_observaciones"):
+                                st.markdown(f"**Obs:** {det['dt01_observaciones']}")
 
                     if "F-DT-02" in fichas_str:
-                        with st.expander("F-DT-02: CONDICIONES CLIMATICAS", expanded=True):
-                            c1, c2, c3 = st.columns(3)
-                            c1.markdown(f"**Precipitacion:** {det.get('precipitacion_anual','') or '-'}")
-                            c2.markdown(f"**Temperatura:** {det.get('temperatura_media','') or '-'}")
-                            c3.markdown(f"**Humedad:** {det.get('humedad_relativa','') or '-'}")
-                            c1.markdown(f"**Zona de vida:** {det.get('zona_vida','') or '-'}")
-                            c2.markdown(f"**Heladas:** {det.get('presencia_heladas','') or '-'}")
-                            c3.markdown(f"**Vientos:** {det.get('regimen_vientos','') or '-'}")
+                        with st.expander("F-DT-02: Suelo y procesos erosivos", expanded=True):
+                            c1, c2 = st.columns(2)
+                            c1.markdown(f"**Sellamiento/costra:** {det.get('dt02_sellamiento_costra','') or '-'}")
+                            c2.markdown(f"**Compactación:** {det.get('dt02_compactacion_pisoteo','') or '-'}")
+                            c1.markdown(f"**Raíces expuestas:** {det.get('dt02_raices_expuestas','') or '-'}")
+                            c2.markdown(f"**Nivel erosión:** {det.get('dt02_nivel_erosion_general','') or '-'}")
+                            cars = _dt_load_json(det.get("dt02_carcavas_json", ""), [])
+                            if cars:
+                                st.markdown(f"**Cárcavas registradas:** {len(cars)}")
+                                st.dataframe(pd.DataFrame(cars), use_container_width=True, hide_index=True)
+                            c1.markdown(f"**Nivel erosión (síntesis):** {det.get('dt02_nivel_erosion_sintesis','') or '-'}")
+                            c2.markdown(f"**N° cárcavas:** {det.get('dt02_num_carcavas','') or '-'}")
+                            c1.markdown(f"**Longitud total (m):** {det.get('dt02_longitud_total_carcavas','') or '-'}")
+                            c2.markdown(f"**% bloque afectado:** {det.get('dt02_pct_bloque_carcavas','') or '-'}")
+                            c1.markdown(f"**Patrón cárcavas:** {det.get('dt02_patron_carcavas','') or '-'}")
+                            c2.markdown(f"**Urgencia control:** {det.get('dt02_urgencia_control','') or '-'}")
+                            if det.get("dt02_observaciones"):
+                                st.markdown(f"**Obs:** {det['dt02_observaciones']}")
 
                     if "F-DT-03" in fichas_str:
-                        with st.expander("F-DT-03: CARACTERISTICAS DEL SUELO", expanded=True):
-                            c1, c2, c3 = st.columns(3)
-                            c1.markdown(f"**Textura:** {det.get('textura_suelo','') or '-'}")
-                            c2.markdown(f"**Color:** {det.get('color_suelo','') or '-'}")
-                            c3.markdown(f"**Profundidad:** {det.get('profundidad_efectiva','') or '-'}")
-                            c1.markdown(f"**Pedregosidad:** {det.get('pedregosidad','') or '-'}")
-                            c2.markdown(f"**Drenaje:** {det.get('drenaje','') or '-'}")
-                            c3.markdown(f"**Erosion:** {det.get('presencia_erosion','') or '-'}")
-                            st.markdown(f"**Materia organica:** {det.get('materia_organica','') or '-'}")
+                        with st.expander("F-DT-03: Ecosistema", expanded=True):
+                            c1, c2 = st.columns(2)
+                            c1.markdown(f"**Tipo ecosistema:** {det.get('dt03_tipo_ecosistema','') or '-'}")
+                            c2.markdown(f"**Estado conservación:** {det.get('dt03_estado_conservacion_eco','') or '-'}")
+                            c1.markdown(f"**Uso dominante:** {det.get('dt03_uso_dominante','') or '-'}")
+                            c2.markdown(f"**Cobertura total (%):** {det.get('dt03_cobertura_total','') or '-'}")
+                            c1.markdown(f"**Tipo cobertura dom.:** {det.get('dt03_tipo_cobertura_dom','') or '-'}")
+                            c2.markdown(f"**Regeneración:** {det.get('dt03_regeneracion_natural','') or '-'}")
+                            flora = _dt_load_json(det.get("dt03_floristica_json", ""), [])
+                            if flora:
+                                st.markdown(f"**Especies registradas:** {len(flora)}")
+                                st.dataframe(pd.DataFrame(flora), use_container_width=True, hide_index=True)
+                            esp = _dt_load_json(det.get("dt03_especies_clave_json", ""), [])
+                            if esp:
+                                st.markdown(f"**Especies clave/indicadoras:** {len(esp)}")
+                                st.dataframe(pd.DataFrame(esp), use_container_width=True, hide_index=True)
+                            if det.get("dt03_observaciones"):
+                                st.markdown(f"**Obs:** {det['dt03_observaciones']}")
 
                     if "F-DT-04" in fichas_str:
-                        with st.expander("F-DT-04: COBERTURA VEGETAL Y USO DEL SUELO", expanded=True):
+                        with st.expander("F-DT-04: Causas e indicadores de degradación", expanded=True):
+                            causas = _dt_load_json(det.get("dt04_causas_json", ""), [])
+                            if causas:
+                                st.markdown("**Matriz de causas**")
+                                st.dataframe(pd.DataFrame(causas), use_container_width=True, hide_index=True)
+                            inds = _dt_load_json(det.get("dt04_indicadores_json", ""), [])
+                            if inds:
+                                st.markdown("**Indicadores cuantitativos**")
+                                st.dataframe(pd.DataFrame(inds), use_container_width=True, hide_index=True)
                             c1, c2 = st.columns(2)
-                            c1.markdown(f"**Tipo cobertura:** {det.get('tipo_cobertura','') or '-'}")
-                            c2.markdown(f"**Densidad:** {det.get('densidad_cobertura','') or '-'}")
-                            c1.markdown(f"**Estado conservacion:** {det.get('estado_conservacion','') or '-'}")
-                            c2.markdown(f"**Uso actual:** {det.get('uso_actual_suelo','') or '-'}")
-                            st.markdown(f"**Estado de Uso del Suelo:** {det.get('conflicto_uso','') or '-'}")
+                            c1.markdown(f"**Causa subyacente:** {det.get('dt04_causa_subyacente','') or '-'}")
+                            c2.markdown(f"**Velocidad degradación:** {det.get('dt04_velocidad_degradacion','') or '-'}")
+                            c1.markdown(f"**Reversibilidad:** {det.get('dt04_reversibilidad','') or '-'}")
+                            c2.markdown(f"**Urgencia intervención:** {det.get('dt04_urgencia_intervencion','') or '-'}")
+                            if det.get("dt04_causas_directas_texto"):
+                                st.markdown(f"**Causas directas:** {det['dt04_causas_directas_texto']}")
+                            if det.get("dt04_observaciones"):
+                                st.markdown(f"**Obs:** {det['dt04_observaciones']}")
 
                     if "F-DT-05" in fichas_str:
-                        with st.expander("F-DT-05: RECURSOS HIDRICOS", expanded=True):
+                        with st.expander("F-DT-05: Recursos hídricos y accesibilidad", expanded=True):
+                            fts = _dt_load_json(det.get("dt05_fuentes_agua_json", ""), [])
+                            if fts:
+                                st.markdown(f"**Fuentes de agua registradas:** {len(fts)}")
+                                st.dataframe(pd.DataFrame(fts), use_container_width=True, hide_index=True)
                             c1, c2 = st.columns(2)
-                            c1.markdown(f"**Fuente de agua:** {det.get('fuente_agua','') or '-'}")
-                            c2.markdown(f"**Regimen hidrico:** {det.get('regimen_hidrico','') or '-'}")
-                            c1.markdown(f"**Calidad agua:** {det.get('calidad_agua','') or '-'}")
-                            c2.markdown(f"**Distancia:** {det.get('distancia_fuente_agua','') or '-'}")
-                            st.markdown(f"**Uso recurso hidrico:** {det.get('uso_recurso_hidrico','') or '-'}")
-
-                    if "F-DT-06" in fichas_str:
-                        with st.expander("F-DT-06: ASPECTOS SOCIOECONOMICOS", expanded=True):
-                            c1, c2 = st.columns(2)
-                            c1.markdown(f"**Tenencia tierra:** {det.get('tenencia_tierra','') or '-'}")
-                            c2.markdown(f"**Organizacion:** {det.get('organizacion_comunal','') or '-'}")
-                            c1.markdown(f"**Act. economica:** {det.get('actividad_economica','') or '-'}")
-                            c2.markdown(f"**Accesibilidad:** {det.get('accesibilidad_via','') or '-'}")
-                            c1.markdown(f"**Dist. centro poblado:** {det.get('distancia_centro_poblado','') or '-'}")
-                            c2.markdown(f"**Servicios basicos:** {det.get('servicios_basicos','') or '-'}")
+                            c1.markdown(f"**Zona de recarga:** {det.get('dt05_zona_recarga','') or '-'}")
+                            c2.markdown(f"**Humedad persistente:** {det.get('dt05_humedad_persistente','') or '-'}")
+                            c1.markdown(f"**Modalidad acceso:** {det.get('dt05_modalidad_acceso','') or '-'}")
+                            c2.markdown(f"**Vía principal:** {det.get('dt05_via_principal','') or '-'}")
+                            c1.markdown(f"**Transit. seca:** {det.get('dt05_transitabilidad_seca','') or '-'}")
+                            c2.markdown(f"**Transit. lluviosa:** {det.get('dt05_transitabilidad_lluviosa','') or '-'}")
+                            c1.markdown(f"**Señal celular:** {det.get('dt05_senal_celular','') or '-'}")
+                            c2.markdown(f"**Operador:** {det.get('dt05_operador_celular','') or '-'}")
+                            c1.markdown(f"**Requiere autoriz. Ronda:** {det.get('dt05_requiere_ronda','') or '-'}")
+                            c2.markdown(f"**Contacto Ronda:** {det.get('dt05_contacto_ronda','') or '-'}")
+                            if det.get("dt05_observaciones"):
+                                st.markdown(f"**Obs:** {det['dt05_observaciones']}")
 
                     if det.get("observaciones_generales"):
-                        st.markdown(f"**Observaciones:** {det['observaciones_generales']}")
+                        st.markdown(f"**Observaciones generales:** {det['observaciones_generales']}")
 
                     if st.button("Eliminar este diagnostico", key="dt_eliminar"):
                         db.eliminar_diagnostico(dm[sel_dt])
@@ -1893,20 +2449,16 @@ def pagina_diagnostico_territorial():
     # ══════════════════════════════════════════════════════════════════
     with tab_excel:
         st.markdown("### Importar Diagnostico Territorial desde Excel")
-        st.caption("Suba un archivo Excel llenado por el tecnico de campo para autocompletar "
-                   "los formularios. Puede descargar la plantilla estandarizada para su uso en campo.")
+        st.caption("Genere la plantilla V5 y suba el archivo llenado por el técnico.")
 
-        # ── Descargar plantilla ──────────────────────────────────────
         st.markdown("---")
-        st.markdown("**1. Descargar Plantilla para Tecnicos**")
+        st.markdown("**1. Descargar Plantilla V5 para Tecnicos**")
         col_dl1, col_dl2 = st.columns(2)
         fichas_descarga_dt = col_dl1.multiselect(
             "Fichas a incluir en la plantilla",
             FICHAS_DT, default=FICHAS_DT, key="dt_excel_fichas_dl")
-        if col_dl2.button("Generar Plantilla Excel", type="secondary", key="dt_gen_plantilla"):
+        if col_dl2.button("Generar Plantilla V5", type="secondary", key="dt_gen_plantilla"):
             if fichas_descarga_dt:
-                # Tupla (codigo, microcuenca, provincia, distrito, area_ha,
-                # utm_este, utm_norte, zona) para autocompletado V5 en el Excel.
                 bloques_data_dt = [
                     (b[1], b[2], b[4], b[5], b[3], b[8], b[9],
                      (b[11] if len(b) > 11 else ""))
@@ -1914,19 +2466,18 @@ def pagina_diagnostico_territorial():
                 ]
                 plantilla_bytes_dt = generar_plantilla_dt(fichas_descarga_dt, bloques_data_dt)
                 st.session_state["dt_plantilla_bytes"] = plantilla_bytes_dt
-                st.success("Plantilla generada correctamente.")
+                st.success("Plantilla V5 generada correctamente.")
 
         if st.session_state.get("dt_plantilla_bytes"):
             st.download_button(
-                "Descargar Plantilla Excel",
+                "Descargar Plantilla V5 (.xlsx)",
                 st.session_state["dt_plantilla_bytes"],
-                file_name="Plantilla_Diagnostico_Territorial_IN_Piura.xlsx",
+                file_name="Plantilla_DT_Campo_Check_Validada_V5.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 key="dt_dl_plantilla")
 
-        # ── Subir Excel llenado ──────────────────────────────────────
         st.markdown("---")
-        st.markdown("**2. Subir Excel Llenado por el Tecnico**")
+        st.markdown("**2. Subir Excel V5 Llenado**")
         st.info("Al cargar el archivo, el sistema leera los datos y autocompletara "
                 "el formulario en la pestana **Registro de Diagnostico**. Podra revisar "
                 "y ajustar antes de guardar.")
@@ -1939,160 +2490,35 @@ def pagina_diagnostico_territorial():
             try:
                 resultados_dt = parsear_excel_dt(uploaded_excel_dt)
                 if not resultados_dt:
-                    st.error("No se pudieron detectar fichas en el archivo. "
-                             "Verifique que el formato sea correcto.")
+                    st.error("No se pudieron detectar fichas V5 en el archivo.")
                 else:
                     st.success(f"Se detectaron {len(resultados_dt)} ficha(s) en el archivo.")
+                    fichas_detectadas = [r["ficha"] for r in resultados_dt]
+                    datos_todos = {}
+                    for r in resultados_dt:
+                        datos_todos.update(r["datos"])
 
-                    # Consolidar datos de todas las fichas para vista previa
-                    datos_consolidados = {}
-                    fichas_detectadas = []
-                    for res in resultados_dt:
-                        ficha_det = res["ficha"]
-                        datos_res = res["datos"]
-                        fichas_detectadas.append(ficha_det)
+                    with st.expander("Vista previa de datos detectados", expanded=True):
+                        c1, c2, c3 = st.columns(3)
+                        c1.markdown(f"**Fecha:** {datos_todos.get('fecha_evaluacion', '-')}")
+                        c2.markdown(f"**Evaluador:** {datos_todos.get('evaluador', '-')}")
+                        c3.markdown(f"**Bloque:** {datos_todos.get('codigo_bloque', '-')}")
+                        st.markdown(f"**Fichas detectadas:** {', '.join(fichas_detectadas)}")
+                        campos_pob = sum(1 for v in datos_todos.values() if v)
+                        st.markdown(f"**Campos con datos:** {campos_pob}")
 
-                        with st.expander(f"Vista previa: {ficha_det}", expanded=True):
-                            cols_prev = st.columns(4)
-                            cols_prev[0].markdown(f"**Fecha:** {datos_res.get('fecha', '-')}")
-                            cols_prev[1].markdown(f"**Evaluador:** {datos_res.get('evaluador', '-')}")
-                            cols_prev[2].markdown(f"**Bloque:** {datos_res.get('codigo_bloque', '-')}")
-                            cols_prev[3].markdown(f"**Microcuenca:** {datos_res.get('microcuenca', '-')}")
-
-                            # Mostrar parametros segun ficha
-                            campos_ficha = {k: v for k, v in datos_res.items()
-                                            if k not in ("fecha", "evaluador", "codigo_bloque",
-                                                         "microcuenca", "observaciones")
-                                            and v}
-                            if campos_ficha:
-                                st.markdown(f"**Parametros completados:** {len(campos_ficha)}")
-                                for k, v in campos_ficha.items():
-                                    label = k.replace("_", " ").title()
-                                    st.markdown(f"- **{label}:** {v}")
-
-                        datos_consolidados.update(datos_res)
-
-                    # Botones de accion
-                    col_ac1, col_ac2 = st.columns(2)
-
-                    if col_ac1.button(
-                        "Autocompletar formulario",
-                        type="primary", key="dt_autocompletar"):
-                        # Consolidar todos los datos de todas las fichas
-                        datos_todos = {}
-                        for res in resultados_dt:
-                            datos_todos.update(res["datos"])
-                        # Crear un objeto consolidado para mapear
-                        consolidado = {"ficha": ", ".join(fichas_detectadas), "datos": datos_todos}
-                        ss_vals = mapear_dt_a_session_state(consolidado, bm)
+                    if st.button("Autocompletar formulario", type="primary", key="dt_autocompletar"):
+                        ss_vals = mapear_dt_a_session_state(
+                            {"ficha": ", ".join(fichas_detectadas), "datos": datos_todos}, bm)
                         for k, v in ss_vals.items():
                             st.session_state[k] = v
                         st.session_state["dt_edit_id"] = None
-                        st.success(f"Formulario autocompletado con {len(fichas_detectadas)} ficha(s): "
-                                   f"{', '.join(fichas_detectadas)}. "
-                                   f"Cambie a la pestana **Registro de Diagnostico** para revisar y guardar.")
+                        st.success(
+                            f"Formulario autocompletado con {len(fichas_detectadas)} ficha(s). "
+                            "Cambie a la pestaña **Registro de Diagnostico** para revisar y guardar.")
                         st.rerun()
-
-                    if col_ac2.button(
-                        "Guardar directamente",
-                        type="secondary", key="dt_guardar_directo"):
-                        try:
-                            # Consolidar datos
-                            datos_todos = {}
-                            for res in resultados_dt:
-                                datos_todos.update(res["datos"])
-
-                            # Resolver bloque
-                            codigo_bloque = datos_todos.get("codigo_bloque", "")
-                            bid_excel = None
-                            for label, id_val in bm.items():
-                                if codigo_bloque and codigo_bloque in label:
-                                    bid_excel = id_val
-                                    break
-                            if not bid_excel:
-                                bid_excel = list(bm.values())[0]
-                                st.warning(f"Bloque '{codigo_bloque}' no encontrado. "
-                                           f"Se asigno al primer bloque disponible.")
-
-                            # Normalizar fecha
-                            fecha_str = str(datos_todos.get("fecha", ""))
-                            if not fecha_str:
-                                fecha_str = datetime.now().strftime("%Y-%m-%d")
-                            for fmt in ("%Y-%m-%d", "%d/%m/%Y", "%d-%m-%Y"):
-                                try:
-                                    fecha_str = datetime.strptime(
-                                        fecha_str.split(" ")[0], fmt).strftime("%Y-%m-%d")
-                                    break
-                                except (ValueError, TypeError):
-                                    continue
-
-                            # Servicios basicos
-                            serv_str = datos_todos.get("servicios_basicos", "")
-
-                            _dt_kwargs = dict(
-                                ficha=", ".join(fichas_detectadas),
-                                fecha_evaluacion=fecha_str,
-                                evaluador=datos_todos.get("evaluador", ""),
-                                microcuenca=datos_todos.get("microcuenca", ""),
-                                forma_terreno=datos_todos.get("forma_terreno", ""),
-                                pendiente=datos_todos.get("pendiente", ""),
-                                posicion_fisiografica=datos_todos.get("posicion_fisiografica", ""),
-                                exposicion_orientacion=datos_todos.get("exposicion_orientacion", ""),
-                                paisaje_dominante=datos_todos.get("paisaje_dominante", ""),
-                                rango_altitudinal=datos_todos.get("rango_altitudinal", ""),
-                                precipitacion_anual=datos_todos.get("precipitacion_anual", ""),
-                                temperatura_media=datos_todos.get("temperatura_media", ""),
-                                humedad_relativa=datos_todos.get("humedad_relativa", ""),
-                                zona_vida=datos_todos.get("zona_vida", ""),
-                                presencia_heladas=datos_todos.get("presencia_heladas", ""),
-                                regimen_vientos=datos_todos.get("regimen_vientos", ""),
-                                textura_suelo=datos_todos.get("textura_suelo", ""),
-                                color_suelo=datos_todos.get("color_suelo", ""),
-                                profundidad_efectiva=datos_todos.get("profundidad_efectiva", ""),
-                                pedregosidad=datos_todos.get("pedregosidad", ""),
-                                drenaje=datos_todos.get("drenaje", ""),
-                                presencia_erosion=datos_todos.get("presencia_erosion", ""),
-                                materia_organica=datos_todos.get("materia_organica", ""),
-                                tipo_cobertura=datos_todos.get("tipo_cobertura", ""),
-                                densidad_cobertura=datos_todos.get("densidad_cobertura", ""),
-                                estado_conservacion=datos_todos.get("estado_conservacion", ""),
-                                uso_actual_suelo=datos_todos.get("uso_actual_suelo", ""),
-                                conflicto_uso=datos_todos.get("conflicto_uso", ""),
-                                fuente_agua=datos_todos.get("fuente_agua", ""),
-                                regimen_hidrico=datos_todos.get("regimen_hidrico", ""),
-                                calidad_agua=datos_todos.get("calidad_agua", ""),
-                                distancia_fuente_agua=datos_todos.get("distancia_fuente_agua", ""),
-                                uso_recurso_hidrico=datos_todos.get("uso_recurso_hidrico", ""),
-                                tenencia_tierra=datos_todos.get("tenencia_tierra", ""),
-                                organizacion_comunal=datos_todos.get("organizacion_comunal", ""),
-                                actividad_economica=datos_todos.get("actividad_economica", ""),
-                                accesibilidad_via=datos_todos.get("accesibilidad_via", ""),
-                                distancia_centro_poblado=datos_todos.get("distancia_centro_poblado", ""),
-                                servicios_basicos=serv_str,
-                                observaciones_generales=datos_todos.get("observaciones", ""),
-                            )
-
-                            db.insertar_diagnostico_territorial(bloque_id=bid_excel, **_dt_kwargs)
-                            _invalidar_cache()
-                            st.success(f"Diagnostico territorial guardado directamente "
-                                       f"({', '.join(fichas_detectadas)}).")
-                            st.rerun()
-                        except Exception as e:
-                            st.error(f"Error al guardar: {e}")
-
             except Exception as e:
                 st.error(f"Error al leer el archivo Excel: {e}")
-
-        # ── Importacion masiva ───────────────────────────────────────
-        st.markdown("---")
-        st.markdown("**3. Importacion Masiva (multiples fichas)**")
-        st.caption("Si el archivo Excel contiene multiples hojas (una por ficha), "
-                   "puede importar todas a la vez usando el boton de arriba. "
-                   "Cada hoja sera detectada automaticamente.")
-        st.caption("Tambien puede subir la plantilla original "
-                   "(`Formatos_Diagnostico_Territorial_IN_Piura_2026.xlsx`) "
-                   "llenada por el tecnico.")
-
 
 # ══════════════════════════════════════════════════════════════════════════
 # DIAGNOSTICO SOCIAL
