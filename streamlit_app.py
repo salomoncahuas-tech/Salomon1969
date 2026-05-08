@@ -156,150 +156,159 @@ MICROCUENCAS = [
     "C1096-Q9564","C1107-Q9539","C1107-Q9541","C1108-Q9552",
 ]
 
-# ── Datos de Origen: 128 Bloques de Intervencion V4 ──────────────────
-# Fuente: REPORTE BLOQUES V4 PARA APLICATIVO.xlsx
-# Cada entrada: (N, Bloque, Microcuenca, Area_ha, Provincia, Distrito, Accesibilidad, Dia, UTM_Este, UTM_Norte, MSAVI_2024)
-BLOQUES_128 = [
-    # (n, codigo, microcuenca, area_ha, provincia, distrito, accesibilidad, dia_eval, utm_este, utm_norte, msavi_2024)
-    (1, "1", "C1076-Q9584", 1371.335, "Morropon", "Salitral", 0, 0, 645575, 9393500, 0.454493),
-    (2, "2", "C1096-Q9558", 330.776, "Morropon", "Chulucanas", 0, 0, 603653, 9439351, 0.358601),
-    (3, "3", "C1096-Q9545", 459.532, "Ayabaca", "Frias", 0, 0, 606816, 9458469, 0.567707),
-    (4, "4", "C1076-Q9588", 230.143, "Huancabamba", "Huarmaca", 0, 0, 656549, 9382009, 0.660111),
-    (5, "5", "C1077-Q9566", 295.861, "Morropon", "Buenos Aires", 0, 0, 617860, 9413182, 0.3394),
-    (6, "6", "C1096-Q9547", 168.499, "Ayabaca", "Frias", 0, 0, 605636, 9455269, 0.538144),
-    (7, "7", "C1076-Q9584", 173.482, "Morropon", "Salitral", 0, 0, 639728, 9396836, 0.375288),
-    (8, "8", "C1076-Q9593", 126.981, "Huancabamba", "Huarmaca", 0, 0, 651673, 9373383, 0.554802),
-    (9, "9", "C1076-Q9586", 109.882, "Huancabamba", "San Miguel de El Faique", 0, 0, 656578, 9397762, 0.574527),
-    (10, "10", "C1076-Q9593", 150.25, "Huancabamba", "Huarmaca", 0, 0, 650830, 9382303, 0.546492),
-    (11, "11", "C1086-Q9570", 103.993, "Morropon", "Santo Domingo", 0, 0, 620759, 9439988, 0.604743),
-    (12, "12", "C1086-Q9570", 119.587, "Morropon", "Santo Domingo", 0, 0, 625419, 9444932, 0.706689),
-    (13, "13", "C1096-Q9564", 100.558, "Morropon", "Santo Domingo", 0, 0, 620263, 9442343, 0.671094),
-    (14, "14", "C1086-Q9570", 92.944, "Morropon", "Santa Catalina de Mossa", 0, 0, 624397, 9437085, 0.51974),
-    (15, "15", "C1086-Q9570", 86.185, "Morropon", "Santo Domingo", 0, 0, 620200, 9437862, 0.560518),
-    (16, "16", "C1076-Q9593", 83.346, "Huancabamba", "Huarmaca", 0, 0, 652939, 9382105, 0.628423),
-    (17, "17", "C1086-Q9570", 96.123, "Morropon", "Santo Domingo", 0, 0, 618661, 9438267, 0.647895),
-    (18, "18", "C1076-Q9592", 103.637, "Huancabamba", "Huarmaca", 0, 0, 656445, 9393180, 0.640219),
-    (19, "19", "C1076-Q9592", 82.098, "Huancabamba", "Huarmaca", 0, 0, 665942, 9391144, 0.537184),
-    (20, "20", "C1076-Q9593", 81.354, "Huancabamba", "Huarmaca", 0, 0, 649847, 9376260, 0.48513),
-    (21, "21", "C1081-Q9591", 84.244, "Huancabamba", "Canchaque", 0, 0, 654604, 9417736, 0.620078),
-    (22, "22", "C1096-Q9556", 79.374, "Morropon", "Chulucanas", 0, 0, 601122, 9443651, 0.42317),
-    (23, "23", "C1086-Q9570", 81.812, "Morropon", "Santo Domingo", 0, 0, 619939, 9438544, 0.573141),
-    (24, "24", "C1081-Q9583", 90.18, "Huancabamba", "Canchaque", 0, 0, 652191, 9414358, 0.674839),
-    (25, "25", "C1096-Q9547", 53.515, "Morropon", "Chulucanas", 0, 0, 596578, 9442453, 0.256543),
-    (26, "26", "C1081-Q9591", 46.973, "Huancabamba", "Lalaquiz", 0, 0, 649472, 9425705, 0.673303),
-    (27, "27", "C1096-Q9556", 78.192, "Ayabaca", "Frias", 0, 0, 613302, 9450231, 0.53228),
-    (28, "28", "C1081-Q9591", 52.977, "Huancabamba", "Canchaque", 0, 0, 654188, 9422849, 0.639425),
-    (29, "29", "C1076-Q9592", 40.11, "Huancabamba", "Huarmaca", 0, 0, 662123, 9397575, 0.548192),
-    (30, "30", "C1081-Q9591", 34.882, "Huancabamba", "Canchaque", 0, 0, 652758, 9424380, 0.663804),
-    (31, "31", "C1076-Q9592", 47.588, "Huancabamba", "Huarmaca", 0, 0, 663334, 9392820, 0.435805),
-    (32, "32", "C1096-Q9556", 35.85, "Morropon", "Chulucanas", 0, 0, 599927, 9442604, 0.371619),
-    (33, "33", "C1081-Q9590", 29.689, "Huancabamba", "Lalaquiz", 0, 0, 646466, 9431126, 0.71923),
-    (34, "34", "C1081-Q9590", 28.458, "Huancabamba", "Lalaquiz", 0, 0, 646483, 9426305, 0.648975),
-    (35, "35", "C1076-Q9586", 30.811, "Huancabamba", "San Miguel de El Faique", 0, 0, 654607, 9395038, 0.624477),
-    (36, "36", "C1096-Q9547", 24.856, "Ayabaca", "Frias", 0, 0, 606468, 9454689, 0.539458),
-    (37, "37", "C1081-Q9591", 35.5, "Huancabamba", "Lalaquiz", 0, 0, 649081, 9424506, 0.658846),
-    (38, "38", "C1081-Q9590", 44.212, "Huancabamba", "Lalaquiz", 0, 0, 647123, 9427602, 0.672487),
-    (39, "39", "C1096-Q9564", 68.6, "Ayabaca", "Frias", 0, 0, 618523, 9448918, 0.701601),
-    (40, "40", "C1081-Q9591", 28.529, "Huancabamba", "Canchaque", 0, 0, 654137, 9424425, 0.640099),
-    (41, "41", "C1076-Q9592", 64.933, "Huancabamba", "Huarmaca", 0, 0, 660525, 9394327, 0.592669),
-    (42, "42", "C1086-Q9570", 80.649, "Morropon", "Santa Catalina de Mossa", 0, 0, 625152, 9435011, 0.634841),
-    (43, "43", "C1076-Q9586", 23.176, "Huancabamba", "San Miguel de El Faique", 0, 0, 656489, 9395403, 0.551525),
-    (44, "44", "C1076-Q9586", 28.238, "Huancabamba", "San Miguel de El Faique", 0, 0, 663637, 9400618, 0.511324),
-    (45, "45", "C1076-Q9592", 17.626, "Huancabamba", "Huarmaca", 0, 0, 663317, 9392479, 0.445813),
-    (46, "46", "C1086-Q9575", 18.872, "Morropon", "Yamango", 0, 0, 638751, 9433236, 0.724382),
-    (47, "47", "C1076-Q9586", 13.554, "Huancabamba", "San Miguel de El Faique", 0, 0, 659649, 9401436, 0.593628),
-    (48, "48", "C1086-Q9575", 5.755, "Morropon", "Yamango", 0, 0, 639496, 9433679, 0.697809),
-    (49, "49", "C1086-Q9575", 15.844, "Morropon", "Yamango", 0, 0, 642334, 9438263, 0.686036),
-    (50, "50", "C1081-Q9590", 19.272, "Huancabamba", "Lalaquiz", 0, 0, 647350, 9427252, 0.68307),
-    (51, "51", "C1076-Q9593", 22.932, "Huancabamba", "Huarmaca", 0, 0, 656291, 9379096, 0.523788),
-    (52, "52", "C1086-Q9575", 11.063, "Morropon", "Yamango", 0, 0, 641522, 9438064, 0.66855),
-    (53, "53", "C1076-Q9592", 13.066, "Huancabamba", "Huarmaca", 0, 0, 666537, 9395918, 0.596277),
-    (54, "54", "C1081-Q9591", 40.27, "Huancabamba", "Huancabamba", 0, 0, 656897, 9426033, 0.600447),
-    (55, "55", "C1086-Q9575", 0.859, "Morropon", "Yamango", 0, 0, 642690, 9438409, 0.630032),
-    (56, "56", "C1096-Q9564", 77.699, "Ayabaca", "Frias", 0, 0, 621613, 9452884, 0.677658),
-    (57, "57", "C1086-Q9576", 25.677, "Morropon", "Chalaco", 0, 0, 631723, 9439702, 0.603055),
-    (58, "58", "C1086-Q9569", 11.48, "Morropon", "Santa Catalina de Mossa", 0, 0, 619094, 9426406, 0.420325),
-    (59, "59", "C1086-Q9570", 13.559, "Morropon", "Chalaco", 0, 0, 631195, 9441777, 0.614739),
-    (60, "60", "C1081-Q9591", 40.14, "Huancabamba", "Canchaque", 0, 0, 653850, 9426236, 0.67447),
-    (61, "61", "C1081-Q9590", 26.833, "Huancabamba", "Lalaquiz", 0, 0, 646236, 9425052, 0.611186),
-    (62, "62", "C1081-Q9591", 73.837, "Huancabamba", "Canchaque", 0, 0, 655046, 9420450, 0.681648),
-    (63, "63", "C1081-Q9583", 50.469, "Huancabamba", "Canchaque", 0, 0, 655059, 9413845, 0.603582),
-    (64, "64", "C1081-Q9591", 35.78, "Huancabamba", "Huancabamba", 0, 0, 657819, 9428541, 0.525448),
-    (65, "65", "C1081-Q9591", 53.944, "Huancabamba", "Canchaque", 0, 0, 657541, 9421083, 0.649297),
-    (66, "66", "C1081-Q9591", 102.358, "Huancabamba", "Canchaque", 0, 0, 652566, 9417311, 0.640254),
-    (67, "67", "C1076-Q9586", 13.187, "Huancabamba", "San Miguel de El Faique", 0, 0, 654207, 9394210, 0.605293),
-    (68, "68", "C1076-Q9592", 21.294, "Huancabamba", "Huarmaca", 0, 0, 664225, 9396339, 0.482981),
-    (69, "69", "C1076-Q9592", 19.428, "Huancabamba", "Huarmaca", 0, 0, 663291, 9392332, 0.448926),
-    (70, "70", "C1076-Q9592", 22.39, "Huancabamba", "Huarmaca", 0, 0, 666781, 9395573, 0.622295),
-    (71, "71", "C1076-Q9593", 10.676, "Huancabamba", "Huarmaca", 0, 0, 652104, 9373045, 0.557066),
-    (72, "72", "C1076-Q9592", 12.4, "Huancabamba", "Huarmaca", 0, 0, 662236, 9391211, 0.518477),
-    (73, "73", "C1076-Q9592", 54.3, "Huancabamba", "Huarmaca", 0, 0, 658547, 9395594, 0.554974),
-    (74, "74", "C1076-Q9588", 29.233, "Huancabamba", "Huarmaca", 0, 0, 652449, 9389179, 0.356463),
-    (75, "75", "C1076-Q9587", 15.179, "Huancabamba", "San Miguel de El Faique", 0, 0, 657722, 9401669, 0.630888),
-    (76, "76", "C1076-Q9593", 19.619, "Huancabamba", "Huarmaca", 0, 0, 657922, 9377477, 0.492462),
-    (77, "77", "C1081-Q9583", 17.827, "Morropon", "San Juan de Bigote", 0, 0, 638648, 9411370, 0.272488),
-    (78, "78", "C1086-Q9570", 35.116, "Morropon", "Santo Domingo", 0, 0, 619630, 9440043, 0.707402),
-    (79, "79", "C1076-Q9587", 94.834, "Huancabamba", "Canchaque", 0, 0, 650305, 9402785, 0.547879),
-    (80, "80", "C1076-Q9593", 28.835, "Huancabamba", "Huarmaca", 0, 0, 657160, 9373050, 0.593069),
-    (81, "81", "C1076-Q9585", 8.931, "Huancabamba", "Canchaque", 0, 0, 641538, 9401360, 0.274714),
-    (82, "82", "C1086-Q9570", 35.677, "Morropon", "Santo Domingo", 0, 0, 621452, 9443855, 0.62835),
-    (83, "M1B1", "C1077-Q9580", 188.883, "Morropon", "Buenos Aires", 0, 0, 617695, 9409136, 0.319305),
-    (84, "M2B1", "C1076-Q9584", 81.823, "Morropon", "Salitral", 0, 0, 635876, 9397941, 0.29836),
-    (85, "M2B5", "C1076-Q9584", 30.918, "Morropon", "Salitral", 0, 0, 639987, 9394392, 0.304733),
-    (86, "M2B8", "C1076-Q9584", 116.136, "Huancabamba", "San Miguel de El Faique", 0, 0, 639059, 9398295, 0.375171),
-    (87, "M3B1", "C1081-Q9582", 81.014, "Morropon", "Salitral", 0, 0, 630685, 9410800, 0.323882),
-    (88, "M3B3", "C1081-Q9582", 84.855, "Morropon", "San Juan de Bigote", 0, 0, 633015, 9411483, 0.298483),
-    (89, "M3B5", "C1081-Q9582", 52.761, "Morropon", "San Juan de Bigote", 0, 0, 635887, 9411738, 0.283016),
-    (90, "M3B6", "C1081-Q9582", 60.372, "Morropon", "San Juan de Bigote", 0, 0, 637918, 9412134, 0.342535),
-    (91, "M3B7", "C1081-Q9582", 122.987, "Morropon", "San Juan de Bigote", 0, 0, 638309, 9415217, 0.370678),
-    (92, "M3B8", "C1081-Q9582", 565.792, "Morropon", "San Juan de Bigote", 0, 0, 632119, 9415141, 0.293351),
-    (93, "M3B9", "C1081-Q9582", 294.318, "Morropon", "Salitral", 0, 0, 629338, 9413305, 0.321386),
-    (94, "M4B3", "C1076-Q9589", 234.137, "Huancabamba", "Huarmaca", 0, 0, 643474, 9385620, 0.322153),
-    (95, "M4B4", "C1076-Q9589", 290.0, "Huancabamba", "Huarmaca", 0, 0, 642775, 9388574, 0.319788),
-    (96, "M6B2-1", "C1077-Q9566", 514.608, "Morropon", "Buenos Aires", 0, 0, 612864, 9413345, 0.3381),
-    (97, "M6B2-2", "C1077-Q9566", 333.176, "Morropon", "Buenos Aires", 0, 0, 611196, 9416725, 0.302636),
-    (98, "M6B2-3", "C1077-Q9566", 161.058, "Morropon", "Buenos Aires", 0, 0, 611305, 9419274, 0.406259),
-    (99, "M6B10", "C1077-Q9566", 250.004, "Morropon", "Buenos Aires", 0, 0, 618299, 9423119, 0.30989),
-    (100, "M7B1", "C1076-Q9581", 130.475, "Morropon", "Salitral", 0, 0, 629006, 9407536, 0.313647),
-    (101, "M7B2", "C1076-Q9581", 115.422, "Morropon", "Salitral", 0, 0, 631438, 9403547, 0.287689),
-    (102, "M7B3", "C1076-Q9581", 65.768, "Morropon", "Salitral", 0, 0, 633232, 9401227, 0.298017),
-    (103, "M7B6", "C1076-Q9581", 91.317, "Morropon", "Salitral", 0, 0, 635110, 9399092, 0.287833),
-    (104, "M8B2", "C1096-Q9558", 35.363, "Morropon", "Santo Domingo", 0, 0, 617596, 9436227, 0.530453),
-    (105, "M9B1", "C1096-Q9545", 355.568, "Morropon", "Chulucanas", 0, 0, 595552, 9451222, 0.314312),
-    (106, "M10B4", "C1096-Q9547", 68.926, "Morropon", "Chulucanas", 0, 0, 596773, 9448273, 0.313301),
-    (107, "M11B3", "C1081-Q9583", 106.059, "Morropon", "San Juan de Bigote", 0, 0, 642079, 9413823, 0.395609),
-    (108, "M12B1", "C1076-Q9588", 268.469, "Huancabamba", "Huarmaca", 0, 0, 644546, 9389106, 0.34753),
-    (109, "M17B1", "C1096-Q9556", 42.472, "Morropon", "Chulucanas", 0, 0, 600644, 9440436, 0.332263),
-    (110, "M17B4", "C1096-Q9556", 124.775, "Morropon", "Chulucanas", 0, 0, 604926, 9444327, 0.423543),
-    (111, "M17B5", "C1096-Q9556", 74.065, "Ayabaca", "Frias", 0, 0, 608800, 9445585, 0.54817),
-    (112, "M17B6", "C1096-Q9556", 106.593, "Ayabaca", "Frias", 0, 0, 607036, 9446211, 0.446441),
-    (113, "M17B7", "C1096-Q9556", 258.969, "Ayabaca", "Frias", 0, 0, 608472, 9448056, 0.508715),
-    (114, "M17B10", "C1096-Q9556", 75.403, "Ayabaca", "Frias", 0, 0, 606173, 9447361, 0.472466),
-    (115, "M18B1", "C1077-Q9579", 160.43, "Morropon", "Buenos Aires", 0, 0, 621058, 9410427, 0.334299),
-    (116, "M18B3", "C1077-Q9579", 373.96, "Morropon", "Salitral", 0, 0, 625311, 9412195, 0.369424),
-    (117, "M18B5", "C1077-Q9579", 197.437, "Morropon", "Salitral", 0, 0, 621551, 9412989, 0.356522),
-    (118, "M19B2", "C1086-Q9570", 74.406, "Morropon", "Morropon", 0, 0, 617715, 9427284, 0.401185),
-    (119, "M19B7", "C1086-Q9570", 34.186, "Morropon", "Santo Domingo", 0, 0, 620770, 9436562, 0.591921),
-    (120, "M20B1", "C1076-Q9585", 279.766, "Huancabamba", "San Miguel de El Faique", 0, 0, 641196, 9398710, 0.355329),
-    (121, "M22B1", "C1076-Q9586", 55.177, "Huancabamba", "San Miguel de El Faique", 0, 0, 664082, 9404172, 0.594025),
-    (122, "M27B1", "C1096-Q9557", 449.066, "Morropon", "Chulucanas", 0, 0, 593246, 9430139, 0.363228),
-    (123, "M28B2", "C1086-Q9575", 90.228, "Morropon", "Yamango", 0, 0, 636249, 9425665, 0.475342),
-    (124, "M28B3", "C1086-Q9575", 58.312, "Morropon", "Yamango", 0, 0, 634061, 9426778, 0.507529),
-    (125, "M28B4", "C1086-Q9575", 283.543, "Morropon", "Yamango", 0, 0, 626078, 9427110, 0.42751),
-    (126, "M30B5", "C1081-Q9591", 90.922, "Huancabamba", "Huancabamba", 0, 0, 655263, 9427340, 0.5564),
-    (127, "M32B3", "C1086-Q9569", 50.996, "Morropon", "Morropon", 0, 0, 618248, 9426493, 0.385213),
-    (128, "M36B2", "C1086-Q9576", 28.202, "Morropon", "Santa Catalina de Mossa", 0, 0, 626438, 9435060, 0.597433),
+# ── Datos de Origen: 127 Bloques de Intervencion V5 ──────────────────
+# Fuente: Plantilla_DT_Campo_Check_Validada_V5.xlsx (hoja 'Bloques V4')
+# Cada entrada: (N, Bloque, Microcuenca, Area_ha, Provincia, Distrito,
+#                Accesibilidad, Dia, UTM_Este, UTM_Norte, MSAVI_2024, Zona)
+BLOQUES_V5 = [
+    # (n, codigo, microcuenca, area_ha, provincia, distrito, accesibilidad, dia_eval, utm_este, utm_norte, msavi_2024, zona)
+    (1, "M9B1", "C1096-Q9545", 355.36, "Morropon", "Chulucanas", 0, 0, 595552, 9451222, 0.314312, "Z01"),
+    (2, "M10B4", "C1096-Q9547", 68.89, "Morropon", "Chulucanas", 0, 0, 596773, 9448273, 0.313301, "Z01"),
+    (3, "25", "C1096-Q9547", 53.48, "Morropon", "Chulucanas", 0, 0, 596578, 9442453, 0.256543, "Z01"),
+    (4, "32", "C1096-Q9556", 35.83, "Morropon", "Chulucanas", 0, 0, 599927, 9442604, 0.371619, "Z01"),
+    (5, "22", "C1096-Q9556", 79.33, "Morropon", "Chulucanas", 0, 0, 601122, 9443651, 0.42317, "Z01"),
+    (6, "M17B1", "C1096-Q9556", 42.45, "Morropon", "Chulucanas", 0, 0, 600644, 9440436, 0.332263, "Z01"),
+    (7, "2", "C1096-Q9558", 330.6, "Morropon", "Chulucanas", 0, 0, 603653, 9439351, 0.358601, "Z01"),
+    (8, "M17B4", "C1096-Q9556", 124.71, "Morropon", "Chulucanas", 0, 0, 604926, 9444327, 0.423543, "Z01"),
+    (9, "M27B1", "C1096-Q9557", 448.8, "Morropon", "Chulucanas", 0, 0, 593246, 9430139, 0.363228, "Z01"),
+    (10, "3", "C1096-Q9545", 459.29, "Ayabaca", "Frias", 0, 0, 606816, 9458469, 0.567707, "Z02"),
+    (11, "6", "C1096-Q9547", 168.41, "Ayabaca", "Frias", 0, 0, 605636, 9455269, 0.538144, "Z02"),
+    (12, "36", "C1096-Q9547", 24.84, "Ayabaca", "Frias", 0, 0, 606468, 9454689, 0.539458, "Z02"),
+    (13, "M17B7", "C1096-Q9556", 258.84, "Ayabaca", "Frias", 0, 0, 608472, 9448056, 0.508715, "Z02"),
+    (14, "M17B6", "C1096-Q9556", 106.54, "Ayabaca", "Frias", 0, 0, 607036, 9446211, 0.446441, "Z02"),
+    (15, "M17B10", "C1096-Q9556", 75.36, "Ayabaca", "Frias", 0, 0, 606173, 9447361, 0.472466, "Z02"),
+    (16, "M17B5", "C1096-Q9556", 74.03, "Ayabaca", "Frias", 0, 0, 608800, 9445585, 0.54817, "Z02"),
+    (17, "27", "C1096-Q9556", 78.15, "Ayabaca", "Frias", 0, 0, 613302, 9450231, 0.53228, "Z02"),
+    (18, "39", "C1096-Q9564", 68.57, "Ayabaca", "Frias", 0, 0, 618523, 9448918, 0.701601, "Z02"),
+    (19, "56", "C1096-Q9564", 77.67, "Ayabaca", "Frias", 0, 0, 631723, 9439702, 0.677658, "Z02"),
+    (20, "12", "C1086-Q9570", 119.54, "Morropon", "Santo Domingo", 0, 0, 625419, 9444932, 0.706689, "Z03"),
+    (21, "82", "C1086-Q9570", 35.66, "Morropon", "Santo Domingo", 0, 0, 621452, 9443855, 0.62835, "Z03"),
+    (22, "13", "C1096-Q9564", 100.51, "Morropon", "Santo Domingo", 0, 0, 620263, 9442343, 0.671094, "Z03"),
+    (23, "78", "C1086-Q9570", 35.1, "Morropon", "Santo Domingo", 0, 0, 619630, 9440043, 0.707402, "Z03"),
+    (24, "11", "C1086-Q9570", 103.95, "Morropon", "Santo Domingo", 0, 0, 620759, 9439988, 0.604743, "Z03"),
+    (25, "23", "C1086-Q9570", 81.78, "Morropon", "Santo Domingo", 0, 0, 619939, 9438544, 0.573141, "Z03"),
+    (26, "15", "C1086-Q9570", 86.15, "Morropon", "Santo Domingo", 0, 0, 620200, 9437862, 0.560518, "Z03"),
+    (27, "M19B7", "C1086-Q9570", 34.17, "Morropon", "Santo Domingo", 0, 0, 620770, 9436562, 0.591921, "Z03"),
+    (28, "17", "C1086-Q9570", 96.08, "Morropon", "Santo Domingo", 0, 0, 618661, 9438267, 0.647895, "Z03"),
+    (29, "M8B2", "C1096-Q9558", 35.35, "Morropon", "Santo Domingo", 0, 0, 617596, 9436227, 0.530453, "Z03"),
+    (30, "57", "C1086-Q9576", 25.67, "Morropon", "Chalaco", 0, 0, 631195, 9441777, 0.603055, "Z04"),
+    (31, "59", "C1086-Q9570", 13.55, "Morropon", "Chalaco", 0, 0, 631195, 9441777, 0.614739, "Z04"),
+    (32, "M36B2", "C1086-Q9576", 28.19, "Morropon", "Santa Catalina de Mossa", 0, 0, 626438, 9435060, 0.597433, "Z04"),
+    (33, "42", "C1086-Q9570", 80.62, "Morropon", "Santa Catalina de Mossa", 0, 0, 625152, 9435011, 0.634841, "Z04"),
+    (34, "14", "C1086-Q9570", 92.9, "Morropon", "Santa Catalina de Mossa", 0, 0, 624397, 9437085, 0.51974, "Z04"),
+    (35, "58", "C1086-Q9569", 11.47, "Morropon", "Santa Catalina de Mossa", 0, 0, 619094, 9426406, 0.420325, "Z04"),
+    (36, "M19B2", "C1086-Q9570", 74.37, "Morropon", "Morropon", 0, 0, 617715, 9427284, 0.401185, "Z05"),
+    (37, "M32B3", "C1086-Q9569", 50.97, "Morropon", "Morropon", 0, 0, 618248, 9426493, 0.385213, "Z05"),
+    (38, "M6B10", "C1077-Q9566", 249.89, "Morropon", "Buenos Aires", 0, 0, 618299, 9423119, 0.30989, "Z06"),
+    (39, "M6B2-3", "C1077-Q9566", 160.98, "Morropon", "Buenos Aires", 0, 0, 611305, 9419274, 0.406259, "Z06"),
+    (40, "M6B2-2", "C1077-Q9566", 333.01, "Morropon", "Buenos Aires", 0, 0, 611196, 9416725, 0.302636, "Z06"),
+    (41, "M6B2-1", "C1077-Q9566", 514.36, "Morropon", "Buenos Aires", 0, 0, 612864, 9413345, 0.3381, "Z06"),
+    (42, "5", "C1077-Q9566", 295.73, "Morropon", "Buenos Aires", 0, 0, 617860, 9413182, 0.3394, "Z06"),
+    (43, "M1B1", "C1077-Q9580", 188.8, "Morropon", "Buenos Aires", 0, 0, 617695, 9409136, 0.319305, "Z06"),
+    (44, "M18B1", "C1077-Q9579", 160.36, "Morropon", "Buenos Aires", 0, 0, 621058, 9410427, 0.334299, "Z06"),
+    (45, "M3B9", "C1081-Q9582", 294.2, "Morropon", "Salitral", 0, 0, 629338, 9413305, 0.321386, "Z07"),
+    (46, "M3B1", "C1081-Q9582", 80.98, "Morropon", "Salitral", 0, 0, 630685, 9410800, 0.323882, "Z07"),
+    (47, "M7B1", "C1076-Q9581", 130.43, "Morropon", "Salitral", 0, 0, 629006, 9407536, 0.313647, "Z07"),
+    (48, "M7B2", "C1076-Q9581", 115.38, "Morropon", "Salitral", 0, 0, 631438, 9403547, 0.287689, "Z07"),
+    (49, "M7B3", "C1076-Q9581", 65.74, "Morropon", "Salitral", 0, 0, 633232, 9401227, 0.298017, "Z07"),
+    (50, "M7B6", "C1076-Q9581", 91.29, "Morropon", "Salitral", 0, 0, 635110, 9399092, 0.287833, "Z07"),
+    (51, "M2B1", "C1076-Q9584", 81.79, "Morropon", "Salitral", 0, 0, 635876, 9397941, 0.29836, "Z07"),
+    (52, "7", "C1076-Q9584", 173.43, "Morropon", "Salitral", 0, 0, 639728, 9396836, 0.375288, "Z07"),
+    (53, "M2B5", "C1076-Q9584", 30.91, "Morropon", "Salitral", 0, 0, 639987, 9394392, 0.304733, "Z07"),
+    (54, "1", "C1076-Q9584", 1370.96, "Morropon", "Salitral", 0, 0, 645575, 9393500, 0.454493, "Z07"),
+    (55, "M18B3", "C1077-Q9579", 373.81, "Morropon", "Salitral", 0, 0, 625311, 9412195, 0.369424, "Z07"),
+    (56, "M18B5", "C1077-Q9579", 197.35, "Morropon", "Salitral", 0, 0, 621551, 9412989, 0.356522, "Z07"),
+    (57, "M3B7", "C1081-Q9582", 122.95, "Morropon", "San Juan de Bigote", 0, 0, 638309, 9415217, 0.370678, "Z08"),
+    (58, "M3B6", "C1081-Q9582", 60.35, "Morropon", "San Juan de Bigote", 0, 0, 637918, 9412134, 0.342535, "Z08"),
+    (59, "77", "C1081-Q9583", 17.82, "Morropon", "San Juan de Bigote", 0, 0, 638648, 9411370, 0.272488, "Z08"),
+    (60, "M3B5", "C1081-Q9582", 52.74, "Morropon", "San Juan de Bigote", 0, 0, 635887, 9411738, 0.283016, "Z08"),
+    (61, "M3B3", "C1081-Q9582", 84.82, "Morropon", "San Juan de Bigote", 0, 0, 633015, 9411483, 0.298483, "Z08"),
+    (62, "M3B8", "C1081-Q9582", 565.58, "Morropon", "San Juan de Bigote", 0, 0, 632119, 9415141, 0.293351, "Z08"),
+    (63, "M11B3", "C1081-Q9583", 106.03, "Morropon", "San Juan de Bigote", 0, 0, 642079, 9413823, 0.395609, "Z08"),
+    (64, "55", "C1086-Q9575", 0.86, "Morropon", "Yamango", 0, 0, 642690, 9438409, 0.630032, "Z09"),
+    (65, "49", "C1086-Q9575", 15.84, "Morropon", "Yamango", 0, 0, 642334, 9438263, 0.686036, "Z09"),
+    (66, "52", "C1086-Q9575", 11.06, "Morropon", "Yamango", 0, 0, 641522, 9438064, 0.66855, "Z09"),
+    (67, "48", "C1086-Q9575", 5.75, "Morropon", "Yamango", 0, 0, 639496, 9433679, 0.697809, "Z09"),
+    (68, "46", "C1086-Q9575", 18.87, "Morropon", "Yamango", 0, 0, 638751, 9433236, 0.724382, "Z09"),
+    (69, "M28B2", "C1086-Q9575", 90.2, "Morropon", "Yamango", 0, 0, 636249, 9425665, 0.475342, "Z09"),
+    (70, "M28B3", "C1086-Q9575", 58.29, "Morropon", "Yamango", 0, 0, 634061, 9426778, 0.507529, "Z09"),
+    (71, "M28B4", "C1086-Q9575", 283.43, "Morropon", "Yamango", 0, 0, 626078, 9427110, 0.42751, "Z09"),
+    (72, "33", "C1081-Q9590", 29.68, "Huancabamba", "Lalaquiz", 0, 0, 646466, 9431126, 0.71923, "Z10"),
+    (73, "38", "C1081-Q9590", 44.2, "Huancabamba", "Lalaquiz", 0, 0, 647123, 9427602, 0.672487, "Z10"),
+    (74, "50", "C1081-Q9590", 19.27, "Huancabamba", "Lalaquiz", 0, 0, 647350, 9427252, 0.68307, "Z10"),
+    (75, "34", "C1081-Q9590", 28.45, "Huancabamba", "Lalaquiz", 0, 0, 646483, 9426305, 0.648975, "Z10"),
+    (76, "61", "C1081-Q9590", 26.83, "Huancabamba", "Lalaquiz", 0, 0, 646236, 9425052, 0.611186, "Z10"),
+    (77, "37", "C1081-Q9591", 35.49, "Huancabamba", "Lalaquiz", 0, 0, 649081, 9424506, 0.658846, "Z10"),
+    (78, "26", "C1081-Q9591", 46.96, "Huancabamba", "Lalaquiz", 0, 0, 649472, 9425705, 0.673303, "Z10"),
+    (79, "64", "C1081-Q9591", 35.77, "Huancabamba", "Huancabamba", 0, 0, 657819, 9428541, 0.525448, "Z11"),
+    (80, "54", "C1081-Q9591 (inferida)", 40.26, "Huancabamba", "Huancabamba", 0, 0, 656897, 9426033, 0.600447, "Z11"),
+    (81, "M30B5", "C1081-Q9591", 90.9, "Huancabamba", "Huancabamba", 0, 0, 655263, 9427340, 0.5564, "Z11"),
+    (82, "60", "C1081-Q9591", 40.13, "Huancabamba", "Canchaque", 0, 0, 653850, 9426236, 0.67447, "Z11"),
+    (83, "40", "C1081-Q9591", 28.52, "Huancabamba", "Canchaque", 0, 0, 654137, 9424425, 0.640099, "Z11"),
+    (84, "30", "C1081-Q9591", 34.87, "Huancabamba", "Canchaque", 0, 0, 652758, 9424380, 0.663804, "Z11"),
+    (85, "28", "C1081-Q9591", 52.97, "Huancabamba", "Canchaque", 0, 0, 654188, 9422849, 0.639425, "Z11"),
+    (86, "62", "C1081-Q9591", 73.82, "Huancabamba", "Canchaque", 0, 0, 655046, 9420450, 0.681648, "Z11"),
+    (87, "65", "C1081-Q9591 (inferida)", 53.93, "Huancabamba", "Canchaque", 0, 0, 657541, 9421083, 0.649297, "Z11"),
+    (88, "21", "C1081-Q9591", 84.23, "Huancabamba", "Canchaque", 0, 0, 654604, 9417736, 0.620078, "Z11"),
+    (89, "66", "C1081-Q9591", 102.34, "Huancabamba", "Canchaque", 0, 0, 652566, 9417311, 0.640254, "Z11"),
+    (90, "24", "C1081-Q9583", 90.16, "Huancabamba", "Canchaque", 0, 0, 652191, 9414358, 0.674839, "Z11"),
+    (91, "63", "C1081-Q9583", 50.46, "Huancabamba", "Canchaque", 0, 0, 655059, 9413845, 0.603582, "Z11"),
+    (92, "79", "C1076-Q9587", 94.81, "Huancabamba", "Canchaque", 0, 0, 650305, 9402785, 0.547879, "Z11"),
+    (93, "81", "C1076-Q9585", 8.93, "Huancabamba", "Canchaque", 0, 0, 641538, 9401360, 0.274714, "Z11"),
+    (94, "M22B1", "C1076-Q9586", 55.17, "Huancabamba", "San Miguel de El Faique", 0, 0, 664082, 9404172, 0.594025, "Z12"),
+    (95, "44", "C1076-Q9586", 28.23, "Huancabamba", "San Miguel de El Faique", 0, 0, 663637, 9400618, 0.511324, "Z12"),
+    (96, "47", "C1076-Q9586", 13.55, "Huancabamba", "San Miguel de El Faique", 0, 0, 659649, 9401436, 0.593628, "Z12"),
+    (97, "75", "C1076-Q9587", 15.18, "Huancabamba", "San Miguel de El Faique", 0, 0, 657722, 9401669, 0.630888, "Z12"),
+    (98, "9", "C1076-Q9586", 109.86, "Huancabamba", "San Miguel de El Faique", 0, 0, 656578, 9397762, 0.574527, "Z12"),
+    (99, "43", "C1076-Q9586", 23.17, "Huancabamba", "San Miguel de El Faique", 0, 0, 656489, 9395403, 0.551525, "Z12"),
+    (100, "35", "C1076-Q9586", 30.8, "Huancabamba", "San Miguel de El Faique", 0, 0, 654607, 9395038, 0.624477, "Z12"),
+    (101, "67", "C1076-Q9586", 13.18, "Huancabamba", "San Miguel de El Faique", 0, 0, 654207, 9394210, 0.605293, "Z12"),
+    (102, "M20B1", "C1076-Q9585", 279.68, "Huancabamba", "San Miguel de El Faique", 0, 0, 641196, 9398710, 0.355329, "Z12"),
+    (103, "M2B8", "C1076-Q9584", 116.1, "Huancabamba", "San Miguel de El Faique", 0, 0, 639059, 9398295, 0.375171, "Z12"),
+    (104, "29", "C1076-Q9592", 40.1, "Huancabamba", "Huarmaca", 0, 0, 662123, 9397575, 0.548192, "Z13"),
+    (105, "68", "C1076-Q9592", 21.29, "Huancabamba", "Huarmaca", 0, 0, 664225, 9396339, 0.482981, "Z13"),
+    (106, "53", "C1076-Q9592", 13.06, "Huancabamba", "Huarmaca", 0, 0, 666537, 9395918, 0.596277, "Z13"),
+    (107, "70", "C1076-Q9592", 22.39, "Huancabamba", "Huarmaca", 0, 0, 666781, 9395573, 0.622295, "Z13"),
+    (108, "31", "C1076-Q9592", 47.58, "Huancabamba", "Huarmaca", 0, 0, 663334, 9392820, 0.435805, "Z13"),
+    (109, "69", "C1076-Q9592", 19.43, "Huancabamba", "Huarmaca", 0, 0, 663291, 9392332, 0.448926, "Z13"),
+    (110, "72", "C1076-Q9592", 12.4, "Huancabamba", "Huarmaca", 0, 0, 662236, 9391211, 0.518477, "Z13"),
+    (111, "41", "C1076-Q9592", 64.92, "Huancabamba", "Huarmaca", 0, 0, 660525, 9394327, 0.592669, "Z13"),
+    (112, "73", "C1076-Q9592", 54.29, "Huancabamba", "Huarmaca", 0, 0, 658547, 9395594, 0.554974, "Z13"),
+    (113, "18", "C1076-Q9592", 103.62, "Huancabamba", "Huarmaca", 0, 0, 656445, 9393180, 0.640219, "Z13"),
+    (114, "74", "C1076-Q9588", 29.23, "Huancabamba", "Huarmaca", 0, 0, 652449, 9389179, 0.356463, "Z13"),
+    (115, "M12B1", "C1076-Q9588", 268.39, "Huancabamba", "Huarmaca", 0, 0, 644546, 9389106, 0.34753, "Z13"),
+    (116, "19", "C1076-Q9592", 82.09, "Huancabamba", "Huarmaca", 0, 0, 665942, 9391144, 0.537184, "Z13"),
+    (117, "M4B4", "C1076-Q9589", 289.91, "Huancabamba", "Huarmaca", 0, 0, 642775, 9388574, 0.319788, "Z14"),
+    (118, "M4B3", "C1076-Q9589", 234.07, "Huancabamba", "Huarmaca", 0, 0, 643474, 9385620, 0.322153, "Z14"),
+    (119, "10", "C1076-Q9593", 150.21, "Huancabamba", "Huarmaca", 0, 0, 650830, 9382303, 0.546492, "Z14"),
+    (120, "16", "C1076-Q9593", 83.33, "Huancabamba", "Huarmaca", 0, 0, 652939, 9382105, 0.628423, "Z14"),
+    (121, "4", "C1076-Q9588", 230.1, "Huancabamba", "Huarmaca", 0, 0, 656549, 9382009, 0.660111, "Z14"),
+    (122, "51", "C1076-Q9593", 22.93, "Huancabamba", "Huarmaca", 0, 0, 656291, 9379096, 0.523788, "Z14"),
+    (123, "76", "C1076-Q9593", 19.62, "Huancabamba", "Huarmaca", 0, 0, 657922, 9377477, 0.492462, "Z14"),
+    (124, "80", "C1076-Q9593", 28.83, "Huancabamba", "Huarmaca", 0, 0, 657160, 9373050, 0.593069, "Z14"),
+    (125, "71", "C1076-Q9593", 10.67, "Huancabamba", "Huarmaca", 0, 0, 652104, 9373045, 0.557066, "Z14"),
+    (126, "8", "C1076-Q9593", 126.95, "Huancabamba", "Huarmaca", 0, 0, 651673, 9373383, 0.554802, "Z14"),
+    (127, "20", "C1076-Q9593", 81.33, "Huancabamba", "Huarmaca", 0, 0, 649847, 9376260, 0.48513, "Z14"),
 ]
 
+# Alias para compatibilidad con codigo previo
+BLOQUES_128 = BLOQUES_V5
 
-# Diccionario para busqueda rapida por codigo de bloque
 BLOQUES_128_MAP = {b[1]: {"n": b[0], "codigo": b[1], "microcuenca": b[2],
     "area_ha": b[3], "provincia": b[4], "distrito": b[5],
     "accesibilidad": b[6], "dia_evaluacion": b[7],
-    "utm_este": b[8], "utm_norte": b[9], "msavi_2024": b[10]} for b in BLOQUES_128}
+    "utm_este": b[8], "utm_norte": b[9], "msavi_2024": b[10],
+    "zona": b[11] if len(b) > 11 else ""} for b in BLOQUES_128}
+
+# Aliases V5
+BLOQUES_V5_MAP = BLOQUES_128_MAP
 
 # Lista de codigos para el dropdown (solo codigo de bloque)
 BLOQUES_128_OPCIONES = [b[1] for b in BLOQUES_128]
+BLOQUES_V5_OPCIONES = BLOQUES_128_OPCIONES
+
+# Lista de Zonas V5 (Z01..Z14)
+ZONAS_V5 = sorted({b[11] for b in BLOQUES_V5 if len(b) > 11 and b[11]})
 
 # ── Centros Poblados por Bloque de Intervencion ──────────────────────
 # Fuente: REPORTE BLOQUES V4 PARA APLICATIVO.xlsx (sin duplicados, buffer 500m)
@@ -914,14 +923,14 @@ def pagina_bloques():
         else:
             st.markdown("**Registro de Bloque**")
 
-        # Selector rapido de los 128 bloques V4 (solo en modo nuevo)
+        # Selector rapido de los bloques V5 (solo en modo nuevo)
         if not edit_id:
-            st.markdown("##### Seleccion rapida - 128 Bloques de Intervencion V4")
+            st.markdown(f"##### Seleccion rapida - {len(BLOQUES_V5)} Bloques de Intervencion V5")
             sel_79 = st.selectbox(
                 "Seleccionar bloque predefinido",
-                ["(Seleccionar bloque predefinido)"] + BLOQUES_128_OPCIONES,
+                ["(Seleccionar bloque predefinido)"] + BLOQUES_V5_OPCIONES,
                 key="sel_bloque_128",
-                help="Seleccione un bloque de la lista de 128 bloques V4 para autocompletar los campos"
+                help=f"Seleccione un bloque de la lista de {len(BLOQUES_V5)} bloques V5 para autocompletar los campos"
             )
 
             # Determinar valores por defecto segun seleccion
@@ -1081,14 +1090,16 @@ def pagina_bloques():
                     st.error(f"Error al eliminar bloque: {e}")
 
         st.markdown("---")
-        with st.expander("Tabla de Referencia - 128 Bloques de Intervencion V4", expanded=False):
-            st.caption("Fuente: REPORTE BLOQUES V4 PARA APLICATIVO.xlsx - Base de datos completa del proyecto IN Piura")
-            df_128 = pd.DataFrame([{
+        with st.expander(f"Tabla de Referencia - {len(BLOQUES_V5)} Bloques de Intervencion V5", expanded=False):
+            st.caption("Fuente: Plantilla_DT_Campo_Check_Validada_V5.xlsx - Base de datos completa del proyecto IN Piura")
+            df_v5 = pd.DataFrame([{
                 "N":b[0], "Bloque":b[1], "Microcuenca":b[2],
                 "Area (ha)":b[3], "Provincia":b[4], "Distrito":b[5],
+                "Zona": b[11] if len(b) > 11 else "",
+                "UTM Este": b[8], "UTM Norte": b[9],
                 "MSAVI 2024":b[10],
-            } for b in BLOQUES_128])
-            st.dataframe(df_128, use_container_width=True, hide_index=True, height=400)
+            } for b in BLOQUES_V5])
+            st.dataframe(df_v5, use_container_width=True, hide_index=True, height=400)
 
 # ══════════════════════════════════════════════════════════════════════════
 # INSPECCION DE CAMPO
@@ -1895,10 +1906,11 @@ def pagina_diagnostico_territorial():
         if col_dl2.button("Generar Plantilla Excel", type="secondary", key="dt_gen_plantilla"):
             if fichas_descarga_dt:
                 # Tupla (codigo, microcuenca, provincia, distrito, area_ha,
-                # utm_este, utm_norte) para autocompletado completo en el Excel.
+                # utm_este, utm_norte, zona) para autocompletado V5 en el Excel.
                 bloques_data_dt = [
-                    (b[1], b[2], b[4], b[5], b[3], b[8], b[9])
-                    for b in BLOQUES_128
+                    (b[1], b[2], b[4], b[5], b[3], b[8], b[9],
+                     (b[11] if len(b) > 11 else ""))
+                    for b in BLOQUES_V5
                 ]
                 plantilla_bytes_dt = generar_plantilla_dt(fichas_descarga_dt, bloques_data_dt)
                 st.session_state["dt_plantilla_bytes"] = plantilla_bytes_dt
@@ -4508,14 +4520,15 @@ def _mostrar_historial():
 
 
 # ══════════════════════════════════════════════════════════════════════════
-# MIGRACION V4 — PAGINA TEMPORAL
+# MIGRACION V5 — PAGINA TEMPORAL
 # ══════════════════════════════════════════════════════════════════════════
 def pagina_migracion_v4():
-    st.subheader("⚙️ Migracion: Reemplazar Bloques por V4")
+    st.subheader("⚙️ Migracion: Reemplazar Bloques por V5")
     st.warning(
-        "**ATENCION:** Esta accion eliminara TODOS los bloques actuales de la base de datos "
-        "(incluyendo inspecciones, diagnosticos y registros vinculados) "
-        "e insertara los 128 bloques del Proyecto IN Piura V4.",
+        f"**ATENCION:** Esta accion eliminara TODOS los bloques actuales de la base de datos "
+        f"(incluyendo inspecciones, diagnosticos y registros vinculados) "
+        f"e insertara los {len(BLOQUES_V5)} bloques del Proyecto IN Piura V5 "
+        f"(con zonas Z01..Z14 y coordenadas UTM).",
         icon="⚠️",
     )
 
@@ -4525,7 +4538,7 @@ def pagina_migracion_v4():
         st.info("Marca la casilla de confirmacion para habilitar la migracion.")
         return
 
-    if st.button("🚀 Ejecutar Migracion V4", type="primary"):
+    if st.button("🚀 Ejecutar Migracion V5", type="primary"):
         from datetime import datetime
         import database as db
 
@@ -4542,150 +4555,28 @@ def pagina_migracion_v4():
             # 2. Eliminar todos los bloques usando conn.execute (no cursor)
             conn.execute("DELETE FROM bloques")
 
-            # 3. Insertar 128 bloques V4
-            bloques_v4 = [
-                ("1",      "C1076-Q9584", 1371.335, "Morropon",    "Salitral",                 ),
-                ("2",      "C1096-Q9558",  330.776, "Morropon",    "Chulucanas",               ),
-                ("3",      "C1096-Q9545",  459.532, "Ayabaca",     "Frias",                    ),
-                ("4",      "C1076-Q9588",  230.143, "Huancabamba", "Huarmaca",                 ),
-                ("5",      "C1077-Q9566",  295.861, "Morropon",    "Buenos Aires",             ),
-                ("6",      "C1096-Q9547",  168.499, "Ayabaca",     "Frias",                    ),
-                ("7",      "C1076-Q9584",  173.482, "Morropon",    "Salitral",                 ),
-                ("8",      "C1076-Q9593",  126.981, "Huancabamba", "Huarmaca",                 ),
-                ("9",      "C1076-Q9586",  109.882, "Huancabamba", "San Miguel de El Faique",  ),
-                ("10",     "C1076-Q9593",  150.25,  "Huancabamba", "Huarmaca",                 ),
-                ("11",     "C1086-Q9570",  103.993, "Morropon",    "Santo Domingo",            ),
-                ("12",     "C1086-Q9570",  119.587, "Morropon",    "Santo Domingo",            ),
-                ("13",     "C1096-Q9564",  100.558, "Morropon",    "Santo Domingo",            ),
-                ("14",     "C1086-Q9570",   92.944, "Morropon",    "Santa Catalina de Mossa",  ),
-                ("15",     "C1086-Q9570",   86.185, "Morropon",    "Santo Domingo",            ),
-                ("16",     "C1076-Q9593",   83.346, "Huancabamba", "Huarmaca",                 ),
-                ("17",     "C1086-Q9570",   96.123, "Morropon",    "Santo Domingo",            ),
-                ("18",     "C1076-Q9592",  103.637, "Huancabamba", "Huarmaca",                 ),
-                ("19",     "C1076-Q9592",   82.098, "Huancabamba", "Huarmaca",                 ),
-                ("20",     "C1076-Q9593",   81.354, "Huancabamba", "Huarmaca",                 ),
-                ("21",     "C1081-Q9591",   84.244, "Huancabamba", "Canchaque",                ),
-                ("22",     "C1096-Q9556",   79.374, "Morropon",    "Chulucanas",               ),
-                ("23",     "C1086-Q9570",   81.812, "Morropon",    "Santo Domingo",            ),
-                ("24",     "C1081-Q9583",   90.18,  "Huancabamba", "Canchaque",                ),
-                ("25",     "C1096-Q9547",   53.515, "Morropon",    "Chulucanas",               ),
-                ("26",     "C1081-Q9591",   46.973, "Huancabamba", "Lalaquiz",                 ),
-                ("27",     "C1096-Q9556",   78.192, "Ayabaca",     "Frias",                    ),
-                ("28",     "C1081-Q9591",   52.977, "Huancabamba", "Canchaque",                ),
-                ("29",     "C1076-Q9592",   40.11,  "Huancabamba", "Huarmaca",                 ),
-                ("30",     "C1081-Q9591",   34.882, "Huancabamba", "Canchaque",                ),
-                ("31",     "C1076-Q9592",   47.588, "Huancabamba", "Huarmaca",                 ),
-                ("32",     "C1096-Q9556",   35.85,  "Morropon",    "Chulucanas",               ),
-                ("33",     "C1081-Q9590",   29.689, "Huancabamba", "Lalaquiz",                 ),
-                ("34",     "C1081-Q9590",   28.458, "Huancabamba", "Lalaquiz",                 ),
-                ("35",     "C1076-Q9586",   30.811, "Huancabamba", "San Miguel de El Faique",  ),
-                ("36",     "C1096-Q9547",   24.856, "Ayabaca",     "Frias",                    ),
-                ("37",     "C1081-Q9591",   35.5,   "Huancabamba", "Lalaquiz",                 ),
-                ("38",     "C1081-Q9590",   44.212, "Huancabamba", "Lalaquiz",                 ),
-                ("39",     "C1096-Q9564",   68.6,   "Ayabaca",     "Frias",                    ),
-                ("40",     "C1081-Q9591",   28.529, "Huancabamba", "Canchaque",                ),
-                ("41",     "C1076-Q9592",   64.933, "Huancabamba", "Huarmaca",                 ),
-                ("42",     "C1086-Q9570",   80.649, "Morropon",    "Santa Catalina de Mossa",  ),
-                ("43",     "C1076-Q9586",   23.176, "Huancabamba", "San Miguel de El Faique",  ),
-                ("44",     "C1076-Q9586",   28.238, "Huancabamba", "San Miguel de El Faique",  ),
-                ("45",     "C1076-Q9592",   17.626, "Huancabamba", "Huarmaca",                 ),
-                ("46",     "C1086-Q9575",   18.872, "Morropon",    "Yamango",                  ),
-                ("47",     "C1076-Q9586",   13.554, "Huancabamba", "San Miguel de El Faique",  ),
-                ("48",     "C1086-Q9575",    5.755, "Morropon",    "Yamango",                  ),
-                ("49",     "C1086-Q9575",   15.844, "Morropon",    "Yamango",                  ),
-                ("50",     "C1081-Q9590",   19.272, "Huancabamba", "Lalaquiz",                 ),
-                ("51",     "C1076-Q9593",   22.932, "Huancabamba", "Huarmaca",                 ),
-                ("52",     "C1086-Q9575",   11.063, "Morropon",    "Yamango",                  ),
-                ("53",     "C1076-Q9592",   13.066, "Huancabamba", "Huarmaca",                 ),
-                ("54",     "C1081-Q9591",   40.27,  "Huancabamba", "Huancabamba",              ),
-                ("55",     "C1086-Q9575",    0.859, "Morropon",    "Yamango",                  ),
-                ("56",     "C1096-Q9564",   77.699, "Ayabaca",     "Frias",                    ),
-                ("57",     "C1086-Q9576",   25.677, "Morropon",    "Chalaco",                  ),
-                ("58",     "C1086-Q9569",   11.48,  "Morropon",    "Santa Catalina de Mossa",  ),
-                ("59",     "C1086-Q9570",   13.559, "Morropon",    "Chalaco",                  ),
-                ("60",     "C1081-Q9591",   40.14,  "Huancabamba", "Canchaque",                ),
-                ("61",     "C1081-Q9590",   26.833, "Huancabamba", "Lalaquiz",                 ),
-                ("62",     "C1081-Q9591",   73.837, "Huancabamba", "Canchaque",                ),
-                ("63",     "C1081-Q9583",   50.469, "Huancabamba", "Canchaque",                ),
-                ("64",     "C1081-Q9591",   35.78,  "Huancabamba", "Huancabamba",              ),
-                ("65",     "C1081-Q9591",   53.944, "Huancabamba", "Canchaque",                ),
-                ("66",     "C1081-Q9591",  102.358, "Huancabamba", "Canchaque",                ),
-                ("67",     "C1076-Q9586",   13.187, "Huancabamba", "San Miguel de El Faique",  ),
-                ("68",     "C1076-Q9592",   21.294, "Huancabamba", "Huarmaca",                 ),
-                ("69",     "C1076-Q9592",   19.428, "Huancabamba", "Huarmaca",                 ),
-                ("70",     "C1076-Q9592",   22.39,  "Huancabamba", "Huarmaca",                 ),
-                ("71",     "C1076-Q9593",   10.676, "Huancabamba", "Huarmaca",                 ),
-                ("72",     "C1076-Q9592",   12.4,   "Huancabamba", "Huarmaca",                 ),
-                ("73",     "C1076-Q9592",   54.3,   "Huancabamba", "Huarmaca",                 ),
-                ("74",     "C1076-Q9588",   29.233, "Huancabamba", "Huarmaca",                 ),
-                ("75",     "C1076-Q9587",   15.179, "Huancabamba", "San Miguel de El Faique",  ),
-                ("76",     "C1076-Q9593",   19.619, "Huancabamba", "Huarmaca",                 ),
-                ("77",     "C1081-Q9583",   17.827, "Morropon",    "San Juan de Bigote",       ),
-                ("78",     "C1086-Q9570",   35.116, "Morropon",    "Santo Domingo",            ),
-                ("79",     "C1076-Q9587",   94.834, "Huancabamba", "Canchaque",                ),
-                ("80",     "C1076-Q9593",   28.835, "Huancabamba", "Huarmaca",                 ),
-                ("81",     "C1076-Q9585",    8.931, "Huancabamba", "Canchaque",                ),
-                ("82",     "C1086-Q9570",   35.677, "Morropon",    "Santo Domingo",            ),
-                ("M1B1",   "C1077-Q9580",  188.883, "Morropon",    "Buenos Aires",             ),
-                ("M2B1",   "C1076-Q9584",   81.823, "Morropon",    "Salitral",                 ),
-                ("M2B5",   "C1076-Q9584",   30.918, "Morropon",    "Salitral",                 ),
-                ("M2B8",   "C1076-Q9584",  116.136, "Huancabamba", "San Miguel de El Faique",  ),
-                ("M3B1",   "C1081-Q9582",   81.014, "Morropon",    "Salitral",                 ),
-                ("M3B3",   "C1081-Q9582",   84.855, "Morropon",    "San Juan de Bigote",       ),
-                ("M3B5",   "C1081-Q9582",   52.761, "Morropon",    "San Juan de Bigote",       ),
-                ("M3B6",   "C1081-Q9582",   60.372, "Morropon",    "San Juan de Bigote",       ),
-                ("M3B7",   "C1081-Q9582",  122.987, "Morropon",    "San Juan de Bigote",       ),
-                ("M3B8",   "C1081-Q9582",  565.792, "Morropon",    "San Juan de Bigote",       ),
-                ("M3B9",   "C1081-Q9582",  294.318, "Morropon",    "Salitral",                 ),
-                ("M4B3",   "C1076-Q9589",  234.137, "Huancabamba", "Huarmaca",                 ),
-                ("M4B4",   "C1076-Q9589",  290.0,   "Huancabamba", "Huarmaca",                 ),
-                ("M6B2-1", "C1077-Q9566",  514.608, "Morropon",    "Buenos Aires",             ),
-                ("M6B2-2", "C1077-Q9566",  333.176, "Morropon",    "Buenos Aires",             ),
-                ("M6B2-3", "C1077-Q9566",  161.058, "Morropon",    "Buenos Aires",             ),
-                ("M6B10",  "C1077-Q9566",  250.004, "Morropon",    "Buenos Aires",             ),
-                ("M7B1",   "C1076-Q9581",  130.475, "Morropon",    "Salitral",                 ),
-                ("M7B2",   "C1076-Q9581",  115.422, "Morropon",    "Salitral",                 ),
-                ("M7B3",   "C1076-Q9581",   65.768, "Morropon",    "Salitral",                 ),
-                ("M7B6",   "C1076-Q9581",   91.317, "Morropon",    "Salitral",                 ),
-                ("M8B2",   "C1096-Q9558",   35.363, "Morropon",    "Santo Domingo",            ),
-                ("M9B1",   "C1096-Q9545",  355.568, "Morropon",    "Chulucanas",               ),
-                ("M10B4",  "C1096-Q9547",   68.926, "Morropon",    "Chulucanas",               ),
-                ("M11B3",  "C1081-Q9583",  106.059, "Morropon",    "San Juan de Bigote",       ),
-                ("M12B1",  "C1076-Q9588",  268.469, "Huancabamba", "Huarmaca",                 ),
-                ("M17B1",  "C1096-Q9556",   42.472, "Morropon",    "Chulucanas",               ),
-                ("M17B4",  "C1096-Q9556",  124.775, "Morropon",    "Chulucanas",               ),
-                ("M17B5",  "C1096-Q9556",   74.065, "Ayabaca",     "Frias",                    ),
-                ("M17B6",  "C1096-Q9556",  106.593, "Ayabaca",     "Frias",                    ),
-                ("M17B7",  "C1096-Q9556",  258.969, "Ayabaca",     "Frias",                    ),
-                ("M17B10", "C1096-Q9556",   75.403, "Ayabaca",     "Frias",                    ),
-                ("M18B1",  "C1077-Q9579",  160.43,  "Morropon",    "Buenos Aires",             ),
-                ("M18B3",  "C1077-Q9579",  373.96,  "Morropon",    "Salitral",                 ),
-                ("M18B5",  "C1077-Q9579",  197.437, "Morropon",    "Salitral",                 ),
-                ("M19B2",  "C1086-Q9570",   74.406, "Morropon",    "Morropon",                 ),
-                ("M19B7",  "C1086-Q9570",   34.186, "Morropon",    "Santo Domingo",            ),
-                ("M20B1",  "C1076-Q9585",  279.766, "Huancabamba", "San Miguel de El Faique",  ),
-                ("M22B1",  "C1076-Q9586",   55.177, "Huancabamba", "San Miguel de El Faique",  ),
-                ("M27B1",  "C1096-Q9557",  449.066, "Morropon",    "Chulucanas",               ),
-                ("M28B2",  "C1086-Q9575",   90.228, "Morropon",    "Yamango",                  ),
-                ("M28B3",  "C1086-Q9575",   58.312, "Morropon",    "Yamango",                  ),
-                ("M28B4",  "C1086-Q9575",  283.543, "Morropon",    "Yamango",                  ),
-                ("M30B5",  "C1081-Q9591",   90.922, "Huancabamba", "Huancabamba",              ),
-                ("M32B3",  "C1086-Q9569",   50.996, "Morropon",    "Morropon",                 ),
-                ("M36B2",  "C1086-Q9576",   28.202, "Morropon",    "Santa Catalina de Mossa",  ),
+            # 3. Insertar bloques V5 (con UTM y zona)
+            #    Derivar de BLOQUES_V5 con el formato:
+            #    (codigo, microcuenca, area_ha, provincia, distrito, utm_este, utm_norte, zona)
+            bloques_v5_migrar = [
+                (b[1], b[2], b[3], b[4], b[5], b[8], b[9],
+                 (b[11] if len(b) > 11 else ""))
+                for b in BLOQUES_V5
             ]
 
             conn.commit()
             conn.close()
 
-            # 3. Insertar 128 bloques usando la funcion publica del modulo
-            for (codigo, microcuenca, area_ha, provincia, distrito) in bloques_v4:
+            # 4. Insertar bloques usando la funcion publica del modulo
+            for (codigo, microcuenca, area_ha, provincia, distrito,
+                 utm_este, utm_norte, zona) in bloques_v5_migrar:
                 db.insertar_bloque(
                     codigo=codigo,
                     tipo_intervencion="Restauracion",
                     cuenca=microcuenca,
                     distrito=distrito,
-                    utm_este=0.0,
-                    utm_norte=0.0,
+                    utm_este=float(utm_este or 0.0),
+                    utm_norte=float(utm_norte or 0.0),
                     utm_zona="17S",
                     area_hectareas=area_ha,
                     estado="Pendiente",
@@ -4693,7 +4584,10 @@ def pagina_migracion_v4():
                     provincia=provincia,
                 )
 
-            st.success(f"✅ Migracion completada: {eliminados} bloques eliminados, 128 bloques V4 insertados.")
+            st.success(
+                f"✅ Migracion V5 completada: {eliminados} bloques eliminados, "
+                f"{len(bloques_v5_migrar)} bloques V5 insertados."
+            )
             st.info("Recarga la pagina o navega al Panel de Control para ver los cambios.")
             st.cache_data.clear()
 

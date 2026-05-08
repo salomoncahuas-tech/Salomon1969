@@ -273,20 +273,20 @@ def _add_datos_sheet(wb, bloques_data):
 
     Args:
         wb: Workbook
-        bloques_data: lista de tuplas con cualquiera de las dos formas:
+        bloques_data: lista de tuplas con cualquiera de las formas:
             - (codigo, microcuenca, provincia, distrito)
             - (codigo, microcuenca, provincia, distrito, area_ha, utm_este, utm_norte)
+            - (codigo, microcuenca, provincia, distrito, area_ha, utm_este, utm_norte, zona)  [V5]
 
     Returns:
         int: numero de bloques agregados
     """
     ws = wb.create_sheet("_Datos")
     headers = ["Codigo", "Microcuenca", "Provincia", "Distrito",
-               "Superficie_ha", "UTM_Este", "UTM_Norte"]
+               "Superficie_ha", "UTM_Este", "UTM_Norte", "Zona"]
     for c, h in enumerate(headers, start=1):
         ws.cell(row=1, column=c, value=h)
     for i, fila in enumerate(bloques_data, start=2):
-        # Soporta tuplas de 4 o 7 elementos
         codigo = fila[0]
         mc = fila[1] if len(fila) > 1 else ""
         prov = fila[2] if len(fila) > 2 else ""
@@ -294,6 +294,7 @@ def _add_datos_sheet(wb, bloques_data):
         area = fila[4] if len(fila) > 4 else ""
         utm_e = fila[5] if len(fila) > 5 else ""
         utm_n = fila[6] if len(fila) > 6 else ""
+        zona = fila[7] if len(fila) > 7 else ""
         ws.cell(row=i, column=1, value=codigo)
         ws.cell(row=i, column=2, value=mc)
         ws.cell(row=i, column=3, value=prov)
@@ -301,6 +302,7 @@ def _add_datos_sheet(wb, bloques_data):
         ws.cell(row=i, column=5, value=area)
         ws.cell(row=i, column=6, value=utm_e)
         ws.cell(row=i, column=7, value=utm_n)
+        ws.cell(row=i, column=8, value=zona)
     ws.sheet_state = "hidden"
     return len(bloques_data)
 
@@ -360,6 +362,7 @@ def _add_datos_generales(ws, start_row=5, num_bloques=0):
         ("Microcuenca (auto)", 2),
         ("Provincia (auto)", 3),
         ("Distrito (auto)", 4),
+        ("Zona (auto)", 8),
         ("Superficie ha (auto)", 5),
         ("UTM Este — centroide (auto)", 6),
         ("UTM Norte — centroide (auto)", 7),
@@ -370,7 +373,7 @@ def _add_datos_generales(ws, start_row=5, num_bloques=0):
         ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=4)
         if num_bloques > 0:
             ws.cell(row=r, column=2).value = (
-                f'=IFERROR(VLOOKUP(B{bloque_row},_Datos!$A$2:$G${last_data_row},'
+                f'=IFERROR(VLOOKUP(B{bloque_row},_Datos!$A$2:$H${last_data_row},'
                 f'{col_idx},FALSE),"")')
             ws.cell(row=r, column=2).font = AUTOFILL_FONT
             ws.cell(row=r, column=2).fill = AUTOFILL_FILL
