@@ -4542,56 +4542,78 @@ def pagina_migracion_v4():
         from datetime import datetime
         import database as db
 
+        bloques_v5_migrar = [
+            (b[1], b[2], b[3], b[4], b[5], b[8], b[9],
+             (b[11] if len(b) > 11 else ""))
+            for b in BLOQUES_V5
+        ]
+
+        conn = None
         try:
-            # Usar _ConnectionWrapper que si tiene execute/commit/close
+            # Toda la migracion en UNA SOLA conexion + transaccion para evitar
+            # condiciones de carrera con el pooler de Supabase y duplicados.
             conn = db.get_connection()
+            pg = conn._conn  # psycopg2 connection real
+            cur = pg.cursor()
 
             # 1. Contar bloques existentes
-            cursor = conn.cursor()
-            cursor.execute("SELECT COUNT(*) FROM bloques")
-            row = cursor.fetchone()
+            cur.execute("SELECT COUNT(*) FROM bloques")
+            row = cur.fetchone()
             eliminados = list(row.values())[0] if hasattr(row, 'values') else row[0]
 
-            # 2. Eliminar todos los bloques usando conn.execute (no cursor)
-            conn.execute("DELETE FROM bloques")
+            # 2. Vaciar tabla en cascada (elimina inspecciones, diagnosticos, etc.)
+            cur.execute("TRUNCATE TABLE bloques RESTART IDENTITY CASCADE")
 
-            # 3. Insertar bloques V5 (con UTM y zona)
-            #    Derivar de BLOQUES_V5 con el formato:
-            #    (codigo, microcuenca, area_ha, provincia, distrito, utm_este, utm_norte, zona)
-            bloques_v5_migrar = [
-                (b[1], b[2], b[3], b[4], b[5], b[8], b[9],
-                 (b[11] if len(b) > 11 else ""))
-                for b in BLOQUES_V5
-            ]
-
-            conn.commit()
-            conn.close()
-
-            # 4. Insertar bloques usando la funcion publica del modulo
+            # 3. Insertar bloques V5 con UPSERT (idempotente)
+            fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            insert_sql = """
+                INSERT INTO bloques (codigo, tipo_intervencion, cuenca, distrito,
+                                     utm_este, utm_norte, utm_zona, altitud,
+                                     area_hectareas, responsable, estado,
+                                     microcuenca, provincia, fecha_registro)
+                VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                ON CONFLICT (codigo) DO UPDATE SET
+                    tipo_intervencion = EXCLUDED.tipo_intervencion,
+                    cuenca            = EXCLUDED.cuenca,
+                    distrito          = EXCLUDED.distrito,
+                    utm_este          = EXCLUDED.utm_este,
+                    utm_norte         = EXCLUDED.utm_norte,
+                    utm_zona          = EXCLUDED.utm_zona,
+                    area_hectareas    = EXCLUDED.area_hectareas,
+                    estado            = EXCLUDED.estado,
+                    microcuenca       = EXCLUDED.microcuenca,
+                    provincia         = EXCLUDED.provincia
+            """
+            insertados = 0
             for (codigo, microcuenca, area_ha, provincia, distrito,
                  utm_este, utm_norte, zona) in bloques_v5_migrar:
-                db.insertar_bloque(
-                    codigo=codigo,
-                    tipo_intervencion="Restauracion",
-                    cuenca=microcuenca,
-                    distrito=distrito,
-                    utm_este=float(utm_este or 0.0),
-                    utm_norte=float(utm_norte or 0.0),
-                    utm_zona="17S",
-                    area_hectareas=area_ha,
-                    estado="Pendiente",
-                    microcuenca=microcuenca,
-                    provincia=provincia,
-                )
+                cur.execute(insert_sql, (
+                    codigo, "Restauracion", microcuenca, distrito,
+                    float(utm_este or 0.0), float(utm_norte or 0.0), "17S", 0.0,
+                    float(area_ha or 0.0), "", "Pendiente",
+                    microcuenca, provincia, fecha,
+                ))
+                insertados += 1
+
+            # 4. Commit unico al final
+            pg.commit()
+            cur.close()
+            conn.close()
 
             st.success(
                 f"✅ Migracion V5 completada: {eliminados} bloques eliminados, "
-                f"{len(bloques_v5_migrar)} bloques V5 insertados."
+                f"{insertados} bloques V5 insertados (transaccion atomica)."
             )
             st.info("Recarga la pagina o navega al Panel de Control para ver los cambios.")
             st.cache_data.clear()
 
         except Exception as e:
+            try:
+                if conn is not None:
+                    conn._conn.rollback()
+                    conn.close()
+            except Exception:
+                pass
             st.error(f"Error durante la migracion: {e}")
 
 
