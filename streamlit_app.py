@@ -4542,57 +4542,70 @@ def pagina_migracion_v4():
         from datetime import datetime
         import database as db
 
+        conn = None
         try:
-            # Usar _ConnectionWrapper que si tiene execute/commit/close
+            # Toda la migracion corre en UNA sola transaccion: si algun
+            # INSERT falla, el TRUNCATE tambien hace rollback y la BD
+            # queda intacta. Evita estados parciales y duplicados que
+            # ocurrian al usar varias conexiones (DELETE + N inserts).
             conn = db.get_connection()
-
-            # 1. Contar bloques existentes
             cursor = conn.cursor()
+
             cursor.execute("SELECT COUNT(*) FROM bloques")
             row = cursor.fetchone()
             eliminados = list(row.values())[0] if hasattr(row, 'values') else row[0]
 
-            # 2. Eliminar todos los bloques usando conn.execute (no cursor)
-            conn.execute("DELETE FROM bloques")
+            # TRUNCATE ... CASCADE elimina bloques y todos los registros
+            # dependientes (inspecciones, diagnosticos, etc.) en bloque,
+            # mas rapido y atomico que DELETE.
+            conn.execute("TRUNCATE TABLE bloques RESTART IDENTITY CASCADE")
 
-            # 3. Insertar bloques V5 (con UTM y zona)
-            #    Derivar de BLOQUES_V5 con el formato:
-            #    (codigo, microcuenca, area_ha, provincia, distrito, utm_este, utm_norte, zona)
-            bloques_v5_migrar = [
-                (b[1], b[2], b[3], b[4], b[5], b[8], b[9],
-                 (b[11] if len(b) > 11 else ""))
-                for b in BLOQUES_V5
-            ]
+            fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            insertados = 0
+            for b in BLOQUES_V5:
+                codigo      = b[1]
+                microcuenca = b[2]
+                area_ha     = b[3]
+                provincia   = b[4]
+                distrito    = b[5]
+                utm_este    = b[8]
+                utm_norte   = b[9]
+                cursor.execute("""
+                    INSERT INTO bloques (codigo, tipo_intervencion, cuenca, distrito,
+                                         utm_este, utm_norte, utm_zona, altitud,
+                                         area_hectareas, responsable, estado,
+                                         microcuenca, provincia, fecha_registro)
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                """, (
+                    codigo, "Restauracion", microcuenca, distrito,
+                    float(utm_este or 0.0), float(utm_norte or 0.0), "17S", 0.0,
+                    float(area_ha or 0.0), "", "Pendiente",
+                    microcuenca, provincia, fecha,
+                ))
+                insertados += 1
 
             conn.commit()
-            conn.close()
-
-            # 4. Insertar bloques usando la funcion publica del modulo
-            for (codigo, microcuenca, area_ha, provincia, distrito,
-                 utm_este, utm_norte, zona) in bloques_v5_migrar:
-                db.insertar_bloque(
-                    codigo=codigo,
-                    tipo_intervencion="Restauracion",
-                    cuenca=microcuenca,
-                    distrito=distrito,
-                    utm_este=float(utm_este or 0.0),
-                    utm_norte=float(utm_norte or 0.0),
-                    utm_zona="17S",
-                    area_hectareas=area_ha,
-                    estado="Pendiente",
-                    microcuenca=microcuenca,
-                    provincia=provincia,
-                )
 
             st.success(
                 f"✅ Migracion V5 completada: {eliminados} bloques eliminados, "
-                f"{len(bloques_v5_migrar)} bloques V5 insertados."
+                f"{insertados} bloques V5 insertados."
             )
             st.info("Recarga la pagina o navega al Panel de Control para ver los cambios.")
             st.cache_data.clear()
 
         except Exception as e:
+            if conn is not None:
+                try:
+                    conn._conn.rollback()
+                except Exception:
+                    pass
             st.error(f"Error durante la migracion: {e}")
+        finally:
+            if conn is not None:
+                try:
+                    conn.close()
+                except Exception:
+                    pass
 
 
 # ══════════════════════════════════════════════════════════════════════════
