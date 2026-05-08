@@ -428,10 +428,10 @@ COLORES_ESTADO = {"Pendiente":[231,76,60],"En progreso":[243,156,18],"Verificado
 # ── Fichas de Diagnostico Territorial (F-DT-01 a F-DT-06) ───────────────
 FICHAS_DT = ["F-DT-01","F-DT-02","F-DT-03","F-DT-04","F-DT-05","F-DT-06"]
 
-# F-DT-01: CARACTERISTICAS FISIOGRAFICAS
+# F-DT-01: CARACTERÍSTICAS FISIOGRÁFICAS  (Plantilla DT Campo Validada)
 FDT01_FORMA_TERRENO = [
     "Plano (0-2%)", "Ondulado (2-8%)", "Colinado (8-25%)",
-    "Montanoso (25-50%)", "Escarpado (>50%)",
+    "Montañoso (25-50%)", "Escarpado (>50%)",
 ]
 FDT01_PENDIENTE = [
     "0-5% (Plano a ligeramente inclinado)",
@@ -451,57 +451,57 @@ FDT01_EXPOSICION = [
     "Variable / Sin predominancia",
 ]
 FDT01_PAISAJE = [
-    "Montana", "Colina", "Piedemonte", "Planicie / Llanura",
+    "Montaña", "Colina", "Piedemonte", "Planicie / Llanura",
     "Valle interandino", "Terraza aluvial",
 ]
 FDT01_RANGO_ALTITUDINAL = [
-    "<500 msnm", "500-1000 msnm", "1000-1500 msnm",
-    "1500-2000 msnm", "2000-2500 msnm", "2500-3000 msnm",
-    "3000-3500 msnm", "3500-4000 msnm", ">4000 msnm",
+    "<500 msnm", "500-1500 msnm", "1500-2000 msnm",
+    "2000-2500 msnm", "2500-3000 msnm",
+    "3000-3500 msnm", ">3500 msnm",
 ]
 
-# F-DT-02: CONDICIONES CLIMATICAS
+# F-DT-02: CONDICIONES CLIMÁTICAS
 FDT02_PRECIPITACION = [
-    "<250 mm/anio (Muy seco / Arido)",
-    "250-500 mm/anio (Seco / Semiarido)",
-    "500-1000 mm/anio (Sub-humedo)",
-    "1000-2000 mm/anio (Humedo / Lluvioso)",
-    ">2000 mm/anio (Muy humedo / Pluvial)",
+    "<250 mm/año (Muy seco / Árido)",
+    "250-500 mm/año (Seco / Semiárido)",
+    "500-1000 mm/año (Sub-húmedo)",
+    "1000-2000 mm/año (Húmedo / Lluvioso)",
+    ">2000 mm/año (Muy húmedo / Pluvial)",
 ]
 FDT02_TEMPERATURA = [
-    "<5 C (Muy frio / Gelido)",
-    "5-12 C (Frio)",
-    "12-18 C (Templado)",
-    "18-24 C (Calido / Semicalido)",
-    ">24 C (Muy calido / Tropical)",
+    "<5 °C (Muy frío / Gélido)",
+    "5-12 °C (Frío)",
+    "12-18 °C (Templado)",
+    "18-24 °C (Cálido / Semicálido)",
+    ">24 °C (Muy cálido / Tropical)",
 ]
 FDT02_HUMEDAD = [
     "Muy baja (<30%)", "Baja (30-50%)", "Media (50-70%)",
     "Alta (70-85%)", "Muy alta (>85%)",
 ]
 FDT02_ZONA_VIDA = [
-    "Desierto superarido", "Desierto arido", "Matorral desertico",
-    "Monte espinoso", "Bosque seco", "Bosque humedo premontano",
-    "Bosque humedo montano bajo", "Bosque humedo montano",
-    "Bosque muy humedo premontano", "Bosque muy humedo montano",
-    "Paramo / Jalca", "Puna",
+    "Desierto superárido", "Desierto árido", "Matorral desértico",
+    "Monte espinoso", "Bosque seco", "Bosque húmedo premontano",
+    "Bosque húmedo montano bajo", "Bosque húmedo montano",
+    "Bosque muy húmedo premontano", "Bosque muy húmedo montano",
+    "Páramo / Jalca", "Puna",
 ]
 FDT02_HELADAS = [
-    "Frecuente (>30 dias/anio)", "Ocasional (10-30 dias/anio)",
-    "Rara (<10 dias/anio)", "Ausente",
+    "Frecuente (>30 días/año)", "Ocasional (10-30 días/año)",
+    "Rara (<10 días/año)", "Ausente",
 ]
 FDT02_VIENTOS = [
-    "Calmo (< 2 m/s)", "Suave (2-4 m/s)", "Moderado (4-8 m/s)",
+    "Calmo (<2 m/s)", "Suave (2-4 m/s)", "Moderado (4-8 m/s)",
     "Fuerte (8-14 m/s)", "Muy fuerte (>14 m/s)",
 ]
 
-# F-DT-03: CARACTERISTICAS DEL SUELO (Observacion de campo)
+# F-DT-03: CARACTERÍSTICAS DEL SUELO (Observación de campo)
 FDT03_TEXTURA = [
     "Arenoso", "Franco arenoso", "Franco", "Franco limoso",
     "Franco arcilloso", "Franco arcillo arenoso", "Arcilloso", "Limoso",
 ]
 FDT03_COLOR = [
-    "Negro / Muy oscuro", "Pardo oscuro", "Pardo / Marron",
+    "Negro / Muy oscuro", "Pardo oscuro", "Pardo / Marrón",
     "Pardo claro / Amarillento", "Rojizo / Rojo amarillento",
     "Gris / Gris claro",
 ]
@@ -515,107 +515,107 @@ FDT03_PEDREGOSIDAD = [
     "Muy pedregoso (>60%)",
 ]
 FDT03_DRENAJE = [
-    "Excesivo (suelo muy arenoso, seca rapido)",
+    "Excesivo (suelo muy arenoso, seca rápido)",
     "Bueno (suelo drena adecuadamente)",
     "Moderado (drena con cierta lentitud)",
     "Imperfecto (retiene humedad excesiva)",
     "Pobre / Muy pobre (encharcamiento frecuente)",
 ]
 FDT03_EROSION = [
-    "Sin erosion aparente",
-    "Erosion laminar leve",
-    "Erosion laminar moderada a severa",
-    "Erosion en surcos",
-    "Erosion en carcavas",
-    "Erosion mixta (laminar + surcos/carcavas)",
+    "Sin erosión aparente",
+    "Erosión laminar leve",
+    "Erosión laminar moderada a severa",
+    "Erosión en surcos",
+    "Erosión en cárcavas",
+    "Erosión mixta (laminar + surcos/cárcavas)",
     "Movimientos en masa (deslizamientos)",
 ]
 FDT03_MATERIA_ORGANICA = [
-    "Muy baja (suelo claro, sin restos organicos)",
+    "Muy baja (suelo claro, sin restos orgánicos)",
     "Baja (pocos restos, suelo claro)",
-    "Media (presencia moderada de restos organicos)",
-    "Alta (suelo oscuro, abundantes restos organicos)",
+    "Media (presencia moderada de restos orgánicos)",
+    "Alta (suelo oscuro, abundantes restos orgánicos)",
 ]
 
 # F-DT-04: COBERTURA VEGETAL Y USO DEL SUELO
 FDT04_TIPO_COBERTURA = [
     "Bosque denso (natural)", "Bosque ralo / Abierto",
     "Matorral / Arbustal", "Pastizal / Herbazal / Pajonal",
-    "Cultivo agricola", "Plantacion forestal",
-    "Suelo desnudo / Eriazo", "Vegetacion riberena",
-    "Area urbana / Infraestructura",
+    "Cultivo agrícola", "Plantación forestal",
+    "Suelo desnudo / Eriazo", "Vegetación ribereña",
+    "Área urbana / Infraestructura",
 ]
 FDT04_DENSIDAD = [
     "Muy rala (<10%)", "Rala (10-25%)", "Abierta (25-50%)",
     "Semicerrada (50-75%)", "Cerrada (>75%)",
 ]
 FDT04_ESTADO_CONSERVACION = [
-    "Bueno (sin intervencion significativa)",
-    "Regular (intervencion parcial)",
-    "Degradado (intervencion severa, con regeneracion)",
-    "Muy degradado (sin regeneracion natural evidente)",
+    "Bueno (sin intervención significativa)",
+    "Regular (intervención parcial)",
+    "Degradado (intervención severa, con regeneración)",
+    "Muy degradado (sin regeneración natural evidente)",
 ]
 FDT04_USO_SUELO = [
-    "Forestal / Proteccion", "Agricola (secano)",
-    "Agricola (bajo riego)", "Pecuario / Pastoreo",
+    "Forestal / Protección", "Agrícola (secano)",
+    "Agrícola (bajo riego)", "Pecuario / Pastoreo",
     "Agrosilvopastoril", "Minero",
-    "Sin uso / En abandono", "Conservacion / Area protegida",
+    "Sin uso / En abandono", "Conservación / Área protegida",
 ]
 FDT04_CONFLICTO_USO = [
     "Sin conflicto (uso adecuado a capacidad)",
-    "Sobreuso leve", "Sobreuso moderado", "Sobreuso severo",
+    "Sobreuso severo",
     "Subuso (capacidad no aprovechada)",
 ]
 
-# F-DT-05: RECURSOS HIDRICOS
+# F-DT-05: RECURSOS HÍDRICOS
 FDT05_FUENTE_AGUA = [
-    "Rio permanente", "Quebrada / Riachuelo", "Manantial / Puquio",
+    "Río permanente", "Quebrada / Riachuelo", "Manantial / Puquio",
     "Laguna / Reservorio", "Canal de riego",
-    "Agua subterranea (pozo)", "Ninguna visible en el area",
+    "Agua subterránea (pozo)", "Ninguna visible en el área",
 ]
 FDT05_REGIMEN = [
-    "Permanente (flujo todo el anio)",
+    "Permanente (flujo todo el año)",
     "Estacional (flujo en temporada de lluvias)",
-    "Temporal / Efimero (solo con eventos de lluvia)",
+    "Temporal / Efímero (solo con eventos de lluvia)",
     "Sin escurrimiento superficial",
 ]
 FDT05_CALIDAD_AGUA = [
     "Buena (clara, sin olor, sin sedimentos)",
     "Regular (ligeramente turbia o con sedimentos)",
     "Mala (turbia, con olor, con color)",
-    "Muy mala (contaminacion evidente)",
+    "Muy mala (contaminación evidente)",
     "No evaluable (sin fuente de agua accesible)",
 ]
 FDT05_DISTANCIA_AGUA = [
     "<100 m", "100-500 m", "500-1000 m", "1-5 km", ">5 km",
 ]
 FDT05_USO_HIDRICO = [
-    "Consumo humano", "Riego agricola", "Pecuario / Abrevadero",
-    "Piscicola", "Uso multiple", "Sin uso actual",
+    "Consumo humano", "Riego agrícola", "Pecuario / Abrevadero",
+    "Piscícola", "Uso múltiple", "Sin uso actual",
 ]
 
-# F-DT-06: ASPECTOS SOCIOECONOMICOS Y ACCESIBILIDAD
+# F-DT-06: ASPECTOS SOCIOECONÓMICOS Y ACCESIBILIDAD
 FDT06_TENENCIA = [
     "Comunal (comunidad campesina)",
-    "Privada individual (titulo)",
-    "Privada individual (sin titulo / posesionario)",
+    "Privada individual (con título)",
+    "Privada individual (sin título / posesionario)",
     "Estatal / Fiscal",
     "Mixta (comunal + privada)",
-    "Sin informacion",
+    "Sin información",
 ]
 FDT06_ORGANIZACION = [
     "Bien organizada (junta directiva activa, asambleas regulares)",
     "Moderadamente organizada (funcional pero irregular)",
-    "Debilmente organizada (directiva nominal, poca participacion)",
-    "Sin organizacion comunitaria identificada",
+    "Débilmente organizada (directiva nominal, poca participación)",
+    "Sin organización comunitaria identificada",
 ]
 FDT06_ACTIVIDAD_ECONOMICA = [
     "Agricultura de subsistencia",
     "Agricultura comercial",
-    "Ganaderia extensiva",
-    "Ganaderia intensiva",
-    "Actividad forestal / Extraccion",
-    "Mineria artesanal",
+    "Ganadería extensiva",
+    "Ganadería intensiva",
+    "Actividad forestal / Extracción",
+    "Minería artesanal",
     "Comercio / Servicios",
     "Mixta (agropecuaria)",
 ]
@@ -623,16 +623,18 @@ FDT06_ACCESIBILIDAD = [
     "Carretera asfaltada (acceso permanente)",
     "Carretera afirmada (acceso con restricciones en lluvia)",
     "Trocha carrozable (acceso limitado)",
-    "Camino de herradura (solo a pie o acemila)",
+    "Camino de herradura (solo a pie o acémila)",
     "Sin acceso vehicular (zona remota)",
 ]
 FDT06_DISTANCIA_CENTRO = [
     "<1 km", "1-5 km", "5-10 km", "10-20 km", ">20 km",
 ]
-FDT06_SERVICIOS = [
+# Plantilla validada: 5 servicios evaluados con Sí/No individualmente
+FDT06_SERVICIOS_LABELS = [
     "Agua potable", "Electricidad", "Telecomunicaciones / Internet",
-    "Puesto de salud", "Escuela / IE", "Ninguno de los anteriores",
+    "Puesto de salud", "Escuela / IE",
 ]
+FDT06_SI_NO = ["Sí", "No"]
 
 # ── Fichas de Diagnostico Social (F-DS-01 a F-DS-05) ─────────────────────
 # Fuente: Formatos_Sociales_Registros_de_Campo_IN_Piura_2026.xlsx
@@ -740,6 +742,51 @@ def _resolver_microcuenca(bloque_label):
     if mc and mc in MICROCUENCAS:
         return mc
     return ""
+
+
+def _resolver_datos_bloque(bloque_label):
+    """Resuelve metadatos completos del bloque (microcuenca, provincia, distrito,
+    superficie ha y coordenadas UTM del centroide).
+
+    Combina datos de la BD (si existen) con BLOQUES_128_MAP como respaldo.
+    Retorna dict con claves: microcuenca, provincia, distrito, area_ha,
+    utm_este, utm_norte (cualquier valor faltante queda como cadena vacía o 0).
+    """
+    codigo = bloque_label.split(" - ")[0].strip() if " - " in bloque_label else bloque_label.strip()
+    info = {"microcuenca": "", "provincia": "", "distrito": "",
+            "area_ha": 0.0, "utm_este": 0.0, "utm_norte": 0.0}
+    # 1) Buscar en BD
+    for b in _cached_obtener_bloques(_cache_version()):
+        if b["codigo"] == codigo:
+            info["microcuenca"] = (b.get("microcuenca") or "")
+            info["provincia"] = (b.get("provincia") or "")
+            info["distrito"] = (b.get("distrito") or "")
+            try: info["area_ha"] = float(b.get("area_ha") or 0)
+            except (TypeError, ValueError): info["area_ha"] = 0.0
+            try: info["utm_este"] = float(b.get("utm_este") or 0)
+            except (TypeError, ValueError): info["utm_este"] = 0.0
+            try: info["utm_norte"] = float(b.get("utm_norte") or 0)
+            except (TypeError, ValueError): info["utm_norte"] = 0.0
+            break
+    # 2) Completar campos faltantes con catalogo predefinido
+    fallback = BLOQUES_128_MAP.get(codigo, {})
+    if fallback:
+        if not info["microcuenca"]:
+            info["microcuenca"] = fallback.get("microcuenca", "")
+        if not info["provincia"]:
+            info["provincia"] = fallback.get("provincia", "")
+        if not info["distrito"]:
+            info["distrito"] = fallback.get("distrito", "")
+        if not info["area_ha"]:
+            try: info["area_ha"] = float(fallback.get("area_ha") or 0)
+            except (TypeError, ValueError): pass
+        if not info["utm_este"]:
+            try: info["utm_este"] = float(fallback.get("utm_este") or 0)
+            except (TypeError, ValueError): pass
+        if not info["utm_norte"]:
+            try: info["utm_norte"] = float(fallback.get("utm_norte") or 0)
+            except (TypeError, ValueError): pass
+    return info
 
 # ══════════════════════════════════════════════════════════════════════════
 # PANEL DE CONTROL
@@ -1467,11 +1514,17 @@ def pagina_diagnostico_territorial():
         bl = st.selectbox("Bloque de Intervencion", list(bm.keys()), key="dt_bl")
         bid = bm[bl]
 
-        # Auto-resolver microcuenca del bloque seleccionado
-        mc_auto_dt = _resolver_microcuenca(bl)
-        if mc_auto_dt:
+        # ── Auto-vinculacion: microcuenca, provincia, distrito, superficie, UTM ──
+        info_bl = _resolver_datos_bloque(bl)
+        mc_auto_dt = info_bl.get("microcuenca") or ""
+        prov_auto_dt = info_bl.get("provincia") or ""
+        dist_auto_dt = info_bl.get("distrito") or ""
+        area_auto_dt = info_bl.get("area_ha") or 0.0
+        utm_e_auto = info_bl.get("utm_este") or 0.0
+        utm_n_auto = info_bl.get("utm_norte") or 0.0
+
+        if mc_auto_dt and mc_auto_dt in MICROCUENCAS:
             mc_idx_dt = MICROCUENCAS.index(mc_auto_dt) + 1
-            st.info(f"Microcuenca vinculada automaticamente: **{mc_auto_dt}**")
         else:
             mc_idx_dt = 0
         # En modo edicion, preseleccionar la microcuenca del registro
@@ -1479,6 +1532,17 @@ def pagina_diagnostico_territorial():
             mc_val = dt_edit.get("microcuenca", "")
             if mc_val and mc_val in MICROCUENCAS:
                 mc_idx_dt = MICROCUENCAS.index(mc_val) + 1
+
+        # Mostrar tarjeta de datos vinculados automaticamente
+        if any([mc_auto_dt, prov_auto_dt, dist_auto_dt, area_auto_dt, utm_e_auto, utm_n_auto]):
+            st.info(
+                f"**Datos vinculados automáticamente al bloque {bl}:**  \n"
+                f"• Microcuenca: **{mc_auto_dt or '-'}**  \n"
+                f"• Provincia: **{prov_auto_dt or '-'}** | Distrito: **{dist_auto_dt or '-'}**  \n"
+                f"• Superficie: **{area_auto_dt:.3f} ha**  \n"
+                f"• Centroide UTM (Zona 17S, WGS84): **{int(utm_e_auto):,} E / "
+                f"{int(utm_n_auto):,} N**"
+            )
 
         def_fecha_dt = datetime.now()
         def_evaluador = ""
@@ -1567,13 +1631,29 @@ def pagina_diagnostico_territorial():
             st.markdown("*Evaluacion de factores socioeconomicos y accesibilidad del area.*")
             c1, c2 = st.columns(2)
             tenencia = c1.selectbox("Tenencia de la tierra", [""] + FDT06_TENENCIA, key="f06_tt")
-            organizacion = c2.selectbox("Organizacion comunal", [""] + FDT06_ORGANIZACION, key="f06_oc")
+            organizacion = c2.selectbox("Organización comunal", [""] + FDT06_ORGANIZACION, key="f06_oc")
             c3, c4 = st.columns(2)
-            act_econ = c3.selectbox("Actividad economica principal", [""] + FDT06_ACTIVIDAD_ECONOMICA, key="f06_ae")
-            accesib = c4.selectbox("Accesibilidad (via principal)", [""] + FDT06_ACCESIBILIDAD, key="f06_ac")
-            c5, c6 = st.columns(2)
-            dist_centro = c5.selectbox("Distancia al centro poblado", [""] + FDT06_DISTANCIA_CENTRO, key="f06_dp")
-            servicios = c6.multiselect("Servicios basicos disponibles", FDT06_SERVICIOS, key="f06_sb")
+            act_econ = c3.selectbox("Actividad económica principal", [""] + FDT06_ACTIVIDAD_ECONOMICA, key="f06_ae")
+            accesib = c4.selectbox("Accesibilidad (vía principal)", [""] + FDT06_ACCESIBILIDAD, key="f06_ac")
+            dist_centro = st.selectbox("Distancia al centro poblado", [""] + FDT06_DISTANCIA_CENTRO, key="f06_dp")
+
+            st.markdown("**Servicios básicos disponibles** *(marque Sí/No para cada servicio)*")
+            sc1, sc2 = st.columns(2)
+            serv_agua = sc1.selectbox("Agua potable", [""] + FDT06_SI_NO, key="f06_sb_agua")
+            serv_elec = sc2.selectbox("Electricidad", [""] + FDT06_SI_NO, key="f06_sb_elec")
+            sc3, sc4 = st.columns(2)
+            serv_tel = sc3.selectbox("Telecomunicaciones / Internet", [""] + FDT06_SI_NO, key="f06_sb_tel")
+            serv_salud = sc4.selectbox("Puesto de salud", [""] + FDT06_SI_NO, key="f06_sb_salud")
+            serv_esc = st.selectbox("Escuela / IE", [""] + FDT06_SI_NO, key="f06_sb_esc")
+
+            # Construir cadena estandarizada para almacenamiento en BD
+            _serv_pares = []
+            for _lbl, _v in [("Agua potable", serv_agua), ("Electricidad", serv_elec),
+                             ("Telecomunicaciones / Internet", serv_tel),
+                             ("Puesto de salud", serv_salud), ("Escuela / IE", serv_esc)]:
+                if _v:
+                    _serv_pares.append(f"{_lbl}: {_v}")
+            servicios_str = " | ".join(_serv_pares)
 
         st.markdown("---")
         observ_gen = st.text_area("Observaciones generales del diagnostico", key="dt_obs")
@@ -1590,7 +1670,8 @@ def pagina_diagnostico_territorial():
             fichas_sel.append("F-DT-04")
         if any([fuente, regimen_hid, calidad_ag, dist_agua, uso_hidrico]):
             fichas_sel.append("F-DT-05")
-        if any([tenencia, organizacion, act_econ, accesib, dist_centro, servicios]):
+        if any([tenencia, organizacion, act_econ, accesib, dist_centro,
+                serv_agua, serv_elec, serv_tel, serv_salud, serv_esc]):
             fichas_sel.append("F-DT-06")
 
         if fichas_sel:
@@ -1643,7 +1724,7 @@ def pagina_diagnostico_territorial():
                         actividad_economica=act_econ,
                         accesibilidad_via=accesib,
                         distancia_centro_poblado=dist_centro,
-                        servicios_basicos=", ".join(servicios) if servicios else "",
+                        servicios_basicos=servicios_str,
                         observaciones_generales=observ_gen,
                     )
                     if dt_edit_id:
@@ -1813,7 +1894,12 @@ def pagina_diagnostico_territorial():
             FICHAS_DT, default=FICHAS_DT, key="dt_excel_fichas_dl")
         if col_dl2.button("Generar Plantilla Excel", type="secondary", key="dt_gen_plantilla"):
             if fichas_descarga_dt:
-                bloques_data_dt = [(b[1], b[2], b[4], b[5]) for b in BLOQUES_128]
+                # Tupla (codigo, microcuenca, provincia, distrito, area_ha,
+                # utm_este, utm_norte) para autocompletado completo en el Excel.
+                bloques_data_dt = [
+                    (b[1], b[2], b[4], b[5], b[3], b[8], b[9])
+                    for b in BLOQUES_128
+                ]
                 plantilla_bytes_dt = generar_plantilla_dt(fichas_descarga_dt, bloques_data_dt)
                 st.session_state["dt_plantilla_bytes"] = plantilla_bytes_dt
                 st.success("Plantilla generada correctamente.")
