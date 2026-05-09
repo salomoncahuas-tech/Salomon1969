@@ -5,6 +5,7 @@ Incluye fichas de inspección, resumen de bloques, presupuesto y cronograma.
 Cuenca alta del río Piura, Perú.
 """
 
+import json
 import os
 from datetime import datetime
 
@@ -83,6 +84,46 @@ class FichaInspeccionPDF(FPDF):
         x_margin = self.l_margin
         self.set_x(x_margin)
         self.multi_cell(190, 5, texto)
+        self.ln(1)
+
+    def _subficha(self, titulo):
+        self.set_font("Helvetica", "BI", 9)
+        self.set_fill_color(230, 236, 245)
+        self.cell(0, 5, f"  {titulo}", 0, 1, fill=True)
+        self.set_font("Helvetica", "", 9)
+
+    def _tabla_json(self, etiqueta, raw_json, columnas):
+        """Renderiza una lista JSON como tabla simple en el PDF.
+        `columnas` es una lista de tuplas (clave, encabezado, ancho_mm).
+        Solo se imprimen filas con al menos un campo no vacio."""
+        try:
+            data = json.loads(raw_json) if raw_json else []
+        except (TypeError, ValueError):
+            data = []
+        filas = [r for r in data if isinstance(r, dict) and any(
+            (str(r.get(k, "") or "").strip()) for k, _, _ in columnas)]
+        if not filas:
+            return
+        self.set_font("Helvetica", "B", 9)
+        self.cell(0, 5, etiqueta + ":", 0, 1)
+        # Encabezado de tabla
+        self.set_font("Helvetica", "B", 8)
+        self.set_fill_color(220, 220, 220)
+        for _, header, ancho in columnas:
+            self.cell(ancho, 5, str(header)[:30], 1, 0, "C", fill=True)
+        self.ln(5)
+        # Filas
+        self.set_font("Helvetica", "", 8)
+        for fila in filas:
+            for clave, _, ancho in columnas:
+                val = str(fila.get(clave, "") or "").strip()
+                # Truncar para evitar desbordes
+                max_chars = max(8, int(ancho / 1.6))
+                if len(val) > max_chars:
+                    val = val[: max_chars - 1] + "."
+                self.cell(ancho, 5, val, 1, 0)
+            self.ln(5)
+        self.set_font("Helvetica", "", 9)
         self.ln(1)
 
 
@@ -191,7 +232,8 @@ def generar_ficha_pdf(bloque_id, inspeccion_id=None):
                     pdf._campo("Vigor cobertura vegetal", vigor_cob)
                 pdf.ln(3)
 
-    # Diagnostico Territorial del bloque (deduplicar: solo el mas reciente por ficha)
+    # Diagnostico Territorial del bloque (V5: F-DT-01..F-DT-05)
+    # Deduplicar: solo el mas reciente por (ficha, evaluador)
     diagnosticos_dt_raw = db.obtener_diagnosticos_por_bloque(bloque_id)
     diagnosticos_dt = []
     _dt_vistas = set()
@@ -202,104 +244,258 @@ def generar_ficha_pdf(bloque_id, inspeccion_id=None):
             _dt_vistas.add(clave)
             diagnosticos_dt.append(dt)
     if diagnosticos_dt:
-        pdf._seccion("3. Diagnostico Territorial")
-        for idx_dt, dt in enumerate(diagnosticos_dt, 1):
+        pdf._seccion("3. Diagnostico Territorial (Plantilla V5)")
+        for dt in diagnosticos_dt:
             pdf.set_font("Helvetica", "B", 10)
-            pdf.cell(0, 6, f"  Ficha {dt.get('ficha', '')} - {dt.get('fecha_evaluacion', '')}", 0, 1)
+            pdf.cell(0, 6, f"  Ficha(s) {dt.get('ficha', '')} - {dt.get('fecha_evaluacion', '')}", 0, 1)
             pdf.set_font("Helvetica", "", 9)
-            if dt.get("microcuenca"):
-                pdf._campo("Microcuenca", dt["microcuenca"])
-            if dt.get("evaluador"):
-                pdf._campo("Evaluador", dt["evaluador"])
-            # F-DT-01: Caracteristicas Fisiograficas
+            # Datos generales V5
+            datos_gen = [
+                ("Microcuenca", "microcuenca"),
+                ("Evaluador", "evaluador"),
+                ("Brigada", "brigada"),
+                ("Correlativo ficha", "ficha_correlativo"),
+                ("Hora de registro", "hora_registro"),
+                ("Centro poblado cercano", "centro_poblado_cercano"),
+                ("Comunidad campesina", "comunidad_campesina_dt"),
+                ("Altitud GPS (m)", "altitud_gps"),
+                ("UTM Este", "utm_este_dt"),
+                ("UTM Norte", "utm_norte_dt"),
+            ]
+            for label, key in datos_gen:
+                val = dt.get(key, "") or ""
+                if val:
+                    pdf._campo(label, val)
+
+            # ── F-DT-01: Datos Generales y Fisiografia ──
             campos_dt01 = [
-                ("Forma del terreno", "forma_terreno"), ("Pendiente", "pendiente"),
-                ("Posicion fisiografica", "posicion_fisiografica"), ("Exposicion", "exposicion_orientacion"),
-                ("Paisaje dominante", "paisaje_dominante"), ("Rango altitudinal", "rango_altitudinal")]
-            tiene_dt01 = any(dt.get(c[1]) for c in campos_dt01)
-            if tiene_dt01:
-                pdf.set_font("Helvetica", "BI", 9)
-                pdf.cell(0, 5, "  F-DT-01: Caracteristicas Fisiograficas", 0, 1)
-                pdf.set_font("Helvetica", "", 9)
+                ("Forma del terreno", "forma_terreno"),
+                ("Rango de pendiente", "pendiente"),
+                ("Posicion fisiografica", "posicion_fisiografica"),
+                ("Exposicion / Orientacion", "exposicion_orientacion"),
+                ("Rango altitudinal", "rango_altitudinal"),
+                ("Paisaje dominante", "paisaje_dominante"),
+                ("Afloramientos rocosos", "dt01_afloramientos_rocosos"),
+                ("Escarpes activos", "dt01_escarpes_activos"),
+                ("Reptacion de suelo", "dt01_reptacion_suelo"),
+                ("Deslizamientos antiguos", "dt01_deslizamientos_antiguos"),
+                ("Remociones en masa activas", "dt01_remociones_masa_activas"),
+            ]
+            if any(dt.get(k) for _, k in campos_dt01) or dt.get("dt01_observaciones"):
+                pdf._subficha("F-DT-01: Datos Generales y Fisiografia del Bloque")
                 for label, key in campos_dt01:
                     val = dt.get(key, "") or ""
                     if val:
                         pdf._campo(label, val)
-            # F-DT-02: Condiciones Climaticas
+                if dt.get("dt01_observaciones"):
+                    pdf._campo_largo("Observaciones F-DT-01", dt["dt01_observaciones"])
+
+            # ── F-DT-02: Suelo y Procesos Erosivos ──
             campos_dt02 = [
-                ("Precipitacion anual", "precipitacion_anual"), ("Temperatura media", "temperatura_media"),
-                ("Humedad relativa", "humedad_relativa"), ("Zona de vida", "zona_vida"),
-                ("Presencia de heladas", "presencia_heladas"), ("Regimen de vientos", "regimen_vientos")]
-            tiene_dt02 = any(dt.get(c[1]) for c in campos_dt02)
+                ("Sellamiento / Costra", "dt02_sellamiento_costra"),
+                ("Compactacion por pisoteo", "dt02_compactacion_pisoteo"),
+                ("Raices expuestas", "dt02_raices_expuestas"),
+                ("Nivel general de erosion", "dt02_nivel_erosion_general"),
+                ("Nivel erosion (sintesis)", "dt02_nivel_erosion_sintesis"),
+                ("N° de carcavas", "dt02_num_carcavas"),
+                ("Longitud total carcavas (m)", "dt02_longitud_total_carcavas"),
+                ("% bloque con carcavas", "dt02_pct_bloque_carcavas"),
+                ("Erosion laminar (%)", "dt02_erosion_laminar_pct"),
+                ("Patron de carcavas", "dt02_patron_carcavas"),
+                ("Socavamiento de cauce", "dt02_socavamiento_cauce"),
+                ("Urgencia de control", "dt02_urgencia_control"),
+            ]
+            tiene_dt02 = (any(dt.get(k) for _, k in campos_dt02)
+                          or dt.get("dt02_carcavas_json") or dt.get("dt02_observaciones"))
             if tiene_dt02:
-                pdf.set_font("Helvetica", "BI", 9)
-                pdf.cell(0, 5, "  F-DT-02: Condiciones Climaticas", 0, 1)
-                pdf.set_font("Helvetica", "", 9)
+                pdf._subficha("F-DT-02: Suelo y Procesos Erosivos")
                 for label, key in campos_dt02:
                     val = dt.get(key, "") or ""
                     if val:
                         pdf._campo(label, val)
-            # F-DT-03: Caracteristicas del Suelo
+                pdf._tabla_json(
+                    "Inventario de carcavas / surcos",
+                    dt.get("dt02_carcavas_json", ""),
+                    [
+                        ("codigo", "Codigo", 18),
+                        ("tipo", "Tipo", 22),
+                        ("utm_e_ini", "UTM E ini", 22),
+                        ("utm_n_ini", "UTM N ini", 22),
+                        ("longitud_m", "Long.(m)", 16),
+                        ("prof_m", "Prof.(m)", 16),
+                        ("ancho_m", "Ancho(m)", 16),
+                        ("estado", "Estado", 22),
+                        ("causa", "Causa", 35),
+                    ],
+                )
+                if dt.get("dt02_observaciones"):
+                    pdf._campo_largo("Observaciones F-DT-02", dt["dt02_observaciones"])
+
+            # ── F-DT-03: Ecosistema ──
             campos_dt03 = [
-                ("Textura", "textura_suelo"), ("Color del suelo", "color_suelo"),
-                ("Profundidad efectiva", "profundidad_efectiva"), ("Pedregosidad", "pedregosidad"),
-                ("Drenaje", "drenaje"), ("Presencia de erosion", "presencia_erosion"),
-                ("Materia organica", "materia_organica")]
-            tiene_dt03 = any(dt.get(c[1]) for c in campos_dt03)
+                ("Parcela de muestreo", "dt03_parcela_muestreo"),
+                ("Dimensiones parcela (m)", "dt03_dim_parcela"),
+                ("Pendiente parcela (%)", "dt03_pendiente_parcela"),
+                ("Cobertura vegetal total (%)", "dt03_cobertura_total"),
+                ("Tipo de ecosistema (MINAM)", "dt03_tipo_ecosistema"),
+                ("Superficie ecosistema (ha)", "dt03_superficie_ecosistema"),
+                ("Estado conservacion", "dt03_estado_conservacion_eco"),
+                ("Uso dominante del suelo", "dt03_uso_dominante"),
+                ("Cobertura dosel (%)", "dt03_cobertura_dosel"),
+                ("Cobertura arbustiva (%)", "dt03_cobertura_arbustiva"),
+                ("Cobertura herbacea (%)", "dt03_cobertura_herbacea"),
+                ("Cobertura hojarasca (%)", "dt03_cobertura_hojarasca"),
+                ("Suelo desnudo (%)", "dt03_suelo_desnudo"),
+                ("Altura estrato dom. (m)", "dt03_altura_estrato_dom"),
+                ("Altura maxima (m)", "dt03_altura_max"),
+                ("DAP promedio (cm)", "dt03_dap_promedio"),
+                ("Regeneracion natural", "dt03_regeneracion_natural"),
+                ("Estado sanitario", "dt03_estado_sanitario"),
+                ("Presencia epifitas", "dt03_presencia_epifitas"),
+                ("Fenologia dominante", "dt03_fenologia_dominante"),
+                ("Tipo cobertura dominante", "dt03_tipo_cobertura_dom"),
+            ]
+            tiene_dt03 = (any(dt.get(k) for _, k in campos_dt03)
+                          or dt.get("dt03_floristica_json")
+                          or dt.get("dt03_especies_clave_json")
+                          or dt.get("dt03_observaciones"))
             if tiene_dt03:
-                pdf.set_font("Helvetica", "BI", 9)
-                pdf.cell(0, 5, "  F-DT-03: Caracteristicas del Suelo", 0, 1)
-                pdf.set_font("Helvetica", "", 9)
+                pdf._subficha("F-DT-03: Ecosistema - Composicion, Estructura y Valor Ecologico")
                 for label, key in campos_dt03:
                     val = dt.get(key, "") or ""
                     if val:
                         pdf._campo(label, val)
-            # F-DT-04: Cobertura Vegetal y Uso del Suelo
+                pdf._tabla_json(
+                    "Composicion floristica",
+                    dt.get("dt03_floristica_json", ""),
+                    [
+                        ("nombre_comun", "N. comun", 35),
+                        ("nombre_cientifico", "N. cientifico", 45),
+                        ("familia", "Familia", 28),
+                        ("estrato", "Estrato", 20),
+                        ("origen", "Origen", 18),
+                        ("abundancia", "Abund.", 18),
+                        ("dap_cm", "DAP", 12),
+                        ("altura_m", "H(m)", 12),
+                    ],
+                )
+                pdf._tabla_json(
+                    "Especies clave / indicadoras",
+                    dt.get("dt03_especies_clave_json", ""),
+                    [
+                        ("nombre", "Nombre", 45),
+                        ("categoria", "Categoria", 30),
+                        ("estado_uicn", "UICN/D.S.043", 28),
+                        ("utm_e", "UTM E", 22),
+                        ("utm_n", "UTM N", 22),
+                        ("n_indiv", "N° ind.", 14),
+                        ("foto", "Foto", 14),
+                    ],
+                )
+                if dt.get("dt03_observaciones"):
+                    pdf._campo_largo("Observaciones F-DT-03", dt["dt03_observaciones"])
+
+            # ── F-DT-04: Causas e Indicadores de Degradacion ──
             campos_dt04 = [
-                ("Tipo de cobertura", "tipo_cobertura"), ("Densidad de cobertura", "densidad_cobertura"),
-                ("Estado de conservacion", "estado_conservacion"), ("Uso actual del suelo", "uso_actual_suelo"),
-                ("Estado de uso del suelo", "conflicto_uso")]
-            tiene_dt04 = any(dt.get(c[1]) for c in campos_dt04)
+                ("Causa subyacente principal", "dt04_causa_subyacente"),
+                ("Velocidad de degradacion", "dt04_velocidad_degradacion"),
+                ("Reversibilidad tecnica", "dt04_reversibilidad"),
+                ("Urgencia de intervencion", "dt04_urgencia_intervencion"),
+            ]
+            tiene_dt04 = (any(dt.get(k) for _, k in campos_dt04)
+                          or dt.get("dt04_causas_json")
+                          or dt.get("dt04_indicadores_json")
+                          or dt.get("dt04_causas_directas_texto")
+                          or dt.get("dt04_observaciones"))
             if tiene_dt04:
-                pdf.set_font("Helvetica", "BI", 9)
-                pdf.cell(0, 5, "  F-DT-04: Cobertura Vegetal y Uso del Suelo", 0, 1)
-                pdf.set_font("Helvetica", "", 9)
+                pdf._subficha("F-DT-04: Causas e Indicadores de Degradacion")
+                pdf._tabla_json(
+                    "Matriz de causas de degradacion",
+                    dt.get("dt04_causas_json", ""),
+                    [
+                        ("n", "N°", 10),
+                        ("causa", "Causa / Factor", 70),
+                        ("presencia", "Pres.", 16),
+                        ("intensidad", "Intens.", 22),
+                        ("extension", "Ext.(%)", 18),
+                        ("antiguedad", "Antig.", 16),
+                        ("evidencia", "Evidencia", 38),
+                    ],
+                )
+                pdf._tabla_json(
+                    "Indicadores cuantitativos de degradacion",
+                    dt.get("dt04_indicadores_json", ""),
+                    [
+                        ("n", "N°", 10),
+                        ("indicador", "Indicador", 55),
+                        ("unidad", "Unidad", 18),
+                        ("valor", "Valor", 18),
+                        ("fuente", "Fuente", 30),
+                        ("umbral", "Umbral", 35),
+                        ("nivel", "Nivel", 20),
+                    ],
+                )
+                if dt.get("dt04_causas_directas_texto"):
+                    pdf._campo_largo("Causas directas (sintesis)",
+                                     dt["dt04_causas_directas_texto"])
                 for label, key in campos_dt04:
                     val = dt.get(key, "") or ""
                     if val:
                         pdf._campo(label, val)
-            # F-DT-05: Recursos Hidricos
+                if dt.get("dt04_observaciones"):
+                    pdf._campo_largo("Observaciones F-DT-04", dt["dt04_observaciones"])
+
+            # ── F-DT-05: Recursos Hidricos y Accesibilidad ──
             campos_dt05 = [
-                ("Fuente de agua", "fuente_agua"), ("Regimen hidrico", "regimen_hidrico"),
-                ("Calidad del agua", "calidad_agua"), ("Distancia a fuente", "distancia_fuente_agua"),
-                ("Uso recurso hidrico", "uso_recurso_hidrico")]
-            tiene_dt05 = any(dt.get(c[1]) for c in campos_dt05)
+                ("Zona de recarga hidrica", "dt05_zona_recarga"),
+                ("Humedad persistente", "dt05_humedad_persistente"),
+                ("Escorrentia concentrada", "dt05_escorrentia_concentrada"),
+                ("Distancia a captacion (m)", "dt05_dist_captacion"),
+                ("JASS / captacion asociada", "dt05_jass_captacion"),
+                ("Interferencia con riego", "dt05_interferencia_riego"),
+                ("Sistema de riego", "dt05_sistema_riego_nombre"),
+                ("Modalidad de acceso", "dt05_modalidad_acceso"),
+                ("Via principal de acceso", "dt05_via_principal"),
+                ("Tipo de via final", "dt05_tipo_via_final"),
+                ("Transitabilidad - seca", "dt05_transitabilidad_seca"),
+                ("Transitabilidad - lluviosa", "dt05_transitabilidad_lluviosa"),
+                ("Tiempo desde capital distrital (min)", "dt05_tiempo_dist_capital"),
+                ("Tiempo desde capital provincial (min)", "dt05_tiempo_prov_capital"),
+                ("Senal celular", "dt05_senal_celular"),
+                ("Operador celular dominante", "dt05_operador_celular"),
+                ("Alojamiento rural disponible", "dt05_alojamiento"),
+                ("Requiere autorizacion Ronda", "dt05_requiere_ronda"),
+                ("Contacto Ronda", "dt05_contacto_ronda"),
+            ]
+            tiene_dt05 = (any(dt.get(k) for _, k in campos_dt05)
+                          or dt.get("dt05_fuentes_agua_json")
+                          or dt.get("dt05_observaciones"))
             if tiene_dt05:
-                pdf.set_font("Helvetica", "BI", 9)
-                pdf.cell(0, 5, "  F-DT-05: Recursos Hidricos", 0, 1)
-                pdf.set_font("Helvetica", "", 9)
+                pdf._subficha("F-DT-05: Recursos Hidricos y Accesibilidad")
+                pdf._tabla_json(
+                    "Inventario de fuentes de agua",
+                    dt.get("dt05_fuentes_agua_json", ""),
+                    [
+                        ("n", "N°", 10),
+                        ("tipo", "Tipo", 28),
+                        ("utm_e", "UTM E", 22),
+                        ("utm_n", "UTM N", 22),
+                        ("regimen", "Regimen", 22),
+                        ("calidad", "Calidad", 22),
+                        ("distancia_m", "Dist.(m)", 18),
+                        ("uso_obs", "Uso/Obs.", 40),
+                    ],
+                )
                 for label, key in campos_dt05:
                     val = dt.get(key, "") or ""
                     if val:
                         pdf._campo(label, val)
-            # F-DT-06: Aspectos Socioeconomicos
-            campos_dt06 = [
-                ("Tenencia de la tierra", "tenencia_tierra"), ("Organizacion comunal", "organizacion_comunal"),
-                ("Actividad economica", "actividad_economica"), ("Accesibilidad vial", "accesibilidad_via"),
-                ("Distancia centro poblado", "distancia_centro_poblado"), ("Servicios basicos", "servicios_basicos")]
-            tiene_dt06 = any(dt.get(c[1]) for c in campos_dt06)
-            if tiene_dt06:
-                pdf.set_font("Helvetica", "BI", 9)
-                pdf.cell(0, 5, "  F-DT-06: Aspectos Socioeconomicos", 0, 1)
-                pdf.set_font("Helvetica", "", 9)
-                for label, key in campos_dt06:
-                    val = dt.get(key, "") or ""
-                    if val:
-                        pdf._campo(label, val)
-            # Observaciones generales
-            obs_dt = dt.get("observaciones_generales", "") or ""
-            if obs_dt:
-                pdf._campo_largo("Observaciones generales", obs_dt)
+                if dt.get("dt05_observaciones"):
+                    pdf._campo_largo("Observaciones F-DT-05", dt["dt05_observaciones"])
+
+            # Observaciones generales del diagnostico
+            if dt.get("observaciones_generales"):
+                pdf._campo_largo("Observaciones generales", dt["observaciones_generales"])
             pdf.ln(2)
 
     # Diagnostico Social del bloque (deduplicar: solo el mas reciente por ficha)
