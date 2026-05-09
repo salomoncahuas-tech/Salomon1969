@@ -40,8 +40,64 @@ def _estilos_excel():
 
 # ── Reporte PDF - Ficha de Inspección por Bloque ──────────────────────────
 
+# Helvetica (la fuente estandar de FPDF) solo soporta caracteres Latin-1.
+# Reemplazamos los simbolos Unicode mas comunes que aparecen en datos de
+# usuario por equivalentes ASCII para evitar errores al renderizar el PDF.
+_PDF_CHAR_REPLACEMENTS = {
+    "→": "->",   # →
+    "←": "<-",   # ←
+    "↔": "<->",  # ↔
+    "⇒": "=>",   # ⇒
+    "⇐": "<=",   # ⇐
+    "—": "-",    # — em dash
+    "–": "-",    # – en dash
+    "‘": "'",    # ' left single quote
+    "’": "'",    # ' right single quote / apostrophe
+    "“": '"',    # " left double quote
+    "”": '"',    # " right double quote
+    "…": "...",  # … ellipsis
+    "•": "-",    # • bullet
+    " ": " ",    # nbsp
+    " ": " ",    # thin space
+    "​": "",     # zero-width space
+    "−": "-",    # minus sign
+}
+
+
+def _sanitize_pdf_text(value):
+    """Convierte texto a un formato seguro para fuentes Latin-1 de FPDF."""
+    if value is None:
+        return ""
+    s = str(value)
+    for k, v in _PDF_CHAR_REPLACEMENTS.items():
+        if k in s:
+            s = s.replace(k, v)
+    # Cualquier caracter restante fuera de Latin-1 se reemplaza por '?'.
+    return s.encode("latin-1", "replace").decode("latin-1")
+
+
 class FichaInspeccionPDF(FPDF):
     """PDF personalizado para fichas de inspección IN Piura."""
+
+    def cell(self, *args, **kwargs):
+        if len(args) >= 3:
+            args = list(args)
+            args[2] = _sanitize_pdf_text(args[2])
+            args = tuple(args)
+        for key in ("txt", "text"):
+            if key in kwargs:
+                kwargs[key] = _sanitize_pdf_text(kwargs[key])
+        return super().cell(*args, **kwargs)
+
+    def multi_cell(self, *args, **kwargs):
+        if len(args) >= 3:
+            args = list(args)
+            args[2] = _sanitize_pdf_text(args[2])
+            args = tuple(args)
+        for key in ("txt", "text"):
+            if key in kwargs:
+                kwargs[key] = _sanitize_pdf_text(kwargs[key])
+        return super().multi_cell(*args, **kwargs)
 
     def header(self):
         self.set_font("Helvetica", "B", 14)
