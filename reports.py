@@ -509,126 +509,426 @@ def generar_ficha_pdf(bloque_id, inspeccion_id=None):
             _ds_vistas.add(clave)
             diagnosticos_ds.append(ds)
     if diagnosticos_ds:
-        pdf._seccion("4. Diagnostico Social")
-        for idx_ds, ds in enumerate(diagnosticos_ds, 1):
+        pdf._seccion("4. Diagnostico Social (F-DS-01..F-DS-05)")
+        for ds in diagnosticos_ds:
+            ficha_ds = ds.get("ficha", "")
             pdf.set_font("Helvetica", "B", 10)
-            pdf.cell(0, 6, f"  Ficha {ds.get('ficha', '')} - {ds.get('fecha_evaluacion', '')}", 0, 1)
+            pdf.cell(0, 6, f"  Ficha {ficha_ds} - {ds.get('fecha_evaluacion', '')}", 0, 1)
             pdf.set_font("Helvetica", "", 9)
-            if ds.get("microcuenca"):
-                pdf._campo("Microcuenca", ds["microcuenca"])
-            if ds.get("evaluador"):
-                pdf._campo("Evaluador", ds["evaluador"])
-            if ds.get("centro_poblado"):
-                pdf._campo("Centro poblado", ds["centro_poblado"])
-            if ds.get("comunidad_campesina"):
-                pdf._campo("Comunidad campesina", ds["comunidad_campesina"])
-            if ds.get("provincia"):
-                pdf._campo("Provincia", ds["provincia"])
-            if ds.get("distrito"):
-                pdf._campo("Distrito", ds["distrito"])
-            # F-DS-01: Datos socioeconomicos
-            campos_ds01 = [
-                ("N de familias", "ds01_num_familias"),
-                ("Poblacion hombres", "ds01_poblacion_hombres"),
-                ("Poblacion mujeres", "ds01_poblacion_mujeres"),
-                ("Poblacion total", "ds01_poblacion_total"),
-                ("Organizacion comunal", "ds01_organizacion_comunal"),
-                ("Junta directiva", "ds01_junta_directiva"),
-                ("Presidente junta", "ds01_presidente_junta"),
-                ("Agua potable tipo", "ds01_agua_potable_tipo"),
-                ("Agua potable cobertura", "ds01_agua_potable_cobertura"),
-                ("Saneamiento", "ds01_saneamiento"),
-                ("Energia tipo", "ds01_energia_tipo"),
-                ("Energia cobertura", "ds01_energia_cobertura"),
-                ("Actividades economicas", "ds01_actividades_economicas"),
-                ("Fuente de agua", "ds01_fuente_agua"),
-                ("Problemas de agua", "ds01_problemas_agua"),
-                ("Percepcion de cambios", "ds01_percepcion_cambios"),
-                ("Disposicion a participar", "ds01_disposicion_participar")]
-            tiene_ds01 = any(ds.get(c[1]) for c in campos_ds01)
-            if tiene_ds01:
-                pdf.set_font("Helvetica", "BI", 9)
-                pdf.cell(0, 5, "  F-DS-01: Diagnostico Socioeconomico", 0, 1)
-                pdf.set_font("Helvetica", "", 9)
+            # Datos generales (compartidos por todas las DS)
+            datos_gen_ds = [
+                ("Microcuenca", "microcuenca"),
+                ("Evaluador / Responsable", "evaluador"),
+                ("N° de ficha", "ficha_numero"),
+                ("Provincia", "provincia"),
+                ("Distrito", "distrito"),
+                ("Centro poblado", "centro_poblado"),
+                ("Comunidad campesina", "comunidad_campesina"),
+                ("Coordenada UTM Este", "coordenada_este"),
+                ("Coordenada UTM Norte", "coordenada_norte"),
+                ("Altitud (msnm)", "altitud"),
+                ("Codigo UBIGEO", "codigo_ubigeo"),
+            ]
+            for label, key in datos_gen_ds:
+                val = ds.get(key, "") or ""
+                if val and str(val).strip() not in ("0", "0.0"):
+                    pdf._campo(label, val)
+
+            # ── F-DS-01: Diagnostico Socioeconomico ──
+            if ficha_ds == "F-DS-01":
+                pdf._subficha("F-DS-01: Diagnostico Socioeconomico de Centro Poblado")
+                campos_ds01 = [
+                    ("N de familias / viviendas", "ds01_num_familias"),
+                    ("Poblacion - Hombres", "ds01_poblacion_hombres"),
+                    ("Poblacion - Mujeres", "ds01_poblacion_mujeres"),
+                    ("Poblacion total", "ds01_poblacion_total"),
+                    ("Idioma predominante", "ds01_idioma"),
+                    ("Nivel educativo predominante", "ds01_nivel_educativo"),
+                    ("Tasa de migracion", "ds01_tasa_migracion"),
+                    ("Destino principal migracion", "ds01_destino_migracion"),
+                    ("Organizacion comunal", "ds01_organizacion_comunal"),
+                    ("Junta directiva vigente", "ds01_junta_directiva"),
+                    ("Presidente/a de junta", "ds01_presidente_junta"),
+                    ("Agua potable - tipo", "ds01_agua_potable_tipo"),
+                    ("Agua potable - cobertura (%)", "ds01_agua_potable_cobertura"),
+                    ("Saneamiento", "ds01_saneamiento"),
+                    ("Energia - tipo", "ds01_energia_tipo"),
+                    ("Energia - cobertura (%)", "ds01_energia_cobertura"),
+                    ("Telecomunicaciones", "ds01_telecomunicaciones"),
+                    ("Operador telecom", "ds01_telecom_operador"),
+                    ("Acceso vial", "ds01_acceso_vial"),
+                    ("Distancia a capital distrital (km)", "ds01_distancia_capital"),
+                    ("Transporte", "ds01_transporte"),
+                    ("Establecimiento de salud", "ds01_salud_tipo"),
+                    ("Distancia a salud (km)", "ds01_salud_distancia"),
+                    ("Institucion educativa", "ds01_educacion"),
+                    ("Fuente principal de agua", "ds01_fuente_agua"),
+                    ("Problemas con el agua", "ds01_problemas_agua"),
+                    ("Uso de recursos forestales", "ds01_uso_recursos_forestales"),
+                    ("Frecuencia uso forestal", "ds01_frecuencia_uso_forestal"),
+                    ("Disposicion a participar", "ds01_disposicion_participar"),
+                    ("Comentario disposicion", "ds01_comentario_disposicion"),
+                    ("Area comunal (ha)", "ds01_tenencia_comunal_ha"),
+                    ("Area privada (ha)", "ds01_tenencia_privada_ha"),
+                    ("Area estatal (ha)", "ds01_tenencia_estatal_ha"),
+                ]
                 for label, key in campos_ds01:
                     val = ds.get(key, "") or ""
                     if val:
                         pdf._campo(label, val)
-            # F-DS-02: Actores clave
-            campos_ds02 = [
-                ("Registro de actores", "ds02_registro_actores"),
-                ("Actores gobierno local", "ds02_actores_gob_local"),
-                ("Actores comunidades", "ds02_actores_comunidades"),
-                ("Actores juntas de riego", "ds02_actores_juntas_riego"),
-                ("Actores ONG", "ds02_actores_ong")]
-            tiene_ds02 = any(ds.get(c[1]) for c in campos_ds02)
-            if tiene_ds02:
-                pdf.set_font("Helvetica", "BI", 9)
-                pdf.cell(0, 5, "  F-DS-02: Actores Clave", 0, 1)
-                pdf.set_font("Helvetica", "", 9)
+                if ds.get("ds01_percepcion_cambios"):
+                    pdf._campo_largo("Percepcion de cambios ambientales",
+                                     ds["ds01_percepcion_cambios"])
+                if ds.get("ds01_activos_asociados"):
+                    pdf._campo_largo("Activos asociados al bloque",
+                                     ds["ds01_activos_asociados"])
+                pdf._tabla_json(
+                    "Actividades economicas",
+                    ds.get("ds01_actividades_economicas", ""),
+                    [
+                        ("actividad", "Actividad", 45),
+                        ("pct_familias", "% Fam.", 18),
+                        ("productos", "Productos", 50),
+                        ("destino", "Destino", 30),
+                        ("ingreso", "Ingreso est.", 30),
+                    ],
+                )
+
+            # ── F-DS-02: Actores clave ──
+            elif ficha_ds == "F-DS-02":
+                pdf._subficha("F-DS-02: Identificacion y Caracterizacion de Actores Clave")
+                pdf._tabla_json(
+                    "Registro de actores identificados",
+                    ds.get("ds02_registro_actores", ""),
+                    [
+                        ("nombre", "Nombre / Organizacion", 50),
+                        ("tipo", "Tipo", 25),
+                        ("rol", "Rol / Funcion", 40),
+                        ("relacion", "Rel.Proy.", 20),
+                        ("influencia", "Influencia", 22),
+                        ("interes", "Interes", 22),
+                    ],
+                )
+                campos_ds02 = [
+                    ("Gobierno Local", "ds02_actores_gob_local"),
+                    ("Gobierno Regional", "ds02_actores_gob_regional"),
+                    ("Gobierno Nacional", "ds02_actores_gob_nacional"),
+                    ("Comunidades Campesinas", "ds02_actores_comunidades"),
+                    ("Juntas de Usuarios / Riego", "ds02_actores_juntas_riego"),
+                    ("Comites de Gestion / Cuenca", "ds02_actores_comites_cuenca"),
+                    ("ONG / Cooperacion", "ds02_actores_ong"),
+                    ("Empresa Privada", "ds02_actores_empresa"),
+                    ("Instituciones Educativas", "ds02_actores_educacion"),
+                    ("Organizaciones de Base", "ds02_actores_org_base"),
+                ]
                 for label, key in campos_ds02:
                     val = ds.get(key, "") or ""
                     if val:
                         pdf._campo(label, val)
-            # F-DS-03: Entrevista
-            campos_ds03 = [
-                ("Nombre entrevistado", "ds03_nombre_entrevistado"),
-                ("Cargo / Funcion", "ds03_cargo_funcion"),
-                ("Institucion", "ds03_institucion")]
-            tiene_ds03 = any(ds.get(c[1]) for c in campos_ds03)
-            if tiene_ds03:
-                pdf.set_font("Helvetica", "BI", 9)
-                pdf.cell(0, 5, "  F-DS-03: Entrevista Semiestructurada", 0, 1)
-                pdf.set_font("Helvetica", "", 9)
+
+            # ── F-DS-03: Entrevista semiestructurada ──
+            elif ficha_ds == "F-DS-03":
+                pdf._subficha("F-DS-03: Guia de Entrevista Semiestructurada")
+                campos_ds03 = [
+                    ("Nombre entrevistado/a", "ds03_nombre_entrevistado"),
+                    ("Cargo / Funcion", "ds03_cargo_funcion"),
+                    ("Institucion", "ds03_institucion"),
+                    ("Telefono / Correo", "ds03_telefono_correo"),
+                    ("Duracion entrevista", "ds03_duracion"),
+                ]
                 for label, key in campos_ds03:
                     val = ds.get(key, "") or ""
                     if val:
                         pdf._campo(label, val)
-                # Respuestas clave
-                resp_keys = [
-                    ("Recursos naturales", "ds03_resp_recursos_naturales"),
-                    ("Cambios ambientales", "ds03_resp_cambios_ambiente"),
-                    ("Problemas ambientales", "ds03_resp_problemas_ambientales"),
-                    ("Actividades economicas", "ds03_resp_actividades_economicas"),
-                    ("Expectativas del proyecto", "ds03_resp_expectativas"),
-                    ("Disposicion a participar", "ds03_resp_disposicion_participar")]
-                for label, key in resp_keys:
+                # Respuestas (texto libre)
+                resp_ds03 = [
+                    ("1.1 Recursos naturales", "ds03_resp_recursos_naturales"),
+                    ("1.2 Cambios ambientales", "ds03_resp_cambios_ambiente"),
+                    ("1.3 Problemas ambientales", "ds03_resp_problemas_ambientales"),
+                    ("1.4 Zonas de conservacion", "ds03_resp_zonas_conservacion"),
+                    ("2.1 Actividades economicas", "ds03_resp_actividades_economicas"),
+                    ("2.2 Abastecimiento de agua", "ds03_resp_abastecimiento_agua"),
+                    ("2.3 Productos del bosque", "ds03_resp_productos_bosque"),
+                    ("2.4 Cadenas productivas", "ds03_resp_cadenas_productivas"),
+                    ("3.1 Organizaciones", "ds03_resp_organizaciones"),
+                    ("3.2 Decisiones del territorio", "ds03_resp_decisiones_territorio"),
+                    ("3.3 Conflictos", "ds03_resp_conflictos"),
+                    ("3.4 Proyectos anteriores", "ds03_resp_proyectos_anteriores"),
+                    ("3.5 Experiencia en reforestacion", "ds03_resp_experiencia_reforestacion"),
+                    ("4.1 Conocimiento de restauracion", "ds03_resp_conocimiento_restauracion"),
+                    ("4.2 Expectativas del proyecto", "ds03_resp_expectativas"),
+                    ("4.3 Disposicion a participar", "ds03_resp_disposicion_participar"),
+                    ("4.4 Condiciones / preocupaciones", "ds03_resp_condiciones"),
+                    ("5.1 Conocimiento MERESE", "ds03_resp_conocimiento_merese"),
+                    ("5.2 Beneficiarios", "ds03_resp_beneficiarios"),
+                    ("5.3 Instituciones contribuyentes", "ds03_resp_instituciones_contribuyentes"),
+                    ("5.4 Experiencias de pago / compensacion", "ds03_resp_experiencias_pago"),
+                ]
+                for label, key in resp_ds03:
                     val = ds.get(key, "") or ""
                     if val:
-                        pdf._campo(label, val)
-            # F-DS-04: Taller participativo
-            campos_ds04 = [
-                ("Lugar del taller", "ds04_lugar_taller"),
-                ("Objetivo", "ds04_objetivo"),
-                ("Acuerdos", "ds04_acuerdos")]
-            tiene_ds04 = any(ds.get(c[1]) for c in campos_ds04)
-            if tiene_ds04:
-                pdf.set_font("Helvetica", "BI", 9)
-                pdf.cell(0, 5, "  F-DS-04: Taller Participativo", 0, 1)
-                pdf.set_font("Helvetica", "", 9)
+                        pdf._campo_largo(label, val)
+
+            # ── F-DS-04: Taller participativo ──
+            elif ficha_ds == "F-DS-04":
+                pdf._subficha("F-DS-04: Acta de Taller Participativo")
+                campos_ds04 = [
+                    ("Lugar del taller", "ds04_lugar_taller"),
+                    ("Convocante", "ds04_convocante"),
+                    ("Hora de inicio", "ds04_hora_inicio"),
+                    ("Hora de finalizacion", "ds04_hora_fin"),
+                ]
                 for label, key in campos_ds04:
                     val = ds.get(key, "") or ""
                     if val:
                         pdf._campo(label, val)
-            # F-DS-05: Conflictos y oportunidades
-            campos_ds05 = [
-                ("Conflictos identificados", "ds05_conflictos"),
-                ("Oportunidades identificadas", "ds05_oportunidades")]
-            tiene_ds05 = any(ds.get(c[1]) for c in campos_ds05)
-            if tiene_ds05:
-                pdf.set_font("Helvetica", "BI", 9)
-                pdf.cell(0, 5, "  F-DS-05: Conflictos y Oportunidades", 0, 1)
-                pdf.set_font("Helvetica", "", 9)
-                for label, key in campos_ds05:
-                    val = ds.get(key, "") or ""
+                if ds.get("ds04_objetivo"):
+                    pdf._campo_largo("Objetivo", ds["ds04_objetivo"])
+                pdf._tabla_json(
+                    "Lista de participantes",
+                    ds.get("ds04_lista_participantes", ""),
+                    [
+                        ("nombre", "Nombres y apellidos", 65),
+                        ("dni", "DNI", 22),
+                        ("institucion", "Inst./Comunidad", 50),
+                        ("cargo", "Cargo", 25),
+                        ("telefono", "Telefono", 25),
+                    ],
+                )
+                if ds.get("ds04_presentacion"):
+                    pdf._campo_largo("Presentacion del proyecto", ds["ds04_presentacion"])
+                if ds.get("ds04_intervenciones"):
+                    pdf._campo_largo("Principales intervenciones", ds["ds04_intervenciones"])
+                if ds.get("ds04_preguntas_respuestas"):
+                    pdf._campo_largo("Preguntas y respuestas", ds["ds04_preguntas_respuestas"])
+                if ds.get("ds04_acuerdos"):
+                    pdf._campo_largo("Acuerdos y compromisos", ds["ds04_acuerdos"])
+                if ds.get("ds04_observaciones"):
+                    pdf._campo_largo("Observaciones del taller", ds["ds04_observaciones"])
+
+            # ── F-DS-05: Conflictos y oportunidades ──
+            elif ficha_ds == "F-DS-05":
+                pdf._subficha("F-DS-05: Conflictos y Oportunidades")
+                pdf._tabla_json(
+                    "Conflictos identificados",
+                    ds.get("ds05_conflictos", ""),
+                    [
+                        ("tipo", "Tipo", 35),
+                        ("actores", "Actores", 45),
+                        ("nivel", "Nivel", 14),
+                        ("estado", "Estado", 22),
+                        ("descripcion", "Descripcion / Causa", 50),
+                        ("impacto", "Impacto en proyecto", 35),
+                    ],
+                )
+                pdf._tabla_json(
+                    "Oportunidades identificadas",
+                    ds.get("ds05_oportunidades", ""),
+                    [
+                        ("oportunidad", "Oportunidad", 50),
+                        ("actores", "Actores", 40),
+                        ("tipo", "Tipo", 25),
+                        ("potencial", "Potencial", 22),
+                        ("como_aprovechar", "Como aprovechar", 50),
+                    ],
+                )
+
+            # Observaciones generales / archivos adjuntos
+            if ds.get("observaciones_generales"):
+                pdf._campo_largo("Observaciones generales", ds["observaciones_generales"])
+            if ds.get("archivos_adjuntos"):
+                pdf._campo("Archivos adjuntos", ds["archivos_adjuntos"])
+            pdf.ln(2)
+
+    # Elementos Expuestos del bloque (F-EE-01..F-EE-07)
+    elementos_ee = db.obtener_elementos_expuestos_por_bloque(bloque_id)
+    if elementos_ee:
+        pdf._seccion("5. Elementos Expuestos / Analisis de Riesgos (F-EE-01..F-EE-07)")
+        for ee in elementos_ee:
+            ficha_ee = ee.get("ficha", "")
+            pdf.set_font("Helvetica", "B", 10)
+            pdf.cell(0, 6, f"  Ficha {ficha_ee} - {ee.get('fecha_campo', '')}", 0, 1)
+            pdf.set_font("Helvetica", "", 9)
+            # Datos generales EE
+            datos_gen_ee = [
+                ("Responsable / Brigada", "responsable_brigada"),
+                ("Centro(s) poblado(s)", "centro_poblado"),
+                ("UTM Este (m)", "coordenada_este"),
+                ("UTM Norte (m)", "coordenada_norte"),
+                ("Altitud (msnm)", "altitud"),
+            ]
+            for label, key in datos_gen_ee:
+                val = ee.get(key, "") or ""
+                if val and str(val).strip() not in ("0", "0.0"):
+                    pdf._campo(label, val)
+
+            # F-EE-01: Inventario de elementos expuestos
+            if ficha_ee == "F-EE-01":
+                pdf._subficha("F-EE-01: Inventario de Elementos Expuestos")
+                pdf._tabla_json(
+                    "Elementos registrados",
+                    ee.get("ee01_registros", ""),
+                    [
+                        ("tipo_elemento", "Tipo", 30),
+                        ("subtipo", "Subtipo", 30),
+                        ("nombre", "Nombre", 35),
+                        ("ubicacion_peligro", "Ubic. peligro", 28),
+                        ("estado", "Estado", 18),
+                        ("distancia_bloque", "Dist.(m)", 16),
+                        ("beneficiarios", "N benef.", 16),
+                        ("material", "Material", 25),
+                    ],
+                )
+
+            # F-EE-02: Poblacion y viviendas
+            elif ficha_ee == "F-EE-02":
+                pdf._subficha("F-EE-02: Poblacion y Viviendas")
+                pdf._tabla_json(
+                    "Centros poblados en area de peligro",
+                    ee.get("ee02_registros", ""),
+                    [
+                        ("centro_poblado", "Centro poblado", 45),
+                        ("viviendas_total", "Viv. tot.", 18),
+                        ("viviendas_peligro", "Viv. peligro", 22),
+                        ("poblacion_total", "Pob. total", 20),
+                        ("material_viviendas", "Material", 28),
+                        ("agua_potable", "Agua", 14),
+                        ("electricidad", "Elec.", 14),
+                        ("antecedente_evento", "Antec.", 16),
+                        ("nivel_danio", "Danio", 18),
+                    ],
+                )
+
+            # F-EE-03: Infraestructura publica
+            elif ficha_ee == "F-EE-03":
+                pdf._subficha("F-EE-03: Infraestructura Publica Expuesta")
+                pdf._tabla_json(
+                    "Infraestructuras",
+                    ee.get("ee03_registros", ""),
+                    [
+                        ("sector", "Sector", 24),
+                        ("tipo_infraestructura", "Tipo", 35),
+                        ("nombre", "Nombre", 40),
+                        ("estado", "Estado", 18),
+                        ("nivel_exposicion", "Nivel exp.", 22),
+                        ("tipo_peligro", "Peligro", 28),
+                        ("antecedente_danio", "Antec.", 16),
+                        ("costo_activo", "S/ activo", 22),
+                        ("costo_reposicion", "S/ reposic.", 22),
+                    ],
+                )
+
+            # F-EE-04: Actividades economicas
+            elif ficha_ee == "F-EE-04":
+                pdf._subficha("F-EE-04: Actividades Economicas y Agropecuarias")
+                pdf._tabla_json(
+                    "Actividades expuestas",
+                    ee.get("ee04_registros", ""),
+                    [
+                        ("tipo_actividad", "Tipo", 28),
+                        ("descripcion", "Descripcion / Cultivo", 50),
+                        ("area_ha", "Area (ha)", 18),
+                        ("familias_dependientes", "N° fam.", 16),
+                        ("valor_produccion", "Valor S/", 22),
+                        ("nivel_exposicion", "Exp.", 18),
+                        ("tipo_peligro", "Peligro", 28),
+                        ("perdidas_anteriores", "Perd.ant.", 18),
+                        ("monto_perdida", "S/ perd.", 22),
+                    ],
+                )
+
+            # F-EE-05: Ecosistema y peligros
+            elif ficha_ee == "F-EE-05":
+                pdf._subficha("F-EE-05: Ecosistema (UP) y Activos Ambientales")
+                campos_ee05 = [
+                    ("Tipo de ecosistema (MINAM)", "ee05_tipo_ecosistema"),
+                    ("Zona de vida (Holdridge)", "ee05_zona_vida"),
+                    ("Cobertura vegetal predominante", "ee05_cobertura_vegetal"),
+                    ("% cobertura vegetal", "ee05_pct_cobertura"),
+                    ("Especies dominantes", "ee05_especies_dominantes"),
+                    ("Evidencia de degradacion", "ee05_evidencia_degradacion"),
+                    ("Tipo de degradacion", "ee05_tipo_degradacion"),
+                    ("Nivel de degradacion (1-5)", "ee05_nivel_degradacion"),
+                    ("Pendiente predominante (%)", "ee05_pendiente"),
+                    ("Tipo de suelo", "ee05_tipo_suelo"),
+                    ("Profundidad efectiva (cm)", "ee05_profundidad_efectiva"),
+                    ("Presencia de carcavas/surcos", "ee05_presencia_carcavas"),
+                    ("Presencia de quebrada/cauce", "ee05_presencia_quebrada"),
+                    ("Nombre de quebrada", "ee05_nombre_quebrada"),
+                    ("Fuentes de agua identificadas", "ee05_fuentes_agua"),
+                ]
+                for label, key in campos_ee05:
+                    val = ee.get(key, "") or ""
                     if val:
                         pdf._campo(label, val)
+                pdf._tabla_json(
+                    "Peligros observados en campo",
+                    ee.get("ee05_peligros_observados", ""),
+                    [
+                        ("tipo_peligro", "Tipo peligro", 35),
+                        ("descripcion", "Descripcion / evidencia", 60),
+                        ("nivel_estimado", "Nivel", 20),
+                        ("probabilidad", "Prob. recur.", 25),
+                        ("activos_amenazados", "Activos amenazados", 50),
+                    ],
+                )
+
+            # F-EE-06: Resumen de vulnerabilidad
+            elif ficha_ee == "F-EE-06":
+                pdf._subficha("F-EE-06: Resumen de Vulnerabilidad del Bloque")
+                pdf._tabla_json(
+                    "Cuantificacion de elementos expuestos (gabinete vs campo)",
+                    ee.get("ee06_cuantificacion", ""),
+                    [
+                        ("elemento", "Elemento", 60),
+                        ("cantidad_gabinete", "Gabinete", 25),
+                        ("cantidad_campo", "Campo", 25),
+                        ("coincide", "Coincide", 22),
+                        ("observaciones", "Observaciones", 55),
+                    ],
+                )
+                pdf._tabla_json(
+                    "Valoracion cualitativa de vulnerabilidad",
+                    ee.get("ee06_valoracion_vulnerabilidad", ""),
+                    [
+                        ("factor", "Factor", 35),
+                        ("descriptor", "Descriptor", 55),
+                        ("nivel", "Nivel", 20),
+                        ("peso", "Peso", 16),
+                        ("justificacion", "Justificacion", 60),
+                    ],
+                )
+                if ee.get("ee06_nivel_vulnerabilidad"):
+                    pdf._campo("NIVEL DE VULNERABILIDAD DEL BLOQUE",
+                               ee["ee06_nivel_vulnerabilidad"])
+                if ee.get("ee06_nivel_riesgo"):
+                    pdf._campo("NIVEL DE RIESGO PRELIMINAR DEL BLOQUE",
+                               ee["ee06_nivel_riesgo"])
+
+            # F-EE-07: Control fotografico
+            elif ficha_ee == "F-EE-07":
+                pdf._subficha("F-EE-07: Control de Registro Fotografico")
+                pdf._tabla_json(
+                    "Inventario de fotografias",
+                    ee.get("ee07_registros", ""),
+                    [
+                        ("codigo_foto", "Codigo", 25),
+                        ("fecha", "Fecha", 24),
+                        ("hora", "Hora", 18),
+                        ("elemento_fotografiado", "Elemento", 50),
+                        ("formato_referencia", "Ref.", 22),
+                        ("descripcion", "Descripcion", 55),
+                    ],
+                )
+
+            if ee.get("observaciones_generales"):
+                pdf._campo_largo("Observaciones generales", ee["observaciones_generales"])
             pdf.ln(2)
 
     # Cronograma del bloque
     actividades = db.obtener_actividades_por_bloque(bloque_id)
     if actividades:
-        pdf._seccion("5. Cronograma de Actividades")
+        pdf._seccion("6. Cronograma de Actividades")
         for a in actividades:
             estado_act = a.get("estado", "Programado")
             avance_act = a.get("porcentaje_avance", 0)
