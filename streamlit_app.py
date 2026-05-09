@@ -598,7 +598,7 @@ FDT04_INDICADORES_LABELS = [
     ("Carga ganadera estimada", "UA/ha", "Según tipo de ecosistema"),
     ("Frecuencia de quemas últimos 5 años", "N°", "0 nulo; 1-2 medio; >2 alto"),
     ("% área con pendiente >50%", "%", "Factor de susceptibilidad"),
-    ("Distancia a vía vecinal más cercana", "m", "A menor distancia → mayor presión"),
+    ("Distancia a vía vecinal más cercana", "m", "A menor distancia -> mayor presión"),
 ]
 
 # ── Fichas de Diagnostico Social (F-DS-01 a F-DS-05) ─────────────────────
