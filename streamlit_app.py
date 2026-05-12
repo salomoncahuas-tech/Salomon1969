@@ -2284,21 +2284,23 @@ def pagina_diagnostico_territorial():
 
     with tab_hist:
         st.markdown("### Historial de Diagnosticos Territoriales")
-        st.caption("Haga clic en **Editar** para modificar un diagnostico existente y evitar duplicidades.")
+        st.caption("Haga clic en **Editar** para modificar un diagnostico existente o en **Eliminar** para descartarlo.")
         todos_dt = _cached_obtener_todos_diagnosticos(_cache_version())
         if not todos_dt:
             st.info("No hay diagnosticos registrados.")
         else:
             dt_pag, total_pags_dt, pag_actual_dt = _paginar(todos_dt, "pag_dt")
             _controles_paginacion(total_pags_dt, pag_actual_dt, "pag_dt")
-            header_cols = st.columns([0.4, 1, 0.8, 0.8, 0.8, 0.8, 0.8, 0.5])
+            col_widths_dt = [0.4, 1, 0.8, 0.8, 0.8, 0.8, 0.8, 0.5, 0.6]
+            header_cols = st.columns(col_widths_dt)
             for col, h in zip(header_cols,
                               ["ID", "Bloque", "Fichas", "Fecha", "Evaluador",
-                               "Microcuenca", "Distrito", ""]):
+                               "Microcuenca", "Distrito", "", ""]):
                 col.markdown(f"**{h}**")
             st.markdown("---")
+            confirm_del_dt_id = st.session_state.get("dt_confirm_del_id")
             for d in dt_pag:
-                row = st.columns([0.4, 1, 0.8, 0.8, 0.8, 0.8, 0.8, 0.5])
+                row = st.columns(col_widths_dt)
                 row[0].write(d["id"])
                 row[1].write(d.get("bloque_codigo", ""))
                 row[2].write(d.get("ficha", ""))
@@ -2311,6 +2313,24 @@ def pagina_diagnostico_territorial():
                     if det:
                         st.session_state["dt_edit_id"] = det["id"]
                         st.session_state["dt_edit_data"] = det
+                    st.session_state.pop("dt_confirm_del_id", None)
+                    st.rerun()
+                if confirm_del_dt_id == d["id"]:
+                    if row[8].button("Confirmar", key=f"del_confirm_dt_{d['id']}", type="primary"):
+                        db.eliminar_diagnostico(d["id"])
+                        _invalidar_cache()
+                        st.session_state.pop("dt_confirm_del_id", None)
+                        st.success(f"Diagnostico territorial ID {d['id']} eliminado.")
+                        st.rerun()
+                else:
+                    if row[8].button("Eliminar", key=f"del_dt_{d['id']}", type="secondary"):
+                        st.session_state["dt_confirm_del_id"] = d["id"]
+                        st.rerun()
+            if confirm_del_dt_id is not None:
+                st.warning(f"Confirme la eliminacion del diagnostico ID {confirm_del_dt_id} pulsando 'Confirmar' en su fila. "
+                           "Esta accion no puede deshacerse.")
+                if st.button("Cancelar eliminacion", key="dt_cancel_del"):
+                    st.session_state.pop("dt_confirm_del_id", None)
                     st.rerun()
 
             st.markdown("---")
@@ -3256,7 +3276,7 @@ def pagina_diagnostico_social():
     # ══════════════════════════════════════════════════════════════════
     with tab_hist:
         st.markdown("### Historial de Diagnosticos Sociales")
-        st.caption("Haga clic en **Editar** para modificar un diagnostico existente y evitar duplicidades.")
+        st.caption("Haga clic en **Editar** para modificar un diagnostico existente o en **Eliminar** para descartarlo.")
         todos_ds = _cached_obtener_todos_diagnosticos_sociales(_cache_version())
         if not todos_ds:
             st.info("No hay diagnosticos sociales registrados.")
@@ -3264,13 +3284,15 @@ def pagina_diagnostico_social():
             # Paginacion
             ds_pag, total_pags_ds, pag_actual_ds = _paginar(todos_ds, "pag_ds")
             _controles_paginacion(total_pags_ds, pag_actual_ds, "pag_ds")
-            # Tabla con botones de edicion
-            header_cols = st.columns([0.4, 0.9, 0.7, 0.8, 0.8, 0.8, 0.8, 0.5])
-            for col, h in zip(header_cols, ["ID", "Bloque", "Ficha", "Fecha", "Responsable", "C.Poblado", "Distrito", ""]):
+            # Tabla con botones de edicion / eliminacion
+            col_widths_ds = [0.4, 0.9, 0.7, 0.8, 0.8, 0.8, 0.8, 0.5, 0.6]
+            header_cols = st.columns(col_widths_ds)
+            for col, h in zip(header_cols, ["ID", "Bloque", "Ficha", "Fecha", "Responsable", "C.Poblado", "Distrito", "", ""]):
                 col.markdown(f"**{h}**")
             st.markdown("---")
+            confirm_del_ds_id = st.session_state.get("ds_confirm_del_id")
             for d in ds_pag:
-                row = st.columns([0.4, 0.9, 0.7, 0.8, 0.8, 0.8, 0.8, 0.5])
+                row = st.columns(col_widths_ds)
                 row[0].write(d["id"])
                 row[1].write(d.get("bloque_codigo", ""))
                 row[2].write(d.get("ficha", ""))
@@ -3282,6 +3304,24 @@ def pagina_diagnostico_social():
                     det = db.obtener_diagnostico_social_por_id(d["id"])
                     if det:
                         st.session_state["ds_edit_id"] = det["id"]
+                    st.session_state.pop("ds_confirm_del_id", None)
+                    st.rerun()
+                if confirm_del_ds_id == d["id"]:
+                    if row[8].button("Confirmar", key=f"del_confirm_ds_{d['id']}", type="primary"):
+                        db.eliminar_diagnostico_social(d["id"])
+                        _invalidar_cache()
+                        st.session_state.pop("ds_confirm_del_id", None)
+                        st.success(f"Diagnostico social ID {d['id']} eliminado.")
+                        st.rerun()
+                else:
+                    if row[8].button("Eliminar", key=f"del_ds_{d['id']}", type="secondary"):
+                        st.session_state["ds_confirm_del_id"] = d["id"]
+                        st.rerun()
+            if confirm_del_ds_id is not None:
+                st.warning(f"Confirme la eliminacion del diagnostico social ID {confirm_del_ds_id} pulsando 'Confirmar' en su fila. "
+                           "Esta accion no puede deshacerse.")
+                if st.button("Cancelar eliminacion", key="ds_cancel_del"):
+                    st.session_state.pop("ds_confirm_del_id", None)
                     st.rerun()
             st.markdown("---")
 
@@ -4083,9 +4123,45 @@ def pagina_elementos_expuestos():
             return
 
         df = pd.DataFrame(registros_ee)
-        cols_show = ["id", "bloque_codigo", "ficha", "fecha_campo", "responsable_brigada"]
-        cols_available = [c for c in cols_show if c in df.columns]
-        st.dataframe(df[cols_available], use_container_width=True, hide_index=True)
+
+        st.markdown("### Historial de Fichas de Elementos Expuestos")
+        st.caption("Haga clic en **Editar** para modificar una ficha existente o en **Eliminar** para descartarla.")
+        col_widths_ee = [0.4, 0.9, 0.7, 0.8, 1.0, 0.5, 0.6]
+        header_cols = st.columns(col_widths_ee)
+        for col, h in zip(header_cols, ["ID", "Bloque", "Ficha", "Fecha", "Responsable", "", ""]):
+            col.markdown(f"**{h}**")
+        st.markdown("---")
+        confirm_del_ee_id = st.session_state.get("ee_confirm_del_id")
+        for r in registros_ee:
+            row = st.columns(col_widths_ee)
+            row[0].write(r.get("id", ""))
+            row[1].write(r.get("bloque_codigo", "") or "")
+            row[2].write(r.get("ficha", "") or "")
+            row[3].write(r.get("fecha_campo", "") or "")
+            row[4].write(r.get("responsable_brigada", "") or "")
+            if row[5].button("Editar", key=f"edit_ee_row_{r['id']}", type="primary"):
+                st.session_state["ee_edit_id"] = r["id"]
+                st.session_state["ee_ficha_sel"] = r.get("ficha", "")
+                st.session_state.pop("ee_confirm_del_id", None)
+                st.rerun()
+            if confirm_del_ee_id == r["id"]:
+                if row[6].button("Confirmar", key=f"del_confirm_ee_{r['id']}", type="primary"):
+                    db.eliminar_elementos_expuestos(r["id"])
+                    _invalidar_cache()
+                    st.session_state.pop("ee_confirm_del_id", None)
+                    st.success(f"Ficha de Elementos Expuestos ID {r['id']} eliminada.")
+                    st.rerun()
+            else:
+                if row[6].button("Eliminar", key=f"del_ee_row_{r['id']}", type="secondary"):
+                    st.session_state["ee_confirm_del_id"] = r["id"]
+                    st.rerun()
+        if confirm_del_ee_id is not None:
+            st.warning(f"Confirme la eliminacion de la ficha ID {confirm_del_ee_id} pulsando 'Confirmar' en su fila. "
+                       "Esta accion no puede deshacerse.")
+            if st.button("Cancelar eliminacion", key="ee_cancel_del"):
+                st.session_state.pop("ee_confirm_del_id", None)
+                st.rerun()
+        st.markdown("---")
 
         sel_id = st.selectbox("Seleccionar ficha para ver detalle",
                               df["id"].tolist() if "id" in df.columns else [],
