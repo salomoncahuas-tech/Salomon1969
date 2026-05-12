@@ -87,6 +87,10 @@ class _CursorWrapper:
             row = self._c.fetchone()
             self.lastrowid = row['id'] if row else None
 
+    @property
+    def rowcount(self):
+        return self._c.rowcount
+
     def fetchall(self):
         return self._c.fetchall()
 
@@ -1470,9 +1474,11 @@ def actualizar_diagnostico_territorial_v5(diagnostico_id, data):
 def eliminar_diagnostico(diagnostico_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM diagnostico_territorial WHERE id=?", (diagnostico_id,))
+    cursor.execute("DELETE FROM diagnostico_territorial WHERE id=?", (int(diagnostico_id),))
+    deleted = cursor.rowcount
     conn.commit()
     conn.close()
+    return deleted
 
 
 def obtener_resumen_diagnosticos():
@@ -1564,9 +1570,11 @@ def obtener_diagnostico_social_por_id(diagnostico_id):
 def eliminar_diagnostico_social(diagnostico_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM diagnostico_social WHERE id=?", (diagnostico_id,))
+    cursor.execute("DELETE FROM diagnostico_social WHERE id=?", (int(diagnostico_id),))
+    deleted = cursor.rowcount
     conn.commit()
     conn.close()
+    return deleted
 
 
 def obtener_resumen_diagnosticos_sociales():
@@ -1658,9 +1666,11 @@ def obtener_elementos_expuestos_por_id(elemento_id):
 def eliminar_elementos_expuestos(elemento_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM elementos_expuestos WHERE id=?", (elemento_id,))
+    cursor.execute("DELETE FROM elementos_expuestos WHERE id=?", (int(elemento_id),))
+    deleted = cursor.rowcount
     conn.commit()
     conn.close()
+    return deleted
 
 
 def obtener_resumen_elementos_expuestos():

@@ -28,6 +28,12 @@ def _invalidar_cache():
     """Incrementa el contador de cache para forzar recarga de datos."""
     st.session_state["db_cache_version"] = st.session_state.get("db_cache_version", 0) + 1
 
+def _mostrar_flash():
+    """Muestra y consume un mensaje persistente entre reruns."""
+    msg = st.session_state.pop("_flash_msg", None)
+    if msg:
+        st.success(msg)
+
 # ── Funciones cacheadas de lectura de BD ─────────────────────────────────
 @st.cache_data(ttl=300, show_spinner=False)
 def _cached_obtener_bloques(_version):
@@ -2283,6 +2289,7 @@ def pagina_diagnostico_territorial():
                     st.error(f"Error: {e}")
 
     with tab_hist:
+        _mostrar_flash()
         st.markdown("### Historial de Diagnosticos Territoriales")
         st.caption("Haga clic en **Editar** para modificar un diagnostico existente o en **Eliminar** para descartarlo.")
         todos_dt = _cached_obtener_todos_diagnosticos(_cache_version())
@@ -2317,11 +2324,18 @@ def pagina_diagnostico_territorial():
                     st.rerun()
                 if confirm_del_dt_id == d["id"]:
                     if row[8].button("Confirmar", key=f"del_confirm_dt_{d['id']}", type="primary"):
-                        db.eliminar_diagnostico(d["id"])
-                        _invalidar_cache()
-                        st.session_state.pop("dt_confirm_del_id", None)
-                        st.success(f"Diagnostico territorial ID {d['id']} eliminado.")
-                        st.rerun()
+                        try:
+                            deleted = db.eliminar_diagnostico(d["id"])
+                            if not deleted:
+                                st.error(f"No se elimino el diagnostico ID {d['id']} (no se encontro en BD).")
+                            else:
+                                st.session_state["_flash_msg"] = f"Diagnostico territorial ID {d['id']} eliminado."
+                            st.cache_data.clear()
+                            _invalidar_cache()
+                            st.session_state.pop("dt_confirm_del_id", None)
+                            st.rerun()
+                        except Exception as e:
+                            st.error(f"Error al eliminar diagnostico ID {d['id']}: {e}")
                 else:
                     if row[8].button("Eliminar", key=f"del_dt_{d['id']}", type="secondary"):
                         st.session_state["dt_confirm_del_id"] = d["id"]
@@ -3275,6 +3289,7 @@ def pagina_diagnostico_social():
     # HISTORIAL
     # ══════════════════════════════════════════════════════════════════
     with tab_hist:
+        _mostrar_flash()
         st.markdown("### Historial de Diagnosticos Sociales")
         st.caption("Haga clic en **Editar** para modificar un diagnostico existente o en **Eliminar** para descartarlo.")
         todos_ds = _cached_obtener_todos_diagnosticos_sociales(_cache_version())
@@ -3308,11 +3323,18 @@ def pagina_diagnostico_social():
                     st.rerun()
                 if confirm_del_ds_id == d["id"]:
                     if row[8].button("Confirmar", key=f"del_confirm_ds_{d['id']}", type="primary"):
-                        db.eliminar_diagnostico_social(d["id"])
-                        _invalidar_cache()
-                        st.session_state.pop("ds_confirm_del_id", None)
-                        st.success(f"Diagnostico social ID {d['id']} eliminado.")
-                        st.rerun()
+                        try:
+                            deleted = db.eliminar_diagnostico_social(d["id"])
+                            if not deleted:
+                                st.error(f"No se elimino el diagnostico social ID {d['id']} (no se encontro en BD).")
+                            else:
+                                st.session_state["_flash_msg"] = f"Diagnostico social ID {d['id']} eliminado."
+                            st.cache_data.clear()
+                            _invalidar_cache()
+                            st.session_state.pop("ds_confirm_del_id", None)
+                            st.rerun()
+                        except Exception as e:
+                            st.error(f"Error al eliminar diagnostico social ID {d['id']}: {e}")
                 else:
                     if row[8].button("Eliminar", key=f"del_ds_{d['id']}", type="secondary"):
                         st.session_state["ds_confirm_del_id"] = d["id"]
@@ -4117,6 +4139,7 @@ def pagina_elementos_expuestos():
 
     # ── Tab Consultar ────────────────────────────────────────────────────
     with tab_con:
+        _mostrar_flash()
         registros_ee = db.obtener_todos_elementos_expuestos()
         if not registros_ee:
             st.info("No hay fichas de Elementos Expuestos registradas.")
@@ -4146,11 +4169,18 @@ def pagina_elementos_expuestos():
                 st.rerun()
             if confirm_del_ee_id == r["id"]:
                 if row[6].button("Confirmar", key=f"del_confirm_ee_{r['id']}", type="primary"):
-                    db.eliminar_elementos_expuestos(r["id"])
-                    _invalidar_cache()
-                    st.session_state.pop("ee_confirm_del_id", None)
-                    st.success(f"Ficha de Elementos Expuestos ID {r['id']} eliminada.")
-                    st.rerun()
+                    try:
+                        deleted = db.eliminar_elementos_expuestos(r["id"])
+                        if not deleted:
+                            st.error(f"No se elimino la ficha ID {r['id']} (no se encontro en BD).")
+                        else:
+                            st.session_state["_flash_msg"] = f"Ficha de Elementos Expuestos ID {r['id']} eliminada."
+                        st.cache_data.clear()
+                        _invalidar_cache()
+                        st.session_state.pop("ee_confirm_del_id", None)
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"Error al eliminar ficha ID {r['id']}: {e}")
             else:
                 if row[6].button("Eliminar", key=f"del_ee_row_{r['id']}", type="secondary"):
                     st.session_state["ee_confirm_del_id"] = r["id"]
