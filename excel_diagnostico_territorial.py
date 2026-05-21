@@ -103,48 +103,203 @@ def _val(ws, row, col):
     return str(v).strip()
 
 
-def _scan_label_value(ws, label_keywords, search_offsets=(1, 2, 3, 4, 5, 6, 7, 8)):
-    """Busca un label cuyo texto contenga alguna palabra clave en cualquier
-    columna y devuelve el valor mas cercano a la derecha (no vacio). El
-    valor puede estar en la misma fila, en cualquiera de las columnas
-    siguientes definidas por `search_offsets`."""
+# Hints que indican que una celda es una ETIQUETA (no un valor capturado).
+# Usados por _scan_label_value para no devolver el texto del rotulo de al
+# lado cuando el campo objetivo esta vacio o su formula (auto) no tiene
+# valor en cache.
+_LABEL_HINTS = (
+    "(auto)", "(dd-mm-aaaa)", "(msnm)", "(ha)", "(m × m)",
+    "(% bloque)", "(% area)", "(ua/ha)", "(años aprox.)",
+    "(min)", "(síntesis)", "(sintesis)", "(cualitativa)",
+    "(preliminar)", "(descripción libre)", "(descripcion libre)",
+    "(si aplica)", "(motor)", "(m)", "(cm)", "(%)",
+    "(época de visita)", "(epoca de visita)",
+)
+
+
+def _looks_like_label(text):
+    """Heuristica: ¿la celda parece ser un rotulo/etiqueta y no un valor
+    capturado por el usuario? Se usa para detener el barrido lateral de
+    `_scan_label_value` cuando llega a la siguiente etiqueta."""
+    if not text:
+        return False
+    t = str(text).strip()
+    if not t:
+        return False
+    if t.endswith("*") or t.endswith("?") or t.endswith(":"):
+        return True
+    if " *" in t or "*  " in t:
+        return True
+    tl = t.lower()
+    for h in _LABEL_HINTS:
+        if h in tl:
+            return True
+    if t.startswith("☐") or "▼" in t:
+        return True
+    return False
+
+
+def _collect_label_anchors(ws, vocabulary):
+    """Pre-escanea el worksheet y devuelve un set de (row, col) con las
+    celdas que parecen ser etiquetas. Una celda es ancla si:
+      - su texto contiene cualquier keyword del `vocabulary` (lista de
+        keywords usados por el parser de la ficha), o
+      - su texto cumple `_looks_like_label` (marcadores *, ?, :, (auto)...).
+    Estas anclas se usan para que el barrido lateral de
+    `_scan_label_value` se detenga ANTES de devolver el rotulo vecino
+    como valor."""
+    vocab_l = [k.lower() for k in vocabulary]
+    anchors = set()
+    for r in range(1, ws.max_row + 1):
+        for c in range(1, ws.max_column + 1):
+            v = ws.cell(row=r, column=c).value
+            if v is None:
+                continue
+            s = str(v).strip()
+            if not s:
+                continue
+            # Saltar textos largos (subtitulos/descripciones): no son
+            # rotulos de campo individual.
+            if len(s) > 120:
+                continue
+            sl = s.lower()
+            if _looks_like_label(s) or any(kw in sl for kw in vocab_l):
+                anchors.add((r, c))
+    return anchors
+
+
+def _scan_label_value(ws, label_keywords, search_offsets=(1, 2, 3, 4, 5, 6),
+                     anchors=None):
+    """Busca un label cuyo texto contenga alguna palabra clave y devuelve
+    el primer valor poblado a la derecha. Si al barrer a la derecha se
+    encuentra otra etiqueta (`anchors` o `_looks_like_label`) antes que
+    un valor, devuelve cadena vacia. Asi se evita devolver el rotulo
+    vecino cuando el campo objetivo esta vacio o su formula `(auto)` no
+    tiene valor en cache."""
     label_keywords_l = [k.lower() for k in label_keywords]
     for r in range(1, ws.max_row + 1):
         for c in range(1, ws.max_column + 1):
             cv = ws.cell(row=r, column=c).value
             if not cv:
                 continue
-            cv_l = str(cv).lower()
+            cv_s = str(cv).strip()
+            # Saltar textos de subtitulo/descripcion: son demasiado largos
+            # para ser un rotulo y suelen contener varias palabras clave
+            # (ej. la cabecera de cada ficha en la fila 5).
+            if len(cv_s) > 120:
+                continue
+            cv_l = cv_s.lower()
             if any(kw in cv_l for kw in label_keywords_l):
-                # Buscar a la derecha el primer valor poblado
                 for off in search_offsets:
-                    nv = ws.cell(row=r, column=c + off).value
-                    if nv is not None and str(nv).strip() != "":
-                        return str(nv).strip()
-                return ""  # encontrado pero vacio
+                    nc = c + off
+                    nv = ws.cell(row=r, column=nc).value
+                    if nv is None:
+                        continue
+                    s = str(nv).strip()
+                    if s == "":
+                        continue
+                    if anchors is not None and (r, nc) in anchors:
+                        return ""
+                    if _looks_like_label(s):
+                        return ""
+                    return s
+                return ""
     return ""
 
 
-def _scan_table(ws, header_keywords, num_data_rows, num_cols):
+def _scan_observaciones(ws, label_row=None, anchors=None):
+    """Busca la celda etiquetada 'OBSERVACIONES' (exacta, no como
+    sub-cadena dentro de otro rotulo) y devuelve el texto escrito DEBAJO
+    del rotulo. Si `label_row` se pasa, se usa esa fila directamente
+    (evita falsos positivos con encabezados de columna del tipo
+    'Uso observado / Observaciones')."""
+    target_row = None
+    target_col = None
+    if label_row is not None:
+        # Validar que efectivamente hay un rotulo OBSERVACIONES en esa fila.
+        for c in range(1, ws.max_column + 1):
+            v = ws.cell(row=label_row, column=c).value
+            if v and str(v).strip().lower() == "observaciones":
+                target_row = label_row
+                target_col = c
+                break
+    if target_row is None:
+        for r in range(1, ws.max_row + 1):
+            for c in range(1, ws.max_column + 1):
+                v = ws.cell(row=r, column=c).value
+                if not v:
+                    continue
+                # Coincidencia EXACTA con 'observaciones' (admite mayusculas).
+                if str(v).strip().lower() == "observaciones":
+                    target_row = r
+                    target_col = c
+                    break
+            if target_row is not None:
+                break
+    if target_row is None:
+        return ""
+    pieces = []
+    for dr in range(target_row + 1, min(target_row + 8, ws.max_row + 1)):
+        for dc in range(1, ws.max_column + 1):
+            v = ws.cell(row=dr, column=dc).value
+            if v is None:
+                continue
+            s = str(v).strip()
+            if not s:
+                continue
+            if anchors is not None and (dr, dc) in anchors:
+                continue
+            if _looks_like_label(s):
+                continue
+            pieces.append(s)
+    return " ".join(pieces)
+
+
+def _scan_table(ws, header_keywords, num_data_rows, num_cols, start_col=None):
     """Busca una fila que contenga las cabeceras dadas (todas presentes)
-    y devuelve hasta `num_data_rows` filas de datos siguientes como lista
-    de listas de strings (longitud `num_cols`)."""
+    y devuelve hasta `num_data_rows` filas siguientes como lista de listas
+    de strings (longitud `num_cols`).
+
+    `start_col`: si se omite, se infiere como la columna NO VACIA mas a
+    la izquierda dentro de la fila cabecera detectada. Antes se usaba la
+    columna de la primera keyword, pero eso desplazaba la tabla cuando la
+    primera keyword no aparecia en la columna 1 (p.ej. 'Categoría' en
+    DT-03 esta en C3, pero la tabla empieza en C1 con 'N°')."""
     header_keywords_l = [k.lower() for k in header_keywords]
     for r in range(1, ws.max_row + 1):
         row_vals = [str(ws.cell(row=r, column=c).value or "").lower()
                     for c in range(1, ws.max_column + 1)]
-        # Verificar si todas las palabras clave estan presentes en esta fila
-        if all(any(kw in v for v in row_vals) for kw in header_keywords_l):
-            # Encontrar la columna inicial (donde aparece la primer cabecera)
-            start_col = 1
+        # Cada keyword debe aparecer en una COLUMNA distinta (asi se evita
+        # confundir el rotulo cabecera real con la fila de "Use los
+        # desplegables..." que mete todos los nombres en una sola celda).
+        matched_cols = set()
+        ok = True
+        for kw in header_keywords_l:
+            hit = False
             for c, v in enumerate(row_vals, start=1):
-                if header_keywords_l[0] in v:
-                    start_col = c
+                if c in matched_cols:
+                    continue
+                if kw in v:
+                    matched_cols.add(c)
+                    hit = True
                     break
+            if not hit:
+                ok = False
+                break
+        if ok:
+            if start_col is None:
+                # Columna no-vacia mas a la izquierda en la fila cabecera.
+                sc = 1
+                for c, v in enumerate(row_vals, start=1):
+                    if v.strip():
+                        sc = c
+                        break
+            else:
+                sc = start_col
             data = []
             for dr in range(r + 1, r + 1 + num_data_rows):
                 row = []
-                for dc in range(start_col, start_col + num_cols):
+                for dc in range(sc, sc + num_cols):
                     v = ws.cell(row=dr, column=dc).value
                     row.append("" if v is None else str(v).strip())
                 if any(x for x in row):
@@ -154,59 +309,68 @@ def _scan_table(ws, header_keywords, num_data_rows, num_cols):
 
 
 def _parse_dt01(ws):
-    return {
-        "fecha_evaluacion": _scan_label_value(ws, ["fecha"]),
-        "hora_registro": _scan_label_value(ws, ["hora de registro"]),
-        "evaluador": _scan_label_value(ws, ["brigada / responsable", "responsable", "evaluador"]),
-        "ficha_correlativo": _scan_label_value(ws, ["ficha n", "correlativo"]),
-        "codigo_bloque": _scan_label_value(ws, ["código del bloque", "codigo del bloque"]),
-        "microcuenca": _scan_label_value(ws, ["microcuenca"]),
-        "provincia": _scan_label_value(ws, ["provincia"]),
-        "distrito": _scan_label_value(ws, ["distrito"]),
-        "utm_este_dt": _scan_label_value(ws, ["utm este punto", "utm este"]),
-        "utm_norte_dt": _scan_label_value(ws, ["utm norte punto", "utm norte"]),
-        "altitud_gps": _scan_label_value(ws, ["altitud gps"]),
-        "centro_poblado_cercano": _scan_label_value(ws, ["centro poblado"]),
-        "comunidad_campesina_dt": _scan_label_value(ws, ["comunidad campesina"]),
-        "forma_terreno": _scan_label_value(ws, ["forma predominante", "forma del terreno"]),
-        "pendiente": _scan_label_value(ws, ["rango de pendiente", "pendiente dominante"]),
-        "posicion_fisiografica": _scan_label_value(ws, ["posición fisiográfica", "posicion fisiografica"]),
-        "exposicion_orientacion": _scan_label_value(ws, ["exposición", "exposicion"]),
-        "rango_altitudinal": _scan_label_value(ws, ["rango altitudinal"]),
-        "paisaje_dominante": _scan_label_value(ws, ["paisaje dominante"]),
-        "dt01_afloramientos_rocosos": _scan_label_value(ws, ["afloramientos rocosos"]),
-        "dt01_escarpes_activos": _scan_label_value(ws, ["escarpes activos"]),
-        "dt01_reptacion_suelo": _scan_label_value(ws, ["reptación", "reptacion"]),
-        "dt01_deslizamientos_antiguos": _scan_label_value(ws, ["deslizamientos antiguos"]),
-        "dt01_remociones_masa_activas": _scan_label_value(ws, ["remociones en masa activas"]),
-        "dt01_observaciones": _scan_label_value(ws, ["observaciones"]),
+    label_map = {
+        "fecha_evaluacion": ["fecha"],
+        "hora_registro": ["hora de registro"],
+        "evaluador": ["brigada / responsable", "responsable", "evaluador"],
+        "ficha_correlativo": ["ficha n", "correlativo"],
+        "codigo_bloque": ["código del bloque", "codigo del bloque"],
+        "microcuenca": ["microcuenca"],
+        "provincia": ["provincia"],
+        "distrito": ["distrito"],
+        "utm_este_dt": ["utm este punto", "utm este"],
+        "utm_norte_dt": ["utm norte punto", "utm norte"],
+        "altitud_gps": ["altitud gps", "altitud"],
+        "centro_poblado_cercano": ["centro poblado"],
+        "comunidad_campesina_dt": ["comunidad campesina"],
+        "forma_terreno": ["forma predominante", "forma del terreno"],
+        "pendiente": ["rango de pendiente", "pendiente dominante"],
+        "posicion_fisiografica": ["posición fisiográfica", "posicion fisiografica"],
+        "exposicion_orientacion": ["exposición", "exposicion"],
+        "rango_altitudinal": ["rango altitudinal"],
+        "paisaje_dominante": ["paisaje dominante"],
+        "dt01_afloramientos_rocosos": ["afloramientos rocosos"],
+        "dt01_escarpes_activos": ["escarpes activos"],
+        "dt01_reptacion_suelo": ["reptación", "reptacion"],
+        "dt01_deslizamientos_antiguos": ["deslizamientos antiguos"],
+        "dt01_remociones_masa_activas": ["remociones en masa activas"],
     }
+    vocab = [kw for kws in label_map.values() for kw in kws]
+    anchors = _collect_label_anchors(ws, vocab)
+    out = {k: _scan_label_value(ws, kws, anchors=anchors)
+           for k, kws in label_map.items()}
+    out["dt01_observaciones"] = _scan_observaciones(ws, anchors=anchors)
+    return out
 
 
 def _parse_dt02(ws):
-    base = {
-        "fecha_evaluacion": _scan_label_value(ws, ["fecha"]),
-        "evaluador": _scan_label_value(ws, ["responsable", "evaluador"]),
-        "codigo_bloque": _scan_label_value(ws, ["código del bloque", "codigo del bloque"]),
-        "microcuenca": _scan_label_value(ws, ["microcuenca"]),
-        "distrito": _scan_label_value(ws, ["distrito"]),
-        "altitud_gps": _scan_label_value(ws, ["altitud"]),
-        "utm_este_dt": _scan_label_value(ws, ["utm este"]),
-        "utm_norte_dt": _scan_label_value(ws, ["utm norte"]),
-        "dt02_sellamiento_costra": _scan_label_value(ws, ["sellamiento", "costra"]),
-        "dt02_compactacion_pisoteo": _scan_label_value(ws, ["compactación", "compactacion"]),
-        "dt02_raices_expuestas": _scan_label_value(ws, ["raíces expuestas", "raices expuestas"]),
-        "dt02_nivel_erosion_general": _scan_label_value(ws, ["nivel general de erosión observado", "nivel general de erosion observado"]),
-        "dt02_nivel_erosion_sintesis": _scan_label_value(ws, ["nivel general de erosión (síntesis)", "nivel general de erosion (sintesis)"]),
-        "dt02_num_carcavas": _scan_label_value(ws, ["n° total de cárcavas", "n total de carcavas"]),
-        "dt02_longitud_total_carcavas": _scan_label_value(ws, ["longitud total de cárcavas", "longitud total de carcavas"]),
-        "dt02_pct_bloque_carcavas": _scan_label_value(ws, ["% del bloque afectado"]),
-        "dt02_erosion_laminar_pct": _scan_label_value(ws, ["erosión laminar observada", "erosion laminar observada"]),
-        "dt02_patron_carcavas": _scan_label_value(ws, ["patrón de cárcavas", "patron de carcavas"]),
-        "dt02_socavamiento_cauce": _scan_label_value(ws, ["socavamiento de cauce"]),
-        "dt02_urgencia_control": _scan_label_value(ws, ["urgencia de control"]),
-        "dt02_observaciones": _scan_label_value(ws, ["observaciones"]),
+    label_map = {
+        "fecha_evaluacion": ["fecha"],
+        "evaluador": ["responsable", "evaluador"],
+        "codigo_bloque": ["código del bloque", "codigo del bloque"],
+        "microcuenca": ["microcuenca"],
+        "distrito": ["distrito"],
+        "altitud_gps": ["altitud"],
+        "utm_este_dt": ["utm este"],
+        "utm_norte_dt": ["utm norte"],
+        "dt02_sellamiento_costra": ["sellamiento", "costra"],
+        "dt02_compactacion_pisoteo": ["compactación", "compactacion"],
+        "dt02_raices_expuestas": ["raíces expuestas", "raices expuestas"],
+        "dt02_nivel_erosion_general": ["nivel general de erosión observado", "nivel general de erosion observado"],
+        "dt02_nivel_erosion_sintesis": ["nivel general de erosión (síntesis)", "nivel general de erosion (sintesis)"],
+        "dt02_num_carcavas": ["n° total de cárcavas", "n total de carcavas"],
+        "dt02_longitud_total_carcavas": ["longitud total de cárcavas", "longitud total de carcavas"],
+        "dt02_pct_bloque_carcavas": ["% del bloque afectado"],
+        "dt02_erosion_laminar_pct": ["erosión laminar observada", "erosion laminar observada"],
+        "dt02_patron_carcavas": ["patrón de cárcavas", "patron de carcavas"],
+        "dt02_socavamiento_cauce": ["socavamiento de cauce"],
+        "dt02_urgencia_control": ["urgencia de control"],
     }
+    vocab = [kw for kws in label_map.values() for kw in kws]
+    anchors = _collect_label_anchors(ws, vocab)
+    base = {k: _scan_label_value(ws, kws, anchors=anchors)
+            for k, kws in label_map.items()}
+    base["dt02_observaciones"] = _scan_observaciones(ws, anchors=anchors)
     # Tabla de carcavas (12 columnas: codigo, tipo, utm_e_ini, utm_n_ini,
     # utm_e_fin, utm_n_fin, longitud, prof, ancho, estado, causa, foto)
     table = _scan_table(ws, ["código", "tipo"], num_data_rows=10, num_cols=12)
@@ -220,38 +384,42 @@ def _parse_dt02(ws):
 
 
 def _parse_dt03(ws):
-    base = {
-        "fecha_evaluacion": _scan_label_value(ws, ["fecha"]),
-        "evaluador": _scan_label_value(ws, ["responsable", "evaluador"]),
-        "codigo_bloque": _scan_label_value(ws, ["código del bloque", "codigo del bloque"]),
-        "microcuenca": _scan_label_value(ws, ["microcuenca"]),
-        "distrito": _scan_label_value(ws, ["distrito"]),
-        "dt03_parcela_muestreo": _scan_label_value(ws, ["parcela de muestreo"]),
-        "dt03_dim_parcela": _scan_label_value(ws, ["dimensiones de parcela"]),
-        "altitud_gps": _scan_label_value(ws, ["altitud"]),
-        "dt03_pendiente_parcela": _scan_label_value(ws, ["pendiente promedio"]),
-        "dt03_cobertura_total": _scan_label_value(ws, ["cobertura vegetal total"]),
-        "utm_este_dt": _scan_label_value(ws, ["utm este"]),
-        "utm_norte_dt": _scan_label_value(ws, ["utm norte"]),
-        "dt03_tipo_ecosistema": _scan_label_value(ws, ["tipo de ecosistema"]),
-        "dt03_superficie_ecosistema": _scan_label_value(ws, ["superficie del ecosistema"]),
-        "dt03_estado_conservacion_eco": _scan_label_value(ws, ["estado de conservación general", "estado de conservacion general"]),
-        "dt03_uso_dominante": _scan_label_value(ws, ["uso actual dominante"]),
-        "dt03_cobertura_dosel": _scan_label_value(ws, ["cobertura del dosel arbóreo", "cobertura del dosel arboreo"]),
-        "dt03_cobertura_arbustiva": _scan_label_value(ws, ["cobertura arbustiva"]),
-        "dt03_cobertura_herbacea": _scan_label_value(ws, ["cobertura herbácea", "cobertura herbacea"]),
-        "dt03_cobertura_hojarasca": _scan_label_value(ws, ["cobertura de hojarasca"]),
-        "dt03_suelo_desnudo": _scan_label_value(ws, ["cobertura de suelo desnudo"]),
-        "dt03_altura_estrato_dom": _scan_label_value(ws, ["altura promedio estrato"]),
-        "dt03_altura_max": _scan_label_value(ws, ["altura máxima", "altura maxima"]),
-        "dt03_dap_promedio": _scan_label_value(ws, ["dap promedio"]),
-        "dt03_regeneracion_natural": _scan_label_value(ws, ["regeneración natural", "regeneracion natural"]),
-        "dt03_estado_sanitario": _scan_label_value(ws, ["estado sanitario general"]),
-        "dt03_presencia_epifitas": _scan_label_value(ws, ["presencia de epífitas", "presencia de epifitas"]),
-        "dt03_fenologia_dominante": _scan_label_value(ws, ["fenología dominante", "fenologia dominante"]),
-        "dt03_tipo_cobertura_dom": _scan_label_value(ws, ["tipo de cobertura vegetal dominante"]),
-        "dt03_observaciones": _scan_label_value(ws, ["observaciones"]),
+    label_map = {
+        "fecha_evaluacion": ["fecha"],
+        "evaluador": ["responsable", "evaluador"],
+        "codigo_bloque": ["código del bloque", "codigo del bloque"],
+        "microcuenca": ["microcuenca"],
+        "distrito": ["distrito"],
+        "dt03_parcela_muestreo": ["parcela de muestreo"],
+        "dt03_dim_parcela": ["dimensiones de parcela"],
+        "altitud_gps": ["altitud"],
+        "dt03_pendiente_parcela": ["pendiente promedio"],
+        "dt03_cobertura_total": ["cobertura vegetal total"],
+        "utm_este_dt": ["utm este"],
+        "utm_norte_dt": ["utm norte"],
+        "dt03_tipo_ecosistema": ["tipo de ecosistema"],
+        "dt03_superficie_ecosistema": ["superficie del ecosistema"],
+        "dt03_estado_conservacion_eco": ["estado de conservación general", "estado de conservacion general"],
+        "dt03_uso_dominante": ["uso actual dominante"],
+        "dt03_cobertura_dosel": ["cobertura del dosel arbóreo", "cobertura del dosel arboreo"],
+        "dt03_cobertura_arbustiva": ["cobertura arbustiva"],
+        "dt03_cobertura_herbacea": ["cobertura herbácea", "cobertura herbacea"],
+        "dt03_cobertura_hojarasca": ["cobertura de hojarasca"],
+        "dt03_suelo_desnudo": ["cobertura de suelo desnudo"],
+        "dt03_altura_estrato_dom": ["altura promedio estrato"],
+        "dt03_altura_max": ["altura máxima", "altura maxima"],
+        "dt03_dap_promedio": ["dap promedio"],
+        "dt03_regeneracion_natural": ["regeneración natural", "regeneracion natural"],
+        "dt03_estado_sanitario": ["estado sanitario general"],
+        "dt03_presencia_epifitas": ["presencia de epífitas", "presencia de epifitas"],
+        "dt03_fenologia_dominante": ["fenología dominante", "fenologia dominante"],
+        "dt03_tipo_cobertura_dom": ["tipo de cobertura vegetal dominante"],
     }
+    vocab = [kw for kws in label_map.values() for kw in kws]
+    anchors = _collect_label_anchors(ws, vocab)
+    base = {k: _scan_label_value(ws, kws, anchors=anchors)
+            for k, kws in label_map.items()}
+    base["dt03_observaciones"] = _scan_observaciones(ws, anchors=anchors)
     # Tabla de floristica (9 columnas: n, nombre_comun, nombre_cient, familia, estrato, origen, abundancia, dap, altura)
     flora = _scan_table(ws, ["n°", "nombre común", "estrato"], num_data_rows=15, num_cols=9)
     flora_keys = ["n", "nombre_comun", "nombre_cientifico", "familia",
@@ -270,18 +438,22 @@ def _parse_dt03(ws):
 
 
 def _parse_dt04(ws):
-    base = {
-        "fecha_evaluacion": _scan_label_value(ws, ["fecha"]),
-        "evaluador": _scan_label_value(ws, ["responsable", "evaluador"]),
-        "codigo_bloque": _scan_label_value(ws, ["código del bloque", "codigo del bloque"]),
-        "microcuenca": _scan_label_value(ws, ["microcuenca"]),
-        "dt04_causas_directas_texto": _scan_label_value(ws, ["principales causas directas"]),
-        "dt04_causa_subyacente": _scan_label_value(ws, ["causa subyacente"]),
-        "dt04_velocidad_degradacion": _scan_label_value(ws, ["velocidad de degradación", "velocidad de degradacion"]),
-        "dt04_reversibilidad": _scan_label_value(ws, ["reversibilidad técnica", "reversibilidad tecnica"]),
-        "dt04_urgencia_intervencion": _scan_label_value(ws, ["urgencia de intervención", "urgencia de intervencion"]),
-        "dt04_observaciones": _scan_label_value(ws, ["observaciones"]),
+    label_map = {
+        "fecha_evaluacion": ["fecha"],
+        "evaluador": ["responsable", "evaluador"],
+        "codigo_bloque": ["código del bloque", "codigo del bloque"],
+        "microcuenca": ["microcuenca"],
+        "dt04_causas_directas_texto": ["principales causas directas"],
+        "dt04_causa_subyacente": ["causa subyacente"],
+        "dt04_velocidad_degradacion": ["velocidad de degradación", "velocidad de degradacion"],
+        "dt04_reversibilidad": ["reversibilidad técnica", "reversibilidad tecnica"],
+        "dt04_urgencia_intervencion": ["urgencia de intervención", "urgencia de intervencion"],
     }
+    vocab = [kw for kws in label_map.values() for kw in kws]
+    anchors = _collect_label_anchors(ws, vocab)
+    base = {k: _scan_label_value(ws, kws, anchors=anchors)
+            for k, kws in label_map.items()}
+    base["dt04_observaciones"] = _scan_observaciones(ws, anchors=anchors)
     # Matriz de causas (7 cols): n, causa, presencia, intensidad, extension, antiguedad, evidencia
     causas = _scan_table(ws, ["causa", "presencia", "intensidad"],
                          num_data_rows=16, num_cols=7)
@@ -301,34 +473,38 @@ def _parse_dt04(ws):
 
 
 def _parse_dt05(ws):
-    base = {
-        "fecha_evaluacion": _scan_label_value(ws, ["fecha"]),
-        "evaluador": _scan_label_value(ws, ["responsable", "evaluador"]),
-        "codigo_bloque": _scan_label_value(ws, ["código del bloque", "codigo del bloque"]),
-        "microcuenca": _scan_label_value(ws, ["microcuenca"]),
-        "distrito": _scan_label_value(ws, ["distrito"]),
-        "provincia": _scan_label_value(ws, ["provincia"]),
-        "dt05_zona_recarga": _scan_label_value(ws, ["zona de recarga"]),
-        "dt05_humedad_persistente": _scan_label_value(ws, ["humedad persistente"]),
-        "dt05_escorrentia_concentrada": _scan_label_value(ws, ["escorrentía concentrada", "escorrentia concentrada"]),
-        "dt05_dist_captacion": _scan_label_value(ws, ["distancia a captación", "distancia a captacion"]),
-        "dt05_jass_captacion": _scan_label_value(ws, ["jass", "captación asociada", "captacion asociada"]),
-        "dt05_interferencia_riego": _scan_label_value(ws, ["interferencia con obras"]),
-        "dt05_sistema_riego_nombre": _scan_label_value(ws, ["sistema de riego"]),
-        "dt05_modalidad_acceso": _scan_label_value(ws, ["modalidad de acceso"]),
-        "dt05_via_principal": _scan_label_value(ws, ["vía principal", "via principal"]),
-        "dt05_tipo_via_final": _scan_label_value(ws, ["tipo de vía final", "tipo de via final"]),
-        "dt05_transitabilidad_seca": _scan_label_value(ws, ["transitabilidad — época seca", "transitabilidad - epoca seca"]),
-        "dt05_transitabilidad_lluviosa": _scan_label_value(ws, ["transitabilidad — época lluviosa", "transitabilidad - epoca lluviosa"]),
-        "dt05_tiempo_dist_capital": _scan_label_value(ws, ["tiempo desde capital distrital"]),
-        "dt05_tiempo_prov_capital": _scan_label_value(ws, ["tiempo desde capital provincial"]),
-        "dt05_senal_celular": _scan_label_value(ws, ["señal celular", "senal celular"]),
-        "dt05_operador_celular": _scan_label_value(ws, ["operador celular"]),
-        "dt05_alojamiento": _scan_label_value(ws, ["alojamiento rural"]),
-        "dt05_requiere_ronda": _scan_label_value(ws, ["autorización de ronda", "autorizacion de ronda"]),
-        "dt05_contacto_ronda": _scan_label_value(ws, ["contacto responsable de ronda"]),
-        "dt05_observaciones": _scan_label_value(ws, ["observaciones"]),
+    label_map = {
+        "fecha_evaluacion": ["fecha"],
+        "evaluador": ["responsable", "evaluador"],
+        "codigo_bloque": ["código del bloque", "codigo del bloque"],
+        "microcuenca": ["microcuenca"],
+        "distrito": ["distrito"],
+        "provincia": ["provincia"],
+        "dt05_zona_recarga": ["zona de recarga"],
+        "dt05_humedad_persistente": ["humedad persistente"],
+        "dt05_escorrentia_concentrada": ["escorrentía concentrada", "escorrentia concentrada"],
+        "dt05_dist_captacion": ["distancia a captación", "distancia a captacion"],
+        "dt05_jass_captacion": ["jass", "captación asociada", "captacion asociada"],
+        "dt05_interferencia_riego": ["interferencia con obras"],
+        "dt05_sistema_riego_nombre": ["sistema de riego"],
+        "dt05_modalidad_acceso": ["modalidad de acceso"],
+        "dt05_via_principal": ["vía principal", "via principal"],
+        "dt05_tipo_via_final": ["tipo de vía final", "tipo de via final"],
+        "dt05_transitabilidad_seca": ["transitabilidad — época seca", "transitabilidad - epoca seca"],
+        "dt05_transitabilidad_lluviosa": ["transitabilidad — época lluviosa", "transitabilidad - epoca lluviosa"],
+        "dt05_tiempo_dist_capital": ["tiempo desde capital distrital"],
+        "dt05_tiempo_prov_capital": ["tiempo desde capital provincial"],
+        "dt05_senal_celular": ["señal celular", "senal celular"],
+        "dt05_operador_celular": ["operador celular"],
+        "dt05_alojamiento": ["alojamiento rural"],
+        "dt05_requiere_ronda": ["autorización de ronda", "autorizacion de ronda"],
+        "dt05_contacto_ronda": ["contacto responsable de ronda"],
     }
+    vocab = [kw for kws in label_map.values() for kw in kws]
+    anchors = _collect_label_anchors(ws, vocab)
+    base = {k: _scan_label_value(ws, kws, anchors=anchors)
+            for k, kws in label_map.items()}
+    base["dt05_observaciones"] = _scan_observaciones(ws, anchors=anchors)
     # Inventario de fuentes de agua (8 cols)
     fuentes = _scan_table(ws, ["tipo de fuente", "régimen"],
                           num_data_rows=10, num_cols=8)
