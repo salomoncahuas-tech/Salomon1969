@@ -1518,6 +1518,13 @@ def pagina_diagnostico_territorial():
     if "dt_edit_data" not in st.session_state:
         st.session_state["dt_edit_data"] = None
 
+    _dt_pending = st.session_state.pop("_dt_autocompletar_pending", None)
+    if _dt_pending:
+        for _k, _v in _dt_pending.items():
+            st.session_state[_k] = _v
+        st.session_state["dt_edit_id"] = None
+        st.session_state["dt_edit_data"] = None
+
     dt_edit_id = st.session_state.get("dt_edit_id")
     dt_edit = st.session_state.get("dt_edit_data") or {}
 
@@ -2530,9 +2537,7 @@ def pagina_diagnostico_territorial():
                     if st.button("Autocompletar formulario", type="primary", key="dt_autocompletar"):
                         ss_vals = mapear_dt_a_session_state(
                             {"ficha": ", ".join(fichas_detectadas), "datos": datos_todos}, bm)
-                        for k, v in ss_vals.items():
-                            st.session_state[k] = v
-                        st.session_state["dt_edit_id"] = None
+                        st.session_state["_dt_autocompletar_pending"] = ss_vals
                         st.success(
                             f"Formulario autocompletado con {len(fichas_detectadas)} ficha(s). "
                             "Cambie a la pestaña **Registro de Diagnostico** para revisar y guardar.")
@@ -2847,6 +2852,12 @@ def pagina_diagnostico_social():
 
     # Inicializar estado de edicion
     if "ds_edit_id" not in st.session_state:
+        st.session_state["ds_edit_id"] = None
+
+    _ds_pending = st.session_state.pop("_ds_autocompletar_pending", None)
+    if _ds_pending:
+        for _k, _v in _ds_pending.items():
+            st.session_state[_k] = _v
         st.session_state["ds_edit_id"] = None
 
     ficha_sel = st.radio("Seleccionar ficha", FICHAS_DS, horizontal=True, key="ds_ficha_sel")
@@ -3640,9 +3651,7 @@ def pagina_diagnostico_social():
                             f"Autocompletar formulario {ficha_det}",
                             type="primary", key=f"ds_autocompletar_{i}"):
                             ss_vals = mapear_a_session_state(res, bm)
-                            for k, v in ss_vals.items():
-                                st.session_state[k] = v
-                            st.session_state["ds_edit_id"] = None
+                            st.session_state["_ds_autocompletar_pending"] = ss_vals
                             st.success(f"Formulario {ficha_det} autocompletado. "
                                        f"Cambie a la pestana **Registro** para revisar y guardar.")
                             st.rerun()
