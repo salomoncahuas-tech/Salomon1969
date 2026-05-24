@@ -470,7 +470,11 @@ def admin_login():
     except Exception as e:
         db.session.rollback()
         app.logger.error('admin_login error: %s', str(e))
-        return f'<h1>Login Error</h1><p>Debug: {str(e)}</p><p><a href="/">Back to Home</a></p>', 500
+        return render_template(
+            'error.html', code=503,
+            message='The service is temporarily unavailable because the '
+                    'database cannot be reached. Please try again in a few '
+                    'minutes.'), 503
 
 
 @app.route('/admin/logout')
