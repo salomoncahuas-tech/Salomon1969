@@ -601,57 +601,29 @@ FDT04_INDICADORES_LABELS = [
     ("Distancia a vía vecinal más cercana", "m", "A menor distancia → mayor presión"),
 ]
 
-# ── Fichas de Diagnostico Social (F-DS-01 a F-DS-05) ─────────────────────
-# Fuente: Formatos_Sociales_Registros_de_Campo_IN_Piura_2026.xlsx
-FICHAS_DS = ["F-DS-01","F-DS-02","F-DS-03","F-DS-04","F-DS-05"]
+# ── Fichas de Diagnostico Social V3 (F-DS-01 a F-DS-07) ──────────────────
+# Fuente unica de verdad: fds_listas.py (generado desde la hoja `_Listas` de
+# la Plantilla de Diagnostico Social validada V3). Las 7 fichas reemplazan a
+# los 5 formatos anteriores y usan celdas de validacion (desplegables) que
+# replican las listas oficiales del Excel.
+import fds_listas as FL
 
-# F-DS-01: DIAGNOSTICO SOCIOECONOMICO DE CENTRO POBLADO
-FDS01_IDIOMA = ["Castellano", "Quechua", "Bilingue", "Otro"]
-FDS01_NIVEL_EDUCATIVO = ["Sin instruccion", "Primaria", "Secundaria", "Superior"]
-FDS01_TASA_MIGRACION = ["Alta", "Media", "Baja"]
-FDS01_ORGANIZACION = ["Comunidad Campesina", "Caserio", "Centro poblado", "Anexo"]
-FDS01_AGUA_POTABLE = ["Red publica", "Pileta", "Manantial", "Rio/acequia", "Otro"]
-FDS01_SANEAMIENTO = ["Red de alcantarillado", "Letrina", "Pozo septico", "Campo abierto"]
-FDS01_ENERGIA = ["Red publica", "Panel solar", "Sin servicio"]
-FDS01_TELECOMUNICACIONES = ["Telefonia movil", "Internet", "Radio", "Sin servicio"]
-FDS01_ACCESO_VIAL = ["Carretera asfaltada", "Afirmada", "Trocha", "Camino de herradura"]
-FDS01_TRANSPORTE = ["Vehiculo diario", "Interdiario", "Semanal", "Solo particular"]
-FDS01_SALUD = ["Hospital", "Centro de salud", "Puesto de salud", "Ninguno"]
-FDS01_EDUCACION = ["Inicial", "Primaria", "Secundaria", "Ninguna"]
-FDS01_ACTIVIDADES_ECON = [
-    "Agricultura", "Ganaderia", "Foresteria/Lena",
-    "Comercio", "Jornales", "Artesania", "Otra",
-]
-FDS01_DESTINO_PRODUCCION = ["Autoconsumo", "Venta", "Autoconsumo/Venta"]
-FDS01_PROBLEMAS_AGUA = [
-    "Escasez", "Contaminacion", "Conflictos de uso",
-    "Infraestructura deficiente", "Ninguno",
-]
-FDS01_USO_RECURSOS_FOREST = [
-    "Lena", "Madera", "Productos forestales no maderables", "No usa",
-]
-FDS01_DISPOSICION = ["Alta", "Media", "Baja", "Condicionada"]
+FICHAS_DS = ["F-DS-01", "F-DS-02", "F-DS-03", "F-DS-04",
+             "F-DS-05", "F-DS-06", "F-DS-07"]
 
-# F-DS-02: IDENTIFICACION Y CARACTERIZACION DE ACTORES CLAVE
-FDS02_TIPO_ACTOR = ["Publico", "Privado", "Soc. Civil"]
-FDS02_NIVEL = ["A", "M", "B"]  # Alto / Medio / Bajo
-FDS02_CLASIFICACION = [
-    "Gobierno Local (Municipalidades)",
-    "Gobierno Regional (Gerencias/Direcciones)",
-    "Gobierno Nacional (ANA, SERNANP, MINAM, MIDAGRI)",
-    "Comunidades Campesinas",
-    "Juntas de Usuarios de Riego",
-    "Comites de Gestion de Cuenca",
-    "ONG / Cooperacion Internacional",
-    "Empresa Privada (EPS, agroindustria)",
-    "Instituciones Educativas / Universidades",
-    "Organizaciones de Base (rondas campesinas, comites)",
-]
+FICHAS_DS_TITULOS = {
+    "F-DS-01": "Diagnostico Socioeconomico del CP / Comunidad",
+    "F-DS-02": "Mapeo y Analisis de Actores Clave",
+    "F-DS-03": "Entrevista Semiestructurada a Autoridades / Lideres",
+    "F-DS-04": "Acta de Taller Participativo",
+    "F-DS-05": "Conflictos Socioambientales y Oportunidades",
+    "F-DS-06": "Percepcion Local de Peligros y Cambio Climatico",
+    "F-DS-07": "Disposicion a Participar y Consentimiento Previo Informado",
+}
 
-# F-DS-05: IDENTIFICACION DE CONFLICTOS Y OPORTUNIDADES
-FDS05_NIVEL = ["A", "M", "B"]
-FDS05_ESTADO_CONFLICTO = ["Activo", "Latente"]
-FDS05_TIPO_OPORTUNIDAD = ["Social", "Institucional", "Productivo"]
+# Listas Si/No reutilizadas en multiples fichas
+DS_SINO = FL.L_SINO                       # ["Si", "No"]
+DS_SINONA = FL.L_SINONA                   # ["Si", "No", "No aplica"]
 
 # ── CSS ───────────────────────────────────────────────────────────────────
 st.markdown("""<style>
@@ -2649,220 +2621,663 @@ def _ds_datos_generales(bloque_label=""):
                 coordenada_norte=norte, altitud=alt_v, codigo_ubigeo=ubigeo)
 
 
-def _ds_load_edit(det, bm):
-    """Carga un registro de diagnostico social en session_state para edicion."""
-    st.session_state["ds_edit_id"] = det["id"]
-    # Encontrar label del bloque
-    bm_rev = {v: k for k, v in bm.items()}
-    bl_label = bm_rev.get(det.get("bloque_id"), "")
-    if bl_label:
-        st.session_state["ds_bl"] = bl_label
-    st.session_state["ds_mc"] = det.get("microcuenca", "") or ""
+# ══════════════════════════════════════════════════════════════════════════
+# DIAGNOSTICO SOCIAL V3 — Plantilla validada (F-DS-01 a F-DS-07)
+# Formularios con celdas de validacion (desplegables) que replican las listas
+# oficiales del Excel `Plantilla_Diagnostico_Social_IN_Piura_validado`.
+# Cada ficha guarda su formulario completo como JSON en la columna dsNN_data_v3
+# y, donde aplica, alimenta las columnas legacy para compatibilidad de reportes.
+# Convencion: la clave del dict del formulario == la key del widget Streamlit,
+# por lo que la precarga (edicion / import) es generica y sin desfases.
+# ══════════════════════════════════════════════════════════════════════════
+
+# Slots que corresponden a tablas (st.data_editor) y no a widgets escalares.
+_DS_TABLE_SLOTS = {
+    "f1_activ", "f2_actores", "f4_part", "f4_agenda", "f4_acuerdos",
+    "f5_conflictos", "f5_oportunidades", "f6_peligros", "f6_cambios",
+}
+
+
+def _ds_nonce():
+    return st.session_state.get("_ds_nonce", 0)
+
+
+def _T(f, container, label, key, **kw):
+    f[key] = container.text_input(label, key=key, **kw)
+    return f[key]
+
+
+def _TA(f, label, key, height=80, **kw):
+    f[key] = st.text_area(label, key=key, height=height, **kw)
+    return f[key]
+
+
+def _SB(f, container, label, options, key, help=None):
+    """Selectbox 'marcar uno' (celda de validacion)."""
+    opts = [""] + list(options)
+    if key in st.session_state and st.session_state[key] not in opts:
+        st.session_state[key] = ""
+    f[key] = container.selectbox(label, opts, key=key, help=help)
+    return f[key]
+
+
+def _MS(f, container, label, options, key, help=None):
+    """Multiselect 'marcar las que apliquen' (celda de validacion)."""
+    opts = list(options)
+    if key in st.session_state:
+        st.session_state[key] = [v for v in st.session_state[key] if v in opts]
+    f[key] = container.multiselect(label, opts, key=key, help=help)
+    return f[key]
+
+
+def _ds_tabla(label, slot, columns, default_rows=None, default_n=3, help=None):
+    """Editor de tabla con celdas de validacion por columna (st.data_editor)."""
+    if label:
+        st.markdown(label)
+    if help:
+        st.caption(help)
+    col_names = [c[0] for c in columns]
+    init = st.session_state.get(f"_dsinit_{slot}")
+    if init is None:
+        if default_rows is not None:
+            init = [dict(r) for r in default_rows]
+        else:
+            init = [{c: "" for c in col_names} for _ in range(default_n)]
+    rows = [{c: r.get(c, "") for c in col_names} for r in init]
+    df = pd.DataFrame(rows, columns=col_names)
+    colcfg = {}
+    for name, kind, opts in columns:
+        if kind == "select":
+            colcfg[name] = st.column_config.SelectboxColumn(name, options=list(opts), width="medium")
+        else:
+            colcfg[name] = st.column_config.TextColumn(name)
+    edited = st.data_editor(
+        df, key=f"_dstbl_{slot}_{_ds_nonce()}", column_config=colcfg,
+        num_rows="dynamic", use_container_width=True, hide_index=True)
+    out = []
+    for r in edited.to_dict("records"):
+        if any(str(v).strip() for v in r.values() if v is not None):
+            out.append({k: ("" if v is None else str(v)) for k, v in r.items()})
+    return out
+
+
+def _TB(f, label, slot, columns, **kw):
+    f[slot] = _ds_tabla(label, slot, columns, **kw)
+    return f[slot]
+
+
+# ─── Render de cada ficha: devuelven el dict completo del formulario V3 ──────
+
+def _render_fds01():
+    f = {}
+    st.markdown("**2. Datos Demograficos**")
+    _SB(f, st, "2.1 Tipo de organizacion territorial", FL.L_ORG_COMUNAL, "f1_org_terr")
+    c1, c2 = st.columns(2)
+    _T(f, c1, "Nombre oficial completo (CP/CC/Anexo)", "f1_nombre_oficial")
+    _T(f, c2, "Año de fundacion", "f1_anio_fund")
+    c1, c2, c3 = st.columns(3)
+    _T(f, c1, "N total de familias / viviendas *", "f1_nfam")
+    _T(f, c2, "Poblacion total estimada (hab.) *", "f1_pob_t")
+    _T(f, c3, "Pob. autoidentificada originaria", "f1_pob_orig")
+    c1, c2, c3, c4 = st.columns(4)
+    _T(f, c1, "Pob. hombres", "f1_pob_h")
+    _T(f, c2, "Pob. mujeres", "f1_pob_m")
+    _T(f, c3, "Pob. < 18 años", "f1_pob_men18")
+    _T(f, c4, "Pob. > 65 años", "f1_pob_may65")
+    c1, c2 = st.columns(2)
+    _SB(f, c1, "2.3 Idioma predominante", FL.L_IDIOMA, "f1_idioma")
+    _SB(f, c2, "2.4 Nivel educativo predominante", FL.L_NIV_EDU, "f1_nivel_edu")
+    c1, c2 = st.columns(2)
+    _SB(f, c1, "2.5 Tasa de migracion juvenil", FL.L_ABC, "f1_migracion")
+    _SB(f, c2, "2.6 Destino principal de migracion", FL.L_MIG_DEST, "f1_destino_mig")
+
+    st.markdown("**3. Organizacion Comunal y Gobernanza Local**")
+    c1, c2, c3 = st.columns(3)
+    _SB(f, c1, "¿Junta Directiva vigente?", DS_SINO, "f1_junta_vig")
+    _T(f, c2, "Fin de mandato (AAAA)", "f1_junta_fin")
+    _SB(f, c3, "3.1 Periodicidad de asambleas", FL.L_PERIODIC, "f1_periodicidad")
+    c1, c2, c3 = st.columns(3)
+    _T(f, c1, "Presidente/a de Junta", "f1_pres_junta")
+    _T(f, c2, "DNI", "f1_pres_dni")
+    _T(f, c3, "Telefono", "f1_pres_tel")
+    c1, c2, c3 = st.columns(3)
+    _SB(f, c1, "¿Ronda Campesina activa? *", DS_SINO, "f1_ronda")
+    _T(f, c2, "Presidente/a de Ronda", "f1_pres_ronda")
+    _T(f, c3, "Telefono Pres. Ronda", "f1_ronda_tel")
+    _T(f, st, "Autoridad adicional (Tnte Gobernador, Agente Municipal)", "f1_aut_adic")
+    c1, c2, c3 = st.columns(3)
+    _SB(f, c1, "¿Existe reglamento interno?", DS_SINONA, "f1_reglamento")
+    _SB(f, c2, "¿Comite de RRNN?", DS_SINO, "f1_comite_rrnn")
+    _T(f, c3, "Nombre del comite (si existe)", "f1_nombre_comite")
+
+    st.markdown("**4. Tenencia de la Tierra**")
+    _SB(f, st, "4.1 Regimen predominante de tenencia", FL.L_TENENCIA, "f1_tenencia")
+    c1, c2 = st.columns(2)
+    _T(f, c1, "N aprox. de predios individuales", "f1_n_predios")
+    _T(f, c2, "% tierras tituladas", "f1_pct_tituladas")
+    c1, c2 = st.columns(2)
+    _SB(f, c1, "¿Conflictos de linderos registrados?", DS_SINO, "f1_conf_linderos")
+    _SB(f, c2, "¿Bloque se superpone a tierras comunales?", DS_SINO, "f1_superpone")
+    _SB(f, st, "4.2 Organismo responsable del registro", FL.L_REG_TIT, "f1_reg_titulacion")
+
+    st.markdown("**5. Servicios Basicos e Infraestructura Social**")
+    c1, c2, c3, c4 = st.columns(4)
+    _SB(f, c1, "5.1 Agua para consumo", FL.L_AGUA, "f1_agua")
+    _T(f, c2, "Cobertura agua (%)", "f1_agua_cob")
+    _T(f, c3, "Pago mensual S/", "f1_agua_pago")
+    _T(f, c4, "Tiempo acarreo / viajes", "f1_agua_acarreo")
+    c1, c2 = st.columns(2)
+    _SB(f, c1, "5.2 Saneamiento", FL.L_SANEA, "f1_sanea")
+    _SB(f, c2, "5.3 Energia electrica", FL.L_ENERG, "f1_energia")
+    c1, c2 = st.columns(2)
+    _T(f, c1, "Cobertura energia (%)", "f1_energia_cob")
+    _T(f, c2, "Pago mensual energia S/", "f1_energia_pago")
+    c1, c2 = st.columns(2)
+    _SB(f, c1, "5.4 Telecomunicaciones", FL.L_TELECOM, "f1_telecom")
+    _T(f, c2, "Operador celular dominante", "f1_telecom_op")
+    c1, c2, c3 = st.columns(3)
+    _SB(f, c1, "5.5 IE - niveles disponibles", FL.L_NIV_EDU_IE, "f1_ie_niveles")
+    _T(f, c2, "Nombre IE principal", "f1_ie_nombre")
+    _T(f, c3, "Distancia al CP (Km)", "f1_ie_dist")
+    c1, c2, c3 = st.columns(3)
+    _SB(f, c1, "5.6 EESS - categoria", FL.L_CAT_EESS, "f1_eess")
+    _T(f, c2, "Nombre EESS mas cercano", "f1_eess_nombre")
+    _T(f, c3, "Distancia EESS (km)", "f1_eess_dist")
+    c1, c2 = st.columns(2)
+    _SB(f, c1, "¿Existe local comunal?", DS_SINO, "f1_local_comunal")
+    _SB(f, c2, "Estado del local comunal", FL.L_BRM, "f1_local_estado")
+
+    _TB(f, "**6. Actividades Economicas y Medios de Vida**", "f1_activ",
+        [("Actividad / Rubro", "select", FL.L_ACTIV),
+         ("N fam.", "text", None),
+         ("Productos principales", "text", None),
+         ("Destino", "select", FL.L_DESTINO),
+         ("Ingreso (S/./mes)", "text", None)],
+        default_n=3,
+        help="Registre hasta 8 actividades. Elija la actividad y el destino del desplegable.")
+
+    st.markdown("**7. Programas Sociales y Presencia Institucional**")
+    c1, c2, c3 = st.columns(3)
+    _T(f, c1, "Beneficiarios JUNTOS (N fam.)", "f1_juntos")
+    _T(f, c2, "Pension 65 (N pers.)", "f1_pension65")
+    _T(f, c3, "Qali Warma (IIEE)", "f1_qaliwarma")
+    c1, c2 = st.columns(2)
+    _T(f, c1, "Beca 18 (N pers.)", "f1_beca18")
+    _T(f, c2, "Otros programas (especificar)", "f1_otros_prog")
+    c1, c2, c3 = st.columns(3)
+    _SB(f, c1, "¿Proyectos AGRORURAL?", DS_SINO, "f1_agrorural")
+    _SB(f, c2, "¿PRODERN / FONCODES?", DS_SINO, "f1_prodern")
+    _SB(f, c3, "¿Otros proyectos?", DS_SINO, "f1_otros_proy")
+    c1, c2, c3 = st.columns(3)
+    _SB(f, c1, "¿PDC vigente?", DS_SINO, "f1_pdc")
+    _SB(f, c2, "¿ONGs operando?", DS_SINO, "f1_ongs")
+    _T(f, c3, "Nombre de ONGs", "f1_nombre_ongs")
+    _SB(f, st, "7.1 Percepcion de presencia estatal", FL.L_ABC, "f1_presencia_estatal")
+    return f
+
+
+def _render_fds02():
+    f = {}
+    st.info("TIPO de actor, Influencia, Interes, Posicion y Nivel territorial se eligen "
+            "de los desplegables (valores completos). Ver hoja _Codigos del Excel para la leyenda.")
+    _TB(f, "**3. Registro de Actores Identificados**", "f2_actores",
+        [("Nombre del actor / Organizacion", "text", None),
+         ("Tipo", "select", FL.L_TIPO_ACTOR),
+         ("Rol / Funcion frente al proyecto", "text", None),
+         ("Influencia", "select", FL.L_ABC),
+         ("Interes", "select", FL.L_ABC),
+         ("Posicion", "select", FL.L_POSICION),
+         ("Nivel territorial", "select", FL.L_NIV_TERR),
+         ("Telefono", "text", None),
+         ("Correo / Contacto", "text", None),
+         ("Observaciones / Historial", "text", None)],
+        default_n=5,
+        help="Registre todos los actores relevantes para la zona del bloque.")
+    st.markdown("**5. Actores Criticos Prioritarios (sintesis)**")
+    _T(f, st, "Actor mas influyente a favor", "f2_favor")
+    _T(f, st, "Actor mas influyente en contra / reticente", "f2_contra")
+    _T(f, st, "Actor clave en decisiones comunales", "f2_decision")
+    _T(f, st, "Actor clave para coordinar acceso (Ronda)", "f2_ronda")
+    _T(f, st, "Plataforma / Mesa existente que podria servir de vehiculo", "f2_plataforma")
+    return f
+
+
+def _render_fds03():
+    f = {}
+    st.markdown("**2. Datos del Entrevistado/a**")
+    c1, c2, c3 = st.columns(3)
+    _T(f, c1, "Nombres y apellidos *", "f3_nombre")
+    _T(f, c2, "DNI", "f3_dni")
+    _T(f, c3, "Edad", "f3_edad")
+    c1, c2, c3 = st.columns(3)
+    _SB(f, c1, "Genero", ["M", "F"], "f3_genero")
+    _T(f, c2, "Cargo / Rol *", "f3_cargo")
+    _T(f, c3, "Institucion / Organizacion", "f3_inst")
+    c1, c2, c3 = st.columns(3)
+    _T(f, c1, "Años en el cargo", "f3_anios")
+    _T(f, c2, "Telefono", "f3_tel")
+    _T(f, c3, "Correo", "f3_correo")
+    c1, c2 = st.columns(2)
+    _T(f, c1, "Lugar de la entrevista", "f3_lugar")
+    _T(f, c2, "Duracion (min)", "f3_dur")
+    c1, c2, c3 = st.columns(3)
+    _SB(f, c1, "¿Consiente grabacion?", DS_SINO, "f3_c_grab")
+    _SB(f, c2, "¿Consiente uso de nombre?", DS_SINO, "f3_c_nom")
+    _SB(f, c3, "¿Consiente fotografias?", DS_SINO, "f3_c_foto")
+
+    st.markdown("**3. Percepcion del Territorio y Recursos Naturales**")
+    _TA(f, "3.1 Principales recursos naturales de la zona", "f3_r1")
+    _TA(f, "3.2 Cambios observados (10-15 años) en disponibilidad/calidad", "f3_r2")
+    _TA(f, "3.3 Principales problemas ambientales actuales", "f3_r3")
+    _TA(f, "3.4 Zonas mas importantes para la conservacion del agua", "f3_r4")
+
+    st.markdown("**4. Actividades Productivas y Medios de Vida**")
+    _TA(f, "4.1 Actividades economicas mas importantes", "f3_r5")
+    _TA(f, "4.2 Abastecimiento de agua (riego/consumo), deficit", "f3_r6")
+    _TA(f, "4.3 Uso de productos del bosque (cuales, quienes, frecuencia)", "f3_r7")
+    _TA(f, "4.4 Cadenas productivas / asociaciones", "f3_r8")
+
+    st.markdown("**5. Organizacion, Gobernanza y Relacion con el Estado**")
+    _TA(f, "5.1 Organizaciones existentes y su rol", "f3_r9")
+    _TA(f, "5.2 Toma de decisiones sobre recursos comunes", "f3_r10")
+    _TA(f, "5.3 Relacion historica con el Estado y proyectos previos", "f3_r11")
+
+    st.markdown("**6. Expectativas frente al Proyecto IN Piura**")
+    _SB(f, st, "6.1 ¿Ha oido hablar del proyecto IN Piura?",
+        ["Si, conozco bien el proyecto", "Si, he oido algo general",
+         "No he oido nada", "Lo confundo con otros proyectos"], "f3_conoce")
+    _TA(f, "Describa que sabe", "f3_conoce_desc", height=70)
+    _TA(f, "6.2 Beneficios percibidos si se ejecuta", "f3_r_ben")
+    _TA(f, "6.3 Preocupaciones o temores frente al proyecto", "f3_r_pre")
+    _TA(f, "6.4 Condiciones indispensables para participar", "f3_r_cond")
+    _TA(f, "6.5 Como deberia ANIN relacionarse con rondas y autoridades", "f3_r_anin")
+    _TA(f, "6.6 Antecedentes de conflictos por proyectos externos", "f3_r_ant")
+    _TA(f, "7. Cierre y observaciones del entrevistador/a", "f3_cierre")
+    return f
+
+
+def _render_fds04():
+    f = {}
+    st.markdown("**2. Datos del Taller**")
+    c1, c2 = st.columns(2)
+    _T(f, c1, "Lugar del taller *", "f4_lugar")
+    _T(f, c2, "Entidad convocante", "f4_conv")
+    c1, c2, c3 = st.columns(3)
+    _T(f, c1, "Fecha del taller *", "f4_fecha")
+    _T(f, c2, "Hora inicio", "f4_hi")
+    _T(f, c3, "Hora fin", "f4_hf")
+    st.caption("2.1 Asistencia")
+    c1, c2, c3 = st.columns(3)
+    _T(f, c1, "N convocados", "f4_conv_n")
+    _T(f, c2, "N hombres", "f4_h")
+    _T(f, c3, "N mujeres", "f4_m")
+    c1, c2, c3 = st.columns(3)
+    _T(f, c1, "N jovenes (<30)", "f4_jov")
+    _T(f, c2, "N adultos mayores (>60)", "f4_am")
+    _T(f, c3, "N total asistentes", "f4_tot")
+    _TA(f, "Objetivo general del taller *", "f4_obj", height=60)
+    METODOS = ["Exposicion magistral", "Mesas de trabajo / Grupos focales", "Mapa parlante",
+               "Matriz Foda / Vester", "Cartografia participativa", "Lluvia de ideas",
+               "Entrevistas semiestructuradas", "Sociodrama / Dinamicas"]
+    MATERIALES = ["Papelografos", "Plumones / Lapices", "Tarjetas de colores", "Cinta adhesiva",
+                  "Mapas impresos / Ortofotos", "Proyector / Laptop", "Camara fotografica",
+                  "Grabadora de audio", "Refrigerio", "Otros"]
+    _MS(f, st, "2.2 Metodologia empleada", METODOS, "f4_metod")
+    _MS(f, st, "2.3 Materiales utilizados", MATERIALES, "f4_mater")
+    _SB(f, st, "2.4 Idioma de la facilitacion",
+        ["Español", "Quechua", "Bilingue español-quechua", "Otro"], "f4_idioma")
+
+    _TB(f, "**3. Lista de Participantes**", "f4_part",
+        [("Nombres y Apellidos", "text", None), ("DNI", "text", None),
+         ("Institucion / Comunidad", "text", None), ("Cargo / Rol", "text", None),
+         ("Telefono", "text", None), ("Sexo", "select", ["M", "F"]),
+         ("Edad", "text", None)],
+        default_n=10)
+    _TB(f, "**4. Agenda Desarrollada**", "f4_agenda",
+        [("Hora", "text", None), ("Agenda", "text", None),
+         ("Responsable", "text", None), ("Resultado / Aporte", "text", None)],
+        default_n=3)
+    _TB(f, "**5. Acuerdos y Compromisos**", "f4_acuerdos",
+        [("Acuerdo / Compromiso", "text", None), ("Responsable", "text", None),
+         ("Plazo", "text", None), ("Medio de verificacion", "text", None)],
+        default_n=3)
+    return f
+
+
+def _render_fds05():
+    f = {}
+    st.info("TIPO: SM=Minero | SH=Hidrico | SF=Forestal ... ESTADO: LT=Latente | ES=Escalada | "
+            "AC=Activo | NG=Negociacion | RS=Resuelto (ver hoja _Codigos).")
+    _TB(f, "**2. Identificacion de Conflictos**", "f5_conflictos",
+        [("Tipo", "select", FL.L_TIPO_CONFL),
+         ("Actores involucrados", "text", None),
+         ("Estado", "select", FL.L_NIVEL_CONFL),
+         ("Antiguedad", "select", FL.L_ANTIG_CONFL),
+         ("Descripcion / Causa raiz", "text", None),
+         ("Impacto potencial en el proyecto", "text", None)],
+        default_n=3,
+        help="Registre conflictos activos, latentes y resueltos recientes.")
+
+    st.markdown("**3. Contexto especifico - Conflicto minero Rio Blanco y otros**")
+    c1, c2 = st.columns(2)
+    _SB(f, c1, "¿Vinculo historico con conflicto Rio Blanco?", DS_SINONA, "f5_rb1")
+    _SB(f, c2, "¿Fue parte de la consulta de 2007?", DS_SINONA, "f5_rb2")
+    c1, c2 = st.columns(2)
+    _SB(f, c1, "¿Persiste sentimiento anti-minero fuerte?", DS_SINONA, "f5_rb3")
+    _SB(f, c2, "¿Liderazgos activos anti-mineros?", DS_SINONA, "f5_rb4")
+    _SB(f, st, "¿Se diferencia el proyecto IN del contexto minero?", DS_SINONA, "f5_rb5")
+    _T(f, st, "Otros conflictos relevantes (Tambogrande, Majaz, otros)", "f5_otros")
+    _T(f, st, "Rol de las rondas en conflictos historicos", "f5_rol_rondas")
+    _SB(f, st, "3.1 Nivel de polarizacion actual",
+        ["Muy alto", "Alto", "Medio", "Bajo", "Muy bajo / Inexistente"], "f5_polar")
+
+    _TB(f, "**4. Identificacion de Oportunidades**", "f5_oportunidades",
+        [("Oportunidad identificada", "text", None),
+         ("Actores relacionados", "text", None),
+         ("Tipo (alianza / plataforma / proy.)", "text", None),
+         ("Potencial", "select", FL.L_ABC),
+         ("Como aprovecharla", "text", None)],
+        default_n=3)
+
+    st.markdown("**5. Sintesis Estrategica**")
+    _SB(f, st, "5.1 Nivel global de conflictividad",
+        ["Muy bajo", "Bajo", "Medio", "Alto", "Muy alto"], "f5_confglob")
+    _SB(f, st, "5.2 Viabilidad social preliminar",
+        ["Alta — viable para intervencion inmediata", "Media — requiere acercamiento reforzado",
+         "Baja — requiere mesa de dialogo previa", "Muy baja — reevaluar inclusion del bloque"], "f5_viab")
+    _T(f, st, "Estrategia de acercamiento recomendada", "f5_estrategia")
+    c1, c2 = st.columns(2)
+    _SB(f, c1, "¿Se requiere mesa de dialogo especifica?", DS_SINO, "f5_mesa")
+    _SB(f, c2, "5.3 Plazo estimado para aceptacion comunal",
+        ["Inmediato (<1 mes)", "Corto (1-3 meses)", "Medio (3-6 meses)",
+         "Largo (6-12 meses)", "Requiere >12 meses"], "f5_plazo")
+    return f
+
+
+def _render_fds06():
+    f = {}
+    _T(f, st, "Fuente de informacion (N personas consultadas)", "f6_fuente")
+    peligros_default = [{"Peligro observado": p} for p in FL.L_PELIGRO_OBS[:-1]]
+    _TB(f, "**2. Percepcion de Peligros Naturales**", "f6_peligros",
+        [("Peligro observado", "text", None),
+         ("¿Ocurre?", "select", DS_SINO),
+         ("Frecuencia", "select", FL.FDS06_FRECUENCIA),
+         ("Magnitud", "select", FL.FDS06_MAGNITUD),
+         ("Tendencia", "select", FL.FDS06_TENDENCIA),
+         ("Ultimo evento (año)", "text", None),
+         ("Principales daños observados", "text", None)],
+        default_rows=peligros_default,
+        help="Para cada peligro indique ocurrencia, frecuencia, magnitud y tendencia (desplegables).")
+
+    cambios_default = [{"Cambio observado": c} for c in FL.L_CAMBIO_CLIMA[:-1]]
+    _TB(f, "**3. Cambios Climaticos Observados (ultimos 10-15 años)**", "f6_cambios",
+        [("Cambio observado", "text", None),
+         ("¿Se percibe?", "select", DS_SINO),
+         ("Intensidad", "select", FL.FDS06_INTENSIDAD),
+         ("Año aprox. de inicio", "text", None),
+         ("Impacto en la comunidad / territorio", "text", None)],
+        default_rows=cambios_default)
+
+    st.markdown("**4. Respuestas y Adaptaciones Locales**")
+    c1, c2 = st.columns(2)
+    _SB(f, c1, "¿La comunidad ha tomado medidas?", DS_SINO, "f6_medidas")
+    _SB(f, c2, "¿Sistemas de alerta temprana comunitarios?", DS_SINO, "f6_alerta")
+    c1, c2 = st.columns(2)
+    _SB(f, c1, "¿Saberes tradicionales de prediccion?", DS_SINO, "f6_saberes")
+    _SB(f, c2, "¿Se requiere apoyo externo para adaptacion?", DS_SINO, "f6_apoyo")
+    _TA(f, "Describa medidas / sistemas / saberes / apoyo requerido", "f6_desc")
+
+    st.markdown("**5. Priorizacion Local de Peligros**")
+    c1, c2, c3 = st.columns(3)
+    _T(f, c1, "Peligro mas grave (1)", "f6_p1")
+    _T(f, c2, "Peligro mas grave (2)", "f6_p2")
+    _T(f, c3, "Peligro mas grave (3)", "f6_p3")
+    _SB(f, st, "¿Percepcion diferenciada por genero?", DS_SINO, "f6_genero")
+    _T(f, st, "Percepcion diferenciada (describa)", "f6_genero_desc")
+    return f
+
+
+def _render_fds07():
+    f = {}
+    st.markdown("**2. Datos del Titular / Representante**")
+    _SB(f, st, "2.1 Tipo de propietario/representante *", FL.L_TIPO_PROPIETARIO, "f7_tipo_prop")
+    c1, c2, c3 = st.columns(3)
+    _T(f, c1, "Nombres y apellidos *", "f7_nombre")
+    _T(f, c2, "DNI *", "f7_dni")
+    _T(f, c3, "Edad", "f7_edad")
+    c1, c2 = st.columns(2)
+    _SB(f, c1, "Genero", ["Hombre", "Mujer", "Otro / Pref. no decir"], "f7_genero")
+    _T(f, c2, "Direccion / Residencia habitual", "f7_residencia")
+    c1, c2 = st.columns(2)
+    _T(f, c1, "Telefono / Correo de contacto", "f7_contacto")
+    _T(f, c2, "Superficie predio en el bloque (ha)", "f7_superficie")
+    DOCS = ["Titulo de propiedad SUNARP", "Constancia de posesion (municipal)", "Titulo COFOPRI",
+            "Certificado catastral", "Resolucion de adjudicacion", "Sin documentacion disponible"]
+    _MS(f, st, "2.2 Documentacion de tenencia disponible", DOCS, "f7_docs")
+    c1, c2 = st.columns(2)
+    _SB(f, c1, "¿Tiene conflictos de linderos?", DS_SINO, "f7_linderos")
+    _SB(f, c2, "¿Es residente permanente?", DS_SINO, "f7_residente")
+
+    st.markdown("**3. Informacion Provista al Titular / Representante**")
+    st.caption("Marque Si cuando el punto fue efectivamente explicado y comprendido.")
+    PUNTOS = [
+        ("f7_info_anin", "3.1 Se explico que es la ANIN"),
+        ("f7_info_objetivo", "3.2 Se explico el objetivo del proyecto IN Piura"),
+        ("f7_info_no_minero", "3.3 Se explico que NO es actividad minera ni extractiva"),
+        ("f7_info_medidas", "3.4 Se explico que medidas podrian implementarse en el predio"),
+        ("f7_info_temporalidad", "3.5 Se explico la temporalidad del proyecto"),
+        ("f7_info_voluntaria", "3.6 Se explico que la participacion es voluntaria"),
+        ("f7_info_actualizada", "3.7 Se explico el derecho a informacion actualizada"),
+        ("f7_info_confidencialidad", "3.8 Se explico el tratamiento confidencial de datos"),
+        ("f7_info_preguntas", "3.9 Se absolvieron todas las preguntas"),
+        ("f7_info_material", "3.10 Se entrego material informativo"),
+    ]
+    for i in range(0, len(PUNTOS), 2):
+        cols = st.columns(2)
+        for j, (k, lbl) in enumerate(PUNTOS[i:i + 2]):
+            _SB(f, cols[j], lbl, DS_SINO, k)
+
+    st.markdown("**4. Manifestacion de Disposicion a Participar**")
+    _SB(f, st, "4.1 Disposicion general a participar *", FL.L_DISPOSICION, "f7_disp")
+    _TA(f, "Condiciones o requisitos planteados", "f7_cond", height=70)
+    c1, c2 = st.columns(2)
+    _SB(f, c1, "¿Requiere consultar con familia/asamblea?", DS_SINO, "f7_consultar")
+    _T(f, c2, "Plazo solicitado para respuesta (dias)", "f7_plazo")
+    c1, c2, c3 = st.columns(3)
+    _SB(f, c1, "¿Autoriza ingreso preliminar?", DS_SINO, "f7_aut_ing")
+    _SB(f, c2, "¿Autoriza fotografias del predio?", DS_SINO, "f7_aut_foto")
+    _SB(f, c3, "¿Autoriza uso de su nombre?", DS_SINO, "f7_aut_nom")
+
+    st.markdown("**5. Preguntas, Preocupaciones y Compromisos**")
+    _TA(f, "5.1 Preguntas / preocupaciones del titular", "f7_preg")
+    _TA(f, "5.2 Compromisos adquiridos por ANIN/SESDI", "f7_comp")
+    return f
+
+
+_DS_RENDERERS = {
+    "F-DS-01": _render_fds01, "F-DS-02": _render_fds02, "F-DS-03": _render_fds03,
+    "F-DS-04": _render_fds04, "F-DS-05": _render_fds05, "F-DS-06": _render_fds06,
+    "F-DS-07": _render_fds07,
+}
+
+
+def _ds_legacy_cols(ficha, f):
+    """Mapea el formulario V3 a columnas legacy para compatibilidad de reportes."""
+    L = {}
+    if ficha == "F-DS-01":
+        L.update({
+            "ds01_num_familias": f.get("f1_nfam", ""),
+            "ds01_poblacion_hombres": f.get("f1_pob_h", ""),
+            "ds01_poblacion_mujeres": f.get("f1_pob_m", ""),
+            "ds01_poblacion_total": f.get("f1_pob_t", ""),
+            "ds01_idioma": f.get("f1_idioma", ""),
+            "ds01_nivel_educativo": f.get("f1_nivel_edu", ""),
+            "ds01_tasa_migracion": f.get("f1_migracion", ""),
+            "ds01_destino_migracion": f.get("f1_destino_mig", ""),
+            "ds01_organizacion_comunal": f.get("f1_org_terr", ""),
+            "ds01_junta_directiva": f.get("f1_junta_vig", ""),
+            "ds01_presidente_junta": f.get("f1_pres_junta", ""),
+            "ds01_agua_potable_tipo": f.get("f1_agua", ""),
+            "ds01_agua_potable_cobertura": f.get("f1_agua_cob", ""),
+            "ds01_saneamiento": f.get("f1_sanea", ""),
+            "ds01_energia_tipo": f.get("f1_energia", ""),
+            "ds01_energia_cobertura": f.get("f1_energia_cob", ""),
+            "ds01_telecomunicaciones": f.get("f1_telecom", ""),
+            "ds01_telecom_operador": f.get("f1_telecom_op", ""),
+            "ds01_salud_tipo": f.get("f1_eess", ""),
+            "ds01_salud_distancia": f.get("f1_eess_dist", ""),
+            "ds01_educacion": f.get("f1_ie_niveles", ""),
+            "ds01_actividades_economicas": json.dumps(f.get("f1_activ", []), ensure_ascii=False) if f.get("f1_activ") else "",
+        })
+    elif ficha == "F-DS-02":
+        L["ds02_registro_actores"] = json.dumps(f.get("f2_actores", []), ensure_ascii=False) if f.get("f2_actores") else ""
+    elif ficha == "F-DS-03":
+        L.update({
+            "ds03_nombre_entrevistado": f.get("f3_nombre", ""),
+            "ds03_cargo_funcion": f.get("f3_cargo", ""),
+            "ds03_institucion": f.get("f3_inst", ""),
+            "ds03_telefono_correo": f.get("f3_tel", "") or f.get("f3_correo", ""),
+            "ds03_duracion": f.get("f3_dur", ""),
+            "ds03_resp_recursos_naturales": f.get("f3_r1", ""),
+            "ds03_resp_cambios_ambiente": f.get("f3_r2", ""),
+            "ds03_resp_problemas_ambientales": f.get("f3_r3", ""),
+            "ds03_resp_zonas_conservacion": f.get("f3_r4", ""),
+            "ds03_resp_actividades_economicas": f.get("f3_r5", ""),
+            "ds03_resp_abastecimiento_agua": f.get("f3_r6", ""),
+            "ds03_resp_productos_bosque": f.get("f3_r7", ""),
+            "ds03_resp_cadenas_productivas": f.get("f3_r8", ""),
+            "ds03_resp_organizaciones": f.get("f3_r9", ""),
+            "ds03_resp_decisiones_territorio": f.get("f3_r10", ""),
+            "ds03_resp_expectativas": f.get("f3_r_ben", ""),
+            "ds03_resp_condiciones": f.get("f3_r_cond", ""),
+        })
+    elif ficha == "F-DS-04":
+        L.update({
+            "ds04_lugar_taller": f.get("f4_lugar", ""),
+            "ds04_convocante": f.get("f4_conv", ""),
+            "ds04_hora_inicio": f.get("f4_hi", ""),
+            "ds04_hora_fin": f.get("f4_hf", ""),
+            "ds04_objetivo": f.get("f4_obj", ""),
+            "ds04_lista_participantes": json.dumps(f.get("f4_part", []), ensure_ascii=False) if f.get("f4_part") else "",
+        })
+    elif ficha == "F-DS-05":
+        L["ds05_conflictos"] = json.dumps(f.get("f5_conflictos", []), ensure_ascii=False) if f.get("f5_conflictos") else ""
+        L["ds05_oportunidades"] = json.dumps(f.get("f5_oportunidades", []), ensure_ascii=False) if f.get("f5_oportunidades") else ""
+    return L
+
+
+def _ds_build_edit_pending(det):
+    """Construye {session_key: valor} para precargar un registro (modo edicion)."""
+    ficha = det.get("ficha", "")
+    pend = {
+        "ds_mc": det.get("microcuenca", "") or "",
+        "ds_eval": det.get("evaluador", "") or "",
+        "ds_fnum": det.get("ficha_numero", "") or "",
+        "ds_prov": det.get("provincia", "") or "",
+        "ds_dist": det.get("distrito", "") or "",
+        "ds_cpob": det.get("centro_poblado", "") or "",
+        "ds_ccam": det.get("comunidad_campesina", "") or "",
+        "ds_este": float(det.get("coordenada_este") or 0),
+        "ds_norte": float(det.get("coordenada_norte") or 0),
+        "ds_alt": float(det.get("altitud") or 0),
+        "ds_ubigeo": det.get("codigo_ubigeo", "") or "",
+        "ds_obs": det.get("observaciones_generales", "") or "",
+        "ds_ficha_sel": ficha,
+    }
     if det.get("fecha_evaluacion"):
         try:
-            st.session_state["ds_fecha"] = datetime.strptime(det["fecha_evaluacion"], "%Y-%m-%d").date()
+            pend["ds_fecha"] = datetime.strptime(det["fecha_evaluacion"], "%Y-%m-%d").date()
         except (ValueError, TypeError):
             pass
-    st.session_state["ds_eval"] = det.get("evaluador", "") or ""
-    st.session_state["ds_fnum"] = det.get("ficha_numero", "") or ""
-    st.session_state["ds_prov"] = det.get("provincia", "") or ""
-    st.session_state["ds_dist"] = det.get("distrito", "") or ""
-    st.session_state["ds_cpob"] = det.get("centro_poblado", "") or ""
-    st.session_state["ds_ccam"] = det.get("comunidad_campesina", "") or ""
-    st.session_state["ds_este"] = float(det.get("coordenada_este") or 0)
-    st.session_state["ds_norte"] = float(det.get("coordenada_norte") or 0)
-    st.session_state["ds_alt"] = float(det.get("altitud") or 0)
-    st.session_state["ds_ubigeo"] = det.get("codigo_ubigeo", "") or ""
-    st.session_state["ds_obs"] = det.get("observaciones_generales", "") or ""
-    ficha = det.get("ficha", "")
-    st.session_state["ds_ficha_sel"] = ficha
+    num = ficha.split("-")[-1] if ficha else ""
+    form = {}
+    raw = det.get(f"ds{num}_data_v3", "") or ""
+    if raw:
+        try:
+            form = json.loads(raw)
+        except (json.JSONDecodeError, TypeError):
+            form = {}
+    for k, v in form.items():
+        if k in _DS_TABLE_SLOTS:
+            pend[f"_dsinit_{k}"] = v if isinstance(v, list) else []
+        else:
+            pend[k] = v
+    return pend
 
-    def _split(v):
-        return [x.strip() for x in (v or "").split(",") if x.strip()]
 
-    if ficha == "F-DS-01":
-        st.session_state["s01_nf"] = det.get("ds01_num_familias", "") or ""
-        st.session_state["s01_ph"] = det.get("ds01_poblacion_hombres", "") or ""
-        st.session_state["s01_pm"] = det.get("ds01_poblacion_mujeres", "") or ""
-        st.session_state["s01_pt"] = det.get("ds01_poblacion_total", "") or ""
-        st.session_state["s01_id"] = _split(det.get("ds01_idioma"))
-        st.session_state["s01_ne"] = _split(det.get("ds01_nivel_educativo"))
-        st.session_state["s01_mi"] = det.get("ds01_tasa_migracion", "") or ""
-        st.session_state["s01_dest"] = det.get("ds01_destino_migracion", "") or ""
-        st.session_state["s01_org"] = _split(det.get("ds01_organizacion_comunal"))
-        st.session_state["s01_jd"] = det.get("ds01_junta_directiva", "") or ""
-        st.session_state["s01_pres"] = det.get("ds01_presidente_junta", "") or ""
-        st.session_state["s01_ag"] = _split(det.get("ds01_agua_potable_tipo"))
-        st.session_state["s01_agcob"] = det.get("ds01_agua_potable_cobertura", "") or ""
-        st.session_state["s01_san"] = _split(det.get("ds01_saneamiento"))
-        st.session_state["s01_en"] = _split(det.get("ds01_energia_tipo"))
-        st.session_state["s01_encob"] = det.get("ds01_energia_cobertura", "") or ""
-        st.session_state["s01_tel"] = _split(det.get("ds01_telecomunicaciones"))
-        st.session_state["s01_telop"] = det.get("ds01_telecom_operador", "") or ""
-        st.session_state["s01_via"] = _split(det.get("ds01_acceso_vial"))
-        st.session_state["s01_dcap"] = det.get("ds01_distancia_capital", "") or ""
-        st.session_state["s01_tr"] = det.get("ds01_transporte", "") or ""
-        st.session_state["s01_sal"] = _split(det.get("ds01_salud_tipo"))
-        st.session_state["s01_sdist"] = det.get("ds01_salud_distancia", "") or ""
-        st.session_state["s01_educ"] = _split(det.get("ds01_educacion"))
-        st.session_state["s01_fag"] = det.get("ds01_fuente_agua", "") or ""
-        st.session_state["s01_pag"] = _split(det.get("ds01_problemas_agua"))
-        st.session_state["s01_uf"] = _split(det.get("ds01_uso_recursos_forestales"))
-        st.session_state["s01_ff"] = det.get("ds01_frecuencia_uso_forestal", "") or ""
-        st.session_state["s01_pcam"] = det.get("ds01_percepcion_cambios", "") or ""
-        st.session_state["s01_disp"] = det.get("ds01_disposicion_participar", "") or ""
-        st.session_state["s01_cdisp"] = det.get("ds01_comentario_disposicion", "") or ""
-        st.session_state["s01_activos"] = det.get("ds01_activos_asociados", "") or ""
-        st.session_state["s01_ten_com"] = det.get("ds01_tenencia_comunal_ha", "") or ""
-        st.session_state["s01_ten_pri"] = det.get("ds01_tenencia_privada_ha", "") or ""
-        st.session_state["s01_ten_est"] = det.get("ds01_tenencia_estatal_ha", "") or ""
-        # Actividades economicas (JSON)
-        act_json = det.get("ds01_actividades_economicas", "") or ""
-        if act_json:
-            try:
-                acts = json.loads(act_json)
-                st.session_state["s01_nact"] = max(len(acts), 1)
-                for i, a in enumerate(acts):
-                    st.session_state[f"s01_act{i}"] = a.get("actividad", "")
-                    st.session_state[f"s01_pct{i}"] = a.get("pct_familias", "")
-                    st.session_state[f"s01_prod{i}"] = a.get("productos", "")
-                    st.session_state[f"s01_dest{i}"] = a.get("destino", "")
-                    st.session_state[f"s01_ing{i}"] = a.get("ingreso", "")
-            except (json.JSONDecodeError, TypeError):
-                pass
+def _ds_apply_pending():
+    """Aplica precarga pendiente (edicion / import) a session_state una vez."""
+    pend = st.session_state.pop("_ds_pending_state", None)
+    if not pend:
+        return
+    edit_id = st.session_state.pop("_ds_pending_edit_id", None)
+    # Limpiar widgets de la ficha anterior para evitar valores residuales
+    st.session_state["_ds_nonce"] = _ds_nonce() + 1
+    for k, v in pend.items():
+        st.session_state[k] = v
+    st.session_state["ds_edit_id"] = edit_id
 
-    elif ficha == "F-DS-02":
-        act_json = det.get("ds02_registro_actores", "") or ""
-        if act_json:
-            try:
-                acts = json.loads(act_json)
-                st.session_state["s02_nact"] = max(len(acts), 1)
-                for i, a in enumerate(acts):
-                    st.session_state[f"s02_nom{i}"] = a.get("nombre", "")
-                    st.session_state[f"s02_tip{i}"] = a.get("tipo", "")
-                    st.session_state[f"s02_rol{i}"] = a.get("rol", "")
-                    st.session_state[f"s02_rel{i}"] = a.get("relacion", "")
-                    st.session_state[f"s02_inf{i}"] = a.get("influencia", "")
-                    st.session_state[f"s02_int{i}"] = a.get("interes", "")
-                    st.session_state[f"s02_con{i}"] = a.get("contacto", "")
-            except (json.JSONDecodeError, TypeError):
-                pass
-        for campo, cat_prefix in [
-            ("ds02_actores_gob_local", "Gobierno Local (M"),
-            ("ds02_actores_gob_regional", "Gobierno Regional"),
-            ("ds02_actores_gob_nacional", "Gobierno Nacional"),
-            ("ds02_actores_comunidades", "Comunidades Camp"),
-            ("ds02_actores_juntas_riego", "Juntas de Usuar"),
-            ("ds02_actores_comites_cuenca", "Comites de Gesti"),
-            ("ds02_actores_ong", "ONG / Cooperacio"),
-            ("ds02_actores_empresa", "Empresa Privada"),
-            ("ds02_actores_educacion", "Instituciones Ed"),
-            ("ds02_actores_org_base", "Organizaciones d"),
-        ]:
-            v = det.get(campo, "") or ""
-            for cat in FDS02_CLASIFICACION:
-                if cat.startswith(cat_prefix[:15]):
-                    st.session_state[f"s02_cl_{cat[:15]}"] = v
-                    break
 
-    elif ficha == "F-DS-03":
-        st.session_state["s03_nom"] = det.get("ds03_nombre_entrevistado", "") or ""
-        st.session_state["s03_car"] = det.get("ds03_cargo_funcion", "") or ""
-        st.session_state["s03_inst"] = det.get("ds03_institucion", "") or ""
-        st.session_state["s03_tel"] = det.get("ds03_telefono_correo", "") or ""
-        st.session_state["s03_dur"] = det.get("ds03_duracion", "") or ""
-        resp_map = {
-            "s03_r1": "ds03_resp_recursos_naturales", "s03_r2": "ds03_resp_cambios_ambiente",
-            "s03_r3": "ds03_resp_problemas_ambientales", "s03_r4": "ds03_resp_zonas_conservacion",
-            "s03_r5": "ds03_resp_actividades_economicas", "s03_r6": "ds03_resp_abastecimiento_agua",
-            "s03_r7": "ds03_resp_productos_bosque", "s03_r8": "ds03_resp_cadenas_productivas",
-            "s03_r9": "ds03_resp_organizaciones", "s03_r10": "ds03_resp_decisiones_territorio",
-            "s03_r11": "ds03_resp_conflictos", "s03_r12": "ds03_resp_proyectos_anteriores",
-            "s03_r12b": "ds03_resp_experiencia_reforestacion",
-            "s03_r13": "ds03_resp_conocimiento_restauracion", "s03_r14": "ds03_resp_expectativas",
-            "s03_r15": "ds03_resp_disposicion_participar", "s03_r16": "ds03_resp_condiciones",
-            "s03_r17": "ds03_resp_conocimiento_merese", "s03_r18": "ds03_resp_beneficiarios",
-            "s03_r19": "ds03_resp_instituciones_contribuyentes", "s03_r20": "ds03_resp_experiencias_pago",
-        }
-        for wk, dbk in resp_map.items():
-            st.session_state[wk] = det.get(dbk, "") or ""
+def _ds_humaniza(key):
+    s = key
+    for p in ("f1_", "f2_", "f3_", "f4_", "f5_", "f6_", "f7_"):
+        if s.startswith(p):
+            s = s[len(p):]
+            break
+    return s.replace("_", " ").capitalize()
 
-    elif ficha == "F-DS-04":
-        st.session_state["s04_lug"] = det.get("ds04_lugar_taller", "") or ""
-        st.session_state["s04_conv"] = det.get("ds04_convocante", "") or ""
-        st.session_state["s04_hi"] = det.get("ds04_hora_inicio", "") or ""
-        st.session_state["s04_hf"] = det.get("ds04_hora_fin", "") or ""
-        st.session_state["s04_obj"] = det.get("ds04_objetivo", "") or ""
-        st.session_state["s04_pres"] = det.get("ds04_presentacion", "") or ""
-        st.session_state["s04_interv"] = det.get("ds04_intervenciones", "") or ""
-        st.session_state["s04_pregs"] = det.get("ds04_preguntas_respuestas", "") or ""
-        st.session_state["s04_acuerd"] = det.get("ds04_acuerdos", "") or ""
-        st.session_state["s04_obs"] = det.get("ds04_observaciones", "") or ""
-        part_json = det.get("ds04_lista_participantes", "") or ""
-        if part_json:
-            try:
-                parts = json.loads(part_json)
-                st.session_state["s04_np"] = max(len(parts), 1)
-                for i, p in enumerate(parts):
-                    st.session_state[f"s04_pn{i}"] = p.get("nombre", "")
-                    st.session_state[f"s04_pd{i}"] = p.get("dni", "")
-                    st.session_state[f"s04_pi{i}"] = p.get("institucion", "")
-                    st.session_state[f"s04_pc{i}"] = p.get("cargo", "")
-                    st.session_state[f"s04_pt{i}"] = p.get("telefono", "")
-            except (json.JSONDecodeError, TypeError):
-                pass
 
-    elif ficha == "F-DS-05":
-        conf_json = det.get("ds05_conflictos", "") or ""
-        if conf_json:
-            try:
-                confs = json.loads(conf_json)
-                st.session_state["s05_nc"] = max(len(confs), 1)
-                for i, c in enumerate(confs):
-                    st.session_state[f"s05_ct{i}"] = c.get("tipo", "")
-                    st.session_state[f"s05_ca{i}"] = c.get("actores", "")
-                    st.session_state[f"s05_cn{i}"] = c.get("nivel", "")
-                    st.session_state[f"s05_ce{i}"] = c.get("estado", "")
-                    st.session_state[f"s05_cd{i}"] = c.get("descripcion", "")
-                    st.session_state[f"s05_ci{i}"] = c.get("impacto", "")
-            except (json.JSONDecodeError, TypeError):
-                pass
-        opor_json = det.get("ds05_oportunidades", "") or ""
-        if opor_json:
-            try:
-                opors = json.loads(opor_json)
-                st.session_state["s05_no"] = max(len(opors), 1)
-                for i, o in enumerate(opors):
-                    st.session_state[f"s05_od{i}"] = o.get("oportunidad", "")
-                    st.session_state[f"s05_oa{i}"] = o.get("actores", "")
-                    st.session_state[f"s05_ot{i}"] = o.get("tipo", "")
-                    st.session_state[f"s05_op{i}"] = o.get("potencial", "")
-                    st.session_state[f"s05_oc{i}"] = o.get("como_aprovechar", "")
-            except (json.JSONDecodeError, TypeError):
-                pass
+def _ds_render_detalle(ficha, form):
+    """Muestra el formulario V3 de un registro (vista de Historial)."""
+    if not isinstance(form, dict) or not form:
+        st.caption("Sin datos detallados V3 para esta ficha.")
+        return
+    # Tablas primero
+    for slot in _DS_TABLE_SLOTS:
+        if slot in form and isinstance(form[slot], list) and form[slot]:
+            titulo = {
+                "f1_activ": "Actividades economicas", "f2_actores": "Registro de actores",
+                "f4_part": "Participantes", "f4_agenda": "Agenda", "f4_acuerdos": "Acuerdos",
+                "f5_conflictos": "Conflictos", "f5_oportunidades": "Oportunidades",
+                "f6_peligros": "Peligros naturales", "f6_cambios": "Cambios climaticos",
+            }.get(slot, slot)
+            with st.expander(f"{titulo} ({len(form[slot])})", expanded=True):
+                st.dataframe(pd.DataFrame(form[slot]), use_container_width=True, hide_index=True)
+    # Escalares
+    escalares = {k: v for k, v in form.items()
+                 if k not in _DS_TABLE_SLOTS and v not in ("", None, [])}
+    if escalares:
+        with st.expander("Campos de la ficha", expanded=True):
+            items = list(escalares.items())
+            for i in range(0, len(items), 2):
+                cols = st.columns(2)
+                for j, (k, v) in enumerate(items[i:i + 2]):
+                    if isinstance(v, list):
+                        v = ", ".join(str(x) for x in v)
+                    cols[j].markdown(f"**{_ds_humaniza(k)}:** {v}")
 
 
 def pagina_diagnostico_social():
-    st.subheader("Diagnostico Social - Fichas de Campo")
-    st.caption("Proyecto IN Piura CUI 2669244 | ANIN - DIME - SESDI | Fichas F-DS-01 a F-DS-05")
+    st.subheader("Diagnostico Social - Fichas de Campo (V3)")
+    st.caption("Proyecto IN Piura CUI 2669244 | ANIN - DIME - SESDI | "
+               "Plantilla validada F-DS-01 a F-DS-07 con celdas de validacion")
     bm = _bloques_map()
     if not bm:
         st.warning("Registre un bloque primero.")
         return
 
-    # Inicializar estado de edicion
     if "ds_edit_id" not in st.session_state:
         st.session_state["ds_edit_id"] = None
 
-    _ds_pending = st.session_state.pop("_ds_autocompletar_pending", None)
-    if _ds_pending:
-        for _k, _v in _ds_pending.items():
-            st.session_state[_k] = _v
-        st.session_state["ds_edit_id"] = None
+    # Aplicar precarga pendiente (import Excel o edicion) antes de los widgets
+    _ds_apply_pending()
 
-    ficha_sel = st.radio("Seleccionar ficha", FICHAS_DS, horizontal=True, key="ds_ficha_sel")
+    ficha_sel = st.radio(
+        "Seleccionar ficha", FICHAS_DS, horizontal=True, key="ds_ficha_sel",
+        format_func=lambda x: f"{x} - {FICHAS_DS_TITULOS.get(x, '')}")
 
-    tab_reg, tab_hist, tab_excel = st.tabs(["Registro", "Historial / Consulta", "Importar desde Excel"])
+    tab_reg, tab_hist, tab_excel = st.tabs(
+        ["Registro", "Historial / Consulta", "Importar desde Excel"])
 
     with tab_reg:
         edit_id = st.session_state.get("ds_edit_id")
@@ -2871,23 +3286,21 @@ def pagina_diagnostico_social():
                         f'Modo Edicion - Diagnostico Social ID {edit_id}</div>', unsafe_allow_html=True)
             if st.button("Cancelar edicion (nuevo registro)", key="ds_cancel_edit"):
                 st.session_state["ds_edit_id"] = None
+                st.session_state["_ds_nonce"] = _ds_nonce() + 1
                 st.rerun()
 
-        # ── Datos comunes ─────────────────────────────────────────────
         bl = st.selectbox("Bloque de Intervencion", list(bm.keys()), key="ds_bl")
         bid = bm[bl]
 
-        # Detectar cambio de bloque para resetear campos de ubicacion auto-completados
         prev_bl = st.session_state.get("_ds_prev_bl", "")
         if prev_bl and prev_bl != bl and not edit_id:
             for k in ("ds_prov", "ds_dist", "ds_cpob", "ds_ccam", "ds_este", "ds_norte"):
                 st.session_state.pop(k, None)
         st.session_state["_ds_prev_bl"] = bl
 
-        # Auto-resolver microcuenca del bloque seleccionado
         mc_auto_ds = _resolver_microcuenca(bl)
         if mc_auto_ds:
-            mc_idx_ds = MICROCUENCAS.index(mc_auto_ds) + 1  # +1 por el "" inicial
+            mc_idx_ds = MICROCUENCAS.index(mc_auto_ds) + 1
             st.info(f"Microcuenca vinculada automaticamente: **{mc_auto_ds}**")
         else:
             mc_idx_ds = 0
@@ -2895,325 +3308,16 @@ def pagina_diagnostico_social():
         r1, r2, r3, r4 = st.columns(4)
         mc = r1.selectbox("Microcuenca", [""] + MICROCUENCAS, index=mc_idx_ds, key="ds_mc")
         fecha_ev = r2.date_input("Fecha", value=datetime.now(), key="ds_fecha",
-                                 min_value=FECHA_MIN_PROYECTO, max_value=date.today(),
-                                 help="Seleccione la fecha de evaluacion")
+                                 min_value=FECHA_MIN_PROYECTO, max_value=date.today())
         evaluador = r3.text_input("Responsable", key="ds_eval")
         ficha_num = r4.text_input("Ficha N", key="ds_fnum")
         dg = _ds_datos_generales(bloque_label=bl)
         st.markdown("---")
+        st.markdown(f"### {ficha_sel}: {FICHAS_DS_TITULOS.get(ficha_sel, '').upper()}")
 
-        datos = {}  # se llenara segun la ficha
+        renderer = _DS_RENDERERS.get(ficha_sel)
+        form = renderer() if renderer else {}
 
-        # ══════════════════════════════════════════════════════════════
-        if ficha_sel == "F-DS-01":
-            st.markdown("### F-DS-01: DIAGNOSTICO SOCIOECONOMICO DE CENTRO POBLADO")
-            st.caption("Caracterizacion socioeconomica del centro poblado o localidad del area de intervencion.")
-            st.markdown("**1. Datos Demograficos**")
-            c1, c2 = st.columns(2)
-            ds01_nfam = c1.text_input("N de familias/viviendas", key="s01_nf")
-            ds01_nom_cp = c2.text_input("Nombre del centro poblado", key="s01_ncp")
-            c3, c4, c5 = st.columns(3)
-            ds01_pob_h = c3.text_input("Poblacion Hombres", key="s01_ph")
-            ds01_pob_m = c4.text_input("Poblacion Mujeres", key="s01_pm")
-            ds01_pob_t = c5.text_input("Poblacion Total", key="s01_pt")
-            c6, c7 = st.columns(2)
-            ds01_idioma = c6.multiselect("Idioma predominante", FDS01_IDIOMA, key="s01_id")
-            ds01_edu = c7.multiselect("Nivel educativo predominante", FDS01_NIVEL_EDUCATIVO, key="s01_ne")
-            c8, c9 = st.columns(2)
-            ds01_migra = c8.selectbox("Tasa de migracion (percepcion)", [""] + FDS01_TASA_MIGRACION, key="s01_mi")
-            ds01_destino = c9.text_input("Destino principal migracion", key="s01_dest")
-            c10, c11 = st.columns(2)
-            ds01_org = c10.multiselect("Organizacion comunal", FDS01_ORGANIZACION, key="s01_org")
-            ds01_junta = c11.selectbox("Junta directiva vigente", ["", "Si", "No"], key="s01_jd")
-            ds01_pres = st.text_input("Presidente/a de junta", key="s01_pres")
-
-            st.markdown("**2. Servicios Basicos e Infraestructura**")
-            c1, c2 = st.columns(2)
-            ds01_agua = c1.multiselect("Agua potable", FDS01_AGUA_POTABLE, key="s01_ag")
-            ds01_agua_cob = c2.text_input("Cobertura agua (%)", key="s01_agcob")
-            c3, c4 = st.columns(2)
-            ds01_sanea = c3.multiselect("Saneamiento", FDS01_SANEAMIENTO, key="s01_san")
-            ds01_energ = c4.multiselect("Energia electrica", FDS01_ENERGIA, key="s01_en")
-            ds01_energ_cob = st.text_input("Cobertura energia (%)", key="s01_encob")
-            c5, c6 = st.columns(2)
-            ds01_telec = c5.multiselect("Telecomunicaciones", FDS01_TELECOMUNICACIONES, key="s01_tel")
-            ds01_telec_op = c6.text_input("Operador telecom", key="s01_telop")
-            c7, c8 = st.columns(2)
-            ds01_via = c7.multiselect("Acceso vial", FDS01_ACCESO_VIAL, key="s01_via")
-            ds01_dist_cap = c8.text_input("Distancia a capital distrital (km)", key="s01_dcap")
-            c9, c10 = st.columns(2)
-            ds01_transp = c9.selectbox("Transporte", [""] + FDS01_TRANSPORTE, key="s01_tr")
-            ds01_salud = c10.multiselect("Establecimiento de salud", FDS01_SALUD, key="s01_sal")
-            c11, c12 = st.columns(2)
-            ds01_sal_dist = c11.text_input("Distancia salud (km)", key="s01_sdist")
-            ds01_educ = c12.multiselect("Institucion educativa", FDS01_EDUCACION, key="s01_educ")
-
-            st.markdown("**3. Actividades Economicas**")
-            st.caption("Registre actividades economicas: Actividad, % Familias, Productos, Destino, Ingreso estimado")
-            n_act = st.number_input("N de actividades a registrar", 1, 7, 3, key="s01_nact")
-            act_rows = []
-            for i in range(int(n_act)):
-                cx = st.columns(5)
-                a_act = cx[0].selectbox(f"Actividad {i+1}", [""] + FDS01_ACTIVIDADES_ECON, key=f"s01_act{i}")
-                a_pct = cx[1].text_input("% Familias", key=f"s01_pct{i}")
-                a_prod = cx[2].text_input("Productos", key=f"s01_prod{i}")
-                a_dest = cx[3].selectbox("Destino", [""] + FDS01_DESTINO_PRODUCCION, key=f"s01_dest{i}")
-                a_ing = cx[4].text_input("Ingreso est.", key=f"s01_ing{i}")
-                if a_act:
-                    act_rows.append({"actividad": a_act, "pct_familias": a_pct,
-                                     "productos": a_prod, "destino": a_dest, "ingreso": a_ing})
-
-            st.markdown("**4. Relacion con Recursos Naturales y Agua**")
-            ds01_fuente_agua = st.text_input("Fuente principal de agua", key="s01_fag")
-            ds01_prob_agua = st.multiselect("Problemas con el agua", FDS01_PROBLEMAS_AGUA, key="s01_pag")
-            c1, c2 = st.columns(2)
-            ds01_uso_forest = c1.multiselect("Uso de recursos forestales", FDS01_USO_RECURSOS_FOREST, key="s01_uf")
-            ds01_freq_forest = c2.text_input("Frecuencia uso forestal", key="s01_ff")
-            ds01_percep_cambios = st.text_area("Percepcion de cambios ambientales", key="s01_pcam", height=80)
-            c3, c4 = st.columns(2)
-            ds01_disp = c3.selectbox("Disposicion a participar en el proyecto", [""] + FDS01_DISPOSICION, key="s01_disp")
-            ds01_com_disp = c4.text_input("Comentario disposicion", key="s01_cdisp")
-
-            st.markdown("**4b. Activos Asociados y Propiedades de Areas a Intervenir**")
-            ds01_activos = st.text_area(
-                "Activos asociados al bloque (cultivos, ganado, infraestructura de riego, "
-                "vias, viviendas, infraestructura publica, etc.)",
-                key="s01_activos", height=100,
-                help="Dato critico para el analisis de exposicion conforme a la Guia GRD-CC. "
-                     "Indique los activos vinculados a los bloques preliminares.")
-            st.caption("Propiedades de areas a intervenir (superficie en hectareas por regimen de tenencia)")
-            ct1, ct2, ct3 = st.columns(3)
-            ds01_ten_com = ct1.text_input("Area comunal (ha)", key="s01_ten_com")
-            ds01_ten_pri = ct2.text_input("Area privada (ha)", key="s01_ten_pri")
-            ds01_ten_est = ct3.text_input("Area estatal (ha)", key="s01_ten_est")
-
-            datos = {
-                "ds01_num_familias": ds01_nfam,
-                "ds01_poblacion_hombres": ds01_pob_h, "ds01_poblacion_mujeres": ds01_pob_m,
-                "ds01_poblacion_total": ds01_pob_t,
-                "ds01_idioma": ", ".join(ds01_idioma), "ds01_nivel_educativo": ", ".join(ds01_edu),
-                "ds01_tasa_migracion": ds01_migra, "ds01_destino_migracion": ds01_destino,
-                "ds01_organizacion_comunal": ", ".join(ds01_org),
-                "ds01_junta_directiva": ds01_junta, "ds01_presidente_junta": ds01_pres,
-                "ds01_agua_potable_tipo": ", ".join(ds01_agua), "ds01_agua_potable_cobertura": ds01_agua_cob,
-                "ds01_saneamiento": ", ".join(ds01_sanea),
-                "ds01_energia_tipo": ", ".join(ds01_energ), "ds01_energia_cobertura": ds01_energ_cob,
-                "ds01_telecomunicaciones": ", ".join(ds01_telec), "ds01_telecom_operador": ds01_telec_op,
-                "ds01_acceso_vial": ", ".join(ds01_via), "ds01_distancia_capital": ds01_dist_cap,
-                "ds01_transporte": ds01_transp,
-                "ds01_salud_tipo": ", ".join(ds01_salud), "ds01_salud_distancia": ds01_sal_dist,
-                "ds01_educacion": ", ".join(ds01_educ),
-                "ds01_actividades_economicas": json.dumps(act_rows, ensure_ascii=False) if act_rows else "",
-                "ds01_fuente_agua": ds01_fuente_agua,
-                "ds01_problemas_agua": ", ".join(ds01_prob_agua),
-                "ds01_uso_recursos_forestales": ", ".join(ds01_uso_forest),
-                "ds01_frecuencia_uso_forestal": ds01_freq_forest,
-                "ds01_percepcion_cambios": ds01_percep_cambios,
-                "ds01_disposicion_participar": ds01_disp,
-                "ds01_comentario_disposicion": ds01_com_disp,
-                "ds01_activos_asociados": ds01_activos,
-                "ds01_tenencia_comunal_ha": ds01_ten_com,
-                "ds01_tenencia_privada_ha": ds01_ten_pri,
-                "ds01_tenencia_estatal_ha": ds01_ten_est,
-            }
-
-        # ══════════════════════════════════════════════════════════════
-        elif ficha_sel == "F-DS-02":
-            st.markdown("### F-DS-02: IDENTIFICACION Y CARACTERIZACION DE ACTORES CLAVE")
-            st.caption("Mapeo de actores del territorio con nivel de influencia e interes.")
-            st.markdown("**Registro de Actores Identificados**")
-            n_actores = st.number_input("N de actores a registrar", 1, 20, 5, key="s02_nact")
-            actores = []
-            for i in range(int(n_actores)):
-                with st.container():
-                    cx = st.columns([2, 1, 2, 1, 1, 1, 2])
-                    a_nom = cx[0].text_input(f"Actor {i+1} - Nombre/Organizacion", key=f"s02_nom{i}")
-                    a_tipo = cx[1].selectbox("Tipo", [""] + FDS02_TIPO_ACTOR, key=f"s02_tip{i}")
-                    a_rol = cx[2].text_input("Rol/Funcion", key=f"s02_rol{i}")
-                    a_rel = cx[3].text_input("Rel. Proy.", key=f"s02_rel{i}")
-                    a_inf = cx[4].selectbox("Influencia", [""] + FDS02_NIVEL, key=f"s02_inf{i}")
-                    a_int = cx[5].selectbox("Interes", [""] + FDS02_NIVEL, key=f"s02_int{i}")
-                    a_con = cx[6].text_input("Contacto", key=f"s02_con{i}")
-                    if a_nom:
-                        actores.append({"nombre": a_nom, "tipo": a_tipo, "rol": a_rol,
-                                        "relacion": a_rel, "influencia": a_inf,
-                                        "interes": a_int, "contacto": a_con})
-
-            st.markdown("---")
-            st.markdown("**Clasificacion por Tipo de Actor**")
-            clasif = {}
-            for cat in FDS02_CLASIFICACION:
-                clasif[cat] = st.text_input(f"{cat} - Actores identificados:", key=f"s02_cl_{cat[:15]}")
-
-            datos = {
-                "ds02_registro_actores": json.dumps(actores, ensure_ascii=False) if actores else "",
-            }
-            for cat in FDS02_CLASIFICACION:
-                campo = "ds02_actores_" + {
-                    "Gobierno Local": "gob_local",
-                    "Gobierno Regional": "gob_regional",
-                    "Gobierno Nacional": "gob_nacional",
-                    "Comunidades Camp": "comunidades",
-                    "Juntas de Usuar": "juntas_riego",
-                    "Comites de Gesti": "comites_cuenca",
-                    "ONG / Cooperacio": "ong",
-                    "Empresa Privada": "empresa",
-                    "Instituciones Ed": "educacion",
-                    "Organizaciones d": "org_base",
-                }.get(cat[:16], "gob_local")
-                datos[campo] = clasif[cat]
-
-        # ══════════════════════════════════════════════════════════════
-        elif ficha_sel == "F-DS-03":
-            st.markdown("### F-DS-03: GUIA DE ENTREVISTA SEMIESTRUCTURADA A ACTORES")
-            st.caption("Registro de entrevistas a actores clave del territorio.")
-            st.markdown("**Datos del Entrevistado**")
-            c1, c2 = st.columns(2)
-            ds03_nombre = c1.text_input("Nombre del entrevistado/a", key="s03_nom")
-            ds03_cargo = c2.text_input("Cargo / Funcion", key="s03_car")
-            c3, c4 = st.columns(2)
-            ds03_inst = c3.text_input("Institucion / Organizacion", key="s03_inst")
-            ds03_tel = c4.text_input("Telefono / Correo", key="s03_tel")
-            ds03_dur = st.text_input("Duracion de la entrevista", key="s03_dur")
-
-            st.markdown("---")
-            st.markdown("**1. Percepcion del Territorio y Recursos Naturales**")
-            ds03_r1 = st.text_area("1.1 Cuales considera que son los principales recursos naturales de esta zona?", key="s03_r1", height=80)
-            ds03_r2 = st.text_area("1.2 Ha observado cambios en el agua, bosques o suelos en los ultimos 10-20 anios?", key="s03_r2", height=80)
-            ds03_r3 = st.text_area("1.3 Cuales son los principales problemas ambientales que enfrenta la comunidad?", key="s03_r3", height=80)
-            ds03_r4 = st.text_area("1.4 Que zonas considera mas importantes para la conservacion del agua?", key="s03_r4", height=80)
-
-            st.markdown("**2. Actividades Productivas y Medios de Vida**")
-            ds03_r5 = st.text_area("2.1 Cuales son las principales actividades economicas de la zona?", key="s03_r5", height=80)
-            ds03_r6 = st.text_area("2.2 Como se abastecen de agua para riego y consumo? Es suficiente?", key="s03_r6", height=80)
-            ds03_r7 = st.text_area("2.3 Utilizan productos del bosque? Cuales y con que frecuencia?", key="s03_r7", height=80)
-            ds03_r8 = st.text_area("2.4 Existen cadenas productivas organizadas? Cuales?", key="s03_r8", height=80)
-
-            st.markdown("**3. Organizacion Social y Gobernanza**")
-            ds03_r9 = st.text_area("3.1 Que organizaciones existen en la comunidad? Cuales son las mas activas?", key="s03_r9", height=80)
-            ds03_r10 = st.text_area("3.2 Como se toman las decisiones sobre el uso del territorio y los recursos naturales?", key="s03_r10", height=80)
-            ds03_r11 = st.text_area("3.3 Existen conflictos por el uso del agua o la tierra? Entre quienes?", key="s03_r11", height=80)
-            ds03_r12 = st.text_area("3.4 Han participado en proyectos similares antes? Cual fue la experiencia?", key="s03_r12", height=80)
-            ds03_r12b = st.text_area(
-                "3.5 Existe experiencia previa en reforestacion en la zona? "
-                "Describa especies utilizadas, superficie intervenida y resultados obtenidos.",
-                key="s03_r12b", height=100,
-                help="Campo con alta relevancia tecnica para el diseno de medidas de "
-                     "infraestructura natural (linea 1 del proyecto).")
-
-            st.markdown("**4. Conocimiento y Expectativas sobre el Proyecto**")
-            ds03_r13 = st.text_area("4.1 Tiene conocimiento sobre infraestructura natural o proyectos de restauracion?", key="s03_r13", height=80)
-            ds03_r14 = st.text_area("4.2 Que expectativas tiene respecto a un proyecto de esta naturaleza?", key="s03_r14", height=80)
-            ds03_r15 = st.text_area("4.3 Estaria dispuesto/a a participar o contribuir? De que manera?", key="s03_r15", height=80)
-            ds03_r16 = st.text_area("4.4 Que condiciones o preocupaciones tendria respecto al proyecto?", key="s03_r16", height=80)
-
-            st.markdown("**5. Mecanismos de Retribucion (MERESE)**")
-            ds03_r17 = st.text_area("5.1 Conoce los mecanismos de retribucion por servicios ecosistemicos?", key="s03_r17", height=80)
-            ds03_r18 = st.text_area("5.2 Quienes serian los principales beneficiarios del servicio de regulacion de riesgos?", key="s03_r18", height=80)
-            ds03_r19 = st.text_area("5.3 Que instituciones podrian contribuir economicamente a la conservacion?", key="s03_r19", height=80)
-            ds03_r20 = st.text_area("5.4 Existen experiencias previas de pago o compensacion por servicios ambientales?", key="s03_r20", height=80)
-
-            datos = {
-                "ds03_nombre_entrevistado": ds03_nombre, "ds03_cargo_funcion": ds03_cargo,
-                "ds03_institucion": ds03_inst, "ds03_telefono_correo": ds03_tel,
-                "ds03_duracion": ds03_dur,
-                "ds03_resp_recursos_naturales": ds03_r1, "ds03_resp_cambios_ambiente": ds03_r2,
-                "ds03_resp_problemas_ambientales": ds03_r3, "ds03_resp_zonas_conservacion": ds03_r4,
-                "ds03_resp_actividades_economicas": ds03_r5, "ds03_resp_abastecimiento_agua": ds03_r6,
-                "ds03_resp_productos_bosque": ds03_r7, "ds03_resp_cadenas_productivas": ds03_r8,
-                "ds03_resp_organizaciones": ds03_r9, "ds03_resp_decisiones_territorio": ds03_r10,
-                "ds03_resp_conflictos": ds03_r11, "ds03_resp_proyectos_anteriores": ds03_r12,
-                "ds03_resp_experiencia_reforestacion": ds03_r12b,
-                "ds03_resp_conocimiento_restauracion": ds03_r13, "ds03_resp_expectativas": ds03_r14,
-                "ds03_resp_disposicion_participar": ds03_r15, "ds03_resp_condiciones": ds03_r16,
-                "ds03_resp_conocimiento_merese": ds03_r17, "ds03_resp_beneficiarios": ds03_r18,
-                "ds03_resp_instituciones_contribuyentes": ds03_r19, "ds03_resp_experiencias_pago": ds03_r20,
-            }
-
-        # ══════════════════════════════════════════════════════════════
-        elif ficha_sel == "F-DS-04":
-            st.markdown("### F-DS-04: FORMATO DE ACTA DE TALLER PARTICIPATIVO")
-            st.caption("Registro del desarrollo y acuerdos de talleres participativos con la comunidad.")
-            c1, c2 = st.columns(2)
-            ds04_lugar = c1.text_input("Lugar del taller", key="s04_lug")
-            ds04_conv = c2.text_input("Convocante", key="s04_conv")
-            c3, c4 = st.columns(2)
-            ds04_h_ini = c3.text_input("Hora de inicio", key="s04_hi")
-            ds04_h_fin = c4.text_input("Hora de finalizacion", key="s04_hf")
-            ds04_obj = st.text_area("Objetivo del taller", key="s04_obj", height=60)
-
-            st.markdown("**1. Lista de Participantes**")
-            n_part = st.number_input("N de participantes", 1, 30, 10, key="s04_np")
-            participantes = []
-            for i in range(int(n_part)):
-                cx = st.columns([3, 1, 2, 1, 1])
-                p_nom = cx[0].text_input(f"Part. {i+1} - Nombres y Apellidos", key=f"s04_pn{i}")
-                p_dni = cx[1].text_input("DNI", key=f"s04_pd{i}")
-                p_inst = cx[2].text_input("Inst./Comunidad", key=f"s04_pi{i}")
-                p_car = cx[3].text_input("Cargo", key=f"s04_pc{i}")
-                p_tel = cx[4].text_input("Telefono", key=f"s04_pt{i}")
-                if p_nom:
-                    participantes.append({"nombre": p_nom, "dni": p_dni, "institucion": p_inst,
-                                          "cargo": p_car, "telefono": p_tel})
-
-            st.markdown("**2. Desarrollo del Taller**")
-            ds04_pres = st.text_area("Presentacion del proyecto y objetivos del taller", key="s04_pres", height=100)
-            ds04_interv = st.text_area("Principales intervenciones de los participantes", key="s04_interv", height=100)
-            ds04_pregs = st.text_area("Preguntas y respuestas", key="s04_pregs", height=100)
-            ds04_acuerd = st.text_area("Acuerdos y compromisos", key="s04_acuerd", height=100)
-            ds04_obs = st.text_area("Observaciones", key="s04_obs", height=80)
-
-            datos = {
-                "ds04_lugar_taller": ds04_lugar, "ds04_hora_inicio": ds04_h_ini,
-                "ds04_hora_fin": ds04_h_fin, "ds04_convocante": ds04_conv,
-                "ds04_objetivo": ds04_obj,
-                "ds04_lista_participantes": json.dumps(participantes, ensure_ascii=False) if participantes else "",
-                "ds04_presentacion": ds04_pres, "ds04_intervenciones": ds04_interv,
-                "ds04_preguntas_respuestas": ds04_pregs, "ds04_acuerdos": ds04_acuerd,
-                "ds04_observaciones": ds04_obs,
-            }
-
-        # ══════════════════════════════════════════════════════════════
-        elif ficha_sel == "F-DS-05":
-            st.markdown("### F-DS-05: IDENTIFICACION DE CONFLICTOS Y OPORTUNIDADES")
-            st.caption("Mapeo de conflictos existentes y oportunidades para el proyecto.")
-            st.markdown("**1. Identificacion de Conflictos**")
-            st.caption("Nivel: A=Alto, M=Medio, B=Bajo")
-            n_conf = st.number_input("N de conflictos a registrar", 1, 10, 3, key="s05_nc")
-            conflictos = []
-            for i in range(int(n_conf)):
-                cx = st.columns([2, 2, 1, 1, 3, 2])
-                co_tipo = cx[0].text_input(f"Conflicto {i+1} - Tipo", key=f"s05_ct{i}")
-                co_act = cx[1].text_input("Actores", key=f"s05_ca{i}")
-                co_niv = cx[2].selectbox("Nivel", [""] + FDS05_NIVEL, key=f"s05_cn{i}")
-                co_est = cx[3].selectbox("Estado", [""] + FDS05_ESTADO_CONFLICTO, key=f"s05_ce{i}")
-                co_desc = cx[4].text_input("Descripcion/Causa", key=f"s05_cd{i}")
-                co_imp = cx[5].text_input("Impacto en proyecto", key=f"s05_ci{i}")
-                if co_tipo:
-                    conflictos.append({"tipo": co_tipo, "actores": co_act, "nivel": co_niv,
-                                       "estado": co_est, "descripcion": co_desc, "impacto": co_imp})
-
-            st.markdown("---")
-            st.markdown("**2. Identificacion de Oportunidades**")
-            n_opor = st.number_input("N de oportunidades a registrar", 1, 10, 3, key="s05_no")
-            oportunidades = []
-            for i in range(int(n_opor)):
-                cx = st.columns([3, 2, 1, 1, 3])
-                op_desc = cx[0].text_input(f"Oportunidad {i+1}", key=f"s05_od{i}")
-                op_act = cx[1].text_input("Actores relacionados", key=f"s05_oa{i}")
-                op_tipo = cx[2].selectbox("Tipo", [""] + FDS05_TIPO_OPORTUNIDAD, key=f"s05_ot{i}")
-                op_pot = cx[3].selectbox("Potencial", [""] + FDS05_NIVEL, key=f"s05_op{i}")
-                op_como = cx[4].text_input("Como aprovecharla", key=f"s05_oc{i}")
-                if op_desc:
-                    oportunidades.append({"oportunidad": op_desc, "actores": op_act, "tipo": op_tipo,
-                                          "potencial": op_pot, "como_aprovechar": op_como})
-
-            datos = {
-                "ds05_conflictos": json.dumps(conflictos, ensure_ascii=False) if conflictos else "",
-                "ds05_oportunidades": json.dumps(oportunidades, ensure_ascii=False) if oportunidades else "",
-            }
-
-        # ── Observaciones y guardar ───────────────────────────────────
         st.markdown("---")
         observ_gen = st.text_area("Observaciones generales", key="ds_obs")
         adj_files = st.file_uploader(
@@ -3224,35 +3328,35 @@ def pagina_diagnostico_social():
         if st.button(btn_label, type="primary", key="ds_guardar"):
             if not evaluador:
                 st.warning("Ingrese el nombre del responsable.")
-            elif not datos:
-                st.warning("Complete al menos un campo de la ficha.")
             else:
                 try:
                     archivos_guardados = []
                     if adj_files:
                         carpeta = os.path.join(os.path.dirname(os.path.abspath(__file__)), "adjuntos_ds")
                         os.makedirs(carpeta, exist_ok=True)
-                        for f in adj_files:
-                            if f.size > 25 * 1024 * 1024:
-                                st.warning(f"Archivo {f.name} excede 25 MB, omitido.")
+                        for fobj in adj_files:
+                            if fobj.size > 25 * 1024 * 1024:
+                                st.warning(f"Archivo {fobj.name} excede 25 MB, omitido.")
                                 continue
-                            nombre = f"{uuid.uuid4().hex[:8]}_{f.name}"
+                            nombre = f"{uuid.uuid4().hex[:8]}_{fobj.name}"
                             ruta = os.path.join(carpeta, nombre)
                             with open(ruta, "wb") as out:
-                                out.write(f.getbuffer())
+                                out.write(fobj.getbuffer())
                             archivos_guardados.append(nombre)
 
+                    num = ficha_sel.split("-")[-1]
                     reg = {
                         "bloque_id": bid, "ficha": ficha_sel,
                         "ficha_numero": ficha_num, "microcuenca": mc,
                         "fecha_evaluacion": fecha_ev.strftime("%Y-%m-%d"),
                         "evaluador": evaluador,
                         "observaciones_generales": observ_gen,
+                        f"ds{num}_data_v3": json.dumps(form, ensure_ascii=False),
                     }
+                    reg.update(_ds_legacy_cols(ficha_sel, form))
                     if archivos_guardados:
                         reg["archivos_adjuntos"] = "|".join(archivos_guardados)
                     reg.update(dg)
-                    reg.update(datos)
 
                     if edit_id:
                         db.actualizar_diagnostico_social(edit_id, reg)
@@ -3260,7 +3364,6 @@ def pagina_diagnostico_social():
                         st.session_state["ds_edit_id"] = None
                         st.success(f"Ficha {ficha_sel} actualizada correctamente (ID {edit_id}).")
                     else:
-                        # Verificar duplicados
                         existentes_ds = db.obtener_diagnosticos_sociales_por_bloque(bid)
                         dup_ds = [e for e in existentes_ds
                                   if e.get("ficha") == ficha_sel
@@ -3282,20 +3385,16 @@ def pagina_diagnostico_social():
                 except Exception as e:
                     st.error(f"Error: {e}")
 
-    # ══════════════════════════════════════════════════════════════════
-    # HISTORIAL
-    # ══════════════════════════════════════════════════════════════════
+    # ── HISTORIAL ──────────────────────────────────────────────────────
     with tab_hist:
         st.markdown("### Historial de Diagnosticos Sociales")
-        st.caption("Haga clic en **Editar** para modificar un diagnostico existente o en **Eliminar** para descartarlo.")
+        st.caption("Pulse **Editar** para modificar un registro o **Eliminar** para descartarlo.")
         todos_ds = _cached_obtener_todos_diagnosticos_sociales(_cache_version())
         if not todos_ds:
             st.info("No hay diagnosticos sociales registrados.")
         else:
-            # Paginacion
             ds_pag, total_pags_ds, pag_actual_ds = _paginar(todos_ds, "pag_ds")
             _controles_paginacion(total_pags_ds, pag_actual_ds, "pag_ds")
-            # Tabla con botones de edicion / eliminacion
             col_widths_ds = [0.4, 0.9, 0.7, 0.8, 0.8, 0.8, 0.8, 0.5, 0.6]
             header_cols = st.columns(col_widths_ds)
             for col, h in zip(header_cols, ["ID", "Bloque", "Ficha", "Fecha", "Responsable", "C.Poblado", "Distrito", "", ""]):
@@ -3314,7 +3413,8 @@ def pagina_diagnostico_social():
                 if row[7].button("Editar", key=f"edit_ds_{d['id']}", type="primary"):
                     det = db.obtener_diagnostico_social_por_id(d["id"])
                     if det:
-                        st.session_state["ds_edit_id"] = det["id"]
+                        st.session_state["_ds_pending_state"] = _ds_build_edit_pending(det)
+                        st.session_state["_ds_pending_edit_id"] = det["id"]
                     st.session_state.pop("ds_confirm_del_id", None)
                     st.rerun()
                 if confirm_del_ds_id == d["id"]:
@@ -3329,14 +3429,13 @@ def pagina_diagnostico_social():
                         st.session_state["ds_confirm_del_id"] = d["id"]
                         st.rerun()
             if confirm_del_ds_id is not None:
-                st.warning(f"Confirme la eliminacion del diagnostico social ID {confirm_del_ds_id} pulsando 'Confirmar' en su fila. "
-                           "Esta accion no puede deshacerse.")
+                st.warning(f"Confirme la eliminacion del diagnostico social ID {confirm_del_ds_id} "
+                           "pulsando 'Confirmar' en su fila. Esta accion no puede deshacerse.")
                 if st.button("Cancelar eliminacion", key="ds_cancel_del"):
                     st.session_state.pop("ds_confirm_del_id", None)
                     st.rerun()
             st.markdown("---")
 
-            st.markdown("---")
             st.markdown("### Detalle de Ficha")
             dm_ds = {f"ID {d['id']} - {d.get('bloque_codigo','')} ({d.get('ficha','')})": d["id"] for d in todos_ds}
             sel_ds = st.selectbox("Seleccionar registro", [""] + list(dm_ds.keys()), key="ds_det")
@@ -3351,167 +3450,18 @@ def pagina_diagnostico_social():
                         st.markdown(f"**Centro Poblado:** {det['centro_poblado']} | "
                                     f"**Comunidad:** {det.get('comunidad_campesina','') or '-'} | "
                                     f"**Distrito:** {det.get('distrito','') or det.get('provincia','')}")
-
-                    if ficha_t == "F-DS-01":
-                        with st.expander("DATOS DEMOGRAFICOS", expanded=True):
-                            c1, c2, c3 = st.columns(3)
-                            c1.markdown(f"**N Familias:** {det.get('ds01_num_familias','') or '-'}")
-                            c2.markdown(f"**Pob. H/M/T:** {det.get('ds01_poblacion_hombres','') or '?'} / {det.get('ds01_poblacion_mujeres','') or '?'} / {det.get('ds01_poblacion_total','') or '?'}")
-                            c3.markdown(f"**Idioma:** {det.get('ds01_idioma','') or '-'}")
-                            c1.markdown(f"**Educacion:** {det.get('ds01_nivel_educativo','') or '-'}")
-                            c2.markdown(f"**Migracion:** {det.get('ds01_tasa_migracion','') or '-'}")
-                            c3.markdown(f"**Organizacion:** {det.get('ds01_organizacion_comunal','') or '-'}")
-                        with st.expander("SERVICIOS BASICOS", expanded=True):
-                            c1, c2 = st.columns(2)
-                            c1.markdown(f"**Agua:** {det.get('ds01_agua_potable_tipo','') or '-'} (Cob: {det.get('ds01_agua_potable_cobertura','') or '-'})")
-                            c2.markdown(f"**Saneamiento:** {det.get('ds01_saneamiento','') or '-'}")
-                            c1.markdown(f"**Energia:** {det.get('ds01_energia_tipo','') or '-'} (Cob: {det.get('ds01_energia_cobertura','') or '-'})")
-                            c2.markdown(f"**Telecom:** {det.get('ds01_telecomunicaciones','') or '-'}")
-                            c1.markdown(f"**Via:** {det.get('ds01_acceso_vial','') or '-'}")
-                            c2.markdown(f"**Salud:** {det.get('ds01_salud_tipo','') or '-'}")
-                        act_json = det.get("ds01_actividades_economicas", "")
-                        if act_json:
-                            try:
-                                acts = json.loads(act_json)
-                                if acts:
-                                    with st.expander("ACTIVIDADES ECONOMICAS", expanded=True):
-                                        st.dataframe(pd.DataFrame(acts), use_container_width=True, hide_index=True)
-                            except (json.JSONDecodeError, TypeError):
-                                pass
-                        with st.expander("RECURSOS NATURALES Y AGUA", expanded=True):
-                            st.markdown(f"**Fuente agua:** {det.get('ds01_fuente_agua','') or '-'}")
-                            st.markdown(f"**Problemas agua:** {det.get('ds01_problemas_agua','') or '-'}")
-                            st.markdown(f"**Uso forestal:** {det.get('ds01_uso_recursos_forestales','') or '-'}")
-                            st.markdown(f"**Percepcion cambios:** {det.get('ds01_percepcion_cambios','') or '-'}")
-                            st.markdown(f"**Disposicion participar:** {det.get('ds01_disposicion_participar','') or '-'}")
-                        with st.expander("ACTIVOS ASOCIADOS Y PROPIEDADES DE AREAS", expanded=True):
-                            st.markdown(f"**Activos asociados:** {det.get('ds01_activos_asociados','') or '-'}")
-                            c1, c2, c3 = st.columns(3)
-                            c1.markdown(f"**Area comunal (ha):** {det.get('ds01_tenencia_comunal_ha','') or '-'}")
-                            c2.markdown(f"**Area privada (ha):** {det.get('ds01_tenencia_privada_ha','') or '-'}")
-                            c3.markdown(f"**Area estatal (ha):** {det.get('ds01_tenencia_estatal_ha','') or '-'}")
-
-                    elif ficha_t == "F-DS-02":
-                        act_json = det.get("ds02_registro_actores", "")
-                        if act_json:
-                            try:
-                                acts = json.loads(act_json)
-                                if acts:
-                                    with st.expander("REGISTRO DE ACTORES", expanded=True):
-                                        st.dataframe(pd.DataFrame(acts), use_container_width=True, hide_index=True)
-                            except (json.JSONDecodeError, TypeError):
-                                pass
-                        with st.expander("CLASIFICACION POR TIPO", expanded=True):
-                            for campo, label in [
-                                ("ds02_actores_gob_local", "Gobierno Local"),
-                                ("ds02_actores_gob_regional", "Gobierno Regional"),
-                                ("ds02_actores_gob_nacional", "Gobierno Nacional"),
-                                ("ds02_actores_comunidades", "Comunidades Campesinas"),
-                                ("ds02_actores_juntas_riego", "Juntas de Riego"),
-                                ("ds02_actores_comites_cuenca", "Comites de Cuenca"),
-                                ("ds02_actores_ong", "ONG / Cooperacion"),
-                                ("ds02_actores_empresa", "Empresa Privada"),
-                                ("ds02_actores_educacion", "Educacion"),
-                                ("ds02_actores_org_base", "Org. de Base"),
-                            ]:
-                                v = det.get(campo, "") or ""
-                                if v:
-                                    st.markdown(f"**{label}:** {v}")
-
-                    elif ficha_t == "F-DS-03":
-                        st.markdown(f"**Entrevistado:** {det.get('ds03_nombre_entrevistado','') or '-'} | "
-                                    f"**Cargo:** {det.get('ds03_cargo_funcion','') or '-'} | "
-                                    f"**Institucion:** {det.get('ds03_institucion','') or '-'}")
-                        secciones = [
-                            ("1. Percepcion del Territorio", [
-                                ("ds03_resp_recursos_naturales", "Recursos naturales"),
-                                ("ds03_resp_cambios_ambiente", "Cambios ambientales"),
-                                ("ds03_resp_problemas_ambientales", "Problemas ambientales"),
-                                ("ds03_resp_zonas_conservacion", "Zonas de conservacion"),
-                            ]),
-                            ("2. Actividades Productivas", [
-                                ("ds03_resp_actividades_economicas", "Actividades economicas"),
-                                ("ds03_resp_abastecimiento_agua", "Abastecimiento agua"),
-                                ("ds03_resp_productos_bosque", "Productos del bosque"),
-                                ("ds03_resp_cadenas_productivas", "Cadenas productivas"),
-                            ]),
-                            ("3. Organizacion Social", [
-                                ("ds03_resp_organizaciones", "Organizaciones"),
-                                ("ds03_resp_decisiones_territorio", "Decisiones territorio"),
-                                ("ds03_resp_conflictos", "Conflictos"),
-                                ("ds03_resp_proyectos_anteriores", "Proyectos anteriores"),
-                                ("ds03_resp_experiencia_reforestacion", "Experiencia en reforestacion"),
-                            ]),
-                            ("4. Conocimiento y Expectativas", [
-                                ("ds03_resp_conocimiento_restauracion", "Conocimiento restauracion"),
-                                ("ds03_resp_expectativas", "Expectativas"),
-                                ("ds03_resp_disposicion_participar", "Disposicion participar"),
-                                ("ds03_resp_condiciones", "Condiciones/Preocupaciones"),
-                            ]),
-                            ("5. MERESE", [
-                                ("ds03_resp_conocimiento_merese", "Conocimiento MERESE"),
-                                ("ds03_resp_beneficiarios", "Beneficiarios"),
-                                ("ds03_resp_instituciones_contribuyentes", "Instituciones contribuyentes"),
-                                ("ds03_resp_experiencias_pago", "Experiencias pago SA"),
-                            ]),
-                        ]
-                        for titulo, campos in secciones:
-                            with st.expander(titulo, expanded=True):
-                                for campo, label in campos:
-                                    v = det.get(campo, "") or ""
-                                    if v:
-                                        st.markdown(f"**{label}:** {v}")
-
-                    elif ficha_t == "F-DS-04":
-                        st.markdown(f"**Lugar:** {det.get('ds04_lugar_taller','') or '-'} | "
-                                    f"**Hora:** {det.get('ds04_hora_inicio','') or '-'} - {det.get('ds04_hora_fin','') or '-'} | "
-                                    f"**Convocante:** {det.get('ds04_convocante','') or '-'}")
-                        if det.get("ds04_objetivo"):
-                            st.markdown(f"**Objetivo:** {det['ds04_objetivo']}")
-                        part_json = det.get("ds04_lista_participantes", "")
-                        if part_json:
-                            try:
-                                parts = json.loads(part_json)
-                                if parts:
-                                    with st.expander(f"LISTA DE PARTICIPANTES ({len(parts)})", expanded=True):
-                                        st.dataframe(pd.DataFrame(parts), use_container_width=True, hide_index=True)
-                            except (json.JSONDecodeError, TypeError):
-                                pass
-                        with st.expander("DESARROLLO DEL TALLER", expanded=True):
-                            for campo, label in [
-                                ("ds04_presentacion", "Presentacion"),
-                                ("ds04_intervenciones", "Intervenciones"),
-                                ("ds04_preguntas_respuestas", "Preguntas y respuestas"),
-                                ("ds04_acuerdos", "Acuerdos y compromisos"),
-                                ("ds04_observaciones", "Observaciones"),
-                            ]:
-                                v = det.get(campo, "") or ""
-                                if v:
-                                    st.markdown(f"**{label}:** {v}")
-
-                    elif ficha_t == "F-DS-05":
-                        conf_json = det.get("ds05_conflictos", "")
-                        if conf_json:
-                            try:
-                                confs = json.loads(conf_json)
-                                if confs:
-                                    with st.expander(f"CONFLICTOS IDENTIFICADOS ({len(confs)})", expanded=True):
-                                        st.dataframe(pd.DataFrame(confs), use_container_width=True, hide_index=True)
-                            except (json.JSONDecodeError, TypeError):
-                                pass
-                        opor_json = det.get("ds05_oportunidades", "")
-                        if opor_json:
-                            try:
-                                opors = json.loads(opor_json)
-                                if opors:
-                                    with st.expander(f"OPORTUNIDADES IDENTIFICADAS ({len(opors)})", expanded=True):
-                                        st.dataframe(pd.DataFrame(opors), use_container_width=True, hide_index=True)
-                            except (json.JSONDecodeError, TypeError):
-                                pass
+                    num = ficha_t.split("-")[-1] if ficha_t else ""
+                    raw = det.get(f"ds{num}_data_v3", "") or ""
+                    form_det = {}
+                    if raw:
+                        try:
+                            form_det = json.loads(raw)
+                        except (json.JSONDecodeError, TypeError):
+                            form_det = {}
+                    _ds_render_detalle(ficha_t, form_det)
 
                     if det.get("observaciones_generales"):
                         st.markdown(f"**Observaciones generales:** {det['observaciones_generales']}")
-
                     if det.get("archivos_adjuntos"):
                         st.markdown("**Archivos adjuntos:**")
                         carpeta = os.path.join(os.path.dirname(os.path.abspath(__file__)), "adjuntos_ds")
@@ -3524,7 +3474,6 @@ def pagina_diagnostico_social():
                                             f"Descargar {archivo.strip().split('_', 1)[-1]}",
                                             fp.read(), archivo.strip(), mime="application/pdf",
                                             key=f"ds_dl_{archivo.strip()}")
-
                     if st.button("Eliminar este registro", key="ds_eliminar"):
                         db.eliminar_diagnostico_social(dm_ds[sel_ds])
                         _invalidar_cache()
@@ -3541,246 +3490,62 @@ def pagina_diagnostico_social():
                     "Fichas Completadas": r.get("fichas_completadas", "") or "",
                 } for r in resumen_ds]), use_container_width=True, hide_index=True)
 
-    # ══════════════════════════════════════════════════════════════════
-    # TAB IMPORTAR DESDE EXCEL
-    # ══════════════════════════════════════════════════════════════════
+    # ── IMPORTAR DESDE EXCEL ───────────────────────────────────────────
     with tab_excel:
-        st.markdown("### Importar Diagnostico Social desde Excel")
-        st.caption("Suba un archivo Excel llenado por el tecnico de campo para autocompletar "
-                   "los formularios. Puede descargar la plantilla estandarizada para su uso en campo.")
-
-        # ── Descargar plantilla ──────────────────────────────────────
+        st.markdown("### Plantilla Excel de Diagnostico Social (V3 validada)")
+        st.caption("Descargue la plantilla oficial con celdas de validacion (desplegables) "
+                   "para el llenado en campo, o suba un archivo llenado para autocompletar.")
         st.markdown("---")
-        st.markdown("**1. Descargar Plantilla para Tecnicos**")
-        col_dl1, col_dl2 = st.columns(2)
-        fichas_descarga = col_dl1.multiselect(
-            "Fichas a incluir en la plantilla",
-            FICHAS_DS, default=FICHAS_DS, key="ds_excel_fichas_dl")
-        if col_dl2.button("Generar Plantilla Excel", type="secondary", key="ds_gen_plantilla"):
-            if fichas_descarga:
+        st.markdown("**1. Descargar Plantilla Oficial para Tecnicos**")
+        if st.button("Generar Plantilla Excel V3", type="secondary", key="ds_gen_plantilla"):
+            try:
                 bloques_data_ds = [(b[1], b[2], b[4], b[5]) for b in BLOQUES_128]
-                plantilla_bytes = generar_plantilla_ds(fichas_descarga, bloques_data_ds)
-                st.session_state["ds_plantilla_bytes"] = plantilla_bytes
-                st.success("Plantilla generada correctamente.")
-
+                st.session_state["ds_plantilla_bytes"] = generar_plantilla_ds(None, bloques_data_ds)
+                st.success("Plantilla V3 generada correctamente.")
+            except Exception as e:
+                st.error(f"No se pudo generar la plantilla: {e}")
         if st.session_state.get("ds_plantilla_bytes"):
             st.download_button(
-                "Descargar Plantilla Excel",
+                "Descargar Plantilla Excel V3",
                 st.session_state["ds_plantilla_bytes"],
-                file_name="Plantilla_Diagnostico_Social_IN_Piura.xlsx",
+                file_name="Plantilla_Diagnostico_Social_IN_Piura_V3.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 key="ds_dl_plantilla")
 
-        # ── Subir Excel llenado ──────────────────────────────────────
         st.markdown("---")
         st.markdown("**2. Subir Excel Llenado por el Tecnico**")
-        st.info("Al cargar el archivo, el sistema leera los datos y autocompletara "
-                "el formulario en la pestana **Registro**. Podra revisar y ajustar "
-                "antes de guardar.")
-
-        uploaded_excel = st.file_uploader(
-            "Seleccionar archivo Excel (.xlsx)",
-            type=["xlsx"], key="ds_excel_upload")
-
+        st.info("El sistema leera los datos disponibles y autocompletara el formulario "
+                "en la pestana **Registro** para su revision antes de guardar.")
+        uploaded_excel = st.file_uploader("Seleccionar archivo Excel (.xlsx)", type=["xlsx"], key="ds_excel_upload")
         if uploaded_excel is not None:
             try:
                 resultados = parsear_excel_ds(uploaded_excel)
                 if not resultados:
-                    st.error("No se pudieron detectar fichas en el archivo. "
-                             "Verifique que el formato sea correcto.")
+                    st.error("No se detectaron fichas F-DS en el archivo. Verifique el formato.")
                 else:
                     st.success(f"Se detectaron {len(resultados)} ficha(s) en el archivo.")
                     for i, res in enumerate(resultados):
-                        ficha_det = res["ficha"]
-                        datos_res = res["datos"]
-
+                        ficha_det = res.get("ficha", "")
+                        datos_res = res.get("datos", {})
                         with st.expander(f"Vista previa: {ficha_det}", expanded=True):
-                            # Mostrar datos generales
                             cols_prev = st.columns(4)
                             cols_prev[0].markdown(f"**Fecha:** {datos_res.get('fecha', '-')}")
                             cols_prev[1].markdown(f"**Responsable:** {datos_res.get('evaluador', '-')}")
                             cols_prev[2].markdown(f"**Bloque:** {datos_res.get('codigo_bloque', '-')}")
-                            cols_prev[3].markdown(f"**Ficha N:** {datos_res.get('ficha_numero', '-')}")
-
-                            cols_prev2 = st.columns(4)
-                            cols_prev2[0].markdown(f"**Provincia:** {datos_res.get('provincia', '-')}")
-                            cols_prev2[1].markdown(f"**Distrito:** {datos_res.get('distrito', '-')}")
-                            cols_prev2[2].markdown(f"**C. Poblado:** {datos_res.get('centro_poblado', '-')}")
-                            cols_prev2[3].markdown(f"**Microcuenca:** {datos_res.get('microcuenca', '-')}")
-
-                            # Contar campos llenados
-                            campos_llenos = sum(1 for k, v in datos_res.items()
-                                                if v and str(v).strip() and
-                                                k not in ("fecha", "evaluador", "codigo_bloque",
-                                                          "ficha_numero", "provincia", "distrito",
-                                                          "centro_poblado", "microcuenca",
-                                                          "comunidad_campesina", "coordenada_este",
-                                                          "coordenada_norte", "altitud",
-                                                          "codigo_ubigeo", "observaciones"))
-                            st.markdown(f"**Campos especificos llenados:** {campos_llenos}")
-
-                            # Mostrar datos especificos segun ficha
-                            if ficha_det == "F-DS-01":
-                                acts = datos_res.get("ds01_actividades_economicas", [])
-                                if acts:
-                                    st.markdown(f"**Actividades economicas registradas:** {len(acts)}")
-                                    st.dataframe(pd.DataFrame(acts), use_container_width=True, hide_index=True)
-                            elif ficha_det == "F-DS-02":
-                                actores = datos_res.get("ds02_registro_actores", [])
-                                if actores:
-                                    st.markdown(f"**Actores registrados:** {len(actores)}")
-                                    st.dataframe(pd.DataFrame(actores), use_container_width=True, hide_index=True)
-                            elif ficha_det == "F-DS-04":
-                                parts = datos_res.get("ds04_lista_participantes", [])
-                                if parts:
-                                    st.markdown(f"**Participantes registrados:** {len(parts)}")
-                                    st.dataframe(pd.DataFrame(parts), use_container_width=True, hide_index=True)
-                            elif ficha_det == "F-DS-05":
-                                confs = datos_res.get("ds05_conflictos", [])
-                                opors = datos_res.get("ds05_oportunidades", [])
-                                if confs:
-                                    st.markdown(f"**Conflictos registrados:** {len(confs)}")
-                                    st.dataframe(pd.DataFrame(confs), use_container_width=True, hide_index=True)
-                                if opors:
-                                    st.markdown(f"**Oportunidades registradas:** {len(opors)}")
-                                    st.dataframe(pd.DataFrame(opors), use_container_width=True, hide_index=True)
-
-                        # Boton para autocompletar
-                        col_ac1, col_ac2 = st.columns(2)
-                        if col_ac1.button(
-                            f"Autocompletar formulario {ficha_det}",
-                            type="primary", key=f"ds_autocompletar_{i}"):
-                            ss_vals = mapear_a_session_state(res, bm)
-                            st.session_state["_ds_autocompletar_pending"] = ss_vals
+                            cols_prev[3].markdown(f"**Distrito:** {datos_res.get('distrito', '-')}")
+                            form_prev = datos_res.get("form", {})
+                            n_campos = sum(1 for v in form_prev.values() if v not in ("", None, []))
+                            st.markdown(f"**Campos detectados:** {n_campos}")
+                        if st.button(f"Autocompletar formulario {ficha_det}", type="primary", key=f"ds_ac_{i}"):
+                            pend = mapear_a_session_state(res, bm)
+                            st.session_state["_ds_pending_state"] = pend
+                            st.session_state["_ds_pending_edit_id"] = None
                             st.success(f"Formulario {ficha_det} autocompletado. "
-                                       f"Cambie a la pestana **Registro** para revisar y guardar.")
+                                       "Vaya a la pestana **Registro** para revisar y guardar.")
                             st.rerun()
-
-                        # Boton para guardar directo
-                        if col_ac2.button(
-                            f"Guardar directamente {ficha_det}",
-                            type="secondary", key=f"ds_guardar_directo_{i}"):
-                            try:
-                                # Construir registro para BD
-                                codigo_bloque = datos_res.get("codigo_bloque", "")
-                                bid_excel = None
-                                for label, id_val in bm.items():
-                                    if codigo_bloque and codigo_bloque in label:
-                                        bid_excel = id_val
-                                        break
-                                if not bid_excel:
-                                    bid_excel = list(bm.values())[0]
-                                    st.warning(f"Bloque '{codigo_bloque}' no encontrado. "
-                                               f"Se asigno al primer bloque disponible.")
-
-                                fecha_str = str(datos_res.get("fecha", ""))
-                                if not fecha_str:
-                                    fecha_str = datetime.now().strftime("%Y-%m-%d")
-                                # Normalizar fecha
-                                for fmt in ("%Y-%m-%d", "%d/%m/%Y", "%d-%m-%Y"):
-                                    try:
-                                        fecha_str = datetime.strptime(
-                                            fecha_str.split(" ")[0], fmt).strftime("%Y-%m-%d")
-                                        break
-                                    except (ValueError, TypeError):
-                                        continue
-
-                                reg = {
-                                    "bloque_id": bid_excel,
-                                    "ficha": ficha_det,
-                                    "ficha_numero": datos_res.get("ficha_numero", ""),
-                                    "microcuenca": datos_res.get("microcuenca", ""),
-                                    "fecha_evaluacion": fecha_str,
-                                    "evaluador": datos_res.get("evaluador", ""),
-                                    "provincia": datos_res.get("provincia", ""),
-                                    "distrito": datos_res.get("distrito", ""),
-                                    "centro_poblado": datos_res.get("centro_poblado", ""),
-                                    "comunidad_campesina": datos_res.get("comunidad_campesina", ""),
-                                    "coordenada_este": float(datos_res.get("coordenada_este") or 0),
-                                    "coordenada_norte": float(datos_res.get("coordenada_norte") or 0),
-                                    "altitud": float(datos_res.get("altitud") or 0),
-                                    "codigo_ubigeo": datos_res.get("codigo_ubigeo", ""),
-                                    "observaciones_generales": datos_res.get("observaciones", ""),
-                                    "archivos_adjuntos": "",
-                                }
-
-                                # Agregar campos especificos por ficha
-                                if ficha_det == "F-DS-01":
-                                    acts = datos_res.get("ds01_actividades_economicas", [])
-                                    reg.update({
-                                        k: v for k, v in datos_res.items()
-                                        if k.startswith("ds01_") and k != "ds01_actividades_economicas"
-                                           and k != "ds01_nombre_cp"
-                                    })
-                                    if acts:
-                                        reg["ds01_actividades_economicas"] = json.dumps(
-                                            acts, ensure_ascii=False)
-                                    else:
-                                        reg["ds01_actividades_economicas"] = ""
-                                elif ficha_det == "F-DS-02":
-                                    actores = datos_res.get("ds02_registro_actores", [])
-                                    reg.update({
-                                        k: v for k, v in datos_res.items()
-                                        if k.startswith("ds02_") and k != "ds02_registro_actores"
-                                    })
-                                    if actores:
-                                        reg["ds02_registro_actores"] = json.dumps(
-                                            actores, ensure_ascii=False)
-                                    else:
-                                        reg["ds02_registro_actores"] = ""
-                                elif ficha_det == "F-DS-03":
-                                    reg.update({
-                                        k: v for k, v in datos_res.items()
-                                        if k.startswith("ds03_")
-                                    })
-                                elif ficha_det == "F-DS-04":
-                                    parts = datos_res.get("ds04_lista_participantes", [])
-                                    reg.update({
-                                        k: v for k, v in datos_res.items()
-                                        if k.startswith("ds04_") and k != "ds04_lista_participantes"
-                                           and k != "ds04_observaciones_taller"
-                                    })
-                                    reg["ds04_observaciones"] = datos_res.get(
-                                        "ds04_observaciones_taller", "")
-                                    if parts:
-                                        reg["ds04_lista_participantes"] = json.dumps(
-                                            parts, ensure_ascii=False)
-                                    else:
-                                        reg["ds04_lista_participantes"] = ""
-                                elif ficha_det == "F-DS-05":
-                                    confs = datos_res.get("ds05_conflictos", [])
-                                    opors = datos_res.get("ds05_oportunidades", [])
-                                    reg["ds05_conflictos"] = json.dumps(
-                                        confs, ensure_ascii=False) if confs else ""
-                                    reg["ds05_oportunidades"] = json.dumps(
-                                        opors, ensure_ascii=False) if opors else ""
-
-                                # Limpiar keys que no son columnas de BD
-                                keys_no_db = {"fecha", "evaluador", "codigo_bloque",
-                                              "observaciones", "ds01_nombre_cp",
-                                              "ds04_observaciones_taller"}
-                                for k in keys_no_db:
-                                    reg.pop(k, None)
-
-                                db.insertar_diagnostico_social(reg)
-                                _invalidar_cache()
-                                st.success(f"Ficha {ficha_det} guardada directamente en la BD.")
-                                st.rerun()
-                            except Exception as e:
-                                st.error(f"Error al guardar: {e}")
-
             except Exception as e:
                 st.error(f"Error al leer el archivo Excel: {e}")
 
-        # ── Importacion masiva ───────────────────────────────────────
-        st.markdown("---")
-        st.markdown("**3. Importacion Masiva (multiples fichas)**")
-        st.caption("Si el archivo Excel contiene multiples hojas (una por ficha), "
-                   "puede importar todas a la vez usando el boton de arriba. "
-                   "Cada hoja sera detectada automaticamente.")
-        st.caption("Tambien puede subir la plantilla original "
-                   "(`Formatos_Sociales_Registros_de_Campo_IN_Piura_2026.xlsx`) "
-                   "llenada por el tecnico.")
 
 
 

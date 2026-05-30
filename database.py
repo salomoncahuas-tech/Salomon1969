@@ -505,6 +505,17 @@ def inicializar_bd():
         ("ds01_tenencia_privada_ha", "TEXT DEFAULT ''"),
         ("ds01_tenencia_estatal_ha", "TEXT DEFAULT ''"),
         ("ds03_resp_experiencia_reforestacion", "TEXT DEFAULT ''"),
+        # ── Diagnostico Social V3 (Plantilla validada, F-DS-01..07) ────────
+        # Cada ficha guarda su formulario completo como JSON en una sola
+        # columna dsNN_data_v3. Las columnas legacy (arriba) se siguen
+        # alimentando donde aplica para compatibilidad con reportes.
+        ("ds01_data_v3", "TEXT DEFAULT ''"),
+        ("ds02_data_v3", "TEXT DEFAULT ''"),
+        ("ds03_data_v3", "TEXT DEFAULT ''"),
+        ("ds04_data_v3", "TEXT DEFAULT ''"),
+        ("ds05_data_v3", "TEXT DEFAULT ''"),
+        ("ds06_data_v3", "TEXT DEFAULT ''"),
+        ("ds07_data_v3", "TEXT DEFAULT ''"),
     ]
     for col_name, col_type in nuevas_columnas_ds:
         cursor.execute(f"""
