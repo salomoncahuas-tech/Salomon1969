@@ -2860,38 +2860,41 @@ def _render_fds03():
     c1, c2 = st.columns(2)
     _T(f, c1, "Lugar de la entrevista", "f3_lugar")
     _T(f, c2, "Duracion (min)", "f3_dur")
-    c1, c2, c3 = st.columns(3)
-    _SB(f, c1, "¿Consiente grabacion?", DS_SINO, "f3_c_grab")
-    _SB(f, c2, "¿Consiente uso de nombre?", DS_SINO, "f3_c_nom")
-    _SB(f, c3, "¿Consiente fotografias?", DS_SINO, "f3_c_foto")
+    c1, c2 = st.columns(2)
+    _SB(f, c1, "¿Consiente uso de nombre en el informe?", DS_SINO, "f3_c_nom")
+    _SB(f, c2, "¿Consiente toma de fotografias?", DS_SINO, "f3_c_foto")
 
-    st.markdown("**3. Percepcion del Territorio y Recursos Naturales**")
-    _TA(f, "3.1 Principales recursos naturales de la zona", "f3_r1")
-    _TA(f, "3.2 Cambios observados (10-15 años) en disponibilidad/calidad", "f3_r2")
-    _TA(f, "3.3 Principales problemas ambientales actuales", "f3_r3")
-    _TA(f, "3.4 Zonas mas importantes para la conservacion del agua", "f3_r4")
+    st.markdown("**3. Percepcion del Territorio y de los Recursos Naturales**")
+    _TA(f, "3.1 ¿Que especies de arboles y arbustos nativos/silvestres existen actualmente "
+           "y cuales han disminuido o desaparecido?", "f3_r1")
+    _TA(f, "3.2 En los ultimos 10-15 años, ¿ha observado cambios en la disponibilidad de "
+           "agua, bosque, suelo? Describa.", "f3_r2")
+    _TA(f, "3.3 ¿Cuales son los principales problemas ambientales actuales (deforestacion, "
+           "erosion, sequias, contaminacion, carcavas, huaicos)? ¿con que frecuencia e intensidad?", "f3_r3")
+    _TA(f, "3.4 ¿Que zonas del territorio (bosques, manantiales, etc) considera mas "
+           "importantes para conservar y por que?", "f3_r4")
 
     st.markdown("**4. Actividades Productivas y Medios de Vida**")
-    _TA(f, "4.1 Actividades economicas mas importantes", "f3_r5")
-    _TA(f, "4.2 Abastecimiento de agua (riego/consumo), deficit", "f3_r6")
-    _TA(f, "4.3 Uso de productos del bosque (cuales, quienes, frecuencia)", "f3_r7")
-    _TA(f, "4.4 Cadenas productivas / asociaciones", "f3_r8")
+    _TA(f, "4.1 ¿Cuales son las actividades economicas mas importantes de la comunidad y "
+           "quienes se dedican a cada una (hombres/mujeres)?", "f3_r5")
+    _TA(f, "4.2 ¿Como se abastecen de agua para riego y consumo? ¿Hay deficit en alguna "
+           "epoca del año, cuando? ¿Hay conflictos por el agua?", "f3_r6")
+    _TA(f, "4.3 ¿Utilizan productos del bosque? ¿Cuales?", "f3_r7")
+    _TA(f, "4.4 ¿Existen cadenas productivas organizadas o asociaciones de productores en la zona?", "f3_r8")
 
     st.markdown("**5. Organizacion, Gobernanza y Relacion con el Estado**")
-    _TA(f, "5.1 Organizaciones existentes y su rol", "f3_r9")
-    _TA(f, "5.2 Toma de decisiones sobre recursos comunes", "f3_r10")
-    _TA(f, "5.3 Relacion historica con el Estado y proyectos previos", "f3_r11")
+    _TA(f, "5.1 ¿Que organizaciones sociales de base existen en la comunidad y cual es su "
+           "rol en la toma de decisiones sobre el territorio?", "f3_r9")
+    _TA(f, "5.2 ¿Como se toman las decisiones sobre el uso de recursos comunales (agua, bosque, pastos)?", "f3_r10")
+    _TA(f, "5.3 ¿Como ha sido la relacion historica con el Estado y con proyectos de inversion "
+           "externos (incluidos los mineros)?", "f3_r11")
 
     st.markdown("**6. Expectativas frente al Proyecto IN Piura**")
-    _SB(f, st, "6.1 ¿Ha oido hablar del proyecto IN Piura?",
-        ["Si, conozco bien el proyecto", "Si, he oido algo general",
-         "No he oido nada", "Lo confundo con otros proyectos"], "f3_conoce")
-    _TA(f, "Describa que sabe", "f3_conoce_desc", height=70)
-    _TA(f, "6.2 Beneficios percibidos si se ejecuta", "f3_r_ben")
-    _TA(f, "6.3 Preocupaciones o temores frente al proyecto", "f3_r_pre")
-    _TA(f, "6.4 Condiciones indispensables para participar", "f3_r_cond")
-    _TA(f, "6.5 Como deberia ANIN relacionarse con rondas y autoridades", "f3_r_anin")
-    _TA(f, "6.6 Antecedentes de conflictos por proyectos externos", "f3_r_ant")
+    _TA(f, "6.1 ¿Usted se encuentra de acuerdo con el proyecto o tiene alguna duda?", "f3_r_acuerdo")
+    _TA(f, "6.2 ¿En que dias de la semana y horarios puede o preferiria participar en "
+           "actividades relacionadas al proyecto?", "f3_r_horarios")
+    _TA(f, "6.3 ¿Hay antecedentes de conflictos por proyectos externos (mineros, hidrocarburos, "
+           "infraestructura) que ANIN deba tener en cuenta?", "f3_r_ant")
     _TA(f, "7. Cierre y observaciones del entrevistador/a", "f3_cierre")
     return f
 
@@ -3148,8 +3151,8 @@ def _ds_legacy_cols(ficha, f):
             "ds03_resp_cadenas_productivas": f.get("f3_r8", ""),
             "ds03_resp_organizaciones": f.get("f3_r9", ""),
             "ds03_resp_decisiones_territorio": f.get("f3_r10", ""),
-            "ds03_resp_expectativas": f.get("f3_r_ben", ""),
-            "ds03_resp_condiciones": f.get("f3_r_cond", ""),
+            "ds03_resp_expectativas": f.get("f3_r_acuerdo", ""),
+            "ds03_resp_condiciones": f.get("f3_r_horarios", ""),
         })
     elif ficha == "F-DS-04":
         L.update({
