@@ -27,11 +27,13 @@ from xml.sax.saxutils import escape
 from openpyxl import load_workbook
 
 
-# ─── Plantilla V3 oficial (vive junto al codigo en el repo) ────────────────
-PLANTILLA_V3_PATH = os.path.join(
+# ─── Plantilla oficial (vive junto al codigo en el repo) ───────────────────
+# Version actual: V4. Se mantiene el alias PLANTILLA_V3_PATH por compatibilidad.
+PLANTILLA_DS_PATH = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
-    "Plantilla_Diagnostico_Social_IN_Piura_validado para Aplicativo.xlsx",
+    "Plantilla_Diagnostico_Social_IN_Piura_V4.xlsx",
 )
+PLANTILLA_V3_PATH = PLANTILLA_DS_PATH
 
 FICHAS_HOJAS = ["F-DS-01", "F-DS-02", "F-DS-03", "F-DS-04",
                 "F-DS-05", "F-DS-06", "F-DS-07"]
@@ -219,8 +221,10 @@ def _parse_fds01(ws):
     form = {}
     # El destino (cols I..M) es una grilla de marcas "X"; se omite en el parseo
     # automatico y queda para completar en el aplicativo.
-    form["f1_activ"] = _read_table(ws, 98, 105, {
-        "Actividad / Rubro": 2, "N fam.": 6, "Productos principales": 7,
+    # Plantilla V4: la tabla bajo 2 filas (98->100) y se corrieron las columnas
+    # "N fam." (6->5) y "Productos principales" (7->6) respecto de V3.
+    form["f1_activ"] = _read_table(ws, 100, 107, {
+        "Actividad / Rubro": 2, "N fam.": 5, "Productos principales": 6,
         "Ingreso (S/./mes)": 14,
     })
     return form
