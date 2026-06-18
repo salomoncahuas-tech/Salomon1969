@@ -3230,7 +3230,7 @@ def _ds_humaniza(key):
 def _ds_render_detalle(ficha, form):
     """Muestra el formulario V3 de un registro (vista de Historial)."""
     if not isinstance(form, dict) or not form:
-        st.caption("Sin datos detallados V3 para esta ficha.")
+        st.caption("Sin datos detallados V4 para esta ficha.")
         return
     # Tablas primero
     for slot in _DS_TABLE_SLOTS:
@@ -3258,7 +3258,7 @@ def _ds_render_detalle(ficha, form):
 
 
 def pagina_diagnostico_social():
-    st.subheader("Diagnostico Social - Fichas de Campo (V3)")
+    st.subheader("Diagnostico Social - Fichas de Campo (V4)")
     st.caption("Proyecto IN Piura CUI 2669244 | ANIN - DIME - SESDI | "
                "Plantilla validada F-DS-01 a F-DS-07 con celdas de validacion")
     bm = _bloques_map()
