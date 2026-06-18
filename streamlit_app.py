@@ -3492,23 +3492,23 @@ def pagina_diagnostico_social():
 
     # ── IMPORTAR DESDE EXCEL ───────────────────────────────────────────
     with tab_excel:
-        st.markdown("### Plantilla Excel de Diagnostico Social (V3 validada)")
+        st.markdown("### Plantilla Excel de Diagnostico Social (V4 validada)")
         st.caption("Descargue la plantilla oficial con celdas de validacion (desplegables) "
                    "para el llenado en campo, o suba un archivo llenado para autocompletar.")
         st.markdown("---")
         st.markdown("**1. Descargar Plantilla Oficial para Tecnicos**")
-        if st.button("Generar Plantilla Excel V3", type="secondary", key="ds_gen_plantilla"):
+        if st.button("Generar Plantilla Excel V4", type="secondary", key="ds_gen_plantilla"):
             try:
                 bloques_data_ds = [(b[1], b[2], b[4], b[5]) for b in BLOQUES_128]
                 st.session_state["ds_plantilla_bytes"] = generar_plantilla_ds(None, bloques_data_ds)
-                st.success("Plantilla V3 generada correctamente.")
+                st.success("Plantilla V4 generada correctamente.")
             except Exception as e:
                 st.error(f"No se pudo generar la plantilla: {e}")
         if st.session_state.get("ds_plantilla_bytes"):
             st.download_button(
-                "Descargar Plantilla Excel V3",
+                "Descargar Plantilla Excel V4",
                 st.session_state["ds_plantilla_bytes"],
-                file_name="Plantilla_Diagnostico_Social_IN_Piura_V3.xlsx",
+                file_name="Plantilla_Diagnostico_Social_IN_Piura_V4.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 key="ds_dl_plantilla")
 
