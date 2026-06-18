@@ -2624,7 +2624,7 @@ def _ds_datos_generales(bloque_label=""):
 # ══════════════════════════════════════════════════════════════════════════
 # DIAGNOSTICO SOCIAL V3 — Plantilla validada (F-DS-01 a F-DS-07)
 # Formularios con celdas de validacion (desplegables) que replican las listas
-# oficiales del Excel `Plantilla_Diagnostico_Social_IN_Piura_validado`.
+# oficiales del Excel `Plantilla_Diagnostico_Social_IN_Piura_V4`.
 # Cada ficha guarda su formulario completo como JSON en la columna dsNN_data_v3
 # y, donde aplica, alimenta las columnas legacy para compatibilidad de reportes.
 # Convencion: la clave del dict del formulario == la key del widget Streamlit,

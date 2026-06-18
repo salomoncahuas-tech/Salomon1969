@@ -3,7 +3,7 @@ Listas de validacion centralizadas — Diagnostico Social V3 (F-DS-01..07).
 Proyecto IN Piura CUI 2669244 | ANIN - DIME - SESDI.
 
 GENERADO automaticamente desde la hoja `_Listas` de
-`Plantilla_Diagnostico_Social_IN_Piura_validado para Aplicativo.xlsx`.
+`Plantilla_Diagnostico_Social_IN_Piura_V4.xlsx`.
 Fuente unica de verdad para los desplegables del aplicativo y del Excel.
 No editar a mano: regenerar si cambia la plantilla oficial.
 """
