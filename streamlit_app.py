@@ -2770,6 +2770,12 @@ def _TB(f, label, slot, columns, **kw):
 
 def _render_fds01():
     f = {}
+    st.markdown("**1. Datos del Entrevistado/a**")
+    c1, c2, c3 = st.columns(3)
+    _T(f, c1, "Nombres y apellidos del entrevistado", "f1_entrevistado")
+    _T(f, c2, "DNI", "f1_entrevistado_dni")
+    _T(f, c3, "Oficio/ocupacion", "f1_entrevistado_oficio")
+
     st.markdown("**2. Datos Demograficos**")
     _SB(f, st, "2.1 Tipo de organizacion territorial", FL.L_ORG_COMUNAL, "f1_org_terr")
     c1, c2 = st.columns(2)
@@ -3169,6 +3175,9 @@ def _ds_legacy_cols(ficha, f):
     L = {}
     if ficha == "F-DS-01":
         L.update({
+            "ds01_entrevistado": f.get("f1_entrevistado", ""),
+            "ds01_entrevistado_dni": f.get("f1_entrevistado_dni", ""),
+            "ds01_entrevistado_oficio": f.get("f1_entrevistado_oficio", ""),
             "ds01_num_familias": f.get("f1_nfam", ""),
             "ds01_poblacion_hombres": f.get("f1_pob_h", ""),
             "ds01_poblacion_mujeres": f.get("f1_pob_m", ""),

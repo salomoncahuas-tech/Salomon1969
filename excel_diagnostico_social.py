@@ -219,6 +219,13 @@ def _parse_header(ws):
 # Mapas de tablas por ficha (filas y columnas fijas de la plantilla V3)
 def _parse_fds01(ws):
     form = {}
+    # 1. Datos del entrevistado (fila 12): los rotulos estan en celdas
+    # combinadas y el valor cae en la primera celda del bloque siguiente:
+    # "Nombres y apellidos del entrevistado" (A12:C12) -> D12,
+    # "DNI" (E12:F12) -> G12, "Oficio/ocupacion" (I12:J12) -> K12.
+    form["f1_entrevistado"] = _clean(ws.cell(row=12, column=4).value)
+    form["f1_entrevistado_dni"] = _clean(ws.cell(row=12, column=7).value)
+    form["f1_entrevistado_oficio"] = _clean(ws.cell(row=12, column=11).value)
     # El destino (cols I..M) es una grilla de marcas "X"; se omite en el parseo
     # automatico y queda para completar en el aplicativo.
     # Plantilla V4: la tabla bajo 2 filas (98->100) y se corrieron las columnas
