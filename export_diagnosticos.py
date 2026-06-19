@@ -234,6 +234,9 @@ _FDS_CABECERA = [
     ("comunidad_campesina", "Comunidad Campesina"),
     ("distrito", "Distrito"),
     ("provincia", "Provincia"),
+    ("nombre_entrevistado", "Entrevistado"),
+    ("dni_entrevistado", "DNI"),
+    ("oficio_ocupacion", "Oficio / Ocupacion"),
     ("observaciones_generales", "Observaciones"),
 ]
 
@@ -291,6 +294,9 @@ def exportar_fds_consolidado(registros):
                 "Fecha": r.get("fecha_evaluacion", ""),
                 "Responsable": r.get("evaluador", ""),
                 "Centro Poblado": r.get("centro_poblado", ""),
+                "Entrevistado": r.get("nombre_entrevistado", ""),
+                "DNI": r.get("dni_entrevistado", ""),
+                "Oficio / Ocupacion": r.get("oficio_ocupacion", ""),
             }
             for k, v in form.items():
                 if k in _FDS_TABLAS:

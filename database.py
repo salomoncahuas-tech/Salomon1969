@@ -310,6 +310,9 @@ def inicializar_bd():
             coordenada_norte REAL DEFAULT 0,
             altitud REAL DEFAULT 0,
             codigo_ubigeo TEXT DEFAULT '',
+            nombre_entrevistado TEXT DEFAULT '',
+            dni_entrevistado TEXT DEFAULT '',
+            oficio_ocupacion TEXT DEFAULT '',
             ds01_num_familias TEXT DEFAULT '',
             ds01_poblacion_hombres TEXT DEFAULT '',
             ds01_poblacion_mujeres TEXT DEFAULT '',
@@ -505,6 +508,10 @@ def inicializar_bd():
         ("ds01_tenencia_privada_ha", "TEXT DEFAULT ''"),
         ("ds01_tenencia_estatal_ha", "TEXT DEFAULT ''"),
         ("ds03_resp_experiencia_reforestacion", "TEXT DEFAULT ''"),
+        # ── Datos del entrevistado (Datos Generales y Localizacion) ────────
+        ("nombre_entrevistado", "TEXT DEFAULT ''"),
+        ("dni_entrevistado", "TEXT DEFAULT ''"),
+        ("oficio_ocupacion", "TEXT DEFAULT ''"),
         # ── Diagnostico Social V3 (Plantilla validada, F-DS-01..07) ────────
         # Cada ficha guarda su formulario completo como JSON en una sola
         # columna dsNN_data_v3. Las columnas legacy (arriba) se siguen
