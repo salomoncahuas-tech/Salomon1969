@@ -2676,9 +2676,23 @@ def _ds_datos_generales(bloque_label=""):
     if utm_este_auto and utm_norte_auto and (este == utm_este_auto and norte == utm_norte_auto):
         st.caption("📍 Coordenadas aproximadas (centroide del bloque). Ajuste manualmente si dispone de la ubicacion exacta del centro poblado.")
 
+    # ── Datos del entrevistado (Datos Generales y Localizacion del Excel) ──
+    st.markdown("**Datos del entrevistado**")
+    e1, e2, e3 = st.columns([2, 1, 1.5])
+    nombre_entrev = e1.text_input(
+        "Nombres y apellidos del entrevistado", key="ds_entrev_nombre",
+        help="Persona entrevistada al momento de llenar la ficha.")
+    dni_entrev = e2.text_input(
+        "DNI", key="ds_entrev_dni", max_chars=8,
+        help="Documento Nacional de Identidad del entrevistado.")
+    oficio_entrev = e3.text_input(
+        "Oficio / ocupacion", key="ds_entrev_oficio")
+
     return dict(provincia=prov, distrito=dist, centro_poblado=cpob,
                 comunidad_campesina=ccam, coordenada_este=este,
-                coordenada_norte=norte, altitud=alt_v, codigo_ubigeo=ubigeo)
+                coordenada_norte=norte, altitud=alt_v, codigo_ubigeo=ubigeo,
+                nombre_entrevistado=nombre_entrev, dni_entrevistado=dni_entrev,
+                oficio_ocupacion=oficio_entrev)
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -3244,6 +3258,9 @@ def _ds_build_edit_pending(det):
         "ds_norte": float(det.get("coordenada_norte") or 0),
         "ds_alt": float(det.get("altitud") or 0),
         "ds_ubigeo": det.get("codigo_ubigeo", "") or "",
+        "ds_entrev_nombre": det.get("nombre_entrevistado", "") or "",
+        "ds_entrev_dni": det.get("dni_entrevistado", "") or "",
+        "ds_entrev_oficio": det.get("oficio_ocupacion", "") or "",
         "ds_obs": det.get("observaciones_generales", "") or "",
         "ds_ficha_sel": ficha,
     }
@@ -3358,7 +3375,8 @@ def pagina_diagnostico_social():
 
         prev_bl = st.session_state.get("_ds_prev_bl", "")
         if prev_bl and prev_bl != bl and not edit_id:
-            for k in ("ds_prov", "ds_dist", "ds_cpob", "ds_ccam", "ds_este", "ds_norte"):
+            for k in ("ds_prov", "ds_dist", "ds_cpob", "ds_ccam", "ds_este", "ds_norte",
+                      "ds_entrev_nombre", "ds_entrev_dni", "ds_entrev_oficio"):
                 st.session_state.pop(k, None)
         st.session_state["_ds_prev_bl"] = bl
 
@@ -3526,6 +3544,10 @@ def pagina_diagnostico_social():
                         st.markdown(f"**Centro Poblado:** {det['centro_poblado']} | "
                                     f"**Comunidad:** {det.get('comunidad_campesina','') or '-'} | "
                                     f"**Distrito:** {det.get('distrito','') or det.get('provincia','')}")
+                    if det.get("nombre_entrevistado") or det.get("dni_entrevistado") or det.get("oficio_ocupacion"):
+                        st.markdown(f"**Entrevistado:** {det.get('nombre_entrevistado','') or '-'} | "
+                                    f"**DNI:** {det.get('dni_entrevistado','') or '-'} | "
+                                    f"**Oficio/Ocupacion:** {det.get('oficio_ocupacion','') or '-'}")
                     num = ficha_t.split("-")[-1] if ficha_t else ""
                     raw = det.get(f"ds{num}_data_v3", "") or ""
                     form_det = {}
