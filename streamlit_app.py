@@ -29,6 +29,20 @@ def _invalidar_cache():
     """Incrementa el contador de cache para forzar recarga de datos."""
     st.session_state["db_cache_version"] = st.session_state.get("db_cache_version", 0) + 1
 
+# ── Mensajes flash (sobreviven a st.rerun) ───────────────────────────────
+def _flash(msg, tipo="success"):
+    """Guarda un mensaje para mostrarlo tras el siguiente st.rerun()."""
+    st.session_state["_flash_msg"] = (tipo, msg)
+
+def _mostrar_flash():
+    """Muestra (y descarta) el mensaje flash pendiente, si existe."""
+    item = st.session_state.pop("_flash_msg", None)
+    if not item:
+        return
+    tipo, msg = item
+    {"success": st.success, "info": st.info,
+     "warning": st.warning, "error": st.error}.get(tipo, st.success)(msg)
+
 # ── Funciones cacheadas de lectura de BD ─────────────────────────────────
 @st.cache_data(ttl=300, show_spinner=False)
 def _cached_obtener_bloques(_version):
@@ -1445,6 +1459,28 @@ def _dt_dump_json(rows):
     return _json.dumps(limpios, ensure_ascii=False)
 
 
+# Claves de los widgets escalares de la cabecera del formulario F-DT.
+_DT_HEADER_INPUT_KEYS = (
+    "dt_fecha", "dt_hora", "dt_corr", "dt_eval", "dt_brigada", "dt_mc",
+    "dt_utm_e", "dt_utm_n", "dt_altitud", "dt_cp", "dt_cc", "dt_obs",
+)
+
+
+def _dt_limpiar_widgets_edicion():
+    """Elimina del session_state los valores de los widgets del formulario
+    F-DT para que, al entrar en modo edicion, los parametros value=/index=
+    (que leen de dt_edit_data) vuelvan a tomar efecto.
+
+    Streamlit ignora value=/index= cuando la key del widget ya existe en
+    session_state; sin esta limpieza la precarga del registro a editar no se
+    refleja en los campos.
+    """
+    for k in list(st.session_state.keys()):
+        if k.startswith(("f01_", "f02_", "f03_", "f04_", "f05_")) or \
+           k in _DT_HEADER_INPUT_KEYS:
+            del st.session_state[k]
+
+
 def _dt_dataeditor(label, columns, num_rows, key, options=None, edit_data=None):
     """Renderiza un st.data_editor con `num_rows` filas y columnas dadas."""
     import pandas as _pd
@@ -1481,6 +1517,7 @@ def pagina_diagnostico_territorial():
     st.subheader("Diagnostico Territorial - Fichas de Evaluacion")
     st.caption("Fichas F-DT-01 a F-DT-05 (Plantilla V5): Parametros de evaluacion en campo "
                "para el diagnostico del territorio del Proyecto IN Piura.")
+    _mostrar_flash()
     bm = _bloques_map()
     if not bm:
         st.warning("Registre un bloque primero.")
@@ -2242,7 +2279,8 @@ def pagina_diagnostico_territorial():
                         _invalidar_cache()
                         st.session_state["dt_edit_id"] = None
                         st.session_state["dt_edit_data"] = None
-                        st.success(f"Diagnostico territorial actualizado ({', '.join(fichas_sel)}).")
+                        _flash(f"Diagnostico territorial ID {dt_edit_id} actualizado "
+                               f"correctamente ({', '.join(fichas_sel)}).")
                     else:
                         existentes = db.obtener_diagnosticos_por_bloque(bid)
                         dup = [e for e in existentes
@@ -2257,7 +2295,7 @@ def pagina_diagnostico_territorial():
                         else:
                             db.insertar_diagnostico_territorial_v5(bid, data_v5)
                             _invalidar_cache()
-                            st.success(f"Diagnostico territorial guardado ({', '.join(fichas_sel)}).")
+                            _flash(f"Diagnostico territorial guardado ({', '.join(fichas_sel)}).")
                     st.rerun()
                 except Exception as e:
                     st.error(f"Error: {e}")
@@ -2303,8 +2341,17 @@ def pagina_diagnostico_territorial():
                 if row[7].button("Editar", key=f"edit_dt_{d['id']}", type="primary"):
                     det = db.obtener_diagnostico_por_id(d["id"])
                     if det:
+                        # Limpiar los widgets para que la precarga (value=/index=)
+                        # del registro a editar surta efecto.
+                        _dt_limpiar_widgets_edicion()
                         st.session_state["dt_edit_id"] = det["id"]
                         st.session_state["dt_edit_data"] = det
+                        # Posicionar el selector de bloque en el bloque del registro.
+                        cod = det.get("bloque_codigo", "")
+                        for label_bl in bm:
+                            if cod and cod in label_bl:
+                                st.session_state["dt_bl"] = label_bl
+                                break
                     st.session_state.pop("dt_confirm_del_id", None)
                     st.rerun()
                 if confirm_del_dt_id == d["id"]:
@@ -3277,6 +3324,7 @@ def pagina_diagnostico_social():
     st.subheader("Diagnostico Social - Fichas de Campo (V4)")
     st.caption("Proyecto IN Piura CUI 2669244 | ANIN - DIME - SESDI | "
                "Plantilla validada F-DS-01 a F-DS-07 con celdas de validacion")
+    _mostrar_flash()
     bm = _bloques_map()
     if not bm:
         st.warning("Registre un bloque primero.")
@@ -3378,7 +3426,7 @@ def pagina_diagnostico_social():
                         db.actualizar_diagnostico_social(edit_id, reg)
                         _invalidar_cache()
                         st.session_state["ds_edit_id"] = None
-                        st.success(f"Ficha {ficha_sel} actualizada correctamente (ID {edit_id}).")
+                        _flash(f"Ficha {ficha_sel} actualizada correctamente (ID {edit_id}).")
                     else:
                         existentes_ds = db.obtener_diagnosticos_sociales_por_bloque(bid)
                         dup_ds = [e for e in existentes_ds
@@ -3396,7 +3444,7 @@ def pagina_diagnostico_social():
                                 reg["archivos_adjuntos"] = ""
                             db.insertar_diagnostico_social(reg)
                             _invalidar_cache()
-                            st.success(f"Ficha {ficha_sel} guardada correctamente.")
+                            _flash(f"Ficha {ficha_sel} guardada correctamente.")
                     st.rerun()
                 except Exception as e:
                     st.error(f"Error: {e}")
