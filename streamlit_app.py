@@ -15,6 +15,7 @@ import json
 import tempfile
 
 import database as db
+import export_diagnosticos as exp_diag
 
 # ── Constante de version de cache (incrementar tras escritura) ───────────
 # Usada para invalidar @st.cache_data despues de inserciones/actualizaciones.
@@ -2264,10 +2265,22 @@ def pagina_diagnostico_territorial():
     with tab_hist:
         st.markdown("### Historial de Diagnosticos Territoriales")
         st.caption("Haga clic en **Editar** para modificar un diagnostico existente o en **Eliminar** para descartarlo.")
+        if st.session_state.get("dt_edit_id"):
+            st.info("✏️ Registro cargado en **modo edicion**. Abra la pestaña "
+                    "**'Registro de Diagnostico'** (arriba) para corregir los campos y "
+                    "pulsar **Actualizar Diagnostico Territorial**.")
         todos_dt = _cached_obtener_todos_diagnosticos(_cache_version())
         if not todos_dt:
             st.info("No hay diagnosticos registrados.")
         else:
+            st.download_button(
+                "⬇️ Descargar todo (Excel)",
+                data=exp_diag.exportar_fdt_consolidado(todos_dt),
+                file_name=f"Diagnostico_Territorial_FDT_{datetime.now():%Y%m%d}.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                key="dt_export_excel", type="secondary",
+                help="Genera un unico archivo Excel con una hoja por ficha (F-DT-01..05) "
+                     "y hojas adicionales para las tablas (carcavas, floristica, causas, etc.).")
             dt_pag, total_pags_dt, pag_actual_dt = _paginar(todos_dt, "pag_dt")
             _controles_paginacion(total_pags_dt, pag_actual_dt, "pag_dt")
             col_widths_dt = [0.4, 1, 0.8, 0.8, 0.8, 0.8, 0.8, 0.5, 0.6]
@@ -3392,10 +3405,22 @@ def pagina_diagnostico_social():
     with tab_hist:
         st.markdown("### Historial de Diagnosticos Sociales")
         st.caption("Pulse **Editar** para modificar un registro o **Eliminar** para descartarlo.")
+        if st.session_state.get("ds_edit_id"):
+            st.info("✏️ Registro cargado en **modo edicion**. Abra la pestaña "
+                    "**'Registro'** (arriba) para corregir los campos y "
+                    "pulsar **Actualizar Diagnostico Social**.")
         todos_ds = _cached_obtener_todos_diagnosticos_sociales(_cache_version())
         if not todos_ds:
             st.info("No hay diagnosticos sociales registrados.")
         else:
+            st.download_button(
+                "⬇️ Descargar todo (Excel)",
+                data=exp_diag.exportar_fds_consolidado(todos_ds),
+                file_name=f"Diagnostico_Social_FDS_{datetime.now():%Y%m%d}.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                key="ds_export_excel", type="secondary",
+                help="Genera un unico archivo Excel con una hoja por ficha (F-DS-01..07) "
+                     "y hojas adicionales para las tablas (actores, participantes, conflictos, etc.).")
             ds_pag, total_pags_ds, pag_actual_ds = _paginar(todos_ds, "pag_ds")
             _controles_paginacion(total_pags_ds, pag_actual_ds, "pag_ds")
             col_widths_ds = [0.4, 0.9, 0.7, 0.8, 0.8, 0.8, 0.8, 0.5, 0.6]
