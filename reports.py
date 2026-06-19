@@ -594,6 +594,9 @@ def generar_ficha_pdf(bloque_id, inspeccion_id=None):
             if ficha_ds == "F-DS-01":
                 pdf._subficha("F-DS-01: Diagnostico Socioeconomico de Centro Poblado")
                 campos_ds01 = [
+                    ("Nombres y apellidos del entrevistado", "ds01_entrevistado"),
+                    ("DNI", "ds01_entrevistado_dni"),
+                    ("Oficio/ocupacion", "ds01_entrevistado_oficio"),
                     ("N de familias / viviendas", "ds01_num_familias"),
                     ("Poblacion - Hombres", "ds01_poblacion_hombres"),
                     ("Poblacion - Mujeres", "ds01_poblacion_mujeres"),

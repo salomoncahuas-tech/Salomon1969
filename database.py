@@ -310,6 +310,9 @@ def inicializar_bd():
             coordenada_norte REAL DEFAULT 0,
             altitud REAL DEFAULT 0,
             codigo_ubigeo TEXT DEFAULT '',
+            ds01_entrevistado TEXT DEFAULT '',
+            ds01_entrevistado_dni TEXT DEFAULT '',
+            ds01_entrevistado_oficio TEXT DEFAULT '',
             ds01_num_familias TEXT DEFAULT '',
             ds01_poblacion_hombres TEXT DEFAULT '',
             ds01_poblacion_mujeres TEXT DEFAULT '',
@@ -500,6 +503,9 @@ def inicializar_bd():
 
     # ── Migracion: agregar columnas nuevas a tablas existentes ─────────────
     nuevas_columnas_ds = [
+        ("ds01_entrevistado", "TEXT DEFAULT ''"),
+        ("ds01_entrevistado_dni", "TEXT DEFAULT ''"),
+        ("ds01_entrevistado_oficio", "TEXT DEFAULT ''"),
         ("ds01_activos_asociados", "TEXT DEFAULT ''"),
         ("ds01_tenencia_comunal_ha", "TEXT DEFAULT ''"),
         ("ds01_tenencia_privada_ha", "TEXT DEFAULT ''"),
