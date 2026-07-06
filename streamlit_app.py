@@ -326,95 +326,126 @@ BLOQUES_V5_OPCIONES = BLOQUES_128_OPCIONES
 ZONAS_V5 = sorted({b[11] for b in BLOQUES_V5 if len(b) > 11 and b[11]})
 
 # ── Centros Poblados por Bloque de Intervencion ──────────────────────
-# Fuente: REPORTE BLOQUES V4 PARA APLICATIVO.xlsx (sin duplicados, buffer 500m)
+# Fuente: CentrosPoblados-INEI-Bloques_v5.xlsx (hoja "Lista CPs INEI Bloques V5")
+# Mapeo BLOQUE -> centros poblados INEI (sin duplicados, orden de la fuente oficial).
 CENTROS_POBLADOS_BLOQUE = {
-    "1": {"centros_poblados": ["Gramadal"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "3": {"centros_poblados": ["Huayabal", "Rincon De Geraldo", "El Mirador", "Los Checches", "Huasipe de Geraldo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "5": {"centros_poblados": ["Juan Velasco", "El Ala", "Hacienda El Muerto", "Lindero del Ala"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "6": {"centros_poblados": ["Nogal", "Guanabano / Huanabano", "Huanabano Alto", "Loma Guabal", "Cascajal"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "1": {"centros_poblados": ["Mamayaco", "Gramadal"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "2": {"centros_poblados": ["Balcones de Talandracas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "3": {"centros_poblados": ["Los Checches", "Huayabal", "El Mirador", "Rincon de Geraldo", "Huasipe de Geraldo"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "4": {"centros_poblados": ["San Antonio de Succhirca", "La Rinconada"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "5": {"centros_poblados": ["Juan Velasco", "El Ala", "Linderos del Ala"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "6": {"centros_poblados": ["Guabal", "Nogal", "Guanabano Alto"], "comunidades_campesinas": [], "poblacion_total": 0},
     "8": {"centros_poblados": ["Pirga"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "10": {"centros_poblados": ["La Pena", "Pena Grande"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "11": {"centros_poblados": ["Taylin de Tunali", "Tailin"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "13": {"centros_poblados": ["La Cruz", "Huacas", "Simiris"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "14": {"centros_poblados": ["Las Velas / Las Vegas", "Brasal", "El Murcielago"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "9": {"centros_poblados": ["La Capilla", "El Higueron"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "10": {"centros_poblados": ["La Peña"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "11": {"centros_poblados": ["Taylin de Tuñali"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "12": {"centros_poblados": ["Chacayo", "Santo Domingo"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "13": {"centros_poblados": ["Huacas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "14": {"centros_poblados": ["La Laja", "Overazal"], "comunidades_campesinas": [], "poblacion_total": 0},
     "15": {"centros_poblados": ["Jacanacas"], "comunidades_campesinas": [], "poblacion_total": 0},
     "16": {"centros_poblados": ["Laguna de Paltama"], "comunidades_campesinas": [], "poblacion_total": 0},
     "17": {"centros_poblados": ["El Checo"], "comunidades_campesinas": [], "poblacion_total": 0},
     "18": {"centros_poblados": ["Piedra Blanca"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "19": {"centros_poblados": ["Nuevo Progreso"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "20": {"centros_poblados": ["San Juan", "Lanchipuque", "Tupac Amaru"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "19": {"centros_poblados": ["Tabluran", "Nuevo Progreso"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "20": {"centros_poblados": ["Tupac Amaru"], "comunidades_campesinas": [], "poblacion_total": 0},
     "21": {"centros_poblados": ["Huamala Alto"], "comunidades_campesinas": [], "poblacion_total": 0},
     "22": {"centros_poblados": ["Platanal Bajo"], "comunidades_campesinas": [], "poblacion_total": 0},
     "23": {"centros_poblados": ["Jacanacas", "Nueva Esperanza"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "24": {"centros_poblados": ["Villanueva"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "24": {"centros_poblados": ["Coyona"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "25": {"centros_poblados": ["Cruz Pampa-yapatera"], "comunidades_campesinas": [], "poblacion_total": 0},
     "26": {"centros_poblados": ["La Laguna"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "27": {"centros_poblados": ["Nueva Esperanza de Misquis"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "27": {"centros_poblados": ["Nueva Esperanza de Misquis", "Linderos de Misquis"], "comunidades_campesinas": [], "poblacion_total": 0},
     "28": {"centros_poblados": ["Abalque"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "30": {"centros_poblados": ["La Virgen"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "29": {"centros_poblados": ["Santa Cruz"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "30": {"centros_poblados": ["Chamelico", "Sapce"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "32": {"centros_poblados": ["Panecillo"], "comunidades_campesinas": [], "poblacion_total": 0},
     "33": {"centros_poblados": ["Sambe"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "34": {"centros_poblados": ["Maray"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "35": {"centros_poblados": ["Quitahuajara", "Chamelico"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "36": {"centros_poblados": ["Cascajal"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "37": {"centros_poblados": ["La Oficina", "El Papayo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "38": {"centros_poblados": ["Curana"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "34": {"centros_poblados": ["Maray Grande", "Maray Chico"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "35": {"centros_poblados": ["Chamelico", "Quitahuajara"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "36": {"centros_poblados": ["Guabal"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "37": {"centros_poblados": ["El Papayo"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "38": {"centros_poblados": ["Ullma"], "comunidades_campesinas": [], "poblacion_total": 0},
     "39": {"centros_poblados": ["La Cria"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "40": {"centros_poblados": ["Chorro Blanco", "Chacchacal / Chorro Blanco"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "42": {"centros_poblados": ["Portachuelo", "Santa Rosa de Chirimoyos", "El Ceibo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "43": {"centros_poblados": ["Coyona", "Collona", "Pizarrume"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "49": {"centros_poblados": ["Las Huacas", "Pajal"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "51": {"centros_poblados": ["Talla"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "52": {"centros_poblados": ["Miraflores", "Pajal"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "40": {"centros_poblados": ["Chorro Blanco", "Chacchacal"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "41": {"centros_poblados": ["Cambruran"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "42": {"centros_poblados": ["Santa Rosa de Chirimoyos"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "43": {"centros_poblados": ["Pizarrume", "Coyona"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "44": {"centros_poblados": ["Cruz de Piedra"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "46": {"centros_poblados": ["Nangay"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "47": {"centros_poblados": ["Gaspar"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "49": {"centros_poblados": ["Las Huacas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "51": {"centros_poblados": ["Shain", "Talla"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "52": {"centros_poblados": ["Miraflores"], "comunidades_campesinas": [], "poblacion_total": 0},
     "53": {"centros_poblados": ["Zururan"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "55": {"centros_poblados": ["Pajal"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "61": {"centros_poblados": ["Pedregal", "Alto Zonal"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "55": {"centros_poblados": ["Las Huacas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "56": {"centros_poblados": ["Banda de la Cruz", "Putagas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "57": {"centros_poblados": ["San Lorenzo", "Taspa"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "58": {"centros_poblados": ["Linderos de Maray", "Maray"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "59": {"centros_poblados": ["Guabo"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "60": {"centros_poblados": ["Flor de Cafe"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "61": {"centros_poblados": ["Pedregal"], "comunidades_campesinas": [], "poblacion_total": 0},
     "63": {"centros_poblados": ["Shuturumbe"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "66": {"centros_poblados": ["Huamala", "Naranjo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "67": {"centros_poblados": ["El Palto"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "64": {"centros_poblados": ["Pariamarca Centro"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "66": {"centros_poblados": ["Huamala Baja"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "67": {"centros_poblados": ["Piedra Grande"], "comunidades_campesinas": [], "poblacion_total": 0},
     "68": {"centros_poblados": ["Tabluran"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "69": {"centros_poblados": ["Molle", "Hualanga Pampa"], "comunidades_campesinas": [], "poblacion_total": 0},
     "70": {"centros_poblados": ["Zururan"], "comunidades_campesinas": [], "poblacion_total": 0},
     "71": {"centros_poblados": ["Pirga"], "comunidades_campesinas": [], "poblacion_total": 0},
     "72": {"centros_poblados": ["Ramon Castilla"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "73": {"centros_poblados": ["Chococa"], "comunidades_campesinas": [], "poblacion_total": 0},
     "74": {"centros_poblados": ["Chalpa"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "76": {"centros_poblados": ["Hualanga", "Sahuate"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "75": {"centros_poblados": ["San Cristobal", "Sanchez Cerro"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "76": {"centros_poblados": ["Sahuate Hualanga", "Hualanga"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "77": {"centros_poblados": ["Miguel Pampa"], "comunidades_campesinas": [], "poblacion_total": 0},
     "78": {"centros_poblados": ["Tasajeras"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "80": {"centros_poblados": ["Cruz Roja"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "79": {"centros_poblados": ["Huabal", "Almirante Miguel Grau"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "80": {"centros_poblados": ["Yumbe", "Cruz Roja"], "comunidades_campesinas": [], "poblacion_total": 0},
     "81": {"centros_poblados": ["Hualtacal"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "82": {"centros_poblados": ["Portachuelo/Portachuelo de San Francisco"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "82": {"centros_poblados": ["Santa Fe de Portachuelo"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M10B4": {"centros_poblados": ["Rio Seco Alto"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M12B1": {"centros_poblados": ["Nueva Esperanza de Los Molinos", "Hualcas", "Gramadal"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M11B3": {"centros_poblados": ["Quemazon", "La Pareja"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M12B1": {"centros_poblados": ["Nueva Esperanza", "Faicalito"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M17B1": {"centros_poblados": ["Papelillo"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M17B4": {"centros_poblados": ["Chililique Alto"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M17B5": {"centros_poblados": ["El Guabo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M17B6": {"centros_poblados": ["Chililique Alto", "Platanal Alto"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M17B6": {"centros_poblados": ["Platanal Alto", "El Guabo", "Chililique Alto"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M17B7": {"centros_poblados": ["Pampa de Ramada"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M18B3": {"centros_poblados": ["Huaroquispampa", "Selva Andina", "Mangamanguilla"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M18B1": {"centros_poblados": ["Hualas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M18B3": {"centros_poblados": ["Huaro Quispampa", "Mangomanguia", "Selva Andina"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M18B5": {"centros_poblados": ["Morroponcito"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M19B2": {"centros_poblados": ["Boca Negra"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M19B7": {"centros_poblados": ["El Faique"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M1B1": {"centros_poblados": ["Rio Seco"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M20B1": {"centros_poblados": ["Las Huacas", "Mantequillera"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M22B1": {"centros_poblados": ["Santa Rosa La Antena"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M27B1": {"centros_poblados": ["Vicus la Merced", "Huasimal", "Linderos de Vicus"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M28B2": {"centros_poblados": ["Flor de Agua", "Victor Raul Haya de La Torre"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M20B1": {"centros_poblados": ["Las Huacas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M22B1": {"centros_poblados": ["Santa Rosa"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M27B1": {"centros_poblados": ["Huasimal", "Vicus Linderos", "Vicus la Merced", "Vicus Santa Rosa"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M28B2": {"centros_poblados": ["Flor de Agua", "Victor Raul (el Checo)"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M28B3": {"centros_poblados": ["Ricardo Palma"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M28B4": {"centros_poblados": ["Alto Mambluque", "Mambluque", "Nueva Esperanza"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M28B4": {"centros_poblados": ["Nueva Esperanza", "Mambluque", "Alto Mambluque"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M2B1": {"centros_poblados": ["Santa Rosa"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M2B5": {"centros_poblados": ["Hornopampa"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M2B8": {"centros_poblados": ["Las Huacas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M2B8": {"centros_poblados": ["Las Huacas", "Huacas Baja"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M32B3": {"centros_poblados": ["Maray"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M36B2": {"centros_poblados": ["Portachuelo", "Santa Rosa de Chirimoyos", "Laguna Colorada"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M36B2": {"centros_poblados": ["Santa Rosa de Chirimoyos"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M3B1": {"centros_poblados": ["Piedra Blanca"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M3B3": {"centros_poblados": ["Alan Garcia", "Bigote", "Bigote de Gato"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M3B3": {"centros_poblados": ["Alan Garcia", "Bigote"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M3B5": {"centros_poblados": ["San Juan Bautista"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M3B6": {"centros_poblados": ["San Juan Bautista", "Manzanares", "Bado De Garzas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M3B6": {"centros_poblados": ["Manzanares", "Bado de Garzas"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M3B7": {"centros_poblados": ["Polluco", "Sinai"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M3B8": {"centros_poblados": ["San Pedro", "Santa Rosa"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M4B3": {"centros_poblados": ["La Huaca"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M4B4": {"centros_poblados": ["Hualcas Alto", "Hualcas"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M6B10": {"centros_poblados": ["La Maravilla", "La Pilca"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M7B1": {"centros_poblados": ["La Alberca", "Nuevo Progreso", "Victor Raul"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M7B2": {"centros_poblados": ["El Cerezo", "La Alberca"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M7B3": {"centros_poblados": ["La Tranca", "Palo Blanco"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M7B6": {"centros_poblados": ["Santa Rosa", "Serran"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M8B2": {"centros_poblados": ["Hualtacal"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M3B9": {"centros_poblados": ["Tortola"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M4B3": {"centros_poblados": ["Chignia Baja"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M4B4": {"centros_poblados": ["Hualcas I", "Hualcas Ii"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M6B10": {"centros_poblados": ["La Maravilla", "La Pilca", "Ingenio de Buenos Aires"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M6B2-2": {"centros_poblados": ["Buenos Aires"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M6B2-3": {"centros_poblados": ["Pueblo Nuevo", "Pedregal"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M7B1": {"centros_poblados": ["Victor Raul", "Nuevo Progreso", "La Alberca"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M7B2": {"centros_poblados": ["La Alberca"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M7B3": {"centros_poblados": ["Palo Blanco-el Cerezo", "La Tranca"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M7B6": {"centros_poblados": ["Nuevo San Juan", "Santa Rosa", "Serran"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M8B2": {"centros_poblados": ["Botijas"], "comunidades_campesinas": [], "poblacion_total": 0},
+    "M9B1": {"centros_poblados": ["La Peña"], "comunidades_campesinas": [], "poblacion_total": 0},
 }
 
 PROVINCIAS_DISTRITOS = {
@@ -2739,7 +2770,15 @@ def _MS(f, container, label, options, key, help=None):
     """Multiselect 'marcar las que apliquen' (celda de validacion)."""
     opts = list(options)
     if key in st.session_state:
-        st.session_state[key] = [v for v in st.session_state[key] if v in opts]
+        cur = st.session_state[key]
+        # Compatibilidad con registros antiguos guardados como escalar (str)
+        if isinstance(cur, str):
+            cur = [cur] if cur else []
+        elif isinstance(cur, (tuple, set)):
+            cur = list(cur)
+        elif not isinstance(cur, list):
+            cur = []
+        st.session_state[key] = [v for v in cur if v in opts]
     f[key] = container.multiselect(label, opts, key=key, help=help)
     return f[key]
 
@@ -2836,13 +2875,16 @@ def _render_fds01():
 
     st.markdown("**5. Servicios Basicos e Infraestructura Social**")
     c1, c2, c3, c4 = st.columns(4)
-    _SB(f, c1, "5.1 Agua para consumo", FL.L_AGUA, "f1_agua")
+    _MS(f, c1, "5.1 Agua para consumo", FL.L_AGUA, "f1_agua",
+        help="Marque todas las fuentes que apliquen (la poblacion puede usar mas de una).")
     _T(f, c2, "Cobertura agua (%)", "f1_agua_cob")
     _T(f, c3, "Pago mensual S/", "f1_agua_pago")
     _T(f, c4, "Tiempo acarreo / viajes", "f1_agua_acarreo")
     c1, c2 = st.columns(2)
-    _SB(f, c1, "5.2 Saneamiento", FL.L_SANEA, "f1_sanea")
-    _SB(f, c2, "5.3 Energia electrica", FL.L_ENERG, "f1_energia")
+    _MS(f, c1, "5.2 Saneamiento", FL.L_SANEA, "f1_sanea",
+        help="Marque todos los tipos que apliquen (p. ej. una parte usa letrina seca y otra pozo septico).")
+    _MS(f, c2, "5.3 Energia electrica", FL.L_ENERG, "f1_energia",
+        help="Marque todas las fuentes que apliquen (la poblacion puede usar mas de una).")
     c1, c2 = st.columns(2)
     _T(f, c1, "Cobertura energia (%)", "f1_energia_cob")
     _T(f, c2, "Pago mensual energia S/", "f1_energia_pago")
@@ -3178,6 +3220,13 @@ _DS_RENDERERS = {
 }
 
 
+def _ds_join(v):
+    """Serializa a texto un valor que puede ser lista (multiselect) o escalar."""
+    if isinstance(v, (list, tuple, set)):
+        return " / ".join(str(x) for x in v)
+    return v if v is not None else ""
+
+
 def _ds_legacy_cols(ficha, f):
     """Mapea el formulario V3 a columnas legacy para compatibilidad de reportes."""
     L = {}
@@ -3194,10 +3243,10 @@ def _ds_legacy_cols(ficha, f):
             "ds01_organizacion_comunal": f.get("f1_org_terr", ""),
             "ds01_junta_directiva": f.get("f1_junta_vig", ""),
             "ds01_presidente_junta": f.get("f1_pres_junta", ""),
-            "ds01_agua_potable_tipo": f.get("f1_agua", ""),
+            "ds01_agua_potable_tipo": _ds_join(f.get("f1_agua", "")),
             "ds01_agua_potable_cobertura": f.get("f1_agua_cob", ""),
-            "ds01_saneamiento": f.get("f1_sanea", ""),
-            "ds01_energia_tipo": f.get("f1_energia", ""),
+            "ds01_saneamiento": _ds_join(f.get("f1_sanea", "")),
+            "ds01_energia_tipo": _ds_join(f.get("f1_energia", "")),
             "ds01_energia_cobertura": f.get("f1_energia_cob", ""),
             "ds01_telecomunicaciones": f.get("f1_telecom", ""),
             "ds01_telecom_operador": f.get("f1_telecom_op", ""),
