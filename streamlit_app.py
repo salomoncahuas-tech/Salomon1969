@@ -2571,14 +2571,31 @@ def pagina_diagnostico_territorial():
         st.info("Al cargar el archivo, el sistema leera los datos y autocompletara "
                 "el formulario en la pestana **Registro de Diagnostico**. Podra revisar "
                 "y ajustar antes de guardar.")
+        st.caption("Importador Excel V5 — rev. 2")
 
         uploaded_excel_dt = st.file_uploader(
-            "Seleccionar archivo Excel (.xlsx)",
+            "Seleccionar archivo Excel (.xlsx, max. 25 MB)",
             type=["xlsx"], key="dt_excel_upload")
+
+        if uploaded_excel_dt is not None and uploaded_excel_dt.size > 25 * 1024 * 1024:
+            st.error(f"El archivo '{uploaded_excel_dt.name}' pesa "
+                     f"{uploaded_excel_dt.size / (1024 * 1024):.1f} MB y excede el "
+                     "limite de 25 MB. Guarde una copia sin imagenes/hojas extra "
+                     "e intente de nuevo.")
+            uploaded_excel_dt = None
 
         if uploaded_excel_dt is not None:
             try:
-                resultados_dt = parsear_excel_dt(uploaded_excel_dt)
+                # Cachear el parseo por archivo: Streamlit re-ejecuta el
+                # script en cada interaccion mientras el archivo siga en el
+                # uploader, y re-parsear cada vez es trabajo repetido.
+                _dt_x_key = (uploaded_excel_dt.name, uploaded_excel_dt.size)
+                if st.session_state.get("_dt_excel_cache_key") == _dt_x_key:
+                    resultados_dt = st.session_state["_dt_excel_cache_val"]
+                else:
+                    resultados_dt = parsear_excel_dt(uploaded_excel_dt)
+                    st.session_state["_dt_excel_cache_key"] = _dt_x_key
+                    st.session_state["_dt_excel_cache_val"] = resultados_dt
                 if not resultados_dt:
                     st.error("No se pudieron detectar fichas V5 en el archivo.")
                 else:
@@ -3663,7 +3680,10 @@ def pagina_diagnostico_social():
         st.markdown("**2. Subir Excel Llenado por el Tecnico**")
         st.info("El sistema leera los datos disponibles y autocompletara el formulario "
                 "en la pestana **Registro** para su revision antes de guardar.")
-        uploaded_excel = st.file_uploader("Seleccionar archivo Excel (.xlsx)", type=["xlsx"], key="ds_excel_upload")
+        uploaded_excel = st.file_uploader("Seleccionar archivo Excel (.xlsx, max. 25 MB)", type=["xlsx"], key="ds_excel_upload")
+        if uploaded_excel is not None and uploaded_excel.size > 25 * 1024 * 1024:
+            st.error(f"El archivo '{uploaded_excel.name}' excede el limite de 25 MB.")
+            uploaded_excel = None
         if uploaded_excel is not None:
             try:
                 resultados = parsear_excel_ds(uploaded_excel)
@@ -3726,7 +3746,10 @@ def pagina_elementos_expuestos():
 
     with col_up:
         st.markdown("**Importar Excel llenado**")
-        archivo = st.file_uploader("Cargar Excel F-EE llenado", type=["xlsx"], key="up_ee")
+        archivo = st.file_uploader("Cargar Excel F-EE llenado (max. 25 MB)", type=["xlsx"], key="up_ee")
+        if archivo is not None and archivo.size > 25 * 1024 * 1024:
+            st.error(f"El archivo '{archivo.name}' excede el limite de 25 MB.")
+            archivo = None
         if archivo and st.button("Procesar Excel F-EE", key="btn_proc_ee"):
             try:
                 resultados = parsear_excel_ee(archivo.read())
