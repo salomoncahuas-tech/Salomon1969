@@ -96,6 +96,54 @@ def generar_plantilla_dt(fichas=None, bloques_data=None):
 
 # ─── Parseo del Excel V5 llenado ──────────────────────────────────────────
 
+# Limites de barrido por hoja. Las fichas V5 reales ocupan menos de 70
+# filas x 12 columnas; al editar en Excel el "rango usado" del archivo
+# puede inflarse hasta 1,048,576 filas (formato de columnas enteras,
+# celdas tocadas lejos, copiar/pegar), y sin este tope los barridos
+# celda-por-celda del parser agotan CPU/memoria y tumban el servidor.
+_MAX_SCAN_ROWS = 400
+_MAX_SCAN_COLS = 40
+
+
+class _CellView:
+    __slots__ = ("value",)
+
+    def __init__(self, value):
+        self.value = value
+
+
+class _SheetGrid:
+    """Copia acotada y de solo lectura de los valores de una hoja.
+
+    Se construye con UNA pasada de `iter_rows` (limitada a
+    _MAX_SCAN_ROWS x _MAX_SCAN_COLS) y expone la misma interfaz que usan
+    los parsers (`cell(row, column).value`, `max_row`, `max_column`),
+    de modo que los multiples barridos posteriores son sobre un dict en
+    memoria y no sobre el workbook."""
+
+    def __init__(self, ws, max_rows=_MAX_SCAN_ROWS, max_cols=_MAX_SCAN_COLS):
+        self._vals = {}
+        max_r = 0
+        max_c = 0
+        for r_idx, row in enumerate(
+                ws.iter_rows(min_row=1, max_row=max_rows,
+                             min_col=1, max_col=max_cols,
+                             values_only=True),
+                start=1):
+            for c_idx, v in enumerate(row, start=1):
+                if v is not None:
+                    self._vals[(r_idx, c_idx)] = v
+                    if r_idx > max_r:
+                        max_r = r_idx
+                    if c_idx > max_c:
+                        max_c = c_idx
+        self.max_row = max_r or 1
+        self.max_column = max_c or 1
+
+    def cell(self, row, column):
+        return _CellView(self._vals.get((row, column)))
+
+
 def _val(ws, row, col):
     v = ws.cell(row=row, column=col).value
     if v is None:
@@ -529,35 +577,47 @@ _PARSERS = {
 
 
 def parsear_excel_dt(file_bytes, ficha=None):
-    """Parsea un archivo Excel V5 y devuelve [{ficha, datos}, ...]."""
-    wb = load_workbook(file_bytes, data_only=True)
-    resultados = []
-    if ficha and ficha in _PARSERS:
+    """Parsea un archivo Excel V5 y devuelve [{ficha, datos}, ...].
+
+    Se abre en modo read_only (streaming) y cada hoja se copia una sola
+    vez a una `_SheetGrid` acotada; asi un archivo con el rango usado
+    inflado por Excel no agota la memoria del servidor."""
+    wb = load_workbook(file_bytes, data_only=True, read_only=True)
+    try:
+        resultados = []
+        if ficha and ficha in _PARSERS:
+            for sn in wb.sheetnames:
+                if ficha.lower().replace("-", "") in sn.lower().replace("-", ""):
+                    grid = _SheetGrid(wb[sn])
+                    resultados.append({"ficha": ficha, "datos": _PARSERS[ficha](grid)})
+                    return resultados
+            return resultados
         for sn in wb.sheetnames:
-            if ficha.lower().replace("-", "") in sn.lower().replace("-", ""):
-                resultados.append({"ficha": ficha, "datos": _PARSERS[ficha](wb[sn])})
-                return resultados
-        return resultados
-    for sn in wb.sheetnames:
-        ficha_det = None
-        sn_clean = sn.lower().replace("-", "").replace(" ", "")
-        for fid in _PARSERS:
-            if fid.lower().replace("-", "") in sn_clean:
-                ficha_det = fid
-                break
-        if not ficha_det:
-            for r in range(1, 6):
-                cv = str(wb[sn].cell(row=r, column=1).value or "")
-                for fid in _PARSERS:
-                    if fid in cv:
-                        ficha_det = fid
-                        break
-                if ficha_det:
+            ficha_det = None
+            grid = None
+            sn_clean = sn.lower().replace("-", "").replace(" ", "")
+            for fid in _PARSERS:
+                if fid.lower().replace("-", "") in sn_clean:
+                    ficha_det = fid
                     break
-        if ficha_det:
-            resultados.append({"ficha": ficha_det,
-                               "datos": _PARSERS[ficha_det](wb[sn])})
-    return resultados
+            if not ficha_det:
+                grid = _SheetGrid(wb[sn])
+                for r in range(1, 6):
+                    cv = str(grid.cell(row=r, column=1).value or "")
+                    for fid in _PARSERS:
+                        if fid in cv:
+                            ficha_det = fid
+                            break
+                    if ficha_det:
+                        break
+            if ficha_det:
+                if grid is None:
+                    grid = _SheetGrid(wb[sn])
+                resultados.append({"ficha": ficha_det,
+                                   "datos": _PARSERS[ficha_det](grid)})
+        return resultados
+    finally:
+        wb.close()
 
 
 # ─── Mapeo a session_state del aplicativo ─────────────────────────────────
