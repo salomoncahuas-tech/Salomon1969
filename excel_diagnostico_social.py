@@ -304,20 +304,23 @@ def parsear_excel_ds(file_bytes, ficha=None):
     """Parsea la plantilla V3 llenada. Devuelve lista de
     {"ficha": str, "datos": {...header..., "form": {...}}}.
     Robusto: nunca lanza por una hoja individual."""
+    from excel_diagnostico_territorial import _SheetGrid
     if hasattr(file_bytes, "read"):
         raw = file_bytes.read()
     else:
         raw = file_bytes
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        wb = load_workbook(io.BytesIO(raw), data_only=True)
+        # read_only + _SheetGrid: una sola pasada acotada por hoja, para
+        # que un rango usado inflado por Excel no agote CPU/memoria.
+        wb = load_workbook(io.BytesIO(raw), data_only=True, read_only=True)
 
     objetivo = [ficha] if ficha else FICHAS_HOJAS
     resultados = []
     for hoja in objetivo:
         if hoja not in wb.sheetnames:
             continue
-        ws = wb[hoja]
+        ws = _SheetGrid(wb[hoja])
         try:
             datos = _parse_header(ws)
             form = _PARSERS[hoja](ws)
@@ -329,6 +332,7 @@ def parsear_excel_ds(file_bytes, ficha=None):
                 resultados.append({"ficha": hoja, "datos": datos})
         except Exception:
             continue
+    wb.close()
     return resultados
 
 

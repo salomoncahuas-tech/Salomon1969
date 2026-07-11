@@ -905,27 +905,35 @@ _PARSERS = {
 
 
 def parsear_excel_ee(file_bytes):
-    """Parsea un archivo Excel cargado y devuelve dict de datos por ficha."""
-    wb = load_workbook(io.BytesIO(file_bytes), data_only=True)
-    resultados = {}
-    for sheet_name in wb.sheetnames:
-        if sheet_name.startswith("_") or sheet_name.upper() == "INSTRUCTIVO":
-            continue
-        # Determinar tipo de ficha
-        ficha = None
-        for key in _PARSERS:
-            if key in sheet_name:
-                ficha = key
-                break
-        if ficha and ficha in _PARSERS:
-            datos = _PARSERS[ficha](wb[sheet_name])
-            datos["ficha"] = ficha
-            # Serializar listas a JSON
-            for k, v in datos.items():
-                if isinstance(v, list):
-                    datos[k] = json.dumps(v, ensure_ascii=False)
-            resultados[ficha] = datos
-    return resultados
+    """Parsea un archivo Excel cargado y devuelve dict de datos por ficha.
+
+    Se abre en modo read_only y cada hoja se copia una sola vez a una
+    `_SheetGrid` acotada (ver excel_diagnostico_territorial); asi un
+    archivo con el rango usado inflado por Excel no agota CPU/memoria."""
+    from excel_diagnostico_territorial import _SheetGrid
+    wb = load_workbook(io.BytesIO(file_bytes), data_only=True, read_only=True)
+    try:
+        resultados = {}
+        for sheet_name in wb.sheetnames:
+            if sheet_name.startswith("_") or sheet_name.upper() == "INSTRUCTIVO":
+                continue
+            # Determinar tipo de ficha
+            ficha = None
+            for key in _PARSERS:
+                if key in sheet_name:
+                    ficha = key
+                    break
+            if ficha and ficha in _PARSERS:
+                datos = _PARSERS[ficha](_SheetGrid(wb[sheet_name]))
+                datos["ficha"] = ficha
+                # Serializar listas a JSON
+                for k, v in datos.items():
+                    if isinstance(v, list):
+                        datos[k] = json.dumps(v, ensure_ascii=False)
+                resultados[ficha] = datos
+        return resultados
+    finally:
+        wb.close()
 
 
 # =========================================================================
