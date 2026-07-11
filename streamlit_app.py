@@ -44,27 +44,30 @@ def _mostrar_flash():
      "warning": st.warning, "error": st.error}.get(tipo, st.success)(msg)
 
 # ── Funciones cacheadas de lectura de BD ─────────────────────────────────
-@st.cache_data(ttl=300, show_spinner=False)
+# max_entries=2: al invalidar por version quedarian copias viejas del
+# dataset completo en memoria hasta expirar el TTL; con el limite solo se
+# retiene la version actual y una anterior.
+@st.cache_data(ttl=300, show_spinner=False, max_entries=2)
 def _cached_obtener_bloques(_version):
     return db.obtener_bloques()
 
-@st.cache_data(ttl=300, show_spinner=False)
+@st.cache_data(ttl=300, show_spinner=False, max_entries=2)
 def _cached_obtener_todas_inspecciones(_version):
     return db.obtener_todas_inspecciones()
 
-@st.cache_data(ttl=300, show_spinner=False)
+@st.cache_data(ttl=300, show_spinner=False, max_entries=2)
 def _cached_obtener_estadisticas(_version):
     return db.obtener_estadisticas_generales()
 
-@st.cache_data(ttl=300, show_spinner=False)
+@st.cache_data(ttl=300, show_spinner=False, max_entries=2)
 def _cached_obtener_resumen_bloques(_version):
     return db.obtener_resumen_bloques()
 
-@st.cache_data(ttl=300, show_spinner=False)
+@st.cache_data(ttl=300, show_spinner=False, max_entries=2)
 def _cached_obtener_todos_diagnosticos(_version):
     return db.obtener_todos_diagnosticos()
 
-@st.cache_data(ttl=300, show_spinner=False)
+@st.cache_data(ttl=300, show_spinner=False, max_entries=2)
 def _cached_obtener_todos_diagnosticos_sociales(_version):
     return db.obtener_todos_diagnosticos_sociales()
 
@@ -2342,14 +2345,23 @@ def pagina_diagnostico_territorial():
         if not todos_dt:
             st.info("No hay diagnosticos registrados.")
         else:
-            st.download_button(
-                "⬇️ Descargar todo (Excel)",
-                data=exp_diag.exportar_fdt_consolidado(todos_dt),
-                file_name=f"Diagnostico_Territorial_FDT_{datetime.now():%Y%m%d}.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                key="dt_export_excel", type="secondary",
-                help="Genera un unico archivo Excel con una hoja por ficha (F-DT-01..05) "
-                     "y hojas adicionales para las tablas (carcavas, floristica, causas, etc.).")
+            # Generar el consolidado SOLO al pulsar el boton: si se pasa
+            # inline a download_button, se regenera en cada rerun de la
+            # pagina (Streamlit re-ejecuta todo el script por interaccion)
+            # y ese trabajo repetido de pandas/openpyxl agota la memoria
+            # del servidor.
+            if st.button(
+                    "Generar Excel consolidado", key="dt_export_prep", type="secondary",
+                    help="Genera un unico archivo Excel con una hoja por ficha (F-DT-01..05) "
+                         "y hojas adicionales para las tablas (carcavas, floristica, causas, etc.)."):
+                st.session_state["dt_export_bytes"] = exp_diag.exportar_fdt_consolidado(todos_dt)
+            if st.session_state.get("dt_export_bytes"):
+                st.download_button(
+                    "⬇️ Descargar todo (Excel)",
+                    data=st.session_state["dt_export_bytes"],
+                    file_name=f"Diagnostico_Territorial_FDT_{datetime.now():%Y%m%d}.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    key="dt_export_excel", type="secondary")
             dt_pag, total_pags_dt, pag_actual_dt = _paginar(todos_dt, "pag_dt")
             _controles_paginacion(total_pags_dt, pag_actual_dt, "pag_dt")
             col_widths_dt = [0.4, 1, 0.8, 0.8, 0.8, 0.8, 0.8, 0.5, 0.6]
@@ -3545,14 +3557,20 @@ def pagina_diagnostico_social():
         if not todos_ds:
             st.info("No hay diagnosticos sociales registrados.")
         else:
-            st.download_button(
-                "⬇️ Descargar todo (Excel)",
-                data=exp_diag.exportar_fds_consolidado(todos_ds),
-                file_name=f"Diagnostico_Social_FDS_{datetime.now():%Y%m%d}.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                key="ds_export_excel", type="secondary",
-                help="Genera un unico archivo Excel con una hoja por ficha (F-DS-01..07) "
-                     "y hojas adicionales para las tablas (actores, participantes, conflictos, etc.).")
+            # Igual que en FDT: generar solo bajo demanda para no repetir
+            # la exportacion completa en cada rerun.
+            if st.button(
+                    "Generar Excel consolidado", key="ds_export_prep", type="secondary",
+                    help="Genera un unico archivo Excel con una hoja por ficha (F-DS-01..07) "
+                         "y hojas adicionales para las tablas (actores, participantes, conflictos, etc.)."):
+                st.session_state["ds_export_bytes"] = exp_diag.exportar_fds_consolidado(todos_ds)
+            if st.session_state.get("ds_export_bytes"):
+                st.download_button(
+                    "⬇️ Descargar todo (Excel)",
+                    data=st.session_state["ds_export_bytes"],
+                    file_name=f"Diagnostico_Social_FDS_{datetime.now():%Y%m%d}.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    key="ds_export_excel", type="secondary")
             ds_pag, total_pags_ds, pag_actual_ds = _paginar(todos_ds, "pag_ds")
             _controles_paginacion(total_pags_ds, pag_actual_ds, "pag_ds")
             col_widths_ds = [0.4, 0.9, 0.7, 0.8, 0.8, 0.8, 0.8, 0.5, 0.6]
@@ -3738,11 +3756,16 @@ def pagina_elementos_expuestos():
     col_dl, col_up = st.columns(2)
     with col_dl:
         st.markdown("**Descargar plantilla Excel F-EE**")
-        excel_bytes = generar_plantilla_ee(bloques_data)
-        st.download_button("Descargar Plantilla F-EE (Excel)", excel_bytes,
-                           "Plantilla_Elementos_Expuestos_IN_Piura.xlsx",
-                           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                           key="dl_ee")
+        # Generar la plantilla solo bajo demanda: hacerlo inline la
+        # reconstruia con openpyxl en cada rerun de la pagina.
+        if st.button("Generar Plantilla F-EE", key="ee_gen_plantilla"):
+            st.session_state["ee_plantilla_bytes"] = generar_plantilla_ee(bloques_data)
+        if st.session_state.get("ee_plantilla_bytes"):
+            st.download_button("Descargar Plantilla F-EE (Excel)",
+                               st.session_state["ee_plantilla_bytes"],
+                               "Plantilla_Elementos_Expuestos_IN_Piura.xlsx",
+                               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                               key="dl_ee")
 
     with col_up:
         st.markdown("**Importar Excel llenado**")
