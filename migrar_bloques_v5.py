@@ -1,7 +1,11 @@
 """
 Script de migracion: Reemplaza los bloques existentes en la BD por los
-127 bloques V5 (con zonas Z01..Z14 y coordenadas UTM).
+132 bloques V5 (con zonas Z01..Z14 y coordenadas UTM).
 ATENCION: Elimina TODOS los registros vinculados (inspecciones, diagnosticos, etc.)
+
+Para SOLO dar de alta bloques faltantes sin borrar nada, use en su lugar
+`database.sincronizar_bloques_catalogo()` o la seccion "Sincronizar catalogo
+de bloques" de la pagina "Bloques de Intervencion" del aplicativo.
 
 Uso:
     python migrar_bloques_v5.py
@@ -25,7 +29,8 @@ def leer_database_url():
     print("ERROR: DATABASE_URL no encontrada en secrets.toml")
     sys.exit(1)
 
-# Bloques V5 (127 bloques) - Plantilla_DT_Campo_Check_Validada_V5.xlsx
+# Bloques V5 (132 bloques) - Plantilla_DT_Campo_Check_Validada_V5.xlsx
+# + ampliacion "Bloques Adicionalea.xlsx" (bloques 83..87)
 # (codigo, microcuenca, area_ha, provincia, distrito, zona, utm_este, utm_norte, msavi_2024)
 BLOQUES_V5 = [
     ("M9B1", "C1096-Q9545", 355.36, "Morropon", "Chulucanas", "Z01", 595552, 9451222, 0.314312),
@@ -155,6 +160,12 @@ BLOQUES_V5 = [
     ("71", "C1076-Q9593", 10.67, "Huancabamba", "Huarmaca", "Z14", 652104, 9373045, 0.557066),
     ("8", "C1076-Q9593", 126.95, "Huancabamba", "Huarmaca", "Z14", 651673, 9373383, 0.554802),
     ("20", "C1076-Q9593", 81.33, "Huancabamba", "Huarmaca", "Z14", 649847, 9376260, 0.48513),
+    # Ampliacion: bloques adicionales sin coordenadas UTM en la fuente.
+    ("83", "C1081-Q9583", 24.344, "Morropon", "San Juan de Bigote", "Z08", 0, 0, 0.30545594),
+    ("84", "C1081-Q9583", 5.097, "Morropon", "San Juan de Bigote", "Z08", 0, 0, 0.251595558),
+    ("85", "C1081-Q9583", 11.906, "Morropon", "San Juan de Bigote", "Z08", 0, 0, 0.228928157),
+    ("86", "C1081-Q9583", 30.001, "Morropon", "San Juan de Bigote", "Z08", 0, 0, 0.273471802),
+    ("87", "C1081-Q9583", 62.219, "Morropon", "San Juan de Bigote", "Z08", 0, 0, 0.248717766),
 ]
 
 def migrar(db_url):

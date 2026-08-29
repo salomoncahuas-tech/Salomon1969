@@ -679,6 +679,65 @@ def actualizar_bloque(bloque_id, codigo, tipo_intervencion, cuenca, distrito,
     conn.close()
 
 
+def sincronizar_bloques_catalogo(bloques, cuenca="Cuenca Alta del Rio Piura",
+                                 tipo_intervencion="Restauracion", utm_zona="17S"):
+    """Alta ADITIVA de bloques del catalogo que aun no existen en la BD.
+
+    `bloques` es una lista de dicts con las claves: codigo, microcuenca,
+    area_ha, provincia, distrito, utm_este, utm_norte.
+
+    NO borra ni modifica ningun registro existente: los codigos ya presentes
+    se omiten (el UNIQUE de `bloques.codigo` es la salvaguarda final). Toda la
+    operacion corre en una sola transaccion, de modo que un fallo parcial deja
+    la base intacta.
+
+    Devuelve un dict: {"insertados": [codigos], "existentes": [codigos]}.
+    """
+    codigos_bd = {b["codigo"] for b in obtener_bloques()}
+    faltantes = [b for b in (bloques or []) if b.get("codigo") not in codigos_bd]
+    existentes = [b.get("codigo") for b in (bloques or []) if b.get("codigo") in codigos_bd]
+
+    if not faltantes:
+        return {"insertados": [], "existentes": existentes}
+
+    fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    conn = get_connection()
+    insertados = []
+    try:
+        cursor = conn.cursor()
+        for b in faltantes:
+            cursor.execute("""
+                INSERT INTO bloques (codigo, tipo_intervencion, cuenca, distrito,
+                                     utm_este, utm_norte, utm_zona, altitud,
+                                     area_hectareas, responsable, estado,
+                                     microcuenca, provincia, fecha_registro)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                ON CONFLICT (codigo) DO NOTHING
+            """, (
+                b.get("codigo", ""), tipo_intervencion, cuenca, b.get("distrito", ""),
+                float(b.get("utm_este") or 0.0), float(b.get("utm_norte") or 0.0),
+                utm_zona, 0.0, float(b.get("area_ha") or 0.0), "", "Pendiente",
+                b.get("microcuenca", ""), b.get("provincia", ""), fecha,
+            ))
+            # lastrowid queda en None si ON CONFLICT descarto la fila (otro
+            # proceso la inserto entre la lectura y este INSERT).
+            if cursor.lastrowid is not None:
+                insertados.append(b.get("codigo", ""))
+            else:
+                existentes.append(b.get("codigo", ""))
+        conn.commit()
+    except Exception:
+        try:
+            conn._conn.rollback()
+        except Exception:
+            pass
+        raise
+    finally:
+        conn.close()
+
+    return {"insertados": insertados, "existentes": existentes}
+
+
 def eliminar_bloque(bloque_id):
     conn = get_connection()
     try:

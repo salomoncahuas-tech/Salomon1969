@@ -174,8 +174,10 @@ MICROCUENCAS = [
     "C1096-Q9564","C1107-Q9539","C1107-Q9541","C1108-Q9552",
 ]
 
-# ── Datos de Origen: 127 Bloques de Intervencion V5 ──────────────────
+# ── Datos de Origen: 132 Bloques de Intervencion V5 ──────────────────
 # Fuente: Plantilla_DT_Campo_Check_Validada_V5.xlsx (hoja 'Bloques V4')
+# Ampliacion: 'Bloques Adicionalea.xlsx' aporta los bloques 83..87
+# (microcuenca C1081-Q9583, San Juan de Bigote, Morropon, Zona Z08).
 # Cada entrada: (N, Bloque, Microcuenca, Area_ha, Provincia, Distrito,
 #                Accesibilidad, Dia, UTM_Este, UTM_Norte, MSAVI_2024, Zona)
 BLOQUES_V5 = [
@@ -307,6 +309,14 @@ BLOQUES_V5 = [
     (125, "71", "C1076-Q9593", 10.67, "Huancabamba", "Huarmaca", 0, 0, 652104, 9373045, 0.557066, "Z14"),
     (126, "8", "C1076-Q9593", 126.95, "Huancabamba", "Huarmaca", 0, 0, 651673, 9373383, 0.554802, "Z14"),
     (127, "20", "C1076-Q9593", 81.33, "Huancabamba", "Huarmaca", 0, 0, 649847, 9376260, 0.48513, "Z14"),
+    # ── Bloques adicionales (ampliacion): microcuenca C1081-Q9583 ──────────
+    # Fuente: "Bloques Adicionalea.xlsx". Sin coordenadas UTM de centroide en
+    # la fuente; quedan en 0 y se completan al editar el bloque en la BD.
+    (128, "83", "C1081-Q9583", 24.344, "Morropon", "San Juan de Bigote", 0, 0, 0, 0, 0.30545594, "Z08"),
+    (129, "84", "C1081-Q9583", 5.097, "Morropon", "San Juan de Bigote", 0, 0, 0, 0, 0.251595558, "Z08"),
+    (130, "85", "C1081-Q9583", 11.906, "Morropon", "San Juan de Bigote", 0, 0, 0, 0, 0.228928157, "Z08"),
+    (131, "86", "C1081-Q9583", 30.001, "Morropon", "San Juan de Bigote", 0, 0, 0, 0, 0.273471802, "Z08"),
+    (132, "87", "C1081-Q9583", 62.219, "Morropon", "San Juan de Bigote", 0, 0, 0, 0, 0.248717766, "Z08"),
 ]
 
 # Alias para compatibilidad con codigo previo
@@ -722,7 +732,7 @@ def _resolver_microcuenca(bloque_label):
             if mc and mc in MICROCUENCAS:
                 return mc
             break
-    # Fallback: buscar en los 128 bloques predefinidos
+    # Fallback: buscar en el catalogo de bloques predefinidos
     datos = BLOQUES_128_MAP.get(codigo, {})
     mc = datos.get("microcuenca", "")
     if mc and mc in MICROCUENCAS:
@@ -1065,6 +1075,43 @@ def pagina_bloques():
                     st.rerun()
                 except Exception as e:
                     st.error(f"Error al eliminar bloque: {e}")
+
+        # ── Sincronizacion ADITIVA del catalogo (no destructiva) ───────────
+        st.markdown("---")
+        st.markdown("### Sincronizar catalogo de bloques (sin borrar datos)")
+        # Se compara siempre contra el total de la BD, no contra el resultado
+        # filtrado por el buscador de arriba.
+        codigos_bd = {b["codigo"] for b in _cached_obtener_bloques(_cache_version())}
+        faltantes_cat = [b for b in BLOQUES_V5 if b[1] not in codigos_bd]
+        if not faltantes_cat:
+            st.success(f"La base de datos ya contiene los {len(BLOQUES_V5)} bloques "
+                       "del catalogo V5. No hay nada que sincronizar.")
+        else:
+            st.warning(
+                f"Hay **{len(faltantes_cat)}** bloque(s) del catalogo V5 que aun no "
+                f"existen en la base de datos: **{', '.join(b[1] for b in faltantes_cat)}**.",
+                icon="ℹ️")
+            st.caption("Esta operacion es **aditiva**: solo da de alta los bloques "
+                       "faltantes. No borra ni modifica ningun bloque, inspeccion, "
+                       "diagnostico ni registro ya existente.")
+            st.dataframe(pd.DataFrame([{
+                "Bloque": b[1], "Microcuenca": b[2], "Area (ha)": b[3],
+                "Provincia": b[4], "Distrito": b[5],
+                "Zona": b[11] if len(b) > 11 else "",
+            } for b in faltantes_cat]), use_container_width=True, hide_index=True)
+            if st.button("➕ Agregar bloques faltantes", key="bl_sync_cat", type="primary"):
+                try:
+                    res = db.sincronizar_bloques_catalogo([{
+                        "codigo": b[1], "microcuenca": b[2], "area_ha": b[3],
+                        "provincia": b[4], "distrito": b[5],
+                        "utm_este": b[8], "utm_norte": b[9],
+                    } for b in faltantes_cat])
+                    _invalidar_cache()
+                    _flash(f"Se agregaron {len(res['insertados'])} bloque(s) al "
+                           f"catalogo: {', '.join(res['insertados'])}.")
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Error al sincronizar bloques: {e}")
 
         st.markdown("---")
         with st.expander(f"Tabla de Referencia - {len(BLOQUES_V5)} Bloques de Intervencion V5", expanded=False):
@@ -2362,6 +2409,43 @@ def pagina_diagnostico_territorial():
                     file_name=f"Diagnostico_Territorial_FDT_{datetime.now():%Y%m%d}.xlsx",
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     key="dt_export_excel", type="secondary")
+
+            # ── Ficha PDF individual por bloque ────────────────────────
+            st.markdown("---")
+            st.markdown("#### Ficha PDF individual por bloque")
+            st.caption("Genera un PDF con la identificacion del bloque y todas sus "
+                       "fichas F-DT-01 a F-DT-05 registradas. La ficha se arma solo "
+                       "al pulsar el boton para no recargar el servidor en cada rerun.")
+            cods_dt = sorted({(d.get("bloque_codigo", "") or "") for d in todos_dt
+                              if d.get("bloque_codigo")})
+            if not cods_dt:
+                st.info("Aun no hay diagnosticos territoriales asociados a un bloque.")
+            else:
+                c_dtpdf1, c_dtpdf2 = st.columns([2, 1])
+                bl_dt_pdf = c_dtpdf1.selectbox("Bloque", cods_dt, key="dt_pdf_bl")
+                if c_dtpdf2.button("Generar ficha PDF", key="dt_pdf_gen", type="primary"):
+                    bid_pdf = bm.get(bl_dt_pdf)
+                    if not bid_pdf:
+                        st.error(f"El bloque {bl_dt_pdf} ya no existe en la base de datos.")
+                    else:
+                        try:
+                            nombre_pdf, bytes_pdf = reports.generar_ficha_dt_bloque_pdf(bid_pdf)
+                            st.session_state["dt_pdf_bytes"] = bytes_pdf
+                            st.session_state["dt_pdf_nombre"] = nombre_pdf
+                            st.session_state["dt_pdf_bloque"] = bl_dt_pdf
+                        except Exception as e:
+                            st.error(f"No se pudo generar la ficha PDF: {e}")
+                # Solo se ofrece la descarga si corresponde al bloque seleccionado,
+                # para no entregar un PDF de un bloque distinto al elegido.
+                if (st.session_state.get("dt_pdf_bytes")
+                        and st.session_state.get("dt_pdf_bloque") == bl_dt_pdf):
+                    st.download_button(
+                        f"⬇️ Descargar ficha DT del bloque {bl_dt_pdf} (PDF)",
+                        data=st.session_state["dt_pdf_bytes"],
+                        file_name=st.session_state["dt_pdf_nombre"],
+                        mime="application/pdf", key="dt_pdf_dl")
+            st.markdown("---")
+
             dt_pag, total_pags_dt, pag_actual_dt = _paginar(todos_dt, "pag_dt")
             _controles_paginacion(total_pags_dt, pag_actual_dt, "pag_dt")
             col_widths_dt = [0.4, 1, 0.8, 0.8, 0.8, 0.8, 0.8, 0.5, 0.6]
@@ -3571,6 +3655,51 @@ def pagina_diagnostico_social():
                     file_name=f"Diagnostico_Social_FDS_{datetime.now():%Y%m%d}.xlsx",
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     key="ds_export_excel", type="secondary")
+
+            # ── Ficha PDF individual por bloque y sus centros poblados ──
+            st.markdown("---")
+            st.markdown("#### Ficha PDF individual por bloque (con sus Centros Poblados)")
+            st.caption("Genera un PDF por bloque con la relacion de sus centros "
+                       "poblados y todas las fichas F-DS-01 a F-DS-07 registradas, "
+                       "agrupadas por centro poblado.")
+            cods_ds = sorted({(d.get("bloque_codigo", "") or "") for d in todos_ds
+                              if d.get("bloque_codigo")})
+            if not cods_ds:
+                st.info("Aun no hay fichas sociales asociadas a un bloque.")
+            else:
+                c_dspdf1, c_dspdf2 = st.columns([2, 1])
+                bl_ds_pdf = c_dspdf1.selectbox("Bloque", cods_ds, key="ds_pdf_bl")
+                cp_info_pdf = CENTROS_POBLADOS_BLOQUE.get(bl_ds_pdf, {})
+                cps_pdf = cp_info_pdf.get("centros_poblados", [])
+                ccs_pdf = cp_info_pdf.get("comunidades_campesinas", [])
+                if cps_pdf:
+                    c_dspdf1.caption(f"Centros poblados del catalogo: {', '.join(cps_pdf)}")
+                else:
+                    c_dspdf1.caption("Sin centros poblados en el catalogo oficial para "
+                                     "este bloque; la ficha usara los consignados en campo.")
+                if c_dspdf2.button("Generar ficha PDF", key="ds_pdf_gen", type="primary"):
+                    bid_ds_pdf = bm.get(bl_ds_pdf)
+                    if not bid_ds_pdf:
+                        st.error(f"El bloque {bl_ds_pdf} ya no existe en la base de datos.")
+                    else:
+                        try:
+                            nombre_pdf, bytes_pdf = reports.generar_ficha_ds_bloque_pdf(
+                                bid_ds_pdf, centros_poblados=cps_pdf,
+                                comunidades_campesinas=ccs_pdf)
+                            st.session_state["ds_pdf_bytes"] = bytes_pdf
+                            st.session_state["ds_pdf_nombre"] = nombre_pdf
+                            st.session_state["ds_pdf_bloque"] = bl_ds_pdf
+                        except Exception as e:
+                            st.error(f"No se pudo generar la ficha PDF: {e}")
+                if (st.session_state.get("ds_pdf_bytes")
+                        and st.session_state.get("ds_pdf_bloque") == bl_ds_pdf):
+                    st.download_button(
+                        f"⬇️ Descargar ficha DS del bloque {bl_ds_pdf} (PDF)",
+                        data=st.session_state["ds_pdf_bytes"],
+                        file_name=st.session_state["ds_pdf_nombre"],
+                        mime="application/pdf", key="ds_pdf_dl")
+            st.markdown("---")
+
             ds_pag, total_pags_ds, pag_actual_ds = _paginar(todos_ds, "pag_ds")
             _controles_paginacion(total_pags_ds, pag_actual_ds, "pag_ds")
             col_widths_ds = [0.4, 0.9, 0.7, 0.8, 0.8, 0.8, 0.8, 0.5, 0.6]
@@ -4692,6 +4821,35 @@ def pagina_reportes():
             except Exception as e: st.error(f"Error: {e}")
     else: st.info("Registre bloques primero.")
     st.markdown("---")
+    st.markdown("### Fichas de Diagnostico por Bloque (PDF)")
+    st.caption("Ficha independiente por bloque: una para el Diagnostico Territorial "
+               "(F-DT-01..05) y otra para el Diagnostico Social (F-DS-01..07) con la "
+               "relacion de centros poblados del bloque.")
+    if bm:
+        c_rep1, c_rep2, c_rep3 = st.columns([2, 1, 1])
+        bl_diag = c_rep1.selectbox("Bloque", list(bm.keys()), key="rep_bl_diag")
+        if c_rep2.button("Ficha DT (PDF)", key="rep_dt_gen", type="secondary"):
+            try:
+                nombre_pdf, bytes_pdf = reports.generar_ficha_dt_bloque_pdf(bm[bl_diag])
+                st.session_state["rep_diag_pdf"] = (bl_diag, nombre_pdf, bytes_pdf)
+            except Exception as e:
+                st.error(f"Error: {e}")
+        if c_rep3.button("Ficha DS (PDF)", key="rep_ds_gen", type="secondary"):
+            try:
+                cp_rep = CENTROS_POBLADOS_BLOQUE.get(bl_diag, {})
+                nombre_pdf, bytes_pdf = reports.generar_ficha_ds_bloque_pdf(
+                    bm[bl_diag],
+                    centros_poblados=cp_rep.get("centros_poblados", []),
+                    comunidades_campesinas=cp_rep.get("comunidades_campesinas", []))
+                st.session_state["rep_diag_pdf"] = (bl_diag, nombre_pdf, bytes_pdf)
+            except Exception as e:
+                st.error(f"Error: {e}")
+        pdf_listo = st.session_state.get("rep_diag_pdf")
+        if pdf_listo and pdf_listo[0] == bl_diag:
+            st.download_button(f"⬇️ Descargar {pdf_listo[1]}", data=pdf_listo[2],
+                               file_name=pdf_listo[1], mime="application/pdf",
+                               key="rep_diag_dl")
+    st.markdown("---")
     st.markdown("### Tabla Resumen (Excel)")
     if st.button("Generar Resumen Excel"):
         try:
@@ -5001,10 +5159,28 @@ def pagina_migracion_v4():
         icon="⚠️",
     )
 
+    st.error(
+        "**No use esta pagina para incorporar bloques nuevos.** Para dar de alta "
+        "bloques faltantes sin perder informacion, vaya a **Bloques de Intervencion "
+        "-> Sincronizar catalogo de bloques (sin borrar datos)**.",
+        icon="🛑",
+    )
+
     confirmar = st.checkbox("Entiendo que se borraran todos los datos existentes y quiero continuar")
 
     if not confirmar:
         st.info("Marca la casilla de confirmacion para habilitar la migracion.")
+        return
+
+    # Segundo cerrojo: frase escrita a mano. Evita que un clic accidental sobre
+    # la casilla deje el boton de borrado a un solo clic de distancia.
+    FRASE_CONFIRMACION = "BORRAR TODO"
+    frase = st.text_input(
+        f"Para habilitar el boton, escriba exactamente: {FRASE_CONFIRMACION}",
+        value="", key="mig_frase_confirmacion",
+        help="Salvaguarda contra borrados accidentales.")
+    if frase.strip() != FRASE_CONFIRMACION:
+        st.info(f"Escriba **{FRASE_CONFIRMACION}** en el campo anterior para habilitar la migracion.")
         return
 
     if st.button("🚀 Ejecutar Migracion V5", type="primary"):
