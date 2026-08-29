@@ -310,13 +310,13 @@ BLOQUES_V5 = [
     (126, "8", "C1076-Q9593", 126.95, "Huancabamba", "Huarmaca", 0, 0, 651673, 9373383, 0.554802, "Z14"),
     (127, "20", "C1076-Q9593", 81.33, "Huancabamba", "Huarmaca", 0, 0, 649847, 9376260, 0.48513, "Z14"),
     # ── Bloques adicionales (ampliacion): microcuenca C1081-Q9583 ──────────
-    # Fuente: "Bloques Adicionalea.xlsx". Sin coordenadas UTM de centroide en
-    # la fuente; quedan en 0 y se completan al editar el bloque en la BD.
-    (128, "83", "C1081-Q9583", 24.344, "Morropon", "San Juan de Bigote", 0, 0, 0, 0, 0.30545594, "Z08"),
-    (129, "84", "C1081-Q9583", 5.097, "Morropon", "San Juan de Bigote", 0, 0, 0, 0, 0.251595558, "Z08"),
-    (130, "85", "C1081-Q9583", 11.906, "Morropon", "San Juan de Bigote", 0, 0, 0, 0, 0.228928157, "Z08"),
-    (131, "86", "C1081-Q9583", 30.001, "Morropon", "San Juan de Bigote", 0, 0, 0, 0, 0.273471802, "Z08"),
-    (132, "87", "C1081-Q9583", 62.219, "Morropon", "San Juan de Bigote", 0, 0, 0, 0, 0.248717766, "Z08"),
+    # Fuente: "Bloques Adicionalea.xlsx" (area y MSAVI) y
+    # "CENTROIDES BLOQUES ADICIONALEES.xlsx" (coordenadas UTM del centroide).
+    (128, "83", "C1081-Q9583", 24.344, "Morropon", "San Juan de Bigote", 0, 0, 639720, 9410622, 0.30545594, "Z08"),
+    (129, "84", "C1081-Q9583", 5.097, "Morropon", "San Juan de Bigote", 0, 0, 640237, 9410714, 0.251595558, "Z08"),
+    (130, "85", "C1081-Q9583", 11.906, "Morropon", "San Juan de Bigote", 0, 0, 642200, 9411072, 0.228928157, "Z08"),
+    (131, "86", "C1081-Q9583", 30.001, "Morropon", "San Juan de Bigote", 0, 0, 642415, 9410216, 0.273471802, "Z08"),
+    (132, "87", "C1081-Q9583", 62.219, "Morropon", "San Juan de Bigote", 0, 0, 642882, 9411123, 0.248717766, "Z08"),
 ]
 
 # Alias para compatibilidad con codigo previo
@@ -416,6 +416,14 @@ CENTROS_POBLADOS_BLOQUE = {
     "80": {"centros_poblados": ["Yumbe", "Cruz Roja"], "comunidades_campesinas": [], "poblacion_total": 0},
     "81": {"centros_poblados": ["Hualtacal"], "comunidades_campesinas": [], "poblacion_total": 0},
     "82": {"centros_poblados": ["Santa Fe de Portachuelo"], "comunidades_campesinas": [], "poblacion_total": 0},
+    # Bloques adicionales 83-87. Fuente: "CentrosPoblados-INEI-Bloques_Adicionales.xlsx"
+    # (hoja "Hoja2", coincidente con "Muestra pob inei+sigrid"). A diferencia del
+    # resto del catalogo, aqui si se conoce la poblacion por centro poblado.
+    "83": {"centros_poblados": ["Miguel Pampa"], "comunidades_campesinas": [], "poblacion_total": 188},
+    "84": {"centros_poblados": ["Miguel Pampa"], "comunidades_campesinas": [], "poblacion_total": 188},
+    "85": {"centros_poblados": ["Dotor"], "comunidades_campesinas": [], "poblacion_total": 240},
+    "86": {"centros_poblados": ["Nueva Esperanza"], "comunidades_campesinas": [], "poblacion_total": 65},
+    "87": {"centros_poblados": ["Dotor", "Cardal", "Nueva Esperanza"], "comunidades_campesinas": [], "poblacion_total": 705},
     "M10B4": {"centros_poblados": ["Rio Seco Alto"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M11B3": {"centros_poblados": ["Quemazon", "La Pareja"], "comunidades_campesinas": [], "poblacion_total": 0},
     "M12B1": {"centros_poblados": ["Nueva Esperanza", "Faicalito"], "comunidades_campesinas": [], "poblacion_total": 0},
@@ -708,7 +716,6 @@ pagina = st.sidebar.selectbox("Navegacion", [
     "Presupuesto","Cronograma",
     "Georreferenciacion","ODK / KoBoToolbox","Reportes",
     "Conversor PDF -> Excel",
-    "⚙️ Migracion V4 (temporal)",
 ])
 st.sidebar.markdown("---")
 st.sidebar.markdown("**IN Piura** v2.1 Web\n\nRestauracion de Ecosistemas\nCuenca Alta del Rio Piura")
@@ -1066,49 +1073,124 @@ def pagina_bloques():
                     st.rerun()
             st.markdown("---")
             bm = {b["codigo"]: b["id"] for b in bloques}
+            st.markdown("**Eliminar bloque**")
             sel = st.selectbox("Seleccionar bloque para eliminar",[""]+list(bm.keys()),key="del_bl")
-            if sel and sel in bm and st.button("Eliminar bloque", key="btn_del_bl"):
+            if sel and sel in bm:
+                # Borrar un bloque arrastra en cascada todo lo registrado sobre
+                # el, asi que primero se muestra que se perderia y se ofrece el
+                # respaldo completo antes de habilitar el borrado.
                 try:
-                    db.eliminar_bloque(bm[sel])
-                    _invalidar_cache()
-                    st.success(f"Bloque {sel} eliminado correctamente.")
-                    st.rerun()
+                    vinculados = db.contar_registros_vinculados(bm[sel])
                 except Exception as e:
-                    st.error(f"Error al eliminar bloque: {e}")
+                    vinculados = {}
+                    st.error(f"No se pudo verificar los registros vinculados: {e}")
+                etiquetas_vinc = {
+                    "inspecciones": "inspecciones de campo",
+                    "indicadores_calidad": "indicadores de calidad",
+                    "diagnostico_territorial": "diagnosticos territoriales",
+                    "diagnostico_social": "fichas de diagnostico social",
+                    "elementos_expuestos": "fichas de elementos expuestos",
+                    "presupuesto": "partidas de presupuesto",
+                    "cronograma": "actividades de cronograma",
+                }
+                total_vinc = sum(vinculados.values())
+                if total_vinc:
+                    detalle = ", ".join(f"{n} {etiquetas_vinc.get(t, t)}"
+                                        for t, n in vinculados.items())
+                    st.error(
+                        f"Eliminar el bloque **{sel}** borrara tambien, en cascada, "
+                        f"**{total_vinc} registro(s)**: {detalle}. Esta accion no se "
+                        "puede deshacer.", icon="🛑")
+                else:
+                    st.info(f"El bloque **{sel}** no tiene registros vinculados.",
+                            icon="ℹ️")
+                if st.button("💾 Descargar respaldo completo antes de borrar",
+                             key="bl_del_respaldo"):
+                    try:
+                        st.session_state["respaldo_bytes"] = \
+                            exp_diag.exportar_respaldo_completo(db.respaldo_completo())
+                        st.session_state["respaldo_nombre"] = (
+                            f"Respaldo_IN_Piura_{datetime.now():%Y%m%d_%H%M%S}.xlsx")
+                    except Exception as e:
+                        st.error(f"No se pudo generar el respaldo: {e}")
+                if st.session_state.get("respaldo_bytes"):
+                    st.download_button(
+                        "⬇️ Descargar respaldo (Excel)",
+                        data=st.session_state["respaldo_bytes"],
+                        file_name=st.session_state["respaldo_nombre"],
+                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        key="bl_del_respaldo_dl")
+                confirmar_del = st.checkbox(
+                    f"Confirmo que quiero eliminar el bloque {sel}"
+                    + (f" y sus {total_vinc} registro(s) vinculado(s)" if total_vinc else ""),
+                    key="bl_del_confirm")
+                if st.button("Eliminar bloque", key="btn_del_bl", disabled=not confirmar_del):
+                    try:
+                        db.eliminar_bloque(bm[sel])
+                        _invalidar_cache()
+                        st.session_state.pop("bl_del_confirm", None)
+                        _flash(f"Bloque {sel} eliminado correctamente.")
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"Error al eliminar bloque: {e}")
 
         # ── Sincronizacion ADITIVA del catalogo (no destructiva) ───────────
         st.markdown("---")
         st.markdown("### Sincronizar catalogo de bloques (sin borrar datos)")
+        st.caption("Unica via para dar de alta bloques: **aditiva**. Inserta los "
+                   "bloques del catalogo que faltan y rellena centroides vacios. "
+                   "No borra ni modifica ningun bloque, inspeccion, diagnostico ni "
+                   "registro ya existente.")
         # Se compara siempre contra el total de la BD, no contra el resultado
         # filtrado por el buscador de arriba.
+        catalogo_dicts = [{
+            "codigo": b[1], "microcuenca": b[2], "area_ha": b[3],
+            "provincia": b[4], "distrito": b[5],
+            "utm_este": b[8], "utm_norte": b[9],
+        } for b in BLOQUES_V5]
         codigos_bd = {b["codigo"] for b in _cached_obtener_bloques(_cache_version())}
         faltantes_cat = [b for b in BLOQUES_V5 if b[1] not in codigos_bd]
-        if not faltantes_cat:
+        try:
+            coords_pend = db.bloques_con_coordenadas_faltantes(catalogo_dicts)
+        except Exception:
+            coords_pend = []
+
+        if not faltantes_cat and not coords_pend:
             st.success(f"La base de datos ya contiene los {len(BLOQUES_V5)} bloques "
-                       "del catalogo V5. No hay nada que sincronizar.")
+                       "del catalogo V5, con sus centroides. No hay nada que sincronizar.")
         else:
-            st.warning(
-                f"Hay **{len(faltantes_cat)}** bloque(s) del catalogo V5 que aun no "
-                f"existen en la base de datos: **{', '.join(b[1] for b in faltantes_cat)}**.",
-                icon="ℹ️")
-            st.caption("Esta operacion es **aditiva**: solo da de alta los bloques "
-                       "faltantes. No borra ni modifica ningun bloque, inspeccion, "
-                       "diagnostico ni registro ya existente.")
-            st.dataframe(pd.DataFrame([{
-                "Bloque": b[1], "Microcuenca": b[2], "Area (ha)": b[3],
-                "Provincia": b[4], "Distrito": b[5],
-                "Zona": b[11] if len(b) > 11 else "",
-            } for b in faltantes_cat]), use_container_width=True, hide_index=True)
-            if st.button("➕ Agregar bloques faltantes", key="bl_sync_cat", type="primary"):
+            if faltantes_cat:
+                st.warning(
+                    f"Hay **{len(faltantes_cat)}** bloque(s) del catalogo V5 que aun no "
+                    f"existen en la base de datos: **{', '.join(b[1] for b in faltantes_cat)}**.",
+                    icon="ℹ️")
+                st.dataframe(pd.DataFrame([{
+                    "Bloque": b[1], "Microcuenca": b[2], "Area (ha)": b[3],
+                    "Provincia": b[4], "Distrito": b[5],
+                    "Zona": b[11] if len(b) > 11 else "",
+                    "UTM Este": b[8], "UTM Norte": b[9],
+                } for b in faltantes_cat]), use_container_width=True, hide_index=True)
+            if coords_pend:
+                st.info(
+                    f"Ademas, **{len(coords_pend)}** bloque(s) ya registrados tienen el "
+                    f"centroide en 0 y el catalogo si lo trae: "
+                    f"**{', '.join(c[0] for c in coords_pend)}**. Se rellenara la "
+                    "coordenada vacia; una coordenada ya cargada nunca se sobrescribe.",
+                    icon="📍")
+            etiqueta_btn = ("➕ Agregar bloques faltantes" if faltantes_cat
+                            else "📍 Completar centroides faltantes")
+            if st.button(etiqueta_btn, key="bl_sync_cat", type="primary"):
                 try:
-                    res = db.sincronizar_bloques_catalogo([{
-                        "codigo": b[1], "microcuenca": b[2], "area_ha": b[3],
-                        "provincia": b[4], "distrito": b[5],
-                        "utm_este": b[8], "utm_norte": b[9],
-                    } for b in faltantes_cat])
+                    res = db.sincronizar_bloques_catalogo(catalogo_dicts)
                     _invalidar_cache()
-                    _flash(f"Se agregaron {len(res['insertados'])} bloque(s) al "
-                           f"catalogo: {', '.join(res['insertados'])}.")
+                    partes = []
+                    if res["insertados"]:
+                        partes.append(f"{len(res['insertados'])} bloque(s) agregado(s): "
+                                      f"{', '.join(res['insertados'])}")
+                    if res["coords_actualizadas"]:
+                        partes.append(f"{len(res['coords_actualizadas'])} centroide(s) "
+                                      f"completado(s): {', '.join(res['coords_actualizadas'])}")
+                    _flash(". ".join(partes) + "." if partes else "No hubo cambios que aplicar.")
                     st.rerun()
                 except Exception as e:
                     st.error(f"Error al sincronizar bloques: {e}")
@@ -4849,6 +4931,83 @@ def pagina_reportes():
             st.download_button(f"⬇️ Descargar {pdf_listo[1]}", data=pdf_listo[2],
                                file_name=pdf_listo[1], mime="application/pdf",
                                key="rep_diag_dl")
+
+        # ── Descarga masiva en ZIP ─────────────────────────────────────
+        st.markdown("#### Descarga masiva (ZIP)")
+        st.caption("Genera de una sola vez la ficha de varios bloques y las "
+                   "entrega en un archivo ZIP, con una carpeta por tipo de ficha.")
+        c_z1, c_z2, c_z3 = st.columns(3)
+        ambito = c_z1.selectbox("Ambito", ["Todos los bloques", "Por zona",
+                                           "Por provincia", "Por distrito"],
+                                key="rep_zip_ambito")
+        # La zona solo vive en el catalogo; provincia y distrito, en la BD.
+        zona_por_codigo = {b[1]: (b[11] if len(b) > 11 else "") for b in BLOQUES_V5}
+        bloques_bd = _cached_obtener_bloques(_cache_version())
+        # Cada selector lleva su propia clave: compartirla haria que Streamlit
+        # intentara restaurar, por ejemplo, una zona sobre la lista de provincias.
+        if ambito == "Por zona":
+            valor = c_z2.selectbox("Zona", ZONAS_V5, key="rep_zip_zona")
+            seleccion = [b for b in bloques_bd
+                         if zona_por_codigo.get(b["codigo"], "") == valor]
+        elif ambito == "Por provincia":
+            provs = sorted({(b.get("provincia") or "") for b in bloques_bd if b.get("provincia")})
+            valor = c_z2.selectbox("Provincia", provs, key="rep_zip_prov")
+            seleccion = [b for b in bloques_bd if (b.get("provincia") or "") == valor]
+        elif ambito == "Por distrito":
+            dists = sorted({(b.get("distrito") or "") for b in bloques_bd if b.get("distrito")})
+            valor = c_z2.selectbox("Distrito", dists, key="rep_zip_dist")
+            seleccion = [b for b in bloques_bd if (b.get("distrito") or "") == valor]
+        else:
+            c_z2.markdown("&nbsp;", unsafe_allow_html=True)
+            valor = ""
+            seleccion = list(bloques_bd)
+        tipo_zip = c_z3.selectbox("Fichas", ["Territorial (DT)", "Social (DS)", "Ambas"],
+                                  key="rep_zip_tipo")
+        codigo_tipo = {"Territorial (DT)": "DT", "Social (DS)": "DS", "Ambas": "AMBAS"}[tipo_zip]
+        firma_zip = (ambito, valor, codigo_tipo)
+        st.caption(f"Se generaran fichas para **{len(seleccion)}** bloque(s).")
+        if st.button("Generar ZIP de fichas", key="rep_zip_gen", type="secondary",
+                     disabled=not seleccion):
+            try:
+                with st.spinner(f"Generando fichas de {len(seleccion)} bloque(s)..."):
+                    nombre_zip, bytes_zip = reports.generar_zip_fichas_diagnostico(
+                        [(b["codigo"], b["id"]) for b in seleccion],
+                        tipo=codigo_tipo,
+                        centros_poblados_map=CENTROS_POBLADOS_BLOQUE)
+                st.session_state["rep_zip"] = (firma_zip, nombre_zip, bytes_zip)
+            except Exception as e:
+                st.error(f"Error al generar el ZIP: {e}")
+        # Solo se ofrece la descarga si el ZIP corresponde al filtro vigente,
+        # para no entregar un lote distinto al que se ve en pantalla.
+        zip_listo = st.session_state.get("rep_zip")
+        if zip_listo and zip_listo[0] == firma_zip:
+            st.download_button(f"⬇️ Descargar {zip_listo[1]}", data=zip_listo[2],
+                               file_name=zip_listo[1],
+                               mime="application/zip", key="rep_zip_dl")
+    st.markdown("---")
+    st.markdown("### Respaldo completo de la base de datos (Excel)")
+    st.caption("Volcado integro de todas las tablas del aplicativo (bloques, "
+               "inspecciones, indicadores, diagnosticos territoriales y sociales, "
+               "elementos expuestos, presupuesto, cronograma y personal), una hoja "
+               "por tabla. Conviene descargarlo antes de cualquier borrado y de "
+               "forma periodica. La lectura no modifica nada.")
+    if st.button("Generar respaldo completo", key="rep_respaldo_gen"):
+        try:
+            with st.spinner("Leyendo todas las tablas..."):
+                st.session_state["respaldo_bytes"] = \
+                    exp_diag.exportar_respaldo_completo(db.respaldo_completo())
+                st.session_state["respaldo_nombre"] = (
+                    f"Respaldo_IN_Piura_{datetime.now():%Y%m%d_%H%M%S}.xlsx")
+            st.success("Respaldo generado.")
+        except Exception as e:
+            st.error(f"No se pudo generar el respaldo: {e}")
+    if st.session_state.get("respaldo_bytes"):
+        st.download_button(
+            "⬇️ Descargar respaldo (Excel)",
+            data=st.session_state["respaldo_bytes"],
+            file_name=st.session_state["respaldo_nombre"],
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            key="rep_respaldo_dl")
     st.markdown("---")
     st.markdown("### Tabla Resumen (Excel)")
     if st.button("Generar Resumen Excel"):
@@ -5147,111 +5306,20 @@ def _mostrar_historial():
 
 
 # ══════════════════════════════════════════════════════════════════════════
-# MIGRACION V5 — PAGINA TEMPORAL
+# MIGRACION MASIVA DE BLOQUES — RETIRADA DE LA INTERFAZ
 # ══════════════════════════════════════════════════════════════════════════
-def pagina_migracion_v4():
-    st.subheader("⚙️ Migracion: Reemplazar Bloques por V5")
-    st.warning(
-        f"**ATENCION:** Esta accion eliminara TODOS los bloques actuales de la base de datos "
-        f"(incluyendo inspecciones, diagnosticos y registros vinculados) "
-        f"e insertara los {len(BLOQUES_V5)} bloques del Proyecto IN Piura V5 "
-        f"(con zonas Z01..Z14 y coordenadas UTM).",
-        icon="⚠️",
-    )
-
-    st.error(
-        "**No use esta pagina para incorporar bloques nuevos.** Para dar de alta "
-        "bloques faltantes sin perder informacion, vaya a **Bloques de Intervencion "
-        "-> Sincronizar catalogo de bloques (sin borrar datos)**.",
-        icon="🛑",
-    )
-
-    confirmar = st.checkbox("Entiendo que se borraran todos los datos existentes y quiero continuar")
-
-    if not confirmar:
-        st.info("Marca la casilla de confirmacion para habilitar la migracion.")
-        return
-
-    # Segundo cerrojo: frase escrita a mano. Evita que un clic accidental sobre
-    # la casilla deje el boton de borrado a un solo clic de distancia.
-    FRASE_CONFIRMACION = "BORRAR TODO"
-    frase = st.text_input(
-        f"Para habilitar el boton, escriba exactamente: {FRASE_CONFIRMACION}",
-        value="", key="mig_frase_confirmacion",
-        help="Salvaguarda contra borrados accidentales.")
-    if frase.strip() != FRASE_CONFIRMACION:
-        st.info(f"Escriba **{FRASE_CONFIRMACION}** en el campo anterior para habilitar la migracion.")
-        return
-
-    if st.button("🚀 Ejecutar Migracion V5", type="primary"):
-        from datetime import datetime
-        import database as db
-
-        conn = None
-        try:
-            # Toda la migracion corre en UNA sola transaccion: si algun
-            # INSERT falla, el TRUNCATE tambien hace rollback y la BD
-            # queda intacta. Evita estados parciales y duplicados que
-            # ocurrian al usar varias conexiones (DELETE + N inserts).
-            conn = db.get_connection()
-            cursor = conn.cursor()
-
-            cursor.execute("SELECT COUNT(*) FROM bloques")
-            row = cursor.fetchone()
-            eliminados = list(row.values())[0] if hasattr(row, 'values') else row[0]
-
-            # TRUNCATE ... CASCADE elimina bloques y todos los registros
-            # dependientes (inspecciones, diagnosticos, etc.) en bloque,
-            # mas rapido y atomico que DELETE.
-            conn.execute("TRUNCATE TABLE bloques RESTART IDENTITY CASCADE")
-
-            fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            insertados = 0
-            for b in BLOQUES_V5:
-                codigo      = b[1]
-                microcuenca = b[2]
-                area_ha     = b[3]
-                provincia   = b[4]
-                distrito    = b[5]
-                utm_este    = b[8]
-                utm_norte   = b[9]
-                cursor.execute("""
-                    INSERT INTO bloques (codigo, tipo_intervencion, cuenca, distrito,
-                                         utm_este, utm_norte, utm_zona, altitud,
-                                         area_hectareas, responsable, estado,
-                                         microcuenca, provincia, fecha_registro)
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-                """, (
-                    codigo, "Restauracion", microcuenca, distrito,
-                    float(utm_este or 0.0), float(utm_norte or 0.0), "17S", 0.0,
-                    float(area_ha or 0.0), "", "Pendiente",
-                    microcuenca, provincia, fecha,
-                ))
-                insertados += 1
-
-            conn.commit()
-
-            st.success(
-                f"✅ Migracion V5 completada: {eliminados} bloques eliminados, "
-                f"{insertados} bloques V5 insertados."
-            )
-            st.info("Recarga la pagina o navega al Panel de Control para ver los cambios.")
-            st.cache_data.clear()
-
-        except Exception as e:
-            if conn is not None:
-                try:
-                    conn._conn.rollback()
-                except Exception:
-                    pass
-            st.error(f"Error durante la migracion: {e}")
-        finally:
-            if conn is not None:
-                try:
-                    conn.close()
-                except Exception:
-                    pass
-
+# La pagina "Migracion V4 (temporal)" ejecutaba TRUNCATE TABLE bloques
+# RESTART IDENTITY CASCADE, que borraba los bloques y, en cascada,
+# inspecciones, diagnosticos territoriales y sociales, elementos expuestos,
+# presupuesto e indicadores. Se retiro del menu por ese riesgo.
+#
+# El alta de bloques se hace ahora desde "Bloques de Intervencion ->
+# Sincronizar catalogo de bloques", que es aditiva y cubre tambien el caso
+# de una base vacia (inserta los 132 bloques del catalogo).
+#
+# Si alguna vez hiciera falta reconstruir el catalogo desde cero, el script
+# `migrar_bloques_v5.py` sigue disponible para ejecutarse a mano desde una
+# terminal, fuera del aplicativo.
 
 # ══════════════════════════════════════════════════════════════════════════
 # ROUTER
@@ -5269,4 +5337,3 @@ elif pagina == "Georreferenciacion": pagina_georreferenciacion()
 elif pagina == "ODK / KoBoToolbox": pagina_odk()
 elif pagina == "Reportes": pagina_reportes()
 elif pagina == "Conversor PDF -> Excel": pagina_conversor_pdf()
-elif pagina == "⚙️ Migracion V4 (temporal)": pagina_migracion_v4()

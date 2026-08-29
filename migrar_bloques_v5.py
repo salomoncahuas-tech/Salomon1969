@@ -160,12 +160,12 @@ BLOQUES_V5 = [
     ("71", "C1076-Q9593", 10.67, "Huancabamba", "Huarmaca", "Z14", 652104, 9373045, 0.557066),
     ("8", "C1076-Q9593", 126.95, "Huancabamba", "Huarmaca", "Z14", 651673, 9373383, 0.554802),
     ("20", "C1076-Q9593", 81.33, "Huancabamba", "Huarmaca", "Z14", 649847, 9376260, 0.48513),
-    # Ampliacion: bloques adicionales sin coordenadas UTM en la fuente.
-    ("83", "C1081-Q9583", 24.344, "Morropon", "San Juan de Bigote", "Z08", 0, 0, 0.30545594),
-    ("84", "C1081-Q9583", 5.097, "Morropon", "San Juan de Bigote", "Z08", 0, 0, 0.251595558),
-    ("85", "C1081-Q9583", 11.906, "Morropon", "San Juan de Bigote", "Z08", 0, 0, 0.228928157),
-    ("86", "C1081-Q9583", 30.001, "Morropon", "San Juan de Bigote", "Z08", 0, 0, 0.273471802),
-    ("87", "C1081-Q9583", 62.219, "Morropon", "San Juan de Bigote", "Z08", 0, 0, 0.248717766),
+    # Ampliacion: bloques adicionales (centroides de "CENTROIDES BLOQUES ADICIONALEES.xlsx").
+    ("83", "C1081-Q9583", 24.344, "Morropon", "San Juan de Bigote", "Z08", 639720, 9410622, 0.30545594),
+    ("84", "C1081-Q9583", 5.097, "Morropon", "San Juan de Bigote", "Z08", 640237, 9410714, 0.251595558),
+    ("85", "C1081-Q9583", 11.906, "Morropon", "San Juan de Bigote", "Z08", 642200, 9411072, 0.228928157),
+    ("86", "C1081-Q9583", 30.001, "Morropon", "San Juan de Bigote", "Z08", 642415, 9410216, 0.273471802),
+    ("87", "C1081-Q9583", 62.219, "Morropon", "San Juan de Bigote", "Z08", 642882, 9411123, 0.248717766),
 ]
 
 def migrar(db_url):

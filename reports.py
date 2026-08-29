@@ -5,9 +5,11 @@ Incluye fichas de inspección, resumen de bloques, presupuesto y cronograma.
 Cuenca alta del río Piura, Perú.
 """
 
+import io
 import json
 import os
 import re
+import zipfile
 from datetime import datetime
 
 from fpdf import FPDF
@@ -1232,6 +1234,45 @@ def generar_ficha_ds_bloque_pdf(bloque_id, centros_poblados=None,
     nombre = (f"Ficha_DS_{bloque['codigo']}_"
               f"{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf")
     return nombre, _pdf_a_bytes(pdf)
+
+
+def generar_zip_fichas_diagnostico(bloques, tipo="DT", centros_poblados_map=None):
+    """Empaqueta en un ZIP la ficha PDF de varios bloques de una sola pasada.
+
+    `bloques` es una lista de (codigo, bloque_id). `tipo` vale "DT", "DS" o
+    "AMBAS". `centros_poblados_map` es el catalogo {codigo: {centros_poblados,
+    comunidades_campesinas}} que necesita la ficha social.
+
+    Un bloque que falle no aborta el lote: su error se anota en el archivo
+    ERRORES.txt dentro del ZIP. Devuelve (nombre_zip, bytes).
+    """
+    centros_poblados_map = centros_poblados_map or {}
+    tipos = ["DT", "DS"] if tipo == "AMBAS" else [tipo]
+    errores = []
+    buf = io.BytesIO()
+
+    with zipfile.ZipFile(buf, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+        for codigo, bloque_id in bloques:
+            for t in tipos:
+                try:
+                    if t == "DT":
+                        nombre, datos = generar_ficha_dt_bloque_pdf(bloque_id)
+                    else:
+                        cp = centros_poblados_map.get(codigo, {})
+                        nombre, datos = generar_ficha_ds_bloque_pdf(
+                            bloque_id,
+                            centros_poblados=cp.get("centros_poblados", []),
+                            comunidades_campesinas=cp.get("comunidades_campesinas", []))
+                    zf.writestr(f"{t}/{nombre}", datos)
+                except Exception as e:
+                    errores.append(f"Bloque {codigo} - ficha {t}: {e}")
+        if errores:
+            zf.writestr("ERRORES.txt", "\n".join(errores))
+
+    sufijo = "DT_DS" if tipo == "AMBAS" else tipo
+    nombre_zip = f"Fichas_{sufijo}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.zip"
+    buf.seek(0)
+    return nombre_zip, buf.getvalue()
 
 
 def generar_resumen_excel():
