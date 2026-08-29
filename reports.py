@@ -1167,16 +1167,20 @@ def generar_ficha_dt_bloque_pdf(bloque_id):
     return nombre, _pdf_a_bytes(pdf)
 
 
-def generar_ficha_ds_bloque_pdf(bloque_id, centros_poblados=None,
-                                comunidades_campesinas=None):
+def generar_ficha_ds_bloque_pdf(bloque_id, datos_cp=None):
     """Ficha PDF del Diagnostico Social de UN bloque con sus centros poblados.
 
-    `centros_poblados` / `comunidades_campesinas` son las listas del catalogo
-    oficial (CENTROS_POBLADOS_BLOQUE); a ellas se suman los centros poblados
-    efectivamente consignados en las fichas sociales del bloque, de modo que la
-    ficha refleje tanto el ambito previsto como el trabajado en campo.
+    `datos_cp` es la entrada del catalogo del bloque (centros_poblados.py):
+    centros poblados, comunidades campesinas y la demografia INEI de cada
+    centro poblado. A esa relacion se suman los centros poblados efectivamente
+    consignados en las fichas sociales, de modo que la ficha refleje tanto el
+    ambito previsto como el trabajado en campo.
     Devuelve (nombre_archivo, bytes).
     """
+    datos_cp = datos_cp or {}
+    centros_poblados = datos_cp.get("centros_poblados", [])
+    comunidades_campesinas = datos_cp.get("comunidades_campesinas", [])
+    demografia = datos_cp.get("demografia", [])
     bloque = db.obtener_bloque_por_id(bloque_id)
     if not bloque:
         raise ValueError(f"Bloque con id {bloque_id} no encontrado.")
@@ -1200,8 +1204,42 @@ def generar_ficha_ds_bloque_pdf(bloque_id, centros_poblados=None,
     pdf._seccion("2. Centros Poblados del Bloque")
     if catalogo_cp:
         pdf._campo("N de centros poblados (catalogo)", str(len(catalogo_cp)))
-        for i, cp in enumerate(catalogo_cp, 1):
-            pdf._campo(f"  {i}", cp, ancho_etiqueta=12)
+        if demografia:
+            # Demografia INEI por centro poblado.
+            pdf._tabla_json(
+                "Poblacion de los centros poblados asociados (INEI)",
+                json.dumps(demografia, ensure_ascii=False),
+                [
+                    ("centro_poblado", "Centro Poblado", 52),
+                    ("poblacion_total", "Poblacion", 22),
+                    ("hombres", "Hombres", 20),
+                    ("mujeres", "Mujeres", 20),
+                    ("poblacion_vulnerable", "Pob. vuln.", 22),
+                    ("viviendas", "Viviendas", 22),
+                    ("tipo", "Tipo", 20),
+                ],
+            )
+            # La desagregacion solo se imprime si la fuente la trae: para los
+            # bloques 83-87 solo se conoce la poblacion total, y un "0 H / 0 M"
+            # se leeria como dato real en vez de dato ausente.
+            total_pob = datos_cp.get("poblacion_total", 0)
+            partes_tot = [f"{total_pob:,} hab."]
+            if datos_cp.get("hombres") or datos_cp.get("mujeres"):
+                partes_tot.append(f"{datos_cp.get('hombres', 0):,} hombres / "
+                                  f"{datos_cp.get('mujeres', 0):,} mujeres")
+            if datos_cp.get("viviendas"):
+                partes_tot.append(f"{datos_cp['viviendas']:,} viviendas")
+            if datos_cp.get("poblacion_vulnerable"):
+                partes_tot.append(f"{datos_cp['poblacion_vulnerable']:,} en condicion vulnerable")
+            pdf._campo("Totales del bloque", " | ".join(partes_tot))
+            pdf.set_font("Helvetica", "I", 8)
+            pdf.multi_cell(190, 4,
+                           "La poblacion corresponde a los centros poblados asociados al "
+                           "bloque, no a la poblacion residente dentro del poligono.")
+            pdf.set_font("Helvetica", "", 9)
+        else:
+            for i, cp in enumerate(catalogo_cp, 1):
+                pdf._campo(f"  {i}", cp, ancho_etiqueta=12)
     else:
         pdf.set_font("Helvetica", "I", 9)
         pdf.cell(0, 6, "Sin centros poblados asociados en el catalogo oficial.", 0, 1)
@@ -1258,11 +1296,8 @@ def generar_zip_fichas_diagnostico(bloques, tipo="DT", centros_poblados_map=None
                     if t == "DT":
                         nombre, datos = generar_ficha_dt_bloque_pdf(bloque_id)
                     else:
-                        cp = centros_poblados_map.get(codigo, {})
                         nombre, datos = generar_ficha_ds_bloque_pdf(
-                            bloque_id,
-                            centros_poblados=cp.get("centros_poblados", []),
-                            comunidades_campesinas=cp.get("comunidades_campesinas", []))
+                            bloque_id, datos_cp=centros_poblados_map.get(codigo, {}))
                     zf.writestr(f"{t}/{nombre}", datos)
                 except Exception as e:
                     errores.append(f"Bloque {codigo} - ficha {t}: {e}")

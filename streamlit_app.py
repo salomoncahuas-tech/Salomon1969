@@ -339,135 +339,12 @@ BLOQUES_V5_OPCIONES = BLOQUES_128_OPCIONES
 ZONAS_V5 = sorted({b[11] for b in BLOQUES_V5 if len(b) > 11 and b[11]})
 
 # ── Centros Poblados por Bloque de Intervencion ──────────────────────
-# Fuente: CentrosPoblados-INEI-Bloques_v5.xlsx (hoja "Lista CPs INEI Bloques V5")
-# Mapeo BLOQUE -> centros poblados INEI (sin duplicados, orden de la fuente oficial).
-CENTROS_POBLADOS_BLOQUE = {
-    "1": {"centros_poblados": ["Mamayaco", "Gramadal"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "2": {"centros_poblados": ["Balcones de Talandracas"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "3": {"centros_poblados": ["Los Checches", "Huayabal", "El Mirador", "Rincon de Geraldo", "Huasipe de Geraldo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "4": {"centros_poblados": ["San Antonio de Succhirca", "La Rinconada"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "5": {"centros_poblados": ["Juan Velasco", "El Ala", "Linderos del Ala"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "6": {"centros_poblados": ["Guabal", "Nogal", "Guanabano Alto"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "8": {"centros_poblados": ["Pirga"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "9": {"centros_poblados": ["La Capilla", "El Higueron"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "10": {"centros_poblados": ["La Peña"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "11": {"centros_poblados": ["Taylin de Tuñali"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "12": {"centros_poblados": ["Chacayo", "Santo Domingo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "13": {"centros_poblados": ["Huacas"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "14": {"centros_poblados": ["La Laja", "Overazal"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "15": {"centros_poblados": ["Jacanacas"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "16": {"centros_poblados": ["Laguna de Paltama"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "17": {"centros_poblados": ["El Checo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "18": {"centros_poblados": ["Piedra Blanca"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "19": {"centros_poblados": ["Tabluran", "Nuevo Progreso"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "20": {"centros_poblados": ["Tupac Amaru"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "21": {"centros_poblados": ["Huamala Alto"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "22": {"centros_poblados": ["Platanal Bajo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "23": {"centros_poblados": ["Jacanacas", "Nueva Esperanza"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "24": {"centros_poblados": ["Coyona"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "25": {"centros_poblados": ["Cruz Pampa-yapatera"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "26": {"centros_poblados": ["La Laguna"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "27": {"centros_poblados": ["Nueva Esperanza de Misquis", "Linderos de Misquis"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "28": {"centros_poblados": ["Abalque"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "29": {"centros_poblados": ["Santa Cruz"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "30": {"centros_poblados": ["Chamelico", "Sapce"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "32": {"centros_poblados": ["Panecillo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "33": {"centros_poblados": ["Sambe"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "34": {"centros_poblados": ["Maray Grande", "Maray Chico"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "35": {"centros_poblados": ["Chamelico", "Quitahuajara"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "36": {"centros_poblados": ["Guabal"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "37": {"centros_poblados": ["El Papayo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "38": {"centros_poblados": ["Ullma"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "39": {"centros_poblados": ["La Cria"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "40": {"centros_poblados": ["Chorro Blanco", "Chacchacal"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "41": {"centros_poblados": ["Cambruran"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "42": {"centros_poblados": ["Santa Rosa de Chirimoyos"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "43": {"centros_poblados": ["Pizarrume", "Coyona"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "44": {"centros_poblados": ["Cruz de Piedra"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "46": {"centros_poblados": ["Nangay"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "47": {"centros_poblados": ["Gaspar"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "49": {"centros_poblados": ["Las Huacas"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "51": {"centros_poblados": ["Shain", "Talla"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "52": {"centros_poblados": ["Miraflores"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "53": {"centros_poblados": ["Zururan"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "55": {"centros_poblados": ["Las Huacas"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "56": {"centros_poblados": ["Banda de la Cruz", "Putagas"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "57": {"centros_poblados": ["San Lorenzo", "Taspa"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "58": {"centros_poblados": ["Linderos de Maray", "Maray"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "59": {"centros_poblados": ["Guabo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "60": {"centros_poblados": ["Flor de Cafe"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "61": {"centros_poblados": ["Pedregal"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "63": {"centros_poblados": ["Shuturumbe"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "64": {"centros_poblados": ["Pariamarca Centro"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "66": {"centros_poblados": ["Huamala Baja"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "67": {"centros_poblados": ["Piedra Grande"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "68": {"centros_poblados": ["Tabluran"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "69": {"centros_poblados": ["Molle", "Hualanga Pampa"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "70": {"centros_poblados": ["Zururan"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "71": {"centros_poblados": ["Pirga"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "72": {"centros_poblados": ["Ramon Castilla"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "73": {"centros_poblados": ["Chococa"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "74": {"centros_poblados": ["Chalpa"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "75": {"centros_poblados": ["San Cristobal", "Sanchez Cerro"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "76": {"centros_poblados": ["Sahuate Hualanga", "Hualanga"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "77": {"centros_poblados": ["Miguel Pampa"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "78": {"centros_poblados": ["Tasajeras"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "79": {"centros_poblados": ["Huabal", "Almirante Miguel Grau"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "80": {"centros_poblados": ["Yumbe", "Cruz Roja"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "81": {"centros_poblados": ["Hualtacal"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "82": {"centros_poblados": ["Santa Fe de Portachuelo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    # Bloques adicionales 83-87. Fuente: "CentrosPoblados-INEI-Bloques_Adicionales.xlsx"
-    # (hoja "Hoja2", coincidente con "Muestra pob inei+sigrid"). A diferencia del
-    # resto del catalogo, aqui si se conoce la poblacion por centro poblado.
-    "83": {"centros_poblados": ["Miguel Pampa"], "comunidades_campesinas": [], "poblacion_total": 188},
-    "84": {"centros_poblados": ["Miguel Pampa"], "comunidades_campesinas": [], "poblacion_total": 188},
-    "85": {"centros_poblados": ["Dotor"], "comunidades_campesinas": [], "poblacion_total": 240},
-    "86": {"centros_poblados": ["Nueva Esperanza"], "comunidades_campesinas": [], "poblacion_total": 65},
-    "87": {"centros_poblados": ["Dotor", "Cardal", "Nueva Esperanza"], "comunidades_campesinas": [], "poblacion_total": 705},
-    "M10B4": {"centros_poblados": ["Rio Seco Alto"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M11B3": {"centros_poblados": ["Quemazon", "La Pareja"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M12B1": {"centros_poblados": ["Nueva Esperanza", "Faicalito"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M17B1": {"centros_poblados": ["Papelillo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M17B4": {"centros_poblados": ["Chililique Alto"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M17B5": {"centros_poblados": ["El Guabo"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M17B6": {"centros_poblados": ["Platanal Alto", "El Guabo", "Chililique Alto"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M17B7": {"centros_poblados": ["Pampa de Ramada"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M18B1": {"centros_poblados": ["Hualas"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M18B3": {"centros_poblados": ["Huaro Quispampa", "Mangomanguia", "Selva Andina"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M18B5": {"centros_poblados": ["Morroponcito"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M19B2": {"centros_poblados": ["Boca Negra"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M19B7": {"centros_poblados": ["El Faique"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M1B1": {"centros_poblados": ["Rio Seco"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M20B1": {"centros_poblados": ["Las Huacas"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M22B1": {"centros_poblados": ["Santa Rosa"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M27B1": {"centros_poblados": ["Huasimal", "Vicus Linderos", "Vicus la Merced", "Vicus Santa Rosa"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M28B2": {"centros_poblados": ["Flor de Agua", "Victor Raul (el Checo)"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M28B3": {"centros_poblados": ["Ricardo Palma"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M28B4": {"centros_poblados": ["Nueva Esperanza", "Mambluque", "Alto Mambluque"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M2B1": {"centros_poblados": ["Santa Rosa"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M2B5": {"centros_poblados": ["Hornopampa"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M2B8": {"centros_poblados": ["Las Huacas", "Huacas Baja"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M32B3": {"centros_poblados": ["Maray"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M36B2": {"centros_poblados": ["Santa Rosa de Chirimoyos"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M3B1": {"centros_poblados": ["Piedra Blanca"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M3B3": {"centros_poblados": ["Alan Garcia", "Bigote"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M3B5": {"centros_poblados": ["San Juan Bautista"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M3B6": {"centros_poblados": ["Manzanares", "Bado de Garzas"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M3B7": {"centros_poblados": ["Polluco", "Sinai"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M3B8": {"centros_poblados": ["San Pedro", "Santa Rosa"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M3B9": {"centros_poblados": ["Tortola"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M4B3": {"centros_poblados": ["Chignia Baja"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M4B4": {"centros_poblados": ["Hualcas I", "Hualcas Ii"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M6B10": {"centros_poblados": ["La Maravilla", "La Pilca", "Ingenio de Buenos Aires"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M6B2-2": {"centros_poblados": ["Buenos Aires"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M6B2-3": {"centros_poblados": ["Pueblo Nuevo", "Pedregal"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M7B1": {"centros_poblados": ["Victor Raul", "Nuevo Progreso", "La Alberca"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M7B2": {"centros_poblados": ["La Alberca"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M7B3": {"centros_poblados": ["Palo Blanco-el Cerezo", "La Tranca"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M7B6": {"centros_poblados": ["Nuevo San Juan", "Santa Rosa", "Serran"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M8B2": {"centros_poblados": ["Botijas"], "comunidades_campesinas": [], "poblacion_total": 0},
-    "M9B1": {"centros_poblados": ["La Peña"], "comunidades_campesinas": [], "poblacion_total": 0},
-}
+# El catalogo vive en `centros_poblados.py`: ademas de la relacion de centros
+# poblados y comunidades campesinas por bloque, trae la demografia INEI de
+# cada centro poblado (poblacion total y por sexo, poblacion vulnerable,
+# viviendas particulares y coordenadas).
+from centros_poblados import CENTROS_POBLADOS_BLOQUE, datos_bloque as _cp_bloque
+
 
 PROVINCIAS_DISTRITOS = {
     "Ayabaca": ["Frias"],
@@ -941,13 +818,17 @@ def pagina_bloques():
 
             if datos_79:
                 acc_txt = "Acceso limitado" if def_accesibilidad == 1 else "Acceso normal"
-                cp_data = CENTROS_POBLADOS_BLOQUE.get(def_codigo, {})
-                cp_txt = ", ".join(cp_data.get("centros_poblados", [])) if cp_data else "—"
-                cc_txt = ", ".join(cp_data.get("comunidades_campesinas", [])) if cp_data else "—"
+                cp_data = _cp_bloque(def_codigo)
+                cp_txt = ", ".join(cp_data.get("centros_poblados", [])) or "—"
+                cc_txt = ", ".join(cp_data.get("comunidades_campesinas", [])) or "—"
+                pob_txt = ""
+                if cp_data.get("poblacion_total"):
+                    pob_txt = (f" | Poblacion: {cp_data['poblacion_total']:,} hab. "
+                               f"({cp_data.get('viviendas', 0):,} viviendas)")
                 st.info(f"Bloque **{def_codigo}** | Microcuenca: {def_microcuenca} | "
                         f"{def_distrito} ({def_provincia}) | {def_area} ha | "
                         f"{acc_txt} | Dia eval.: {def_dia}\n\n"
-                        f"CC.PP.: {cp_txt} | Com. Campesinas: {cc_txt} | "
+                        f"CC.PP.: {cp_txt} | Com. Campesinas: {cc_txt}{pob_txt} | "
                         f"UTM: {datos_79.get('utm_este', 0)} E, {datos_79.get('utm_norte', 0)} N")
         else:
             datos_79 = {}
@@ -2806,13 +2687,31 @@ def pagina_diagnostico_territorial():
 # ══════════════════════════════════════════════════════════════════════════
 # DIAGNOSTICO SOCIAL
 # ══════════════════════════════════════════════════════════════════════════
+def _tabla_demografia_cp(cp_info):
+    """DataFrame con la demografia INEI de los centros poblados de un bloque.
+    Devuelve None si el catalogo no trae detalle para ese bloque."""
+    detalle = (cp_info or {}).get("demografia", [])
+    if not detalle:
+        return None
+    return pd.DataFrame([{
+        "N": i,
+        "Centro Poblado": d.get("centro_poblado", ""),
+        "Poblacion": d.get("poblacion_total", 0),
+        "Hombres": d.get("hombres", 0),
+        "Mujeres": d.get("mujeres", 0),
+        "Pob. vulnerable": d.get("poblacion_vulnerable", 0),
+        "Viviendas": d.get("viviendas", 0),
+        "Tipo": d.get("tipo", ""),
+    } for i, d in enumerate(detalle, 1)])
+
+
 def _ds_datos_generales(bloque_label=""):
     """Campos de datos generales compartidos por todas las fichas DS.
     Auto-vincula centros poblados, comunidades campesinas, provincia,
     distrito y coordenadas aproximadas del bloque seleccionado."""
     codigo_bloque = bloque_label.split(" - ")[0].strip() if " - " in bloque_label else bloque_label.strip()
     bloque_info = BLOQUES_128_MAP.get(codigo_bloque, {})
-    cp_info = CENTROS_POBLADOS_BLOQUE.get(codigo_bloque, {})
+    cp_info = _cp_bloque(codigo_bloque)
     lista_cp = cp_info.get("centros_poblados", [])
     lista_cc = cp_info.get("comunidades_campesinas", [])
     pob_total = cp_info.get("poblacion_total", 0)
@@ -2826,21 +2725,26 @@ def _ds_datos_generales(bloque_label=""):
             resumen += f" y **{n_cc}** comunidad(es) campesina(s)"
         resumen += f" vinculado(s) al bloque **{codigo_bloque}**"
         if pob_total:
-            resumen += f" | Poblacion total: **{pob_total:,}** hab."
+            resumen += (f" | Poblacion: **{pob_total:,}** hab. "
+                        f"({cp_info.get('hombres', 0):,} H / {cp_info.get('mujeres', 0):,} M) "
+                        f"| Viviendas: **{cp_info.get('viviendas', 0):,}**")
         st.info(resumen)
 
-        # Mostrar tabla resumen si hay multiples centros poblados
-        if n_cp > 1:
-            with st.expander(f"Ver {n_cp} centros poblados asociados al bloque {codigo_bloque}", expanded=False):
-                df_cp = pd.DataFrame({"N": range(1, n_cp + 1), "Centro Poblado": lista_cp})
-                if lista_cc:
-                    df_cp_cc = pd.DataFrame({
-                        "Centros Poblados": ", ".join(lista_cp),
-                        "Comunidades Campesinas": ", ".join(lista_cc),
-                    }, index=[0])
-                    st.dataframe(df_cp_cc, use_container_width=True, hide_index=True)
-                else:
-                    st.dataframe(df_cp, use_container_width=True, hide_index=True)
+        # Detalle demografico INEI por centro poblado.
+        with st.expander(f"Ver {n_cp} centro(s) poblado(s) del bloque {codigo_bloque} "
+                         "y su demografia", expanded=False):
+            df_demo = _tabla_demografia_cp(cp_info)
+            if df_demo is not None:
+                st.dataframe(df_demo, use_container_width=True, hide_index=True)
+                st.caption("Fuente: INEI. La poblacion corresponde a los centros "
+                           "poblados asociados al bloque, no a la poblacion "
+                           "residente dentro del poligono.")
+            else:
+                st.dataframe(pd.DataFrame({"N": range(1, n_cp + 1),
+                                           "Centro Poblado": lista_cp}),
+                             use_container_width=True, hide_index=True)
+            if lista_cc:
+                st.markdown(f"**Comunidades campesinas:** {', '.join(lista_cc)}")
 
     # ── Auto-resolver provincia y distrito del bloque ──
     prov_auto = bloque_info.get("provincia", "")
@@ -3751,11 +3655,13 @@ def pagina_diagnostico_social():
             else:
                 c_dspdf1, c_dspdf2 = st.columns([2, 1])
                 bl_ds_pdf = c_dspdf1.selectbox("Bloque", cods_ds, key="ds_pdf_bl")
-                cp_info_pdf = CENTROS_POBLADOS_BLOQUE.get(bl_ds_pdf, {})
+                cp_info_pdf = _cp_bloque(bl_ds_pdf)
                 cps_pdf = cp_info_pdf.get("centros_poblados", [])
-                ccs_pdf = cp_info_pdf.get("comunidades_campesinas", [])
                 if cps_pdf:
-                    c_dspdf1.caption(f"Centros poblados del catalogo: {', '.join(cps_pdf)}")
+                    pob_cp = cp_info_pdf.get("poblacion_total", 0)
+                    detalle_pob = f" | {pob_cp:,} hab." if pob_cp else ""
+                    c_dspdf1.caption(f"Centros poblados del catalogo: "
+                                     f"{', '.join(cps_pdf)}{detalle_pob}")
                 else:
                     c_dspdf1.caption("Sin centros poblados en el catalogo oficial para "
                                      "este bloque; la ficha usara los consignados en campo.")
@@ -3766,8 +3672,7 @@ def pagina_diagnostico_social():
                     else:
                         try:
                             nombre_pdf, bytes_pdf = reports.generar_ficha_ds_bloque_pdf(
-                                bid_ds_pdf, centros_poblados=cps_pdf,
-                                comunidades_campesinas=ccs_pdf)
+                                bid_ds_pdf, datos_cp=cp_info_pdf)
                             st.session_state["ds_pdf_bytes"] = bytes_pdf
                             st.session_state["ds_pdf_nombre"] = nombre_pdf
                             st.session_state["ds_pdf_bloque"] = bl_ds_pdf
@@ -4752,16 +4657,17 @@ def pagina_georreferenciacion():
                         continue
                     co = COLORES_ESTADO.get(b.get("estado",""),[149,165,166])
                     # Obtener centros poblados y comunidades del bloque
-                    cp_info = CENTROS_POBLADOS_BLOQUE.get(b.get("codigo", ""), {})
-                    cp_lista = ", ".join(cp_info.get("centros_poblados", [])) if cp_info else "—"
-                    cc_lista = ", ".join(cp_info.get("comunidades_campesinas", [])) if cp_info else "—"
-                    pob = cp_info.get("poblacion_total", 0) if cp_info else 0
+                    cp_info = _cp_bloque(b.get("codigo", ""))
+                    cp_lista = ", ".join(cp_info.get("centros_poblados", [])) or "—"
+                    cc_lista = ", ".join(cp_info.get("comunidades_campesinas", [])) or "—"
+                    pob = cp_info.get("poblacion_total", 0)
+                    viviendas = cp_info.get("viviendas", 0)
                     md.append({"lat":la,"lon":lo,"codigo":b["codigo"],
                         "tipo":b["tipo_intervencion"],"estado":b["estado"],
                         "area":b["area_hectareas"],"distrito":b.get("distrito",""),
                         "provincia":b.get("provincia",""),
                         "centros_poblados":cp_lista,"comunidades":cc_lista,
-                        "poblacion":pob,
+                        "poblacion":pob,"viviendas":viviendas,
                         "r":co[0],"g":co[1],"b":co[2]})
                 except (ValueError,KeyError,TypeError): pass
             if md:
@@ -4772,13 +4678,16 @@ def pagina_georreferenciacion():
                     get_radius=300,pickable=True)
                 vs = pdk.ViewState(latitude=df["lat"].mean(),longitude=df["lon"].mean(),zoom=10)
                 st.pydeck_chart(pdk.Deck(layers=[layer],initial_view_state=vs,
-                    tooltip={"text":"Codigo: {codigo}\nTipo: {tipo}\nEstado: {estado}\nArea: {area} ha\nDistrito: {distrito} ({provincia})\nCC.PP.: {centros_poblados}\nComunidades: {comunidades}\nPoblacion: {poblacion}"}))
+                    tooltip={"text":"Codigo: {codigo}\nTipo: {tipo}\nEstado: {estado}\nArea: {area} ha\nDistrito: {distrito} ({provincia})\nCC.PP.: {centros_poblados}\nComunidades: {comunidades}\nPoblacion: {poblacion} hab.\nViviendas: {viviendas}"}))
                 st.caption(":red_circle: Pendiente | :orange_circle: En progreso | :green_circle: Verificado")
                 # Tabla de ubicacion con centros poblados y comunidades
                 st.markdown("---")
                 st.markdown("**Ubicacion, Centros Poblados y Comunidades Campesinas**")
-                df_ubic = df[["codigo","distrito","provincia","area","centros_poblados","comunidades","poblacion"]].copy()
-                df_ubic.columns = ["Bloque","Distrito","Provincia","Superficie (ha)","Centros Poblados","Comunidades Campesinas","Poblacion"]
+                df_ubic = df[["codigo","distrito","provincia","area","centros_poblados",
+                              "comunidades","poblacion","viviendas"]].copy()
+                df_ubic.columns = ["Bloque","Distrito","Provincia","Superficie (ha)",
+                                   "Centros Poblados","Comunidades Campesinas",
+                                   "Poblacion","Viviendas"]
                 st.dataframe(df_ubic, use_container_width=True, hide_index=True)
             else: st.info("No se pudieron convertir coordenadas.")
         else: st.info("Sin bloques para los filtros.")
@@ -4918,11 +4827,9 @@ def pagina_reportes():
                 st.error(f"Error: {e}")
         if c_rep3.button("Ficha DS (PDF)", key="rep_ds_gen", type="secondary"):
             try:
-                cp_rep = CENTROS_POBLADOS_BLOQUE.get(bl_diag, {})
+                cp_rep = _cp_bloque(bl_diag)
                 nombre_pdf, bytes_pdf = reports.generar_ficha_ds_bloque_pdf(
-                    bm[bl_diag],
-                    centros_poblados=cp_rep.get("centros_poblados", []),
-                    comunidades_campesinas=cp_rep.get("comunidades_campesinas", []))
+                    bm[bl_diag], datos_cp=cp_rep)
                 st.session_state["rep_diag_pdf"] = (bl_diag, nombre_pdf, bytes_pdf)
             except Exception as e:
                 st.error(f"Error: {e}")
