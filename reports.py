@@ -5,8 +5,11 @@ Incluye fichas de inspección, resumen de bloques, presupuesto y cronograma.
 Cuenca alta del río Piura, Perú.
 """
 
+import io
 import json
 import os
+import re
+import zipfile
 from datetime import datetime
 
 from fpdf import FPDF
@@ -183,6 +186,582 @@ class FichaInspeccionPDF(FPDF):
         self.ln(1)
 
 
+def _dedup_por_ficha(registros):
+    """Deduplica registros de diagnostico: conserva solo el primero por
+    (ficha, evaluador). `obtener_*_por_bloque` ya devuelve el mas reciente
+    primero, de modo que las reediciones antiguas no se repiten en el PDF."""
+    vistos = set()
+    salida = []
+    for reg in registros or []:
+        clave = (reg.get("ficha", ""), reg.get("evaluador", ""))
+        if clave not in vistos:
+            vistos.add(clave)
+            salida.append(reg)
+    return salida
+
+
+def _render_dt_registro(pdf, dt):
+    """Renderiza en `pdf` un registro de diagnostico territorial (F-DT-01..05)."""
+    pdf.set_font("Helvetica", "B", 10)
+    pdf.cell(0, 6, f"  Ficha(s) {dt.get('ficha', '')} - {dt.get('fecha_evaluacion', '')}", 0, 1)
+    pdf.set_font("Helvetica", "", 9)
+    # Datos generales V5
+    datos_gen = [
+        ("Microcuenca", "microcuenca"),
+        ("Evaluador", "evaluador"),
+        ("Brigada", "brigada"),
+        ("Correlativo ficha", "ficha_correlativo"),
+        ("Hora de registro", "hora_registro"),
+        ("Centro poblado cercano", "centro_poblado_cercano"),
+        ("Comunidad campesina", "comunidad_campesina_dt"),
+        ("Altitud GPS (m)", "altitud_gps"),
+        ("UTM Este", "utm_este_dt"),
+        ("UTM Norte", "utm_norte_dt"),
+    ]
+    for label, key in datos_gen:
+        val = dt.get(key, "") or ""
+        if val:
+            pdf._campo(label, val)
+
+    # ── F-DT-01: Datos Generales y Fisiografia ──
+    campos_dt01 = [
+        ("Forma del terreno", "forma_terreno"),
+        ("Rango de pendiente", "pendiente"),
+        ("Posicion fisiografica", "posicion_fisiografica"),
+        ("Exposicion / Orientacion", "exposicion_orientacion"),
+        ("Rango altitudinal", "rango_altitudinal"),
+        ("Paisaje dominante", "paisaje_dominante"),
+        ("Afloramientos rocosos", "dt01_afloramientos_rocosos"),
+        ("Escarpes activos", "dt01_escarpes_activos"),
+        ("Reptacion de suelo", "dt01_reptacion_suelo"),
+        ("Deslizamientos antiguos", "dt01_deslizamientos_antiguos"),
+        ("Remociones en masa activas", "dt01_remociones_masa_activas"),
+    ]
+    if any(dt.get(k) for _, k in campos_dt01) or dt.get("dt01_observaciones"):
+        pdf._subficha("F-DT-01: Datos Generales y Fisiografia del Bloque")
+        for label, key in campos_dt01:
+            val = dt.get(key, "") or ""
+            if val:
+                pdf._campo(label, val)
+        if dt.get("dt01_observaciones"):
+            pdf._campo_largo("Observaciones F-DT-01", dt["dt01_observaciones"])
+
+    # ── F-DT-02: Suelo y Procesos Erosivos ──
+    campos_dt02 = [
+        ("Sellamiento / Costra", "dt02_sellamiento_costra"),
+        ("Compactacion por pisoteo", "dt02_compactacion_pisoteo"),
+        ("Raices expuestas", "dt02_raices_expuestas"),
+        ("Nivel general de erosion", "dt02_nivel_erosion_general"),
+        ("Nivel erosion (sintesis)", "dt02_nivel_erosion_sintesis"),
+        ("N° de carcavas", "dt02_num_carcavas"),
+        ("Longitud total carcavas (m)", "dt02_longitud_total_carcavas"),
+        ("% bloque con carcavas", "dt02_pct_bloque_carcavas"),
+        ("Erosion laminar (%)", "dt02_erosion_laminar_pct"),
+        ("Patron de carcavas", "dt02_patron_carcavas"),
+        ("Socavamiento de cauce", "dt02_socavamiento_cauce"),
+        ("Urgencia de control", "dt02_urgencia_control"),
+    ]
+    tiene_dt02 = (any(dt.get(k) for _, k in campos_dt02)
+                  or dt.get("dt02_carcavas_json") or dt.get("dt02_observaciones"))
+    if tiene_dt02:
+        pdf._subficha("F-DT-02: Suelo y Procesos Erosivos")
+        for label, key in campos_dt02:
+            val = dt.get(key, "") or ""
+            if val:
+                pdf._campo(label, val)
+        pdf._tabla_json(
+            "Inventario de carcavas / surcos",
+            dt.get("dt02_carcavas_json", ""),
+            [
+                ("codigo", "Codigo", 18),
+                ("tipo", "Tipo", 22),
+                ("utm_e_ini", "UTM E ini", 22),
+                ("utm_n_ini", "UTM N ini", 22),
+                ("longitud_m", "Long.(m)", 16),
+                ("prof_m", "Prof.(m)", 16),
+                ("ancho_m", "Ancho(m)", 16),
+                ("estado", "Estado", 22),
+                ("causa", "Causa", 35),
+            ],
+        )
+        if dt.get("dt02_observaciones"):
+            pdf._campo_largo("Observaciones F-DT-02", dt["dt02_observaciones"])
+
+    # ── F-DT-03: Ecosistema ──
+    campos_dt03 = [
+        ("Parcela de muestreo", "dt03_parcela_muestreo"),
+        ("Dimensiones parcela (m)", "dt03_dim_parcela"),
+        ("Pendiente parcela (%)", "dt03_pendiente_parcela"),
+        ("Cobertura vegetal total (%)", "dt03_cobertura_total"),
+        ("Tipo de ecosistema (MINAM)", "dt03_tipo_ecosistema"),
+        ("Superficie ecosistema (ha)", "dt03_superficie_ecosistema"),
+        ("Estado conservacion", "dt03_estado_conservacion_eco"),
+        ("Uso dominante del suelo", "dt03_uso_dominante"),
+        ("Cobertura dosel (%)", "dt03_cobertura_dosel"),
+        ("Cobertura arbustiva (%)", "dt03_cobertura_arbustiva"),
+        ("Cobertura herbacea (%)", "dt03_cobertura_herbacea"),
+        ("Cobertura hojarasca (%)", "dt03_cobertura_hojarasca"),
+        ("Suelo desnudo (%)", "dt03_suelo_desnudo"),
+        ("Altura estrato dom. (m)", "dt03_altura_estrato_dom"),
+        ("Altura maxima (m)", "dt03_altura_max"),
+        ("DAP promedio (cm)", "dt03_dap_promedio"),
+        ("Regeneracion natural", "dt03_regeneracion_natural"),
+        ("Estado sanitario", "dt03_estado_sanitario"),
+        ("Presencia epifitas", "dt03_presencia_epifitas"),
+        ("Fenologia dominante", "dt03_fenologia_dominante"),
+        ("Tipo cobertura dominante", "dt03_tipo_cobertura_dom"),
+    ]
+    tiene_dt03 = (any(dt.get(k) for _, k in campos_dt03)
+                  or dt.get("dt03_floristica_json")
+                  or dt.get("dt03_especies_clave_json")
+                  or dt.get("dt03_observaciones"))
+    if tiene_dt03:
+        pdf._subficha("F-DT-03: Ecosistema - Composicion, Estructura y Valor Ecologico")
+        for label, key in campos_dt03:
+            val = dt.get(key, "") or ""
+            if val:
+                pdf._campo(label, val)
+        pdf._tabla_json(
+            "Composicion floristica",
+            dt.get("dt03_floristica_json", ""),
+            [
+                ("nombre_comun", "N. comun", 35),
+                ("nombre_cientifico", "N. cientifico", 45),
+                ("familia", "Familia", 28),
+                ("estrato", "Estrato", 20),
+                ("origen", "Origen", 18),
+                ("abundancia", "Abund.", 18),
+                ("dap_cm", "DAP", 12),
+                ("altura_m", "H(m)", 12),
+            ],
+        )
+        pdf._tabla_json(
+            "Especies clave / indicadoras",
+            dt.get("dt03_especies_clave_json", ""),
+            [
+                ("nombre", "Nombre", 45),
+                ("categoria", "Categoria", 30),
+                ("estado_uicn", "UICN/D.S.043", 28),
+                ("utm_e", "UTM E", 22),
+                ("utm_n", "UTM N", 22),
+                ("n_indiv", "N° ind.", 14),
+                ("foto", "Foto", 14),
+            ],
+        )
+        if dt.get("dt03_observaciones"):
+            pdf._campo_largo("Observaciones F-DT-03", dt["dt03_observaciones"])
+
+    # ── F-DT-04: Causas e Indicadores de Degradacion ──
+    campos_dt04 = [
+        ("Causa subyacente principal", "dt04_causa_subyacente"),
+        ("Velocidad de degradacion", "dt04_velocidad_degradacion"),
+        ("Reversibilidad tecnica", "dt04_reversibilidad"),
+        ("Urgencia de intervencion", "dt04_urgencia_intervencion"),
+    ]
+    tiene_dt04 = (any(dt.get(k) for _, k in campos_dt04)
+                  or dt.get("dt04_causas_json")
+                  or dt.get("dt04_indicadores_json")
+                  or dt.get("dt04_causas_directas_texto")
+                  or dt.get("dt04_observaciones"))
+    if tiene_dt04:
+        pdf._subficha("F-DT-04: Causas e Indicadores de Degradacion")
+        pdf._tabla_json(
+            "Matriz de causas de degradacion",
+            dt.get("dt04_causas_json", ""),
+            [
+                ("n", "N°", 10),
+                ("causa", "Causa / Factor", 70),
+                ("presencia", "Pres.", 16),
+                ("intensidad", "Intens.", 22),
+                ("extension", "Ext.(%)", 18),
+                ("antiguedad", "Antig.", 16),
+                ("evidencia", "Evidencia", 38),
+            ],
+        )
+        pdf._tabla_json(
+            "Indicadores cuantitativos de degradacion",
+            dt.get("dt04_indicadores_json", ""),
+            [
+                ("n", "N°", 10),
+                ("indicador", "Indicador", 55),
+                ("unidad", "Unidad", 18),
+                ("valor", "Valor", 18),
+                ("fuente", "Fuente", 30),
+                ("umbral", "Umbral", 35),
+                ("nivel", "Nivel", 20),
+            ],
+        )
+        if dt.get("dt04_causas_directas_texto"):
+            pdf._campo_largo("Causas directas (sintesis)",
+                             dt["dt04_causas_directas_texto"])
+        for label, key in campos_dt04:
+            val = dt.get(key, "") or ""
+            if val:
+                pdf._campo(label, val)
+        if dt.get("dt04_observaciones"):
+            pdf._campo_largo("Observaciones F-DT-04", dt["dt04_observaciones"])
+
+    # ── F-DT-05: Recursos Hidricos y Accesibilidad ──
+    campos_dt05 = [
+        ("Zona de recarga hidrica", "dt05_zona_recarga"),
+        ("Humedad persistente", "dt05_humedad_persistente"),
+        ("Escorrentia concentrada", "dt05_escorrentia_concentrada"),
+        ("Distancia a captacion (m)", "dt05_dist_captacion"),
+        ("JASS / captacion asociada", "dt05_jass_captacion"),
+        ("Interferencia con riego", "dt05_interferencia_riego"),
+        ("Sistema de riego", "dt05_sistema_riego_nombre"),
+        ("Modalidad de acceso", "dt05_modalidad_acceso"),
+        ("Via principal de acceso", "dt05_via_principal"),
+        ("Tipo de via final", "dt05_tipo_via_final"),
+        ("Transitabilidad - seca", "dt05_transitabilidad_seca"),
+        ("Transitabilidad - lluviosa", "dt05_transitabilidad_lluviosa"),
+        ("Tiempo desde capital distrital (min)", "dt05_tiempo_dist_capital"),
+        ("Tiempo desde capital provincial (min)", "dt05_tiempo_prov_capital"),
+        ("Senal celular", "dt05_senal_celular"),
+        ("Operador celular dominante", "dt05_operador_celular"),
+        ("Alojamiento rural disponible", "dt05_alojamiento"),
+        ("Requiere autorizacion Ronda", "dt05_requiere_ronda"),
+        ("Contacto Ronda", "dt05_contacto_ronda"),
+    ]
+    tiene_dt05 = (any(dt.get(k) for _, k in campos_dt05)
+                  or dt.get("dt05_fuentes_agua_json")
+                  or dt.get("dt05_observaciones"))
+    if tiene_dt05:
+        pdf._subficha("F-DT-05: Recursos Hidricos y Accesibilidad")
+        pdf._tabla_json(
+            "Inventario de fuentes de agua",
+            dt.get("dt05_fuentes_agua_json", ""),
+            [
+                ("n", "N°", 10),
+                ("tipo", "Tipo", 28),
+                ("utm_e", "UTM E", 22),
+                ("utm_n", "UTM N", 22),
+                ("regimen", "Regimen", 22),
+                ("calidad", "Calidad", 22),
+                ("distancia_m", "Dist.(m)", 18),
+                ("uso_obs", "Uso/Obs.", 40),
+            ],
+        )
+        for label, key in campos_dt05:
+            val = dt.get(key, "") or ""
+            if val:
+                pdf._campo(label, val)
+        if dt.get("dt05_observaciones"):
+            pdf._campo_largo("Observaciones F-DT-05", dt["dt05_observaciones"])
+
+    # Observaciones generales del diagnostico
+    if dt.get("observaciones_generales"):
+        pdf._campo_largo("Observaciones generales", dt["observaciones_generales"])
+    pdf.ln(2)
+
+_FICHAS_DS_TITULOS = {
+    "F-DS-01": "Diagnostico Socioeconomico del CP / Comunidad",
+    "F-DS-02": "Mapeo y Analisis de Actores Clave",
+    "F-DS-03": "Entrevista Semiestructurada a Autoridades / Lideres",
+    "F-DS-04": "Acta de Taller Participativo",
+    "F-DS-05": "Conflictos Socioambientales y Oportunidades",
+    "F-DS-06": "Percepcion Local de Peligros y Cambio Climatico",
+    "F-DS-07": "Disposicion a Participar y Consentimiento Previo Informado",
+}
+
+
+def _ds_form_v3(ds):
+    """Devuelve el dict del formulario V3/V4 guardado en dsNN_data_v3."""
+    ficha = ds.get("ficha", "") or ""
+    num = ficha.split("-")[-1] if ficha else ""
+    raw = ds.get(f"ds{num}_data_v3", "") or ""
+    try:
+        val = json.loads(raw) if raw else {}
+    except (TypeError, ValueError):
+        val = {}
+    return val if isinstance(val, dict) else {}
+
+
+def _humanizar_clave(key):
+    """Convierte una clave tecnica (f6_peligro_principal) en etiqueta legible."""
+    s = re.sub(r"^(dt0[1-5]_|ds0[1-7]_|f[1-7]_)", "", str(key))
+    s = s.replace("_json", "").replace("_", " ").strip()
+    return s[:1].upper() + s[1:] if s else str(key)
+
+
+def _render_ds_form_generico(pdf, form):
+    """Vuelca un formulario de ficha social (dict) cuando no existe un bloque
+    de maquetacion especifico: escalares como campos y listas de dicts como
+    tablas de ancho uniforme."""
+    if not form:
+        pdf.set_font("Helvetica", "I", 9)
+        pdf.cell(0, 6, "Sin datos registrados para esta ficha.", 0, 1)
+        pdf.set_font("Helvetica", "", 9)
+        return
+    tablas = {}
+    for clave, valor in form.items():
+        if isinstance(valor, list) and valor and isinstance(valor[0], dict):
+            tablas[clave] = valor
+            continue
+        if isinstance(valor, list):
+            valor = "; ".join(str(x) for x in valor if str(x).strip())
+        if valor in (None, "", [], {}):
+            continue
+        texto = str(valor)
+        if len(texto) > 90:
+            pdf._campo_largo(_humanizar_clave(clave), texto)
+        else:
+            pdf._campo(_humanizar_clave(clave), texto)
+    for clave, filas in tablas.items():
+        columnas = []
+        for fila in filas:
+            for k in fila:
+                if k not in columnas:
+                    columnas.append(k)
+        if not columnas:
+            continue
+        ancho = max(18, min(45, int(190 / len(columnas))))
+        pdf._tabla_json(
+            _humanizar_clave(clave),
+            json.dumps(filas, ensure_ascii=False),
+            [(k, _humanizar_clave(k), ancho) for k in columnas],
+        )
+
+
+def _render_ds_registro(pdf, ds):
+    """Renderiza en `pdf` un registro de diagnostico social (F-DS-01..07)."""
+    ficha_ds = ds.get("ficha", "")
+    pdf.set_font("Helvetica", "B", 10)
+    pdf.cell(0, 6, f"  Ficha {ficha_ds} - {ds.get('fecha_evaluacion', '')}", 0, 1)
+    pdf.set_font("Helvetica", "", 9)
+    # Datos generales (compartidos por todas las DS)
+    datos_gen_ds = [
+        ("Microcuenca", "microcuenca"),
+        ("Evaluador / Responsable", "evaluador"),
+        ("N° de ficha", "ficha_numero"),
+        ("Provincia", "provincia"),
+        ("Distrito", "distrito"),
+        ("Centro poblado", "centro_poblado"),
+        ("Comunidad campesina", "comunidad_campesina"),
+        ("Coordenada UTM Este", "coordenada_este"),
+        ("Coordenada UTM Norte", "coordenada_norte"),
+        ("Altitud (msnm)", "altitud"),
+        ("Codigo UBIGEO", "codigo_ubigeo"),
+    ]
+    for label, key in datos_gen_ds:
+        val = ds.get(key, "") or ""
+        if val and str(val).strip() not in ("0", "0.0"):
+            pdf._campo(label, val)
+
+    # ── F-DS-01: Diagnostico Socioeconomico ──
+    if ficha_ds == "F-DS-01":
+        pdf._subficha("F-DS-01: Diagnostico Socioeconomico de Centro Poblado")
+        campos_ds01 = [
+            ("N de familias / viviendas", "ds01_num_familias"),
+            ("Poblacion - Hombres", "ds01_poblacion_hombres"),
+            ("Poblacion - Mujeres", "ds01_poblacion_mujeres"),
+            ("Poblacion total", "ds01_poblacion_total"),
+            ("Idioma predominante", "ds01_idioma"),
+            ("Nivel educativo predominante", "ds01_nivel_educativo"),
+            ("Tasa de migracion", "ds01_tasa_migracion"),
+            ("Destino principal migracion", "ds01_destino_migracion"),
+            ("Organizacion comunal", "ds01_organizacion_comunal"),
+            ("Junta directiva vigente", "ds01_junta_directiva"),
+            ("Presidente/a de junta", "ds01_presidente_junta"),
+            ("Agua potable - tipo", "ds01_agua_potable_tipo"),
+            ("Agua potable - cobertura (%)", "ds01_agua_potable_cobertura"),
+            ("Saneamiento", "ds01_saneamiento"),
+            ("Energia - tipo", "ds01_energia_tipo"),
+            ("Energia - cobertura (%)", "ds01_energia_cobertura"),
+            ("Telecomunicaciones", "ds01_telecomunicaciones"),
+            ("Operador telecom", "ds01_telecom_operador"),
+            ("Acceso vial", "ds01_acceso_vial"),
+            ("Distancia a capital distrital (km)", "ds01_distancia_capital"),
+            ("Transporte", "ds01_transporte"),
+            ("Establecimiento de salud", "ds01_salud_tipo"),
+            ("Distancia a salud (km)", "ds01_salud_distancia"),
+            ("Institucion educativa", "ds01_educacion"),
+            ("Fuente principal de agua", "ds01_fuente_agua"),
+            ("Problemas con el agua", "ds01_problemas_agua"),
+            ("Uso de recursos forestales", "ds01_uso_recursos_forestales"),
+            ("Frecuencia uso forestal", "ds01_frecuencia_uso_forestal"),
+            ("Disposicion a participar", "ds01_disposicion_participar"),
+            ("Comentario disposicion", "ds01_comentario_disposicion"),
+            ("Area comunal (ha)", "ds01_tenencia_comunal_ha"),
+            ("Area privada (ha)", "ds01_tenencia_privada_ha"),
+            ("Area estatal (ha)", "ds01_tenencia_estatal_ha"),
+        ]
+        for label, key in campos_ds01:
+            val = ds.get(key, "") or ""
+            if val:
+                pdf._campo(label, val)
+        if ds.get("ds01_percepcion_cambios"):
+            pdf._campo_largo("Percepcion de cambios ambientales",
+                             ds["ds01_percepcion_cambios"])
+        if ds.get("ds01_activos_asociados"):
+            pdf._campo_largo("Activos asociados al bloque",
+                             ds["ds01_activos_asociados"])
+        pdf._tabla_json(
+            "Actividades economicas",
+            ds.get("ds01_actividades_economicas", ""),
+            [
+                ("actividad", "Actividad", 45),
+                ("pct_familias", "% Fam.", 18),
+                ("productos", "Productos", 50),
+                ("destino", "Destino", 30),
+                ("ingreso", "Ingreso est.", 30),
+            ],
+        )
+
+    # ── F-DS-02: Actores clave ──
+    elif ficha_ds == "F-DS-02":
+        pdf._subficha("F-DS-02: Identificacion y Caracterizacion de Actores Clave")
+        pdf._tabla_json(
+            "Registro de actores identificados",
+            ds.get("ds02_registro_actores", ""),
+            [
+                ("nombre", "Nombre / Organizacion", 50),
+                ("tipo", "Tipo", 25),
+                ("rol", "Rol / Funcion", 40),
+                ("relacion", "Rel.Proy.", 20),
+                ("influencia", "Influencia", 22),
+                ("interes", "Interes", 22),
+            ],
+        )
+        campos_ds02 = [
+            ("Gobierno Local", "ds02_actores_gob_local"),
+            ("Gobierno Regional", "ds02_actores_gob_regional"),
+            ("Gobierno Nacional", "ds02_actores_gob_nacional"),
+            ("Comunidades Campesinas", "ds02_actores_comunidades"),
+            ("Juntas de Usuarios / Riego", "ds02_actores_juntas_riego"),
+            ("Comites de Gestion / Cuenca", "ds02_actores_comites_cuenca"),
+            ("ONG / Cooperacion", "ds02_actores_ong"),
+            ("Empresa Privada", "ds02_actores_empresa"),
+            ("Instituciones Educativas", "ds02_actores_educacion"),
+            ("Organizaciones de Base", "ds02_actores_org_base"),
+        ]
+        for label, key in campos_ds02:
+            val = ds.get(key, "") or ""
+            if val:
+                pdf._campo(label, val)
+
+    # ── F-DS-03: Entrevista semiestructurada ──
+    elif ficha_ds == "F-DS-03":
+        pdf._subficha("F-DS-03: Guia de Entrevista Semiestructurada")
+        campos_ds03 = [
+            ("Nombre entrevistado/a", "ds03_nombre_entrevistado"),
+            ("Cargo / Funcion", "ds03_cargo_funcion"),
+            ("Institucion", "ds03_institucion"),
+            ("Telefono / Correo", "ds03_telefono_correo"),
+            ("Duracion entrevista", "ds03_duracion"),
+        ]
+        for label, key in campos_ds03:
+            val = ds.get(key, "") or ""
+            if val:
+                pdf._campo(label, val)
+        # Respuestas (texto libre)
+        resp_ds03 = [
+            ("1.1 Recursos naturales", "ds03_resp_recursos_naturales"),
+            ("1.2 Cambios ambientales", "ds03_resp_cambios_ambiente"),
+            ("1.3 Problemas ambientales", "ds03_resp_problemas_ambientales"),
+            ("1.4 Zonas de conservacion", "ds03_resp_zonas_conservacion"),
+            ("2.1 Actividades economicas", "ds03_resp_actividades_economicas"),
+            ("2.2 Abastecimiento de agua", "ds03_resp_abastecimiento_agua"),
+            ("2.3 Productos del bosque", "ds03_resp_productos_bosque"),
+            ("2.4 Cadenas productivas", "ds03_resp_cadenas_productivas"),
+            ("3.1 Organizaciones", "ds03_resp_organizaciones"),
+            ("3.2 Decisiones del territorio", "ds03_resp_decisiones_territorio"),
+            ("3.3 Conflictos", "ds03_resp_conflictos"),
+            ("3.4 Proyectos anteriores", "ds03_resp_proyectos_anteriores"),
+            ("3.5 Experiencia en reforestacion", "ds03_resp_experiencia_reforestacion"),
+            ("4.1 Conocimiento de restauracion", "ds03_resp_conocimiento_restauracion"),
+            ("4.2 Expectativas del proyecto", "ds03_resp_expectativas"),
+            ("4.3 Disposicion a participar", "ds03_resp_disposicion_participar"),
+            ("4.4 Condiciones / preocupaciones", "ds03_resp_condiciones"),
+            ("5.1 Conocimiento MERESE", "ds03_resp_conocimiento_merese"),
+            ("5.2 Beneficiarios", "ds03_resp_beneficiarios"),
+            ("5.3 Instituciones contribuyentes", "ds03_resp_instituciones_contribuyentes"),
+            ("5.4 Experiencias de pago / compensacion", "ds03_resp_experiencias_pago"),
+        ]
+        for label, key in resp_ds03:
+            val = ds.get(key, "") or ""
+            if val:
+                pdf._campo_largo(label, val)
+
+    # ── F-DS-04: Taller participativo ──
+    elif ficha_ds == "F-DS-04":
+        pdf._subficha("F-DS-04: Acta de Taller Participativo")
+        campos_ds04 = [
+            ("Lugar del taller", "ds04_lugar_taller"),
+            ("Convocante", "ds04_convocante"),
+            ("Hora de inicio", "ds04_hora_inicio"),
+            ("Hora de finalizacion", "ds04_hora_fin"),
+        ]
+        for label, key in campos_ds04:
+            val = ds.get(key, "") or ""
+            if val:
+                pdf._campo(label, val)
+        if ds.get("ds04_objetivo"):
+            pdf._campo_largo("Objetivo", ds["ds04_objetivo"])
+        pdf._tabla_json(
+            "Lista de participantes",
+            ds.get("ds04_lista_participantes", ""),
+            [
+                ("nombre", "Nombres y apellidos", 65),
+                ("dni", "DNI", 22),
+                ("institucion", "Inst./Comunidad", 50),
+                ("cargo", "Cargo", 25),
+                ("telefono", "Telefono", 25),
+            ],
+        )
+        if ds.get("ds04_presentacion"):
+            pdf._campo_largo("Presentacion del proyecto", ds["ds04_presentacion"])
+        if ds.get("ds04_intervenciones"):
+            pdf._campo_largo("Principales intervenciones", ds["ds04_intervenciones"])
+        if ds.get("ds04_preguntas_respuestas"):
+            pdf._campo_largo("Preguntas y respuestas", ds["ds04_preguntas_respuestas"])
+        if ds.get("ds04_acuerdos"):
+            pdf._campo_largo("Acuerdos y compromisos", ds["ds04_acuerdos"])
+        if ds.get("ds04_observaciones"):
+            pdf._campo_largo("Observaciones del taller", ds["ds04_observaciones"])
+
+    # ── F-DS-05: Conflictos y oportunidades ──
+    elif ficha_ds == "F-DS-05":
+        pdf._subficha("F-DS-05: Conflictos y Oportunidades")
+        pdf._tabla_json(
+            "Conflictos identificados",
+            ds.get("ds05_conflictos", ""),
+            [
+                ("tipo", "Tipo", 35),
+                ("actores", "Actores", 45),
+                ("nivel", "Nivel", 14),
+                ("estado", "Estado", 22),
+                ("descripcion", "Descripcion / Causa", 50),
+                ("impacto", "Impacto en proyecto", 35),
+            ],
+        )
+        pdf._tabla_json(
+            "Oportunidades identificadas",
+            ds.get("ds05_oportunidades", ""),
+            [
+                ("oportunidad", "Oportunidad", 50),
+                ("actores", "Actores", 40),
+                ("tipo", "Tipo", 25),
+                ("potencial", "Potencial", 22),
+                ("como_aprovechar", "Como aprovechar", 50),
+            ],
+        )
+
+    # ── F-DS-06 / F-DS-07 (y cualquier ficha sin bloque propio) ──
+    # Estas fichas no tienen columnas planas en la BD: todo su contenido vive
+    # en el JSON dsNN_data_v3, de modo que se renderiza de forma generica.
+    else:
+        titulo_ficha = _FICHAS_DS_TITULOS.get(ficha_ds, "")
+        pdf._subficha(f"{ficha_ds}{': ' + titulo_ficha if titulo_ficha else ''}")
+        _render_ds_form_generico(pdf, _ds_form_v3(ds))
+
+    # Observaciones generales / archivos adjuntos
+    if ds.get("observaciones_generales"):
+        pdf._campo_largo("Observaciones generales", ds["observaciones_generales"])
+    if ds.get("archivos_adjuntos"):
+        pdf._campo("Archivos adjuntos", ds["archivos_adjuntos"])
+    pdf.ln(2)
+
 def generar_ficha_pdf(bloque_id, inspeccion_id=None):
     """Genera un PDF con la ficha de inspección de un bloque."""
     _asegurar_directorio()
@@ -290,511 +869,18 @@ def generar_ficha_pdf(bloque_id, inspeccion_id=None):
 
     # Diagnostico Territorial del bloque (V5: F-DT-01..F-DT-05)
     # Deduplicar: solo el mas reciente por (ficha, evaluador)
-    diagnosticos_dt_raw = db.obtener_diagnosticos_por_bloque(bloque_id)
-    diagnosticos_dt = []
-    _dt_vistas = set()
-    for dt in diagnosticos_dt_raw:
-        fichas = dt.get("ficha", "")
-        clave = (fichas, dt.get("evaluador", ""))
-        if clave not in _dt_vistas:
-            _dt_vistas.add(clave)
-            diagnosticos_dt.append(dt)
+    diagnosticos_dt = _dedup_por_ficha(db.obtener_diagnosticos_por_bloque(bloque_id))
     if diagnosticos_dt:
         pdf._seccion("3. Diagnostico Territorial (Plantilla V5)")
         for dt in diagnosticos_dt:
-            pdf.set_font("Helvetica", "B", 10)
-            pdf.cell(0, 6, f"  Ficha(s) {dt.get('ficha', '')} - {dt.get('fecha_evaluacion', '')}", 0, 1)
-            pdf.set_font("Helvetica", "", 9)
-            # Datos generales V5
-            datos_gen = [
-                ("Microcuenca", "microcuenca"),
-                ("Evaluador", "evaluador"),
-                ("Brigada", "brigada"),
-                ("Correlativo ficha", "ficha_correlativo"),
-                ("Hora de registro", "hora_registro"),
-                ("Centro poblado cercano", "centro_poblado_cercano"),
-                ("Comunidad campesina", "comunidad_campesina_dt"),
-                ("Altitud GPS (m)", "altitud_gps"),
-                ("UTM Este", "utm_este_dt"),
-                ("UTM Norte", "utm_norte_dt"),
-            ]
-            for label, key in datos_gen:
-                val = dt.get(key, "") or ""
-                if val:
-                    pdf._campo(label, val)
-
-            # ── F-DT-01: Datos Generales y Fisiografia ──
-            campos_dt01 = [
-                ("Forma del terreno", "forma_terreno"),
-                ("Rango de pendiente", "pendiente"),
-                ("Posicion fisiografica", "posicion_fisiografica"),
-                ("Exposicion / Orientacion", "exposicion_orientacion"),
-                ("Rango altitudinal", "rango_altitudinal"),
-                ("Paisaje dominante", "paisaje_dominante"),
-                ("Afloramientos rocosos", "dt01_afloramientos_rocosos"),
-                ("Escarpes activos", "dt01_escarpes_activos"),
-                ("Reptacion de suelo", "dt01_reptacion_suelo"),
-                ("Deslizamientos antiguos", "dt01_deslizamientos_antiguos"),
-                ("Remociones en masa activas", "dt01_remociones_masa_activas"),
-            ]
-            if any(dt.get(k) for _, k in campos_dt01) or dt.get("dt01_observaciones"):
-                pdf._subficha("F-DT-01: Datos Generales y Fisiografia del Bloque")
-                for label, key in campos_dt01:
-                    val = dt.get(key, "") or ""
-                    if val:
-                        pdf._campo(label, val)
-                if dt.get("dt01_observaciones"):
-                    pdf._campo_largo("Observaciones F-DT-01", dt["dt01_observaciones"])
-
-            # ── F-DT-02: Suelo y Procesos Erosivos ──
-            campos_dt02 = [
-                ("Sellamiento / Costra", "dt02_sellamiento_costra"),
-                ("Compactacion por pisoteo", "dt02_compactacion_pisoteo"),
-                ("Raices expuestas", "dt02_raices_expuestas"),
-                ("Nivel general de erosion", "dt02_nivel_erosion_general"),
-                ("Nivel erosion (sintesis)", "dt02_nivel_erosion_sintesis"),
-                ("N° de carcavas", "dt02_num_carcavas"),
-                ("Longitud total carcavas (m)", "dt02_longitud_total_carcavas"),
-                ("% bloque con carcavas", "dt02_pct_bloque_carcavas"),
-                ("Erosion laminar (%)", "dt02_erosion_laminar_pct"),
-                ("Patron de carcavas", "dt02_patron_carcavas"),
-                ("Socavamiento de cauce", "dt02_socavamiento_cauce"),
-                ("Urgencia de control", "dt02_urgencia_control"),
-            ]
-            tiene_dt02 = (any(dt.get(k) for _, k in campos_dt02)
-                          or dt.get("dt02_carcavas_json") or dt.get("dt02_observaciones"))
-            if tiene_dt02:
-                pdf._subficha("F-DT-02: Suelo y Procesos Erosivos")
-                for label, key in campos_dt02:
-                    val = dt.get(key, "") or ""
-                    if val:
-                        pdf._campo(label, val)
-                pdf._tabla_json(
-                    "Inventario de carcavas / surcos",
-                    dt.get("dt02_carcavas_json", ""),
-                    [
-                        ("codigo", "Codigo", 18),
-                        ("tipo", "Tipo", 22),
-                        ("utm_e_ini", "UTM E ini", 22),
-                        ("utm_n_ini", "UTM N ini", 22),
-                        ("longitud_m", "Long.(m)", 16),
-                        ("prof_m", "Prof.(m)", 16),
-                        ("ancho_m", "Ancho(m)", 16),
-                        ("estado", "Estado", 22),
-                        ("causa", "Causa", 35),
-                    ],
-                )
-                if dt.get("dt02_observaciones"):
-                    pdf._campo_largo("Observaciones F-DT-02", dt["dt02_observaciones"])
-
-            # ── F-DT-03: Ecosistema ──
-            campos_dt03 = [
-                ("Parcela de muestreo", "dt03_parcela_muestreo"),
-                ("Dimensiones parcela (m)", "dt03_dim_parcela"),
-                ("Pendiente parcela (%)", "dt03_pendiente_parcela"),
-                ("Cobertura vegetal total (%)", "dt03_cobertura_total"),
-                ("Tipo de ecosistema (MINAM)", "dt03_tipo_ecosistema"),
-                ("Superficie ecosistema (ha)", "dt03_superficie_ecosistema"),
-                ("Estado conservacion", "dt03_estado_conservacion_eco"),
-                ("Uso dominante del suelo", "dt03_uso_dominante"),
-                ("Cobertura dosel (%)", "dt03_cobertura_dosel"),
-                ("Cobertura arbustiva (%)", "dt03_cobertura_arbustiva"),
-                ("Cobertura herbacea (%)", "dt03_cobertura_herbacea"),
-                ("Cobertura hojarasca (%)", "dt03_cobertura_hojarasca"),
-                ("Suelo desnudo (%)", "dt03_suelo_desnudo"),
-                ("Altura estrato dom. (m)", "dt03_altura_estrato_dom"),
-                ("Altura maxima (m)", "dt03_altura_max"),
-                ("DAP promedio (cm)", "dt03_dap_promedio"),
-                ("Regeneracion natural", "dt03_regeneracion_natural"),
-                ("Estado sanitario", "dt03_estado_sanitario"),
-                ("Presencia epifitas", "dt03_presencia_epifitas"),
-                ("Fenologia dominante", "dt03_fenologia_dominante"),
-                ("Tipo cobertura dominante", "dt03_tipo_cobertura_dom"),
-            ]
-            tiene_dt03 = (any(dt.get(k) for _, k in campos_dt03)
-                          or dt.get("dt03_floristica_json")
-                          or dt.get("dt03_especies_clave_json")
-                          or dt.get("dt03_observaciones"))
-            if tiene_dt03:
-                pdf._subficha("F-DT-03: Ecosistema - Composicion, Estructura y Valor Ecologico")
-                for label, key in campos_dt03:
-                    val = dt.get(key, "") or ""
-                    if val:
-                        pdf._campo(label, val)
-                pdf._tabla_json(
-                    "Composicion floristica",
-                    dt.get("dt03_floristica_json", ""),
-                    [
-                        ("nombre_comun", "N. comun", 35),
-                        ("nombre_cientifico", "N. cientifico", 45),
-                        ("familia", "Familia", 28),
-                        ("estrato", "Estrato", 20),
-                        ("origen", "Origen", 18),
-                        ("abundancia", "Abund.", 18),
-                        ("dap_cm", "DAP", 12),
-                        ("altura_m", "H(m)", 12),
-                    ],
-                )
-                pdf._tabla_json(
-                    "Especies clave / indicadoras",
-                    dt.get("dt03_especies_clave_json", ""),
-                    [
-                        ("nombre", "Nombre", 45),
-                        ("categoria", "Categoria", 30),
-                        ("estado_uicn", "UICN/D.S.043", 28),
-                        ("utm_e", "UTM E", 22),
-                        ("utm_n", "UTM N", 22),
-                        ("n_indiv", "N° ind.", 14),
-                        ("foto", "Foto", 14),
-                    ],
-                )
-                if dt.get("dt03_observaciones"):
-                    pdf._campo_largo("Observaciones F-DT-03", dt["dt03_observaciones"])
-
-            # ── F-DT-04: Causas e Indicadores de Degradacion ──
-            campos_dt04 = [
-                ("Causa subyacente principal", "dt04_causa_subyacente"),
-                ("Velocidad de degradacion", "dt04_velocidad_degradacion"),
-                ("Reversibilidad tecnica", "dt04_reversibilidad"),
-                ("Urgencia de intervencion", "dt04_urgencia_intervencion"),
-            ]
-            tiene_dt04 = (any(dt.get(k) for _, k in campos_dt04)
-                          or dt.get("dt04_causas_json")
-                          or dt.get("dt04_indicadores_json")
-                          or dt.get("dt04_causas_directas_texto")
-                          or dt.get("dt04_observaciones"))
-            if tiene_dt04:
-                pdf._subficha("F-DT-04: Causas e Indicadores de Degradacion")
-                pdf._tabla_json(
-                    "Matriz de causas de degradacion",
-                    dt.get("dt04_causas_json", ""),
-                    [
-                        ("n", "N°", 10),
-                        ("causa", "Causa / Factor", 70),
-                        ("presencia", "Pres.", 16),
-                        ("intensidad", "Intens.", 22),
-                        ("extension", "Ext.(%)", 18),
-                        ("antiguedad", "Antig.", 16),
-                        ("evidencia", "Evidencia", 38),
-                    ],
-                )
-                pdf._tabla_json(
-                    "Indicadores cuantitativos de degradacion",
-                    dt.get("dt04_indicadores_json", ""),
-                    [
-                        ("n", "N°", 10),
-                        ("indicador", "Indicador", 55),
-                        ("unidad", "Unidad", 18),
-                        ("valor", "Valor", 18),
-                        ("fuente", "Fuente", 30),
-                        ("umbral", "Umbral", 35),
-                        ("nivel", "Nivel", 20),
-                    ],
-                )
-                if dt.get("dt04_causas_directas_texto"):
-                    pdf._campo_largo("Causas directas (sintesis)",
-                                     dt["dt04_causas_directas_texto"])
-                for label, key in campos_dt04:
-                    val = dt.get(key, "") or ""
-                    if val:
-                        pdf._campo(label, val)
-                if dt.get("dt04_observaciones"):
-                    pdf._campo_largo("Observaciones F-DT-04", dt["dt04_observaciones"])
-
-            # ── F-DT-05: Recursos Hidricos y Accesibilidad ──
-            campos_dt05 = [
-                ("Zona de recarga hidrica", "dt05_zona_recarga"),
-                ("Humedad persistente", "dt05_humedad_persistente"),
-                ("Escorrentia concentrada", "dt05_escorrentia_concentrada"),
-                ("Distancia a captacion (m)", "dt05_dist_captacion"),
-                ("JASS / captacion asociada", "dt05_jass_captacion"),
-                ("Interferencia con riego", "dt05_interferencia_riego"),
-                ("Sistema de riego", "dt05_sistema_riego_nombre"),
-                ("Modalidad de acceso", "dt05_modalidad_acceso"),
-                ("Via principal de acceso", "dt05_via_principal"),
-                ("Tipo de via final", "dt05_tipo_via_final"),
-                ("Transitabilidad - seca", "dt05_transitabilidad_seca"),
-                ("Transitabilidad - lluviosa", "dt05_transitabilidad_lluviosa"),
-                ("Tiempo desde capital distrital (min)", "dt05_tiempo_dist_capital"),
-                ("Tiempo desde capital provincial (min)", "dt05_tiempo_prov_capital"),
-                ("Senal celular", "dt05_senal_celular"),
-                ("Operador celular dominante", "dt05_operador_celular"),
-                ("Alojamiento rural disponible", "dt05_alojamiento"),
-                ("Requiere autorizacion Ronda", "dt05_requiere_ronda"),
-                ("Contacto Ronda", "dt05_contacto_ronda"),
-            ]
-            tiene_dt05 = (any(dt.get(k) for _, k in campos_dt05)
-                          or dt.get("dt05_fuentes_agua_json")
-                          or dt.get("dt05_observaciones"))
-            if tiene_dt05:
-                pdf._subficha("F-DT-05: Recursos Hidricos y Accesibilidad")
-                pdf._tabla_json(
-                    "Inventario de fuentes de agua",
-                    dt.get("dt05_fuentes_agua_json", ""),
-                    [
-                        ("n", "N°", 10),
-                        ("tipo", "Tipo", 28),
-                        ("utm_e", "UTM E", 22),
-                        ("utm_n", "UTM N", 22),
-                        ("regimen", "Regimen", 22),
-                        ("calidad", "Calidad", 22),
-                        ("distancia_m", "Dist.(m)", 18),
-                        ("uso_obs", "Uso/Obs.", 40),
-                    ],
-                )
-                for label, key in campos_dt05:
-                    val = dt.get(key, "") or ""
-                    if val:
-                        pdf._campo(label, val)
-                if dt.get("dt05_observaciones"):
-                    pdf._campo_largo("Observaciones F-DT-05", dt["dt05_observaciones"])
-
-            # Observaciones generales del diagnostico
-            if dt.get("observaciones_generales"):
-                pdf._campo_largo("Observaciones generales", dt["observaciones_generales"])
-            pdf.ln(2)
+            _render_dt_registro(pdf, dt)
 
     # Diagnostico Social del bloque (deduplicar: solo el mas reciente por ficha)
-    diagnosticos_ds_raw = db.obtener_diagnosticos_sociales_por_bloque(bloque_id)
-    diagnosticos_ds = []
-    _ds_vistas = set()
-    for ds in diagnosticos_ds_raw:
-        ficha = ds.get("ficha", "")
-        clave = (ficha, ds.get("evaluador", ""))
-        if clave not in _ds_vistas:
-            _ds_vistas.add(clave)
-            diagnosticos_ds.append(ds)
+    diagnosticos_ds = _dedup_por_ficha(db.obtener_diagnosticos_sociales_por_bloque(bloque_id))
     if diagnosticos_ds:
-        pdf._seccion("4. Diagnostico Social (F-DS-01..F-DS-05)")
+        pdf._seccion("4. Diagnostico Social (F-DS-01..F-DS-07)")
         for ds in diagnosticos_ds:
-            ficha_ds = ds.get("ficha", "")
-            pdf.set_font("Helvetica", "B", 10)
-            pdf.cell(0, 6, f"  Ficha {ficha_ds} - {ds.get('fecha_evaluacion', '')}", 0, 1)
-            pdf.set_font("Helvetica", "", 9)
-            # Datos generales (compartidos por todas las DS)
-            datos_gen_ds = [
-                ("Microcuenca", "microcuenca"),
-                ("Evaluador / Responsable", "evaluador"),
-                ("N° de ficha", "ficha_numero"),
-                ("Provincia", "provincia"),
-                ("Distrito", "distrito"),
-                ("Centro poblado", "centro_poblado"),
-                ("Comunidad campesina", "comunidad_campesina"),
-                ("Coordenada UTM Este", "coordenada_este"),
-                ("Coordenada UTM Norte", "coordenada_norte"),
-                ("Altitud (msnm)", "altitud"),
-                ("Codigo UBIGEO", "codigo_ubigeo"),
-            ]
-            for label, key in datos_gen_ds:
-                val = ds.get(key, "") or ""
-                if val and str(val).strip() not in ("0", "0.0"):
-                    pdf._campo(label, val)
-
-            # ── F-DS-01: Diagnostico Socioeconomico ──
-            if ficha_ds == "F-DS-01":
-                pdf._subficha("F-DS-01: Diagnostico Socioeconomico de Centro Poblado")
-                campos_ds01 = [
-                    ("N de familias / viviendas", "ds01_num_familias"),
-                    ("Poblacion - Hombres", "ds01_poblacion_hombres"),
-                    ("Poblacion - Mujeres", "ds01_poblacion_mujeres"),
-                    ("Poblacion total", "ds01_poblacion_total"),
-                    ("Idioma predominante", "ds01_idioma"),
-                    ("Nivel educativo predominante", "ds01_nivel_educativo"),
-                    ("Tasa de migracion", "ds01_tasa_migracion"),
-                    ("Destino principal migracion", "ds01_destino_migracion"),
-                    ("Organizacion comunal", "ds01_organizacion_comunal"),
-                    ("Junta directiva vigente", "ds01_junta_directiva"),
-                    ("Presidente/a de junta", "ds01_presidente_junta"),
-                    ("Agua potable - tipo", "ds01_agua_potable_tipo"),
-                    ("Agua potable - cobertura (%)", "ds01_agua_potable_cobertura"),
-                    ("Saneamiento", "ds01_saneamiento"),
-                    ("Energia - tipo", "ds01_energia_tipo"),
-                    ("Energia - cobertura (%)", "ds01_energia_cobertura"),
-                    ("Telecomunicaciones", "ds01_telecomunicaciones"),
-                    ("Operador telecom", "ds01_telecom_operador"),
-                    ("Acceso vial", "ds01_acceso_vial"),
-                    ("Distancia a capital distrital (km)", "ds01_distancia_capital"),
-                    ("Transporte", "ds01_transporte"),
-                    ("Establecimiento de salud", "ds01_salud_tipo"),
-                    ("Distancia a salud (km)", "ds01_salud_distancia"),
-                    ("Institucion educativa", "ds01_educacion"),
-                    ("Fuente principal de agua", "ds01_fuente_agua"),
-                    ("Problemas con el agua", "ds01_problemas_agua"),
-                    ("Uso de recursos forestales", "ds01_uso_recursos_forestales"),
-                    ("Frecuencia uso forestal", "ds01_frecuencia_uso_forestal"),
-                    ("Disposicion a participar", "ds01_disposicion_participar"),
-                    ("Comentario disposicion", "ds01_comentario_disposicion"),
-                    ("Area comunal (ha)", "ds01_tenencia_comunal_ha"),
-                    ("Area privada (ha)", "ds01_tenencia_privada_ha"),
-                    ("Area estatal (ha)", "ds01_tenencia_estatal_ha"),
-                ]
-                for label, key in campos_ds01:
-                    val = ds.get(key, "") or ""
-                    if val:
-                        pdf._campo(label, val)
-                if ds.get("ds01_percepcion_cambios"):
-                    pdf._campo_largo("Percepcion de cambios ambientales",
-                                     ds["ds01_percepcion_cambios"])
-                if ds.get("ds01_activos_asociados"):
-                    pdf._campo_largo("Activos asociados al bloque",
-                                     ds["ds01_activos_asociados"])
-                pdf._tabla_json(
-                    "Actividades economicas",
-                    ds.get("ds01_actividades_economicas", ""),
-                    [
-                        ("actividad", "Actividad", 45),
-                        ("pct_familias", "% Fam.", 18),
-                        ("productos", "Productos", 50),
-                        ("destino", "Destino", 30),
-                        ("ingreso", "Ingreso est.", 30),
-                    ],
-                )
-
-            # ── F-DS-02: Actores clave ──
-            elif ficha_ds == "F-DS-02":
-                pdf._subficha("F-DS-02: Identificacion y Caracterizacion de Actores Clave")
-                pdf._tabla_json(
-                    "Registro de actores identificados",
-                    ds.get("ds02_registro_actores", ""),
-                    [
-                        ("nombre", "Nombre / Organizacion", 50),
-                        ("tipo", "Tipo", 25),
-                        ("rol", "Rol / Funcion", 40),
-                        ("relacion", "Rel.Proy.", 20),
-                        ("influencia", "Influencia", 22),
-                        ("interes", "Interes", 22),
-                    ],
-                )
-                campos_ds02 = [
-                    ("Gobierno Local", "ds02_actores_gob_local"),
-                    ("Gobierno Regional", "ds02_actores_gob_regional"),
-                    ("Gobierno Nacional", "ds02_actores_gob_nacional"),
-                    ("Comunidades Campesinas", "ds02_actores_comunidades"),
-                    ("Juntas de Usuarios / Riego", "ds02_actores_juntas_riego"),
-                    ("Comites de Gestion / Cuenca", "ds02_actores_comites_cuenca"),
-                    ("ONG / Cooperacion", "ds02_actores_ong"),
-                    ("Empresa Privada", "ds02_actores_empresa"),
-                    ("Instituciones Educativas", "ds02_actores_educacion"),
-                    ("Organizaciones de Base", "ds02_actores_org_base"),
-                ]
-                for label, key in campos_ds02:
-                    val = ds.get(key, "") or ""
-                    if val:
-                        pdf._campo(label, val)
-
-            # ── F-DS-03: Entrevista semiestructurada ──
-            elif ficha_ds == "F-DS-03":
-                pdf._subficha("F-DS-03: Guia de Entrevista Semiestructurada")
-                campos_ds03 = [
-                    ("Nombre entrevistado/a", "ds03_nombre_entrevistado"),
-                    ("Cargo / Funcion", "ds03_cargo_funcion"),
-                    ("Institucion", "ds03_institucion"),
-                    ("Telefono / Correo", "ds03_telefono_correo"),
-                    ("Duracion entrevista", "ds03_duracion"),
-                ]
-                for label, key in campos_ds03:
-                    val = ds.get(key, "") or ""
-                    if val:
-                        pdf._campo(label, val)
-                # Respuestas (texto libre)
-                resp_ds03 = [
-                    ("1.1 Recursos naturales", "ds03_resp_recursos_naturales"),
-                    ("1.2 Cambios ambientales", "ds03_resp_cambios_ambiente"),
-                    ("1.3 Problemas ambientales", "ds03_resp_problemas_ambientales"),
-                    ("1.4 Zonas de conservacion", "ds03_resp_zonas_conservacion"),
-                    ("2.1 Actividades economicas", "ds03_resp_actividades_economicas"),
-                    ("2.2 Abastecimiento de agua", "ds03_resp_abastecimiento_agua"),
-                    ("2.3 Productos del bosque", "ds03_resp_productos_bosque"),
-                    ("2.4 Cadenas productivas", "ds03_resp_cadenas_productivas"),
-                    ("3.1 Organizaciones", "ds03_resp_organizaciones"),
-                    ("3.2 Decisiones del territorio", "ds03_resp_decisiones_territorio"),
-                    ("3.3 Conflictos", "ds03_resp_conflictos"),
-                    ("3.4 Proyectos anteriores", "ds03_resp_proyectos_anteriores"),
-                    ("3.5 Experiencia en reforestacion", "ds03_resp_experiencia_reforestacion"),
-                    ("4.1 Conocimiento de restauracion", "ds03_resp_conocimiento_restauracion"),
-                    ("4.2 Expectativas del proyecto", "ds03_resp_expectativas"),
-                    ("4.3 Disposicion a participar", "ds03_resp_disposicion_participar"),
-                    ("4.4 Condiciones / preocupaciones", "ds03_resp_condiciones"),
-                    ("5.1 Conocimiento MERESE", "ds03_resp_conocimiento_merese"),
-                    ("5.2 Beneficiarios", "ds03_resp_beneficiarios"),
-                    ("5.3 Instituciones contribuyentes", "ds03_resp_instituciones_contribuyentes"),
-                    ("5.4 Experiencias de pago / compensacion", "ds03_resp_experiencias_pago"),
-                ]
-                for label, key in resp_ds03:
-                    val = ds.get(key, "") or ""
-                    if val:
-                        pdf._campo_largo(label, val)
-
-            # ── F-DS-04: Taller participativo ──
-            elif ficha_ds == "F-DS-04":
-                pdf._subficha("F-DS-04: Acta de Taller Participativo")
-                campos_ds04 = [
-                    ("Lugar del taller", "ds04_lugar_taller"),
-                    ("Convocante", "ds04_convocante"),
-                    ("Hora de inicio", "ds04_hora_inicio"),
-                    ("Hora de finalizacion", "ds04_hora_fin"),
-                ]
-                for label, key in campos_ds04:
-                    val = ds.get(key, "") or ""
-                    if val:
-                        pdf._campo(label, val)
-                if ds.get("ds04_objetivo"):
-                    pdf._campo_largo("Objetivo", ds["ds04_objetivo"])
-                pdf._tabla_json(
-                    "Lista de participantes",
-                    ds.get("ds04_lista_participantes", ""),
-                    [
-                        ("nombre", "Nombres y apellidos", 65),
-                        ("dni", "DNI", 22),
-                        ("institucion", "Inst./Comunidad", 50),
-                        ("cargo", "Cargo", 25),
-                        ("telefono", "Telefono", 25),
-                    ],
-                )
-                if ds.get("ds04_presentacion"):
-                    pdf._campo_largo("Presentacion del proyecto", ds["ds04_presentacion"])
-                if ds.get("ds04_intervenciones"):
-                    pdf._campo_largo("Principales intervenciones", ds["ds04_intervenciones"])
-                if ds.get("ds04_preguntas_respuestas"):
-                    pdf._campo_largo("Preguntas y respuestas", ds["ds04_preguntas_respuestas"])
-                if ds.get("ds04_acuerdos"):
-                    pdf._campo_largo("Acuerdos y compromisos", ds["ds04_acuerdos"])
-                if ds.get("ds04_observaciones"):
-                    pdf._campo_largo("Observaciones del taller", ds["ds04_observaciones"])
-
-            # ── F-DS-05: Conflictos y oportunidades ──
-            elif ficha_ds == "F-DS-05":
-                pdf._subficha("F-DS-05: Conflictos y Oportunidades")
-                pdf._tabla_json(
-                    "Conflictos identificados",
-                    ds.get("ds05_conflictos", ""),
-                    [
-                        ("tipo", "Tipo", 35),
-                        ("actores", "Actores", 45),
-                        ("nivel", "Nivel", 14),
-                        ("estado", "Estado", 22),
-                        ("descripcion", "Descripcion / Causa", 50),
-                        ("impacto", "Impacto en proyecto", 35),
-                    ],
-                )
-                pdf._tabla_json(
-                    "Oportunidades identificadas",
-                    ds.get("ds05_oportunidades", ""),
-                    [
-                        ("oportunidad", "Oportunidad", 50),
-                        ("actores", "Actores", 40),
-                        ("tipo", "Tipo", 25),
-                        ("potencial", "Potencial", 22),
-                        ("como_aprovechar", "Como aprovechar", 50),
-                    ],
-                )
-
-            # Observaciones generales / archivos adjuntos
-            if ds.get("observaciones_generales"):
-                pdf._campo_largo("Observaciones generales", ds["observaciones_generales"])
-            if ds.get("archivos_adjuntos"):
-                pdf._campo("Archivos adjuntos", ds["archivos_adjuntos"])
-            pdf.ln(2)
+            _render_ds_registro(pdf, ds)
 
     # Elementos Expuestos del bloque (F-EE-01..F-EE-07)
     elementos_ee = db.obtener_elementos_expuestos_por_bloque(bloque_id)
@@ -1000,6 +1086,229 @@ def generar_ficha_pdf(bloque_id, inspeccion_id=None):
 
 
 # ── Reporte Excel - Tabla Resumen ──────────────────────────────────────────
+
+# ══════════════════════════════════════════════════════════════════════════
+# FICHAS PDF INDIVIDUALES POR BLOQUE (Diagnostico Territorial / Social)
+# ══════════════════════════════════════════════════════════════════════════
+
+def _nuevo_pdf():
+    pdf = FichaInspeccionPDF()
+    pdf.alias_nb_pages()
+    pdf.set_auto_page_break(auto=True, margin=20)
+    pdf.add_page()
+    return pdf
+
+
+def _pdf_a_bytes(pdf):
+    """Serializa el PDF en memoria (fpdf2 devuelve bytearray sin ruta)."""
+    return bytes(pdf.output())
+
+
+def _identificacion_bloque(pdf, bloque, titulo):
+    """Cabecera comun de las fichas individuales: titulo + datos del bloque."""
+    pdf.set_font("Helvetica", "B", 12)
+    pdf.cell(0, 8, titulo, 0, 1, "C")
+    pdf.ln(2)
+    pdf._seccion("1. Identificacion del Bloque de Intervencion")
+    pdf._campo("Codigo de bloque", bloque.get("codigo", ""))
+    microcuenca = bloque.get("microcuenca", "") or ""
+    if microcuenca:
+        pdf._campo("Codigo microcuenca", microcuenca)
+    pdf._campo("Cuenca hidrografica", bloque.get("cuenca", ""))
+    provincia = bloque.get("provincia", "") or ""
+    if provincia:
+        pdf._campo("Provincia", provincia)
+    pdf._campo("Distrito", bloque.get("distrito", ""))
+    try:
+        pdf._campo("Coordenadas UTM", f"{float(bloque.get('utm_este') or 0):.2f} E / "
+                                      f"{float(bloque.get('utm_norte') or 0):.2f} N "
+                                      f"(Zona {bloque.get('utm_zona', '') or '17S'})")
+    except (TypeError, ValueError):
+        pass
+    try:
+        pdf._campo("Area", f"{float(bloque.get('area_hectareas') or 0):.4f} ha")
+    except (TypeError, ValueError):
+        pass
+    pdf._campo("Tipo de intervencion", bloque.get("tipo_intervencion", ""))
+    pdf._campo("Estado", bloque.get("estado", ""))
+    responsable = bloque.get("responsable", "") or ""
+    if responsable:
+        pdf._campo("Responsable", responsable)
+    pdf.ln(3)
+
+
+def generar_ficha_dt_bloque_pdf(bloque_id):
+    """Ficha PDF del Diagnostico Territorial de UN bloque.
+
+    Incluye la identificacion del bloque y todas las fichas F-DT-01..F-DT-05
+    registradas para el. Devuelve (nombre_archivo, bytes) para descarga directa,
+    sin escribir en disco.
+    """
+    bloque = db.obtener_bloque_por_id(bloque_id)
+    if not bloque:
+        raise ValueError(f"Bloque con id {bloque_id} no encontrado.")
+
+    pdf = _nuevo_pdf()
+    _identificacion_bloque(pdf, bloque,
+                           "FICHA DE DIAGNOSTICO TERRITORIAL POR BLOQUE")
+
+    diagnosticos = _dedup_por_ficha(db.obtener_diagnosticos_por_bloque(bloque_id))
+    pdf._seccion("2. Diagnostico Territorial (Plantilla V5)")
+    if not diagnosticos:
+        pdf.set_font("Helvetica", "I", 9)
+        pdf.cell(0, 6, "No se han registrado diagnosticos territoriales para este bloque.", 0, 1)
+        pdf.set_font("Helvetica", "", 9)
+    else:
+        for dt in diagnosticos:
+            _render_dt_registro(pdf, dt)
+
+    nombre = (f"Ficha_DT_{bloque['codigo']}_"
+              f"{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf")
+    return nombre, _pdf_a_bytes(pdf)
+
+
+def generar_ficha_ds_bloque_pdf(bloque_id, datos_cp=None):
+    """Ficha PDF del Diagnostico Social de UN bloque con sus centros poblados.
+
+    `datos_cp` es la entrada del catalogo del bloque (centros_poblados.py):
+    centros poblados, comunidades campesinas y la demografia INEI de cada
+    centro poblado. A esa relacion se suman los centros poblados efectivamente
+    consignados en las fichas sociales, de modo que la ficha refleje tanto el
+    ambito previsto como el trabajado en campo.
+    Devuelve (nombre_archivo, bytes).
+    """
+    datos_cp = datos_cp or {}
+    centros_poblados = datos_cp.get("centros_poblados", [])
+    comunidades_campesinas = datos_cp.get("comunidades_campesinas", [])
+    demografia = datos_cp.get("demografia", [])
+    bloque = db.obtener_bloque_por_id(bloque_id)
+    if not bloque:
+        raise ValueError(f"Bloque con id {bloque_id} no encontrado.")
+
+    diagnosticos = _dedup_por_ficha(db.obtener_diagnosticos_sociales_por_bloque(bloque_id))
+
+    pdf = _nuevo_pdf()
+    _identificacion_bloque(pdf, bloque,
+                           "FICHA DE DIAGNOSTICO SOCIAL POR BLOQUE")
+
+    # ── Centros poblados del bloque ──────────────────────────────────────
+    catalogo_cp = [c for c in (centros_poblados or []) if str(c).strip()]
+    registrados_cp = []
+    for ds in diagnosticos:
+        cp = (ds.get("centro_poblado", "") or "").strip()
+        if cp and cp not in registrados_cp:
+            registrados_cp.append(cp)
+    solo_en_campo = [cp for cp in registrados_cp
+                     if cp.lower() not in {c.lower() for c in catalogo_cp}]
+
+    pdf._seccion("2. Centros Poblados del Bloque")
+    if catalogo_cp:
+        pdf._campo("N de centros poblados (catalogo)", str(len(catalogo_cp)))
+        if demografia:
+            # Demografia INEI por centro poblado.
+            pdf._tabla_json(
+                "Poblacion de los centros poblados asociados (INEI)",
+                json.dumps(demografia, ensure_ascii=False),
+                [
+                    ("centro_poblado", "Centro Poblado", 52),
+                    ("poblacion_total", "Poblacion", 22),
+                    ("hombres", "Hombres", 20),
+                    ("mujeres", "Mujeres", 20),
+                    ("poblacion_vulnerable", "Pob. vuln.", 22),
+                    ("viviendas", "Viviendas", 22),
+                    ("tipo", "Tipo", 20),
+                ],
+            )
+            # La desagregacion solo se imprime si la fuente la trae: para los
+            # bloques 83-87 solo se conoce la poblacion total, y un "0 H / 0 M"
+            # se leeria como dato real en vez de dato ausente.
+            total_pob = datos_cp.get("poblacion_total", 0)
+            partes_tot = [f"{total_pob:,} hab."]
+            if datos_cp.get("hombres") or datos_cp.get("mujeres"):
+                partes_tot.append(f"{datos_cp.get('hombres', 0):,} hombres / "
+                                  f"{datos_cp.get('mujeres', 0):,} mujeres")
+            if datos_cp.get("viviendas"):
+                partes_tot.append(f"{datos_cp['viviendas']:,} viviendas")
+            if datos_cp.get("poblacion_vulnerable"):
+                partes_tot.append(f"{datos_cp['poblacion_vulnerable']:,} en condicion vulnerable")
+            pdf._campo("Totales del bloque", " | ".join(partes_tot))
+            pdf.set_font("Helvetica", "I", 8)
+            pdf.multi_cell(190, 4,
+                           "La poblacion corresponde a los centros poblados asociados al "
+                           "bloque, no a la poblacion residente dentro del poligono.")
+            pdf.set_font("Helvetica", "", 9)
+        else:
+            for i, cp in enumerate(catalogo_cp, 1):
+                pdf._campo(f"  {i}", cp, ancho_etiqueta=12)
+    else:
+        pdf.set_font("Helvetica", "I", 9)
+        pdf.cell(0, 6, "Sin centros poblados asociados en el catalogo oficial.", 0, 1)
+        pdf.set_font("Helvetica", "", 9)
+    if comunidades_campesinas:
+        pdf._campo("Comunidades campesinas", ", ".join(comunidades_campesinas))
+    if solo_en_campo:
+        pdf._campo_largo("Centros poblados adicionales registrados en campo",
+                         ", ".join(solo_en_campo))
+    pdf.ln(2)
+
+    # ── Fichas sociales, agrupadas por centro poblado ────────────────────
+    pdf._seccion("3. Diagnostico Social (F-DS-01..F-DS-07)")
+    if not diagnosticos:
+        pdf.set_font("Helvetica", "I", 9)
+        pdf.cell(0, 6, "No se han registrado fichas sociales para este bloque.", 0, 1)
+        pdf.set_font("Helvetica", "", 9)
+    else:
+        grupos = {}
+        for ds in diagnosticos:
+            grupos.setdefault((ds.get("centro_poblado", "") or "").strip()
+                              or "(Sin centro poblado consignado)", []).append(ds)
+        for cp, fichas_cp in grupos.items():
+            pdf.set_font("Helvetica", "B", 10)
+            pdf.cell(0, 7, f"Centro Poblado: {cp}  ({len(fichas_cp)} ficha(s))", 0, 1)
+            pdf.set_font("Helvetica", "", 9)
+            for ds in fichas_cp:
+                _render_ds_registro(pdf, ds)
+
+    nombre = (f"Ficha_DS_{bloque['codigo']}_"
+              f"{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf")
+    return nombre, _pdf_a_bytes(pdf)
+
+
+def generar_zip_fichas_diagnostico(bloques, tipo="DT", centros_poblados_map=None):
+    """Empaqueta en un ZIP la ficha PDF de varios bloques de una sola pasada.
+
+    `bloques` es una lista de (codigo, bloque_id). `tipo` vale "DT", "DS" o
+    "AMBAS". `centros_poblados_map` es el catalogo {codigo: {centros_poblados,
+    comunidades_campesinas}} que necesita la ficha social.
+
+    Un bloque que falle no aborta el lote: su error se anota en el archivo
+    ERRORES.txt dentro del ZIP. Devuelve (nombre_zip, bytes).
+    """
+    centros_poblados_map = centros_poblados_map or {}
+    tipos = ["DT", "DS"] if tipo == "AMBAS" else [tipo]
+    errores = []
+    buf = io.BytesIO()
+
+    with zipfile.ZipFile(buf, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+        for codigo, bloque_id in bloques:
+            for t in tipos:
+                try:
+                    if t == "DT":
+                        nombre, datos = generar_ficha_dt_bloque_pdf(bloque_id)
+                    else:
+                        nombre, datos = generar_ficha_ds_bloque_pdf(
+                            bloque_id, datos_cp=centros_poblados_map.get(codigo, {}))
+                    zf.writestr(f"{t}/{nombre}", datos)
+                except Exception as e:
+                    errores.append(f"Bloque {codigo} - ficha {t}: {e}")
+        if errores:
+            zf.writestr("ERRORES.txt", "\n".join(errores))
+
+    sufijo = "DT_DS" if tipo == "AMBAS" else tipo
+    nombre_zip = f"Fichas_{sufijo}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.zip"
+    buf.seek(0)
+    return nombre_zip, buf.getvalue()
+
 
 def generar_resumen_excel():
     """Genera un archivo Excel con la tabla resumen de todos los bloques inspeccionados.

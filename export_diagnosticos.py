@@ -28,6 +28,7 @@ import json
 import re
 
 import pandas as pd
+from datetime import datetime
 
 
 # ─── Utilidades ────────────────────────────────────────────────────────────
@@ -329,4 +330,44 @@ def exportar_fds_consolidado(registros):
         if filas_tabla:
             hojas.append((titulo, pd.DataFrame(filas_tabla)))
 
+    return _escribir_libro(hojas)
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# RESPALDO COMPLETO DE LA BASE DE DATOS
+# ═══════════════════════════════════════════════════════════════════════════
+
+# Titulo de hoja por tabla (los nombres de tabla exceden el estilo del libro).
+_TITULOS_RESPALDO = {
+    "bloques": "Bloques",
+    "inspecciones": "Inspecciones",
+    "indicadores_calidad": "Indicadores de calidad",
+    "diagnostico_territorial": "Diagnostico territorial",
+    "diagnostico_social": "Diagnostico social",
+    "elementos_expuestos": "Elementos expuestos",
+    "presupuesto": "Presupuesto",
+    "cronograma": "Cronograma",
+    "personal": "Personal",
+}
+
+
+def exportar_respaldo_completo(datos):
+    """datos: dict {nombre_tabla: [filas dict]} (salida de database.respaldo_completo()).
+
+    Devuelve los bytes de un .xlsx con una hoja por tabla mas una hoja de
+    resumen con el conteo de registros. Es un volcado literal, pensado para
+    recuperar informacion, no para leerlo con formato.
+    """
+    datos = datos or {}
+    resumen = pd.DataFrame([{
+        "Tabla": _TITULOS_RESPALDO.get(t, t),
+        "Registros": len(filas or []),
+        "Generado": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+    } for t, filas in datos.items()])
+
+    hojas = [("Resumen del respaldo", resumen)]
+    for tabla, filas in datos.items():
+        if not filas:
+            continue
+        hojas.append((_TITULOS_RESPALDO.get(tabla, tabla), pd.DataFrame(filas)))
     return _escribir_libro(hojas)

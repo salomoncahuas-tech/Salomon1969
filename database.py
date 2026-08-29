@@ -679,6 +679,106 @@ def actualizar_bloque(bloque_id, codigo, tipo_intervencion, cuenca, distrito,
     conn.close()
 
 
+def bloques_con_coordenadas_faltantes(bloques):
+    """Bloques que ya existen en la BD con coordenadas en 0 y para los que el
+    catalogo si tiene centroide. Devuelve [(codigo, utm_este, utm_norte), ...]."""
+    en_bd = {b["codigo"]: b for b in obtener_bloques()}
+    pendientes = []
+    for b in bloques or []:
+        actual = en_bd.get(b.get("codigo"))
+        if not actual:
+            continue
+        try:
+            este_cat = float(b.get("utm_este") or 0)
+            norte_cat = float(b.get("utm_norte") or 0)
+            este_bd = float(actual.get("utm_este") or 0)
+            norte_bd = float(actual.get("utm_norte") or 0)
+        except (TypeError, ValueError):
+            continue
+        if este_cat and norte_cat and not (este_bd and norte_bd):
+            pendientes.append((b["codigo"], este_cat, norte_cat))
+    return pendientes
+
+
+def sincronizar_bloques_catalogo(bloques, cuenca="Cuenca Alta del Rio Piura",
+                                 tipo_intervencion="Restauracion", utm_zona="17S",
+                                 completar_coordenadas=True):
+    """Alta ADITIVA de bloques del catalogo que aun no existen en la BD.
+
+    `bloques` es una lista de dicts con las claves: codigo, microcuenca,
+    area_ha, provincia, distrito, utm_este, utm_norte.
+
+    NO borra ni modifica ningun registro existente: los codigos ya presentes
+    se omiten (el UNIQUE de `bloques.codigo` es la salvaguarda final). Toda la
+    operacion corre en una sola transaccion, de modo que un fallo parcial deja
+    la base intacta.
+
+    Con `completar_coordenadas` (por defecto), ademas RELLENA el centroide de
+    los bloques que ya existen con UTM en 0 y para los que el catalogo si trae
+    coordenadas. Solo escribe sobre ceros: jamas pisa una coordenada cargada.
+
+    Devuelve {"insertados": [...], "existentes": [...], "coords_actualizadas": [...]}.
+    """
+    codigos_bd = {b["codigo"] for b in obtener_bloques()}
+    faltantes = [b for b in (bloques or []) if b.get("codigo") not in codigos_bd]
+    existentes = [b.get("codigo") for b in (bloques or []) if b.get("codigo") in codigos_bd]
+    pendientes_coord = (bloques_con_coordenadas_faltantes(bloques)
+                        if completar_coordenadas else [])
+
+    if not faltantes and not pendientes_coord:
+        return {"insertados": [], "existentes": existentes, "coords_actualizadas": []}
+
+    fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    conn = get_connection()
+    insertados = []
+    coords_actualizadas = []
+    try:
+        cursor = conn.cursor()
+        for codigo_p, este_p, norte_p in pendientes_coord:
+            # El WHERE repite la condicion de "coordenada vacia" para que la
+            # actualizacion sea inofensiva aunque otro proceso las haya
+            # cargado entre la lectura y esta escritura.
+            cursor.execute("""
+                UPDATE bloques SET utm_este=?, utm_norte=?
+                WHERE codigo=?
+                  AND (utm_este IS NULL OR utm_este=0)
+                  AND (utm_norte IS NULL OR utm_norte=0)
+            """, (float(este_p), float(norte_p), codigo_p))
+            coords_actualizadas.append(codigo_p)
+        for b in faltantes:
+            cursor.execute("""
+                INSERT INTO bloques (codigo, tipo_intervencion, cuenca, distrito,
+                                     utm_este, utm_norte, utm_zona, altitud,
+                                     area_hectareas, responsable, estado,
+                                     microcuenca, provincia, fecha_registro)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                ON CONFLICT (codigo) DO NOTHING
+            """, (
+                b.get("codigo", ""), tipo_intervencion, cuenca, b.get("distrito", ""),
+                float(b.get("utm_este") or 0.0), float(b.get("utm_norte") or 0.0),
+                utm_zona, 0.0, float(b.get("area_ha") or 0.0), "", "Pendiente",
+                b.get("microcuenca", ""), b.get("provincia", ""), fecha,
+            ))
+            # lastrowid queda en None si ON CONFLICT descarto la fila (otro
+            # proceso la inserto entre la lectura y este INSERT).
+            if cursor.lastrowid is not None:
+                insertados.append(b.get("codigo", ""))
+            else:
+                existentes.append(b.get("codigo", ""))
+        conn.commit()
+    except Exception:
+        try:
+            conn._conn.rollback()
+        except Exception:
+            pass
+        raise
+    finally:
+        conn.close()
+
+    return {"insertados": insertados, "existentes": existentes,
+            "coords_actualizadas": coords_actualizadas}
+
+
 def eliminar_bloque(bloque_id):
     conn = get_connection()
     try:
@@ -690,6 +790,73 @@ def eliminar_bloque(bloque_id):
         raise
     finally:
         conn.close()
+
+
+# Tablas que componen un respaldo completo del aplicativo, en orden de lectura.
+TABLAS_RESPALDO = [
+    "bloques", "inspecciones", "indicadores_calidad", "diagnostico_territorial",
+    "diagnostico_social", "elementos_expuestos", "presupuesto", "cronograma",
+    "personal",
+]
+
+
+def respaldo_completo(tablas=None):
+    """Lectura integra de las tablas del aplicativo para armar un respaldo.
+
+    Solo lee (SELECT *): no modifica nada. Una tabla que no exista se omite en
+    silencio para que el respaldo no falle por un esquema mas antiguo.
+
+    Devuelve un dict {nombre_tabla: [dict por fila]}.
+    """
+    datos = {}
+    conn = get_connection()
+    try:
+        for tabla in (tablas or TABLAS_RESPALDO):
+            cursor = conn.cursor()
+            try:
+                cursor.execute(f"SELECT * FROM {tabla}")
+                datos[tabla] = [dict(r) for r in _dictfetch(cursor)]
+            except Exception:
+                # Tabla inexistente: la transaccion queda abortada en
+                # PostgreSQL, hay que revertirla antes de seguir leyendo.
+                try:
+                    conn._conn.rollback()
+                except Exception:
+                    pass
+    finally:
+        conn.close()
+    return datos
+
+
+def contar_registros_vinculados(bloque_id):
+    """Cuenta los registros que se borrarian en cascada al eliminar un bloque.
+
+    Devuelve un dict {nombre_tabla: n} solo con las tablas que tienen registros.
+    """
+    conteos = {}
+    conn = get_connection()
+    try:
+        for tabla in ("inspecciones", "indicadores_calidad", "diagnostico_territorial",
+                      "diagnostico_social", "elementos_expuestos", "presupuesto",
+                      "cronograma"):
+            cursor = conn.cursor()
+            try:
+                cursor.execute(f"SELECT COUNT(*) AS n FROM {tabla} WHERE bloque_id=?",
+                               (bloque_id,))
+                fila = cursor.fetchone()
+                n = 0
+                if fila is not None:
+                    n = list(fila.values())[0] if hasattr(fila, "values") else fila[0]
+                if n:
+                    conteos[tabla] = int(n)
+            except Exception:
+                try:
+                    conn._conn.rollback()
+                except Exception:
+                    pass
+    finally:
+        conn.close()
+    return conteos
 
 
 def obtener_bloques():
