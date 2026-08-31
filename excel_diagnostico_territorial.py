@@ -9,10 +9,13 @@ clave, fuentes de agua, matriz de causas e indicadores cuantitativos).
 API publica:
     generar_plantilla_dt(fichas, bloques_data) -> bytes
     parsear_excel_dt(file_bytes, ficha=None) -> list[dict]
+    combinar_datos_dt(resultados) -> dict
+    resolver_label_bloque(codigo_bloque, bloques_map) -> str
     mapear_dt_a_session_state(datos_parseados, bloques_map) -> dict
 """
 
 import io
+import re
 import os
 import shutil
 from datetime import datetime
@@ -620,6 +623,98 @@ def parsear_excel_dt(file_bytes, ficha=None):
         wb.close()
 
 
+# ─── Consolidacion de las fichas de un mismo archivo ──────────────────────
+
+def _vacio(valor):
+    """True si el valor parseado no aporta informacion."""
+    if valor is None:
+        return True
+    if isinstance(valor, (list, tuple, dict)):
+        return len(valor) == 0
+    return str(valor).strip() == ""
+
+
+def combinar_datos_dt(resultados):
+    """Une los `datos` de todas las fichas detectadas en UN solo dict.
+
+    Regla clave: un valor vacio NUNCA pisa a uno ya poblado. Antes se usaba
+    `dict.update()` sin condicion, de modo que los campos de cabecera
+    leidos en F-DT-01 (codigo del bloque, fecha, evaluador, UTM...) eran
+    borrados por las hojas F-DT-02..05, donde esas celdas suelen estar
+    vacias o son formulas `(auto)` sin valor en cache. Ese borrado dejaba
+    el formulario sin bloque vinculado al autocompletar.
+
+    `resultados` es la lista que devuelve `parsear_excel_dt`.
+    """
+    combinado = {}
+    for r in resultados or []:
+        for k, v in (r.get("datos") or {}).items():
+            if _vacio(v):
+                combinado.setdefault(k, v)
+            else:
+                combinado[k] = v
+    return combinado
+
+
+# ─── Resolucion del codigo de bloque ──────────────────────────────────────
+
+def _norm_codigo(valor):
+    """Normaliza un codigo de bloque para poder compararlo.
+
+    Cubre los formatos con los que Excel puede devolver el dato:
+      - numerico: 22 -> '22'; 22.0 -> '22' (openpyxl entrega float)
+      - con espacios sobrantes o en minusculas: ' m9b1 ' -> 'M9B1'
+      - con el nombre del bloque pegado: 'M9B1 - Bosque seco' -> 'M9B1'
+    """
+    if valor is None:
+        return ""
+    s = str(valor).strip()
+    if not s:
+        return ""
+    # 'M9B1 - Bosque seco' / 'M9B1 — Bosque seco' -> 'M9B1'
+    for sep in (" - ", " — ", " – ", " | "):
+        if sep in s:
+            s = s.split(sep)[0].strip()
+            break
+    # 22.0 -> 22 (Excel entrega los codigos numericos como float)
+    if re.fullmatch(r"-?\d+\.0+", s):
+        s = s.split(".")[0]
+    return " ".join(s.split()).upper()
+
+
+def resolver_label_bloque(codigo_bloque, bloques_map):
+    """Devuelve el label del selectbox de bloques que corresponde al codigo
+    leido del Excel, o '' si no hay correspondencia.
+
+    Se busca por coincidencia EXACTA normalizada. La version anterior usaba
+    `codigo_bloque in label` (subcadena), lo que vinculaba mal los codigos
+    numericos del catalogo V5: el bloque '2' se resolvia al primer label que
+    contuviera un '2' (p.ej. '25') y el bloque '3' al primero con un '3'
+    (p.ej. '32').
+    """
+    cod = _norm_codigo(codigo_bloque)
+    if not cod:
+        return ""
+    labels = list(bloques_map)
+    # 1) Coincidencia exacta normalizada ('22' == '22', 'm9b1' == 'M9B1').
+    for label in labels:
+        if _norm_codigo(label) == cod:
+            return label
+    # 2) El label trae 'CODIGO - descripcion' y el codigo viene limpio.
+    for label in labels:
+        prefijo = str(label).split(" - ")[0].strip().upper()
+        if prefijo == cod:
+            return label
+    # 3) Ultimo recurso: el codigo del Excel trae texto extra alrededor del
+    #    codigo real ('Bloque M9B1'). Se exige limite de palabra para no
+    #    volver al emparejamiento por subcadena.
+    for label in labels:
+        lab = _norm_codigo(label)
+        if lab and re.search(r"(?<![A-Z0-9])" + re.escape(lab) + r"(?![A-Z0-9])", cod):
+            return label
+    return ""
+
+
 # ─── Mapeo a session_state del aplicativo ─────────────────────────────────
 
 def mapear_dt_a_session_state(datos_parseados, bloques_map):
@@ -658,12 +753,10 @@ def mapear_dt_a_session_state(datos_parseados, bloques_map):
             except (ValueError, TypeError):
                 continue
 
-    codigo_bloque = datos.get("codigo_bloque", "")
-    if codigo_bloque:
-        for label in bloques_map:
-            if codigo_bloque in label:
-                ss["dt_bl"] = label
-                break
+    label_bloque = resolver_label_bloque(datos.get("codigo_bloque", ""),
+                                         bloques_map)
+    if label_bloque:
+        ss["dt_bl"] = label_bloque
 
     if datos.get("microcuenca"):
         ss["dt_mc"] = datos["microcuenca"]
