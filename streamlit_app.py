@@ -13,6 +13,7 @@ import io
 import csv
 import json
 import tempfile
+import unicodedata
 
 import database as db
 import export_diagnosticos as exp_diag
@@ -108,7 +109,10 @@ import reports
 from georeferenciacion import utm_a_latlon, latlon_a_utm
 from odk_kobo import generar_xlsform, importar_csv_odk, importar_desde_kobo, KoBoClient
 from excel_diagnostico_social import generar_plantilla_ds, parsear_excel_ds, mapear_a_session_state
-from excel_diagnostico_territorial import generar_plantilla_dt, parsear_excel_dt, mapear_dt_a_session_state
+from excel_diagnostico_territorial import (
+    generar_plantilla_dt, parsear_excel_dt, mapear_dt_a_session_state,
+    combinar_datos_dt, resolver_label_bloque,
+)
 from excel_elementos_expuestos import (generar_plantilla_ee, parsear_excel_ee,
     mapear_a_session_state as mapear_ee_a_session_state,
     FEE01_TIPO_ELEMENTO, FEE01_UBICACION_PELIGRO, FEE_ESTADO, FEE_NIVEL_AMB,
@@ -522,6 +526,81 @@ FDT_SENAL_CELULAR = ["Completa", "Parcial", "Intermitente", "Sin señal"]
 FDT_OPERADOR = ["Movistar", "Claro", "Entel", "Bitel", "Otro", "Sin señal"]
 FDT_SI_NO = ["Sí", "No"]
 FDT_SI_NO_NA = ["Sí", "No", "No aplica"]
+
+# ── Opciones validas de cada selectbox del formulario DT ─────────────────
+# El autocompletado desde Excel inyecta valores en `st.session_state` ANTES
+# de que se construya cada widget. Si el texto leido del Excel no es una de
+# las opciones del selectbox, Streamlit aborta la pagina con
+# StreamlitAPIException. Este registro permite validar/normalizar los
+# valores antes de inyectarlos.
+DT_SELECT_OPCIONES = {
+    "dt_mc": MICROCUENCAS,
+    "f01_ft": FDT_FORMA_TERRENO,
+    "f01_pe": FDT_RANGO_PENDIENTE,
+    "f01_pf": FDT_POSICION_FISIO,
+    "f01_ex": FDT_EXPOSICION,
+    "f01_ra": FDT_RANGO_ALTITUD,
+    "f01_af": FDT_SI_NO,
+    "f01_es": FDT_SI_NO,
+    "f01_rp": FDT_SI_NO,
+    "f01_de": FDT_SI_NO,
+    "f01_rm": FDT_SI_NO,
+    "f02_sell": FDT_SI_NO,
+    "f02_compa": FDT_SI_NO,
+    "f02_raices": FDT_SI_NO,
+    "f02_nivel": FDT_NIVEL_EROSION,
+    "f02_sint": FDT_NIVEL_EROSION,
+    "f02_pat": FDT_PATRON_CARCAVAS,
+    "f02_soc": FDT_SI_NO,
+    "f02_urg": FDT_URGENCIA,
+    "f03_uso": FDT_USO_SUELO_DOM,
+    "f03_eco": FDT_TIPO_ECOSISTEMA,
+    "f03_cons": FDT_ESTADO_CONSERVACION,
+    "f03_regen": FDT_REGENERACION,
+    "f03_san": FDT_ESTADO_SANITARIO,
+    "f03_feno": FDT_FENOLOGIA,
+    "f03_tipocob": FDT_TIPO_COBERTURA,
+    "f04_vel": FDT_VELOCIDAD,
+    "f04_rev": FDT_REVERSIBILIDAD,
+    "f04_urg": FDT_URGENCIA,
+    "f05_recarga": FDT_SI_NO_NA,
+    "f05_humedad": FDT_SI_NO,
+    "f05_escor": FDT_SI_NO,
+    "f05_inter": FDT_SI_NO,
+    "f05_modo": FDT_MODALIDAD_ACCESO,
+    "f05_tvia": FDT_TIPO_VIA,
+    "f05_tseca": FDT_NIVEL_TRANSITAB,
+    "f05_tllu": FDT_NIVEL_TRANSITAB,
+    "f05_senal": FDT_SENAL_CELULAR,
+    "f05_oper": FDT_OPERADOR,
+    "f05_aloj": FDT_SI_NO,
+    "f05_ronda": FDT_SI_NO,
+}
+
+
+def _normalizar_opcion(valor, opciones):
+    """Devuelve la opcion del selectbox equivalente a `valor`, o None si no
+    hay ninguna. Tolera diferencias de mayusculas, tildes y espacios (el
+    tecnico puede escribir 'si' donde la lista dice 'Sí')."""
+    if valor is None:
+        return None
+    txt = str(valor).strip()
+    if not txt:
+        return None
+    if txt in opciones:
+        return txt
+
+    def _clave(s):
+        s = unicodedata.normalize("NFKD", str(s))
+        s = "".join(c for c in s if not unicodedata.combining(c))
+        return " ".join(s.lower().split())
+
+    objetivo = _clave(txt)
+    for op in opciones:
+        if _clave(op) == objetivo:
+            return op
+    return None
+
 
 # Causas predefinidas para la matriz de F-DT-04 (16 filas fijas)
 FDT04_CAUSAS_LABELS = [
@@ -1574,10 +1653,47 @@ def pagina_diagnostico_territorial():
 
     _dt_pending = st.session_state.pop("_dt_autocompletar_pending", None)
     if _dt_pending:
+        _dt_descartados = []
+        _dt_aplicados = set()
         for _k, _v in _dt_pending.items():
+            _opciones = DT_SELECT_OPCIONES.get(_k)
+            if _opciones is not None:
+                # Un valor fuera de la lista de opciones haria que Streamlit
+                # aborte la pagina al construir el selectbox; se normaliza
+                # (tildes/mayusculas) y, si aun asi no coincide, se descarta.
+                _v_ok = _normalizar_opcion(_v, _opciones)
+                if _v_ok is None:
+                    _dt_descartados.append(f"{_k}='{_v}'")
+                    continue
+                _v = _v_ok
+            elif _k == "dt_bl" and _v not in bm:
+                _dt_descartados.append(f"dt_bl='{_v}'")
+                continue
             st.session_state[_k] = _v
+            _dt_aplicados.add(_k)
         st.session_state["dt_edit_id"] = None
         st.session_state["dt_edit_data"] = None
+
+        # Los campos derivados del bloque que la ficha NO trae se borran para
+        # que se recalculen con el bloque recien vinculado (Streamlit ignora
+        # value=/index= si la key ya existe en session_state). Los que si
+        # vienen del Excel se conservan: el punto de muestreo del tecnico
+        # manda sobre el centroide del bloque.
+        _bl_ficha = st.session_state.get("dt_bl")
+        if _bl_ficha != st.session_state.get("_dt_bloque_vinculado"):
+            for _k in ("dt_mc", "dt_utm_e", "dt_utm_n"):
+                if _k not in _dt_aplicados:
+                    st.session_state.pop(_k, None)
+        # Marcar el bloque como ya vinculado para que la re-vinculacion por
+        # cambio de bloque no pise lo que se acaba de leer de la ficha.
+        st.session_state["_dt_bloque_vinculado"] = _bl_ficha
+
+        if _dt_descartados:
+            st.warning(
+                "Algunos valores del Excel no coinciden con las listas del "
+                "formulario y quedaron sin asignar: "
+                + ", ".join(_dt_descartados[:8])
+                + (" ..." if len(_dt_descartados) > 8 else ""))
 
     dt_edit_id = st.session_state.get("dt_edit_id")
     dt_edit = st.session_state.get("dt_edit_data") or {}
@@ -1598,6 +1714,19 @@ def pagina_diagnostico_territorial():
 
         bl = st.selectbox("Bloque de Intervencion", list(bm.keys()), key="dt_bl")
         bid = bm[bl]
+
+        # ── Re-vinculacion al cambiar de bloque ──────────────────────────
+        # Streamlit ignora value=/index= cuando la key del widget ya existe
+        # en session_state, de modo que microcuenca y UTM se quedaban con
+        # los datos del bloque anterior al cambiar de bloque. Se borran esas
+        # keys ANTES de construir los widgets para que sus defaults se
+        # recalculen con el bloque recien elegido.
+        _bl_vinculado = st.session_state.get("_dt_bloque_vinculado")
+        if _bl_vinculado != bl:
+            st.session_state["_dt_bloque_vinculado"] = bl
+            if _bl_vinculado is not None and not dt_edit_id:
+                for _k in ("dt_mc", "dt_utm_e", "dt_utm_n"):
+                    st.session_state.pop(_k, None)
 
         # ── Auto-vinculacion: microcuenca, provincia, distrito, superficie, UTM ──
         info_bl = _resolver_datos_bloque(bl)
@@ -2437,11 +2566,11 @@ def pagina_diagnostico_territorial():
                         st.session_state["dt_edit_id"] = det["id"]
                         st.session_state["dt_edit_data"] = det
                         # Posicionar el selector de bloque en el bloque del registro.
-                        cod = det.get("bloque_codigo", "")
-                        for label_bl in bm:
-                            if cod and cod in label_bl:
-                                st.session_state["dt_bl"] = label_bl
-                                break
+                        label_bl = resolver_label_bloque(
+                            det.get("bloque_codigo", ""), bm)
+                        if label_bl:
+                            st.session_state["dt_bl"] = label_bl
+                            st.session_state["_dt_bloque_vinculado"] = label_bl
                     st.session_state.pop("dt_confirm_del_id", None)
                     st.rerun()
                 if confirm_del_dt_id == d["id"]:
@@ -2660,18 +2789,43 @@ def pagina_diagnostico_territorial():
                 else:
                     st.success(f"Se detectaron {len(resultados_dt)} ficha(s) en el archivo.")
                     fichas_detectadas = [r["ficha"] for r in resultados_dt]
-                    datos_todos = {}
-                    for r in resultados_dt:
-                        datos_todos.update(r["datos"])
+                    # Consolidar las fichas SIN que una hoja vacia borre lo
+                    # leido en otra: en la plantilla V5 el codigo del bloque,
+                    # la fecha, el evaluador y las UTM se escriben una sola
+                    # vez (normalmente en F-DT-01) y en el resto de hojas la
+                    # celda queda vacia o es una formula `(auto)` sin valor
+                    # en cache.
+                    datos_todos = combinar_datos_dt(resultados_dt)
+                    cod_bloque_xls = str(datos_todos.get("codigo_bloque", "") or "").strip()
+                    label_bloque_xls = resolver_label_bloque(cod_bloque_xls, bm)
 
                     with st.expander("Vista previa de datos detectados", expanded=True):
                         c1, c2, c3 = st.columns(3)
-                        c1.markdown(f"**Fecha:** {datos_todos.get('fecha_evaluacion', '-')}")
-                        c2.markdown(f"**Evaluador:** {datos_todos.get('evaluador', '-')}")
-                        c3.markdown(f"**Bloque:** {datos_todos.get('codigo_bloque', '-')}")
+                        c1.markdown(f"**Fecha:** {datos_todos.get('fecha_evaluacion') or '-'}")
+                        c2.markdown(f"**Evaluador:** {datos_todos.get('evaluador') or '-'}")
+                        c3.markdown(f"**Bloque:** {label_bloque_xls or cod_bloque_xls or '-'}")
                         st.markdown(f"**Fichas detectadas:** {', '.join(fichas_detectadas)}")
                         campos_pob = sum(1 for v in datos_todos.values() if v)
                         st.markdown(f"**Campos con datos:** {campos_pob}")
+                        if label_bloque_xls:
+                            info_bl_xls = _resolver_datos_bloque(label_bloque_xls)
+                            st.success(
+                                f"Bloque **{label_bloque_xls}** vinculado: "
+                                f"microcuenca **{info_bl_xls.get('microcuenca') or '-'}**, "
+                                f"provincia **{info_bl_xls.get('provincia') or '-'}**, "
+                                f"distrito **{info_bl_xls.get('distrito') or '-'}**.")
+                        elif cod_bloque_xls:
+                            st.warning(
+                                f"El codigo de bloque '{cod_bloque_xls}' de la ficha no "
+                                "corresponde a ningun bloque registrado. Seleccione el "
+                                "bloque manualmente en la pestana **Registro de "
+                                "Diagnostico** antes de guardar.")
+                        else:
+                            st.warning(
+                                "La ficha no trae el **Código del Bloque**. Complete la "
+                                "celda 'Código del Bloque' en la hoja F-DT-01 del Excel "
+                                "y vuelva a subir el archivo, o seleccione el bloque "
+                                "manualmente antes de guardar.")
 
                     if st.button("Autocompletar formulario", type="primary", key="dt_autocompletar"):
                         ss_vals = mapear_dt_a_session_state(
