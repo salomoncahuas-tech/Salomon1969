@@ -16,6 +16,7 @@ import tempfile
 
 import database as db
 import export_diagnosticos as exp_diag
+from bloque_lookup import buscar_label_bloque
 
 # ── Constante de version de cache (incrementar tras escritura) ───────────
 # Usada para invalidar @st.cache_data despues de inserciones/actualizaciones.
@@ -2438,10 +2439,9 @@ def pagina_diagnostico_territorial():
                         st.session_state["dt_edit_data"] = det
                         # Posicionar el selector de bloque en el bloque del registro.
                         cod = det.get("bloque_codigo", "")
-                        for label_bl in bm:
-                            if cod and cod in label_bl:
-                                st.session_state["dt_bl"] = label_bl
-                                break
+                        label_bl = buscar_label_bloque(cod, bm)
+                        if label_bl:
+                            st.session_state["dt_bl"] = label_bl
                     st.session_state.pop("dt_confirm_del_id", None)
                     st.rerun()
                 if confirm_del_dt_id == d["id"]:

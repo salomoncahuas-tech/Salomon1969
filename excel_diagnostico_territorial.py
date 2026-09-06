@@ -20,6 +20,8 @@ from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 
+from bloque_lookup import buscar_label_bloque
+
 
 # ─── Plantilla V5 oficial ─────────────────────────────────────────────────
 # El archivo .xlsx con la plantilla V5 oficial (con todas las hojas, listas
@@ -660,10 +662,9 @@ def mapear_dt_a_session_state(datos_parseados, bloques_map):
 
     codigo_bloque = datos.get("codigo_bloque", "")
     if codigo_bloque:
-        for label in bloques_map:
-            if codigo_bloque in label:
-                ss["dt_bl"] = label
-                break
+        label_bl = buscar_label_bloque(codigo_bloque, bloques_map)
+        if label_bl:
+            ss["dt_bl"] = label_bl
 
     if datos.get("microcuenca"):
         ss["dt_mc"] = datos["microcuenca"]
