@@ -26,6 +26,8 @@ from xml.sax.saxutils import escape
 
 from openpyxl import load_workbook
 
+from bloque_lookup import buscar_label_bloque
+
 
 # ─── Plantilla oficial (vive junto al codigo en el repo) ───────────────────
 # Version actual: V4. Se mantiene el alias PLANTILLA_V3_PATH por compatibilidad.
@@ -368,10 +370,9 @@ def mapear_a_session_state(resultado, bloques_map):
     # Resolver bloque por codigo
     codigo = str(datos.get("codigo_bloque", "") or "").strip()
     if codigo and bloques_map:
-        for label in bloques_map:
-            if codigo and codigo in label:
-                pend["ds_bl"] = label
-                break
+        label_bl = buscar_label_bloque(codigo, bloques_map)
+        if label_bl:
+            pend["ds_bl"] = label_bl
 
     # Volcar el formulario
     for k, v in form.items():

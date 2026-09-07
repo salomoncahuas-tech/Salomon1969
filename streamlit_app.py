@@ -17,6 +17,7 @@ import unicodedata
 
 import database as db
 import export_diagnosticos as exp_diag
+from bloque_lookup import buscar_label_bloque
 
 # ── Constante de version de cache (incrementar tras escritura) ───────────
 # Usada para invalidar @st.cache_data despues de inserciones/actualizaciones.
@@ -111,7 +112,7 @@ from odk_kobo import generar_xlsform, importar_csv_odk, importar_desde_kobo, KoB
 from excel_diagnostico_social import generar_plantilla_ds, parsear_excel_ds, mapear_a_session_state
 from excel_diagnostico_territorial import (
     generar_plantilla_dt, parsear_excel_dt, mapear_dt_a_session_state,
-    combinar_datos_dt, resolver_label_bloque,
+    combinar_datos_dt,
 )
 from excel_elementos_expuestos import (generar_plantilla_ee, parsear_excel_ee,
     mapear_a_session_state as mapear_ee_a_session_state,
@@ -265,14 +266,13 @@ BLOQUES_V5 = [
     (77, "37", "C1081-Q9591", 35.49, "Huancabamba", "Lalaquiz", 0, 0, 649081, 9424506, 0.658846, "Z10"),
     (78, "26", "C1081-Q9591", 46.96, "Huancabamba", "Lalaquiz", 0, 0, 649472, 9425705, 0.673303, "Z10"),
     (79, "64", "C1081-Q9591", 35.77, "Huancabamba", "Huancabamba", 0, 0, 657819, 9428541, 0.525448, "Z11"),
-    (80, "54", "C1081-Q9591 (inferida)", 40.26, "Huancabamba", "Huancabamba", 0, 0, 656897, 9426033, 0.600447, "Z11"),
+    # n=80 (bloque "54") retirado: version desactualizada. Ver BLOQUES_RETIRADOS.
     (81, "M30B5", "C1081-Q9591", 90.9, "Huancabamba", "Huancabamba", 0, 0, 655263, 9427340, 0.5564, "Z11"),
     (82, "60", "C1081-Q9591", 40.13, "Huancabamba", "Canchaque", 0, 0, 653850, 9426236, 0.67447, "Z11"),
     (83, "40", "C1081-Q9591", 28.52, "Huancabamba", "Canchaque", 0, 0, 654137, 9424425, 0.640099, "Z11"),
     (84, "30", "C1081-Q9591", 34.87, "Huancabamba", "Canchaque", 0, 0, 652758, 9424380, 0.663804, "Z11"),
     (85, "28", "C1081-Q9591", 52.97, "Huancabamba", "Canchaque", 0, 0, 654188, 9422849, 0.639425, "Z11"),
-    (86, "62", "C1081-Q9591", 73.82, "Huancabamba", "Canchaque", 0, 0, 655046, 9420450, 0.681648, "Z11"),
-    (87, "65", "C1081-Q9591 (inferida)", 53.93, "Huancabamba", "Canchaque", 0, 0, 657541, 9421083, 0.649297, "Z11"),
+    # n=86 (bloque "62") y n=87 (bloque "65") retirados: version desactualizada.
     (88, "21", "C1081-Q9591", 84.23, "Huancabamba", "Canchaque", 0, 0, 654604, 9417736, 0.620078, "Z11"),
     (89, "66", "C1081-Q9591", 102.34, "Huancabamba", "Canchaque", 0, 0, 652566, 9417311, 0.640254, "Z11"),
     (90, "24", "C1081-Q9583", 90.16, "Huancabamba", "Canchaque", 0, 0, 652191, 9414358, 0.674839, "Z11"),
@@ -2566,8 +2566,8 @@ def pagina_diagnostico_territorial():
                         st.session_state["dt_edit_id"] = det["id"]
                         st.session_state["dt_edit_data"] = det
                         # Posicionar el selector de bloque en el bloque del registro.
-                        label_bl = resolver_label_bloque(
-                            det.get("bloque_codigo", ""), bm)
+                        cod = det.get("bloque_codigo", "")
+                        label_bl = buscar_label_bloque(cod, bm)
                         if label_bl:
                             st.session_state["dt_bl"] = label_bl
                             st.session_state["_dt_bloque_vinculado"] = label_bl
@@ -2797,7 +2797,7 @@ def pagina_diagnostico_territorial():
                     # en cache.
                     datos_todos = combinar_datos_dt(resultados_dt)
                     cod_bloque_xls = str(datos_todos.get("codigo_bloque", "") or "").strip()
-                    label_bloque_xls = resolver_label_bloque(cod_bloque_xls, bm)
+                    label_bloque_xls = buscar_label_bloque(cod_bloque_xls, bm)
 
                     with st.expander("Vista previa de datos detectados", expanded=True):
                         c1, c2, c3 = st.columns(3)

@@ -112,14 +112,13 @@ BLOQUES_V5 = [
     ("37", "C1081-Q9591", 35.49, "Huancabamba", "Lalaquiz", "Z10", 649081, 9424506, 0.658846),
     ("26", "C1081-Q9591", 46.96, "Huancabamba", "Lalaquiz", "Z10", 649472, 9425705, 0.673303),
     ("64", "C1081-Q9591", 35.77, "Huancabamba", "Huancabamba", "Z11", 657819, 9428541, 0.525448),
-    ("54", "C1081-Q9591 (inferida)", 40.26, "Huancabamba", "Huancabamba", "Z11", 656897, 9426033, 0.600447),
+    # Bloque "54" retirado: version desactualizada. Ver BLOQUES_RETIRADOS.
     ("M30B5", "C1081-Q9591", 90.9, "Huancabamba", "Huancabamba", "Z11", 655263, 9427340, 0.5564),
     ("60", "C1081-Q9591", 40.13, "Huancabamba", "Canchaque", "Z11", 653850, 9426236, 0.67447),
     ("40", "C1081-Q9591", 28.52, "Huancabamba", "Canchaque", "Z11", 654137, 9424425, 0.640099),
     ("30", "C1081-Q9591", 34.87, "Huancabamba", "Canchaque", "Z11", 652758, 9424380, 0.663804),
     ("28", "C1081-Q9591", 52.97, "Huancabamba", "Canchaque", "Z11", 654188, 9422849, 0.639425),
-    ("62", "C1081-Q9591", 73.82, "Huancabamba", "Canchaque", "Z11", 655046, 9420450, 0.681648),
-    ("65", "C1081-Q9591 (inferida)", 53.93, "Huancabamba", "Canchaque", "Z11", 657541, 9421083, 0.649297),
+    # Bloques "62" y "65" retirados: version desactualizada.
     ("21", "C1081-Q9591", 84.23, "Huancabamba", "Canchaque", "Z11", 654604, 9417736, 0.620078),
     ("66", "C1081-Q9591", 102.34, "Huancabamba", "Canchaque", "Z11", 652566, 9417311, 0.640254),
     ("24", "C1081-Q9583", 90.16, "Huancabamba", "Canchaque", "Z11", 652191, 9414358, 0.674839),

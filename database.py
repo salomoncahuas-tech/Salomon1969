@@ -21,6 +21,21 @@ from datetime import datetime
 
 DATABASE_URL = st.secrets["DATABASE_URL"]
 
+# ── Bloques retirados del aplicativo ──────────────────────────────────────
+# Estos codigos corresponden a una version desactualizada del catalogo y no
+# deben aparecer en el aplicativo. NO se borran: todas las tablas cuelgan de
+# bloques(id) con ON DELETE CASCADE, de modo que un DELETE arrastraria en
+# silencio sus inspecciones, indicadores, presupuesto, cronograma y
+# diagnosticos territorial y social. En su lugar se marcan con activo=0: dejan
+# de listarse en todo el aplicativo, pero su fila y todo lo ya registrado para
+# ellos permanece intacto en la base y el cambio es reversible.
+BLOQUES_RETIRADOS = ("54", "62", "65")
+
+# Fragmento reutilizable para excluir los bloques retirados. Se usa COALESCE
+# porque las filas anteriores a la migracion podrian no tener el campo.
+_SOLO_ACTIVOS = "COALESCE(activo, 1) = 1"
+_SOLO_ACTIVOS_B = "COALESCE(b.activo, 1) = 1"
+
 _CONNECT_KWARGS = {
     "connect_timeout": 15,
     "keepalives": 1,
@@ -159,6 +174,7 @@ def inicializar_bd():
             estado TEXT NOT NULL DEFAULT 'Pendiente',
             microcuenca TEXT DEFAULT '',
             provincia TEXT DEFAULT '',
+            activo INTEGER NOT NULL DEFAULT 1,
             fecha_registro TEXT NOT NULL
         )
     """)
@@ -634,6 +650,26 @@ def inicializar_bd():
             END $$
         """)
 
+    # ── Migracion: retiro no destructivo de bloques ────────────────────────
+    # Agrega el campo 'activo' a las bases ya existentes. ADD COLUMN con
+    # DEFAULT 1 deja en 1 las filas actuales, de modo que ningun bloque
+    # desaparece por efecto de la migracion.
+    cursor.execute("""
+        DO $$ BEGIN
+            ALTER TABLE bloques ADD COLUMN activo INTEGER NOT NULL DEFAULT 1;
+        EXCEPTION WHEN duplicate_column THEN NULL;
+        END $$
+    """)
+    # Marca como retirados los bloques de la version desactualizada. Es
+    # idempotente y se reaplica en cada arranque: si alguno volviera a darse
+    # de alta (por ejemplo al correr a mano una migracion antigua), queda
+    # oculto de nuevo sin que se pierda nada de lo ya registrado.
+    if BLOQUES_RETIRADOS:
+        cursor.execute(
+            "UPDATE bloques SET activo = 0 "
+            "WHERE codigo = ANY(%s) AND COALESCE(activo, 1) <> 0",
+            (list(BLOQUES_RETIRADOS),))
+
     conn.commit()
     conn.close()
 
@@ -717,8 +753,15 @@ def sincronizar_bloques_catalogo(bloques, cuenca="Cuenca Alta del Rio Piura",
     los bloques que ya existen con UTM en 0 y para los que el catalogo si trae
     coordenadas. Solo escribe sobre ceros: jamas pisa una coordenada cargada.
 
+    Los codigos de BLOQUES_RETIRADOS se descartan siempre: su fila sigue en la
+    base pero `obtener_bloques()` ya no los devuelve, asi que sin este filtro
+    pareceria que faltan y el INSERT chocaria contra el UNIQUE de codigo,
+    abortando toda la sincronizacion.
+
     Devuelve {"insertados": [...], "existentes": [...], "coords_actualizadas": [...]}.
     """
+    bloques = [b for b in (bloques or [])
+               if b.get("codigo") not in BLOQUES_RETIRADOS]
     codigos_bd = {b["codigo"] for b in obtener_bloques()}
     faltantes = [b for b in (bloques or []) if b.get("codigo") not in codigos_bd]
     existentes = [b.get("codigo") for b in (bloques or []) if b.get("codigo") in codigos_bd]
@@ -780,6 +823,14 @@ def sincronizar_bloques_catalogo(bloques, cuenca="Cuenca Alta del Rio Piura",
 
 
 def eliminar_bloque(bloque_id):
+    """Borra un bloque DEFINITIVAMENTE, con todo lo que cuelga de el.
+
+    ATENCION: todas las tablas referencian bloques(id) con ON DELETE CASCADE,
+    asi que este borrado arrastra tambien las inspecciones, indicadores,
+    presupuesto, cronograma y diagnosticos territorial y social del bloque.
+    Para retirar un bloque del aplicativo SIN perder lo ya registrado, usar el
+    campo 'activo' (ver BLOQUES_RETIRADOS) en lugar de esta funcion.
+    """
     conn = get_connection()
     try:
         cursor = conn.cursor()
@@ -805,6 +856,10 @@ def respaldo_completo(tablas=None):
 
     Solo lee (SELECT *): no modifica nada. Una tabla que no exista se omite en
     silencio para que el respaldo no falle por un esquema mas antiguo.
+
+    Lee la tabla directamente y no via obtener_bloques(), de modo que el
+    respaldo incluye tambien los bloques retirados (activo=0) y todo lo
+    registrado para ellos: se ocultan del aplicativo, pero nunca del respaldo.
 
     Devuelve un dict {nombre_tabla: [dict por fila]}.
     """
@@ -862,7 +917,7 @@ def contar_registros_vinculados(bloque_id):
 def obtener_bloques():
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM bloques ORDER BY codigo")
+    cursor.execute(f"SELECT * FROM bloques WHERE {_SOLO_ACTIVOS} ORDER BY codigo")
     rows = _dictfetch(cursor)
     conn.close()
     return rows
@@ -871,6 +926,9 @@ def obtener_bloques():
 def obtener_bloque_por_id(bloque_id):
     conn = get_connection()
     cursor = conn.cursor()
+    # A proposito NO filtra por 'activo': es una busqueda por identidad. Un
+    # registro ya ingresado que apunte a un bloque retirado debe seguir
+    # resolviendo su bloque para mostrarse bien, en vez de romperse.
     cursor.execute("SELECT * FROM bloques WHERE id=?", (bloque_id,))
     row = _dictfetchone(cursor)
     conn.close()
@@ -880,6 +938,8 @@ def obtener_bloque_por_id(bloque_id):
 def obtener_bloque_por_codigo(codigo):
     conn = get_connection()
     cursor = conn.cursor()
+    # Igual que obtener_bloque_por_id: busqueda por identidad, sin filtrar por
+    # 'activo', para no romper la lectura de lo ya registrado.
     cursor.execute("SELECT * FROM bloques WHERE codigo=?", (codigo,))
     row = _dictfetchone(cursor)
     conn.close()
@@ -1073,7 +1133,7 @@ def obtener_indicadores_por_inspeccion(inspeccion_id):
 def obtener_resumen_bloques():
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("""
+    cursor.execute(f"""
         SELECT b.*,
                (SELECT COUNT(*) FROM inspecciones WHERE bloque_id = b.id) AS total_inspecciones,
                (SELECT MAX(fecha_visita) FROM inspecciones WHERE bloque_id = b.id) AS ultima_visita,
@@ -1082,6 +1142,7 @@ def obtener_resumen_bloques():
                (SELECT sobrevivencia_especies FROM indicadores_calidad WHERE bloque_id = b.id
                 ORDER BY fecha_registro DESC LIMIT 1) AS ultima_sobrevivencia
         FROM bloques b
+        WHERE {_SOLO_ACTIVOS_B}
         ORDER BY b.codigo
     """)
     rows = _dictfetch(cursor)
@@ -1093,10 +1154,14 @@ def buscar_bloques(texto_busqueda):
     conn = get_connection()
     cursor = conn.cursor()
     patron = f"%{texto_busqueda}%"
-    cursor.execute("""
+    # El grupo de OR va entre parentesis: sin ellos el filtro de activos se
+    # aplicaria solo a la primera condicion y los bloques retirados volverian
+    # a aparecer al buscar por distrito, tipo o responsable.
+    cursor.execute(f"""
         SELECT * FROM bloques
-        WHERE codigo LIKE ? OR distrito LIKE ?
-              OR tipo_intervencion LIKE ? OR responsable LIKE ?
+        WHERE {_SOLO_ACTIVOS}
+          AND (codigo LIKE ? OR distrito LIKE ?
+               OR tipo_intervencion LIKE ? OR responsable LIKE ?)
         ORDER BY codigo
     """, (patron, patron, patron, patron))
     rows = _dictfetch(cursor)
@@ -1158,13 +1223,14 @@ def obtener_presupuesto_por_bloque(bloque_id):
 def obtener_resumen_presupuesto():
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("""
+    cursor.execute(f"""
         SELECT b.codigo, b.tipo_intervencion, b.distrito,
                COALESCE(SUM(p.monto_planificado), 0) AS total_planificado,
                COALESCE(SUM(p.monto_ejecutado), 0) AS total_ejecutado,
                COUNT(p.id) AS num_partidas
         FROM bloques b
         LEFT JOIN presupuesto p ON p.bloque_id = b.id
+        WHERE {_SOLO_ACTIVOS_B}
         GROUP BY b.id, b.codigo, b.tipo_intervencion, b.distrito
         ORDER BY b.codigo
     """)
@@ -1348,27 +1414,31 @@ def obtener_estadisticas_generales():
     cursor = conn.cursor()
     stats = {}
 
-    cursor.execute("SELECT estado, COUNT(*) AS cantidad FROM bloques GROUP BY estado")
+    cursor.execute(f"SELECT estado, COUNT(*) AS cantidad FROM bloques "
+                   f"WHERE {_SOLO_ACTIVOS} GROUP BY estado")
     stats["bloques_por_estado"] = {r["estado"]: r["cantidad"] for r in _dictfetch(cursor)}
 
-    cursor.execute("SELECT tipo_intervencion, COUNT(*) AS cantidad FROM bloques GROUP BY tipo_intervencion")
+    cursor.execute(f"SELECT tipo_intervencion, COUNT(*) AS cantidad FROM bloques "
+                   f"WHERE {_SOLO_ACTIVOS} GROUP BY tipo_intervencion")
     stats["bloques_por_tipo"] = {r["tipo_intervencion"]: r["cantidad"] for r in _dictfetch(cursor)}
 
-    cursor.execute("SELECT COUNT(*) AS total FROM bloques")
+    cursor.execute(f"SELECT COUNT(*) AS total FROM bloques WHERE {_SOLO_ACTIVOS}")
     stats["total_bloques"] = _dictfetchone(cursor)["total"]
 
-    cursor.execute("SELECT COALESCE(SUM(area_hectareas), 0) AS total FROM bloques")
+    cursor.execute(f"SELECT COALESCE(SUM(area_hectareas), 0) AS total FROM bloques "
+                   f"WHERE {_SOLO_ACTIVOS}")
     stats["area_total_ha"] = _dictfetchone(cursor)["total"]
 
     cursor.execute("SELECT COUNT(*) AS total FROM inspecciones")
     stats["total_inspecciones"] = _dictfetchone(cursor)["total"]
 
-    cursor.execute("""
+    cursor.execute(f"""
         SELECT COALESCE(AVG(sub.ultimo_avance), 0) AS promedio FROM (
             SELECT (SELECT avance_fisico FROM inspecciones
                     WHERE bloque_id = b.id ORDER BY fecha_visita DESC LIMIT 1)
                    AS ultimo_avance
             FROM bloques b
+            WHERE {_SOLO_ACTIVOS_B}
         ) sub WHERE sub.ultimo_avance IS NOT NULL
     """)
     stats["avance_promedio"] = _dictfetchone(cursor)["promedio"]
@@ -1663,12 +1733,13 @@ def eliminar_diagnostico(diagnostico_id):
 def obtener_resumen_diagnosticos():
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("""
+    cursor.execute(f"""
         SELECT b.codigo, b.tipo_intervencion, b.distrito,
                COUNT(dt.id) AS total_fichas,
                GROUP_CONCAT(DISTINCT dt.ficha) AS fichas_completadas
         FROM bloques b
         LEFT JOIN diagnostico_territorial dt ON dt.bloque_id = b.id
+        WHERE {_SOLO_ACTIVOS_B}
         GROUP BY b.id, b.codigo, b.tipo_intervencion, b.distrito
         ORDER BY b.codigo
     """)
@@ -1757,12 +1828,13 @@ def eliminar_diagnostico_social(diagnostico_id):
 def obtener_resumen_diagnosticos_sociales():
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("""
+    cursor.execute(f"""
         SELECT b.codigo, b.tipo_intervencion, b.distrito,
                COUNT(ds.id) AS total_fichas,
                GROUP_CONCAT(DISTINCT ds.ficha) AS fichas_completadas
         FROM bloques b
         LEFT JOIN diagnostico_social ds ON ds.bloque_id = b.id
+        WHERE {_SOLO_ACTIVOS_B}
         GROUP BY b.id, b.codigo, b.tipo_intervencion, b.distrito
         ORDER BY b.codigo
     """)
@@ -1851,12 +1923,13 @@ def eliminar_elementos_expuestos(elemento_id):
 def obtener_resumen_elementos_expuestos():
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("""
+    cursor.execute(f"""
         SELECT b.codigo, b.tipo_intervencion, b.distrito,
                COUNT(ee.id) AS total_fichas,
                GROUP_CONCAT(DISTINCT ee.ficha) AS fichas_completadas
         FROM bloques b
         LEFT JOIN elementos_expuestos ee ON ee.bloque_id = b.id
+        WHERE {_SOLO_ACTIVOS_B}
         GROUP BY b.id, b.codigo, b.tipo_intervencion, b.distrito
         ORDER BY b.codigo
     """)

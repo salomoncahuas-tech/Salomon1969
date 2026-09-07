@@ -15,6 +15,8 @@ from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 
+from bloque_lookup import buscar_label_bloque
+
 
 # -- Estilos (consistentes con excel_diagnostico_social.py) ----------------
 HEADER_FILL = PatternFill(start_color="2C3E50", end_color="2C3E50", fill_type="solid")
@@ -950,10 +952,9 @@ def mapear_a_session_state(datos_parseados, bloques_map):
     first = next(iter(datos_parseados.values()))
     codigo_bloque = first.get("codigo_bloque", "")
     if codigo_bloque and bloques_map:
-        for label, bid in bloques_map.items():
-            if codigo_bloque in label:
-                ss["ee_bl"] = label
-                break
+        label_bl = buscar_label_bloque(codigo_bloque, bloques_map)
+        if label_bl:
+            ss["ee_bl"] = label_bl
 
     ss["ee_fecha"] = first.get("fecha_campo", "")
     ss["ee_resp"] = first.get("responsable_brigada", "")
