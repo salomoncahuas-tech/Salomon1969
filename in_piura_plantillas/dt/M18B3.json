@@ -1,0 +1,237 @@
+{
+ "microcuenca_dt": "C1077-Q9579",
+ "evaluador": "Ing. Héctor S. Cahuas Miller (ANIN-DIME-SESDI) / Ing. Juan Carlos Domínguez Varas",
+ "correlativo": "F-DT-M18B3-01",
+ "fecha_eval": "2026-05-21",
+ "hora": "09:12 - 09:50 h",
+ "cp_cercano": "Mangomanguilla / Villa Malacasí",
+ "comunidad": "No aplica (predios privados; COLINDA CON EL ACP MANGAMANGUILLA)",
+ "altitud_gps": "330 (GPS de campo)",
+ "utm_e_dt": 625826,
+ "utm_n_dt": 9411463,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Sur",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Paisaje de colinas y montañas bajas del bosque estacionalmente seco, con laderas de pendiente moderada a fuerte",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "BLOQUE RELATIVAMENTE MENOS DISTURBADO respecto a otros bloques visitados en el ámbito. No se observaron procesos de remoción en masa activos ni escarpes recientes durante el recorrido (21-05-2026). La inestabilidad potencial se asocia principalmente a la PÉRDIDA DE COBERTURA EN LADERAS CON PENDIENTE >25% Y A LA CONCENTRACIÓN DE ESCORRENTÍA ESTACIONAL. Punto de muestreo representativo en el frente sur del bloque (acceso desde Salitral, CRUCE DEL RÍO SECO). NOTA: el código de bloque visitado en campo y rotulado en imágenes es M18B3 (Salitral).",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Ligera (laminar)",
+ "n_carcavas": 1,
+ "long_carcavas": 15,
+ "pct_carcavas": 5,
+ "erosion_laminar": 10,
+ "patron_carcavas": "Aislado",
+ "socavamiento": "No",
+ "urgencia_control": "Baja",
+ "carcavas": [
+  [
+   "C-01",
+   "Surco (<30 cm) — 15 m, 0.2 m prof., 0.3 m ancho",
+   625826,
+   9411463,
+   "Semi-activa",
+   "Sobrepastoreo"
+  ]
+ ],
+ "obs_dt02": "PREDOMINIO DE EROSIÓN LAMINAR DE GRADO LIGERO en laderas con cobertura herbácea-arbustiva. Surcos incipientes asociados a huellas de ganado caprino en sectores de mayor pendiente. NO SE EVIDENCIÓ SOCAVAMIENTO DEL CAUCE NI CÁRCAVAS PROFUNDAS. SUELOS SUPERFICIALES PEDREGOSOS CON BUENA INFILTRACIÓN por presencia de hojarasca y raíces. Urgencia de control de erosión: BAJA. ADVERTENCIA: se declara 5% del bloque con cárcavas y una densidad de 0.5 N.°/ha para una sola cárcava de 15 m en 373.81 ha — cifras incompatibles entre sí.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 70,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "373.81 ha (100% del bloque)",
+ "estado_cons": "Levemente alterado",
+ "uso_dominante": "Forestal de protección",
+ "cob_dosel": 35,
+ "cob_arbustiva": 30,
+ "cob_herbacea": 25,
+ "cob_hojarasca": 15,
+ "suelo_desnudo": 15,
+ "h_dominante": 5,
+ "h_max": 9,
+ "dap": 18,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG) — 8 ind. en 626 200 · 9 412 300",
+   "VU — Vulnerable"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG) — 5 ind. en 625 980 · 9 411 900",
+   "NT — Casi Amenazada"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Indicadora de buen estado — 30 ind. en 625 826 · 9 411 463",
+   "No aplica"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Endémica del norte — 6 ind. en 625 900 · 9 411 700",
+   "No aplica"
+  ],
+  [
+   "Neltuma pallida (Algarrobo)",
+   "Clave cultural — 4 ind. en 625 750 · 9 411 400",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "Ecosistema Bes-cm en ESTADO LEVEMENTE ALTERADO, CON RELICTOS ARBÓREOS BIEN CONSERVADOS EN COTAS ALTAS E INACCESIBLES. Presencia de las especies clave del bosque seco (Charán, Hualtaco, Pasallo, Palo santo). BAJA INCIDENCIA DE ESPECIES INVASORAS. EL BLOQUE SE BENEFICIA DE LA CERCANÍA DEL ÁREA DE CONSERVACIÓN PRIVADA MANGAMANGUILLA Y DE INICIATIVAS LOCALES (SERNANP, ONG Y ASOCIACIÓN DE MUJERES PRODUCTORAS DE PLANTAS NATIVAS Y SEMILLAS FORESTALES), LO QUE FAVORECE SU POTENCIAL DE RESTAURACIÓN. Inventario completo de 15 taxones con DAP y altura por especie.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "30% — >20 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   "15% — >20 años"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "Sí",
+   "Ligera",
+   "10% — <10 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera",
+   "10% — >20 años"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   "5%"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "100%"
+  ]
+ ],
+ "causa_subyacente": "Dependencia económica de las familias del uso extensivo del bosque seco (leña y pastoreo) ante la limitada disponibilidad de alternativas",
+ "causas_directas": "Sobrepastoreo caprino y corta de leña como principales presiones antrópicas; déficit hídrico estacional agravado por cambio climático como presión natural dominante.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 50,
+ "obs_dt04": "LA DEGRADACIÓN ES DE GRADO BAJO A MODERADO Y DE AVANCE LENTO, LO QUE SITÚA AL BLOQUE COMO DE ALTA IDONEIDAD PARA MEDIDAS DE INFRAESTRUCTURA NATURAL (revegetación/enriquecimiento, clausura temporal, zanjas de infiltración). LA PRESENCIA DE ACTORES DE CONSERVACIÓN (ACP MANGAMANGUILLA, SERNANP, ONG, ASOCIACIÓN DE PRODUCTORAS DE PLANTAS NATIVAS) CONSTITUYE UN ACTIVO DE GOBERNANZA PARA SOSTENER LA INTERVENCIÓN. Indicadores: cobertura vegetal total 70% (Bajo); suelo desnudo 15% (Medio); densidad de cárcavas 0.5 N.°/ha (Bajo); invasoras 3% (Bajo); carga ganadera 0.5 UA/ha (Medio); quemas 1 (Medio); % pendiente >50% = 35% (Medio); distancia a vía 50 m (Medio).",
+ "fuentes_agua": [
+  [
+   "Río",
+   625728,
+   9411447,
+   "Permanente",
+   "Por determinar",
+   120,
+   "Río Piura (Río Seco)"
+  ],
+  [
+   "Reservorio / Represa",
+   625722,
+   9411456,
+   "Estacional",
+   "Por determinar",
+   0,
+   "Reservorio rústico revestido"
+  ],
+  [
+   "Reservorio / Represa",
+   625692,
+   9411343,
+   "Permanente",
+   "Por determinar",
+   0,
+   "Tanque elevado + reservorio (JASS)"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "No",
+ "escorrentia": "Sí",
+ "dist_captacion": 150,
+ "jass": "JASS del CP (captación a ≈150 m del límite del bloque)",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "PE-1NL → desvío a Salitral → trocha vecinal a Mangomanguilla",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 45,
+ "t_provincial": 120,
+ "senal": "Parcial",
+ "operador": "Movistar",
+ "alojamiento": "No",
+ "ronda": "No",
+ "contacto_ronda": "No aplica",
+ "obs_dt05": "Acceso por trocha carrozable transitable en seco con vehículo 4x4 (CRUCE DEL RÍO SECO) y tramo final a pie (<30 min). EN ÉPOCA LLUVIOSA LA TRANSITABILIDAD SE REDUCE POR EL CRUCE DEL CAUCE. El bloque se ubica en ZONA DE RECARGA HÍDRICA con escorrentía concentrada estacional; LA CAPTACIÓN POBLACIONAL DEL CP (JASS) SE LOCALIZA A ≈150 m DEL LÍMITE. No se identificó interferencia con obras de riego. LA COLINDANCIA CON EL ACP MANGAMANGUILLA ES UN ACTIVO ESTRATÉGICO: conectividad ecológica y gobernanza compartida.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (330 msnm)"
+  ],
+  [
+   "F-DT-02",
+   "Se declara 5% del bloque con cárcavas y densidad 0.5 N.°/ha para una sola cárcava de 15 m en 373.81 ha",
+   "SUSTANTIVA",
+   "Cifras incompatibles entre sí: recalcular"
+  ],
+  [
+   "F-DT-03",
+   "Categorías: Hualtaco VU y Palo santo NT, frente a CR en la mayoría de los bloques",
+   "SUSTANTIVA",
+   "Homogeneizar criterio de categorización"
+  ],
+  [
+   "F-DT-04",
+   "Cobertura vegetal total 70% calificada «Bajo» de nivel de degradación",
+   "NO SUSTANTIVA",
+   "Coherente con la convención de nivel de degradación"
+  ],
+  [
+   "F-DT-01",
+   "COLINDANCIA CON EL ÁREA DE CONSERVACIÓN PRIVADA MANGAMANGUILLA",
+   "SUSTANTIVA",
+   "Verificar filtro de exclusión por ANP/ACP y coordinar con SERNANP; oportunidad de conectividad ecológica"
+  ],
+  [
+   "F-DT-05",
+   "Captación poblacional de la JASS a ≈150 m del límite del bloque",
+   "SUSTANTIVA",
+   "Oportunidad MERESE"
+  ],
+  [
+   "F-DT-03 / F-DT-04",
+   "Presencia de una asociación de mujeres productoras de plantas nativas y semillas forestales",
+   "SUSTANTIVA",
+   "Activo estratégico para el abastecimiento de plantones y la gobernanza de la restauración"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M18B3 (Plan de Ingreso, PDF)",
+ "bloque": "M18B3"
+}

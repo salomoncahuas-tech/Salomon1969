@@ -828,8 +828,11 @@ def hoja_consistencia(wb, b, cat, ap, ndvi, cps, dt):
 
     # 13. Correcciones declaradas por la Unidad Formuladora en la ficha
     for c in (dt.get("correcciones") or []):
-        n += 1
-        filas.append([c[0], c[1], c[2], c[3], c[4]])
+        if len(c) >= 5:
+            filas.append([c[0], c[1], c[2], c[3], c[4]])
+        else:
+            n += 1
+            filas.append([f"D-{n:02d}", c[0], c[1], c[2], c[3]])
 
     f = titulo_seccion(ws, f, N, "DISCREPANCIAS Y VERIFICACIONES")
     f = cabecera_tabla(ws, f, ["Cód.", "Campo afectado", "Discrepancia observada",

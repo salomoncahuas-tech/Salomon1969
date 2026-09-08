@@ -1,0 +1,257 @@
+{
+ "microcuenca_dt": "C1086-Q9570",
+ "evaluador": "Ing. Héctor S. Cahuas Miller — ANIN/DIME-SESDI",
+ "correlativo": "F-DT-01 / B59",
+ "fecha_eval": "2026-07-01",
+ "hora": "12:27 - 12:42 h",
+ "cp_cercano": "Guabo (630 830 E · 9 441 637 N; 6 hab., INEI)",
+ "comunidad": "Comunidad Campesina de Chalaco - Trigopampa (según F-DS-03)",
+ "altitud_gps": "No registrada — 2045 - 2173 (perfil Google Earth) / 2045 - 2218 (MDE)",
+ "utm_e_dt": 631232,
+ "utm_n_dt": 9441709,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Suroeste",
+ "rango_altitudinal": "2000-2500 m (Quechua alta)",
+ "paisaje": "Ladera montañosa disectada sobre sustrato areno-limoso poco consolidado, atravesada por vía nacional afirmada",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "Sin dato (no verificada en campo)",
+ "deslizamientos": "Sí",
+ "remociones": "Sí",
+ "obs_dt01": "Centroide oficial del bloque: 631 195 E · 9 441 777 N (Bloques_V5). Superficie 13.554 ha. Rango altitudinal tomado del perfil de elevación Google Earth (2 045-2 173 msnm; media 2 104); la ALTITUD GPS instrumental NO fue registrada. Pendiente: perfil reporta media 30.6% y máxima 45.4%, consistente con el rango 25-50%. DISCREPANCIA DOCUMENTADA: la herramienta Regla reporta 359.30 m planimétricos mientras el perfil de elevación reporta 418 m (longitud 3D); ambos se conservan sin corregir. Exposición Suroeste: JUICIO EXPERTO derivado del perfil; requiere confirmación con DEM. Afloramientos: sustrato areno-limoso/arenisca poco consolidada expuesta en taludes y cantera. Remociones en masa activas: SÍ, deslizamiento sobre cerco perimétrico y escarpes frescos.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Severa (cárcavas activas)",
+ "n_carcavas": 5,
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Mixto",
+ "socavamiento": "No",
+ "urgencia_control": "Alta",
+ "carcavas": [
+  [
+   "C-01",
+   "Cárcava profunda (>2 m)",
+   631253,
+   9441731,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "C-02",
+   "Surco (<30 cm)",
+   631235,
+   9441625,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "C-03",
+   "Cárcava somera (0.5-2 m)",
+   631229,
+   9441787,
+   "Activa",
+   "Otro (talud de corte de vía)"
+  ],
+  [
+   "C-04",
+   "Cárcava muy profunda",
+   631272,
+   9441758,
+   "Activa",
+   "Otro (escarpe de deslizamiento)"
+  ],
+  [
+   "C-05",
+   "Cárcava incipiente",
+   631016,
+   9441897,
+   "Activa",
+   "Sobrepastoreo"
+  ]
+ ],
+ "obs_dt02": "Los 5 rasgos erosivos son REPRESENTATIVOS del recorrido, no un censo exhaustivo. Coordenadas tomadas del overlay GPS de las fotografías. Longitud, profundidad y ancho de cada rasgo, longitud total acumulada, % de bloque afectado, densidad de cárcavas/ha y erosión laminar (%) POR DETERMINAR por levantamiento instrumental. Tipologías asignadas por ESTIMACIÓN OCULAR con persona como escala. C-03 y C-04 codificadas con causa «Otro» = talud de corte de vía / escarpe de deslizamiento. Se registró además una CANTERA DE ARENA ACTIVA en 631 205 E · 9 441 786 N, no clasificable como cárcava pero fuente directa de aporte de sedimentos. «Socavamiento de cauce» = No en el tramo recorrido; el cauce de la quebrada no fue inspeccionado directamente. Urgencia «Alta»: JUICIO EXPERTO; se somete a consideración la categoría «Crítica» por la remoción en masa activa sobre vía nacional.",
+ "parcela": "Recorrido de reconocimiento (sin parcela permanente)",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 29.85,
+ "cob_veg": 65,
+ "ecosistema": "Bosque Relicto Montano de Vertiente Occidental (BMVO)",
+ "sup_ecosistema": "13.554 ha totales — Br-mvoc 8.127 ha (60.0%); Zona agrícola 5.427 ha (40.0%)",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 30,
+ "cob_arbustiva": 20,
+ "cob_herbacea": 15,
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": 20,
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "Por determinar",
+ "regeneracion": "Por determinar",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Floración",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Pacae (Inga sp.)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Chirimoyo silvestre (Annona sp.)",
+   "Clave cultural",
+   "NE — No Evaluado"
+  ],
+  [
+   "Tarwi silvestre (Lupinus sp.)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Helechos (Pteridophyta)",
+   "Indicadora de buen estado",
+   "No aplica"
+  ],
+  [
+   "Bromeliáceas epífitas",
+   "Indicadora de buen estado",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "INVENTARIO FLORÍSTICO TRANSFERIDO POR ANALOGÍA DEL BLOQUE 57 (mismo distrito Chalaco; centroides separados ≈2.1 km), conforme a indicación del responsable. NO constituye un levantamiento florístico propio del Bloque 59: requiere verificación de campo y determinación botánica formal. Nombres comunes ambiguos (Palo Blanco, Chin Chin, Pega Pega) se dejan «Por determinar». HALLAZGO NO CONTENIDO EN LA LISTA DEL BLOQUE 57: la fotografía F-15 (631 000 E · 9 441 919 N) documenta una plantación de conífera (probable Pinus sp.) en el filo del bloque. Coberturas (dosel 30%, arbustiva 20%, herbácea 15%, suelo desnudo 20%, total 65%) son ESTIMACIONES OCULARES apoyadas en MSAVI 2024 (media del bloque 0.6147); no se midieron con instrumentos. DAP, alturas, hojarasca, altitud de parcela y regeneración natural NO fueron levantados. «Alterado (intervención marcada)»: JUICIO EXPERTO; se contrasta con MSAVI medio-alto (0.6147) que indica degradación localizada y no generalizada.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "≈35%"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "≈40%"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "≈35%"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Fuerte",
+   "≈15%"
+  ],
+  [
+   "Extracción de áridos (cauces)",
+   "Sí",
+   "Moderada",
+   "≈5%"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   "≈10%"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "",
+   "≈20%"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "No",
+   "Nula",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Presión de infraestructura vial y extracción de material de préstamo sobre litología friable, sin obras de estabilización",
+ "causas_directas": "(1) Apertura y ampliación de vía nacional afirmada sobre sustrato areno-limoso poco consolidado, con taludes de corte inestables y remoción en masa activa; (2) extracción de áridos en cantera de arena; (3) sobrepastoreo y conversión de cobertura a pastos cultivados; (4) erosión natural severa acelerada por (1) y (2).",
+ "velocidad": "Rápida",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 0,
+ "obs_dt04": "Extensiones (%) son ESTIMACIONES OCULARES apoyadas en la cartografía MINAM y en el mosaico fotográfico; no derivan de medición planimétrica. Antigüedad de todas las causas: POR DETERMINAR. «Tala para leña» y «Sequía prolongada / CC» se dejan SIN DATO en Presencia. «Extracción de áridos (cauces)» se marca Sí aunque la cantera se ubica en ladera y no en cauce: es la categoría más próxima disponible en el formato. Reversibilidad «Parcialmente reversible»: JUICIO EXPERTO; los escarpes profundos (C-04) podrían calificar como «Difícilmente reversible» sin obras de estabilización.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   631100,
+   9441500,
+   "Estacional",
+   "Por determinar",
+   "Por determinar",
+   "Quebrada tributaria"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por determinar",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "PE-1NR (vía nacional afirmada, hito kilométrico km 120) + trocha carrozable interna",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 30,
+ "t_provincial": "Por determinar",
+ "senal": "Parcial",
+ "operador": "Bitel",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Por determinar — Teniente Gobernador Crisolay Cruz Román (F-DS-03, C.P. Guabo)",
+ "obs_dt05": "El bloque es ATRAVESADO POR LA VÍA NACIONAL AFIRMADA (hito PE-1NR km 120); el acceso vehicular 4x4 llega hasta el interior del bloque. No se identificaron manantiales, captaciones poblacionales ni obras de riego en el recorrido. El bloque se ubica en zona de origen y recarga de la microcuenca C1086-Q9570; la presencia de relicto de bosque montano, helechos y epífitas evidencia condiciones de humedad. Escorrentía concentrada observada en escarpes y cárcavas activas. Transitabilidad en época lluviosa «Bajo» por riesgo de deslizamiento activo sobre la plataforma vial.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-03",
+   "Inventario florístico TRANSFERIDO POR ANALOGÍA del Bloque 57; no es levantamiento propio del bloque 59",
+   "SUSTANTIVA",
+   "Requiere verificación de campo y determinación botánica formal"
+  ],
+  [
+   "F-DT-01",
+   "Regla (Ruta) reporta 359.30 m planimétricos vs. 418 m del perfil de elevación (longitud 3D)",
+   "NO SUSTANTIVA",
+   "Ambos valores se conservan sin corregir"
+  ],
+  [
+   "F-DT-01",
+   "Altitud GPS instrumental NO registrada; rango altitudinal derivado del perfil Google Earth",
+   "NO SUSTANTIVA",
+   "Se complementa con el rango del MDE 2045-2218 msnm"
+  ],
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "NO SUSTANTIVA",
+   "Se sustituye por el rango del MDE"
+  ],
+  [
+   "F-DT-02",
+   "Cantera de arena activa en 631 205 E · 9 441 786 N no clasificable en el formato de cárcavas",
+   "SUSTANTIVA",
+   "Fuente directa de aporte de sedimentos; incorporar como pasivo ambiental en el diseño de MRR-CCC"
+  ],
+  [
+   "F-DS-03",
+   "La ficha social del C.P. Guabo consigna microcuenca C1076-Q9584 y UTM 631 195 · 9 441 780 (valores heredados de plantilla)",
+   "NO SUSTANTIVA",
+   "Se conserva la microcuenca del catálogo C1086-Q9570"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_59 (Plan de Ingreso, PDF)",
+ "bloque": "59"
+}

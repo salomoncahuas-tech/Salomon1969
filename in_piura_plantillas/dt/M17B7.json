@@ -1,0 +1,266 @@
+{
+ "microcuenca_dt": "C1096-Q9556",
+ "evaluador": "Ing. Héctor S. Cahuas Miller (ANIN/DIME-SESDI)",
+ "correlativo": "M17B7-DT-01",
+ "fecha_eval": "2026-06-23",
+ "hora": "13:19 - 13:42 h",
+ "cp_cercano": "Angurgo (referencia); C.P. por confirmar",
+ "comunidad": "Por verificar",
+ "altitud_gps": "Por determinar (la app no registró msnm) — rango del bloque ≈767 - 1481 (perfil Google Earth)",
+ "utm_e_dt": 608397,
+ "utm_n_dt": 9448588,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Oeste",
+ "rango_altitudinal": "1000-1500 m (Quechua baja) — el bloque abarca también Yunga en el fondo de valle",
+ "paisaje": "Cañón/valle del río encajonado con laderas de colina-montaña de fuerte pendiente; mosaico de Bosque Estacionalmente Seco y zona agrícola",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Rango altitudinal del bloque ≈767-1 481 msnm (perfil Google Earth: mín./media/máx. 767/1 066/1 481 m); ABARCA LOS PISOS YUNGA (<1 000 m) EN EL FONDO DE VALLE Y QUECHUA BAJA (1 000-1 500 m) EN LAS LADERAS. Punto de muestreo referido a la foto índice 136. ESCARPES Y AFLORAMIENTOS CONCENTRADOS EN TALUDES DE CORTE DE LA TROCHA AFIRMADA. ALTITUD GPS POR DETERMINAR (la aplicación no registró msnm).",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 3,
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "≈10% (estimación ocular)",
+ "patron_carcavas": "Aislado",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01",
+   "Por determinar",
+   606809,
+   9446563,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "C-02",
+   "Por determinar",
+   606781,
+   9446904,
+   "Activa",
+   "Tala / pérdida de cobertura"
+  ],
+  [
+   "C-03",
+   "Por determinar",
+   606995,
+   9447237,
+   "Semi-activa",
+   "Tala / pérdida de cobertura"
+  ]
+ ],
+ "obs_dt02": "RASGOS EROSIVOS CONCENTRADOS EN TALUDES DE CORTE DE LA TROCHA AFIRMADA y en sectores con tala/pérdida de cobertura; LAS LADERAS NATURALES CON Bes-cm ESTÁN DENSAMENTE CUBIERTAS (baja erosión). Dimensiones instrumentales de cárcavas, longitud total, % de bloque afectado y densidad por hectárea: POR DETERMINAR (levantamiento por el especialista de Infraestructura Marrón). ADVERTENCIA: las 3 cárcavas inventariadas (606 781-606 995 E · 9 446 563-9 447 237 N) se ubican a más de 1.5 km al SO del punto de muestreo declarado y a ≈2 km del centroide de catálogo: verificar su pertenencia al polígono.",
+ "parcela": "Recorrido de bloque (sin parcela permanente)",
+ "dim_parcela": "No aplica (reconocimiento)",
+ "pend_parcela": "Por determinar",
+ "cob_veg": "≈80 (estimación ocular + gabinete)",
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "258.84 ha totales — Bes-cm 114.16 ha (44.1%); ZONA AGRÍCOLA 144.68 ha (55.9%)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": "Por determinar",
+ "cob_arbustiva": "Por determinar",
+ "cob_herbacea": "Por determinar",
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": "Por determinar",
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "Por determinar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Colicodendron scabridum (Sapote)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Neltuma pallida (Algarrobo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "VU — Vulnerable"
+  ],
+  [
+   "Vachellia macracantha (Faique)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "NT — Casi Amenazada"
+  ],
+  [
+   "Ceiba trichistandra (Ceibo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Tillandsia usneoides (Salvajina)",
+   "Indicadora de buen estado / humedad",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "Lista florística PRELIMINAR (15 taxones) sujeta a colección y determinación botánica formal. SE CONFIRMÓ EN CAMPO DOSEL CON ABUNDANTES EPÍFITAS (bromeliáceas y Tillandsia usneoides/salvajina), INDICADORAS DE HUMEDAD. EL BLOQUE INTEGRA, SEGÚN EL REPORTE DE ECOSISTEMAS POR BLOQUES (MINAM): Bes-cm 114.16 ha (44.1%) Y ZONA AGRÍCOLA 144.68 ha (55.9%); TOTAL 258.84 ha. LA MAYOR PARTE DEL BLOQUE ES ZONA AGRÍCOLA: el indicador de brecha y el área efectiva de intervención deben calcularse sobre las 114.16 ha de Bes-cm, no sobre el total. Coordenadas UTM de especies clave: POR DETERMINAR.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "≈35%"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "≈30%"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "≈25%"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   "≈10%"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   "Agave americana en taludes"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Ligera",
+   "≈5%"
+  ]
+ ],
+ "causa_subyacente": "Economía agropecuaria de subsistencia y presión vial, sin prácticas de conservación de suelos",
+ "causas_directas": "Cambio de uso a agricultura/pastoreo en laderas de fuerte pendiente; tala selectiva (leña/madera) con tocones; presión vial por la trocha afirmada (taludes de corte inestables y erosionados); sobrepastoreo; presencia puntual de Agave (exótica).",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 0,
+ "obs_dt04": "Densidad de cárcavas, carga ganadera, frecuencia de quemas y % de área con pendiente >50% (cálculo con DEM): POR DETERMINAR. Los indicadores de cobertura y suelo desnudo son ESTIMACIONES OCULARES apoyadas en el MSAVI del sector. Indicadores: cobertura vegetal total ≈80% (Alto); suelo desnudo ≈10% (Bajo); invasoras ≈5% (Bajo); % área con pendiente >50% ≈35% (Medio); distancia a vía 0 m (Alto).",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   608432,
+   9448567,
+   "Estacional",
+   "Por determinar",
+   0,
+   "Curso de agua que cruza la trocha por badenes"
+  ],
+  [
+   "Río",
+   608300,
+   9448700,
+   "Permanente",
+   "Por determinar",
+   "Por determinar",
+   "Río principal del sector, bordea el bloque por el oeste"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por determinar",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Vecinal afirmada (desde Frías/Angurgo)",
+ "tipo_via_final": "Vecinal afirmada",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Medio",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "Por verificar",
+ "operador": "Por verificar",
+ "alojamiento": "Por verificar",
+ "ronda": "No (acceso por vía pública sin restricción observada)",
+ "contacto_ronda": "Autorización formal de Ronda por confirmar (Angurgo/C.P.)",
+ "obs_dt05": "Bloque en ZONA DE ORIGEN Y RECARGA de la microcuenca C1096-Q9556 (Bes-cm CON DOSEL DE EPÍFITAS → HUMEDAD). El río bordea el bloque por el oeste y una quebrada cruza la trocha por badenes. Distancia y datos de captación poblacional/JASS, tiempos de viaje, señal/operador celular y alojamiento: POR VERIFICAR.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por el rango del perfil 767-1481 msnm"
+  ],
+  [
+   "F-DT-01",
+   "Altitud GPS no registrada por la aplicación",
+   "NO SUSTANTIVA",
+   "Por levantar"
+  ],
+  [
+   "F-DT-01",
+   "El bloque abarca dos pisos altitudinales (Yunga en el fondo de valle y Quechua baja en las laderas)",
+   "NO SUSTANTIVA",
+   "Se consigna la clase de mayor superficie"
+  ],
+  [
+   "F-DT-02",
+   "Las 3 cárcavas inventariadas se ubican a más de 1.5 km al SO del punto de muestreo y a ≈2 km del centroide",
+   "SUSTANTIVA",
+   "Verificar su pertenencia al polígono"
+  ],
+  [
+   "F-DT-02",
+   "Dimensiones instrumentales de las cárcavas sin medir",
+   "NO SUSTANTIVA",
+   "Levantamiento a cargo del especialista de Infraestructura Marrón"
+  ],
+  [
+   "F-DT-03",
+   "EL 55.9% DEL BLOQUE (144.68 ha) ES ZONA AGRÍCOLA; solo 114.16 ha corresponden a Bes-cm",
+   "SUSTANTIVA",
+   "El indicador de brecha y el área efectiva deben calcularse sobre las 114.16 ha; tamizaje predial obligatorio"
+  ],
+  [
+   "F-DT-03",
+   "Coberturas por estrato, alturas, DAP y pendiente de parcela sin medir",
+   "SUSTANTIVA",
+   "Levantamiento pendiente"
+  ],
+  [
+   "F-DT-04",
+   "Densidad de cárcavas, carga ganadera, frecuencia de quemas y % pendiente >50% por determinar",
+   "NO SUSTANTIVA",
+   "Cuantificación pendiente"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M17B7 (Plan de Ingreso, PDF)",
+ "bloque": "M17B7"
+}

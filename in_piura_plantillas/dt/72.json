@@ -1,0 +1,259 @@
+{
+ "microcuenca_dt": "C1076-Q9592",
+ "evaluador": "Ing. Héctor S. Cahuas Miller",
+ "correlativo": "F-DT-01/B72-2026",
+ "fecha_eval": "2026-08-01",
+ "hora": "11:20 - 12:05 h (aprox.)",
+ "cp_cercano": "Ramón Castilla",
+ "comunidad": "Por verificar",
+ "altitud_gps": "≈1640 (interpolado) — rango MDE 1538 - 1742 (amplitud 204 m)",
+ "utm_e_dt": 662236,
+ "utm_n_dt": 9391211,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Suroeste",
+ "rango_altitudinal": "1500-2000 m (Quechua media)",
+ "paisaje": "Ladera media de montaña con mosaico de matorral andino semiárido y parcelas agrícolas de subsistencia, disectada por quebrada tributaria",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "Sí",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "PARÁMETROS DE GABINETE (DEM): rango altitudinal 1 538-1 742 msnm (amplitud 204 m); pendiente promedio 28.25%; área 12.398 ha; MSAVI 2024 medio 0.5185; microcuenca C1076-Q9592, Zona Z13; centroide (Bloques V4) 662 236 E · 9 391 211 N. MODALIDAD DE VERIFICACIÓN: VUELO DE DRON del 01-08-2026 (SIN RECORRIDO PEDESTRE INTERIOR). COMPLETITUD FÍSICA ESTIMADA <10%. POR VERIFICAR: altitud GPS instrumental; nombre de la comunidad campesina; origen de las lineaciones subhorizontales tipo terraceta observadas en ladera (reptación vs. pisoteo de ganado vs. terraceo agrícola antiguo). D-01: el Bloque 72 NO figura en Centroides_Bloques.xls (catálogo restringido a bloques de código M); el centroide se toma de la tabla auxiliar «Bloques V4». D-05: LAS FOTOGRAFÍAS DE DRON CARECEN DE METADATOS EXIF/GPS, por lo que no es posible asignar cada fotograma al polígono ni georreferenciar rasgos; el panel fotográfico se trata como registro de SECTOR, no de punto.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Fuerte (cárcavas incipientes)",
+ "n_carcavas": 4,
+ "long_carcavas": "Por verificar",
+ "pct_carcavas": "Por verificar",
+ "erosion_laminar": "Por verificar",
+ "patron_carcavas": "Mixto",
+ "socavamiento": "Sin registro en ficha",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01",
+   "Cárcava incipiente",
+   "Por determinar",
+   "Por determinar",
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "C-02",
+   "Cárcava somera (0.5-2 m)",
+   "Por determinar",
+   "Por determinar",
+   "Semi-activa",
+   "Socavamiento de cauce"
+  ],
+  [
+   "C-03",
+   "Cárcava incipiente",
+   "Por determinar",
+   "Por determinar",
+   "Activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "C-04",
+   "Surco (<30 cm)",
+   "Por determinar",
+   "Por determinar",
+   "Activa",
+   "Caminos / huellas de ganado"
+  ]
+ ],
+ "obs_dt02": "La erosión observada desde vuelo de dron es de TIPO LINEAL y se concentra en (i) el eje de la quebrada tributaria, con escarpes de cabecera y socavamiento de márgenes, y (ii) la red de caminos de herradura que secciona la ladera transversalmente a la pendiente, con surcos y desprendimientos en los cortes. Se observan además afloramientos rocosos y bloques desprendidos en el fondo de quebrada. POR VERIFICAR (a cargo del especialista de Infraestructura Marrón): coordenadas UTM de inicio/fin, longitud, profundidad y ancho medio de cada rasgo; longitud total; % del bloque afectado; % de erosión laminar; densidad por hectárea. EL INVENTARIO REGISTRADO (4 rasgos) NO ES EXHAUSTIVO. D-05: SIN EXIF/GPS EN LAS FOTOGRAFÍAS, LAS COLUMNAS DE COORDENADAS SE DEJAN EN BLANCO antes que consignar valores estimados.",
+ "parcela": "No aplica — verificación por vuelo de dron (sin parcela instalada)",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 28.25,
+ "cob_veg": 85,
+ "ecosistema": "Matorral Andino semiárido (lectura de campo; ver D-04)",
+ "sup_ecosistema": "Por verificar — Reporte de Ecosistemas por Bloques V5 no disponible para el Bloque 72",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 10,
+ "cob_arbustiva": 45,
+ "cob_herbacea": 30,
+ "cob_hojarasca": "Por verificar",
+ "suelo_desnudo": 8,
+ "h_dominante": "Por verificar",
+ "h_max": "Por verificar",
+ "dap": "Por verificar",
+ "regeneracion": "No evaluable desde vuelo de dron",
+ "sanitario": "Sano",
+ "epifitas": "No evaluable desde vuelo de dron",
+ "fenologia": "Latencia / Estrés hídrico",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 10,
+ "especies_clave": [
+  [
+   "Vachellia macracantha (Faique)",
+   "Indicadora de perturbación",
+   "LC — Preocupación Menor"
+  ],
+  [
+   "Armatocereus sp. (Cactácea columnar)",
+   "Indicadora de perturbación",
+   "NE — No Evaluado"
+  ],
+  [
+   "Guadua angustifolia (Caña Guayaquil)",
+   "Clave cultural",
+   "No aplica"
+  ],
+  [
+   "Ficus sp. (Higuerón)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "INVENTARIO FLORÍSTICO PRELIMINAR — 10 TAXONES. NO se alcanza el mínimo de 15 especies de la ficha: la identificación se realizó EXCLUSIVAMENTE DESDE VUELO DE DRON, técnica que sólo resuelve taxones de copa o porte distintivo. Los nombres científicos son HIPÓTESIS DE TRABAJO sujetas a colecta y determinación botánica formal. NO EVALUABLE desde vuelo de dron y por tanto EN BLANCO: regeneración natural, epífitas, altura del estrato dominante, altura máxima, DAP y cobertura de hojarasca. La pendiente consignada (28.25%) es el PROMEDIO DEL BLOQUE derivado del DEM, no de una parcela. D-04: la lectura de campo asigna el ecosistema dominante a MATORRAL ANDINO SEMIÁRIDO, mientras que los bloques vecinos de la misma microcuenca (p. ej. Bloque 18) están catalogados como Bes-cm; requiere consulta al Reporte de Ecosistemas V5 y decisión de la Subdirección. D-02 DIVERGENCIA ENTRE ÍNDICES: el MSAVI 2024 (media 0.5185) muestra clases 0.3813-0.4976 en una fracción amplia del polígono, mientras el NDVI mediana 2025 clasifica prácticamente todo el bloque como «Vegetación alta». El contraste es atribuible a la fecha de las escenas, a la estacionalidad del estrato herbáceo (agosto = estiaje) y a la corrección de fondo de suelo del MSAVI. NO DEBE INTERPRETARSE COMO RECUPERACIÓN DE COBERTURA sin verificación adicional.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Fuerte",
+   ""
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Tala para leña",
+   "No",
+   "",
+   "No observada desde vuelo"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "No",
+   "",
+   "Sin cicatrices de quema"
+  ],
+  [
+   "Erosión natural severa",
+   "No",
+   "",
+   "La erosión es antrópica"
+  ],
+  [
+   "Especies invasoras",
+   "No",
+   "",
+   "No se identifican invasoras"
+  ]
+ ],
+ "causa_subyacente": "Presión demográfica y dependencia de la agricultura de subsistencia en un caserío sin alternativas productivas",
+ "causas_directas": "Causa directa dominante: cambio de uso a agricultura de subsistencia (plátano, café, maíz, pastos cultivados) sobre laderas de 25-50% sin prácticas de conservación de suelos. Causas concurrentes: densificación de la red de caminos de herradura (erosión lineal) y expansión de viviendas y trocha carrozable en el borde inferior del bloque.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 400,
+ "obs_dt04": "La matriz se construye ÚNICAMENTE con evidencia visual del vuelo de dron del 01-08-2026. Las columnas EXTENSIÓN (% bloque) y ANTIGÜEDAD (años) se dejan EN BLANCO en todas las filas: no son derivables de imagen aérea sin cartografía de uso actual del suelo ni entrevistas comunales. D-06 (ELEVAR A SUBDIRECCIÓN): el polígono y su entorno inmediato registran VIVIENDAS, TROCHA CARROZABLE Y CULTIVOS PERMANENTES (café, plátano). Debe verificarse (i) la compatibilidad con el criterio de exclusión de áreas agrícolas del tamizaje predial (Paso 5 de la metodología de microlocalización) y (ii) si el bloque califica como ecosistema degradado conforme a la R.M. N.° 00213-2024-MINAM, dado el nivel de cobertura observado. SE RECOMIENDA TAMIZAJE PREDIAL ESPECÍFICO Y, DE CORRESPONDER, REDELIMITACIÓN DEL POLÍGONO excluyendo el sector agrícola-habitacional del SO.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   "Por determinar",
+   "Por determinar",
+   "Estacional",
+   "No evaluable",
+   "Por determinar",
+   "Quebrada tributaria"
+  ],
+  [
+   "Otro (zonas de humedad edáfica)",
+   "Por determinar",
+   "Por determinar",
+   "Permanente",
+   "No evaluable",
+   "Por determinar",
+   "Zonas de humedad edáfica"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por verificar",
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Trocha carrozable de acceso al caserío Ramón Castilla (código de ruta por verificar); ingreso al polígono por camino de herradura",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por verificar",
+ "t_provincial": "Por verificar",
+ "senal": "Por verificar",
+ "operador": "Por verificar",
+ "alojamiento": "Por verificar",
+ "ronda": "Por verificar",
+ "contacto_ronda": "Por verificar — Ronda Campesina de Ramón Castilla no contactada",
+ "obs_dt05": "El bloque se ubica en ZONA DE ORIGEN Y RECARGA de la microcuenca C1076-Q9592 (cotas 1 538-1 742 msnm). Las coordenadas de las fuentes se dejan EN BLANCO por ausencia de EXIF/GPS en las fotografías (D-05). ACCESIBILIDAD: LA RED VIAL CARTOGRAFIADA NO INTERCEPTA EL POLÍGONO; el segmento más cercano se sitúa al SO, fuera del bloque (≈400 m, por verificar). El acceso interior es EXCLUSIVAMENTE POR CAMINO DE HERRADURA, lo que condiciona la logística de las MRR-CCC (acarreo manual o con acémila de plantones e insumos). NOTA DE IDONEIDAD OPERATIVA: la ALTA aptitud ecológica del sitio (zona de recarga con humedad permanente) coexiste con una BAJA aptitud operativa por acceso restringido y presencia de predios en uso agrícola y viviendas en el borde. AMBAS DIMENSIONES DEBEN REPORTARSE POR SEPARADO EN EL PERFIL.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-01",
+   "D-01: el Bloque 72 no figura en Centroides_Bloques.xls; el centroide se toma de la tabla auxiliar «Bloques V4»",
+   "NO SUSTANTIVA",
+   "Conciliar catálogos de centroides"
+  ],
+  [
+   "F-DT-01 / F-DT-02 / F-DT-05",
+   "D-05: las fotografías de dron carecen de metadatos EXIF/GPS; no es posible georreferenciar rasgos ni fuentes",
+   "SUSTANTIVA",
+   "El panel fotográfico se trata como registro de SECTOR, no de punto; coordenadas en blanco"
+  ],
+  [
+   "F-DT-01",
+   "Completitud física de la verificación estimada <10% (solo vuelo de dron, sin recorrido pedestre interior)",
+   "SUSTANTIVA",
+   "Verificación pedestre pendiente"
+  ],
+  [
+   "F-DT-03",
+   "D-04: ecosistema asignado «Matorral Andino semiárido» frente a Bes-cm en bloques vecinos de la misma microcuenca",
+   "SUSTANTIVA",
+   "Requiere consulta al Reporte de Ecosistemas V5 y decisión de la Subdirección"
+  ],
+  [
+   "F-DT-03",
+   "D-02: divergencia MSAVI 2024 (0.5185, clases bajas) vs. NDVI mediana 2025 («Vegetación alta» casi total)",
+   "SUSTANTIVA",
+   "No interpretar como recuperación de cobertura sin verificación adicional"
+  ],
+  [
+   "F-DT-03",
+   "Inventario florístico de 10 taxones frente al mínimo de 15",
+   "SUSTANTIVA",
+   "Colecta y determinación botánica pendientes"
+  ],
+  [
+   "F-DT-04",
+   "D-06: viviendas, trocha carrozable y cultivos permanentes en el polígono y su entorno",
+   "SUSTANTIVA",
+   "Verificar exclusión de áreas agrícolas (Paso 5) y calificación como ecosistema degradado (R.M. 00213-2024-MINAM); posible redelimitación"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_72_20260907_152715.pdf",
+ "bloque": "72"
+}

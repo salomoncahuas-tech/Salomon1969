@@ -1,0 +1,206 @@
+{
+ "microcuenca_dt": "C1077-Q9566",
+ "evaluador": "Juan Carlos Domínguez Varas",
+ "correlativo": "Por determinar",
+ "fecha_eval": "2026-05-18",
+ "hora": "14:00 h",
+ "cp_cercano": "Buenos Aires",
+ "comunidad": "No consignada",
+ "altitud_gps": "200 (GPS de campo) — rango del bloque 200-400 msnm reportado en campo",
+ "utm_e_dt": 615428,
+ "utm_n_dt": 9416185,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Oeste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Ladera de colina convexo-cóncava tributaria de la quebrada Q9566 (microcuenca C1077), con altitudes de 200 a 400 msnm",
+ "afloramientos": "No",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "AL MOMENTO DE LA EVALUACIÓN LA ACCESIBILIDAD AL BLOQUE ERA LIMITADA POR LA PRESENCIA DE TERRENOS DE CULTIVOS Y POTREROS DE PROPIETARIOS PRIVADOS. NO SE PUDO ACCEDER AL INTERIOR DEL BLOQUE. [Normalización para validación: el rango altitudinal 200-400 msnm reportado en campo se clasifica como «<1000 m (Yunga)» según lst_RangoAltitud — verificar con el Ing. Cahuas.] ATENCIÓN: el punto de registro (615 428 E · 9 416 185 N) dista ≈3.8 km al NE del centroide de catálogo (612 864 E · 9 413 340 N).",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "No",
+ "nivel_erosion": "Ligera (laminar)",
+ "n_carcavas": 0,
+ "long_carcavas": 0,
+ "pct_carcavas": 0,
+ "erosion_laminar": "Por verificar",
+ "patron_carcavas": "Aislado",
+ "socavamiento": "No",
+ "urgencia_control": "Baja",
+ "carcavas": [],
+ "obs_dt02": "NO SE PUDO ACCEDER AL INTERIOR DEL BLOQUE; EL INVENTARIO EROSIVO ES PRELIMINAR A ESCALA DE BORDE / OBSERVACIÓN EXTERNA. Las 514.36 ha del bloque no fueron recorridas.",
+ "parcela": "P-01 (transecto 50 × 4 m)",
+ "dim_parcela": "50 × 4 m",
+ "pend_parcela": "Por determinar",
+ "cob_veg": "Por verificar",
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "514.36 ha (100% del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 70,
+ "cob_arbustiva": "Por determinar",
+ "cob_herbacea": 20,
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": 15,
+ "h_dominante": "Por determinar",
+ "h_max": 8,
+ "dap": "Por determinar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Bosque denso (>70%)",
+ "n_taxones": 11,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico (por confirmar)"
+  ],
+  [
+   "Bursera graveolens (Palo Santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico (por confirmar)"
+  ],
+  [
+   "Sapote (Colicodendron scabridum)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico (por confirmar)"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Endémica del Perú",
+   "NE — No Evaluado"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "NO SE PUDO ACCEDER AL INTERIOR DEL BLOQUE. CARACTERIZACIÓN ECOLÓGICA PRELIMINAR POR OBSERVACIÓN EXTERNA Y GABINETE; INVENTARIO FLORÍSTICO Y DE ESPECIES CLAVE POR LEVANTAR. Los 11 taxones registrados carecen de familia, origen, abundancia, DAP y altura. Se declara una parcela P-01 (transecto 50 × 4 m) pero sin datos asociados. INCONSISTENCIA: cobertura de dosel 70% y tipo de cobertura «Bosque denso (>70%)» frente a estado de conservación «Medianamente alterado» y cobertura vegetal total «Por verificar».",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Tala para carbón",
+   "No",
+   "",
+   ""
+  ],
+  [
+   "Plagas o enfermedades forestales",
+   "No",
+   "Nula",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Pastoreo de ganado caprino",
+ "causas_directas": "Sobrepastoreo de ganado caprino.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Totalmente reversible",
+ "urgencia": "Baja",
+ "ind_dist_via": "Por determinar",
+ "obs_dt04": "NO SE PUDO ACCEDER AL INTERIOR DEL BLOQUE. MATRIZ DE CAUSAS E INDICADORES CUANTITATIVOS POR COMPLETAR en levantamiento detallado; síntesis basada en observación externa. NINGUNO DE LOS 8 INDICADORES CUANTITATIVOS FUE DILIGENCIADO. Las extensiones (%) y antigüedades de las causas tampoco se cuantificaron.",
+ "fuentes_agua": [],
+ "recarga": "Sin registro en ficha",
+ "humedad": "No",
+ "escorrentia": "No",
+ "dist_captacion": "Por verificar",
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular + caminata 30-90 min",
+ "via_principal": "Por verificar",
+ "tipo_via_final": "Por verificar",
+ "transit_seca": "Sin registro en ficha",
+ "transit_lluviosa": "Medio",
+ "t_distrital": 15,
+ "t_provincial": 45,
+ "senal": "Completa",
+ "operador": "Bitel",
+ "alojamiento": "No",
+ "ronda": "Por verificar",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "SIN LEVANTAMIENTO DE CAMPO F-DT-05 PARA EL BLOQUE M6B2-1 (acceso limitado al interior). IMPORTANTE: LA FICHA F-DT-05 DEL ARCHIVO DE ORIGEN CORRESPONDÍA A OTRO BLOQUE (M7B2 — Salitral, microcuenca C1076-Q9581, fecha 21-05-2026) Y NO FUE TRANSFERIDA, CONFORME A LA REGLA DE NO FABRICACIÓN. Campos hídricos y de accesibilidad quedan «Por verificar».",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (200 msnm)"
+  ],
+  [
+   "F-DT-01",
+   "NO SE PUDO ACCEDER AL INTERIOR DEL BLOQUE por terrenos de cultivos y potreros de propietarios privados",
+   "SUSTANTIVA",
+   "Las 514.36 ha no fueron recorridas; gestión predial previa indispensable"
+  ],
+  [
+   "F-DT-01",
+   "El punto de registro dista ≈3.8 km al NE del centroide de catálogo",
+   "SUSTANTIVA",
+   "Georreferencia por reponer"
+  ],
+  [
+   "F-DT-01",
+   "Rango altitudinal reportado en campo (200-400 msnm) normalizado a la clase «<1000 m (Yunga)»",
+   "NO SUSTANTIVA",
+   "Verificación pendiente con el Ing. Cahuas"
+  ],
+  [
+   "F-DT-03",
+   "Inventario florístico sin familia, origen, abundancia, DAP ni altura; especies clave por levantar",
+   "SUSTANTIVA",
+   "Levantamiento pendiente"
+  ],
+  [
+   "F-DT-03",
+   "Cobertura de dosel 70% y «Bosque denso (>70%)» frente a estado «Medianamente alterado» y cobertura total «Por verificar»",
+   "SUSTANTIVA",
+   "Inconsistencia interna a resolver"
+  ],
+  [
+   "F-DT-04",
+   "Ninguno de los 8 indicadores cuantitativos fue diligenciado; extensiones y antigüedades sin cuantificar",
+   "SUSTANTIVA",
+   "Cuantificación pendiente"
+  ],
+  [
+   "F-DT-05",
+   "La ficha F-DT-05 del archivo de origen correspondía a OTRO bloque (M7B2) y no fue transferida",
+   "SUSTANTIVA",
+   "Aplicación correcta de la regla de no fabricación; levantamiento pendiente"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M6B2-1 (Plan de Ingreso, PDF)",
+ "bloque": "M6B2-1"
+}

@@ -1,0 +1,200 @@
+{
+ "microcuenca_dt": "C1076-Q9584 (según ficha — valor por defecto de plantilla; catálogo: C1096-Q9547)",
+ "evaluador": "Juan Domínguez",
+ "correlativo": "Sin registro en ficha",
+ "fecha_eval": "2026-07-03",
+ "hora": "12:15 h",
+ "cp_cercano": "Río Seco Alto",
+ "comunidad": "Comunidad Campesina reconocida con título (F-DS-01); registro contradictorio con «Caserío / Anexo» en la segunda F-DS-01",
+ "altitud_gps": "177 (GPS de campo) — cota media del área ≈230 msnm",
+ "utm_e_dt": 645575,
+ "utm_n_dt": 9393500,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "No consignado en el campo de lista (narrativa: <60%)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Sureste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Sistema de laderas convexo-cóncavas tributarias de la quebrada Q9547 (microcuenca C1096)",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "El bloque se caracteriza por LADERAS DE COLINAS BAJAS, con pendientes inferiores al 60% que se vuelven progresivamente más pronunciadas al ganar altitud. La cota media ronda los 230 msnm; en su sector inferior se localizan el CCPP y una vía afirmada. Afloramientos rocosos en pendientes empinadas. Piedras de tamaño pequeño a mediano, SIN EVIDENCIA DE SURCOS NI CÁRCAVAS en proceso de formación. Se registró PASTOREO DE GANADO CAPRINO DE BAJA INTENSIDAD y EXTRACCIÓN DE LEÑA DE IMPACTO REDUCIDO. En la zona adyacente al CCPP se detectó AFECCIÓN LEVE, asociada principalmente a la reducción de la cobertura vegetal arbórea. ATENCIÓN: el UTM del punto de registro (645 575 · 9 393 500) es el valor por defecto de la plantilla; el centroide de catálogo es 596 773 · 9 448 270.",
+ "sellamiento": "Sin registro en ficha",
+ "compactacion": "Sin registro en ficha",
+ "raices_expuestas": "Sin registro en ficha",
+ "nivel_erosion": "FICHA F-DT-02 SIN CONTENIDO. Narrativa de F-DT-01: sin evidencia de surcos ni cárcavas",
+ "n_carcavas": "No inventariadas (F-DT-02 sin contenido)",
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Por determinar",
+ "socavamiento": "Por determinar",
+ "urgencia_control": "Por determinar",
+ "carcavas": [],
+ "obs_dt02": "LA FICHA F-DT-02 APARECE SIN CONTENIDO en el documento de origen. La única información disponible procede de F-DT-01: piedras de tamaño pequeño a mediano y SIN EVIDENCIA DE SURCOS NI CÁRCAVAS en proceso de formación. El levantamiento de suelo y procesos erosivos queda PENDIENTE en su totalidad.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 90,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "62 ha (de 68.89 ha del bloque)",
+ "estado_cons": "Levemente alterado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 90,
+ "cob_arbustiva": 20,
+ "cob_herbacea": 10,
+ "cob_hojarasca": 5,
+ "suelo_desnudo": 5,
+ "h_dominante": 8,
+ "h_max": 10,
+ "dap": 25,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Floración",
+ "tipo_cobertura": "Bosque denso (>70%)",
+ "n_taxones": 5,
+ "especies_clave": [
+  [
+   "Vachellia macracantha (Faique)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "NT — Casi Amenazada (por confirmar)"
+  ],
+  [
+   "Prosopis pallida (Algarrobo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "VU — Vulnerable (por confirmar)"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Endémica del Perú",
+   "NE — No Evaluado"
+  ],
+  [
+   "Cordia lutea (Overo)",
+   "Indicadora de perturbación",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "EL BLOQUE CONSERVABA SU COBERTURA VEGETAL EN BUEN ESTADO, CON UN IMPACTO ANTRÓPICO MUY LEVE. No se registraron actividades agrícolas en su interior; se evidenció ganado caprino en el CCPP y leña apilada en las viviendas, extraída de las áreas próximas al bloque. NO SE OBSERVARON CLAROS NI ÁREAS DEFORESTADAS DENTRO DEL BLOQUE. Altura promedio ≤8 m y clases diamétricas ≤30 cm de DAP. Abundante vegetación arbustiva (<3 m) y cardos dispersos. SOLO 5 TAXONES REGISTRADOS, SIN NOMBRE CIENTÍFICO NI FAMILIA, frente al mínimo de 15 exigido. INCONSISTENCIA: cobertura de dosel 90% frente al tipo de cobertura dominante «Bosque denso (>70%)» — coherentes entre sí, pero la suma de coberturas excede el 100%.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Ligera",
+   "15% — 30 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   "10% — 30 años"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "2% — 10 años"
+  ]
+ ],
+ "causa_subyacente": "No consignada en la ficha",
+ "causas_directas": "La degradación LEVE del ecosistema se debe principalmente a las actividades de pastoreo de ganado caprino y extracción de leña para uso doméstico.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Totalmente reversible",
+ "urgencia": "Baja",
+ "ind_dist_via": 150,
+ "obs_dt04": "RECOMENDACIÓN DE CAMPO DE MÁXIMA RELEVANCIA: «EVALUAR LA PERTINENCIA DE LA INTERVENCIÓN YA QUE EL ÁREA CONSERVA SU COBERTURA VEGETAL Y EL RIESGO DE DESASTRE POR MOVIMIENTO EN MASA NO ES TAN EVIDENTE». ESTE BLOQUE PODRÍA NO CALIFICAR COMO ECOSISTEMA DEGRADADO BAJO LA R.M. N.° 00213-2024-MINAM. Indicadores: cobertura vegetal total 90% (Alto); suelo desnudo 5% (Bajo); densidad de cárcavas 1 N.°/ha (Bajo) — incompatible con la declaración de que no hay cárcavas; especies invasoras 0% (Bajo); carga ganadera 1 UA/ha (Bajo); frecuencia de quemas 0 (Bajo); % área con pendiente >50% = 20% (Bajo); distancia a vía 150 m (Alto).",
+ "fuentes_agua": [],
+ "recarga": "Sin registro en ficha",
+ "humedad": "Sin registro en ficha",
+ "escorrentia": "Sin registro en ficha",
+ "dist_captacion": "Sin registro en ficha",
+ "jass": "JASS / Sistema local del C.P. Río Seco Alto — cobertura 90% (F-DS-01)",
+ "modalidad_acceso": "Sin registro en ficha",
+ "via_principal": "Sin registro en ficha",
+ "tipo_via_final": "Sin registro en ficha",
+ "transit_seca": "Sin registro en ficha",
+ "transit_lluviosa": "Sin registro en ficha",
+ "t_distrital": "Sin registro en ficha",
+ "t_provincial": "Sin registro en ficha",
+ "senal": "Sin registro en ficha",
+ "operador": "Sin registro en ficha",
+ "alojamiento": "Sin registro en ficha",
+ "ronda": "Sin registro en ficha",
+ "contacto_ronda": "Sin registro en ficha",
+ "obs_dt05": "LA FICHA F-DT-05 NO FUE DILIGENCIADA: inventario de fuentes de agua vacío y ningún campo de accesibilidad consignado (los datos de acceso que figuran en el documento corresponden a la sección F-DT-04). DIAGNÓSTICO SOCIAL (dos fichas F-DS-01, C.P. Río Seco Alto): 113 familias, 233 habitantes; SECUNDARIA COMPLETA; TASA DE MIGRACIÓN ALTA hacia la ciudad de Piura, Lima y la selva; JASS con cobertura 90%; saneamiento por red pública/pozo séptico; energía en red pública al 100%; NO HAY ESTABLECIMIENTO DE SALUD (30 min); I.E. primaria + secundaria (IE 14345) e inicial (IE 378). Cocinan con leña y gas. NO HAY MUCHOS PROYECTOS EN LA ZONA; hay apoyo a jóvenes en emprendimientos con una ONG internacional. CONTRADICCIÓN ENTRE LAS DOS FICHAS F-DS-01: una declara «Comunidad Campesina reconocida (con título)» con presidente Máximo Peña y la otra «Caserío / Anexo» con presidente Maximino Peña Domador.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Ficha DT",
+   "La ficha consigna microcuenca C1076-Q9584; el catálogo maestro asigna a M10B4 la microcuenca C1096-Q9547",
+   "SUSTANTIVA",
+   "Valor por defecto de la plantilla; se conserva el del catálogo"
+  ],
+  [
+   "Ficha DT",
+   "UTM del punto de registro (645 575 · 9 393 500) = valor por defecto; el centroide de catálogo es 596 773 · 9 448 270",
+   "SUSTANTIVA",
+   "Georreferencia por reponer"
+  ],
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (177 msnm)"
+  ],
+  [
+   "F-DT-01",
+   "Rango de pendiente no consignado en el campo de lista",
+   "NO SUSTANTIVA",
+   "Completar"
+  ],
+  [
+   "F-DT-02",
+   "Sección SIN CONTENIDO en el documento de origen",
+   "SUSTANTIVA",
+   "Levantamiento pendiente en su totalidad"
+  ],
+  [
+   "F-DT-03",
+   "Solo 5 taxones registrados, sin nombre científico ni familia, frente al mínimo de 15",
+   "SUSTANTIVA",
+   "Inventario florístico incompleto"
+  ],
+  [
+   "F-DT-04",
+   "Densidad de cárcavas 1 N.°/ha pese a declararse que no hay cárcavas y a no existir inventario",
+   "SUSTANTIVA",
+   "Inconsistencia interna a resolver"
+  ],
+  [
+   "F-DT-04",
+   "RECOMENDACIÓN DE CAMPO: evaluar la pertinencia de la intervención — el área conserva su cobertura y el riesgo por movimiento en masa no es evidente",
+   "SUSTANTIVA",
+   "ELEVAR A LA SUBDIRECCIÓN: verificar si el bloque califica como ecosistema degradado bajo la R.M. 00213-2024-MINAM"
+  ],
+  [
+   "F-DT-05",
+   "Ficha no diligenciada: inventario hídrico vacío y accesibilidad sin consignar",
+   "SUSTANTIVA",
+   "Levantamiento pendiente"
+  ],
+  [
+   "F-DS-01",
+   "Contradicción entre las dos fichas sociales: «Comunidad Campesina reconocida con título» vs. «Caserío / Anexo»",
+   "SUSTANTIVA",
+   "Condiciona el tamizaje predial: resolver"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M10B4 (Plan de Ingreso, PDF)",
+ "bloque": "M10B4"
+}

@@ -1,0 +1,189 @@
+{
+ "microcuenca_dt": "C1086-Q9575",
+ "evaluador": "Juan Domínguez y Pedro Talledo",
+ "correlativo": "Por determinar",
+ "fecha_eval": "2026-05-25",
+ "hora": "16:45 - 17:30 h",
+ "cp_cercano": "Ricardo Palma",
+ "comunidad": "No consignada",
+ "altitud_gps": "600 (GPS de campo)",
+ "utm_e_dt": 645575,
+ "utm_n_dt": 9426864,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera baja",
+ "exposicion": "Oeste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Sistema de laderas convexo-cóncavas tributarias de la quebrada Q9575 (microcuenca C1086)",
+ "afloramientos": "No",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "Sí",
+ "remociones": "No",
+ "obs_dt01": "Acceso por vía vecinal, ruta desde el distrito de Yamango al CC.PP. Ricardo Palma; la camioneta se detuvo en el centro poblado, al pie del bloque sobre la vía afirmada. Se ingresó al bloque por la zona oeste, colindante a la vía. En el interior del bloque se evidenciaron actividades agrícolas (siembra de maíz, bambú y plátano). La zona próxima a la vía y al CC.PP. es la parte más degradada del bloque. También se evidenció presencia de ganado caprino.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "No",
+ "nivel_erosion": "Ligera (laminar)",
+ "n_carcavas": 0,
+ "long_carcavas": "Sin registro en ficha",
+ "pct_carcavas": 0,
+ "erosion_laminar": "Sin registro en ficha",
+ "patron_carcavas": "No aplica (cero cárcavas)",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "En el terreno no se evidenciaron cárcavas desarrolladas; sólo se observaron algunos surcos menores en formación. La mayor afectación a nivel de suelo se debe a erosión laminar producida por la lluvia.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "Sin registro en ficha",
+ "pend_parcela": "Sin registro en ficha",
+ "cob_veg": "Sin registro en ficha",
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "58.29 ha (100% del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Agricultura en secano",
+ "cob_dosel": 60,
+ "cob_arbustiva": "Sin registro en ficha",
+ "cob_herbacea": 30,
+ "cob_hojarasca": "Sin registro en ficha",
+ "suelo_desnudo": 20,
+ "h_dominante": "Sin registro en ficha",
+ "h_max": 8,
+ "dap": "Sin registro en ficha",
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 4,
+ "especies_clave": [
+  [
+   "Pasallo",
+   "Nativa - Ocasional (estrato arbóreo medio)",
+   "DAP 30 cm, H 8 m — sin nombre científico consignado"
+  ],
+  [
+   "Charán",
+   "Nativa - Frecuente (estrato arbóreo medio)",
+   "DAP 20 cm, H 5 m — sin nombre científico consignado"
+  ],
+  [
+   "Ceibo",
+   "Nativa - Abundante (estrato arbóreo superior)",
+   "DAP 40 cm, H 12 m — sin nombre científico consignado"
+  ],
+  [
+   "Palo Santo",
+   "Nativa - Ocasional (estrato arbóreo medio)",
+   "DAP 30 cm, H 7 m — sin nombre científico consignado"
+  ]
+ ],
+ "obs_dt03": "El bosque se encuentra degradado en las zonas cercanas al centro poblado: la población arbórea es menos densa y los árboles se hallan dispersos, con alturas menores a 10 m y clases diamétricas menores a 40 cm. En zonas próximas a los CC.PP. se desarrollan actividades agrícolas (maíz, caña y plátano). La tabla florística NO CONSIGNA NOMBRES CIENTÍFICOS NI FAMILIAS. DISCREPANCIA: altura máxima declarada 8 m frente al Ceibo registrado con 12 m.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "25% del bloque, 20 años — se observó ganado caprino"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "10% del bloque, 10 años — se observaron tocones"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí (presencia no marcada en la ficha)",
+   "Moderada",
+   "30% del bloque, 20 años — se observaron parcelas agrícolas"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera",
+   "25% del bloque, 10 años — se observó ganado caprino"
+  ]
+ ],
+ "causa_subyacente": "Pastoreo de ganado caprino",
+ "causas_directas": "Extracción de individuos para leña y sobrepastoreo de ganado caprino.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 0,
+ "obs_dt04": "El bloque se encuentra degradado a nivel de cobertura vegetal y suelo en las zonas próximas a la vía y cercanas al CC.PP. En el interior del bloque se evidencian claros producto de la extracción de individuos arbóreos cercanos a la carretera. Hay cambio de uso del suelo por parcelas agrícolas. DISCREPANCIA: el indicador 2 declara 15% de suelo desnudo frente al 20% consignado en F-DT-03.",
+ "fuentes_agua": [],
+ "recarga": "No",
+ "humedad": "No",
+ "escorrentia": "No",
+ "dist_captacion": "Sin registro en ficha",
+ "jass": "Sin registro en ficha",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Vía vecinal afirmada Yamango – Ricardo Palma",
+ "tipo_via_final": "Vecinal afirmada",
+ "transit_seca": "Bajo",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 10,
+ "t_provincial": 40,
+ "senal": "Intermitente",
+ "operador": "Entel",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "Las quebradas que discurren del bloque estaban secas por haberse evaluado en época seca. El inventario de fuentes de agua quedó vacío.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-01",
+   "Las coordenadas declaradas (645 575 E / 9 426 864 N) corresponden al valor por defecto de ESTE de la plantilla y distan ~11.5 km del centroide del bloque en el catálogo (634 061 E / 9 426 780 N)",
+   "SUSTANTIVA",
+   "Se conserva la declaración de la ficha y se anota el centroide del catálogo; requiere ratificación del punto de muestreo"
+  ],
+  [
+   "F-DT-03 / F-DT-04",
+   "El contenido de las secciones F-DT-03 y F-DT-04 es IDÉNTICO al de la ficha del bloque M28B2 (mismas coberturas, mismos 4 taxones con iguales DAP y alturas, misma matriz de causas y mismos indicadores)",
+   "SUSTANTIVA",
+   "Se registra como probable transferencia de ficha entre bloques; requiere verificación de campo diferenciada"
+  ],
+  [
+   "F-DT-03",
+   "La tabla florística no consigna nombres científicos ni familias botánicas",
+   "SUSTANTIVA",
+   "Sin determinación taxonómica; requiere colecta e identificación"
+  ],
+  [
+   "F-DT-03",
+   "Altura máxima declarada 8 m frente al Ceibo registrado con 12 m",
+   "SUSTANTIVA",
+   "Se conservan ambos registros sin promediar"
+  ],
+  [
+   "F-DT-03 / F-DT-04",
+   "Suelo desnudo 20% en F-DT-03 frente a 15% en el indicador 2 del F-DT-04",
+   "NO SUSTANTIVA",
+   "Se conservan ambos valores con indicación de su sección de origen"
+  ],
+  [
+   "F-DT-04",
+   "La causa 7 (cambio de uso a agricultura) tiene intensidad, extensión, antigüedad y evidencia pero la casilla de presencia quedó sin marcar",
+   "NO SUSTANTIVA",
+   "Se interpreta como presente por la evidencia consignada"
+  ],
+  [
+   "F-DT-04",
+   "Indicadores 3, 4, 6 y 7 sin valor consignado",
+   "NO SUSTANTIVA",
+   "Sin registro en ficha; POR DETERMINAR"
+  ],
+  [
+   "F-DT-05",
+   "Inventario de fuentes de agua vacío",
+   "NO SUSTANTIVA",
+   "Evaluación en época seca; requiere verificación en época húmeda"
+  ]
+ ],
+ "fuente_ficha": "Ficha DT M28B3 (Plantilla V5, 25/05/2026)",
+ "bloque": "M28B3"
+}

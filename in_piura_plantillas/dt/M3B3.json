@@ -1,0 +1,288 @@
+{
+ "microcuenca_dt": "C1081-Q9582",
+ "evaluador": "Ing. H. Salomón Cahuas M. / Ing. Juan C. Domínguez V.",
+ "correlativo": "F-DT-01-M3B3-001",
+ "fecha_eval": "2026-05-12",
+ "hora": "09:00 - 11:30 h",
+ "cp_cercano": "Alan García (ingreso); colindante con C.P. Bigote y Hacienda Bigote",
+ "comunidad": "Sin registro en ficha",
+ "altitud_gps": "230 (GPS de campo) — altitudes del bloque 195 a 300 msnm (perfil Google Earth)",
+ "utm_e_dt": 632918,
+ "utm_n_dt": 9411574,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "15-25% (Fuert. inclinado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Sureste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Colinas bajas a medias del flanco occidental andino, en la transición valle del Río Bigote - piedemonte",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "Sí",
+ "deslizamientos": "Sí",
+ "remociones": "No",
+ "obs_dt01": "Sector colinoso del flanco norte del valle del Río Bigote, con altitudes entre 195 y 300 msnm. El ingreso se realizó desde el C.P. Alan García. SE EVIDENCIA PRESIÓN ANTRÓPICA FUERTE EN EL PIE DE LADERA POR EXPANSIÓN URBANA INFORMAL (VIVIENDAS ASENTADAS SOBRE LADERAS Y MÁRGENES DE QUEBRADA). La litología dominante (esquistos/filitas) y la pendiente >15% configuran un ESCENARIO DE SUSCEPTIBILIDAD MEDIA A ALTA FRENTE A MOVIMIENTOS EN MASA, especialmente en eventos FEN extraordinarios.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 4,
+ "long_carcavas": "≈400",
+ "pct_carcavas": 8,
+ "erosion_laminar": "≈20",
+ "patron_carcavas": "Paralelo",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01",
+   "Cárcava somera (0.5-2 m) — 110 m, 1.2 m prof., 1.8 m ancho",
+   633100,
+   9411527,
+   "Activa",
+   "Socavamiento de cauce"
+  ],
+  [
+   "C-02",
+   "Surco (<30 cm) — 90 m, 0.25 m prof., 0.4 m ancho",
+   632913,
+   9411514,
+   "Semi-activa",
+   "Sobrepastoreo"
+  ],
+  [
+   "C-03",
+   "Cárcava incipiente — 55 m, 0.45 m prof., 0.7 m ancho",
+   632845,
+   9411562,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "C-04",
+   "Surco (<30 cm) — 150 m, 0.2 m prof., 0.35 m ancho",
+   632748,
+   9411549,
+   "Semi-activa",
+   "Concentración natural de escorrentía"
+  ]
+ ],
+ "obs_dt02": "Procesos erosivos predominantes: erosión laminar (≈20% del bloque) y surcos paralelos en laderas medias y bajas con cobertura herbácea-arbustiva discontinua. EL PROCESO DE MAYOR RELEVANCIA ES EL SOCAVAMIENTO DEL CAUCE DE LA QUEBRADA CHARANAL, donde se observan BLOQUES ROCOSOS ANGULARES (esquistos/cuarzo) DE HASTA 1.5 m, INDICADORES DE TRANSPORTE POR FLUJOS DE DETRITOS EN EVENTOS EXTRAORDINARIOS. LA EXPANSIÓN URBANA INFORMAL CERCANA AL CAUCE Y LOS MÁRGENES INCREMENTA LA EXPOSICIÓN Y LA URGENCIA DE CONTROL.",
+ "parcela": "Parcela de campo (referida en indicador N.° 1)",
+ "dim_parcela": "Sin registro en ficha",
+ "pend_parcela": 22,
+ "cob_veg": 65,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "84.82 ha (100% del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Forestal de protección",
+ "cob_dosel": 30,
+ "cob_arbustiva": 35,
+ "cob_herbacea": 25,
+ "cob_hojarasca": 15,
+ "suelo_desnudo": 20,
+ "h_dominante": 6,
+ "h_max": 14,
+ "dap": 22,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sin registro en ficha",
+ "epifitas": "Escasa (puntual en árboles emergentes de mayor porte)",
+ "fenologia": "Sin registro en ficha",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 12,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG) — 5 ind. en 632 918 · 9 411 574",
+   "EN — En Peligro"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Clave cultural — 12 ind. en 632 913 · 9 411 514",
+   "NE — No Evaluado"
+  ],
+  [
+   "Ceiba trichistandra (Ceibo / Pretino)",
+   "Indicadora de buen estado — 1 ind. en 632 918 · 9 411 574",
+   "NT — Casi Amenazada"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Clave cultural — 3 ind. en 632 895 · 9 411 559",
+   "NT — Casi Amenazada"
+  ],
+  [
+   "Armatocereus cartwrightianus (Cactus columnar)",
+   "Indicadora de buen estado — 9 ind. en 632 965 · 9 411 587",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "Estado de conservación MEDIANAMENTE ALTERADO: dosel discontinuo (≈30% de cobertura del estrato arbóreo), REDUCCIÓN DE INDIVIDUOS DE HUALTACO Y CEIBO POR TALA SELECTIVA HISTÓRICA, ramoneo caprino que limita la regeneración natural en estratos bajos. PERSISTEN RELICTOS DE BOSQUE EN CABECERAS CON BUENA COBERTURA (>70%) según verificación de campo y soporte MSAVI (parches 0.38-0.50). VALOR ECOLÓGICO ALTO por presencia de Loxopterygium huasango (EN) y Ceiba trichistandra (NT) CON BAJA DENSIDAD POBLACIONAL (1 solo individuo de Ceibo registrado). ADVERTENCIA: la categoría del Palo santo se consigna NT, frente a CR en la mayoría de los bloques del proyecto: homogeneizar criterio.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "55% — crónica"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "30% — 15-20 años"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Ligera",
+   "8% — 10-15 años"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "Sí",
+   "Ligera",
+   "10% — 5-10 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "20% — 15-20 años"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Fuerte",
+   "18% — 5-10 años"
+  ],
+  [
+   "Extracción de áridos (cauces)",
+   "Sí",
+   "Ligera",
+   "5% — 5-10 años"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   "10% — 10-15 años"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "15% — estructural"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "100% — estructural"
+  ]
+ ],
+ "causa_subyacente": "Economía campesina de subsistencia con baja diversificación productiva y tenencia precaria de la tierra",
+ "causas_directas": "(i) Sobrepastoreo caprino crónico que impide la regeneración natural; (ii) tala selectiva de especies maderables (Hualtaco, Ceibo, Algarrobo); (iii) expansión urbana informal sobre laderas y márgenes de quebrada.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 120,
+ "obs_dt04": "DEGRADACIÓN DE NIVEL MEDIO CON TENDENCIA AL DETERIORO. La combinación de presión caprina sostenida, tala selectiva histórica y expansión urbana informal en el pie de ladera configura un escenario donde LA PÉRDIDA DE COBERTURA AVANZA DESDE LA BASE HACIA LA PARTE ALTA DEL BLOQUE. Persisten relictos de bosque con valor de conservación alto (Hualtaco EN), lo que justifica una INTERVENCIÓN TEMPRANA orientada a (a) recuperación de cobertura mediante revegetación y enriquecimiento con especies nativas, (b) control de cárcavas y socavamiento, y (c) gobernanza comunitaria con C.P. Alan García y Bigote. Indicadores: cobertura 65% (Medio); suelo desnudo 20% (Medio); densidad de cárcavas 0.05 N.°/ha (Medio); invasoras 8% (Medio); carga ganadera 0.8 UA/ha (Alto); % pendiente >50% = 35% (Alto); distancia a vía 120 m (Alto). Frecuencia de quemas SIN VALOR pese a que la matriz registra «Quema (renovación de pastos): Sí, Ligera, 10%».",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   633139,
+   9411630,
+   "Estacional",
+   "Regular (ligeramente turbia)",
+   0,
+   "Sin uso permanente"
+  ],
+  [
+   "Quebrada estacional (Charanal)",
+   633103,
+   9411529,
+   "Estacional",
+   "Regular (ligeramente turbia)",
+   0,
+   "Quebrada Charanal — cauce principal"
+  ],
+  [
+   "Quebrada estacional / manantial",
+   632748,
+   9411549,
+   "Estacional",
+   "Buena (clara)",
+   50,
+   "Pequeño afloramiento en cabecera"
+  ],
+  [
+   "Río",
+   633500,
+   9412000,
+   "Permanente",
+   "Regular (ligeramente turbia)",
+   450,
+   "Río Bigote — fuera del bloque"
+  ]
+ ],
+ "recarga": "Sin registro en ficha",
+ "humedad": "Sin registro en ficha",
+ "escorrentia": "Sin registro en ficha",
+ "dist_captacion": 350,
+ "jass": "Comisión de Usuarios Bigote — sector Hacienda Bigote (referencia, sin afectación directa)",
+ "modalidad_acceso": "Vehicular hasta C.P. Alan García + caminata 20-30 min",
+ "via_principal": "PE-1NJ (carretera Buenos Aires - San Juan de Bigote)",
+ "tipo_via_final": "Sin registro en ficha",
+ "transit_seca": "Sin registro en ficha",
+ "transit_lluviosa": "Sin registro en ficha",
+ "t_distrital": 15,
+ "t_provincial": 60,
+ "senal": "Sin registro en ficha",
+ "operador": "Sin registro en ficha",
+ "alojamiento": "Sin registro en ficha",
+ "ronda": "Sí",
+ "contacto_ronda": "Sr. Teniente Gobernador del C.P. Alan García (coordinación previa requerida)",
+ "obs_dt05": "HIDROGRAFÍA INTERMITENTE característica del bosque seco: red de quebradas estacionales tributarias del Río Bigote, con LA QUEBRADA CHARANAL COMO CAUCE PRINCIPAL. En estiaje no se observó caudal superficial. Existe un MANANTIAL ESTACIONAL EN CABECERA. EL BLOQUE NO CONTIENE CAPTACIONES POBLACIONALES ACTIVAS, pero por su posición topográfica FUNCIONA COMO ZONA GENERADORA DE ESCORRENTÍA hacia el valle del Río Bigote, donde se localizan las captaciones del C.P. Bigote y áreas agrícolas aguas abajo. ACCESIBILIDAD OPERATIVA BUENA: vehicular hasta C.P. Alan García (45 min desde San Juan de Bigote capital, 95 min desde Chulucanas) más caminata de 20-30 min al frente activo. NOTA: los tiempos de la narrativa (45 y 95 min) difieren de los campos de la ficha (15 y 60 min).",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (230 msnm)"
+  ],
+  [
+   "F-DT-03",
+   "Categoría del Palo santo consignada NT, frente a CR en la mayoría de los bloques del proyecto",
+   "SUSTANTIVA",
+   "Homogeneizar criterio de categorización"
+  ],
+  [
+   "F-DT-04",
+   "Frecuencia de quemas sin valor pese a que la matriz registra quema de renovación de pastos (Ligera, 10%)",
+   "SUSTANTIVA",
+   "El indicador no puede quedar vacío"
+  ],
+  [
+   "F-DT-05",
+   "Tiempos de viaje: la narrativa declara 45 min (distrital) y 95 min (provincial), los campos de la ficha 15 y 60 min",
+   "SUSTANTIVA",
+   "Inconsistencia interna a resolver"
+  ],
+  [
+   "F-DT-01 / F-DT-04",
+   "Expansión urbana informal sobre laderas y márgenes de quebrada (Fuerte, 18% del bloque)",
+   "SUSTANTIVA",
+   "Tamizaje predial y coordinación con la municipalidad: población expuesta a flujos de detritos en la Quebrada Charanal"
+  ],
+  [
+   "F-DT-03",
+   "Ceiba trichistandra (NT) con un único individuo registrado",
+   "SUSTANTIVA",
+   "Densidad poblacional crítica: priorizar en el diseño de la revegetación"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M3B3 (Plan de Ingreso, PDF)",
+ "bloque": "M3B3"
+}

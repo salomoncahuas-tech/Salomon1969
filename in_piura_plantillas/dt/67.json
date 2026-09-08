@@ -1,0 +1,181 @@
+{
+ "microcuenca_dt": "C1076-Q9586",
+ "evaluador": "Ing. Héctor Salomón Cahuas Miller",
+ "correlativo": "F-DT-01..05/B67/2026",
+ "fecha_eval": "2026-07-21",
+ "hora": "16:50 h",
+ "cp_cercano": "Quitahuajara",
+ "comunidad": "Por verificar",
+ "altitud_gps": "Por verificar — rango referencial Google Earth 1480 - 1740",
+ "utm_e_dt": 645575,
+ "utm_n_dt": 9393500,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Sin registro en ficha",
+ "rango_altitudinal": "1500-2000 m (Quechua media)",
+ "paisaje": "Laderas de montaña con bosque y matorral montano en recuperación bajo neblina, en mosaico con cultivos (plátano, café) y pastos",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "Sí",
+ "deslizamientos": "Sin registro en ficha",
+ "remociones": "Sí",
+ "obs_dt01": "Verificación de campo del 21/07/2026 con GPS Garmin GPSMAP 66sr (track sobre Google Earth). FUERTE PENDIENTE (perfil GE: media 35.4%, máx. 54.3%; desnivel 204 m en 567 m). Rango altitudinal referencial GE 1 480-1 740 m (altitud puntual por completar desde el track). EVIDENCIAS DIRECTAS DE INESTABILIDAD: derrumbe de talud de corte sobre la vía y fractura/agrietamiento del suelo en el borde de la plataforma. Alcantarillas tipo arco de la vía con represamiento/empozamiento aguas arriba. ATENCIÓN: la ficha consigna UTM del punto de muestreo 645 575 E · 9 393 500 N, valor por defecto de la plantilla, distinto del centroide de catálogo (654 207 E · 9 394 210 N).",
+ "sellamiento": "Sin registro en ficha",
+ "compactacion": "Sin registro en ficha",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": "No inventariadas",
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Sin registro en ficha",
+ "socavamiento": "Sin registro en ficha",
+ "urgencia_control": "Sin registro en ficha",
+ "carcavas": [],
+ "obs_dt02": "Erosión concentrada en TALUDES DE CORTE DE LA VÍA AFIRMADA, sin cobertura vegetal (P-09), y remoción en masa asociada (derrumbe P-04). NO SE REALIZÓ INVENTARIO FORMAL DE CÁRCAVAS; el nivel de erosión es una apreciación de campo preliminar.",
+ "parcela": "Por completar en gabinete/campo",
+ "dim_parcela": "Por determinar",
+ "pend_parcela": 35.4,
+ "cob_veg": "Por verificar",
+ "ecosistema": "Bosque y matorral montano en recuperación bajo neblina (tipo MINAM no consignado)",
+ "sup_ecosistema": "Por determinar",
+ "estado_cons": "Sin registro en ficha",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": "Por determinar",
+ "cob_arbustiva": "Por determinar",
+ "cob_herbacea": "Por determinar",
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": "Por determinar",
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "Por determinar",
+ "regeneracion": "Sin registro en ficha",
+ "sanitario": "Sin registro en ficha",
+ "epifitas": "Sin registro en ficha",
+ "fenologia": "Sin registro en ficha",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 14,
+ "especies_clave": [
+  [
+   "Roupala sp. (Roble)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Ficus sp. (Higuerón)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Annona cherimola (Chirimoyo silvestre)",
+   "Clave cultural",
+   "NE — No Evaluado"
+  ],
+  [
+   "Inga sp. (Pacae)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Brassica sp. (Mostaza silvestre)",
+   "Invasora",
+   "No aplica"
+  ],
+  [
+   "Agave americana",
+   "Indicadora de perturbación",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "Cobertura en mosaico de bosque y matorral montano en recuperación bajo neblina, intercalado con cultivos (plátano, café) y pastos. NOMBRES CIENTÍFICOS PRELIMINARES (requieren confirmación taxonómica). Coberturas por estrato, alturas, DAP y parcela de muestreo POR COMPLETAR en gabinete/campo. Se registran 14 taxones (frente a los 15 exigidos por la ficha), de los cuales 6 son introducidos o invasores.",
+ "causas": [
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Apertura y mantenimiento de vía en ladera inestable, sumado a la presión agrícola sobre laderas",
+ "causas_directas": "Cortes viales (derrumbe y fractura de suelo), erosión en taludes de corte y avance de cultivos en ladera de fuerte pendiente.",
+ "velocidad": "Sin registro en ficha",
+ "reversibilidad": "Sin registro en ficha",
+ "urgencia": "Sin registro en ficha",
+ "ind_dist_via": "Por determinar",
+ "obs_dt04": "NINGUNO DE LOS 8 INDICADORES CUANTITATIVOS DE DEGRADACIÓN FUE DILIGENCIADO. Las causas no marcadas (sobrepastoreo, talas, quemas, especies invasoras, minería, extracción de áridos, sequía, plagas) se dejan EN BLANCO y no deben interpretarse como ausencia verificada. Velocidad de degradación, reversibilidad técnica y urgencia de intervención NO CONSIGNADAS en la ficha.",
+ "fuentes_agua": [],
+ "recarga": "Sin registro en ficha",
+ "humedad": "Sin registro en ficha",
+ "escorrentia": "Sí",
+ "dist_captacion": "Sin registro en ficha",
+ "jass": "Sin registro en ficha",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Ruta 108 (vía vecinal afirmada)",
+ "tipo_via_final": "Vecinal afirmada",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Sin registro en ficha",
+ "t_provincial": "Sin registro en ficha",
+ "senal": "Sin registro en ficha",
+ "operador": "Sin registro en ficha",
+ "alojamiento": "Sin registro en ficha",
+ "ronda": "Sin registro en ficha",
+ "contacto_ronda": "Sin registro en ficha",
+ "obs_dt05": "Acceso por la vía afirmada Ruta 108 en camioneta 4x4 hasta el frente de trabajo; desplazamientos internos a pie por trochas/escaleras. ALCANTARILLAS TIPO ARCO CON REPRESAMIENTO, EMPOZAMIENTO Y POSIBLE COLMATACIÓN (P-06, P-07, P-08): los cuerpos de agua observados son ARTIFICIALES (drenaje vial), NO fuentes naturales. Recomendable limpieza/mantenimiento del drenaje transversal. El inventario de fuentes de agua naturales quedó VACÍO.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Ficha DT",
+   "UTM del punto de muestreo 645 575 E · 9 393 500 N corresponde al valor por defecto de la plantilla; el centroide de catálogo es 654 207 E · 9 394 210 N",
+   "SUSTANTIVA",
+   "Georreferencia por reponer desde el track GPS del 21/07/2026"
+  ],
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "NO SUSTANTIVA",
+   "Se sustituye por el rango del MDE"
+  ],
+  [
+   "F-DT-02",
+   "Inventario formal de cárcavas no realizado; el nivel de erosión es apreciación preliminar",
+   "SUSTANTIVA",
+   "Levantamiento pendiente"
+  ],
+  [
+   "F-DT-03",
+   "Cobertura vegetal total, coberturas por estrato, alturas, DAP y parcela sin registrar",
+   "SUSTANTIVA",
+   "Pendientes de completar en gabinete/campo"
+  ],
+  [
+   "F-DT-04",
+   "Ningún indicador cuantitativo diligenciado (8/8 vacíos); velocidad, reversibilidad y urgencia no consignadas",
+   "SUSTANTIVA",
+   "Cuantificación y calificación pendientes"
+  ],
+  [
+   "F-DT-05",
+   "Inventario de fuentes de agua vacío; los cuerpos de agua observados son artificiales (drenaje vial)",
+   "NO SUSTANTIVA",
+   "Declarado en la propia ficha"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_67 (Plan de Ingreso, PDF)",
+ "bloque": "67"
+}

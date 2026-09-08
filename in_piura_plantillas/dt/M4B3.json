@@ -1,0 +1,189 @@
+{
+ "microcuenca_dt": "C1076-Q9584 (según ficha — valor por defecto de plantilla; catálogo: C1076-Q9589)",
+ "evaluador": "Ing. Juan Domínguez",
+ "correlativo": "01",
+ "fecha_eval": "2026-08-10",
+ "hora": "11:46 h",
+ "cp_cercano": "Chignia Baja (narrativa) / Hualcas I y II (ficha F-DT-01) — DISCREPANCIA D-01",
+ "comunidad": "No consignada",
+ "altitud_gps": "340 (GPS de campo) — la narrativa declara ≈300 msnm",
+ "utm_e_dt": 643261,
+ "utm_n_dt": 9389812,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera baja",
+ "exposicion": "Norte",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Sistema de laderas convexo-cóncavas tributarias de la quebrada Q9588 (microcuenca C1076)",
+ "afloramientos": "No",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "El bloque se ubica en una ladera de colina alta, con pendiente menor a 60%; el terreno se inclina más conforme se asciende. Altitud ≈300 msnm. Presenta AFLORAMIENTO ROCOSO, abundantes rocas semienterradas y piedras medianas a grandes dispersas (pese a que el campo de lista consigna «No»). Zonas con cobertura vegetal remanente. LA LADERA ES EMPLEADA PARA PASTOREO EXTENSIVO DE GANADO CAPRINO del centro poblado próximo. LEÑA APILADA en viviendas próximas. El suelo presenta erosión eólica; estrías y surcos por tránsito de ganado; caminos de herradura dentro del bloque y áreas de suelo desprovistas de vegetación. ADVERTENCIA CRÍTICA (D-01): EL PUNTO DE MUESTREO (643 261 E · 9 389 812 N) ES IDÉNTICO AL DE LA FICHA DEL BLOQUE M4B4 Y DISTA ≈4.2 km AL NORTE DEL CENTROIDE CATASTRAL DE M4B3 (643 474 E · 9 385 620 N). TODO INDICA QUE LA FICHA SE LEVANTÓ EN EL ENTORNO DE M4B4/M12B1 Y NO DENTRO DE M4B3.",
+ "sellamiento": "Sin registro en ficha",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sin registro en ficha",
+ "nivel_erosion": "Moderada (surcos) — NO REPRESENTATIVO (ver D-01)",
+ "n_carcavas": 0,
+ "long_carcavas": 0,
+ "pct_carcavas": 0,
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Sin registro en ficha",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "Nivel general de erosión moderado, dominado por erosión eólica, con surcos de tránsito de ganado y áreas de suelo desnudo. No se identifican cárcavas desarrolladas. Compactación por pisoteo; abundantes rocas semienterradas. ADVERTENCIA: LA CARACTERIZACIÓN DE EROSIÓN DE ESTE BLOQUE PROCEDE DE UNA FICHA LEVANTADA FUERA DE SU POLÍGONO (D-01) Y ES CONTRADICHA POR LA TELEDETECCIÓN, QUE MUESTRA EN M4B3 LA MAYOR SUPERFICIE DE SUELO DESCUBIERTO DE LOS SEIS BLOQUES. LA DESCRIPCIÓN DE CAMPO DEBE CONSIDERARSE NO REPRESENTATIVA hasta una verificación interna del polígono.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 65,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "130 ha (de 234.07 ha del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 65,
+ "cob_arbustiva": 15,
+ "cob_herbacea": 10,
+ "cob_hojarasca": 5,
+ "suelo_desnudo": 10,
+ "h_dominante": 9,
+ "h_max": 12,
+ "dap": 30,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 7,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "No aplica (categoría no consignada)"
+  ],
+  [
+   "Colicodendron scabridum (Sapote)",
+   "Indicadora de buen estado",
+   "No aplica"
+  ],
+  [
+   "Ceiba trichistandra (Ceibo)",
+   "Indicadora de buen estado — DOMINANTE",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "Bosque seco CON ZONAS EMPOBRECIDAS Y CLAROS PRÓXIMOS A LA VÍA AFIRMADA. Altura promedio de los individuos arbóreos menor a 10 m y DAP menores a 30 cm. LA PARTE ALTA DEL BLOQUE CONSERVA LA VEGETACIÓN. La eliminación de la vegetación provoca la formación de claros con empobrecimiento de la cobertura. Arbustos dispersos, principalmente overo. Vegetación nativa, mayoría en época de defoliación. ADVERTENCIA (D-02): LOS DIECISÉIS CAMPOS ESTRUCTURALES DE ESTA FICHA SON CASI IDÉNTICOS A LOS DE M4B4 Y M12B1, LEVANTADOS A LA MISMA HORA (11:46) Y CON LA MISMA ALTITUD GPS (340 m). ELLO SUGIERE UNA ESTIMACIÓN VISUAL GLOBAL NO DIFERENCIADA POR BLOQUE. Solo 7 taxones registrados frente al mínimo de 15.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "70% — 30 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "30% — 30 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "70% — 30 años"
+  ]
+ ],
+ "causa_subyacente": "No consignada en la ficha",
+ "causas_directas": "La degradación leve del ecosistema se debe principalmente a las actividades de pastoreo de ganado caprino y a la extracción de leña para uso doméstico. [VALORACIÓN DE CAMPO NO REPRESENTATIVA DEL POLÍGONO — ver D-01. La teledetección indica una degradación sensiblemente mayor.]",
+ "velocidad": "Lenta",
+ "reversibilidad": "Totalmente reversible",
+ "urgencia": "Baja",
+ "ind_dist_via": 100,
+ "obs_dt04": "RECOMENDACIÓN DE CAMPO: redelimitar el bloque priorizando las áreas próximas a los centros poblados y desestimando las áreas donde el ecosistema se encuentra conservado. Hay presencia de CASAS MUY PRÓXIMAS AL BLOQUE. OBSERVACIÓN DE LA SUBDIRECCIÓN: LA URGENCIA «BAJA» Y LA REVERSIBILIDAD «TOTALMENTE REVERSIBLE» REGISTRADAS EN CAMPO SON INCOMPATIBLES CON EL MSAVI 2024 DE 0.3222 —EL SEGUNDO MÁS BAJO DEL CONJUNTO— Y CON LA EXTENSIÓN DE TIERRA DESNUDA DETECTADA POR EL NDVI 2025. SE RECOMIENDA REEVALUACIÓN. Indicadores: cobertura vegetal total 70% (Alto); suelo desnudo 5% (Bajo); densidad de cárcavas 1 N.°/ha (Bajo) — incompatible con el inventario de 0 cárcavas; especies invasoras 0% (Bajo); carga ganadera 3 UA/ha (Medio); frecuencia de quemas 1 (Medio); % área con pendiente >50% = 35% calificado «Bajo» (incompatible con el umbral).",
+ "fuentes_agua": [],
+ "recarga": "Sí",
+ "humedad": "Sin registro en ficha",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por completar",
+ "jass": "Por completar",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Vía asfaltada Serrán – Chignia, margen derecha del río Huarmaca",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Sin registro en ficha",
+ "transit_lluviosa": "Sin registro en ficha",
+ "t_distrital": "Por completar",
+ "t_provincial": "Por completar",
+ "senal": "Por completar",
+ "operador": "Sin registro en ficha",
+ "alojamiento": "Sin registro en ficha",
+ "ronda": "Por completar",
+ "contacto_ronda": "Por completar",
+ "obs_dt05": "Acceso por vía asfaltada (Serrán – Chignia) en la margen derecha del río Huarmaca, con el CP Chignia Baja al pie del polígono según la narrativa del 2.º Entregable; LA FICHA F-DT-01, EN CAMBIO, CONSIGNA HUALCAS I Y II COMO CENTROS POBLADOS ASOCIADOS (D-01). POR COMPLETAR: inventario de fuentes de agua, JASS y captación poblacional, tiempos de viaje, señal celular y autorización de Ronda Campesina — SIN FICHA F-DT-05 EN EL ANEXO 01.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Ficha DT",
+   "La ficha consigna microcuenca C1076-Q9584; el catálogo maestro asigna a M4B3 la microcuenca C1076-Q9589",
+   "SUSTANTIVA",
+   "Valor por defecto de la plantilla; se conserva el del catálogo"
+  ],
+  [
+   "F-DT-01",
+   "D-01: el punto de muestreo (643 261 · 9 389 812) es IDÉNTICO al de M4B4 y dista ≈4.2 km al norte del centroide de M4B3",
+   "SUSTANTIVA",
+   "La ficha se levantó en el entorno de M4B4/M12B1, no dentro de M4B3: toda la caracterización de campo es NO REPRESENTATIVA"
+  ],
+  [
+   "F-DT-01",
+   "Centro poblado asociado: la narrativa declara Chignia Baja y la ficha Hualcas I y II",
+   "SUSTANTIVA",
+   "Conciliar asociación CP-bloque"
+  ],
+  [
+   "F-DT-01",
+   "Afloramientos rocosos consignados «No» pese a que la narrativa describe afloramiento rocoso y rocas semienterradas",
+   "NO SUSTANTIVA",
+   "Inconsistencia interna a corregir"
+  ],
+  [
+   "F-DT-03",
+   "D-02: los 16 campos estructurales son casi idénticos a los de M4B4 y M12B1, a la misma hora y altitud GPS",
+   "SUSTANTIVA",
+   "Estimación visual global no diferenciada por bloque"
+  ],
+  [
+   "F-DT-03",
+   "Solo 7 taxones registrados frente al mínimo de 15 exigido",
+   "SUSTANTIVA",
+   "Inventario florístico incompleto"
+  ],
+  [
+   "F-DT-04",
+   "Urgencia «Baja» y reversibilidad «Totalmente reversible» incompatibles con MSAVI 2024 = 0.3222 (2.º más bajo del conjunto) y con la tierra desnuda del NDVI 2025",
+   "SUSTANTIVA",
+   "La Subdirección recomienda reevaluación"
+  ],
+  [
+   "F-DT-04",
+   "Densidad de cárcavas 1 N.°/ha frente a inventario de 0 cárcavas; % pendiente >50% = 35% calificado «Bajo»",
+   "SUSTANTIVA",
+   "Inconsistencias internas a resolver"
+  ],
+  [
+   "F-DT-05",
+   "Sin ficha F-DT-05 en el ANEXO 01",
+   "SUSTANTIVA",
+   "Inventario hídrico y accesibilidad por completar"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M4B3_20260907_153412.pdf",
+ "bloque": "M4B3"
+}

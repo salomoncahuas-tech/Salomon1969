@@ -1,0 +1,280 @@
+{
+ "microcuenca_dt": "C1077-Q9579",
+ "evaluador": "Ing. H. S. Cahuas Miller",
+ "correlativo": "DT-M18B1-001",
+ "fecha_eval": "2026-05-14",
+ "hora": "08:00 - 09:20 h",
+ "cp_cercano": "Hualas / Villa Malacasí / Mangamanga",
+ "comunidad": "Sin registro en ficha",
+ "altitud_gps": "150 (GPS de campo)",
+ "utm_e_dt": 621200,
+ "utm_n_dt": 9410650,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "15-25% (Fuert. inclinado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Norte",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Paisaje colinoso de bosque estacionalmente seco de colina y montaña en la margen izquierda del río Piura",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Bloque accesible desde el CP Hualas por trocha de herradura ascendente. EL SECTOR NE LIMITA CON LA VÍA NACIONAL PE-02A (Buenos Aires-Salitral), QUE CONSTITUYE EL PRINCIPAL EJE DE PRESIÓN ANTRÓPICA. Afloramientos rocosos masivos observados en la cabecera de la Qbda. Hualas (621 118 · 9 410 535), correspondientes a ROCAS METAMÓRFICAS-ÍGNEAS DEL COMPLEJO BASAL. La pendiente máxima puntual alcanza 46% en los flancos de la Qbda. Mayor, con pendiente media de 17-25% en la mayor parte del bloque. NO SE IDENTIFICARON EVIDENCIAS DE MOVIMIENTOS EN MASA ACTUALES NI PASADOS.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Ligera (laminar)",
+ "n_carcavas": 0,
+ "long_carcavas": 0,
+ "pct_carcavas": 0,
+ "erosion_laminar": 10,
+ "patron_carcavas": "Aislado",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "Durante el recorrido del 14-05-2026 (track GPS Garmin 66sr) NO SE IDENTIFICARON CÁRCAVAS DESARROLLADAS (≥30 cm de profundidad). Procesos dominantes: (i) EROSIÓN LAMINAR MODERADA EN ≈25% DEL ÁREA, evidenciada por pedregosidad superficial; (ii) compactación del suelo por pisoteo de ganado caprino-vacuno, particularmente en caminos y senderos; (iii) SOCAVAMIENTO INCIPIENTE DEL CAUCE DE LA QBDA. HUALAS (621 118 · 9 410 535) con exposición de matriz rocosa. La ausencia de cárcavas y deslizamientos sugiere una ESTABILIDAD GEOMORFOLÓGICA RELATIVAMENTE BUENA, aunque la cobertura vegetal degradada y la pendiente fuerte DEMANDAN MEDIDAS PREVENTIVAS (zanjas de infiltración, revegetación). INCONSISTENCIA: la observación declara erosión laminar en ≈25% del área frente al 10% consignado en el campo correspondiente.",
+ "parcela": "P-01 (punto representativo de bloque)",
+ "dim_parcela": "Sin registro en ficha",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 60,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "160.36 ha (100% del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Forestal de protección",
+ "cob_dosel": 25,
+ "cob_arbustiva": 30,
+ "cob_herbacea": 30,
+ "cob_hojarasca": 10,
+ "suelo_desnudo": 40,
+ "h_dominante": 4,
+ "h_max": 8,
+ "dap": "15 - 20",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Presencia ocasional de Tillandsia spp. (salvajinas) sobre Pasallo y Charán; cobertura epífita <5%",
+ "fenologia": "Floración",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 11,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG) — 5+ TOCONES en 621 384 · 9 410 649",
+   "VU — Vulnerable"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado — 8 ind. en 621 207 · 9 410 724",
+   "LC — Preocupación Menor"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Indicadora de buen estado — 15+ ind. en 621 383 · 9 410 646",
+   "LC — Preocupación Menor"
+  ],
+  [
+   "Prosopis pallida (Algarrobo)",
+   "Clave cultural — 3 ind. en 621 245 · 9 410 734",
+   "LC — Preocupación Menor"
+  ],
+  [
+   "Vachellia macracantha (Faique)",
+   "Indicadora de perturbación — 2 ind. en 621 256 · 9 410 755",
+   "LC — Preocupación Menor"
+  ],
+  [
+   "Erythrina velutina (Pajul)",
+   "Endémica del norte — 1 ind. en 621 383 · 9 410 646",
+   "LC — Preocupación Menor"
+  ],
+  [
+   "Armatocereus cartwrightianus",
+   "Endémica del Perú — 6 ind. en 621 235 · 9 410 729",
+   "LC — Preocupación Menor"
+  ]
+ ],
+ "obs_dt03": "El bloque conserva una ESTRUCTURA TÍPICA DEL Bes-cm en estado medianamente alterado. La cobertura vegetal estimada (65% en la observación, 60% en el campo) es CONSISTENTE CON EL MSAVI 2024 = 0.334 y refleja un ecosistema EN TRANSICIÓN ENTRE EL RANGO «MEDIO» Y «BAJO» de los umbrales MINAM. Las especies características del bosque seco norperuano están presentes, CON DOMINANCIA CLARA DE CHARÁN en el estrato arbóreo bajo. LA PRESENCIA DE TOCONES DE HUALTACO EVIDENCIA TALA SELECTIVA. La regeneración natural es regular, con REBROTES ACTIVOS EN CHARÁN Y FAIQUE. Cactáceas columnares (Armatocereus) caracterizan las posiciones altas. La fenología de floración observada (mayo) es propia del período post-lluvias del bosque seco. UNO DE LOS INVENTARIOS DE ESPECIES CLAVE MÁS COMPLETOS DEL PORTAFOLIO: 7 especies georreferenciadas con número de individuos.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "40% — >10 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "30% — >15 años"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Moderada",
+   "25% — >15 años"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "Sí",
+   "Ligera",
+   "10% — 5 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera",
+   "15% — >10 años"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5% — >5 años (línea eléctrica rural)"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Ligera",
+   "10%"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "100%"
+  ],
+  [
+   "Otro (fragmentación del hábitat)",
+   "Sí",
+   "Moderada",
+   "20% — >10 años"
+  ]
+ ],
+ "causa_subyacente": "Presión antrópica difusa por proximidad a centros poblados (Hualas, Villa Malacasí, Mangamanga) y al eje de la vía nacional PE-02A",
+ "causas_directas": "Tala selectiva histórica de especies maderables (Hualtaco, Charán), sobrepastoreo extensivo de ganado caprino-vacuno con compactación moderada de suelos, quema esporádica para renovación de pastos, y FRAGMENTACIÓN DEL HÁBITAT POR LÍNEA ELÉCTRICA RURAL Y PROXIMIDAD A LA VÍA NACIONAL PE-02A. Sequía estacional crónica (5-6 meses) como condicionante climático estructural.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 50,
+ "obs_dt04": "Patrón típico del bosque seco sometido a presión antrópica de larga data. A pesar de la pérdida de cobertura por tala selectiva y extracción de leña, EL ECOSISTEMA MANTIENE CAPACIDAD DE RESILIENCIA evidenciada por la regeneración natural regular (rebrotes vigorosos de Charán y Faique) y la presencia de individuos adultos de especies clave. LAS MRR-CCC APROPIADAS COMBINARÍAN: (i) revegetación enriquecedora con especies nativas dominantes (Charán, Pasallo, Hualtaco, Algarrobo); (ii) protección de la regeneración natural mediante CERCOS VIVOS; (iii) ZANJAS DE INFILTRACIÓN en pendientes 15-25%; (iv) CLAUSURA TEMPORAL coordinada con titulares y la JASS Hualas; y (v) SISTEMA DE ALERTA Y VIGILANCIA COMUNITARIA. Indicadores: cobertura 60% (Medio); suelo desnudo 15% (Medio); densidad de cárcavas 0 (Bajo); invasoras <1% (Bajo); carga ganadera 0.4-0.6 UA/ha (Medio); quemas 1-2 (Medio); % pendiente >50% = 15% (Medio); distancia a vía 50 m (Alto). NOTA: el indicador de suelo desnudo (15%) no coincide con el 40% consignado en F-DT-03.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   621317,
+   9410690,
+   "Estacional",
+   "Regular (ligeramente turbia)",
+   0,
+   "Qbda. Hualas — drena el bloque"
+  ],
+  [
+   "Río",
+   621442,
+   9411300,
+   "Permanente",
+   "Regular (ligeramente turbia)",
+   250,
+   "Río Piura — receptor de la escorrentía"
+  ],
+  [
+   "Quebrada estacional",
+   621158,
+   9410869,
+   "Estacional",
+   "No evaluable",
+   800,
+   "Río Seco"
+  ],
+  [
+   "Quebrada estacional",
+   621501,
+   9410664,
+   "Estacional",
+   "No evaluable",
+   0,
+   "Qbda. Mayor — drenaje del flanco oriental"
+  ],
+  [
+   "Pozo / Galería filtrante",
+   621256,
+   9410755,
+   "Permanente",
+   "Buena (clara)",
+   30,
+   "CAPTACIÓN CON TANQUE ELEVADO (JASS Hualas)"
+  ]
+ ],
+ "recarga": "No",
+ "humedad": "No",
+ "escorrentia": "No",
+ "dist_captacion": 200,
+ "jass": "JASS Hualas (captación adyacente al bloque)",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "PE-02A (Buenos Aires - Salitral); empalme con trocha de herradura al bloque",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Medio",
+ "t_distrital": 25,
+ "t_provincial": 50,
+ "senal": "Parcial",
+ "operador": "Sin registro en ficha",
+ "alojamiento": "Sin registro en ficha",
+ "ronda": "Sí",
+ "contacto_ronda": "Renelmo Carhuapoma",
+ "obs_dt05": "CONDICIONES DE ACCESO FAVORABLES por proximidad a la vía nacional PE-02A en el límite norte, lo cual REDUCE SIGNIFICATIVAMENTE LOS COSTOS LOGÍSTICOS de implementación de las MRR-CCC. LA PRESENCIA DE UNA CAPTACIÓN POBLACIONAL (HUALAS) INMEDIATAMENTE ADYACENTE AL BLOQUE CONSTITUYE UN ACTIVO RELEVANTE: LA PROTECCIÓN DEL BLOQUE TIENE BENEFICIO DIRECTO PARA LA REGULACIÓN DE RIESGOS NATURALES. ESTA CONDICIÓN DEBE INCORPORARSE EN LA FORMULACIÓN DE INSTRUMENTOS DE RETRIBUCIÓN POR SERVICIOS ECOSISTÉMICOS (MERESE) Y EN LA ESTRATEGIA DE GOBERNANZA LOCAL. La autorización formal de la Ronda Campesina y la coordinación con el teniente gobernador son REQUISITOS PREVIOS a la ejecución de actividades de campo extendidas.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (150 msnm)"
+  ],
+  [
+   "F-DT-02",
+   "La observación declara erosión laminar en ≈25% del área frente al 10% consignado en el campo",
+   "SUSTANTIVA",
+   "Inconsistencia interna a resolver"
+  ],
+  [
+   "F-DT-03 / F-DT-04",
+   "Suelo desnudo: 40% en F-DT-03 frente a 15% en el indicador N.° 2",
+   "SUSTANTIVA",
+   "Inconsistencia interna a resolver"
+  ],
+  [
+   "F-DT-03",
+   "Cobertura vegetal total: 60% en el campo frente a 65% en la observación",
+   "NO SUSTANTIVA",
+   "Conciliar"
+  ],
+  [
+   "F-DT-03",
+   "Solo 11 taxones registrados frente al mínimo de 15 exigido",
+   "NO SUSTANTIVA",
+   "Inventario a completar"
+  ],
+  [
+   "F-DT-03",
+   "Categoría del Hualtaco consignada VU frente a CR en la mayoría de los bloques",
+   "SUSTANTIVA",
+   "Homogeneizar criterio de categorización"
+  ],
+  [
+   "F-DT-05",
+   "Zona de recarga «No» y escorrentía concentrada «No» pese a registrarse socavamiento de cauce y 4 quebradas",
+   "SUSTANTIVA",
+   "Inconsistencia interna a resolver"
+  ],
+  [
+   "F-DT-05",
+   "Captación poblacional de la JASS Hualas a 30 m del bloque",
+   "SUSTANTIVA",
+   "Oportunidad MERESE: vínculo directo entre la conservación del bloque y la seguridad hídrica del CP"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M18B1 (Plan de Ingreso, PDF)",
+ "bloque": "M18B1"
+}

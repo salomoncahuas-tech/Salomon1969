@@ -1,0 +1,141 @@
+{
+ "microcuenca_dt": "C1076-Q9592",
+ "evaluador": "Por determinar",
+ "correlativo": "F-DT-01/53/2026",
+ "fecha_eval": "2026-09-05",
+ "hora": "10:35 - 11:10 h",
+ "cp_cercano": "Zururán",
+ "comunidad": "Por verificar — no se consultó registro de comunidades campesinas en campo",
+ "altitud_gps": "No registrada",
+ "utm_e_dt": 645575,
+ "utm_n_dt": null,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Suroeste",
+ "rango_altitudinal": "2000-2500 m (Quechua alta)",
+ "paisaje": "Franja alargada NO-SE sobre la vertiente suroccidental de un cerro, con afloramientos rocosos meteorizados",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "PRELLENADO DE GABINETE. Ninguna ficha F-DT fue diligenciada en campo el 19-08-2026; el reconocimiento consistió en recorrido con registro fotográfico georreferenciado. Pendiente promedio zonal (MDE) 26.89% ≈ 15.05°; rango altitudinal 2235-2540 msnm (amplitud 305 m). Escarpes activos en taludes de corte del camino de herradura y de la trocha en el borde noroccidental.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "No",
+ "urgencia_control": "Alta",
+ "carcavas": [],
+ "obs_dt02": "INVENTARIO DE CÁRCAVAS NO EJECUTADO. No se levantaron cárcavas georreferenciadas, longitudes ni densidades; los campos quedan «Por determinar» y son responsabilidad del analista de infraestructura marrón. La ausencia de registros no equivale a ausencia verificada. El 12.65% de superficie bajo umbral MSAVI y el 0.81% en cobertura muy escasa respaldan la calificación de erosión moderada en el extremo occidental.",
+ "cob_veg": 70,
+ "ecosistema": "Matorral Andino subhúmedo",
+ "sup_ecosistema": "13.066 ha",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Uso mixto",
+ "suelo_desnudo": 15,
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Latencia / Estrés hídrico",
+ "tipo_cobertura": "Matorral ralo",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Tecoma stans (huaranhuay)",
+   "Indicadora de perturbación",
+   "NE"
+  ],
+  [
+   "Baccharis spp. (chilca)",
+   "Indicadora de perturbación",
+   "NE"
+  ],
+  [
+   "Agave americana",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Eucalyptus globulus",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Poaceae (pastos cultivados)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Melastomataceae (indet.)",
+   "Indicadora de buen estado",
+   "NE"
+  ]
+ ],
+ "obs_dt03": "LISTA PRELIMINAR. Los binomios proceden de nombres comunes remitidos por la brigada y de fotointerpretación; ninguno está confirmado taxonómicamente y no hubo colecta botánica ni medición dasométrica. Se completan los 15 registros exigidos, pero 5 entradas carecen de género. La adscripción al Matorral Andino es preliminar y debe verificarse por intersección con la capa nacional de ecosistemas del MINAM.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "50"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Ligera",
+   "5"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera",
+   "30"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   "15"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "13"
+  ]
+ ],
+ "causa_subyacente": "Presión ganadera sin ordenamiento de carga ni clausura, sobre una unidad de cabecera de microcuenca",
+ "causas_directas": "Apertura y mantenimiento de vías (camino de herradura y trocha carrozable) sobre taludes de roca meteorizada, concurrente con pastoreo y ramoneo en el extremo occidental del polígono.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 0,
+ "obs_dt04": "Matriz consignada por GABINETE a partir del registro fotográfico georreferenciado del 19-08-2026 y de la cartografía temática. Las diez causas no consignadas quedan SIN VERIFICAR: la ausencia de marca no significa ausencia de la causa. Antigüedades y extensiones son estimaciones no instrumentales.",
+ "fuentes_agua": [],
+ "recarga": "Sí",
+ "humedad": "No",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por determinar",
+ "interferencia_riego": "No",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Trocha carrozable Zururán – bloques 53/70",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "Por determinar",
+ "operador": "Por determinar",
+ "contacto_ronda": "Por determinar",
+ "obs_dt05": "FICHA PARCIAL. No se ejecutó inventario de fuentes de agua con GPS, ni se levantaron datos de JASS, captación poblacional, señal celular, tiempos de viaje, alojamiento ni Ronda Campesina. El bloque se declara en zona de recarga hídrica por su posición de cabecera (2235-2540 msnm): se sitúa en la ZONA DE ORIGEN del peligro generador de inundaciones. La vía discurre sobre el propio límite del bloque.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 10,
+ "fuente_ficha": "Ficha_DT_53_20260907_154609.pdf",
+ "bloque": "53"
+}

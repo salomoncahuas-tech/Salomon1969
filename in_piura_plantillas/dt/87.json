@@ -1,0 +1,225 @@
+{
+ "microcuenca_dt": "C1081-Q9583",
+ "evaluador": "Brigada de campo IN Piura — nominación POR CONFIRMAR (parte diario)",
+ "correlativo": "F-DT-01-B87-2026",
+ "fecha_eval": "2026-08-14",
+ "hora": "12:45 h",
+ "cp_cercano": "Dotor (C.P. Dotor / Caserío Dotor)",
+ "comunidad": "En blanco (no consignada)",
+ "altitud_gps": "EN BLANCO — transecto Google Earth 254 - 325 msnm; cota máx. estimada ≈360 msnm",
+ "utm_e_dt": 645575,
+ "utm_n_dt": 9393500,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "8-15% (Mod. inclinado)",
+ "posicion_fisio": "Ladera baja",
+ "exposicion": "Oeste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Lomada de piedemonte de perfil convexo, alargada en dirección NNE-SSO, que asciende desde el corredor de la vía",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "En blanco (no discriminable en ortofoto)",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "ALCANCE DE LA EVIDENCIA. El bloque 87 NO cuenta con fichas F-DT-01 a F-DT-05 levantadas en campo. El llenado se sustenta en: (i) registro fotográfico georreferenciado del 14-08-2026, 12:45 h, en 642 479 E / 9 411 311 N, azimut 104°; (ii) ortofotos RPAS del ámbito de los bloques 85-87; (iii) cartografía MSAVI 2024 y NDVI mediana 2025; (iv) imagen Google Earth/Airbus 09-11-2023 y perfil de elevación. LOS CAMPOS SIN SUSTENTO DOCUMENTAL SE DEJAN EN BLANCO DE FORMA DELIBERADA. POSICIÓN DEL PUNTO FOTOGRÁFICO: la restitución lo sitúa ≈23 m AL OESTE del límite occidental del polígono, sobre el corredor de la vía afirmada que separa los bloques 85 y 87. EL REGISTRO ES PERIMETRAL: representa la orla del bloque, no su interior. PARÁMETROS GEOESPACIALES: altitud y pendiente NO figuran en el archivo de estadística zonal del DEM (no incluye los bloques 81 ni 83-87). Valores referenciales de perfil Google Earth sobre transecto O-E de 540 m: 254-325 msnm, pendiente media 13.2%, máxima 21.2%. CENTROIDE: el bloque no figura en «Centroides Bloques.xls»; centroide referencial por segmentación 642 813 E / 9 411 179 N. Superficie por segmentación ráster 60.98 ha frente a 62.237 ha del catálogo V6 (−2.0%). ATENCIÓN: el UTM del punto de registro (645 575 · 9 393 500) es el valor por defecto de la plantilla.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": "No inventariadas",
+ "long_carcavas": "En blanco (sin mediciones)",
+ "pct_carcavas": "En blanco (sin mediciones)",
+ "erosion_laminar": 80,
+ "patron_carcavas": "En blanco (sin mediciones)",
+ "socavamiento": "En blanco (sin mediciones)",
+ "urgencia_control": "Alta",
+ "carcavas": [],
+ "obs_dt02": "SUSTENTO DE LA CALIFICACIÓN: fotointerpretación de ortofoto RPAS (agosto 2026), no medición directa. Evidencias: (i) PAVIMENTO DE PIEDRAS CONTINUO (lag deposit) que indica remoción selectiva de la fracción fina por escurrimiento laminar; (ii) red reticulada MUY DENSA de huellas de ganado que concentra escorrentía y opera como surcos preferenciales; (iii) pedestales y raíces expuestas en la base de árboles aislados; (iv) costra superficial y compactación por pisoteo generalizadas. La erosión laminar se estima en ≈80% de la superficie, cifra CONCORDANTE con el 80.8% del polígono en la clase MSAVI ≤0.2650. INVENTARIO DE CÁRCAVAS NO EJECUTADO: no se han identificado cárcavas en las ortofotos disponibles, pero LA AUSENCIA DE REGISTRO NO EQUIVALE A AUSENCIA DEL PROCESO. PRIORIDAD DE VERIFICACIÓN: (a) recorrido del cauce que delimita el flanco occidental y suroccidental; (b) transectos perpendiculares a las huellas de ganado; (c) calicatas o cortes de talud sobre la trocha carrozable.",
+ "parcela": "No instalada — fotointerpretación de ortofoto RPAS",
+ "dim_parcela": "En blanco (sin mediciones)",
+ "pend_parcela": 13.2,
+ "cob_veg": 10,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm) — asignación POR VERIFICAR",
+ "sup_ecosistema": "62.237 ha (100% del bloque)",
+ "estado_cons": "Muy alterado / Degradado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 7,
+ "cob_arbustiva": 3,
+ "cob_herbacea": 2,
+ "cob_hojarasca": 20,
+ "suelo_desnudo": 68,
+ "h_dominante": "En blanco (sin mediciones)",
+ "h_max": "En blanco (sin mediciones)",
+ "dap": "En blanco (sin mediciones)",
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "En blanco (sin mediciones)",
+ "epifitas": "No",
+ "fenologia": "Fructificación",
+ "tipo_cobertura": "Matorral ralo",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Colicodendron scabridum (Sapote)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Neltuma pallida (Algarrobo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "VU — Vulnerable"
+  ],
+  [
+   "Vachellia macracantha (Faique)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "NT — Casi Amenazada"
+  ],
+  [
+   "Ceiba trischistandra (Ceibo)",
+   "Indicadora de buen estado",
+   "Sin categoría verificada"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado",
+   "Sin categoría verificada"
+  ],
+  [
+   "Ipomoea carnea (Borrachera)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "ORIGEN DE LA LISTA FLORÍSTICA: las 15 especies corresponden a la relación de especies representativas comunicada por la Subdirección para el bloque 87. NO PROCEDEN DE UN MUESTREO POR PARCELA: no se consignan abundancia relativa, DAP ni altura. Determinaciones PRELIMINARES sujetas a colecta y determinación botánica. El estrato indicado corresponde al hábito típico de cada especie, no al estrato en que fue registrada. CATEGORÍAS DE AMENAZA: solo las cinco con precedente en el proyecto; Ceibo, Pasallo, Charán y Frijolillo SIN CATEGORÍA. Único individuo georreferenciado: Algarrobo (Neltuma pallida, VU) en 642 479 E · 9 411 311 N (F-01). COBERTURAS: estimaciones por fotointerpretación; suman 100%: dosel 7%, arbustivo 3%, herbáceo vivo 2%, hojarasca/paja seca 20%, suelo desnudo y pedregoso 68%. CAUTELA ESTACIONAL MSAVI: el Bes-cm es caducifolio, pero la ortofoto de agosto 2026 CORROBORA de forma independiente una cobertura leñosa muy baja, por lo que el MSAVI de 0.2487 NO se considera artefacto estacional. CLASIFICACIÓN Bes-cm POR VERIFICAR mediante intersección con el Mapa Nacional de Ecosistemas del MINAM.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "90%"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5%"
+  ]
+ ],
+ "causa_subyacente": "Ausencia de un régimen de manejo del pastizal y de reglas de uso claras sobre el bosque seco de uso común",
+ "causas_directas": "Sobrepastoreo caprino-vacuno de larga data, sin control de carga ni periodos de descanso, sobre un piedemonte pedregoso de baja capacidad de retención hídrica. Presión complementaria por el tránsito vehicular y peatonal de la trocha que atraviesa el bloque y por la proximidad inmediata del C.P. Dotor.",
+ "velocidad": "EN BLANCO — no se dispone de serie Theil-Sen (TAU) ni de MSAVI multianual",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 0,
+ "obs_dt04": "SUSTENTO DE LA MATRIZ: solo se consignan las dos causas con evidencia documental directa. LAS CATORCE CAUSAS RESTANTES SE DEJAN EN BLANCO: la ausencia de marca no significa ausencia de la causa, sino AUSENCIA DE VERIFICACIÓN. En particular, la tala para leña y la quema de renovación son ALTAMENTE PROBABLES por la proximidad del C.P. Dotor y la estructura etaria observada (individuos maduros aislados sin clases intermedias), pero no se consignan por no existir evidencia de tocones ni cicatrices de quema. INDICADOR MSAVI: media 2024 = 0.2487, frente a una media de 0.4909 y un mínimo de 0.2289 en el universo de 129 bloques. Segmentación del polígono: clase ≤0.2650 el 80.8%; 0.2650-0.3813 el 16.5%; 0.3813-0.4976 el 1.4%; 0.4976-0.6139 el 0.4%; >0.6139 el 0.0%. EL 97.3% DEL BLOQUE SE SITÚA POR DEBAJO DE 0.3813. CONGLOMERADO DE BLOQUES DEGRADADOS: los bloques 83 a 87 presentan los MSAVI más bajos del proyecto (0.3055, 0.2516, 0.2289, 0.2735 y 0.2487); SE RECOMIENDA TRATARLOS COMO UNA UNIDAD DE MANEJO CONTINUA.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   "En blanco (sin mediciones)",
+   "En blanco (sin mediciones)",
+   "Estacional",
+   "No evaluable",
+   0,
+   "Cauce que delimita los bloques"
+  ]
+ ],
+ "recarga": "En blanco (sin mediciones)",
+ "humedad": "No",
+ "escorrentia": "Sí",
+ "dist_captacion": "En blanco (sin mediciones)",
+ "jass": "En blanco (sin mediciones)",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Vía afirmada de acceso a Dotor (San Juan de Bigote) — código MTC POR VERIFICAR",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "En blanco (sin mediciones)",
+ "t_distrital": "En blanco (sin mediciones)",
+ "t_provincial": "En blanco (sin mediciones)",
+ "senal": "En blanco (sin mediciones)",
+ "operador": "En blanco (sin mediciones)",
+ "alojamiento": "En blanco (sin mediciones)",
+ "ronda": "En blanco (sin mediciones)",
+ "contacto_ronda": "En blanco (sin mediciones)",
+ "obs_dt05": "ACCESIBILIDAD: es la condición más favorable del bloque. La vía afirmada principal bordea el límite occidental y noroccidental, y UNA TROCHA CARROZABLE ATRAVIESA EL POLÍGONO de suroeste a noreste. El C.P. Dotor se ubica a menos de 500 m del límite occidental. La modalidad «Vehicular 4x4 hasta el bloque» se sustenta en cartografía y ortofoto, NO en recorrido verificado. CONTRAPARTIDA: la misma accesibilidad que reduce el costo logístico EXPLICA LA PRESIÓN DE PASTOREO Y EXTRACCIÓN; la distancia a vía vecinal es de 0 m en prácticamente todo el bloque. Cualquier medida de clausura deberá dimensionar el control de accesos. RECURSOS HÍDRICOS: inventario NO levantado en campo. El río Bigote discurre ≈1.0-1.3 km al oeste, fuera del radio de 500 m de la ficha. ELEMENTOS EXPUESTOS Y TAMIZAJE: se identifican en el entorno inmediato C.P. Dotor, Caserío Dotor, I.E. «Ricardo Palma Soriano», viviendas dispersas en el borde norte y los atractivos «Bosque de Piedras Dotor» y «Piedra del descanso» en el flanco oriental. SE RECOMIENDA TAMIZAJE PREDIAL Y CONSULTA SIGDA (MINISTERIO DE CULTURA) ANTES DE COMPROMETER METAS FÍSICAS.",
+ "estaciones_fotograficas": [
+  [
+   "F-01",
+   642479,
+   9411311
+  ]
+ ],
+ "n_estaciones": 1,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-01",
+   "Ninguna ficha F-DT fue levantada en campo; el llenado se sustenta en registro fotográfico, ortofotos RPAS y cartografía",
+   "SUSTANTIVA",
+   "Levantamiento de campo pendiente"
+  ],
+  [
+   "F-DT-01",
+   "El punto fotográfico se sitúa ≈23 m al OESTE del límite del polígono: el registro es PERIMETRAL",
+   "SUSTANTIVA",
+   "El interior del bloque no fue verificado"
+  ],
+  [
+   "F-DT-01",
+   "Altitud y pendiente no figuran en el archivo de estadística zonal del DEM (excluye los bloques 81 y 83-87)",
+   "SUSTANTIVA",
+   "Calcular estadística zonal para estos bloques"
+  ],
+  [
+   "F-DT-01",
+   "El bloque no figura en «Centroides Bloques.xls»; centroide referencial por segmentación; superficie ráster 60.98 ha vs. 62.237 ha del catálogo (−2.0%)",
+   "NO SUSTANTIVA",
+   "Diferencia atribuible a la resolución del ráster"
+  ],
+  [
+   "Ficha DT",
+   "UTM del punto de registro (645 575 · 9 393 500) = valor por defecto de la plantilla",
+   "SUSTANTIVA",
+   "Georreferencia por reponer"
+  ],
+  [
+   "F-DT-02",
+   "Inventario de cárcavas no ejecutado",
+   "SUSTANTIVA",
+   "La ausencia de registro no equivale a ausencia del proceso"
+  ],
+  [
+   "F-DT-03",
+   "Lista florística comunicada por la Subdirección; no procede de muestreo por parcela",
+   "SUSTANTIVA",
+   "Colecta y determinación botánica pendientes"
+  ],
+  [
+   "F-DT-04",
+   "Tala para leña y quema de renovación altamente probables pero no consignadas por falta de evidencia",
+   "NO SUSTANTIVA",
+   "Verificar en campo y con el diagnóstico social"
+  ],
+  [
+   "F-DT-04",
+   "Velocidad de degradación en blanco (falta serie TAU y MSAVI multianual)",
+   "SUSTANTIVA",
+   "Procesar serie temporal"
+  ],
+  [
+   "F-DT-05",
+   "Elementos expuestos en el entorno inmediato: C.P. Dotor, I.E., viviendas y atractivos «Bosque de Piedras Dotor» y «Piedra del descanso»",
+   "SUSTANTIVA",
+   "Tamizaje predial y consulta SIGDA (Ministerio de Cultura) antes de comprometer metas físicas"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_87_20260907_153045.pdf",
+ "bloque": "87"
+}

@@ -1,0 +1,322 @@
+{
+ "microcuenca_dt": "C1086-Q9575",
+ "evaluador": "Ing. Héctor S. Cahuas Miller / Ing. Juan Carlos Domínguez Varas (ANIN-DIME-SESDI)",
+ "correlativo": "DT-M28B4-01",
+ "fecha_eval": "2026-05-22",
+ "hora": "11:40 a.m.",
+ "cp_cercano": "Mambluque",
+ "comunidad": "Caserío Mambluque (predios particulares de posesionarios)",
+ "altitud_gps": "410 (GPS de campo). Rango altitudinal real del bloque: ~280 m (cauce del río) a >1100 m (cresta NE, inaccesible); franja accesible inspeccionada entre 300 y 500 msnm",
+ "utm_e_dt": 625873,
+ "utm_n_dt": 9427251,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado) — pendiente media medida en perfil de campo 20.9%, máxima 49% (Google Earth)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Suroeste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Ladera de montaña de fuerte pendiente con drenaje en quebradas (Qbda. Mambluque, Qbda. Alta y Qbda. Alta 2)",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "Sí",
+ "remociones": "No",
+ "obs_dt01": "Bloque seleccionado por su rol en la regulación de movimientos en masa y la generación de escorrentía en la ZONA DE ORIGEN de los peligros (cabecera de la microcuenca C1086-Q9575). Las acumulaciones de bloques angulosos en quebradas son compatibles con flujos de detritos antiguos; la parte alta presenta susceptibilidad latente a remociones en masa. El rango altitudinal declarado (<1000 m) corresponde a la franja accesible inspeccionada; el bloque alcanza cotas superiores a 1100 msnm en la cresta NE, inaccesible durante la visita.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 3,
+ "long_carcavas": 100,
+ "pct_carcavas": 5,
+ "erosion_laminar": 30,
+ "patron_carcavas": "Lineal",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01",
+   "Cárcava somera",
+   625599,
+   9426835,
+   45,
+   1.2,
+   2.5,
+   "Semi-activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "C-02",
+   "Cárcava incipiente",
+   625583,
+   9426830,
+   30,
+   0.4,
+   1.0,
+   "Activa",
+   "Sobrepastoreo"
+  ],
+  [
+   "C-03",
+   "Surco (<30 cm)",
+   625834,
+   9427153,
+   25,
+   0.2,
+   0.4,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ]
+ ],
+ "obs_dt02": "Erosión dominantemente laminar y en surcos sobre laderas con suelo desnudo y costra superficial, agravada por el pisoteo de ganado caprino. Las cárcavas se concentran linealmente en las quebradas (Qbda. Mambluque), con socavamiento de cauce y acarreo de bloques. No se observan cárcavas profundas continuas, pero el proceso es activo y progresivo en estiaje. La pérdida de cobertura por mortandad arbórea (plantas parásitas) acelera la exposición del suelo.",
+ "parcela": "P-01 (bosque seco, ladera media)",
+ "dim_parcela": "50 × 20 m",
+ "pend_parcela": 30,
+ "cob_veg": 60,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "270 ha de 283.43 ha del bloque (95.3%)",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 35,
+ "cob_arbustiva": 25,
+ "cob_herbacea": 30,
+ "cob_hojarasca": 15,
+ "suelo_desnudo": 25,
+ "h_dominante": 8,
+ "h_max": 20,
+ "dap": 28,
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Enfermo (plaga) — infestación masiva por plantas parásitas",
+ "epifitas": "Sí",
+ "fenologia": "Caducifolio (hojas caídas)",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Hualtaco (Loxopterygium huasango)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "EN - En Peligro",
+   "625873",
+   "9427251",
+   "8 ind. - F-04"
+  ],
+  [
+   "Palo Santo (Bursera graveolens)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR - En Peligro Crítico",
+   "625891",
+   "9427272",
+   "12 ind. - F-06"
+  ],
+  [
+   "Sapote / Vichayo (Colicodendron scabridum)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR - En Peligro Crítico",
+   "625834",
+   "9427153",
+   "6 ind. - F-09"
+  ],
+  [
+   "Ceiba / Ceibo (Ceiba trichistandra)",
+   "Indicadora de buen estado",
+   "LC - Preocupación Menor",
+   "625530",
+   "9426815",
+   "100 ind. - F-18"
+  ],
+  [
+   "Faique (Acacia macracantha)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "NT - Casi Amenazada",
+   "625900",
+   "9427250",
+   "4 ind. - F-11"
+  ],
+  [
+   "Algarrobo (Prosopis pallida)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "VU - Vulnerable",
+   "625600",
+   "9426905",
+   "3 ind. - F-13"
+  ],
+  [
+   "Muérdago (Psittacanthus sp.)",
+   "Indicadora de perturbación",
+   "No aplica",
+   "625873",
+   "9427251",
+   "F-07"
+  ]
+ ],
+ "obs_dt03": "Bes-cm en estado alterado, con relictos en buen estado en la parte alta inaccesible. El rasgo sanitario más relevante es la ALTÍSIMA INFESTACIÓN POR PLANTAS PARÁSITAS (muérdago, Loranthaceae, y Cuscuta foetida) que provoca mortandad arbórea progresiva (árboles muertos en pie y caídos). Concurre presión por pastoreo caprino, tala selectiva, leña y quema. Cinco especies registradas figuran como amenazadas según el D.S. 043-2006-AG: Hualtaco (EN), Palo Santo y Sapote (CR), Algarrobo (VU) y Faique (NT).",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "60% del bloque, 20 años — tránsito y ramoneo de ganado"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "30% del bloque, 20 años — tocones y ramas cortadas"
+  ],
+  [
+   "Tala para carbón",
+   "No",
+   "Nula",
+   "Sin evidencia directa"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Ligera",
+   "10% del bloque, 15 años — extracción selectiva"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "Sí",
+   "Moderada",
+   "25% del bloque, 5 años — restos de quema de pastos"
+  ],
+  [
+   "Quema accidental / Incendio",
+   "Sí",
+   "Ligera",
+   "10% del bloque, 3 años — indicios puntuales"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "No",
+   "Nula",
+   "Sin parcelas agrícolas"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "40% del bloque, 20 años — apertura de claros para pastoreo"
+  ],
+  [
+   "Expansión urbana / vial",
+   "No",
+   "Nula",
+   "Caseríos (Mambluque) sin expansión evidente"
+  ],
+  [
+   "Minería informal",
+   "No",
+   "Nula",
+   "No observada"
+  ],
+  [
+   "Extracción de áridos (cauces)",
+   "No",
+   "Nula",
+   "No observada"
+  ],
+  [
+   "Especies invasoras",
+   "No",
+   "Nula",
+   "Sin invasoras exóticas"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "15% del bloque — surcos y cárcavas"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Fuerte",
+   "100% del bloque — estrés hídrico estacional"
+  ],
+  [
+   "Plagas o enfermedades forestales",
+   "Sí",
+   "(intensidad no consignada)",
+   "50% del bloque, 10 años — infestación masiva por parásitas"
+  ],
+  [
+   "Otro",
+   "No",
+   "Nula",
+   "-"
+  ]
+ ],
+ "causa_subyacente": "Presión socioeconómica de subsistencia sobre el bosque seco (ganadería extensiva y extracción de recursos)",
+ "causas_directas": "Infestación severa por plantas parásitas (muérdago, Loranthaceae, y Cuscuta) con alta mortandad arbórea; sobrepastoreo caprino; tala selectiva y para leña; quema de pastizales; estrés hídrico estacional agravado por el cambio climático.",
+ "velocidad": "Rápida",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 50,
+ "obs_dt04": "La degradación del bloque obedece a un motor antrópico (pastoreo, tala, quema) potenciado por un AGENTE BIOLÓGICO DE PERTURBACIÓN DE ALTO IMPACTO: las plantas parásitas. El control fitosanitario del muérdago y la Cuscuta, el manejo de la carga caprina y la revegetación con especies nativas amenazadas son las líneas prioritarias. Reversibilidad parcial: el banco genético de los relictos altos permite la recuperación asistida. Indicadores: cobertura vegetal 60% (Medio), suelo desnudo 25% (Medio), densidad de cárcavas 0.5 N.°/ha (Bajo), invasoras 2% (Bajo), carga ganadera 0.8 UA/ha (Medio), 2 quemas en los últimos 5 años (Medio), 35% del área con pendiente >50% (Alto), 50 m a la vía vecinal más cercana (Alto).",
+ "fuentes_agua": [
+  [
+   "1",
+   "Quebrada estacional (Qbda. Alta)",
+   625980,
+   9427900,
+   "Estacional (lluvias) — calidad no evaluable, cauce seco; dentro del bloque"
+  ],
+  [
+   "2",
+   "Quebrada estacional (Qbda. Alta 2)",
+   626100,
+   9428100,
+   "Estacional (lluvias) — calidad no evaluable; escorrentía concentrada"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "No",
+ "escorrentia": "Sí",
+ "dist_captacion": 800,
+ "jass": "Por verificar (abastecimiento del Caserío Mambluque)",
+ "modalidad_acceso": "Vehicular + caminata 30-90 min",
+ "via_principal": "Ruta Morropón – Yamango (vía vecinal) + vadeo del río La Gallega",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 90,
+ "t_provincial": 120,
+ "senal": "Intermitente",
+ "operador": "Movistar",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Por coordinar con autoridades del Caserío Mambluque y la comunidad de Yamango",
+ "obs_dt05": "Bloque ubicado en ZONA DE ORIGEN (cabecera) de la microcuenca C1086-Q9575; cumple función de recarga e intercepción. Drenaje efímero/estacional concentrado en tres quebradas que descienden al río La Gallega (única fuente permanente, en el límite SO). Acceso desde Morropón por la ruta a Yamango con vadeo del río; tramo final a pie por camino de herradura (30-90 min). Transitabilidad comprometida en época de lluvias. Para la ejecución se recomienda coordinación previa con la comunidad / ronda campesina local.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-01",
+   "El rango altitudinal declarado (<1000 m) no cubre la totalidad del bloque, que alcanza >1100 msnm en la cresta NE",
+   "NO SUSTANTIVA",
+   "Se declara que la clasificación corresponde a la franja accesible inspeccionada (300-500 msnm)"
+  ],
+  [
+   "F-DT-01",
+   "La ficha declara \"remociones en masa activas: No\" pero la observación señala susceptibilidad latente a remociones en la parte alta y flujos de detritos antiguos",
+   "NO SUSTANTIVA",
+   "Se conserva la declaración y se anota la susceptibilidad latente en la observación"
+  ],
+  [
+   "F-DT-04",
+   "La causa 15 (plagas o enfermedades forestales) registra extensión 50% y antigüedad 10 años pero no consigna intensidad, siendo el factor de degradación identificado como principal",
+   "SUSTANTIVA",
+   "Se declara la omisión; corresponde valorar la intensidad dada su condición de causa directa prioritaria"
+  ],
+  [
+   "F-DT-03",
+   "El indicador de infestación por plantas parásitas no cuenta con cuantificación instrumental (% de individuos afectados)",
+   "SUSTANTIVA",
+   "POR DETERMINAR; requiere evaluación fitosanitaria específica para dimensionar la mortandad arbórea"
+  ]
+ ],
+ "fuente_ficha": "Ficha DT M28B4 (Plantilla V5, 22/05/2026)",
+ "bloque": "M28B4"
+}
