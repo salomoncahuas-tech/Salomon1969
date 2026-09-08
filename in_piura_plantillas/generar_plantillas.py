@@ -595,6 +595,9 @@ def hoja_microcuenca(wb, b, cat, catalogo, alt_pend, ndvi_all, dt):
                 ws.cell(row=f - 1, column=j).fill = PatternFill("solid", fgColor="FFF2CC")
 
     fila_fin = f - 1
+    n_herm = len(hermanos)
+    n_ap = sum(1 for k in hermanos if k in alt_pend)
+    n_nd = sum(1 for k in hermanos if k in ndvi_all)
     f = fila_datos(ws, f,
                    ["TOTAL / PROMEDIO",
                     f"=SUM(B{fila_ini}:B{fila_fin})",
@@ -609,6 +612,28 @@ def hoja_microcuenca(wb, b, cat, catalogo, alt_pend, ndvi_all, dt):
                    negrita=True, formatos={2: "0.000", 3: "0.00", 7: "0.0000", 8: "0.00"})
     for j in range(1, N + 1):
         ws.cell(row=f - 1, column=j).fill = PatternFill("solid", fgColor=VERDE_CLARO)
+
+    # Declaracion explicita de la cobertura de cada promedio (principio de no fabricacion):
+    # AVERAGE omite las celdas de texto «Por determinar», de modo que un promedio parcial
+    # se veria identico a uno completo si no se advirtiera aqui.
+    if n_ap < n_herm or n_nd < n_herm:
+        partes = []
+        def _resto(n):
+            return "el bloque restante carece" if n == 1 else "los %d bloques restantes carecen" % n
+        if n_ap < n_herm:
+            partes.append("los promedios de PENDIENTE y MSAVI 2024 se calculan sobre "
+                          "%d de los %d bloques de la microcuenca; %s de dato derivado "
+                          "del MDE" % (n_ap, n_herm, _resto(n_herm - n_ap)))
+        if n_nd < n_herm:
+            partes.append("el promedio de VEGETACIÓN ALTA (NDVI 2025) se calcula sobre "
+                          "%d de los %d bloques; %s de estadística zonal de NDVI"
+                          % (n_nd, n_herm, _resto(n_herm - n_nd)))
+        cierre = (". Los totales de ÁREA y % de microcuenca sí comprenden la totalidad "
+                  "de los {} bloques. No se estima ningún valor ausente.".format(n_herm))
+        f = nota(ws, f, N,
+                 "La fila TOTAL / PROMEDIO omite las celdas «Por determinar»: " +
+                 "; ".join(partes) + cierre,
+                 etiqueta="ALCANCE DE LOS PROMEDIOS")
     f += 1
 
     # --- Lectura posicional automatica del bloque dentro de su microcuenca ---
