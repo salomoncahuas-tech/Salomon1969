@@ -46,26 +46,26 @@ def es_marcador(tabla):
     return MARCADOR in tabla._element.xml
 
 
-def a_jpeg(ruta, destino_cache):
+def a_jpeg(ruta, destino_cache, calidad=JPEG_QUALITY):
     """Convierte a JPEG optimizado. Los PNG del atlas son RGBA de ~2.7 MB;
     en JPEG 4:4:4 q92 pesan ~0.7 MB sin degradar las etiquetas."""
     if destino_cache.exists():
         return destino_cache
     with Image.open(ruta) as im:
         rgb = im.convert("RGB")
-        rgb.save(destino_cache, "JPEG", quality=JPEG_QUALITY,
+        rgb.save(destino_cache, "JPEG", quality=calidad,
                  subsampling=0, optimize=True)
     return destino_cache
 
 
-def rasterizar_pdf(ruta_pdf, destino_cache):
+def rasterizar_pdf(ruta_pdf, destino_cache, calidad=JPEG_QUALITY):
     if destino_cache.exists():
         return destino_cache
     import pymupdf
     doc = pymupdf.open(ruta_pdf)
     pix = doc[0].get_pixmap(dpi=DPI_PDF)
     im = Image.open(io.BytesIO(pix.tobytes("png"))).convert("RGB")
-    im.save(destino_cache, "JPEG", quality=JPEG_QUALITY,
+    im.save(destino_cache, "JPEG", quality=calidad,
             subsampling=0, optimize=True)
     doc.close()
     return destino_cache
@@ -140,6 +140,9 @@ def main():
     ap.add_argument("salida")
     ap.add_argument("--cache", default=None,
                     help="carpeta para los JPEG intermedios")
+    ap.add_argument("--calidad", type=int, default=JPEG_QUALITY,
+                    help="calidad JPEG (por defecto 92); bájela para un "
+                         "archivo más ligero de revisión")
     args = ap.parse_args()
 
     atlas_dir = Path(args.atlas_dir)
@@ -181,9 +184,11 @@ def main():
         marcador = items[previos[-1]][1] if previos else None
 
         if codigo in atlas:
-            img = a_jpeg(atlas[codigo], cache / f"{codigo}.jpg")
+            img = a_jpeg(atlas[codigo], cache / f"{codigo}.jpg",
+                         args.calidad)
         elif codigo in pdfs:
-            img = rasterizar_pdf(pdfs[codigo], cache / f"pdf_{codigo}.jpg")
+            img = rasterizar_pdf(pdfs[codigo], cache / f"pdf_{codigo}.jpg",
+                                 args.calidad)
         else:
             faltantes.append(codigo)
             continue
