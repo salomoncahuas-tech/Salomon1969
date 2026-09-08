@@ -74,6 +74,36 @@ el atlas (`M6B2-1.png`, `55.png`, …) o, para los bloques adicionales, por
 el número en el nombre del PDF (`SAN JUAN DE BIGOTE_BLOQUE_83.pdf`). Sirve
 igual para los volúmenes II (Huancabamba) y III (Ayabaca).
 
+## Estado de los volúmenes II y III
+
+Se revisaron ambos: **ninguno necesita inserción**. Solo el Volumen I fue
+regenerado como R02 dejando las figuras pendientes; los otros dos siguen en
+la generación anterior, que ya las lleva incrustadas.
+
+| Documento | MB | Marcadores | Pies de figura | Estado |
+| :-- | --: | --: | --: | :-- |
+| Vol I `-revisado_hscm_pth` (generación previa) | 12.0 | 0 | 56 | Ya tenía figuras |
+| Vol I `Rev_R02` (regenerado) | 2.8 | 54 | 59 | **Corregido aquí** |
+| Vol II `R01_50bloques` | 12.3 | 0 | 50 | Ya tiene figuras |
+| Vol III `rev_hscm_pth` | 2.2 | 0 | 10 | Ya tiene figuras (verificado) |
+
+**Volumen III — Ayabaca (verificado).** Los 10 bloques (3, M17B7, 6, M17B6,
+27, 56, M17B10, M17B5, 39, 36) tienen su mapa incrustado a 6.15 × 4.31 in.
+Se comparó cada imagen del documento contra las 10 del atlas redimensionadas
+a una base común: en los 10 casos la más parecida es la del bloque que
+corresponde, con un margen mínimo de 11.2 sobre el segundo candidato (la
+diferencia propia ronda 12–17 y la del siguiente 27–36). No hay cruces.
+
+**Volumen II — Huancabamba (no verificable con el conector).** Tiene 0
+marcadores y 50 pies de figura, con la misma estructura que el Volumen III.
+No se pudo abrir el archivo para comprobar las imágenes una por una: el
+conector de Google Drive no descarga archivos de más de 10 MB y las cuatro
+variantes del Vol II pesan entre 10.6 y 12.3 MB. La evidencia disponible
+(ausencia de marcadores, misma generación que el Vol I previo, y un tamaño
+coherente con 50 mapas a ~210 KB cada uno) indica que está completo, pero
+**es inferencia, no comprobación**. Para auditarlo como se hizo con el
+Vol III haría falta una copia accesible por otra vía.
+
 ## Pendiente
 
 El índice de figuras y la paginación son campos de Word: abrir el
