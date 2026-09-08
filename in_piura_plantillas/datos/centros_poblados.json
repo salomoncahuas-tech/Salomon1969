@@ -1,0 +1,1780 @@
+{
+ "3": [
+  {
+   "cp": "LOS CHECCHES",
+   "dist": "FRIAS",
+   "prov": "AYABACA",
+   "pob": 191,
+   "tipo": "Rural",
+   "e": 607045.093,
+   "n": 9459366.257
+  },
+  {
+   "cp": "HUAYABAL",
+   "dist": "FRIAS",
+   "prov": "AYABACA",
+   "pob": 47,
+   "tipo": "Rural",
+   "e": 605127.041,
+   "n": 9458671.028
+  },
+  {
+   "cp": "EL MIRADOR",
+   "dist": "FRIAS",
+   "prov": "AYABACA",
+   "pob": 25,
+   "tipo": "Rural",
+   "e": 605865.684,
+   "n": 9459026.7
+  },
+  {
+   "cp": "RINCON DE GERALDO",
+   "dist": "FRIAS",
+   "prov": "AYABACA",
+   "pob": 116,
+   "tipo": "Rural",
+   "e": 608960.902,
+   "n": 9458875.935
+  },
+  {
+   "cp": "HUASIPE DE GERALDO",
+   "dist": "FRIAS",
+   "prov": "AYABACA",
+   "pob": 116,
+   "tipo": "Rural",
+   "e": 608730.614,
+   "n": 9459375.425
+  }
+ ],
+ "36": [
+  {
+   "cp": "GUABAL",
+   "dist": "FRIAS",
+   "prov": "AYABACA",
+   "pob": 280,
+   "tipo": "Rural",
+   "e": 607202.668,
+   "n": 9454584.569
+  }
+ ],
+ "6": [
+  {
+   "cp": "GUABAL",
+   "dist": "FRIAS",
+   "prov": "AYABACA",
+   "pob": 280,
+   "tipo": "Rural",
+   "e": 607202.668,
+   "n": 9454584.569
+  },
+  {
+   "cp": "NOGAL",
+   "dist": "FRIAS",
+   "prov": "AYABACA",
+   "pob": 9,
+   "tipo": "Rural",
+   "e": 605223.43,
+   "n": 9454965.508
+  },
+  {
+   "cp": "GUANABANO ALTO",
+   "dist": "FRIAS",
+   "prov": "AYABACA",
+   "pob": 248,
+   "tipo": "Rural",
+   "e": 604359.225,
+   "n": 9454523.046
+  }
+ ],
+ "56": [
+  {
+   "cp": "BANDA DE LA CRUZ",
+   "dist": "FRIAS",
+   "prov": "AYABACA",
+   "pob": 75,
+   "tipo": "Rural",
+   "e": 619831.927,
+   "n": 9452099.159
+  },
+  {
+   "cp": "PUTAGAS",
+   "dist": "FRIAS",
+   "prov": "AYABACA",
+   "pob": 300,
+   "tipo": "Rural",
+   "e": 620357.277,
+   "n": 9451508.472
+  }
+ ],
+ "39": [
+  {
+   "cp": "LA CRIA",
+   "dist": "FRIAS",
+   "prov": "AYABACA",
+   "pob": 327,
+   "tipo": "Rural",
+   "e": 619276.566,
+   "n": 9449240.848
+  }
+ ],
+ "M17B7": [
+  {
+   "cp": "PAMPA DE RAMADA",
+   "dist": "FRIAS",
+   "prov": "AYABACA",
+   "pob": 107,
+   "tipo": "Rural",
+   "e": 609224.331,
+   "n": 9449680.713
+  }
+ ],
+ "27": [
+  {
+   "cp": "NUEVA ESPERANZA DE MISQUIS",
+   "dist": "FRIAS",
+   "prov": "AYABACA",
+   "pob": 83,
+   "tipo": "Rural",
+   "e": 612288.243,
+   "n": 9449603.11
+  },
+  {
+   "cp": "LINDEROS DE MISQUIS",
+   "dist": "FRIAS",
+   "prov": "AYABACA",
+   "pob": 28,
+   "tipo": "Rural",
+   "e": 612421.49,
+   "n": 9450333.311
+  }
+ ],
+ "M17B6": [
+  {
+   "cp": "PLATANAL ALTO",
+   "dist": "FRIAS",
+   "prov": "AYABACA",
+   "pob": 155,
+   "tipo": "Rural",
+   "e": 606024.298,
+   "n": 9446104.76
+  },
+  {
+   "cp": "EL GUABO",
+   "dist": "FRIAS",
+   "prov": "AYABACA",
+   "pob": 74,
+   "tipo": "Rural",
+   "e": 606700.069,
+   "n": 9445746.866
+  },
+  {
+   "cp": "CHILILIQUE ALTO",
+   "dist": "CHULUCANAS",
+   "prov": "MORROPON",
+   "pob": 360,
+   "tipo": "Rural",
+   "e": 605271.825,
+   "n": 9445305.812
+  }
+ ],
+ "79": [
+  {
+   "cp": "HUABAL",
+   "dist": "CANCHAQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 161,
+   "tipo": "Rural",
+   "e": 648990.219,
+   "n": 9402332.96
+  },
+  {
+   "cp": "ALMIRANTE MIGUEL GRAU",
+   "dist": "CANCHAQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 58,
+   "tipo": "Rural",
+   "e": 649790.07,
+   "n": 9404060.331
+  }
+ ],
+ "81": [
+  {
+   "cp": "HUALTACAL",
+   "dist": "CANCHAQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 80,
+   "tipo": "Rural",
+   "e": 641528.722,
+   "n": 9401048.22
+  }
+ ],
+ "21": [
+  {
+   "cp": "HUAMALA ALTO",
+   "dist": "CANCHAQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 47,
+   "tipo": "Rural",
+   "e": 654278.271,
+   "n": 9418170.889
+  }
+ ],
+ "66": [
+  {
+   "cp": "HUAMALA BAJA",
+   "dist": "CANCHAQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 45,
+   "tipo": "Rural",
+   "e": 653063.721,
+   "n": 9418044.954
+  }
+ ],
+ "28": [
+  {
+   "cp": "ABALQUE",
+   "dist": "CANCHAQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 66,
+   "tipo": "Rural",
+   "e": 653990.926,
+   "n": 9423222.828
+  }
+ ],
+ "40": [
+  {
+   "cp": "CHORRO BLANCO",
+   "dist": "CANCHAQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 25,
+   "tipo": "Rural",
+   "e": 654090.383,
+   "n": 9424088.387
+  },
+  {
+   "cp": "CHACCHACAL",
+   "dist": "CANCHAQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 33,
+   "tipo": "Rural",
+   "e": 653864.095,
+   "n": 9424187.479
+  }
+ ],
+ "30": [
+  {
+   "cp": "CHAMELICO",
+   "dist": "CANCHAQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 75,
+   "tipo": "Rural",
+   "e": 651541.355,
+   "n": 9424082.347
+  },
+  {
+   "cp": "SAPCE",
+   "dist": "CANCHAQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 93,
+   "tipo": "Rural",
+   "e": 651375.171,
+   "n": 9424124.171
+  }
+ ],
+ "60": [
+  {
+   "cp": "FLOR DE CAFE",
+   "dist": "CANCHAQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 111,
+   "tipo": "Rural",
+   "e": 653316.307,
+   "n": 9427146.287
+  }
+ ],
+ "24": [
+  {
+   "cp": "COYONA",
+   "dist": "CANCHAQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 443,
+   "tipo": "Rural",
+   "e": 652905.438,
+   "n": 9413563.831
+  }
+ ],
+ "63": [
+  {
+   "cp": "SHUTURUMBE",
+   "dist": "CANCHAQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 87,
+   "tipo": "Rural",
+   "e": 654547.817,
+   "n": 9414055.335
+  }
+ ],
+ "64": [
+  {
+   "cp": "PARIAMARCA CENTRO",
+   "dist": "HUANCABAMBA",
+   "prov": "HUANCABAMBA",
+   "pob": 311,
+   "tipo": "Rural",
+   "e": 656565.757,
+   "n": 9428946.04
+  }
+ ],
+ "51": [
+  {
+   "cp": "SHAIN",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 207,
+   "tipo": "Rural",
+   "e": 655081.833,
+   "n": 9378773.321
+  },
+  {
+   "cp": "TALLA",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 141,
+   "tipo": "Rural",
+   "e": 655980.558,
+   "n": 9378369.595
+  }
+ ],
+ "10": [
+  {
+   "cp": "LA PEÑA",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 146,
+   "tipo": "Rural",
+   "e": 651029.352,
+   "n": 9382625.274
+  }
+ ],
+ "16": [
+  {
+   "cp": "LAGUNA DE PALTAMA",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 153,
+   "tipo": "Rural",
+   "e": 652386.408,
+   "n": 9381114.274
+  }
+ ],
+ "41": [
+  {
+   "cp": "CAMBRURAN",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 54,
+   "tipo": "Rural",
+   "e": 660839.128,
+   "n": 9394198.853
+  }
+ ],
+ "18": [
+  {
+   "cp": "PIEDRA BLANCA",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 28,
+   "tipo": "Rural",
+   "e": 657269.305,
+   "n": 9392382.734
+  }
+ ],
+ "73": [
+  {
+   "cp": "CHOCOCA",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 104,
+   "tipo": "Rural",
+   "e": 658506.605,
+   "n": 9394710.521
+  }
+ ],
+ "70": [
+  {
+   "cp": "ZURURAN",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 140,
+   "tipo": "Rural",
+   "e": 666185.225,
+   "n": 9395689.381
+  }
+ ],
+ "53": [
+  {
+   "cp": "ZURURAN",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 140,
+   "tipo": "Rural",
+   "e": 666185.225,
+   "n": 9395689.381
+  }
+ ],
+ "19": [
+  {
+   "cp": "TABLURAN",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 83,
+   "tipo": "Rural",
+   "e": 665247.509,
+   "n": 9390026.99
+  },
+  {
+   "cp": "NUEVO PROGRESO",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 49,
+   "tipo": "Rural",
+   "e": 665109.116,
+   "n": 9390808.754
+  }
+ ],
+ "72": [
+  {
+   "cp": "RAMON CASTILLA",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 216,
+   "tipo": "Rural",
+   "e": 662207.197,
+   "n": 9390946.973
+  }
+ ],
+ "80": [
+  {
+   "cp": "YUMBE",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 50,
+   "tipo": "Rural",
+   "e": 657882.902,
+   "n": 9373211.81
+  },
+  {
+   "cp": "CRUZ ROJA",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 106,
+   "tipo": "Rural",
+   "e": 656969.551,
+   "n": 9373412.715
+  }
+ ],
+ "71": [
+  {
+   "cp": "PIRGA",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 322,
+   "tipo": "Rural",
+   "e": 652350.859,
+   "n": 9372850.145
+  }
+ ],
+ "8": [
+  {
+   "cp": "PIRGA",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 322,
+   "tipo": "Rural",
+   "e": 652350.859,
+   "n": 9372850.145
+  }
+ ],
+ "76": [
+  {
+   "cp": "SAHUATE HUALANGA",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 197,
+   "tipo": "Rural",
+   "e": 657728.521,
+   "n": 9377721.077
+  },
+  {
+   "cp": "HUALANGA",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 191,
+   "tipo": "Rural",
+   "e": 657466.933,
+   "n": 9377587.271
+  }
+ ],
+ "20": [
+  {
+   "cp": "TUPAC AMARU",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 149,
+   "tipo": "Rural",
+   "e": 649656.137,
+   "n": 9376987.262
+  }
+ ],
+ "4": [
+  {
+   "cp": "SAN ANTONIO DE SUCCHIRCA",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 86,
+   "tipo": "Rural",
+   "e": 657458.691,
+   "n": 9382940.685
+  },
+  {
+   "cp": "LA RINCONADA",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 299,
+   "tipo": "Rural",
+   "e": 655149.777,
+   "n": 9384195.7
+  }
+ ],
+ "74": [
+  {
+   "cp": "CHALPA",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 67,
+   "tipo": "Rural",
+   "e": 651934.907,
+   "n": 9389520.12
+  }
+ ],
+ "67": [
+  {
+   "cp": "PIEDRA GRANDE",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 0,
+   "tipo": "Rural",
+   "e": 654231.858,
+   "n": 9393637.875
+  }
+ ],
+ "M4B3": [
+  {
+   "cp": "CHIGNIA BAJA",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 161,
+   "tipo": "Rural",
+   "e": 643515.175,
+   "n": 9384081.853
+  }
+ ],
+ "M12B1": [
+  {
+   "cp": "NUEVA ESPERANZA",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 102,
+   "tipo": "Rural",
+   "e": 645366.882,
+   "n": 9388911.128
+  },
+  {
+   "cp": "FAICALITO",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 118,
+   "tipo": "Rural",
+   "e": 644389.142,
+   "n": 9390252.823
+  }
+ ],
+ "M4B4": [
+  {
+   "cp": "HUALCAS I",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 151,
+   "tipo": "Rural",
+   "e": 643289.975,
+   "n": 9390627.465
+  },
+  {
+   "cp": "HUALCAS II",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 128,
+   "tipo": "Rural",
+   "e": 642922.304,
+   "n": 9389847.832
+  }
+ ],
+ "69": [
+  {
+   "cp": "MOLLE",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 100,
+   "tipo": "Rural",
+   "e": 662567.847,
+   "n": 9391942.48
+  },
+  {
+   "cp": "HUALANGA PAMPA",
+   "dist": "HUARMACA",
+   "prov": "HUANCABAMBA",
+   "pob": 33,
+   "tipo": "Rural",
+   "e": 661990.587,
+   "n": 9392306.861
+  }
+ ],
+ "61": [
+  {
+   "cp": "PEDREGAL",
+   "dist": "LALAQUIZ",
+   "prov": "HUANCABAMBA",
+   "pob": 14,
+   "tipo": "Rural",
+   "e": 646143.296,
+   "n": 9424311.104
+  }
+ ],
+ "37": [
+  {
+   "cp": "EL PAPAYO",
+   "dist": "LALAQUIZ",
+   "prov": "HUANCABAMBA",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 649585.545,
+   "n": 9424524.146
+  }
+ ],
+ "34": [
+  {
+   "cp": "MARAY GRANDE",
+   "dist": "LALAQUIZ",
+   "prov": "HUANCABAMBA",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 645933.177,
+   "n": 9426502.772
+  },
+  {
+   "cp": "MARAY CHICO",
+   "dist": "LALAQUIZ",
+   "prov": "HUANCABAMBA",
+   "pob": 142,
+   "tipo": "Rural",
+   "e": 645458.925,
+   "n": 9426236.788
+  }
+ ],
+ "26": [
+  {
+   "cp": "LA LAGUNA",
+   "dist": "LALAQUIZ",
+   "prov": "HUANCABAMBA",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 650045.054,
+   "n": 9425329.881
+  }
+ ],
+ "38": [
+  {
+   "cp": "ULLMA",
+   "dist": "LALAQUIZ",
+   "prov": "HUANCABAMBA",
+   "pob": 157,
+   "tipo": "Rural",
+   "e": 646975.892,
+   "n": 9428518.719
+  }
+ ],
+ "33": [
+  {
+   "cp": "SAMBE",
+   "dist": "LALAQUIZ",
+   "prov": "HUANCABAMBA",
+   "pob": 63,
+   "tipo": "Rural",
+   "e": 646947.609,
+   "n": 9430998.284
+  }
+ ],
+ "35": [
+  {
+   "cp": "CHAMELICO",
+   "dist": "SAN MIGUEL DE EL FAIQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 127,
+   "tipo": "Rural",
+   "e": 654871.495,
+   "n": 9395515.211
+  },
+  {
+   "cp": "QUITAHUAJARA",
+   "dist": "SAN MIGUEL DE EL FAIQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 71,
+   "tipo": "Rural",
+   "e": 653653.36,
+   "n": 9395027.273
+  }
+ ],
+ "9": [
+  {
+   "cp": "LA CAPILLA",
+   "dist": "SAN MIGUEL DE EL FAIQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 654883.087,
+   "n": 9398181.529
+  },
+  {
+   "cp": "EL HIGUERON",
+   "dist": "SAN MIGUEL DE EL FAIQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 248,
+   "tipo": "Rural",
+   "e": 654804.186,
+   "n": 9396670.857
+  }
+ ],
+ "43": [
+  {
+   "cp": "PIZARRUME",
+   "dist": "SAN MIGUEL DE EL FAIQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 222,
+   "tipo": "Rural",
+   "e": 656144.811,
+   "n": 9395740.942
+  },
+  {
+   "cp": "COYONA",
+   "dist": "SAN MIGUEL DE EL FAIQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 74,
+   "tipo": "Rural",
+   "e": 657110.108,
+   "n": 9395344.291
+  }
+ ],
+ "M2B8": [
+  {
+   "cp": "LAS HUACAS",
+   "dist": "SAN MIGUEL DE EL FAIQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 639099.782,
+   "n": 9399157.029
+  },
+  {
+   "cp": "HUACAS BAJA",
+   "dist": "SAN MIGUEL DE EL FAIQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 140,
+   "tipo": "Rural",
+   "e": 638114.89,
+   "n": 9398798.847
+  }
+ ],
+ "M20B1": [
+  {
+   "cp": "LAS HUACAS",
+   "dist": "SAN MIGUEL DE EL FAIQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 639099.782,
+   "n": 9399157.029
+  }
+ ],
+ "47": [
+  {
+   "cp": "GASPAR",
+   "dist": "SAN MIGUEL DE EL FAIQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 132,
+   "tipo": "Rural",
+   "e": 659798.416,
+   "n": 9401280.948
+  }
+ ],
+ "M22B1": [
+  {
+   "cp": "SANTA ROSA",
+   "dist": "SAN MIGUEL DE EL FAIQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 23,
+   "tipo": "Rural",
+   "e": 663444.991,
+   "n": 9404222.741
+  }
+ ],
+ "44": [
+  {
+   "cp": "CRUZ DE PIEDRA",
+   "dist": "SAN MIGUEL DE EL FAIQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 74,
+   "tipo": "Rural",
+   "e": 662961.655,
+   "n": 9401792.699
+  }
+ ],
+ "75": [
+  {
+   "cp": "SAN CRISTOBAL",
+   "dist": "SAN MIGUEL DE EL FAIQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 466,
+   "tipo": "Rural",
+   "e": 655751.098,
+   "n": 9401225.573
+  },
+  {
+   "cp": "SANCHEZ CERRO",
+   "dist": "SAN MIGUEL DE EL FAIQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 159,
+   "tipo": "Rural",
+   "e": 657048.935,
+   "n": 9402493.786
+  }
+ ],
+ "29": [
+  {
+   "cp": "SANTA CRUZ",
+   "dist": "SAN MIGUEL DE EL FAIQUE",
+   "prov": "HUANCABAMBA",
+   "pob": 271,
+   "tipo": "Rural",
+   "e": 660094.104,
+   "n": 9397025.119
+  }
+ ],
+ "M18B1": [
+  {
+   "cp": "HUALAS",
+   "dist": "BUENOS AIRES",
+   "prov": "MORROPON",
+   "pob": 63,
+   "tipo": "Rural",
+   "e": 621408.225,
+   "n": 9410773.189
+  }
+ ],
+ "M18B5": [
+  {
+   "cp": "MORROPONCITO",
+   "dist": "BUENOS AIRES",
+   "prov": "MORROPON",
+   "pob": 75,
+   "tipo": "Rural",
+   "e": 619455.887,
+   "n": 9412827.689
+  }
+ ],
+ "M1B1": [
+  {
+   "cp": "RIO SECO",
+   "dist": "BUENOS AIRES",
+   "prov": "MORROPON",
+   "pob": 255,
+   "tipo": "Rural",
+   "e": 618691.27,
+   "n": 9411039.619
+  }
+ ],
+ "5": [
+  {
+   "cp": "JUAN VELASCO",
+   "dist": "BUENOS AIRES",
+   "prov": "MORROPON",
+   "pob": 64,
+   "tipo": "Rural",
+   "e": 618461.097,
+   "n": 9411761.415
+  },
+  {
+   "cp": "EL ALA",
+   "dist": "BUENOS AIRES",
+   "prov": "MORROPON",
+   "pob": 69,
+   "tipo": "Rural",
+   "e": 618703.914,
+   "n": 9413220.189
+  },
+  {
+   "cp": "LINDEROS DEL ALA",
+   "dist": "BUENOS AIRES",
+   "prov": "MORROPON",
+   "pob": 53,
+   "tipo": "Rural",
+   "e": 617460.888,
+   "n": 9414954.412
+  }
+ ],
+ "M6B2-3": [
+  {
+   "cp": "PUEBLO NUEVO",
+   "dist": "BUENOS AIRES",
+   "prov": "MORROPON",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 611697.994,
+   "n": 9420989.23
+  },
+  {
+   "cp": "PEDREGAL",
+   "dist": "BUENOS AIRES",
+   "prov": "MORROPON",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 612343.772,
+   "n": 9420386.82
+  }
+ ],
+ "M6B10": [
+  {
+   "cp": "LA MARAVILLA",
+   "dist": "BUENOS AIRES",
+   "prov": "MORROPON",
+   "pob": 218,
+   "tipo": "Rural",
+   "e": 617362.102,
+   "n": 9422166.857
+  },
+  {
+   "cp": "LA PILCA",
+   "dist": "BUENOS AIRES",
+   "prov": "MORROPON",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 616730.872,
+   "n": 9423183.64
+  },
+  {
+   "cp": "INGENIO DE BUENOS AIRES",
+   "dist": "BUENOS AIRES",
+   "prov": "MORROPON",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 616796.124,
+   "n": 9424097.076
+  }
+ ],
+ "M6B2-2": [
+  {
+   "cp": "BUENOS AIRES",
+   "dist": "BUENOS AIRES",
+   "prov": "MORROPON",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 614470.784,
+   "n": 9417730.175
+  }
+ ],
+ "59": [
+  {
+   "cp": "GUABO",
+   "dist": "CHALACO",
+   "prov": "MORROPON",
+   "pob": 6,
+   "tipo": "Rural",
+   "e": 630829.586,
+   "n": 9441636.715
+  }
+ ],
+ "57": [
+  {
+   "cp": "SAN LORENZO",
+   "dist": "CHALACO",
+   "prov": "MORROPON",
+   "pob": 126,
+   "tipo": "Rural",
+   "e": 633192.571,
+   "n": 9439427.025
+  },
+  {
+   "cp": "TASPA",
+   "dist": "CHALACO",
+   "prov": "MORROPON",
+   "pob": 250,
+   "tipo": "Rural",
+   "e": 631620.667,
+   "n": 9440841.253
+  }
+ ],
+ "M17B1": [
+  {
+   "cp": "PAPELILLO",
+   "dist": "CHULUCANAS",
+   "prov": "MORROPON",
+   "pob": 367,
+   "tipo": "Rural",
+   "e": 599809.726,
+   "n": 9440145.018
+  }
+ ],
+ "M17B4": [
+  {
+   "cp": "CHILILIQUE ALTO",
+   "dist": "CHULUCANAS",
+   "prov": "MORROPON",
+   "pob": 360,
+   "tipo": "Rural",
+   "e": 605271.825,
+   "n": 9445305.812
+  }
+ ],
+ "32": [
+  {
+   "cp": "PANECILLO",
+   "dist": "CHULUCANAS",
+   "prov": "MORROPON",
+   "pob": 230,
+   "tipo": "Rural",
+   "e": 599625.263,
+   "n": 9441489.738
+  }
+ ],
+ "22": [
+  {
+   "cp": "PLATANAL BAJO",
+   "dist": "CHULUCANAS",
+   "prov": "MORROPON",
+   "pob": 197,
+   "tipo": "Rural",
+   "e": 601363.124,
+   "n": 9442900.085
+  }
+ ],
+ "M10B4": [
+  {
+   "cp": "RIO SECO ALTO",
+   "dist": "CHULUCANAS",
+   "prov": "MORROPON",
+   "pob": 233,
+   "tipo": "Rural",
+   "e": 596876.164,
+   "n": 9447574.897
+  }
+ ],
+ "M27B1": [
+  {
+   "cp": "HUASIMAL",
+   "dist": "CHULUCANAS",
+   "prov": "MORROPON",
+   "pob": 220,
+   "tipo": "Rural",
+   "e": 591320.362,
+   "n": 9430011.027
+  },
+  {
+   "cp": "HUASIMAL",
+   "dist": "CHULUCANAS",
+   "prov": "MORROPON",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 591783.962,
+   "n": 9430994.91
+  },
+  {
+   "cp": "VICUS LINDEROS",
+   "dist": "CHULUCANAS",
+   "prov": "MORROPON",
+   "pob": 181,
+   "tipo": "Rural",
+   "e": 593967.021,
+   "n": 9431291.855
+  },
+  {
+   "cp": "VICUS LA MERCED",
+   "dist": "CHULUCANAS",
+   "prov": "MORROPON",
+   "pob": 145,
+   "tipo": "Rural",
+   "e": 594302.777,
+   "n": 9430665.873
+  },
+  {
+   "cp": "VICUS SANTA ROSA",
+   "dist": "CHULUCANAS",
+   "prov": "MORROPON",
+   "pob": 133,
+   "tipo": "Rural",
+   "e": 594237.225,
+   "n": 9428532.749
+  }
+ ],
+ "2": [
+  {
+   "cp": "BALCONES DE TALANDRACAS",
+   "dist": "CHULUCANAS",
+   "prov": "MORROPON",
+   "pob": 691,
+   "tipo": "Rural",
+   "e": 602137.151,
+   "n": 9437858.353
+  }
+ ],
+ "M9B1": [
+  {
+   "cp": "LA PEÑA",
+   "dist": "CHULUCANAS",
+   "prov": "MORROPON",
+   "pob": 83,
+   "tipo": "Rural",
+   "e": 593477.331,
+   "n": 9451361.456
+  }
+ ],
+ "25": [
+  {
+   "cp": "CRUZ PAMPA-YAPATERA",
+   "dist": "CHULUCANAS",
+   "prov": "MORROPON",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 595824.599,
+   "n": 9440901.509
+  }
+ ],
+ "M19B2": [
+  {
+   "cp": "BOCA NEGRA",
+   "dist": "MORROPON",
+   "prov": "MORROPON",
+   "pob": 186,
+   "tipo": "Rural",
+   "e": 617148.154,
+   "n": 9427111.007
+  }
+ ],
+ "M7B3": [
+  {
+   "cp": "PALO BLANCO-EL CEREZO",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 632853.414,
+   "n": 9402369.08
+  },
+  {
+   "cp": "LA TRANCA",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 41,
+   "tipo": "Rural",
+   "e": 634600.689,
+   "n": 9400601.209
+  }
+ ],
+ "M18B3": [
+  {
+   "cp": "HUARO QUISPAMPA",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 81,
+   "tipo": "Rural",
+   "e": 625484.848,
+   "n": 9411372.623
+  },
+  {
+   "cp": "MANGOMANGUIA",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 155,
+   "tipo": "Rural",
+   "e": 626456.098,
+   "n": 9411525.252
+  },
+  {
+   "cp": "SELVA ANDINA",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 16,
+   "tipo": "Rural",
+   "e": 624767.978,
+   "n": 9411446.167
+  }
+ ],
+ "M3B8": [
+  {
+   "cp": "SAN PEDRO",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 208,
+   "tipo": "Rural",
+   "e": 630638.667,
+   "n": 9412974.801
+  },
+  {
+   "cp": "SANTA ROSA",
+   "dist": "SAN JUAN DE BIGOTE",
+   "prov": "MORROPON",
+   "pob": 178,
+   "tipo": "Rural",
+   "e": 632130.327,
+   "n": 9414106.695
+  }
+ ],
+ "M3B9": [
+  {
+   "cp": "TORTOLA",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 198,
+   "tipo": "Rural",
+   "e": 628498.15,
+   "n": 9411522.185
+  }
+ ],
+ "M3B1": [
+  {
+   "cp": "PIEDRA BLANCA",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 190,
+   "tipo": "Rural",
+   "e": 630950.027,
+   "n": 9411206.116
+  }
+ ],
+ "M7B1": [
+  {
+   "cp": "VICTOR RAUL",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 138,
+   "tipo": "Rural",
+   "e": 627720.394,
+   "n": 9409361.229
+  },
+  {
+   "cp": "NUEVO PROGRESO",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 148,
+   "tipo": "Rural",
+   "e": 628635.923,
+   "n": 9408671.993
+  },
+  {
+   "cp": "LA ALBERCA",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 630688.036,
+   "n": 9405337.752
+  }
+ ],
+ "M7B6": [
+  {
+   "cp": "NUEVO SAN JUAN",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 87,
+   "tipo": "Rural",
+   "e": 634742.175,
+   "n": 9400245.458
+  },
+  {
+   "cp": "SANTA ROSA",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 148,
+   "tipo": "Rural",
+   "e": 636229.38,
+   "n": 9398524.82
+  },
+  {
+   "cp": "SERRAN",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 635444.955,
+   "n": 9399322.141
+  }
+ ],
+ "M2B1": [
+  {
+   "cp": "SANTA ROSA",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 148,
+   "tipo": "Rural",
+   "e": 636229.38,
+   "n": 9398524.82
+  }
+ ],
+ "M2B5": [
+  {
+   "cp": "HORNOPAMPA",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 261,
+   "tipo": "Rural",
+   "e": 640047.26,
+   "n": 9394635.296
+  }
+ ],
+ "1": [
+  {
+   "cp": "MAMAYACO",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 204,
+   "tipo": "Rural",
+   "e": 642644.846,
+   "n": 9392535.797
+  },
+  {
+   "cp": "GRAMADAL",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 34,
+   "tipo": "Rural",
+   "e": 645003.973,
+   "n": 9392159.902
+  }
+ ],
+ "M7B2": [
+  {
+   "cp": "LA ALBERCA",
+   "dist": "SALITRAL",
+   "prov": "MORROPON",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 630688.036,
+   "n": 9405337.752
+  }
+ ],
+ "77": [
+  {
+   "cp": "MIGUEL PAMPA",
+   "dist": "SAN JUAN DE BIGOTE",
+   "prov": "MORROPON",
+   "pob": 188,
+   "tipo": "Rural",
+   "e": 639388.815,
+   "n": 9410923.71
+  }
+ ],
+ "M3B5": [
+  {
+   "cp": "SAN JUAN BAUTISTA",
+   "dist": "SAN JUAN DE BIGOTE",
+   "prov": "MORROPON",
+   "pob": 116,
+   "tipo": "Rural",
+   "e": 635861.762,
+   "n": 9411993.157
+  }
+ ],
+ "M3B6": [
+  {
+   "cp": "MANZANARES",
+   "dist": "SAN JUAN DE BIGOTE",
+   "prov": "MORROPON",
+   "pob": 117,
+   "tipo": "Rural",
+   "e": 637332.869,
+   "n": 9412499.008
+  },
+  {
+   "cp": "BADO DE GARZAS",
+   "dist": "SAN JUAN DE BIGOTE",
+   "prov": "MORROPON",
+   "pob": 85,
+   "tipo": "Rural",
+   "e": 638051.425,
+   "n": 9412698.979
+  }
+ ],
+ "M3B3": [
+  {
+   "cp": "ALAN GARCIA",
+   "dist": "SAN JUAN DE BIGOTE",
+   "prov": "MORROPON",
+   "pob": 146,
+   "tipo": "Rural",
+   "e": 633196.339,
+   "n": 9411750.545
+  },
+  {
+   "cp": "BIGOTE",
+   "dist": "SAN JUAN DE BIGOTE",
+   "prov": "MORROPON",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 634502.212,
+   "n": 9411898.392
+  }
+ ],
+ "M3B7": [
+  {
+   "cp": "POLLUCO",
+   "dist": "SAN JUAN DE BIGOTE",
+   "prov": "MORROPON",
+   "pob": 45,
+   "tipo": "Rural",
+   "e": 637525.133,
+   "n": 9414333.644
+  },
+  {
+   "cp": "SINAI",
+   "dist": "SAN JUAN DE BIGOTE",
+   "prov": "MORROPON",
+   "pob": 23,
+   "tipo": "Rural",
+   "e": 639929.956,
+   "n": 9416155.719
+  }
+ ],
+ "M11B3": [
+  {
+   "cp": "QUEMAZON",
+   "dist": "SAN JUAN DE BIGOTE",
+   "prov": "MORROPON",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 641647.186,
+   "n": 9412507.043
+  },
+  {
+   "cp": "LA PAREJA",
+   "dist": "SAN JUAN DE BIGOTE",
+   "prov": "MORROPON",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 639952.069,
+   "n": 9413029.751
+  }
+ ],
+ "58": [
+  {
+   "cp": "LINDEROS DE MARAY",
+   "dist": "SANTA CATALINA DE MOSSA",
+   "prov": "MORROPON",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 621488.185,
+   "n": 9427193.766
+  },
+  {
+   "cp": "MARAY",
+   "dist": "SANTA CATALINA DE MOSSA",
+   "prov": "MORROPON",
+   "pob": 329,
+   "tipo": "Rural",
+   "e": 618786.207,
+   "n": 9426010.78
+  }
+ ],
+ "42": [
+  {
+   "cp": "SANTA ROSA DE CHIRIMOYOS",
+   "dist": "SANTA CATALINA DE MOSSA",
+   "prov": "MORROPON",
+   "pob": 131,
+   "tipo": "Rural",
+   "e": 625716.504,
+   "n": 9434887.241
+  }
+ ],
+ "M36B2": [
+  {
+   "cp": "SANTA ROSA DE CHIRIMOYOS",
+   "dist": "SANTA CATALINA DE MOSSA",
+   "prov": "MORROPON",
+   "pob": 131,
+   "tipo": "Rural",
+   "e": 625716.504,
+   "n": 9434887.241
+  }
+ ],
+ "14": [
+  {
+   "cp": "LA LAJA",
+   "dist": "SANTA CATALINA DE MOSSA",
+   "prov": "MORROPON",
+   "pob": 22,
+   "tipo": "Rural",
+   "e": 624674.359,
+   "n": 9437695.828
+  },
+  {
+   "cp": "OVERAZAL",
+   "dist": "SANTA CATALINA DE MOSSA",
+   "prov": "MORROPON",
+   "pob": 16,
+   "tipo": "Rural",
+   "e": 624064.491,
+   "n": 9437299.423
+  }
+ ],
+ "M32B3": [
+  {
+   "cp": "MARAY",
+   "dist": "SANTA CATALINA DE MOSSA",
+   "prov": "MORROPON",
+   "pob": 329,
+   "tipo": "Rural",
+   "e": 618786.207,
+   "n": 9426010.78
+  }
+ ],
+ "78": [
+  {
+   "cp": "TASAJERAS",
+   "dist": "SANTO DOMINGO",
+   "prov": "MORROPON",
+   "pob": 114,
+   "tipo": "Rural",
+   "e": 619017.553,
+   "n": 9439715.031
+  }
+ ],
+ "23": [
+  {
+   "cp": "JACANACAS",
+   "dist": "SANTO DOMINGO",
+   "prov": "MORROPON",
+   "pob": 130,
+   "tipo": "Rural",
+   "e": 619642.895,
+   "n": 9437545.204
+  },
+  {
+   "cp": "NUEVA ESPERANZA",
+   "dist": "SANTO DOMINGO",
+   "prov": "MORROPON",
+   "pob": 31,
+   "tipo": "Rural",
+   "e": 619888.691,
+   "n": 9439237.629
+  }
+ ],
+ "15": [
+  {
+   "cp": "JACANACAS",
+   "dist": "SANTO DOMINGO",
+   "prov": "MORROPON",
+   "pob": 130,
+   "tipo": "Rural",
+   "e": 619642.895,
+   "n": 9437545.204
+  }
+ ],
+ "M19B7": [
+  {
+   "cp": "EL FAIQUE",
+   "dist": "SANTO DOMINGO",
+   "prov": "MORROPON",
+   "pob": 40,
+   "tipo": "Rural",
+   "e": 620081.099,
+   "n": 9436079.2
+  }
+ ],
+ "11": [
+  {
+   "cp": "TAYLIN DE TUÑALI",
+   "dist": "SANTO DOMINGO",
+   "prov": "MORROPON",
+   "pob": 53,
+   "tipo": "Rural",
+   "e": 621241.753,
+   "n": 9440655.672
+  }
+ ],
+ "M8B2": [
+  {
+   "cp": "BOTIJAS",
+   "dist": "SANTO DOMINGO",
+   "prov": "MORROPON",
+   "pob": 192,
+   "tipo": "Rural",
+   "e": 615378.567,
+   "n": 9435504.499
+  }
+ ],
+ "17": [
+  {
+   "cp": "EL CHECO",
+   "dist": "SANTO DOMINGO",
+   "prov": "MORROPON",
+   "pob": 91,
+   "tipo": "Rural",
+   "e": 618239.156,
+   "n": 9437385.384
+  }
+ ],
+ "13": [
+  {
+   "cp": "HUACAS",
+   "dist": "SANTO DOMINGO",
+   "prov": "MORROPON",
+   "pob": 139,
+   "tipo": "Rural",
+   "e": 619534.502,
+   "n": 9442810.914
+  }
+ ],
+ "12": [
+  {
+   "cp": "CHACAYO",
+   "dist": "SANTO DOMINGO",
+   "prov": "MORROPON",
+   "pob": 105,
+   "tipo": "Rural",
+   "e": 625612.127,
+   "n": 9443771.513
+  },
+  {
+   "cp": "SANTO DOMINGO",
+   "dist": "SANTO DOMINGO",
+   "prov": "MORROPON",
+   "pob": 0,
+   "tipo": "Urbano",
+   "e": 624624.717,
+   "n": 9443986.852
+  }
+ ],
+ "82": [
+  {
+   "cp": "SANTA FE DE PORTACHUELO",
+   "dist": "SANTO DOMINGO",
+   "prov": "MORROPON",
+   "pob": 88,
+   "tipo": "Rural",
+   "e": 620924.578,
+   "n": 9444237.758
+  }
+ ],
+ "M28B2": [
+  {
+   "cp": "FLOR DE AGUA",
+   "dist": "YAMANGO",
+   "prov": "MORROPON",
+   "pob": 121,
+   "tipo": "Rural",
+   "e": 636461.802,
+   "n": 9426124.021
+  },
+  {
+   "cp": "VICTOR RAUL (EL CHECO)",
+   "dist": "YAMANGO",
+   "prov": "MORROPON",
+   "pob": 114,
+   "tipo": "Rural",
+   "e": 635424.027,
+   "n": 9426188.5
+  }
+ ],
+ "M28B4": [
+  {
+   "cp": "NUEVA ESPERANZA",
+   "dist": "YAMANGO",
+   "prov": "MORROPON",
+   "pob": 263,
+   "tipo": "Rural",
+   "e": 624543.762,
+   "n": 9428023.501
+  },
+  {
+   "cp": "MAMBLUQUE",
+   "dist": "YAMANGO",
+   "prov": "MORROPON",
+   "pob": 121,
+   "tipo": "Rural",
+   "e": 625547.074,
+   "n": 9426453.598
+  },
+  {
+   "cp": "ALTO MAMBLUQUE",
+   "dist": "YAMANGO",
+   "prov": "MORROPON",
+   "pob": 62,
+   "tipo": "Rural",
+   "e": 626162.278,
+   "n": 9426053.554
+  }
+ ],
+ "M28B3": [
+  {
+   "cp": "RICARDO PALMA",
+   "dist": "YAMANGO",
+   "prov": "MORROPON",
+   "pob": 74,
+   "tipo": "Rural",
+   "e": 634159.196,
+   "n": 9426249.712
+  }
+ ],
+ "46": [
+  {
+   "cp": "NANGAY",
+   "dist": "YAMANGO",
+   "prov": "MORROPON",
+   "pob": 149,
+   "tipo": "Rural",
+   "e": 638677.558,
+   "n": 9431997.528
+  }
+ ],
+ "49": [
+  {
+   "cp": "LAS HUACAS",
+   "dist": "YAMANGO",
+   "prov": "MORROPON",
+   "pob": 84,
+   "tipo": "Rural",
+   "e": 643033.003,
+   "n": 9438448.941
+  }
+ ],
+ "55": [
+  {
+   "cp": "LAS HUACAS",
+   "dist": "YAMANGO",
+   "prov": "MORROPON",
+   "pob": 84,
+   "tipo": "Rural",
+   "e": 643033.003,
+   "n": 9438448.941
+  }
+ ],
+ "52": [
+  {
+   "cp": "MIRAFLORES",
+   "dist": "YAMANGO",
+   "prov": "MORROPON",
+   "pob": 43,
+   "tipo": "Rural",
+   "e": 640794.168,
+   "n": 9437778.18
+  }
+ ]
+}
