@@ -1,0 +1,144 @@
+{
+ "microcuenca_dt": "C1076-Q9593",
+ "evaluador": "Por confirmar",
+ "correlativo": "DT-B20-2026-01",
+ "fecha_eval": "2026-08-18",
+ "hora": "12:05 - 12:15 h",
+ "cp_cercano": "Túpac Amaru",
+ "comunidad": "Por verificar",
+ "altitud_gps": "No registrada en campo",
+ "utm_e_dt": 649839,
+ "utm_n_dt": 9376621,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "15-25% (Fuert. inclinado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Norte",
+ "rango_altitudinal": "1000-1500 m (Quechua baja)",
+ "paisaje": "Ladera de montaña de vertiente occidental tributaria de la quebrada Q9593, con sistema de laderas convexo-cóncavas",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "Sí",
+ "remociones": "Sí",
+ "obs_dt01": "LAS FICHAS F-DT NO FUERON DILIGENCIADAS EN CAMPO: los valores cualitativos son propuesta de gabinete sustentada en fotointerpretación y deben ser ratificados por la brigada. CONTROL GEOMÉTRICO: las 12 tomas se localizan entre 21 y 63 m POR FUERA del límite norte del polígono; la caracterización es representativa del borde septentrional, no del interior. REMOCIÓN EN MASA ACTIVA: árbol descalzado con sistema radicular expuesto por retroceso del talud y agrietamiento del material (649925 E / 9376647 N). Neblina densa, visibilidad panorámica reducida.",
+ "sellamiento": "No",
+ "compactacion": "No",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": "Sin inventario",
+ "long_carcavas": "Sin inventario",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "Sí",
+ "urgencia_control": "Alta",
+ "carcavas": [],
+ "obs_dt02": "INVENTARIO DE CÁRCAVAS NO EJECUTADO: la sección se remite vacía. La ausencia de registros NO equivale a ausencia verificada; en taludes frescos, sin cobertura y expuestos a la próxima estación lluviosa, su desarrollo es el escenario esperable. El patrón se declara LINEAL por asociarse al eje vial y la urgencia ALTA por la ventana temporal, no por un valor medido.",
+ "parcela": "No se instalaron parcelas de muestreo",
+ "cob_veg": "Por determinar",
+ "ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+ "sup_ecosistema": "Por determinar",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Uso mixto",
+ "suelo_desnudo": "Por determinar",
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Floración",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 12,
+ "especies_clave": [
+  [
+   "Tillandsia spp. (bromeliáceas)",
+   "Indicadora de buen estado",
+   "NE"
+  ],
+  [
+   "Cactáceas columnares",
+   "Indicadora de perturbación",
+   "NE"
+  ],
+  [
+   "Vachellia macracantha (faique)",
+   "Indicadora de buen estado",
+   "NE"
+  ]
+ ],
+ "obs_dt03": "LISTA FLORÍSTICA PRELIMINAR E INCOMPLETA: 12 taxones frente al mínimo de 15 (faltan 3). Ningún binomio confirmado taxonómicamente. La coexistencia de bromeliáceas epífitas abundantes con cactáceas columnares expresa un fuerte gradiente microclimático interno entre sectores de umbría y de exposición norte, que debe gobernar la zonificación de medidas y la selección de especies.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Ligera",
+   "10"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Fuerte",
+   "2 — CAUSA DOMINANTE"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "2"
+  ]
+ ],
+ "causa_subyacente": "Presión de habilitación de accesos y de frontera agropecuaria sobre laderas de vertiente occidental",
+ "causas_directas": "(1) Expansión vial: trocha carrozable de apertura o ensanche reciente (menos de 2 años) sobre el límite norte del bloque, con taludes de corte activos y material excedente sin manejo; (2) cambio de uso a agricultura y pastoreo en el mosaico circundante; (3) erosión concentrada asociada al eje vial y a las vaguadas que este intersecta.",
+ "velocidad": "Rápida",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 0,
+ "obs_dt04": "Gabinete: 59.15% de la superficie (48.118 ha) bajo el umbral MSAVI 0.4976; MSAVI 2024 = 0.4851, el más bajo de los 8 bloques de la microcuenca C1076-Q9593. La evidencia sostiene que la vía es hoy el factor activo de degradación, pero NO permite cuantificar qué proporción del 59.15% le es atribuible y cuál corresponde a la condición semiárida natural de las laderas de exposición norte. Los indicadores 1 a 7 se remiten sin cuantificar.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   650350,
+   9376569,
+   "Estacional",
+   "No evaluable",
+   50,
+   "Vaguada de lecho pedregoso"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Trocha carrozable de acceso al C.P. Túpac Amaru (sin código MTC verificado)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "Por determinar",
+ "operador": "Por determinar",
+ "ronda": "Por determinar",
+ "contacto_ronda": "Por determinar",
+ "obs_dt05": "FICHA PARCIAL. Único elemento hídrico documentado: la vaguada estacional intersectada por la trocha en el sector oriental. ZONA DE RECARGA declarada SÍ por la posición del bloque en la cabecera del drenaje de la quebrada Q9593; HUMEDAD PERSISTENTE con indicador biológico directo en el epifitismo denso de bromeliáceas. El bloque se sitúa en la ZONA DE ORIGEN del peligro generador de inundaciones (PGI).",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 12,
+ "estaciones_dentro": 0,
+ "fuente_ficha": "Ficha_DT_20_20260907_140128.pdf",
+ "bloque": "20"
+}

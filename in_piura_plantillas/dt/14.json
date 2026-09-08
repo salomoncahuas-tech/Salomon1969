@@ -1,0 +1,235 @@
+{
+ "microcuenca_dt": "C1086-Q9570",
+ "evaluador": "Ing. Héctor S. Cahuas Miller / Ing. Pedro Talledo Hernández",
+ "correlativo": "DT-B14",
+ "fecha_eval": "2026-06-03",
+ "hora": "10:00 a.m. (aprox.)",
+ "cp_cercano": "Overazal / La Laja (CC.PP. del bloque); caserío Las Vegas (próximo)",
+ "comunidad": "Predios de propiedad privada, comunal y del Estado",
+ "altitud_gps": "1200",
+ "utm_e_dt": 624625,
+ "utm_n_dt": 9437569,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Oeste",
+ "rango_altitudinal": "1000-1500 m (Quechua baja)",
+ "paisaje": "Laderas de colina y montaña sobre el flanco occidental andino, con mosaico de matorral andino, remanentes de bosque y zona agrícola",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "Sí",
+ "deslizamientos": "Sí",
+ "remociones": "No",
+ "obs_dt01": "Verificado el 02-03/06/2026. Acceso desde la carretera PI-805, empalme con trocha carrozable y camino de herradura. Pendiente media de transecto = 20.3% (máx 36.8%); altitud del transecto 1016-1197 msnm. Inestabilidad concentrada en taludes de corte del camino; deslizamiento localizado que volcó un faique. Discrepancia toponímica: los CC.PP. titulares en la tabla maestra son La Laja y Overazal, mientras la cartografía rotula «Brasal», «Las Velas/Las Vegas» y «Laguna La Román».",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 3,
+ "long_carcavas": "Por verificar",
+ "pct_carcavas": "Por verificar",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01",
+   "Cárcava somera (0.5-2 m)",
+   624582,
+   9437598,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "C-02",
+   "Cárcava incipiente (30-50 cm)",
+   624527,
+   9437653,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "C-03",
+   "Cárcava incipiente (30-50 cm)",
+   624651,
+   9438013,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ]
+ ],
+ "obs_dt02": "Erosión dominante de tipo lineal concentrada en caminos de herradura y trochas sobre sustrato arenoso/limo-arenoso muy erosionable. Las dimensiones de las cárcavas no fueron medidas instrumentalmente. El % del bloque afectado y la erosión laminar no se cuantificaron en campo.",
+ "parcela": "Recorrido a pie del bloque (rápido)",
+ "dim_parcela": "Sin parcela delimitada",
+ "cob_veg": 65,
+ "ecosistema": "Matorral Andino semiárido",
+ "sup_ecosistema": "69.66 ha Matorral andino (~75%) + 23.25 ha Zona agrícola (~25%); total 92.90 ha",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 25,
+ "cob_arbustiva": 35,
+ "cob_herbacea": 20,
+ "suelo_desnudo": 15,
+ "h_dominante": 4,
+ "h_max": 12,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 14,
+ "especies_clave": [
+  [
+   "Podocarpus sp. (Ulcumano/Galilea)",
+   "Indicadora de buen estado",
+   "NE",
+   624625,
+   9437569
+  ],
+  [
+   "Ficus sp. (Higuerón)",
+   "Indicadora de buen estado",
+   "LC",
+   624658,
+   9438080
+  ],
+  [
+   "Vachellia macracantha (Faique)",
+   "Amenazada D.S. 043",
+   "NT — Casi Amenazado",
+   624581,
+   9437615
+  ],
+  [
+   "Cinchona sp. (Quina)",
+   "Amenazada D.S. 043",
+   "VU — Vulnerable"
+  ]
+ ],
+ "obs_dt03": "Inventario florístico PRELIMINAR (registro rápido, sin parcela ni colecta). El ecosistema MINAM es Matorral andino (69.66 ha, ~75%) + Zona agrícola (23.25 ha, ~25%); la subcategoría «semiárido» es interpretación de experto a partir de la fisonomía (cactáceas columnares y agaves dominantes) con micrositios húmedos en quebradas.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Ligera",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Economía de subsistencia familiar (ganadería + agricultura) sobre suelos frágiles, con débil ordenamiento del uso",
+ "causas_directas": "Sobrepastoreo extensivo (caprino/vacuno), extracción de leña para autoconsumo, conversión a agricultura de subsistencia (maíz, café, plátano) y erosión asociada a la apertura de caminos sobre suelos arenosos.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_invasoras": "<5",
+ "ind_quemas_5a": 0,
+ "ind_dist_via": "Adyacente",
+ "obs_dt04": "La extensión (% de bloque) y la antigüedad de cada causa no se cuantificaron en campo. El bloque conserva cobertura vegetal apreciable (clases MSAVI 0.38-0.61), por lo que la degradación se valora de avance lento y parcialmente reversible.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   null,
+   null,
+   "Estacional (lluvias)",
+   "No evaluable",
+   "Colindante",
+   "Drenaje natural del eje oeste"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "interferencia_riego": "No",
+ "modalidad_acceso": "Vehicular + caminata 30-90 min",
+ "via_principal": "PI-805 (desde Santa Catalina de Mossa) + trocha carrozable + camino de herradura",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por verificar",
+ "t_provincial": "Por verificar",
+ "senal": "Por verificar",
+ "operador": "Por verificar",
+ "ronda": "No",
+ "obs_dt05": "Inventario hídrico rápido en época seca: la única fuente relevante es el drenaje/quebrada estacional del borde oeste, sin flujo superficial al momento de la visita; no se registró punto GPS de fuente ni datos de JASS/captación poblacional.",
+ "correcciones": [
+  [
+   "C-01",
+   "Duplicidad parcial de fichas en el archivo DT",
+   "El PDF del bloque 14 incluye un segundo juego parcial (F-DT-01, 02 y 05) fechado 2026-06-03 con microcuenca C1076-Q9584, C.P. Paltashaco y UTM 645575/9393500, que declara pendiente 50-75%, remociones en masa activas «Sí», erosión «Fuerte (cárcavas incipientes)» y 4 cárcavas someras medidas (14_01 a 14_04, prof. 0.60-0.81 m, ancho 1.65-1.92 m) en el entorno 624527-624651 E / 9437569-9438013 N",
+   "SUSTANTIVA",
+   "Se adopta el primer juego (DT-B14) como registro principal por estar completo. El segundo juego aporta el ÚNICO inventario de cárcavas con dimensiones medidas del bloque y se conserva como anexo; su cabecera (microcuenca, C.P. y UTM del punto de muestreo) es inconsistente con el bloque 14 y debe corregirse"
+  ]
+ ],
+ "carcavas_anexo": [
+  [
+   "14_01",
+   "Cárcava somera",
+   624572,
+   9437619,
+   "Semi-activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "14_02",
+   "Cárcava somera",
+   624579,
+   9437613,
+   "Semi-activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "14_03",
+   "Cárcava somera",
+   624583,
+   9437591,
+   "Semi-activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "14_04",
+   "Cárcava somera",
+   624625,
+   9437569,
+   "Semi-activa",
+   "Caminos / huellas de ganado"
+  ]
+ ],
+ "estaciones_fotograficas": [],
+ "n_estaciones": 16,
+ "fuente_ficha": "ficha_14_20260709_051245.pdf",
+ "bloque": "14"
+}

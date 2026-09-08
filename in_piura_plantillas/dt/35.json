@@ -1,0 +1,225 @@
+{
+ "microcuenca_dt": "C1076-Q9584",
+ "evaluador": "Ing. Héctor Salomón Cahuas Miller",
+ "correlativo": "F-DT-B35-01",
+ "fecha_eval": "2026-07-21",
+ "hora": "11:02 - 11:43 h",
+ "cp_cercano": "Chamelico (≈546 m del centroide) · Quitahuajara (≈954 m)",
+ "comunidad": "Por determinar",
+ "altitud_gps": "1373 - 1605 (perfil GE)",
+ "utm_e_dt": 654607,
+ "utm_n_dt": 9395038,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "50-75% (Escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Norte",
+ "rango_altitudinal": "1000-1500 m (Quechua baja)",
+ "paisaje": "Ladera de montaña de fuerte pendiente que desciende de S a N hacia el cauce y la vía afirmada Ruta 108",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Punto de muestreo consignado = CENTROIDE OFICIAL del bloque. PENDIENTE: el perfil Google Earth (transecto de 544 m) arroja media 41.6% y máxima 59.0%; las anotaciones de campo registran 80% y 90% en las laderas medias. Se adopta 50-75% como rango dominante por tratarse de un transecto oblicuo que subestima la pendiente real; verificación instrumental PENDIENTE. ALTITUD: el bloque es transicional (1373-1605 msnm medidos; polígono entre las curvas de 1400 y 1700 msnm).",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 3,
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "E-01",
+   "Surco (<30 cm)",
+   654549,
+   9395200,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "E-02",
+   "Surco (<30 cm)",
+   654687,
+   9395072,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "E-03",
+   "Surco (<30 cm)",
+   654665,
+   9395169,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ]
+ ],
+ "obs_dt02": "Los tres rasgos registrados son SURCOS (<30 cm) asociados a taludes de corte de la vía afirmada y a sendas de ganado; NO se identificaron cárcavas propiamente dichas en la superficie natural del bloque. Sellamiento/costra: NO EVALUABLE con el registro disponible. El socavamiento se consigna como INCIPIENTE, observado en el cauce de la quebrada de captación.",
+ "parcela": "Recorrido de reconocimiento (sin parcela permanente)",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "41.6 (perfil GE) · 80-90 en laderas medias (campo)",
+ "cob_veg": 75,
+ "ecosistema": "Matorral Andino subhúmedo",
+ "sup_ecosistema": "Por determinar",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 20,
+ "cob_arbustiva": 45,
+ "cob_herbacea": 30,
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": 5,
+ "h_dominante": "2 - 4",
+ "h_max": "≈15",
+ "dap": "Por determinar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Roble (por determinar)",
+   "Indicadora de buen estado",
+   "NE"
+  ],
+  [
+   "Higuerón (Ficus sp.)",
+   "Indicadora de buen estado",
+   "No aplica"
+  ],
+  [
+   "Pacae (Inga sp.)",
+   "Indicadora de buen estado",
+   "NE"
+  ],
+  [
+   "Caña de Guayaquil (Guadua angustifolia)",
+   "Indicadora de buen estado",
+   "NE",
+   654758,
+   9395031
+  ],
+  [
+   "Helechos arborescentes",
+   "Indicadora de buen estado",
+   "NE",
+   654758,
+   9395031
+  ],
+  [
+   "Melastomatáceas (Miconia sp.)",
+   "Indicadora de perturbación",
+   "NE"
+  ],
+  [
+   "Agave americana",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Eucalyptus sp. / Pinus sp.",
+   "Indicadora de perturbación",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "LISTA FLORÍSTICA PRELIMINAR construida por ANALOGÍA con el inventario del BLOQUE 67 (misma microcuenca C1076-Q9586, mismo distrito, contigüidad espacial y similitud fisiográfica), CONTRASTADA con la observación visual del registro fotográfico del 21/07/2026. Los registros con verificación visual directa en este bloque son: Guadua angustifolia y helechos, melastomatáceas y matorral secundario, Eucalyptus/Pinus en la divisoria, Agave en cercos y pastos. Las demás entradas provienen de la analogía y quedan POR VERIFICAR. NINGÚN nombre científico está confirmado.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "≈40"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Ligera",
+   "≈10"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "≈45"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   "≈10"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   "≈5"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "≈15"
+  ],
+  [
+   "Otro (alteración de cauce)",
+   "Sí",
+   "Ligera",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Ausencia de ordenamiento del uso del suelo y de alternativas productivas sostenibles en laderas de aptitud forestal",
+ "causas_directas": "Presión agropecuaria sostenida sobre laderas de muy fuerte pendiente (80-90%) sin prácticas de conservación de suelos: conversión de la cobertura natural a pastizal con cercos, pastoreo extensivo y agricultura de ladera en el entorno de las viviendas. Se suma la desestabilización de taludes por la vía afirmada en el límite norte y las plantaciones exóticas (eucalipto, pino) en la divisoria.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_invasoras": 5,
+ "ind_pend50": "≈60",
+ "ind_dist_via": 0,
+ "obs_dt04": "Las causas sin marca de presencia NO fueron descartadas: no se registró evidencia directa y quedan POR VERIFICAR. La urgencia ALTA se sustenta en la coincidencia de pendientes >75%, cobertura intervenida y la presencia de DOS CAPTACIONES DE AGUA para consumo poblacional dentro del ámbito del bloque.",
+ "fuentes_agua": [
+  [
+   "Manantial / Puquio",
+   654746,
+   9395088,
+   "Permanente",
+   "Buena (clara)",
+   0,
+   "Afloramiento en roca — captación poblacional"
+  ],
+  [
+   "Quebrada permanente",
+   654758,
+   9395031,
+   "Permanente",
+   "Regular (lig. turbia)",
+   0,
+   "Quebrada con salto de agua — captación poblacional"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "0",
+ "jass": "Por determinar",
+ "interferencia_riego": "No",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Vía afirmada Ruta 108 — ramal Chamelico / Quitahuajara",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "Por determinar",
+ "operador": "Por determinar",
+ "ronda": "Por verificar",
+ "contacto_ronda": "Por determinar",
+ "obs_dt05": "DOS CAPTACIONES DE AGUA para consumo poblacional se ubican DENTRO del ámbito del bloque (654746 E · 9395088 N y 654758 E · 9395031 N), a ≈145 m y ≈140 m del centroide. Esto convierte al Bloque 35 en zona de origen y de PROTECCIÓN DE FUENTE, y eleva la criticidad de las medidas de infraestructura natural. Nombre de la JASS, caudales, población servida y expedientes de licencia ANA: POR DETERMINAR.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 16,
+ "fuente_ficha": "ficha_35_20260731_183133.pdf",
+ "bloque": "35"
+}

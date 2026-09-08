@@ -1,0 +1,173 @@
+{
+ "microcuenca_dt": "C1086-Q9570",
+ "evaluador": "Ing. Héctor S. Cahuas Miller; Ing. Pedro Talledo Hernández; Ing. Juan Carlos Domínguez Varas (ANIN-DIME-SESDI)",
+ "correlativo": "DT-B17",
+ "fecha_eval": "2026-06-16",
+ "hora": "03:43-03:44 p.m. (aprox.)",
+ "cp_cercano": "El Checo (titular del bloque); Jacanacas (próximo)",
+ "comunidad": "Predios de propiedad privada (pastoreo, ganadería y cultivos de secano)",
+ "altitud_gps": "1300",
+ "utm_e_dt": 618890,
+ "utm_n_dt": 9438092,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "50-75% (Escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Suroeste",
+ "rango_altitudinal": "1000-1500 m (Quechua baja)",
+ "paisaje": "Laderas de colina y montaña del flanco occidental andino, sobre la microcuenca C1086-Q9570 (eje quebrada El Checo)",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "Sí",
+ "deslizamientos": "No",
+ "remociones": "Sí",
+ "obs_dt01": "Ingreso por la vía vecinal PI-799. El punto de muestreo corresponde al sector de acceso S/SE, sobre la quebrada El Checo; la altitud promedio del bloque es ~1400 msnm y su rango ~1050-1850 msnm. Perfil de elevación: 1263-1765 m, desnivel +502 m, pendiente media 52.7% y máxima 73.9%. REMOCIÓN EN MASA ACTIVA localizada: caída de bloques rocosos sobre el talud de corte de la PI-799 y canalón de escorrentía con depósito coluvial al pie de ladera. Caracterización geológica POR VERIFICAR con la carta INGEMMET.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 1,
+ "long_carcavas": "Por verificar",
+ "pct_carcavas": "Por verificar",
+ "erosion_laminar": "Por verificar",
+ "patron_carcavas": "Aislado",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01",
+   "Cárcava somera (0.5-2 m)",
+   618889,
+   9438088,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ]
+ ],
+ "obs_dt02": "Erosión moderada concentrada en taludes de corte de la PI-799 y en canalones de escorrentía sobre laderas de fuerte pendiente; el núcleo boscoso/matorral presenta erosión baja por su alta cobertura. Dimensiones, densidad por hectárea y erosión laminar POR VERIFICAR mediante inventario georreferenciado submétrico.",
+ "parcela": "Recorrido a pie del sector de acceso (observación rápida)",
+ "dim_parcela": "Sin parcela delimitada",
+ "cob_veg": 72,
+ "ecosistema": "Agroecosistema / Mosaico",
+ "sup_ecosistema": "96.08 ha",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "suelo_desnudo": 12,
+ "h_dominante": 6,
+ "h_max": 18,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Vachellia macracantha (Faique)",
+   "Amenazada D.S. 043",
+   "NT — Casi Amenazado",
+   618890,
+   9438092
+  ],
+  [
+   "Annona sp. (Chirimoyo silvestre)",
+   "Indicadora de buen estado",
+   "NE",
+   618889,
+   9438088
+  ],
+  [
+   "Escallonia sp. (Chachacomo)",
+   "Indicadora de buen estado",
+   "NE"
+  ],
+  [
+   "Handroanthus / Tabebuia sp. (Guayacán)",
+   "Endémica del Perú",
+   "DD — Datos Insuficientes"
+  ],
+  [
+   "Bromeliaceae epífitas (Tillandsia)",
+   "Indicadora de buen estado",
+   "NE",
+   618889,
+   9438088
+  ]
+ ],
+ "obs_dt03": "Inventario florístico PRELIMINAR. La cobertura vegetal (72%) se estima a partir del MSAVI 2024 y observación de campo. DISCREPANCIA CARTOGRÁFICA RELEVANTE: la cartografía MINAM 2018 clasifica el 97.6% del bloque como «Zona agrícola», mientras el campo y el MSAVI evidencian un núcleo densamente vegetado (posible bosque secundario y/o remanente de bosque relicto montano) no representado como unidad ecosistémica diferenciada.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Ligera",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Economía de subsistencia familiar (ganadería + agricultura de secano: maíz, trigo, arveja) sobre laderas frágiles de fuerte pendiente",
+ "causas_directas": "Conversión a agricultura de secano y pastoreo extensivo sobre laderas de fuerte pendiente; apertura de vía vecinal (PI-799) con taludes inestables; remoción en masa y erosión natural sobre sustrato rocoso fracturado; presión sobre remanentes de matorral/bosque.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_invasoras": "<5",
+ "ind_quemas_5a": 0,
+ "ind_dist_via": "Adyacente",
+ "obs_dt04": "El bloque presenta un núcleo NW relativamente conservado (alto MSAVI) y bordes/sectores bajos con mayor presión agropecuaria y geodinámica activa: las MRR-CCC deben combinar protección del remanente con estabilización de taludes de la vía y control de escorrentía.",
+ "fuentes_agua": [
+  [
+   "Quebrada permanente",
+   618905,
+   9438102,
+   "Permanente",
+   "Regular (lig. turbia)",
+   "Dentro/borde",
+   "Quebrada El Checo (eje del bloque)"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "interferencia_riego": "No",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "PI-799 (vía vecinal) desde Santo Domingo / El Checo",
+ "tipo_via_final": "Vecinal afirmada",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por verificar",
+ "t_provincial": "Por verificar",
+ "senal": "Por verificar",
+ "operador": "Por verificar",
+ "ronda": "No",
+ "obs_dt05": "La fuente relevante es la quebrada permanente El Checo, con estructura rústica de concreto cuya función (badén/captación) y caudal están POR VERIFICAR. El bloque es cabecera/zona de recarga con humedad persistente y escorrentía concentrada. Transitabilidad en época lluviosa comprometida por caída de bloques en los taludes de la PI-799.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": null,
+ "fuente_ficha": "ficha_17_20260627_232444.pdf",
+ "bloque": "17"
+}
