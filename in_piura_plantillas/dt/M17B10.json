@@ -1,0 +1,218 @@
+{
+ "microcuenca_dt": "C1096-Q9556",
+ "evaluador": "Ing. Héctor S. Cahuas Miller (ANIN/DIME-SESDI)",
+ "correlativo": "DT-M17B10-01",
+ "fecha_eval": "2026-07-15",
+ "hora": "10:13 - 10:22 h",
+ "cp_cercano": "Platanal Alto (catálogo CP-Bloques V5); referencia vial: sector Palo Blanco",
+ "comunidad": "Por verificar",
+ "altitud_gps": "No consignada — pendiente media del bloque 25.94% (estadística zonal MDE)",
+ "utm_e_dt": 606815,
+ "utm_n_dt": 9446991,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Sureste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Macizo de colina-montaña de la margen occidental del valle de la microcuenca C1096-Q9556, disectado por quebradas",
+ "afloramientos": "Sí",
+ "escarpes": "Sí (carácter activo POR CONFIRMAR)",
+ "reptacion": "No (no observable desde el punto externo)",
+ "deslizamientos": "Sí (naturaleza por confirmar: deslizamiento antiguo vs. desbroce)",
+ "remociones": "No (no observadas)",
+ "obs_dt01": "VERIFICACIÓN EXTERNA. LAS 7 TOMAS GEORREFERENCIADAS DEL 15/07/2026 SE CONCENTRAN EN UNA ESTACIÓN ÚNICA DE LA CARRETERA CHULUCANAS-FRÍAS (606 809-606 820 E / 9 446 959-9 447 025 N; dispersión 11 m E × 66 m N). EL INTERIOR DEL POLÍGONO NO FUE RECORRIDO; LA COMPLETITUD DEL LEVANTAMIENTO FÍSICO SE ESTIMA <10%. Los azimuts 294 NO y 318 NO encuadran el núcleo del bloque, cuyo centroide de catálogo se ubica a ≈741 m al ONO de la estación. AFLORAMIENTOS: cornisas y escarpes rocosos claros en el tercio superior. ESCARPES: rasgos lineales descendentes desde la cresta, COMPATIBLES CON CANALETAS DE CAÍDA DE ROCAS. DESLIZAMIENTOS ANTIGUOS: cicatriz de talud desnudo con bloques dispersos en ladera media. REMOCIONES: no observadas; el fondo de valle presenta BOLONES MÉTRICOS DISPERSOS SOBRE PASTIZAL, COMPATIBLES CON FLUJOS TORRENCIALES PASADOS. DISCREPANCIAS DE CATÁLOGO: área 75.363 ha (Bloques V5) vs. 75.403 ha (CP-Bloques V5) vs. 924.365 ha (Centroides Bloques.xls); centroide V4 (606 173 · 9 447 361) vs. Centroides.xls (606 234 · 9 448 179), SEPARACIÓN 820 m; el rótulo de la app indica «Morropón» en F-01 y «Ayabaca» en F-02 PARA PUNTOS SEPARADOS 13 m.",
+ "sellamiento": "En blanco (no observable desde el punto externo)",
+ "compactacion": "En blanco (no observable desde el punto externo)",
+ "raices_expuestas": "En blanco (no observable desde el punto externo)",
+ "nivel_erosion": "Ligera (laminar) — calificación preliminar por observación a distancia",
+ "n_carcavas": "No inventariado",
+ "long_carcavas": "No inventariado",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Sin registro en ficha",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "NO SE EJECUTÓ INVENTARIO DE CÁRCAVAS: la verificación fue EXTERNA (estación única sobre la vía), sin ingreso al polígono ni mediciones instrumentales. El nivel «Ligera (laminar)» ES UNA CALIFICACIÓN PRELIMINAR POR OBSERVACIÓN A DISTANCIA y debe ser ratificada o corregida con recorrido interno y GPS submétrico. EVIDENCIA: (i) superficie desnuda de tono claro con bloques dispersos en ladera media, FOCO EROSIVO LOCALIZADO; (ii) lecho de quebrada con bolonería gruesa y depósitos torrenciales en el fondo de valle, INDICATIVO DE SOCAVAMIENTO Y ARRASTRE EN AVENIDAS; (iii) CORTES DE TALUD SIN TRATAMIENTO NI BANQUETA EN LA PLATAFORMA DE LA CARRETERA CHULUCANAS-FRÍAS, LA FUENTE EROSIVA ANTRÓPICA MÁS EVIDENTE DEL BORDE SE. MSAVI 2024 = 0.4725; SU LECTURA COMO DEGRADACIÓN DEBE CORREGIRSE POR ESTACIONALIDAD: el Bes-cm es caducifolio y las capturas de estiaje subestiman la cobertura leñosa real (la imagen Airbus 12/09/2023 muestra el macizo en DEFOLIACIÓN CASI TOTAL, mientras las tomas del 15/07/2026 muestran DOSEL VERDE CONTINUO).",
+ "parcela": "No instalada (verificación externa)",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 25.94,
+ "cob_veg": 80,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "75.36 ha (superficie total del bloque; desagregación por unidad ecosistémica por verificar)",
+ "estado_cons": "Levemente alterado",
+ "uso_dominante": "Forestal de protección",
+ "cob_dosel": 70,
+ "cob_arbustiva": 25,
+ "cob_herbacea": 15,
+ "cob_hojarasca": "Por verificar",
+ "suelo_desnudo": 8,
+ "h_dominante": "Por verificar",
+ "h_max": "Por verificar",
+ "dap": "Por verificar",
+ "regeneracion": "En blanco (no observable desde el punto externo)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Bosque denso (>70%)",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Colicodendron scabridum (Sapote)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Prosopis pallida (Algarrobo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "Categoría no consignada"
+  ],
+  [
+   "Vachellia macracantha (Faique)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "NT — Casi Amenazada"
+  ],
+  [
+   "Ceiba trischistandra (Ceibo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Handroanthus / Tabebuia sp. (Guayacán)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Tillandsia usneoides (Salvajina)",
+   "Indicadora de buen estado",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "LISTADO FLORÍSTICO PRELIMINAR (15 taxones): 13 proporcionados por el especialista responsable a partir del reconocimiento y 2 FOTODOCUMENTADOS (Tillandsia usneoides y estrato graminoide). LA COLUMNA ABUNDANCIA SE DEJA EN BLANCO DE FORMA DELIBERADA: no se instalaron parcelas ni transectos, POR LO QUE ASIGNAR CLASES DE ABUNDANCIA CONSTITUIRÍA UNA ESTIMACIÓN SIN RESPALDO. Única excepción: Tillandsia usneoides, cuya abundancia es directamente evidenciable en el registro fotográfico. Los nombres científicos de Frijolillo, Guayacán y las cactáceas son ATRIBUCIONES GENÉRICAS REFERENCIALES sujetas a determinación botánica formal. COBERTURAS: los porcentajes son ESTIMACIONES OCULARES DESDE PUNTO DE OBSERVACIÓN EXTERNO, NO MEDICIONES. REGENERACIÓN NATURAL: en blanco por no ser observable a la distancia de toma. EL ESTADO «LEVEMENTE ALTERADO» CONTRASTA CON EL SUPUESTO DE BLOQUE DEGRADADO DEL MODELAMIENTO DE MESOLOCALIZACIÓN: ver recomendación de redelimitación / estrategia de conservación-enriquecimiento.",
+ "causas": [
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   "Plataforma y cortes de la carretera Chulucanas-Frías"
+  ]
+ ],
+ "causa_subyacente": "Mejoramiento y ampliación del corredor vial Chulucanas-Frías, que incrementa la accesibilidad del pie de ladera",
+ "causas_directas": "Presión vial en el borde SE (cortes de talud sin tratamiento, plataforma y tráfico de la carretera Chulucanas-Frías) y pastoreo extensivo en el fondo de valle y ladera baja. La extracción de leña, las quemas y el cambio de uso NO fueron observados desde el punto externo y QUEDAN POR VERIFICAR. EL MACIZO CENTRAL CONSERVA DOSEL CONTINUO.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": "0 - 100 (colindante)",
+ "obs_dt04": "MATRIZ DILIGENCIADA PARCIALMENTE. SOLO LA CAUSA N.° 9 (EXPANSIÓN URBANA/VIAL) CUENTA CON EVIDENCIA FOTOGRÁFICA DIRECTA Y SE MARCA «SÍ». EL RESTO DE CAUSAS SE DEJA CON PRESENCIA EN BLANCO: la verificación fue externa y MARCAR «NO» EQUIVALDRÍA A AFIRMAR AUSENCIA SIN SUSTENTO. LECTURA DEL INDICADOR MSAVI: 0.4725 (2024) sitúa al bloque EN EL RANGO MEDIO del catálogo, por encima de los bloques críticos del proyecto (p. ej. bloque 77 = 0.2725) y por debajo de los mejor conservados (bloque 39 = 0.7016, contiguo en la misma microcuenca). DADA LA CADUCIFOLIA DEL Bes-cm, ESTE VALOR NO DEBE INTERPRETARSE COMO DEGRADACIÓN SIN CORROBORACIÓN DE CAMPO. Los indicadores 3 a 7 requieren gabinete (MDE, series Sentinel-2) o recorrido interno. Indicadores con valor: cobertura vegetal total 80% (Alto); suelo desnudo 8% (Bajo); distancia a vía 0-100 m (Alto).",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   "Por determinar",
+   "Por determinar",
+   "Estacional",
+   "No evaluable",
+   "Por determinar",
+   "Cauce torrencial del flanco oriental"
+  ]
+ ],
+ "recarga": "Sin registro en ficha",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por verificar",
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular + caminata 30-90 min",
+ "via_principal": "Carretera Chulucanas-Frías (código de ruta por confirmar); acceso rodado hasta el pie del bloque",
+ "tipo_via_final": "Departamental afirmada",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "En blanco (no observable desde el punto externo)",
+ "t_distrital": "Por verificar",
+ "t_provincial": "Por verificar",
+ "senal": "En blanco (no observable desde el punto externo)",
+ "operador": "En blanco (no observable desde el punto externo)",
+ "alojamiento": "En blanco (no observable desde el punto externo)",
+ "ronda": "En blanco (no observable desde el punto externo)",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "ACCESIBILIDAD: el bloque es COLINDANTE A LA CARRETERA CHULUCANAS-FRÍAS POR SU BORDE SE, lo que da acceso rodado hasta el pie de ladera; EL INGRESO AL INTERIOR EXIGE ASCENSO A PIE DE ≈1.1 km CON DESNIVEL DE 406 m Y PENDIENTE MEDIA DE 36.8%, de donde la modalidad «Vehicular + caminata 30-90 min». HÍDRICO: se registra UNA SOLA FUENTE (cauce torrencial del flanco oriental). «HUMEDAD PERSISTENTE = Sí» se sustenta en el EPIFITISMO DENSO DE Tillandsia usneoides Y EL DOSEL VERDE EN PLENO ESTIAJE, indicativos de HUMEDAD ATMOSFÉRICA SOSTENIDA POR NEBLINA en el tercio medio-superior. «ESCORRENTÍA CONCENTRADA = Sí» se sustenta en la red de quebradas de lecho claro visible en imagen satelital y en los depósitos gruesos del fondo de valle.",
+ "estaciones_fotograficas": [
+  [
+   "F-01/F-07 (estación única)",
+   606815,
+   9446991
+  ]
+ ],
+ "n_estaciones": 7,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-01",
+   "VERIFICACIÓN EXTERNA desde una ESTACIÓN ÚNICA sobre la vía; completitud física <10%; el interior no fue recorrido",
+   "SUSTANTIVA",
+   "Recorrido interno pendiente"
+  ],
+  [
+   "F-DT-01",
+   "DISCREPANCIA DE ÁREA: 75.363 ha (Bloques V5) vs. 75.403 ha (CP-Bloques V5) vs. 924.365 ha (Centroides Bloques.xls)",
+   "SUSTANTIVA",
+   "El valor de 924.365 ha es un error grosero de catálogo: conciliar"
+  ],
+  [
+   "F-DT-01",
+   "DISCREPANCIA DE CENTROIDE: V4 (606 173 · 9 447 361) vs. Centroides.xls (606 234 · 9 448 179), separación 820 m",
+   "SUSTANTIVA",
+   "Conciliar catálogo de centroides"
+  ],
+  [
+   "F-DT-01",
+   "El rótulo de la app indica «Morropón» en F-01 y «Ayabaca» en F-02 para puntos separados 13 m",
+   "NO SUSTANTIVA",
+   "Error de la aplicación; el bloque pertenece a Ayabaca / Frías"
+  ],
+  [
+   "F-DT-02",
+   "Inventario de cárcavas no ejecutado; sellamiento, compactación y raíces expuestas en blanco",
+   "SUSTANTIVA",
+   "No observables desde la distancia de toma"
+  ],
+  [
+   "F-DT-02",
+   "MSAVI 0.4725 no debe interpretarse como degradación sin corrección por estacionalidad (Bes-cm caducifolio)",
+   "SUSTANTIVA",
+   "Contraste documentado: imagen 09/2023 con defoliación total vs. tomas 07/2026 con dosel verde continuo"
+  ],
+  [
+   "F-DT-03",
+   "Columna de abundancia deliberadamente en blanco; coberturas por estimación ocular externa",
+   "NO SUSTANTIVA",
+   "Criterio de no fabricación correctamente aplicado"
+  ],
+  [
+   "F-DT-03",
+   "Estado «Levemente alterado» contrasta con el supuesto de bloque degradado del modelamiento de mesolocalización",
+   "SUSTANTIVA",
+   "Recomendación de REDELIMITACIÓN o estrategia de conservación-enriquecimiento"
+  ],
+  [
+   "F-DT-04",
+   "Solo 1 de las 16 causas cuenta con evidencia directa; el resto queda con presencia en blanco",
+   "SUSTANTIVA",
+   "Criterio de no fabricación correctamente aplicado"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M17B10_20260907_154906.pdf",
+ "bloque": "M17B10"
+}

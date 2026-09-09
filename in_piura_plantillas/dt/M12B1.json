@@ -1,0 +1,195 @@
+{
+ "microcuenca_dt": "C1076-Q9584 (según ficha — valor por defecto de plantilla; catálogo: C1076-Q9588)",
+ "evaluador": "Ing. Juan Domínguez",
+ "correlativo": "01",
+ "fecha_eval": "2026-08-10",
+ "hora": "11:46 h",
+ "cp_cercano": "Nueva Esperanza de Los Molinos y Faicalito",
+ "comunidad": "No consignada",
+ "altitud_gps": "340 (GPS de campo) — la narrativa declara ≈380 msnm",
+ "utm_e_dt": 643508,
+ "utm_n_dt": 9389713,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera baja",
+ "exposicion": "Norte",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Sistema de laderas convexo-cóncavas tributarias de la quebrada Q9588 (microcuenca C1076)",
+ "afloramientos": "No",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "El bloque se ubica en una ladera de colina alta, con pendiente menor a 60%; el terreno se inclina más conforme se asciende. Altitud ≈380 msnm. Presenta AFLORAMIENTO ROCOSO, rocas semienterradas y piedras medianas a grandes dispersas. Zonas con cobertura vegetal remanente. LA LADERA ES EMPLEADA PARA PASTOREO EXTENSIVO DE GANADO CAPRINO del centro poblado próximo. LEÑA APILADA en viviendas próximas. El suelo presenta erosión eólica; estrías y surcos por tránsito de ganado; caminos de herradura dentro del bloque y áreas de suelo desprovistas de vegetación. INCONSISTENCIA INTERNA (D-04): la sección 3 de la ficha responde «No» a la presencia de afloramientos rocosos, mientras estas mismas observaciones afirman que «presenta afloramiento rocoso». NOTA: el punto de muestreo (643 508 · 9 389 713) dista ≈1.2 km al SO del centroide catastral (644 546 · 9 389 110) y es contiguo al empleado en las fichas de M4B3 y M4B4.",
+ "sellamiento": "Sin registro en ficha",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sin registro en ficha",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 0,
+ "long_carcavas": 0,
+ "pct_carcavas": 0,
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Sin registro en ficha",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "Nivel general de erosión moderado, DOMINADO POR EROSIÓN EÓLICA. Estrías y surcos en la ladera por tránsito habitual del ganado y áreas de suelo desprovistas de vegetación expuestas a la lluvia. No se identifican cárcavas desarrolladas dentro del bloque. Compactación por pisoteo y piedras dispersas. SIN FICHA F-DT-02 FIRMADA EN EL ANEXO 01; el inventario georreferenciado de cárcavas queda PENDIENTE.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 70,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "120 ha (de 268.39 ha del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 70,
+ "cob_arbustiva": 15,
+ "cob_herbacea": 10,
+ "cob_hojarasca": 5,
+ "suelo_desnudo": 10,
+ "h_dominante": 9,
+ "h_max": 12,
+ "dap": 30,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 7,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "No aplica (categoría no consignada)"
+  ],
+  [
+   "Colicodendron scabridum (Sapote)",
+   "Indicadora de buen estado",
+   "No aplica"
+  ],
+  [
+   "Ceiba trichistandra (Ceibo)",
+   "Indicadora de buen estado — DOMINANTE",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "Bosque seco CON ZONAS EMPOBRECIDAS Y CLAROS PRÓXIMOS A LA VÍA AFIRMADA. LA PARTE ALTA DEL BLOQUE CONSERVA LA VEGETACIÓN. La eliminación de la vegetación provoca claros con empobrecimiento de la cobertura. Arbustos dispersos, principalmente overo. Vegetación nativa, mayoría en época de defoliación. El 2.º Entregable precisa la determinación de hualtaco (Loxopterygium huasango), sapote (Capparis scabrida) y cardos (Armatocereus cartwrightianus). INCONSISTENCIA (D-05): LA ALTURA DEL ESTRATO DOMINANTE DE LA SECCIÓN 3 (9 m) Y EL DAP (30 cm) NO COINCIDEN CON LAS OBSERVACIONES (<8 m y <20 cm). Solo 7 taxones registrados frente al mínimo de 15. Valores estructurales muy próximos a los de M4B3 y M4B4, registrados a la misma hora (D-02).",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "70% — 30 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "30% — 30 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "70% — 30 años"
+  ]
+ ],
+ "causa_subyacente": "No consignada en la ficha",
+ "causas_directas": "La degradación leve del ecosistema se debe principalmente a las actividades de pastoreo de ganado caprino y a la extracción de leña para uso doméstico.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Totalmente reversible",
+ "urgencia": "Baja",
+ "ind_dist_via": 100,
+ "obs_dt04": "RECOMENDACIÓN DE CAMPO: redelimitar el bloque priorizando las áreas próximas a los centros poblados y desestimando las áreas donde el ecosistema se encuentra conservado. Hay presencia de CASAS MUY PRÓXIMAS AL BLOQUE. Indicadores: cobertura vegetal total 70% (Alto); suelo desnudo 5% (Bajo); densidad de cárcavas 1 N.°/ha (Bajo) — INCOMPATIBLE con el inventario de 0 cárcavas; especies invasoras 0% (Bajo); carga ganadera 3 UA/ha (Medio); frecuencia de quemas 1 (Medio); % área con pendiente >50% = 35% CALIFICADO «BAJO» (incompatible con el umbral); distancia a vía 100 m (Alto). Los 8 indicadores son IDÉNTICOS a los de M4B3 y M4B4. NOTA: el indicador de suelo desnudo (5%) no coincide con el valor de F-DT-03 (10%).",
+ "fuentes_agua": [],
+ "recarga": "Sí",
+ "humedad": "Sin registro en ficha",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por completar",
+ "jass": "Por completar",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Vía afirmada de acceso a Nueva Esperanza de Los Molinos, margen derecha del río Huarmaca",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Sin registro en ficha",
+ "transit_lluviosa": "Sin registro en ficha",
+ "t_distrital": "Por completar",
+ "t_provincial": "Por completar",
+ "senal": "Por completar",
+ "operador": "Sin registro en ficha",
+ "alojamiento": "Sin registro en ficha",
+ "ronda": "Por completar",
+ "contacto_ronda": "Por completar",
+ "obs_dt05": "El bloque se encuentra próximo a una vía afirmada y a medios de vida de la población; el desplazamiento interior se realiza a pie por caminos de herradura. SE SITÚA EN LA ZONA DE ORIGEN DE LOS PELIGROS DE LA MICROCUENCA C1076-Q9588, CUYO COLECTOR ES EL RÍO HUARMACA. POR COMPLETAR: inventario de fuentes de agua, JASS y captación poblacional, tiempos de viaje, señal celular y autorización de Ronda Campesina — SIN FICHA F-DT-05 EN EL ANEXO 01.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Ficha DT",
+   "La ficha consigna microcuenca C1076-Q9584; el catálogo maestro asigna a M12B1 la microcuenca C1076-Q9588",
+   "SUSTANTIVA",
+   "Valor por defecto de la plantilla; se conserva el del catálogo"
+  ],
+  [
+   "F-DT-01",
+   "D-04: la sección 3 responde «No» a afloramientos rocosos mientras la narrativa afirma que «presenta afloramiento rocoso»",
+   "SUSTANTIVA",
+   "Inconsistencia interna a corregir"
+  ],
+  [
+   "F-DT-01",
+   "El punto de muestreo dista ≈1.2 km al SO del centroide y es contiguo al usado en las fichas de M4B3 y M4B4",
+   "SUSTANTIVA",
+   "Una sola jornada y estaciones muy próximas sirvieron a tres bloques"
+  ],
+  [
+   "F-DT-01",
+   "Altitud: GPS 340 msnm frente a ≈380 msnm de la narrativa",
+   "NO SUSTANTIVA",
+   "Conciliar"
+  ],
+  [
+   "F-DT-02",
+   "Sin ficha F-DT-02 firmada en el ANEXO 01; inventario de cárcavas pendiente",
+   "SUSTANTIVA",
+   "Levantamiento pendiente"
+  ],
+  [
+   "F-DT-03",
+   "D-05: altura del estrato dominante (9 m) y DAP (30 cm) de la sección 3 no coinciden con las observaciones (<8 m y <20 cm)",
+   "SUSTANTIVA",
+   "Inconsistencia interna a resolver"
+  ],
+  [
+   "F-DT-03",
+   "D-02: valores estructurales muy próximos a los de M4B3 y M4B4, registrados a la misma hora",
+   "SUSTANTIVA",
+   "Estimación visual global no diferenciada por bloque"
+  ],
+  [
+   "F-DT-03 / F-DT-04",
+   "Suelo desnudo: 10% en F-DT-03 frente a 5% en el indicador N.° 2",
+   "SUSTANTIVA",
+   "Inconsistencia interna a resolver"
+  ],
+  [
+   "F-DT-04",
+   "Densidad de cárcavas 1 N.°/ha frente a inventario de 0 cárcavas; % pendiente >50% = 35% calificado «Bajo»",
+   "SUSTANTIVA",
+   "Inconsistencias internas a resolver"
+  ],
+  [
+   "F-DT-05",
+   "Sin ficha F-DT-05 en el ANEXO 01",
+   "SUSTANTIVA",
+   "Inventario hídrico y accesibilidad por completar"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M12B1_20260907_153708.pdf",
+ "bloque": "M12B1"
+}

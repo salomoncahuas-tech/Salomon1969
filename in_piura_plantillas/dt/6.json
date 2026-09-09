@@ -1,0 +1,171 @@
+{
+ "microcuenca_dt": "C1096-Q9547",
+ "evaluador": "Ing. Héctor S. Cahuas Miller (ANIN/DIME-SESDI)",
+ "correlativo": "DT-06",
+ "fecha_eval": "2026-06-23",
+ "hora": "11:03-11:48 a.m.",
+ "cp_cercano": "Guabal/Huabal (280 hab.); entorno: Nogal, Guanábano Alto, El Común de Pilán",
+ "altitud_gps": "Por determinar (MDE 1398-1909 msnm, media ≈1650)",
+ "utm_e_dt": 606182,
+ "utm_n_dt": 9455199,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "50-75% (Escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Sureste",
+ "rango_altitudinal": "1500-2000 m (Quechua media)",
+ "paisaje": "Ladera montañosa de fuerte pendiente con mosaico agropecuario (pastos cultivados y maíz), relictos de bosque y matorral nativo en quebradas",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "La app fotográfica no registró altitud GPS. Rango altitudinal del MDE; pendientes (media 51.1%, máx 74.5%) del perfil Google Earth. La pendiente máxima (74.5%) se aproxima al umbral de idoneidad del proyecto (75%). Forma de terreno, pendiente y exposición son juicio experto a escala de bloque.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Ligera (laminar)",
+ "n_carcavas": 1,
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "10",
+ "patron_carcavas": "Aislado",
+ "socavamiento": "No",
+ "urgencia_control": "Baja",
+ "carcavas": [
+  [
+   "C-01",
+   "Cicatriz de suelo expuesto en talud",
+   605992,
+   9455103,
+   "Semi-activa",
+   "Concentración natural de escorrentía"
+  ]
+ ],
+ "obs_dt02": "Cobertura vegetal alta (época húmeda) que limita la erosión. Se registra 1 rasgo representativo. Dimensiones, longitud acumulada, % afectado y densidad por hectárea PENDIENTES de levantamiento instrumental.",
+ "parcela": "Recorrido de reconocimiento",
+ "cob_veg": 85,
+ "ecosistema": "Agroecosistema / Mosaico",
+ "sup_ecosistema": "Zona agrícola 164.24 ha (97.5%) + Bes-cm 4.17 ha (2.5%); total 168.41 ha",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "suelo_desnudo": 10,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 13,
+ "especies_clave": [
+  [
+   "Relicto de Bosque Estacionalmente Seco",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "La lista florística replica la del Bloque 36 (colindante, misma microcuenca) por similitud de hábitat; es PRELIMINAR y sujeta a colecta y determinación botánica formal. Coberturas son estimación ocular apoyada en MSAVI.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "35"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "25"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "35"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Otro (residuos sólidos)",
+   "Sí",
+   "Ligera",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Presión agropecuaria de subsistencia sobre laderas de fuerte pendiente, sin prácticas de conservación de suelos.",
+ "causas_directas": "Cambio de uso a pastoreo y agricultura en ladera de fuerte pendiente; pastoreo extensivo; expansión vial (trochas en mal estado); Agave americana; disposición inadecuada de residuos sólidos en punto colindante con el Bloque 36.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_invasoras": 5,
+ "ind_pend50": "50",
+ "ind_dist_via": 0,
+ "obs_dt04": "El botadero de residuos sólidos (606534 E / 9454785 N) se ubica en punto colindante entre los bloques 6 y 36. Densidad de cárcavas, carga ganadera y frecuencia de quemas PENDIENTES de cuantificación.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   606300,
+   9455240,
+   "Estacional (lluvias)",
+   "",
+   null,
+   "Quebrada tributaria"
+  ],
+  [
+   "Río",
+   607000,
+   9454800,
+   "Permanente",
+   "",
+   null,
+   "Curso principal del sector"
+  ],
+  [
+   "Canal de riego",
+   606131,
+   9455221,
+   "Permanente",
+   "",
+   null,
+   "Tubería/manguera de conducción"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por verificar",
+ "interferencia_riego": "Sí",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Trocha carrozable desde Frías hacia CC.PP. Guabal/Huabal + camino de herradura",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "60",
+ "t_provincial": "120",
+ "senal": "Parcial",
+ "operador": "Bitel",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Por determinar",
+ "obs_dt05": "Bloque en zona de origen y recarga de la microcuenca C1096-Q9547. Evidencias de humedad: neblina frecuente, relictos boscosos en quebradas, escorrentía sobre la trocha y tubería de conducción en ladera. Transitabilidad en época lluviosa BAJA.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 35,
+ "fuente_ficha": "ficha_6_20260709_142755.pdf",
+ "bloque": "6"
+}

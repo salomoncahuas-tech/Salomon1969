@@ -1,0 +1,286 @@
+{
+ "microcuenca_dt": "C1076-Q9581",
+ "evaluador": "Ing. Héctor Salomón Cahuas Miller",
+ "correlativo": "1",
+ "fecha_eval": "2026-05-05",
+ "hora": "09:00 h",
+ "cp_cercano": "Víctor Raúl",
+ "comunidad": "Sin registro en ficha",
+ "altitud_gps": "196 (GPS de campo)",
+ "utm_e_dt": 629006,
+ "utm_n_dt": 9407540,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Este",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Corredor lineal de ≈4.2 km sobre la ladera derecha del valle del río Piura, paralelo a la vía departamental PE-02A",
+ "afloramientos": "No",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "BLOQUE DE GEOMETRÍA LINEAL: corredor de ≈4.2 km sobre la ladera derecha del valle del río Piura, PARALELO A LA VÍA DEPARTAMENTAL PE-02A. La ficha F-DT-01 no consigna observaciones adicionales. NOTA: la geometría alargada del polígono y su contigüidad con la vía condicionan tanto la exposición del ecosistema como la logística de intervención.",
+ "sellamiento": "No",
+ "compactacion": "No",
+ "raices_expuestas": "No",
+ "nivel_erosion": "Ligera (laminar)",
+ "n_carcavas": 0,
+ "long_carcavas": 0,
+ "pct_carcavas": 0,
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Aislado",
+ "socavamiento": "Sí",
+ "urgencia_control": "Baja",
+ "carcavas": [],
+ "obs_dt02": "Nivel de erosión LIGERO (laminar) sin cárcavas registradas, PERO CON SOCAVAMIENTO DE CAUCE declarado. La ficha F-DT-02 no consigna observaciones. INCONSISTENCIA APARENTE: se declara erosión ligera y suelo desnudo del 70% en F-DT-03 — dos lecturas difíciles de conciliar.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 30,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "130.43 ha (100% del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 20,
+ "cob_arbustiva": 10,
+ "cob_herbacea": 5,
+ "cob_hojarasca": 15,
+ "suelo_desnudo": 70,
+ "h_dominante": 6,
+ "h_max": 6,
+ "dap": 22,
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Floración",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 6,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG) — 3 ind. en 629 006 · 9 407 540",
+   "VU — Vulnerable"
+  ],
+  [
+   "Bursera graveolens (Palo Santo)",
+   "Indicadora de buen estado — 5 ind. en 629 100 · 9 407 600",
+   "LC — Preocupación Menor"
+  ],
+  [
+   "Ipomoea carnea (Borrachera)",
+   "Indicadora de perturbación — 629 200 · 9 407 700",
+   "NE — No Evaluado"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Indicadora de buen estado — 4 ind. en 629 050 · 9 407 580",
+   "LC — Preocupación Menor"
+  ]
+ ],
+ "obs_dt03": "Solo 6 taxones registrados frente al mínimo de 15 exigido por la ficha. IPOMOEA CARNEA («BORRACHERA») SE CONSIGNA COMO INVASORA Y DOMINANTE DEL ESTRATO ARBUSTIVO. INCONSISTENCIA: suelo desnudo 70% y cobertura vegetal total 30% frente a un tipo de cobertura dominante «Bosque ralo (30-70%)» y a un nivel de erosión «Ligera (laminar)».",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Ligera",
+   "25%"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   "10% — 5 años"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Moderada",
+   "25% — 10 años"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Ligera",
+   "100% — 20 años"
+  ],
+  [
+   "Plagas o enfermedades forestales",
+   "Sí",
+   "Ligera",
+   "5%"
+  ],
+  [
+   "Tala para leña",
+   "No",
+   "Nula",
+   "Sin evidencia"
+  ],
+  [
+   "Erosión natural severa",
+   "No",
+   "Nula",
+   "Sin erosión natural severa"
+  ]
+ ],
+ "causa_subyacente": "Crecimiento poblacional — proximidad de 5 centros poblados a lo largo del corredor PE-02A",
+ "causas_directas": "Expansión urbana/vial (ÁREA LOTIZADA EN EL SECTOR NOROESTE), especies invasoras (Ipomoea carnea ≈25% del área), sequía prolongada/cambio climático y plagas forestales (hongos puntuales).",
+ "velocidad": "Lenta",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Baja",
+ "ind_dist_via": 100,
+ "obs_dt04": "ECOSISTEMA MEDIANAMENTE ALTERADO CON ALTO POTENCIAL DE RECUPERACIÓN. Presencia de árboles maduros (DAP 20-25 cm) y especies clave sanas (Hualtaco, Charán, Palo Santo, Faique, Overo). Sin quemas recientes y con baja presión ganadera. REGENERACIÓN NATURAL ESCASA (<10 pl./100 m²). CONTINUIDAD ECOLÓGICA CON EL ACR BOSQUE SECO SALITRAL. Indicadores: cobertura vegetal total 30% (Bajo); suelo desnudo 70% (Alto); densidad de cárcavas 0 (Bajo); ESPECIES INVASORAS 25% (ALTO); carga ganadera «Bajo» sin valor numérico; quemas 0 (Bajo); % pendiente >50% = 15% (Medio); distancia a vía 100 m (Alto). ADVERTENCIA: la urgencia BAJA contrasta con un 70% de suelo desnudo y un 25% de área con especie invasora.",
+ "fuentes_agua": [
+  [
+   "Reservorio / Represa",
+   628636,
+   9408472,
+   "Permanente",
+   "Buena (clara)",
+   0,
+   "Reservorio JASS Nuevo Progreso"
+  ],
+  [
+   "Reservorio / Represa",
+   628707,
+   9408442,
+   "Permanente",
+   "Buena (clara)",
+   0,
+   "Reservorio JASS Nuevo Progreso (2)"
+  ],
+  [
+   "Manantial / Puquio",
+   628485,
+   9408678,
+   "Intermitente",
+   "Regular (ligeramente turbia)",
+   0,
+   "Fuente intermitente"
+  ],
+  [
+   "Quebrada estacional",
+   628900,
+   9408100,
+   "Estacional",
+   "Regular (ligeramente turbia)",
+   0,
+   "Quebrada estacional 1"
+  ],
+  [
+   "Quebrada estacional",
+   628950,
+   9407900,
+   "Estacional",
+   "Regular (ligeramente turbia)",
+   0,
+   "Quebrada estacional 2"
+  ],
+  [
+   "Quebrada estacional",
+   629050,
+   9407700,
+   "Estacional",
+   "Regular (ligeramente turbia)",
+   0,
+   "Quebrada estacional 3"
+  ],
+  [
+   "Quebrada estacional",
+   629100,
+   9407500,
+   "Estacional",
+   "Regular (ligeramente turbia)",
+   0,
+   "Quebrada estacional 4"
+  ],
+  [
+   "Río",
+   629200,
+   9407400,
+   "Permanente",
+   "Regular (ligeramente turbia)",
+   50,
+   "Río Piura — borde oriental"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": 0,
+ "jass": "JASS Nuevo Progreso (dos reservorios dentro del bloque)",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "PE-02A (vía departamental asfaltada)",
+ "tipo_via_final": "Departamental asfaltada",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Medio",
+ "t_distrital": 10,
+ "t_provincial": 60,
+ "senal": "Completa",
+ "operador": "Movistar",
+ "alojamiento": "Sí",
+ "ronda": "Sí",
+ "contacto_ronda": "Sr. Anelio Togas García — Rondas Campesinas Salitral (número por verificar)",
+ "obs_dt05": "EL INVENTARIO HÍDRICO MÁS COMPLETO DEL PORTAFOLIO: 8 fuentes registradas, incluidos DOS RESERVORIOS DE LA JASS NUEVO PROGRESO DENTRO DEL BLOQUE (distancia a captación = 0 m). Coordenadas de reservorios y fuente intermitente registradas con GPS de campo; PENDIENTE VERIFICACIÓN CON GPS DE PRECISIÓN (CEP ≤5 m) en el estudio definitivo. LAS COORDENADAS DE LAS 4 QUEBRADAS ESTACIONALES SON REFERENCIALES y requieren levantamiento topográfico para el diseño de obras. Alojamiento en Salitral (10-15 min del bloque). Acceso vehicular directo por PE-02A asfaltada todo el año. LA PRESENCIA DE INFRAESTRUCTURA DE AGUA POTABLE DENTRO DEL POLÍGONO configura una oportunidad directa para MERESE y exige coordinación con la JASS antes de cualquier obra.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (196 msnm)"
+  ],
+  [
+   "F-DT-02 / F-DT-03",
+   "Erosión «Ligera (laminar)» y urgencia «Baja» frente a un suelo desnudo del 70%",
+   "SUSTANTIVA",
+   "Inconsistencia interna a resolver"
+  ],
+  [
+   "F-DT-03",
+   "Cobertura vegetal total 30% frente al tipo de cobertura dominante «Bosque ralo (30-70%)»",
+   "NO SUSTANTIVA",
+   "Verificar clasificación"
+  ],
+  [
+   "F-DT-03",
+   "Solo 6 taxones registrados frente al mínimo de 15 exigido",
+   "SUSTANTIVA",
+   "Inventario florístico incompleto"
+  ],
+  [
+   "F-DT-03",
+   "Categoría del Hualtaco consignada VU y del Palo Santo LC, frente a CR en la mayoría de los bloques",
+   "SUSTANTIVA",
+   "Homogeneizar criterio de categorización"
+  ],
+  [
+   "F-DT-04",
+   "Urgencia de intervención BAJA pese a 70% de suelo desnudo y 25% de área con especie invasora",
+   "SUSTANTIVA",
+   "Revisar calificación"
+  ],
+  [
+   "F-DT-04",
+   "Carga ganadera calificada «Bajo» sin valor numérico",
+   "NO SUSTANTIVA",
+   "Completar el valor"
+  ],
+  [
+   "F-DT-04",
+   "Área LOTIZADA en el sector noroeste del bloque (expansión urbana, 10%)",
+   "SUSTANTIVA",
+   "Tamizaje predial: verificar superposición con habilitaciones urbanas"
+  ],
+  [
+   "F-DT-05",
+   "Dos reservorios de la JASS Nuevo Progreso dentro del polígono",
+   "SUSTANTIVA",
+   "Coordinación obligatoria con la JASS; oportunidad MERESE"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M7B1 (Plan de Ingreso, PDF)",
+ "bloque": "M7B1"
+}

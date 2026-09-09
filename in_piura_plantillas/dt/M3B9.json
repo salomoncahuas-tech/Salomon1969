@@ -1,0 +1,212 @@
+{
+ "microcuenca_dt": "C1081-Q9582",
+ "evaluador": "Ing. H. Cahuas Miller",
+ "correlativo": "DT-M3B9-001",
+ "fecha_eval": "2026-05-19",
+ "hora": "10:30 h",
+ "cp_cercano": "CP Tórtola / CP San Pedro",
+ "comunidad": "No aplica",
+ "altitud_gps": "188 - 415 (rango observado desde CP Tórtola)",
+ "utm_e_dt": 628351,
+ "utm_n_dt": 9411709,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Este",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Laderas de Bes-cm degradado; suelo pardo-rojizo expuesto intercalado con parches arbustivos; relictos arbóreos en cimas",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "NO SE INGRESÓ AL BLOQUE. OBSERVACIONES DESDE EL CP TÓRTOLA (628 351 E · 9 411 709 N), a ≈1.9 km al SO del centroide catastral (629 338 E · 9 413 300 N). Acompañante: Sr. Fidel Rodríguez Jiménez. Pendientes 25-48% (Google Earth). Altitud 188-415 msnm. TODA LA CARACTERIZACIÓN ES DE OBSERVACIÓN A DISTANCIA Y GABINETE.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sin registro en ficha",
+ "nivel_erosion": "Fuerte (cárcavas incipientes) — estimado",
+ "n_carcavas": "0 = no inventariadas",
+ "long_carcavas": "No aplica",
+ "pct_carcavas": "3 - 8% (estimado por analogía con M3B1)",
+ "erosion_laminar": "40 - 55%",
+ "patron_carcavas": "Paralelo",
+ "socavamiento": "Sí",
+ "urgencia_control": "Alta",
+ "carcavas": [],
+ "obs_dt02": "NO SE INVENTARIARON CÁRCAVAS. ESTIMACIONES POR MSAVI, IMAGEN SATELITAL Y ANALOGÍA CON M3B1 (misma microcuenca C1081-Q9582). Ningún valor de esta ficha procede de medición directa dentro del polígono.",
+ "parcela": "No se estableció parcela (observación a distancia)",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "25 - 50",
+ "cob_veg": 45,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "≈290 ha (99% del bloque)",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 15,
+ "cob_arbustiva": 20,
+ "cob_herbacea": 15,
+ "cob_hojarasca": 8,
+ "suelo_desnudo": 42,
+ "h_dominante": "4 - 6",
+ "h_max": "8 - 12",
+ "dap": "15 - 25 (estimado)",
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Daño mecánico",
+ "epifitas": "No evaluable (observación a distancia)",
+ "fenologia": "Floración",
+ "tipo_cobertura": "Matorral ralo",
+ "n_taxones": 10,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "VU — Vulnerable"
+  ],
+  [
+   "Ceiba insignis (Ceibo)",
+   "Clave cultural",
+   "LC — Preocupación Menor"
+  ],
+  [
+   "Bursera graveolens (Palo Santo)",
+   "Indicadora de buen estado",
+   "LC — Preocupación Menor"
+  ]
+ ],
+ "obs_dt03": "INVENTARIO REFERENCIAL (información de poblador local y ANALOGÍA CON M3B1/M3B8). REQUIERE VALIDACIÓN CON PARCELAS DE MUESTREO IN SITU. Se registran 10 taxones frente al mínimo de 15. ADVERTENCIA: las categorías de amenaza consignadas (Hualtaco VU, Palo Santo LC) DIFIEREN de las empleadas en la mayoría de los bloques del proyecto (Hualtaco CR/EN, Palo Santo CR): homogeneizar criterio.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "60% — >30 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "40% — >20 años"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Moderada",
+   "30% — >20 años"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "Sí",
+   "Ligera",
+   "15% — recurrente"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Ligera",
+   "5% — >20 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Fuerte",
+   "60% — >30 años"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Fuerte",
+   "45% — permanente"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "100% — crónica"
+  ]
+ ],
+ "causa_subyacente": "Pobreza rural; ausencia de gobernanza forestal y de mecanismos MERESE",
+ "causas_directas": "Sobrepastoreo caprino crónico (>30 años) y tala selectiva de Hualtaco, Palo Santo y Ceibo.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 500,
+ "obs_dt04": "VALORES ESTIMADOS (gabinete + observación a distancia). SIN INGRESO AL BLOQUE EL 19/05/2026. REQUIERE VERIFICACIÓN DIRECTA. Indicadores: cobertura vegetal total 40-55% (Medio); suelo desnudo 35-50% (Alto, MSAVI 2024); densidad de cárcavas NO EVALUADA; especies invasoras <5% (Bajo); carga ganadera «Alta» sin valor numérico; frecuencia de quemas 1-2 (Medio); % área con pendiente >50% = 20-30% (Medio); distancia a vía ≈500 m (Medio). VARIOS INDICADORES SE EXPRESAN COMO RANGOS Y NO COMO VALORES PUNTUALES.",
+ "fuentes_agua": [
+  [
+   "Río",
+   628418,
+   9411155,
+   "Permanente",
+   "Regular (ligeramente turbia)",
+   500,
+   "Río Seco — cauce estacional"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sin registro en ficha",
+ "escorrentia": "Sí",
+ "dist_captacion": "Sin información directa",
+ "jass": "No aplica",
+ "modalidad_acceso": "Vehicular + caminata >90 min",
+ "via_principal": "PI-815 (vía vecinal Salitral - Tórtola)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 45,
+ "t_provincial": 120,
+ "senal": "Parcial",
+ "operador": "Movistar",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Sr. Fidel Rodríguez Jiménez — líder comunitario del CP Tórtola, con experiencia en ONG",
+ "obs_dt05": "PUENTE BADÉN SOBRE RÍO SECO SOLO PARA VEHÍCULOS MENORES. CAMINATA >90 MIN O ACÉMILA PARA INGRESAR: es el bloque de acceso más restringido del sector y ello condiciona severamente la logística de las MRR-CCC en sus 294.20 ha. El Sr. Fidel Rodríguez está disponible como guía local.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por el rango observado 188-415 msnm"
+  ],
+  [
+   "F-DT-01",
+   "NO SE INGRESÓ AL BLOQUE: toda la caracterización procede de observación a distancia desde el CP Tórtola y de gabinete",
+   "SUSTANTIVA",
+   "Verificación directa pendiente en su totalidad"
+  ],
+  [
+   "F-DT-02",
+   "Inventario de cárcavas no ejecutado; % de bloque afectado estimado POR ANALOGÍA con M3B1",
+   "SUSTANTIVA",
+   "Estimación por analogía, no medición"
+  ],
+  [
+   "F-DT-03",
+   "Inventario florístico referencial por analogía con M3B1/M3B8 e información de poblador local (10 taxones)",
+   "SUSTANTIVA",
+   "Requiere validación con parcelas de muestreo in situ"
+  ],
+  [
+   "F-DT-03",
+   "Categorías de amenaza (Hualtaco VU, Palo Santo LC) distintas de las usadas en el resto del portafolio (CR/EN)",
+   "SUSTANTIVA",
+   "Homogeneizar criterio de categorización"
+  ],
+  [
+   "F-DT-04",
+   "Varios indicadores expresados como rangos y no como valores puntuales; carga ganadera sin valor numérico",
+   "NO SUSTANTIVA",
+   "Normalizar el registro"
+  ],
+  [
+   "F-DT-05",
+   "Acceso con caminata >90 min o acémila; puente badén solo para vehículos menores",
+   "SUSTANTIVA",
+   "Factor logístico crítico para 294.20 ha: dimensionar en cronograma y presupuesto"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M3B9 (Plan de Ingreso, PDF)",
+ "bloque": "M3B9"
+}

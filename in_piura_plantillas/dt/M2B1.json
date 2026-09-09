@@ -1,0 +1,309 @@
+{
+ "microcuenca_dt": "C1076-Q9584",
+ "evaluador": "Ing. Héctor S. Cahuas Miller",
+ "correlativo": "F-DT-M2B1-01",
+ "fecha_eval": "2026-05-19",
+ "hora": "08:45 h",
+ "cp_cercano": "Santa Rosa de Serrán",
+ "comunidad": "No aplica (predominio predial privado)",
+ "altitud_gps": "290 (GPS de campo)",
+ "utm_e_dt": 636128,
+ "utm_n_dt": 9398519,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "15-35% (según narrativa de la ficha)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Este-Noreste (hacia el valle del río Huarmaca)",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Paisaje colinoso de borde de valle aluvial del río Huarmaca; mosaico matorral seco subarbustivo-arbustivo con relictos arbóreos",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "Sí",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Fisiografía característica de borde de cuenca seca interandina: colinas bajas de pendiente moderada a fuerte (15-35%), expuestas al sector E-NE hacia el valle del río Huarmaca. LITOLOGÍA: pizarras y lutitas grises a rojizas FUERTEMENTE METEORIZADAS (Grupo Salas / Complejo del Marañón) con fragmentos angulosos sueltos. No se observaron deslizamientos activos durante la visita; sin embargo, LA SUSCEPTIBILIDAD A MOVIMIENTOS SOMEROS Y FLUJOS DE DETRITOS DURANTE EVENTOS EXTREMOS ASOCIADOS AL FEN COSTERO ES ALTA, evidenciada por terracillas de pisoteo, escarpes incipientes y por el depósito grueso del cauce activo del río Huarmaca colindante.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 4,
+ "long_carcavas": 235,
+ "pct_carcavas": 8,
+ "erosion_laminar": 35,
+ "patron_carcavas": "Paralelo",
+ "socavamiento": "Sí",
+ "urgencia_control": "Alta",
+ "carcavas": [
+  [
+   "C-01",
+   "Surco (<30 cm) — 55 m, 0.25 m prof., 0.45 m ancho",
+   636120,
+   9398525,
+   "Activa",
+   "Sobrepastoreo"
+  ],
+  [
+   "C-02",
+   "Cárcava incipiente — 75 m, 0.6 m prof., 1.2 m ancho",
+   636160,
+   9398550,
+   "Activa",
+   "Sobrepastoreo"
+  ],
+  [
+   "C-03",
+   "Surco (<30 cm) — 65 m, 0.9 m prof., 2.1 m ancho",
+   636079,
+   9399152,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "C-04",
+   "Cárcava incipiente — 40 m, 0.2 m prof., 0.35 m ancho",
+   636316,
+   9398321,
+   "Activa",
+   "Otro"
+  ]
+ ],
+ "obs_dt02": "La EROSIÓN HÍDRICA LAMINAR Y EN SURCOS es el proceso geodinámico dominante, con afectación al ≈35% de la superficie concentrada en la franja altitudinal media (250-400 msnm), donde se combinan pendiente moderada-fuerte, pisoteo intenso y exposición de suelo. Las cárcavas inventariadas son mayoritariamente INCIPIENTES A JUVENILES (anchos <1.5 m, profundidades <1.0 m) y se localizan en líneas preferenciales de escorrentía y en taludes de la trocha. LA PRESENCIA DE BLOQUES MÉTRICOS ANGULOSOS EN EL LECHO DEL RÍO HUARMACA COLINDANTE CONSTITUYE EVIDENCIA GEOMORFOLÓGICA DE APORTES DE FLUJOS DETRÍTICOS HISTÓRICOS desde estas microcuencas hacia el valle. Se recomienda priorización de medidas de control mecánico-vegetal en la franja media y obras de estabilización puntual en quebradas internas. ADVERTENCIA: C-03 se rotula «Surco (<30 cm)» pero declara 0.9 m de profundidad y 2.1 m de ancho — tipología incompatible con las dimensiones.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 55,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "81.79 ha (100% del bloque)",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 20,
+ "cob_arbustiva": 35,
+ "cob_herbacea": 15,
+ "cob_hojarasca": "Dato corrupto en la ficha (se registró una fecha en lugar de un porcentaje)",
+ "suelo_desnudo": 40,
+ "h_dominante": 7,
+ "h_max": 7.5,
+ "dap": 18,
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sin registro en ficha",
+ "epifitas": "Escasa (líquenes foliáceos en troncos de Hualtaco relictos)",
+ "fenologia": "Sin registro en ficha",
+ "tipo_cobertura": "Matorral ralo",
+ "n_taxones": 11,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada — 3 ind. en 636 085 · 9 399 200",
+   "VU — Vulnerable"
+  ],
+  [
+   "Prosopis pallida (Algarrobo)",
+   "Amenazada — 5 ind. en 636 150 · 9 398 580",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora — 4 ind. en 636 128 · 9 398 519",
+   "NT — Casi Amenazada"
+  ],
+  [
+   "Bursera graveolens (Palo Santo)",
+   "Amenazada — 2 ind. en 636 080 · 9 399 180",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Ceiba trischistandra (Ceibo)",
+   "Indicadora de buen estado — 2 ind. en 636 090 · 9 399 210",
+   "LC — Preocupación Menor"
+  ]
+ ],
+ "obs_dt03": "Mosaico de matorral seco subarbustivo-arbustivo con relictos arbóreos dispersos del Bes-cm. La cobertura vegetal total observada (período post-lluvias 2026) se estima en 55% con dominio de los estratos arbustivo y herbáceo; EL ESTRATO ARBÓREO ESTÁ MUY EMPOBRECIDO (cobertura <10%) y RESTRINGIDO A RELICTOS EN LA DIVISORIA Y CABECERAS DE QUEBRADA POR ENCIMA DE 450 msnm, donde la accesibilidad mecanizada y la presión de pastoreo son menores. Se confirmó la presencia de las CINCO ESPECIES EMBLEMÁTICAS DEL BES-CM (Ceibo, Charán, Pasallo, Hualtaco, Palo Santo) más Algarrobo y abundancia de cactáceas columnares (Armatocereus, Neoraimondia), indicadoras de la comunidad climácica del piso altitudinal. LA REGENERACIÓN NATURAL ES ESCASA POR RAMONEO CONTINUO. TRES ESPECIES AMENAZADAS SEGÚN D.S. 043-2006-AG (Algarrobo CR, Palo Santo CR, Hualtaco VU), lo que confiere al bloque un VALOR DE CONSERVACIÓN SIGNIFICATIVO pese al estado degradado de la matriz. ADVERTENCIA: la categoría UICN del Hualtaco (VU) difiere de la consignada en otros bloques del proyecto (CR/EN): homogeneizar criterio.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "75% — 40 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "40% — 30 años"
+  ],
+  [
+   "Tala para carbón",
+   "Sí",
+   "Ligera",
+   "10% — 25 años"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Moderada",
+   "35% — 50 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Fuerte",
+   "60% — 40 años"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   "8% — 5 años"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Moderada",
+   "20% — 30 años"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "35%"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Fuerte",
+   "100% — 30 años"
+  ],
+  [
+   "Quema accidental / Incendio",
+   "No",
+   "Ligera",
+   "5% — 15 años"
+  ]
+ ],
+ "causa_subyacente": "Pobreza rural + ausencia de planes de manejo del ecosistema + débil control territorial municipal frente a la habilitación urbana",
+ "causas_directas": "Sobrepastoreo extensivo caprino-vacuno no rotacional sobre suelos pedregosos de pendiente moderada-fuerte; tala selectiva histórica de Hualtaco, Algarrobo y Pasallo; erosión hídrica laminar/en surcos. PRESIÓN EMERGENTE POR EXPANSIÓN URBANA AUTORIZADA en el flanco NE del bloque colindante con el CP Serrán.",
+ "velocidad": "Moderada (implícita)",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 200,
+ "obs_dt04": "Degradación de origen MARCADAMENTE ANTRÓPICO (motor principal: pastoreo extensivo + tala selectiva histórica) sobre un sustrato NATURALMENTE SUSCEPTIBLE (pendientes 15-35%, suelos pedregosos delgados sobre lutitas meteorizadas, déficit hídrico estructural agravado por proyecciones climáticas SSP 5-8.5). PRESIÓN EMERGENTE Y CRÍTICA: EXPANSIÓN URBANA AUTORIZADA POR LA MUNICIPALIDAD DE SALITRAL en el flanco NE colindante con el CP Serrán (se observaron lotes Mz.H1-Lt.1 Calle Rosada y Mz.A1-Lt.2 Calle Estadio EN FRANJA ANTES ECOSISTÉMICA). ESTA PRESIÓN SUSTITUYE IRREVERSIBLEMENTE EL ECOSISTEMA y demanda GESTIÓN URGENTE con la Municipalidad Distrital y el GORE Piura para asegurar el tamizaje predial definitivo y evitar superposición con futuras habilitaciones. Indicadores: cobertura 55% (Medio); suelo desnudo 40% (Alto); densidad de cárcavas 3 N.°/ha (Medio); invasoras 20% (Alto); carga ganadera 1.5 UA/ha (Alto); quemas 0 (Medio); % pendiente >50% = 45% (Alto); distancia a vía 200 m (Alto). NOTA: la urgencia de intervención declarada (Media) contrasta con la urgencia de control de erosión (Alta) y con la presión urbana calificada de crítica.",
+ "fuentes_agua": [
+  [
+   "Río",
+   636500,
+   9398100,
+   "Permanente",
+   "Regular (ligeramente turbia)",
+   200,
+   "Río Huarmaca — colindante"
+  ],
+  [
+   "Quebrada estacional",
+   636120,
+   9398525,
+   "Estacional",
+   "No evaluable",
+   0,
+   "Quebrada interna sin nombre"
+  ],
+  [
+   "Quebrada estacional",
+   636045,
+   9399100,
+   "Estacional",
+   "No evaluable",
+   0,
+   "Quebrada N — desemboca en el CP Serrán"
+  ],
+  [
+   "Reservorio / Represa",
+   636151,
+   9398547,
+   "Permanente",
+   "Buena (clara)",
+   0,
+   "Reservorio JASS Serrán (cota 285 msnm)"
+  ],
+  [
+   "Quebrada Garabo",
+   636150,
+   9396800,
+   "Permanente",
+   "Regular (ligeramente turbia)",
+   600,
+   "Quebrada Garabo al sur; riesgo de huaicos"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "No",
+ "escorrentia": "No",
+ "dist_captacion": 0,
+ "jass": "JASS Santa Rosa de Serrán",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "PE-1NL (Panamericana) → desvío en Buenos Aires → carretera afirmada a Serrán → trocha vecinal",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Medio",
+ "t_distrital": 35,
+ "t_provincial": 90,
+ "senal": "Sin registro en ficha",
+ "operador": "Movistar",
+ "alojamiento": "Sí",
+ "ronda": "Sí",
+ "contacto_ronda": "Teniente Gobernador CP Serrán + Presidente JASS Santa Rosa de Serrán",
+ "obs_dt05": "El bloque colinda al E con el río Huarmaca y es atravesado por dos quebradas estacionales sin nombre que DESCARGAN DIRECTAMENTE EN EL CP SERRÁN; al sur lo bordea la quebrada Garabo. No hay fuentes superficiales permanentes dentro del bloque, pero EL SECTOR ALTO (>500 msnm) CONSTITUYE ZONA DE RECARGA DEL MANANTIAL CAPTADO POR LA JASS SANTA ROSA DE SERRÁN (reservorio observado en cota 285 msnm). ESTO ESTABLECE UN VÍNCULO HIDROLÓGICO DIRECTO ENTRE LA CONSERVACIÓN DEL BLOQUE Y LA SEGURIDAD HÍDRICA DEL CP SERRÁN, configurando una OPORTUNIDAD CLARA PARA ACUERDOS DE RETRIBUCIÓN POR SERVICIOS ECOSISTÉMICOS (MERESE) entre la JASS y los usuarios prediales del bloque. Accesibilidad buena en estiaje (≈90 min desde Chulucanas) y comprometida en lluvias por riesgo de huaicos en la quebrada Garabo.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (290 msnm)"
+  ],
+  [
+   "F-DT-01",
+   "Rango de pendiente no consignado en el campo de lista; la narrativa declara 15-35%",
+   "NO SUSTANTIVA",
+   "Completar el campo con la clase correspondiente"
+  ],
+  [
+   "F-DT-02",
+   "C-03 se rotula «Surco (<30 cm)» pero declara 0.9 m de profundidad y 2.1 m de ancho",
+   "SUSTANTIVA",
+   "Tipología incompatible con las dimensiones: reclasificar"
+  ],
+  [
+   "F-DT-03",
+   "Cobertura de hojarasca: la ficha registra una fecha (2026-08-10) en lugar de un porcentaje",
+   "SUSTANTIVA",
+   "Dato corrupto: relevar"
+  ],
+  [
+   "F-DT-03",
+   "Categoría UICN del Hualtaco consignada VU, frente a CR/EN en otros bloques del proyecto",
+   "SUSTANTIVA",
+   "Homogeneizar criterio de categorización en todo el portafolio"
+  ],
+  [
+   "F-DT-04",
+   "Urgencia de intervención declarada «Media» frente a urgencia de control de erosión «Alta» y presión urbana calificada de crítica",
+   "SUSTANTIVA",
+   "Revisar calificación"
+  ],
+  [
+   "F-DT-04",
+   "EXPANSIÓN URBANA AUTORIZADA por la Municipalidad de Salitral en el flanco NE (lotes Mz.H1-Lt.1 y Mz.A1-Lt.2) sobre franja antes ecosistémica",
+   "SUSTANTIVA",
+   "Gestión urgente con la Municipalidad Distrital y el GORE Piura; asegurar tamizaje predial definitivo"
+  ],
+  [
+   "F-DT-05",
+   "Vínculo hidrológico directo con la captación de la JASS Santa Rosa de Serrán",
+   "SUSTANTIVA",
+   "Oportunidad para MERESE: incorporar a la línea de gobernanza"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M2B1 (Plan de Ingreso, PDF)",
+ "bloque": "M2B1"
+}

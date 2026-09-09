@@ -1,0 +1,2248 @@
+{
+ "56": {
+  "area_ha_ndvi": 77.6993,
+  "area_catalogo": 77.666,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 73.7362,
+    "pct": 94.9
+   },
+   "Vegetación mediana": {
+    "ha": 3.9235,
+    "pct": 5.05
+   },
+   "Vegetación ligera": {
+    "ha": 0.0396,
+    "pct": 0.05
+   }
+  }
+ },
+ "57": {
+  "area_ha_ndvi": 25.6774,
+  "area_catalogo": 25.668,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 21.2854,
+    "pct": 82.9
+   },
+   "Vegetación mediana": {
+    "ha": 4.3623,
+    "pct": 16.99
+   },
+   "Vegetación ligera": {
+    "ha": 0.0297,
+    "pct": 0.12
+   }
+  }
+ },
+ "59": {
+  "area_ha_ndvi": 13.5591,
+  "area_catalogo": 13.554,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 11.7374,
+    "pct": 86.57
+   },
+   "Vegetación mediana": {
+    "ha": 1.0689,
+    "pct": 7.88
+   },
+   "Vegetación ligera": {
+    "ha": 0.5152,
+    "pct": 3.8
+   },
+   "Tierra desnuda": {
+    "ha": 0.2375,
+    "pct": 1.75
+   }
+  }
+ },
+ "58": {
+  "area_ha_ndvi": 11.48,
+  "area_catalogo": 11.475,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 9.0489,
+    "pct": 78.82
+   },
+   "Vegetación ligera": {
+    "ha": 2.4212,
+    "pct": 21.09
+   },
+   "Vegetación alta": {
+    "ha": 0.0099,
+    "pct": 0.09
+   }
+  }
+ },
+ "61": {
+  "area_ha_ndvi": 26.8329,
+  "area_catalogo": 26.826,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 21.5061,
+    "pct": 80.15
+   },
+   "Vegetación mediana": {
+    "ha": 5.3268,
+    "pct": 19.85
+   }
+  }
+ },
+ "60": {
+  "area_ha_ndvi": 40.1403,
+  "area_catalogo": 40.132,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 40.0998,
+    "pct": 99.9
+   },
+   "Vegetación mediana": {
+    "ha": 0.0405,
+    "pct": 0.1
+   }
+  }
+ },
+ "64": {
+  "area_ha_ndvi": 35.7804,
+  "area_catalogo": 35.774,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 27.9881,
+    "pct": 78.22
+   },
+   "Vegetación mediana": {
+    "ha": 7.6043,
+    "pct": 21.25
+   },
+   "Vegetación ligera": {
+    "ha": 0.188,
+    "pct": 0.53
+   }
+  }
+ },
+ "66": {
+  "area_ha_ndvi": 102.3581,
+  "area_catalogo": 102.335,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 96.2992,
+    "pct": 94.08
+   },
+   "Vegetación mediana": {
+    "ha": 5.9798,
+    "pct": 5.84
+   },
+   "Vegetación ligera": {
+    "ha": 0.0791,
+    "pct": 0.08
+   }
+  }
+ },
+ "63": {
+  "area_ha_ndvi": 50.469,
+  "area_catalogo": 50.459,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 50.0651,
+    "pct": 99.2
+   },
+   "Vegetación mediana": {
+    "ha": 0.394,
+    "pct": 0.78
+   },
+   "Vegetación ligera": {
+    "ha": 0.0099,
+    "pct": 0.02
+   }
+  }
+ },
+ "75": {
+  "area_ha_ndvi": 15.1792,
+  "area_catalogo": 15.176,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 13.4909,
+    "pct": 88.88
+   },
+   "Vegetación mediana": {
+    "ha": 1.6883,
+    "pct": 11.12
+   }
+  }
+ },
+ "67": {
+  "area_ha_ndvi": 13.1865,
+  "area_catalogo": 13.184,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 12.8574,
+    "pct": 97.5
+   },
+   "Vegetación mediana": {
+    "ha": 0.3291,
+    "pct": 2.5
+   }
+  }
+ },
+ "70": {
+  "area_ha_ndvi": 22.3905,
+  "area_catalogo": 22.388,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 22.0293,
+    "pct": 98.39
+   },
+   "Vegetación mediana": {
+    "ha": 0.3612,
+    "pct": 1.61
+   }
+  }
+ },
+ "73": {
+  "area_ha_ndvi": 54.2999,
+  "area_catalogo": 54.29,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 48.2198,
+    "pct": 88.8
+   },
+   "Vegetación mediana": {
+    "ha": 6.0801,
+    "pct": 11.2
+   }
+  }
+ },
+ "69": {
+  "area_ha_ndvi": 19.428,
+  "area_catalogo": 19.425,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 14.6938,
+    "pct": 75.63
+   },
+   "Vegetación alta": {
+    "ha": 4.4524,
+    "pct": 22.92
+   },
+   "Vegetación ligera": {
+    "ha": 0.2818,
+    "pct": 1.45
+   }
+  }
+ },
+ "72": {
+  "area_ha_ndvi": 12.4002,
+  "area_catalogo": 12.398,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 11.4633,
+    "pct": 92.44
+   },
+   "Vegetación mediana": {
+    "ha": 0.9369,
+    "pct": 7.56
+   }
+  }
+ },
+ "71": {
+  "area_ha_ndvi": 10.6756,
+  "area_catalogo": 10.673,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 8.6863,
+    "pct": 81.37
+   },
+   "Vegetación mediana": {
+    "ha": 1.9893,
+    "pct": 18.63
+   }
+  }
+ },
+ "80": {
+  "area_ha_ndvi": 28.8355,
+  "area_catalogo": 28.83,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 22.7018,
+    "pct": 78.73
+   },
+   "Vegetación mediana": {
+    "ha": 5.1677,
+    "pct": 17.92
+   },
+   "Vegetación ligera": {
+    "ha": 0.7979,
+    "pct": 2.77
+   },
+   "Tierra desnuda": {
+    "ha": 0.1681,
+    "pct": 0.58
+   }
+  }
+ },
+ "74": {
+  "area_ha_ndvi": 29.2327,
+  "area_catalogo": 29.226,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 25.9837,
+    "pct": 88.89
+   },
+   "Vegetación ligera": {
+    "ha": 2.1343,
+    "pct": 7.3
+   },
+   "Vegetación alta": {
+    "ha": 1.0949,
+    "pct": 3.75
+   },
+   "Tierra desnuda": {
+    "ha": 0.0198,
+    "pct": 0.07
+   }
+  }
+ },
+ "76": {
+  "area_ha_ndvi": 19.6187,
+  "area_catalogo": 19.615,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 10.0995,
+    "pct": 51.48
+   },
+   "Vegetación alta": {
+    "ha": 9.0782,
+    "pct": 46.27
+   },
+   "Vegetación ligera": {
+    "ha": 0.441,
+    "pct": 2.25
+   }
+  }
+ },
+ "79": {
+  "area_ha_ndvi": 94.8345,
+  "area_catalogo": 94.812,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 78.1103,
+    "pct": 82.36
+   },
+   "Vegetación mediana": {
+    "ha": 16.7133,
+    "pct": 17.62
+   },
+   "Vegetación ligera": {
+    "ha": 0.0109,
+    "pct": 0.01
+   }
+  }
+ },
+ "77": {
+  "area_ha_ndvi": 17.8267,
+  "area_catalogo": 17.821,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 10.9975,
+    "pct": 61.69
+   },
+   "Tierra desnuda": {
+    "ha": 5.531,
+    "pct": 31.03
+   },
+   "Vegetación mediana": {
+    "ha": 1.2784,
+    "pct": 7.17
+   },
+   "Vegetación alta": {
+    "ha": 0.0198,
+    "pct": 0.11
+   }
+  }
+ },
+ "82": {
+  "area_ha_ndvi": 35.6767,
+  "area_catalogo": 35.661,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 32.1344,
+    "pct": 90.07
+   },
+   "Vegetación mediana": {
+    "ha": 3.5423,
+    "pct": 9.93
+   }
+  }
+ },
+ "M17B1": {
+  "area_ha_ndvi": 42.4719,
+  "area_catalogo": 42.449,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 34.7541,
+    "pct": 81.83
+   },
+   "Vegetación mediana": {
+    "ha": 6.1053,
+    "pct": 14.38
+   },
+   "Tierra desnuda": {
+    "ha": 1.6125,
+    "pct": 3.8
+   }
+  }
+ },
+ "M22B1": {
+  "area_ha_ndvi": 55.1772,
+  "area_catalogo": 55.17,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 50.2362,
+    "pct": 91.05
+   },
+   "Vegetación mediana": {
+    "ha": 4.941,
+    "pct": 8.95
+   }
+  }
+ },
+ "M6B2-1": {
+  "area_ha_ndvi": 514.6079,
+  "area_catalogo": 514.359,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 309.8212,
+    "pct": 60.21
+   },
+   "Vegetación mediana": {
+    "ha": 195.4763,
+    "pct": 37.99
+   },
+   "Vegetación alta": {
+    "ha": 5.036,
+    "pct": 0.98
+   },
+   "Tierra desnuda": {
+    "ha": 4.2744,
+    "pct": 0.83
+   }
+  }
+ },
+ "M6B2-2": {
+  "area_ha_ndvi": 333.1759,
+  "area_catalogo": 333.011,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 267.4393,
+    "pct": 80.27
+   },
+   "Vegetación mediana": {
+    "ha": 48.3216,
+    "pct": 14.5
+   },
+   "Tierra desnuda": {
+    "ha": 15.1589,
+    "pct": 4.55
+   },
+   "Vegetación alta": {
+    "ha": 2.2561,
+    "pct": 0.68
+   }
+  }
+ },
+ "M6B10": {
+  "area_ha_ndvi": 250.0039,
+  "area_catalogo": 249.89,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 142.3668,
+    "pct": 56.95
+   },
+   "Vegetación mediana": {
+    "ha": 57.3494,
+    "pct": 22.94
+   },
+   "Tierra desnuda": {
+    "ha": 50.083,
+    "pct": 20.03
+   },
+   "Vegetación alta": {
+    "ha": 0.2047,
+    "pct": 0.08
+   }
+  }
+ },
+ "M17B4": {
+  "area_ha_ndvi": 124.7746,
+  "area_catalogo": 124.709,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 100.5718,
+    "pct": 80.6
+   },
+   "Vegetación ligera": {
+    "ha": 19.2221,
+    "pct": 15.41
+   },
+   "Vegetación alta": {
+    "ha": 4.9576,
+    "pct": 3.97
+   },
+   "Tierra desnuda": {
+    "ha": 0.0231,
+    "pct": 0.02
+   }
+  }
+ },
+ "M10B4": {
+  "area_ha_ndvi": 68.9257,
+  "area_catalogo": 68.887,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 50.8887,
+    "pct": 73.83
+   },
+   "Tierra desnuda": {
+    "ha": 16.1998,
+    "pct": 23.5
+   },
+   "Vegetación mediana": {
+    "ha": 1.8372,
+    "pct": 2.67
+   }
+  }
+ },
+ "M12B1": {
+  "area_ha_ndvi": 268.4691,
+  "area_catalogo": 268.393,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 143.3102,
+    "pct": 53.38
+   },
+   "Vegetación ligera": {
+    "ha": 116.8474,
+    "pct": 43.52
+   },
+   "Vegetación alta": {
+    "ha": 6.6849,
+    "pct": 2.49
+   },
+   "Tierra desnuda": {
+    "ha": 1.6265,
+    "pct": 0.61
+   }
+  }
+ },
+ "M3B3": {
+  "area_ha_ndvi": 84.8553,
+  "area_catalogo": 84.825,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 47.3967,
+    "pct": 55.86
+   },
+   "Vegetación mediana": {
+    "ha": 34.9315,
+    "pct": 41.17
+   },
+   "Tierra desnuda": {
+    "ha": 2.0295,
+    "pct": 2.39
+   },
+   "Vegetación alta": {
+    "ha": 0.4975,
+    "pct": 0.59
+   }
+  }
+ },
+ "M17B7": {
+  "area_ha_ndvi": 258.9687,
+  "area_catalogo": 258.837,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 151.8463,
+    "pct": 58.63
+   },
+   "Vegetación mediana": {
+    "ha": 106.1922,
+    "pct": 41.01
+   },
+   "Vegetación ligera": {
+    "ha": 0.9302,
+    "pct": 0.36
+   }
+  }
+ },
+ "M28B4": {
+  "area_ha_ndvi": 283.5433,
+  "area_catalogo": 283.428,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 123.3696,
+    "pct": 43.51
+   },
+   "Vegetación ligera": {
+    "ha": 105.1473,
+    "pct": 37.08
+   },
+   "Vegetación alta": {
+    "ha": 51.2943,
+    "pct": 18.09
+   },
+   "Tierra desnuda": {
+    "ha": 3.7322,
+    "pct": 1.32
+   }
+  }
+ },
+ "M8B2": {
+  "area_ha_ndvi": 35.3633,
+  "area_catalogo": 35.347,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 21.0687,
+    "pct": 59.58
+   },
+   "Vegetación mediana": {
+    "ha": 11.8842,
+    "pct": 33.61
+   },
+   "Vegetación ligera": {
+    "ha": 2.3609,
+    "pct": 6.68
+   },
+   "Tierra desnuda": {
+    "ha": 0.0495,
+    "pct": 0.14
+   }
+  }
+ },
+ "M4B3": {
+  "area_ha_ndvi": 234.1372,
+  "area_catalogo": 234.069,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 122.5361,
+    "pct": 52.34
+   },
+   "Vegetación mediana": {
+    "ha": 81.72,
+    "pct": 34.9
+   },
+   "Tierra desnuda": {
+    "ha": 25.2656,
+    "pct": 10.79
+   },
+   "Vegetación alta": {
+    "ha": 4.6155,
+    "pct": 1.97
+   }
+  }
+ },
+ "M4B4": {
+  "area_ha_ndvi": 289.9999,
+  "area_catalogo": 289.914,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 170.379,
+    "pct": 58.75
+   },
+   "Vegetación mediana": {
+    "ha": 114.0808,
+    "pct": 39.34
+   },
+   "Vegetación alta": {
+    "ha": 2.9907,
+    "pct": 1.03
+   },
+   "Tierra desnuda": {
+    "ha": 2.5494,
+    "pct": 0.88
+   }
+  }
+ },
+ "M3B9": {
+  "area_ha_ndvi": 294.3176,
+  "area_catalogo": 294.204,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 136.8966,
+    "pct": 46.51
+   },
+   "Vegetación mediana": {
+    "ha": 124.2163,
+    "pct": 42.2
+   },
+   "Tierra desnuda": {
+    "ha": 23.9588,
+    "pct": 8.14
+   },
+   "Vegetación alta": {
+    "ha": 9.2458,
+    "pct": 3.14
+   }
+  }
+ },
+ "M3B8": {
+  "area_ha_ndvi": 565.792,
+  "area_catalogo": 565.584,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 324.7497,
+    "pct": 57.4
+   },
+   "Vegetación mediana": {
+    "ha": 150.5279,
+    "pct": 26.6
+   },
+   "Tierra desnuda": {
+    "ha": 72.474,
+    "pct": 12.81
+   },
+   "Vegetación alta": {
+    "ha": 18.0404,
+    "pct": 3.19
+   }
+  }
+ },
+ "M3B7": {
+  "area_ha_ndvi": 122.9866,
+  "area_catalogo": 122.946,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 57.8366,
+    "pct": 47.03
+   },
+   "Vegetación ligera": {
+    "ha": 54.3937,
+    "pct": 44.23
+   },
+   "Vegetación alta": {
+    "ha": 9.8336,
+    "pct": 8.0
+   },
+   "Tierra desnuda": {
+    "ha": 0.9227,
+    "pct": 0.75
+   }
+  }
+ },
+ "M3B5": {
+  "area_ha_ndvi": 52.761,
+  "area_catalogo": 52.743,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 41.5638,
+    "pct": 78.78
+   },
+   "Vegetación mediana": {
+    "ha": 6.7144,
+    "pct": 12.73
+   },
+   "Tierra desnuda": {
+    "ha": 4.4123,
+    "pct": 8.36
+   },
+   "Vegetación alta": {
+    "ha": 0.0705,
+    "pct": 0.13
+   }
+  }
+ },
+ "M3B6": {
+  "area_ha_ndvi": 60.372,
+  "area_catalogo": 60.352,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 32.6387,
+    "pct": 54.06
+   },
+   "Vegetación mediana": {
+    "ha": 25.3618,
+    "pct": 42.01
+   },
+   "Tierra desnuda": {
+    "ha": 1.7223,
+    "pct": 2.85
+   },
+   "Vegetación alta": {
+    "ha": 0.6492,
+    "pct": 1.08
+   }
+  }
+ },
+ "M11B3": {
+  "area_ha_ndvi": 106.0587,
+  "area_catalogo": 106.027,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 52.9549,
+    "pct": 49.93
+   },
+   "Vegetación ligera": {
+    "ha": 29.6374,
+    "pct": 27.94
+   },
+   "Vegetación alta": {
+    "ha": 22.4394,
+    "pct": 21.16
+   },
+   "Tierra desnuda": {
+    "ha": 1.027,
+    "pct": 0.97
+   }
+  }
+ },
+ "M18B3": {
+  "area_ha_ndvi": 373.9603,
+  "area_catalogo": 373.807,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 251.7415,
+    "pct": 67.32
+   },
+   "Vegetación ligera": {
+    "ha": 87.9127,
+    "pct": 23.51
+   },
+   "Vegetación alta": {
+    "ha": 33.7208,
+    "pct": 9.02
+   },
+   "Tierra desnuda": {
+    "ha": 0.5853,
+    "pct": 0.16
+   }
+  }
+ },
+ "M17B6": {
+  "area_ha_ndvi": 106.5934,
+  "area_catalogo": 106.538,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 80.2507,
+    "pct": 75.29
+   },
+   "Vegetación alta": {
+    "ha": 19.7527,
+    "pct": 18.53
+   },
+   "Vegetación ligera": {
+    "ha": 6.5763,
+    "pct": 6.17
+   },
+   "Tierra desnuda": {
+    "ha": 0.0137,
+    "pct": 0.01
+   }
+  }
+ },
+ "M28B2": {
+  "area_ha_ndvi": 90.228,
+  "area_catalogo": 90.197,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 46.6618,
+    "pct": 51.72
+   },
+   "Vegetación alta": {
+    "ha": 33.4936,
+    "pct": 37.12
+   },
+   "Vegetación ligera": {
+    "ha": 7.7934,
+    "pct": 8.64
+   },
+   "Tierra desnuda": {
+    "ha": 2.2791,
+    "pct": 2.53
+   }
+  }
+ },
+ "M2B5": {
+  "area_ha_ndvi": 30.9183,
+  "area_catalogo": 30.909,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 18.3151,
+    "pct": 59.24
+   },
+   "Vegetación mediana": {
+    "ha": 10.8494,
+    "pct": 35.09
+   },
+   "Vegetación alta": {
+    "ha": 1.5901,
+    "pct": 5.14
+   },
+   "Tierra desnuda": {
+    "ha": 0.1637,
+    "pct": 0.53
+   }
+  }
+ },
+ "M17B5": {
+  "area_ha_ndvi": 74.0654,
+  "area_catalogo": 74.028,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 45.4315,
+    "pct": 61.34
+   },
+   "Vegetación mediana": {
+    "ha": 28.5547,
+    "pct": 38.55
+   },
+   "Vegetación ligera": {
+    "ha": 0.0792,
+    "pct": 0.11
+   }
+  }
+ },
+ "M28B3": {
+  "area_ha_ndvi": 58.3124,
+  "area_catalogo": 58.292,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 28.4587,
+    "pct": 48.8
+   },
+   "Vegetación alta": {
+    "ha": 26.3986,
+    "pct": 45.27
+   },
+   "Vegetación ligera": {
+    "ha": 3.2264,
+    "pct": 5.53
+   },
+   "Tierra desnuda": {
+    "ha": 0.2288,
+    "pct": 0.39
+   }
+  }
+ },
+ "50": {
+  "area_ha_ndvi": 19.2715,
+  "area_catalogo": 19.266,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 19.1886,
+    "pct": 99.57
+   },
+   "Vegetación mediana": {
+    "ha": 0.0829,
+    "pct": 0.43
+   }
+  }
+ },
+ "38": {
+  "area_ha_ndvi": 44.2122,
+  "area_catalogo": 44.201,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 43.9024,
+    "pct": 99.3
+   },
+   "Vegetación mediana": {
+    "ha": 0.3099,
+    "pct": 0.7
+   }
+  }
+ },
+ "34": {
+  "area_ha_ndvi": 28.4581,
+  "area_catalogo": 28.45,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 28.2939,
+    "pct": 99.42
+   },
+   "Vegetación mediana": {
+    "ha": 0.1642,
+    "pct": 0.58
+   }
+  }
+ },
+ "26": {
+  "area_ha_ndvi": 46.9733,
+  "area_catalogo": 46.962,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 45.7024,
+    "pct": 97.29
+   },
+   "Vegetación mediana": {
+    "ha": 1.2709,
+    "pct": 2.71
+   }
+  }
+ },
+ "37": {
+  "area_ha_ndvi": 35.4999,
+  "area_catalogo": 35.491,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 34.798,
+    "pct": 98.02
+   },
+   "Vegetación mediana": {
+    "ha": 0.7019,
+    "pct": 1.98
+   }
+  }
+ },
+ "28": {
+  "area_ha_ndvi": 52.9769,
+  "area_catalogo": 52.966,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 51.1954,
+    "pct": 96.64
+   },
+   "Vegetación mediana": {
+    "ha": 1.7815,
+    "pct": 3.36
+   }
+  }
+ },
+ "40": {
+  "area_ha_ndvi": 28.5295,
+  "area_catalogo": 28.523,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 28.4008,
+    "pct": 99.55
+   },
+   "Vegetación mediana": {
+    "ha": 0.1286,
+    "pct": 0.45
+   }
+  }
+ },
+ "21": {
+  "area_ha_ndvi": 84.2442,
+  "area_catalogo": 84.227,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 75.3058,
+    "pct": 89.39
+   },
+   "Vegetación mediana": {
+    "ha": 8.5217,
+    "pct": 10.12
+   },
+   "Vegetación ligera": {
+    "ha": 0.4167,
+    "pct": 0.49
+   }
+  }
+ },
+ "24": {
+  "area_ha_ndvi": 90.1799,
+  "area_catalogo": 90.159,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 88.8379,
+    "pct": 98.51
+   },
+   "Vegetación mediana": {
+    "ha": 1.3421,
+    "pct": 1.49
+   }
+  }
+ },
+ "47": {
+  "area_ha_ndvi": 13.5536,
+  "area_catalogo": 13.551,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 12.3684,
+    "pct": 91.26
+   },
+   "Vegetación mediana": {
+    "ha": 1.1852,
+    "pct": 8.74
+   }
+  }
+ },
+ "43": {
+  "area_ha_ndvi": 23.1758,
+  "area_catalogo": 23.171,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 18.2891,
+    "pct": 78.91
+   },
+   "Vegetación mediana": {
+    "ha": 4.3713,
+    "pct": 18.86
+   },
+   "Vegetación ligera": {
+    "ha": 0.5055,
+    "pct": 2.18
+   },
+   "Tierra desnuda": {
+    "ha": 0.0099,
+    "pct": 0.04
+   }
+  }
+ },
+ "35": {
+  "area_ha_ndvi": 30.8105,
+  "area_catalogo": 30.804,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 30.2454,
+    "pct": 98.17
+   },
+   "Vegetación mediana": {
+    "ha": 0.5651,
+    "pct": 1.83
+   }
+  }
+ },
+ "44": {
+  "area_ha_ndvi": 28.2382,
+  "area_catalogo": 28.234,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 23.6771,
+    "pct": 83.85
+   },
+   "Vegetación mediana": {
+    "ha": 4.5611,
+    "pct": 16.15
+   }
+  }
+ },
+ "53": {
+  "area_ha_ndvi": 13.0662,
+  "area_catalogo": 13.065,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 11.257,
+    "pct": 86.15
+   },
+   "Vegetación mediana": {
+    "ha": 1.7894,
+    "pct": 13.7
+   },
+   "Vegetación ligera": {
+    "ha": 0.0198,
+    "pct": 0.15
+   }
+  }
+ },
+ "41": {
+  "area_ha_ndvi": 64.9331,
+  "area_catalogo": 64.923,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 63.6485,
+    "pct": 98.02
+   },
+   "Vegetación mediana": {
+    "ha": 1.2847,
+    "pct": 1.98
+   }
+  }
+ },
+ "19": {
+  "area_ha_ndvi": 82.0976,
+  "area_catalogo": 82.088,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 49.5333,
+    "pct": 60.33
+   },
+   "Vegetación mediana": {
+    "ha": 31.8676,
+    "pct": 38.82
+   },
+   "Vegetación ligera": {
+    "ha": 0.6967,
+    "pct": 0.85
+   }
+  }
+ },
+ "31": {
+  "area_ha_ndvi": 47.5881,
+  "area_catalogo": 47.581,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 32.598,
+    "pct": 68.5
+   },
+   "Vegetación alta": {
+    "ha": 8.8344,
+    "pct": 18.56
+   },
+   "Vegetación ligera": {
+    "ha": 5.9086,
+    "pct": 12.42
+   },
+   "Tierra desnuda": {
+    "ha": 0.247,
+    "pct": 0.52
+   }
+  }
+ },
+ "20": {
+  "area_ha_ndvi": 81.3535,
+  "area_catalogo": 81.334,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 42.6631,
+    "pct": 52.44
+   },
+   "Vegetación mediana": {
+    "ha": 38.4235,
+    "pct": 47.23
+   },
+   "Vegetación ligera": {
+    "ha": 0.257,
+    "pct": 0.32
+   },
+   "Tierra desnuda": {
+    "ha": 0.0099,
+    "pct": 0.01
+   }
+  }
+ },
+ "51": {
+  "area_ha_ndvi": 22.9315,
+  "area_catalogo": 22.927,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 15.9281,
+    "pct": 69.46
+   },
+   "Vegetación mediana": {
+    "ha": 6.5477,
+    "pct": 28.55
+   },
+   "Vegetación ligera": {
+    "ha": 0.4557,
+    "pct": 1.99
+   }
+  }
+ },
+ "5": {
+  "area_ha_ndvi": 295.8608,
+  "area_catalogo": 295.726,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 191.1145,
+    "pct": 64.6
+   },
+   "Vegetación ligera": {
+    "ha": 82.9437,
+    "pct": 28.03
+   },
+   "Vegetación alta": {
+    "ha": 16.5447,
+    "pct": 5.59
+   },
+   "Tierra desnuda": {
+    "ha": 5.258,
+    "pct": 1.78
+   }
+  }
+ },
+ "2": {
+  "area_ha_ndvi": 330.7756,
+  "area_catalogo": 330.599,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 229.8077,
+    "pct": 69.48
+   },
+   "Vegetación mediana": {
+    "ha": 95.1791,
+    "pct": 28.77
+   },
+   "Tierra desnuda": {
+    "ha": 4.7229,
+    "pct": 1.43
+   },
+   "Vegetación alta": {
+    "ha": 1.0659,
+    "pct": 0.32
+   }
+  }
+ },
+ "9": {
+  "area_ha_ndvi": 109.8825,
+  "area_catalogo": 109.861,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 99.1632,
+    "pct": 90.24
+   },
+   "Vegetación mediana": {
+    "ha": 10.5789,
+    "pct": 9.63
+   },
+   "Vegetación ligera": {
+    "ha": 0.1404,
+    "pct": 0.13
+   }
+  }
+ },
+ "4": {
+  "area_ha_ndvi": 230.1426,
+  "area_catalogo": 230.098,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 202.7485,
+    "pct": 88.1
+   },
+   "Vegetación mediana": {
+    "ha": 25.1485,
+    "pct": 10.93
+   },
+   "Vegetación ligera": {
+    "ha": 2.1467,
+    "pct": 0.93
+   },
+   "Tierra desnuda": {
+    "ha": 0.0989,
+    "pct": 0.04
+   }
+  }
+ },
+ "18": {
+  "area_ha_ndvi": 103.6372,
+  "area_catalogo": 103.617,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 100.1564,
+    "pct": 96.64
+   },
+   "Vegetación mediana": {
+    "ha": 3.4808,
+    "pct": 3.36
+   }
+  }
+ },
+ "10": {
+  "area_ha_ndvi": 150.2497,
+  "area_catalogo": 150.214,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 127.9822,
+    "pct": 85.18
+   },
+   "Vegetación mediana": {
+    "ha": 18.5976,
+    "pct": 12.38
+   },
+   "Vegetación ligera": {
+    "ha": 2.5427,
+    "pct": 1.69
+   },
+   "Tierra desnuda": {
+    "ha": 1.1271,
+    "pct": 0.75
+   }
+  }
+ },
+ "49": {
+  "area_ha_ndvi": 15.8439,
+  "area_catalogo": 15.839,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 15.6532,
+    "pct": 98.8
+   },
+   "Vegetación mediana": {
+    "ha": 0.1907,
+    "pct": 1.2
+   }
+  }
+ },
+ "55": {
+  "area_ha_ndvi": 0.8595,
+  "area_catalogo": 0.859,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 0.8595,
+    "pct": 100.0
+   }
+  }
+ },
+ "52": {
+  "area_ha_ndvi": 11.0627,
+  "area_catalogo": 11.059,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 10.7659,
+    "pct": 97.32
+   },
+   "Vegetación mediana": {
+    "ha": 0.2969,
+    "pct": 2.68
+   }
+  }
+ },
+ "3": {
+  "area_ha_ndvi": 459.5322,
+  "area_catalogo": 459.295,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 262.8806,
+    "pct": 57.21
+   },
+   "Vegetación mediana": {
+    "ha": 189.5765,
+    "pct": 41.25
+   },
+   "Vegetación ligera": {
+    "ha": 7.0266,
+    "pct": 1.53
+   },
+   "Tierra desnuda": {
+    "ha": 0.0486,
+    "pct": 0.01
+   }
+  }
+ },
+ "6": {
+  "area_ha_ndvi": 168.4987,
+  "area_catalogo": 168.411,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 87.9057,
+    "pct": 52.17
+   },
+   "Vegetación alta": {
+    "ha": 67.5927,
+    "pct": 40.11
+   },
+   "Vegetación ligera": {
+    "ha": 12.7614,
+    "pct": 7.57
+   },
+   "Tierra desnuda": {
+    "ha": 0.2388,
+    "pct": 0.14
+   }
+  }
+ },
+ "36": {
+  "area_ha_ndvi": 24.8561,
+  "area_catalogo": 24.843,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 12.4461,
+    "pct": 50.07
+   },
+   "Vegetación alta": {
+    "ha": 12.2064,
+    "pct": 49.11
+   },
+   "Vegetación ligera": {
+    "ha": 0.2037,
+    "pct": 0.82
+   }
+  }
+ },
+ "27": {
+  "area_ha_ndvi": 78.1917,
+  "area_catalogo": 78.154,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 50.633,
+    "pct": 64.75
+   },
+   "Vegetación mediana": {
+    "ha": 27.4158,
+    "pct": 35.06
+   },
+   "Vegetación ligera": {
+    "ha": 0.1429,
+    "pct": 0.18
+   }
+  }
+ },
+ "12": {
+  "area_ha_ndvi": 119.5871,
+  "area_catalogo": 119.538,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 119.508,
+    "pct": 99.93
+   },
+   "Vegetación mediana": {
+    "ha": 0.0792,
+    "pct": 0.07
+   }
+  }
+ },
+ "13": {
+  "area_ha_ndvi": 100.558,
+  "area_catalogo": 100.514,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 90.0906,
+    "pct": 89.59
+   },
+   "Vegetación mediana": {
+    "ha": 10.1507,
+    "pct": 10.09
+   },
+   "Vegetación ligera": {
+    "ha": 0.3068,
+    "pct": 0.31
+   },
+   "Tierra desnuda": {
+    "ha": 0.0099,
+    "pct": 0.01
+   }
+  }
+ },
+ "11": {
+  "area_ha_ndvi": 103.9932,
+  "area_catalogo": 103.948,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 78.2869,
+    "pct": 75.28
+   },
+   "Vegetación mediana": {
+    "ha": 25.102,
+    "pct": 24.14
+   },
+   "Vegetación ligera": {
+    "ha": 0.6043,
+    "pct": 0.58
+   }
+  }
+ },
+ "17": {
+  "area_ha_ndvi": 96.1228,
+  "area_catalogo": 96.079,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 85.2435,
+    "pct": 88.68
+   },
+   "Vegetación mediana": {
+    "ha": 10.1683,
+    "pct": 10.58
+   },
+   "Vegetación ligera": {
+    "ha": 0.711,
+    "pct": 0.74
+   }
+  }
+ },
+ "23": {
+  "area_ha_ndvi": 81.8118,
+  "area_catalogo": 81.776,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 39.2647,
+    "pct": 47.99
+   },
+   "Vegetación mediana": {
+    "ha": 37.412,
+    "pct": 45.73
+   },
+   "Vegetación ligera": {
+    "ha": 5.135,
+    "pct": 6.28
+   }
+  }
+ },
+ "15": {
+  "area_ha_ndvi": 86.1853,
+  "area_catalogo": 86.147,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 48.6666,
+    "pct": 56.47
+   },
+   "Vegetación mediana": {
+    "ha": 35.4756,
+    "pct": 41.16
+   },
+   "Vegetación ligera": {
+    "ha": 2.0432,
+    "pct": 2.37
+   }
+  }
+ },
+ "14": {
+  "area_ha_ndvi": 92.9437,
+  "area_catalogo": 92.905,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 54.7331,
+    "pct": 58.89
+   },
+   "Vegetación mediana": {
+    "ha": 33.9957,
+    "pct": 36.58
+   },
+   "Vegetación ligera": {
+    "ha": 4.2106,
+    "pct": 4.53
+   },
+   "Tierra desnuda": {
+    "ha": 0.0043,
+    "pct": 0.0
+   }
+  }
+ },
+ "42": {
+  "area_ha_ndvi": 80.6488,
+  "area_catalogo": 80.616,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 71.6422,
+    "pct": 88.83
+   },
+   "Vegetación mediana": {
+    "ha": 8.9064,
+    "pct": 11.04
+   },
+   "Vegetación ligera": {
+    "ha": 0.1002,
+    "pct": 0.12
+   }
+  }
+ },
+ "30": {
+  "area_ha_ndvi": 34.8815,
+  "area_catalogo": 34.874,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 34.6669,
+    "pct": 99.38
+   },
+   "Vegetación mediana": {
+    "ha": 0.2146,
+    "pct": 0.62
+   }
+  }
+ },
+ "8": {
+  "area_ha_ndvi": 126.9813,
+  "area_catalogo": 126.952,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 91.7463,
+    "pct": 72.25
+   },
+   "Vegetación mediana": {
+    "ha": 32.8202,
+    "pct": 25.85
+   },
+   "Vegetación ligera": {
+    "ha": 2.3386,
+    "pct": 1.84
+   },
+   "Tierra desnuda": {
+    "ha": 0.0762,
+    "pct": 0.06
+   }
+  }
+ },
+ "M17B10": {
+  "area_ha_ndvi": 75.4027,
+  "area_catalogo": 75.363,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 50.0521,
+    "pct": 66.38
+   },
+   "Vegetación alta": {
+    "ha": 22.0201,
+    "pct": 29.2
+   },
+   "Vegetación ligera": {
+    "ha": 3.3305,
+    "pct": 4.42
+   }
+  }
+ },
+ "39": {
+  "area_ha_ndvi": 68.6001,
+  "area_catalogo": 68.569,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 64.5172,
+    "pct": 94.05
+   },
+   "Vegetación mediana": {
+    "ha": 4.0607,
+    "pct": 5.92
+   },
+   "Vegetación ligera": {
+    "ha": 0.0222,
+    "pct": 0.03
+   }
+  }
+ },
+ "M19B7": {
+  "area_ha_ndvi": 34.1858,
+  "area_catalogo": 34.171,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 26.8444,
+    "pct": 78.52
+   },
+   "Vegetación mediana": {
+    "ha": 6.8651,
+    "pct": 20.08
+   },
+   "Vegetación ligera": {
+    "ha": 0.4763,
+    "pct": 1.39
+   }
+  }
+ },
+ "M36B2": {
+  "area_ha_ndvi": 28.2016,
+  "area_catalogo": 28.19,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 23.2233,
+    "pct": 82.35
+   },
+   "Vegetación mediana": {
+    "ha": 4.3372,
+    "pct": 15.38
+   },
+   "Vegetación ligera": {
+    "ha": 0.6016,
+    "pct": 2.13
+   },
+   "Tierra desnuda": {
+    "ha": 0.0396,
+    "pct": 0.14
+   }
+  }
+ },
+ "M30B5": {
+  "area_ha_ndvi": 90.9218,
+  "area_catalogo": 90.903,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 72.2496,
+    "pct": 79.46
+   },
+   "Vegetación mediana": {
+    "ha": 18.4809,
+    "pct": 20.33
+   },
+   "Vegetación ligera": {
+    "ha": 0.1913,
+    "pct": 0.21
+   }
+  }
+ },
+ "16": {
+  "area_ha_ndvi": 83.3459,
+  "area_catalogo": 83.327,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 78.4551,
+    "pct": 94.13
+   },
+   "Vegetación mediana": {
+    "ha": 4.8709,
+    "pct": 5.84
+   },
+   "Vegetación ligera": {
+    "ha": 0.0199,
+    "pct": 0.02
+   }
+  }
+ },
+ "M18B1": {
+  "area_ha_ndvi": 160.4301,
+  "area_catalogo": 160.36,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 112.2516,
+    "pct": 69.97
+   },
+   "Vegetación ligera": {
+    "ha": 44.8367,
+    "pct": 27.95
+   },
+   "Vegetación alta": {
+    "ha": 2.2624,
+    "pct": 1.41
+   },
+   "Tierra desnuda": {
+    "ha": 1.0794,
+    "pct": 0.67
+   }
+  }
+ },
+ "M1B1": {
+  "area_ha_ndvi": 188.8831,
+  "area_catalogo": 188.797,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 107.9118,
+    "pct": 57.13
+   },
+   "Vegetación mediana": {
+    "ha": 77.7757,
+    "pct": 41.18
+   },
+   "Tierra desnuda": {
+    "ha": 1.8743,
+    "pct": 0.99
+   },
+   "Vegetación alta": {
+    "ha": 1.3213,
+    "pct": 0.7
+   }
+  }
+ },
+ "M6B2-3": {
+  "area_ha_ndvi": 161.0578,
+  "area_catalogo": 160.978,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 97.033,
+    "pct": 60.25
+   },
+   "Vegetación ligera": {
+    "ha": 55.2152,
+    "pct": 34.28
+   },
+   "Vegetación alta": {
+    "ha": 7.9284,
+    "pct": 4.92
+   },
+   "Tierra desnuda": {
+    "ha": 0.8812,
+    "pct": 0.55
+   }
+  }
+ },
+ "M32B3": {
+  "area_ha_ndvi": 50.9955,
+  "area_catalogo": 50.972,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 29.9724,
+    "pct": 58.77
+   },
+   "Vegetación mediana": {
+    "ha": 19.8476,
+    "pct": 38.92
+   },
+   "Tierra desnuda": {
+    "ha": 0.9273,
+    "pct": 1.82
+   },
+   "Vegetación alta": {
+    "ha": 0.2483,
+    "pct": 0.49
+   }
+  }
+ },
+ "M19B2": {
+  "area_ha_ndvi": 74.4064,
+  "area_catalogo": 74.372,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 50.8872,
+    "pct": 68.39
+   },
+   "Vegetación ligera": {
+    "ha": 22.0176,
+    "pct": 29.59
+   },
+   "Vegetación alta": {
+    "ha": 0.9533,
+    "pct": 1.28
+   },
+   "Tierra desnuda": {
+    "ha": 0.5483,
+    "pct": 0.74
+   }
+  }
+ },
+ "22": {
+  "area_ha_ndvi": 79.3738,
+  "area_catalogo": 79.33,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 52.6206,
+    "pct": 66.29
+   },
+   "Vegetación mediana": {
+    "ha": 26.4754,
+    "pct": 33.36
+   },
+   "Vegetación alta": {
+    "ha": 0.2579,
+    "pct": 0.32
+   },
+   "Tierra desnuda": {
+    "ha": 0.0198,
+    "pct": 0.02
+   }
+  }
+ },
+ "M2B8": {
+  "area_ha_ndvi": 116.1362,
+  "area_catalogo": 116.099,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 68.3261,
+    "pct": 58.83
+   },
+   "Vegetación ligera": {
+    "ha": 28.4833,
+    "pct": 24.53
+   },
+   "Vegetación alta": {
+    "ha": 19.3268,
+    "pct": 16.64
+   }
+  }
+ },
+ "M3B1": {
+  "area_ha_ndvi": 81.0135,
+  "area_catalogo": 80.983,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 53.454,
+    "pct": 65.98
+   },
+   "Vegetación ligera": {
+    "ha": 25.2933,
+    "pct": 31.22
+   },
+   "Tierra desnuda": {
+    "ha": 1.1578,
+    "pct": 1.43
+   },
+   "Vegetación alta": {
+    "ha": 1.1085,
+    "pct": 1.37
+   }
+  }
+ },
+ "M20B1": {
+  "area_ha_ndvi": 279.7656,
+  "area_catalogo": 279.68,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 152.7429,
+    "pct": 54.6
+   },
+   "Vegetación ligera": {
+    "ha": 100.3404,
+    "pct": 35.87
+   },
+   "Vegetación alta": {
+    "ha": 25.0792,
+    "pct": 8.96
+   },
+   "Tierra desnuda": {
+    "ha": 1.6031,
+    "pct": 0.57
+   }
+  }
+ },
+ "M7B1": {
+  "area_ha_ndvi": 130.4757,
+  "area_catalogo": 130.425,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 78.459,
+    "pct": 60.13
+   },
+   "Vegetación ligera": {
+    "ha": 45.8987,
+    "pct": 35.18
+   },
+   "Vegetación alta": {
+    "ha": 5.5888,
+    "pct": 4.28
+   },
+   "Tierra desnuda": {
+    "ha": 0.5292,
+    "pct": 0.41
+   }
+  }
+ },
+ "M7B6": {
+  "area_ha_ndvi": 91.317,
+  "area_catalogo": 91.285,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 48.2907,
+    "pct": 52.88
+   },
+   "Vegetación mediana": {
+    "ha": 42.0151,
+    "pct": 46.01
+   },
+   "Vegetación alta": {
+    "ha": 0.6704,
+    "pct": 0.73
+   },
+   "Tierra desnuda": {
+    "ha": 0.3409,
+    "pct": 0.37
+   }
+  }
+ },
+ "M7B2": {
+  "area_ha_ndvi": 115.4218,
+  "area_catalogo": 115.379,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 60.0822,
+    "pct": 52.05
+   },
+   "Vegetación ligera": {
+    "ha": 53.7375,
+    "pct": 46.56
+   },
+   "Vegetación alta": {
+    "ha": 1.054,
+    "pct": 0.91
+   },
+   "Tierra desnuda": {
+    "ha": 0.5481,
+    "pct": 0.47
+   }
+  }
+ },
+ "M2B1": {
+  "area_ha_ndvi": 81.8229,
+  "area_catalogo": 81.795,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 44.6572,
+    "pct": 54.58
+   },
+   "Vegetación mediana": {
+    "ha": 36.9266,
+    "pct": 45.13
+   },
+   "Tierra desnuda": {
+    "ha": 0.2094,
+    "pct": 0.26
+   },
+   "Vegetación alta": {
+    "ha": 0.0297,
+    "pct": 0.04
+   }
+  }
+ },
+ "M7B3": {
+  "area_ha_ndvi": 65.7683,
+  "area_catalogo": 65.745,
+  "clases": {
+   "Vegetación mediana": {
+    "ha": 32.1456,
+    "pct": 48.88
+   },
+   "Vegetación ligera": {
+    "ha": 31.688,
+    "pct": 48.18
+   },
+   "Tierra desnuda": {
+    "ha": 1.0642,
+    "pct": 1.62
+   },
+   "Vegetación alta": {
+    "ha": 0.8705,
+    "pct": 1.32
+   }
+  }
+ },
+ "M27B1": {
+  "area_ha_ndvi": 449.0662,
+  "area_catalogo": 448.804,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 366.2395,
+    "pct": 81.56
+   },
+   "Tierra desnuda": {
+    "ha": 70.8937,
+    "pct": 15.79
+   },
+   "Vegetación mediana": {
+    "ha": 11.933,
+    "pct": 2.66
+   }
+  }
+ },
+ "M9B1": {
+  "area_ha_ndvi": 355.5676,
+  "area_catalogo": 355.364,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 277.6993,
+    "pct": 78.1
+   },
+   "Tierra desnuda": {
+    "ha": 48.356,
+    "pct": 13.6
+   },
+   "Vegetación mediana": {
+    "ha": 28.9887,
+    "pct": 8.15
+   },
+   "Vegetación alta": {
+    "ha": 0.5237,
+    "pct": 0.15
+   }
+  }
+ },
+ "78": {
+  "area_ha_ndvi": 35.1157,
+  "area_catalogo": 35.1,
+  "clases": {
+   "Vegetación alta": {
+    "ha": 31.3699,
+    "pct": 89.33
+   },
+   "Vegetación mediana": {
+    "ha": 3.5187,
+    "pct": 10.02
+   },
+   "Vegetación ligera": {
+    "ha": 0.2271,
+    "pct": 0.65
+   }
+  }
+ },
+ "81": {
+  "area_ha_ndvi": 8.9314,
+  "area_catalogo": 8.929,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 6.7175,
+    "pct": 75.21
+   },
+   "Vegetación mediana": {
+    "ha": 1.2826,
+    "pct": 14.36
+   },
+   "Tierra desnuda": {
+    "ha": 0.9313,
+    "pct": 10.43
+   }
+  }
+ },
+ "83": {
+  "area_ha_ndvi": 24.352,
+  "area_catalogo": 24.344,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 14.618,
+    "pct": 60.03
+   },
+   "Vegetación mediana": {
+    "ha": 6.7655,
+    "pct": 27.78
+   },
+   "Tierra desnuda": {
+    "ha": 2.2662,
+    "pct": 9.31
+   },
+   "Vegetación alta": {
+    "ha": 0.7023,
+    "pct": 2.88
+   }
+  }
+ },
+ "84": {
+  "area_ha_ndvi": 5.0987,
+  "area_catalogo": 5.097,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 3.9816,
+    "pct": 78.09
+   },
+   "Tierra desnuda": {
+    "ha": 1.0478,
+    "pct": 20.55
+   },
+   "Vegetación mediana": {
+    "ha": 0.0693,
+    "pct": 1.36
+   }
+  }
+ },
+ "85": {
+  "area_ha_ndvi": 11.9097,
+  "area_catalogo": 11.906,
+  "clases": {
+   "Tierra desnuda": {
+    "ha": 7.053,
+    "pct": 59.22
+   },
+   "Vegetación ligera": {
+    "ha": 4.7392,
+    "pct": 39.79
+   },
+   "Vegetación mediana": {
+    "ha": 0.1175,
+    "pct": 0.99
+   }
+  }
+ },
+ "86": {
+  "area_ha_ndvi": 30.0102,
+  "area_catalogo": 30.001,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 20.4961,
+    "pct": 68.3
+   },
+   "Tierra desnuda": {
+    "ha": 6.5505,
+    "pct": 21.83
+   },
+   "Vegetación mediana": {
+    "ha": 2.6483,
+    "pct": 8.82
+   },
+   "Vegetación alta": {
+    "ha": 0.3153,
+    "pct": 1.05
+   }
+  }
+ },
+ "87": {
+  "area_ha_ndvi": 62.2375,
+  "area_catalogo": 62.219,
+  "clases": {
+   "Vegetación ligera": {
+    "ha": 39.596,
+    "pct": 63.62
+   },
+   "Tierra desnuda": {
+    "ha": 20.9328,
+    "pct": 33.63
+   },
+   "Vegetación mediana": {
+    "ha": 1.4991,
+    "pct": 2.41
+   },
+   "Vegetación alta": {
+    "ha": 0.2097,
+    "pct": 0.34
+   }
+  }
+ }
+}

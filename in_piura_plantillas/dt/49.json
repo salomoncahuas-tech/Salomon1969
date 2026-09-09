@@ -1,0 +1,217 @@
+{
+ "microcuenca_dt": "C1086-Q9575",
+ "evaluador": "Ing. Héctor Salomón Cahuas Miller",
+ "correlativo": "DT-B49-001",
+ "fecha_eval": "2026-05-26",
+ "hora": "12:05 h",
+ "cp_cercano": "Huacas (caserío Pajal, sector central del bloque)",
+ "comunidad": "No aplica — predios rurales de propiedad privada dedicados a pastoreo y ganadería",
+ "altitud_gps": "3122",
+ "utm_e_dt": 642408,
+ "utm_n_dt": 9438034,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Sureste",
+ "rango_altitudinal": "3000-3500 m (Puna baja)",
+ "paisaje": "Paisaje de montaña húmeda altoandina con laderas de pendiente moderada a fuerte (media 36.6%, máxima 61.3%)",
+ "afloramientos": "No",
+ "escarpes": "Sí",
+ "reptacion": "Sí",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Ingreso por la vía PI-124 (desde Yamango) y empalme con trocha carrozable; tramo final a pie. El bloque integra el cluster B55-B49-B52 (microcuenca C1086-Q9575, zona Z09). Predominan suelos residuales profundos (saprolito) con escasos afloramientos rocosos. Evidencias de REPTACIÓN LENTA (terracetas de pisoteo) en laderas pastoreadas y microescarpes/erosión activa LOCALIZADA en los cortes de talud de la trocha. La alta pendiente, los suelos profundos y la pérdida de cobertura boscosa configuran SUSCEPTIBILIDAD a movimientos en masa y erosión.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 2,
+ "long_carcavas": "30 m",
+ "pct_carcavas": "3",
+ "erosion_laminar": "15",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01",
+   "Cárcava incipiente",
+   642497,
+   9438160,
+   "Semi-activa",
+   "Caminos / huellas de ganado",
+   12,
+   0.4,
+   0.6
+  ],
+  [
+   "C-02",
+   "Cárcava somera",
+   642387,
+   9437997,
+   "Activa",
+   "Caminos / huellas de ganado",
+   18,
+   1.5,
+   2.0
+  ]
+ ],
+ "obs_dt02": "La erosión del bloque es predominantemente LAMINAR de baja intensidad sobre los pastizales (buena cobertura herbácea, MSAVI 2024 mayormente >0.61), mientras que la erosión concentrada se localiza en los cortes de la trocha carrozable y en bordes de campo socavados (~1.0-1.5 m, con raíces expuestas). El patrón es LINEAL, controlado por la vía. Se recomiendan obras de control en cárcavas (diques/empalizadas), revegetación de taludes y manejo de la carga ganadera.",
+ "parcela": "Transecto de reconocimiento T-01 (sector central)",
+ "dim_parcela": "Parcela referencial 20 x 50 m (1000 m²) sobre transecto",
+ "pend_parcela": "30-45% (media ~36.6%; máx 61.3%)",
+ "cob_veg": 85,
+ "ecosistema": "Agroecosistema / Mosaico",
+ "sup_ecosistema": "15.84 ha (mosaico agropecuario con relictos de bosque montano)",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 15,
+ "cob_arbustiva": 10,
+ "cob_herbacea": 60,
+ "cob_hojarasca": 5,
+ "suelo_desnudo": 10,
+ "h_dominante": 6,
+ "h_max": 18,
+ "dap": 25,
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Pastizal natural",
+ "n_taxones": 13,
+ "especies_clave": [
+  [
+   "Nogal andino (Juglans neotropica)",
+   "Amenazada D.S. 043",
+   "EN — En Peligro",
+   642430,
+   9438050
+  ],
+  [
+   "Queñua (Polylepis sp.)",
+   "Amenazada D.S. 043",
+   "VU — Vulnerable",
+   642400,
+   9438300
+  ],
+  [
+   "Aliso (Alnus acuminata)",
+   "Indicadora de buen estado",
+   "LC",
+   642450,
+   9438120
+  ],
+  [
+   "Cascarilla / Quina (Cinchona sp.)",
+   "Clave cultural",
+   "VU — Vulnerable",
+   642400,
+   9438320
+  ]
+ ],
+ "obs_dt03": "El bloque figura en el catálogo MINAM como zona/mosaico agropecuario; no obstante, CONSERVA UN COMPONENTE FLORÍSTICO NATIVO VALIOSO en relictos de bosque montano húmedo ubicados en las posiciones altas e inaccesibles, coexistiendo con especies introducidas (Pinus radiata, kikuyo, eucalipto). La lista es PRELIMINAR, basada en juicio de experto y en referencias de bosques montanos cercanos de la misma vertiente. La regeneración natural está limitada por el pastoreo. Los relictos representan FUENTE SEMILLERA ESTRATÉGICA para la restauración del bloque.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "70"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "40"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Ligera",
+   "20"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "",
+   "75"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   "12"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Ligera",
+   "5"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Ligera",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Dependencia económica de la ganadería extensiva de subsistencia, sin ordenamiento del uso del suelo ni manejo del pastizal",
+ "causas_directas": "Conversión histórica de bosque montano a pastizal y pastoreo vacuno extensivo (motor directo dominante); extracción histórica de leña y madera selectiva (nogal/aliso); quemas periódicas de renovación de pastos; apertura de trocha con erosión de taludes; especies introducidas (Pinus radiata, kikuyo).",
+ "velocidad": "Lenta",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dens_carcavas": 0.13,
+ "ind_invasoras": 12,
+ "ind_carga_ganadera": 1,
+ "ind_quemas_5a": 2,
+ "ind_pend50": "25",
+ "ind_dist_via": 0,
+ "obs_dt04": "El estado actual es resultado de una degradación ANTIGUA (conversión a pastizal de larga data), hoy relativamente estable en cobertura (MSAVI alto), pero con presión continua por pastoreo y quemas que impiden la regeneración del bosque. La reversibilidad es PARCIAL y FAVORABLE por la presencia de relictos (fuente semillera), suelos profundos y régimen húmedo. Se priorizan medidas de gobernanza (acuerdos de conservación / MERESE, manejo de carga ganadera y quemas) junto a revegetación con nativas (aliso, cucharillo, nogal, queñua) e infraestructura natural.",
+ "fuentes_agua": [
+  [
+   "Quebrada permanente",
+   642690,
+   9438400,
+   "Permanente",
+   "Buena (clara)",
+   150,
+   "Quebrada Huacas — drenaje"
+  ],
+  [
+   "Quebrada estacional",
+   642425,
+   9438096,
+   "Estacional (lluvias)",
+   "Regular (lig. turbia)",
+   0,
+   "Cauce menor interno"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por verificar — no se identificó captación poblacional formal en el recorrido",
+ "interferencia_riego": "No",
+ "modalidad_acceso": "Vehicular + caminata 30-90 min",
+ "via_principal": "Ruta PI-124 (desde Yamango) con empalme a trocha carrozable; tramo final a pie",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "≈120",
+ "t_provincial": "≈240",
+ "senal": "Intermitente",
+ "operador": "Movistar",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Por coordinar con la Ronda Campesina del sector Huacas / Pajal",
+ "obs_dt05": "El bloque se ubica en cabecera de microcuenca (C1086-Q9575), en ZONA DE RECARGA HÍDRICA con régimen húmedo y suelos profundos: la recuperación de la cobertura potenciaría la regulación hídrica (infiltración y recarga) y la regulación de riesgos aguas abajo. La quebrada Huacas (permanente) limita el bloque por el sureste. Acceso condicionado en época de lluvias.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 8,
+ "fuente_ficha": "ficha_49_20260620_235439.pdf",
+ "bloque": "49"
+}

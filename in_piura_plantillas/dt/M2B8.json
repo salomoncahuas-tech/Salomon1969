@@ -1,0 +1,172 @@
+{
+ "microcuenca_dt": "C1076-Q9584",
+ "evaluador": "Ing. Juan Domínguez",
+ "correlativo": "01",
+ "fecha_eval": "2026-08-04",
+ "hora": "15:26 h",
+ "cp_cercano": "Huacas Baja",
+ "comunidad": "No consignada",
+ "altitud_gps": "237 (GPS de campo) — la narrativa declara ≈250 msnm",
+ "utm_e_dt": 638286,
+ "utm_n_dt": 9398789,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera baja",
+ "exposicion": "Suroeste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Sistema de laderas convexo-cóncavas tributarias de la quebrada Q9584 (microcuenca C1076)",
+ "afloramientos": "No",
+ "escarpes": "No",
+ "reptacion": "Sí",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "El bloque se ubica en una ladera de colina alta, con pendiente menor a 60%; el terreno se inclina más conforme se asciende. Altitud ≈250 msnm. LA LADERA ES EMPLEADA PARA EL PASTOREO EXTENSIVO DE GANADO CAPRINO Y VACUNO del centro poblado asentado al pie del bloque. Se ubica cerca de una VÍA ASFALTADA y de ÁREAS DE CULTIVO. Se ha evidenciado LEÑA APILADA en viviendas próximas. El suelo presenta erosión eólica e hídrica; en la ladera se observan estrías y surcos dejados por el tránsito habitual del ganado. Existen caminos de herradura dentro del bloque y áreas de suelo desprovistas de vegetación expuestas a lluvia. ES EL ÚNICO DE LOS SEIS BLOQUES DEL GRUPO EN EL QUE SE REGISTRA REPTACIÓN DE SUELO.",
+ "sellamiento": "Sin registro en ficha",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sin registro en ficha",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 0,
+ "long_carcavas": 0,
+ "pct_carcavas": 0,
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Sin registro en ficha",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "Nivel general de erosión MODERADO, con erosión eólica e hídrica. Estrías y surcos por tránsito de ganado y áreas de suelo desnudo expuestas a la lluvia. No se identifican cárcavas desarrolladas. Compactación por pisoteo y piedras dispersas. LA REPTACIÓN DE SUELO registrada en F-DT-01 CONSTITUYE UN INDICIO DE MOVIMIENTO LENTO DE LADERA QUE MERECE SEGUIMIENTO ESPECÍFICO, y diferencia a este bloque de los otros cinco. SIN FICHA F-DT-02 FIRMADA EN EL ANEXO 01; el inventario georreferenciado de cárcavas queda PENDIENTE.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 80,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "80 ha (de 116.10 ha del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 80,
+ "cob_arbustiva": 15,
+ "cob_herbacea": 10,
+ "cob_hojarasca": 5,
+ "suelo_desnudo": 10,
+ "h_dominante": 7,
+ "h_max": 10,
+ "dap": 30,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 7,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "No aplica (categoría no consignada)"
+  ],
+  [
+   "Colicodendron scabridum (Sapote)",
+   "Indicadora de buen estado",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "La cobertura vegetal corresponde a un BOSQUE SECO CON ZONAS EMPOBRECIDAS Y CLAROS PRÓXIMOS A LA VÍA ASFALTADA. La altura promedio de los individuos arbóreos es menor a 8 m y el DAP menor a 30 cm. ABUNDAN CEIBOS. Es un bosque empobrecido (ralo). LA PARTE ALTA DEL BLOQUE CONSERVA LA VEGETACIÓN. Arbustos dispersos, principalmente overo. La vegetación es nativa y la mayoría de los individuos están en época de defoliación. Especies arbóreas nativas: ceibo, pasallo, charán, faique, palo santo, hualtaco y sapote; también cardos. INCONSISTENCIA (D-07): las observaciones señalan que «abundan ceibos», pero la tabla florística registró solo 7 especies. INCONSISTENCIA ADICIONAL: la cobertura de dosel (80%) y el tipo de cobertura dominante «Bosque ralo (30-70%)» son incompatibles entre sí.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "60% — 30 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "30% — 30 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "60% — 30 años"
+  ]
+ ],
+ "causa_subyacente": "No consignada en la ficha",
+ "causas_directas": "La degradación leve del ecosistema se debe principalmente a las actividades de pastoreo de ganado vacuno y caprino y a la extracción de leña para uso doméstico.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Baja",
+ "ind_dist_via": 100,
+ "obs_dt04": "RECOMENDACIÓN DE CAMPO: REDELIMITAR EL BLOQUE priorizando las áreas próximas a los centros poblados y DESESTIMANDO LAS ÁREAS DONDE EL ECOSISTEMA SE ENCUENTRA CONSERVADO. Hay presencia de CASAS MUY PRÓXIMAS AL BLOQUE. El terreno está CERCADO PARA PASTOREO de ganado vacuno de los pobladores próximos; existe un cerco con postes. Presencia de ganado vacuno. Indicadores: cobertura vegetal total 80% (Alto); suelo desnudo 5% (Bajo); densidad de cárcavas 1 N.°/ha (Bajo) — INCOMPATIBLE con el inventario de 0 cárcavas de F-DT-02; especies invasoras 0% (Bajo); carga ganadera 3 UA/ha (Medio); frecuencia de quemas 1 (Medio); % área con pendiente >50% = 40% (Alto); distancia a vía 100 m (Alto).",
+ "fuentes_agua": [],
+ "recarga": "Sí",
+ "humedad": "Sin registro en ficha",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por completar",
+ "jass": "Por completar",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Vía nacional asfaltada Serrán – Canchaque, margen izquierda del río Pusmalca",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Sin registro en ficha",
+ "transit_lluviosa": "Sin registro en ficha",
+ "t_distrital": "Por completar",
+ "t_provincial": "Por completar",
+ "senal": "Por completar",
+ "operador": "Sin registro en ficha",
+ "alojamiento": "Sin registro en ficha",
+ "ronda": "Por completar",
+ "contacto_ronda": "Por completar",
+ "obs_dt05": "Acceso por la vía nacional asfaltada (Serrán – Canchaque), margen izquierda del río Pusmalca; desplazamiento interior a pie por caminos de herradura. EL TERRENO SE ENCUENTRA CERCADO CON POSTES PARA PASTOREO DE GANADO VACUNO, LO QUE IMPLICA GESTIÓN PREVIA CON LOS TITULARES para el ingreso y para cualquier intervención. POR COMPLETAR: inventario de fuentes de agua, JASS y captación poblacional, tiempos de viaje, señal celular y autorización de Ronda Campesina — SIN FICHA F-DT-05 EN EL ANEXO 01.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-02",
+   "Sin ficha F-DT-02 firmada en el ANEXO 01; inventario georreferenciado de cárcavas pendiente",
+   "SUSTANTIVA",
+   "Levantamiento pendiente"
+  ],
+  [
+   "F-DT-02 / F-DT-04",
+   "Densidad de cárcavas: F-DT-02 consigna 0 cárcavas y F-DT-04 declara 1 N.°/ha",
+   "SUSTANTIVA",
+   "Inconsistencia interna a resolver"
+  ],
+  [
+   "F-DT-03",
+   "D-07: las observaciones señalan que «abundan ceibos» pero la tabla florística registró solo 7 especies",
+   "SUSTANTIVA",
+   "Inventario florístico incompleto (mínimo exigido: 15)"
+  ],
+  [
+   "F-DT-03",
+   "Cobertura de dosel 80% incompatible con el tipo de cobertura dominante «Bosque ralo (30-70%)»",
+   "SUSTANTIVA",
+   "Inconsistencia interna a resolver"
+  ],
+  [
+   "F-DT-03",
+   "Categoría UICN del Palo santo consignada «No aplica» pese a declararse amenazada por el D.S. 043",
+   "NO SUSTANTIVA",
+   "Completar categoría"
+  ],
+  [
+   "F-DT-05",
+   "Sin ficha F-DT-05 en el ANEXO 01: inventario hídrico, JASS, tiempos, señal y Ronda por completar",
+   "SUSTANTIVA",
+   "Levantamiento pendiente"
+  ],
+  [
+   "F-DT-04",
+   "Recomendación de campo de redelimitar el bloque excluyendo las áreas conservadas",
+   "SUSTANTIVA",
+   "Elevar a la Subdirección; el terreno está cercado y requiere gestión con titulares"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M2B8_20260907_153127.pdf",
+ "bloque": "M2B8"
+}

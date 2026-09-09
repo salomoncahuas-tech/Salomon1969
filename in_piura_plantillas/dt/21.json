@@ -1,0 +1,176 @@
+{
+ "microcuenca_dt": "C1076-Q9584",
+ "evaluador": "Ing. Héctor S. Cahuas Miller (resp. brigada) / Ing. Albert Flores Mendoza (operador RPAS)",
+ "correlativo": "F-DT-01/B21-2026",
+ "fecha_eval": "2026-08-10",
+ "hora": "Vuelo 10:40 - 11:20 h (por confirmar con bitácora RPAS)",
+ "cp_cercano": "Huamala Alto",
+ "comunidad": "Por verificar (tamizaje predial y diagnóstico social pendientes)",
+ "altitud_gps": "1575 (interpolada de curvas de nivel)",
+ "utm_e_dt": 654604,
+ "utm_n_dt": 9417736,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Noroeste",
+ "rango_altitudinal": "1500-2000 m (Quechua media)",
+ "paisaje": "Ladera de montaña de exposición NO, disectada por quebradas y dominada por un macizo rocoso con farallones",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "Sí",
+ "deslizamientos": "Sí",
+ "remociones": "Sí",
+ "obs_dt01": "Verificación por VUELO DE DRON (RPAS); no se ejecutó recorrido peatonal interior. Las coordenadas corresponden al CENTROIDE del bloque (catálogo V5), no a un punto GPS de muestreo; la altitud de 1575 msnm es interpolada de curvas de nivel. Rango altitudinal por MDE: 1353-2004 msnm (amplitud 651 m); pendiente promedio zonal 31.71%. El polígono aparece rotulado «B4_2» en la capa MSAVI: reconciliar con el código 21.",
+ "compactacion": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 0,
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "INVENTARIO DE CÁRCAVAS NO EJECUTADO: el registro fue aerofotográfico. El valor «0» NO equivale a ausencia de cárcavas. Procesos identificados por fotointerpretación: (i) cicatrices de deslizamiento con suelo desnudo en el flanco occidental y cabeceras de quebrada; (ii) socavamiento y profundización de cauces con arrastre de bloques; (iii) terracetas y sendas de ganado; (iv) erosión laminar y en surcos en claros de pastizal; (v) taludes de corte inestables de la trocha.",
+ "parcela": "No instalada — caracterización por fotointerpretación del vuelo RPAS",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 31.71,
+ "cob_veg": 90,
+ "ecosistema": "Matorral Andino subhúmedo",
+ "sup_ecosistema": "Por determinar (recorte de la capa oficial MINAM)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 15,
+ "cob_arbustiva": 35,
+ "cob_herbacea": 40,
+ "cob_hojarasca": 10,
+ "suelo_desnudo": 5,
+ "h_dominante": 2.5,
+ "h_max": 20,
+ "dap": "Por determinar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Ficus sp. (Higuerón)",
+   "Indicadora de buen estado",
+   "No aplica"
+  ],
+  [
+   "Inga feuillei (Pacae)",
+   "Indicadora de buen estado",
+   "NE"
+  ],
+  [
+   "Guadua angustifolia (Caña guayaquil)",
+   "Clave cultural",
+   "NE"
+  ],
+  [
+   "Baccharis latifolia (Chilca)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Agave americana (Penca)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Vachellia macracantha (Faique)",
+   "Indicadora de buen estado",
+   "NE"
+  ]
+ ],
+ "obs_dt03": "Registro florístico PRELIMINAR obtenido por observación aérea y fotointerpretación; los nombres científicos requieren confirmación taxonómica. DAP no medido. SEIS de las quince especies registradas son cultivos (plátano, café, caña de azúcar, maíz, cítricos y pastos), superficie que debe excluirse del área efectiva de intervención en el tamizaje predial. No se confirmaron especies amenazadas del D.S. 043-2006-AG.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "30"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "25"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Fuerte",
+   "35"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   "5"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   "5"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "10"
+  ]
+ ],
+ "causa_subyacente": "Ocupación productiva de ladera de fuerte pendiente sin prácticas de conservación de suelos, en contexto de accesibilidad vial",
+ "causas_directas": "Conversión de matorral y relictos arbóreos a pastizal cultivado y parcelas agrícolas en ladera; sobrepastoreo vacuno con compactación y terracetas; apertura de trocha carrozable con taludes de corte inestables; erosión natural severa localizada en cicatrices de deslizamiento y cabeceras de quebrada.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_invasoras": 5,
+ "ind_dist_via": 0,
+ "obs_dt04": "Las causas sin dato se declaran «Por verificar»: no se observó evidencia directa en el vuelo, lo que NO equivale a ausencia confirmada. La degradación del Bloque 21 es LOCALIZADA (franja vial, cicatrices de deslizamiento y sectores de pastoreo) sobre una matriz de cobertura vigorosa: el indicador de brecha (R.M. 00213-2024-MINAM) debe calcularse sobre la superficie efectivamente degradada, no sobre las 84.23 ha del bloque.",
+ "fuentes_agua": [
+  [
+   "Quebrada permanente",
+   "Por verificar",
+   "Por verificar",
+   "Permanente",
+   "Buena (clara)",
+   0,
+   "Cauce principal"
+  ],
+  [
+   "Quebrada estacional",
+   "Por verificar",
+   "Por verificar",
+   "Estacional",
+   "No evaluable",
+   0,
+   "Cauces tributarios"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por verificar",
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Trocha carrozable Canchaque – Huamala Alto (código de ruta por verificar con el MTC)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por verificar",
+ "t_provincial": "Por verificar",
+ "senal": "Por verificar",
+ "operador": "Por verificar",
+ "ronda": "Sí",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "Las coordenadas de las fuentes de agua no fueron levantadas con GPS: el registro fue aéreo. El bloque se ubica en la cabecera de la microcuenca C1081-Q9591 y opera como ZONA DE ORIGEN del PGI y de generación de escorrentía. La trocha bordea el límite norte del bloque: ventaja logística y a la vez principal foco de presión.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": null,
+ "fuente_ficha": "Ficha_DT_21_20260831_213244.pdf",
+ "bloque": "21"
+}

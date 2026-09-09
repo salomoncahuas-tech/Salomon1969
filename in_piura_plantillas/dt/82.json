@@ -1,0 +1,241 @@
+{
+ "microcuenca_dt": "C1086-Q9570",
+ "evaluador": "Ing. Héctor S. Cahuas Miller / Ing. Pedro Talledo Hernández / Ing. Juan Carlos Domínguez Varas (ANIN-DIME-SESDI)",
+ "correlativo": "F-DT-82-2026",
+ "fecha_eval": "2026-06-10",
+ "hora": "11:30 h",
+ "cp_cercano": "Santa Fe de Portachuelo",
+ "comunidad": "Por verificar (predios particulares)",
+ "altitud_gps": "1940 (GPS de campo) — cotas del recorrido 1833 - 2029 (perfil Google Earth)",
+ "utm_e_dt": 621160,
+ "utm_n_dt": 9444038,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Este",
+ "rango_altitudinal": "1500-2000 m (Quechua media)",
+ "paisaje": "Ladera de colina-montaña de fuerte pendiente, elongada en sentido NO-SE, disectada por quebradas tributarias",
+ "afloramientos": "Sin registro en ficha",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Pendiente media del recorrido 34.6% y máxima 55.3% (perfil Google Earth, longitud ≈554 m, cotas 1 833-2 029 msnm). LAS EVIDENCIAS DE INESTABILIDAD (escarpes y desprendimientos) SE CONCENTRAN EN LOS TALUDES DE CORTE DE LA TROCHA AFIRMADA (periferia/franja vial), NO EN LA SUPERFICIE NATURAL DEL BLOQUE. Coordenadas fotográficas pueden presentar leve error por señal GPS de celular. Bloque seleccionado por su rol en la REGULACIÓN DE MOVIMIENTOS EN MASA Y DE LA ESCORRENTÍA en la zona de origen de los peligros (cabecera de microcuenca). TIPO DE INTERVENCIÓN: REVEGETACIÓN (no restauración).",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 3,
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": 5,
+ "erosion_laminar": 10,
+ "patron_carcavas": "Aislado",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01",
+   "Por determinar",
+   621081,
+   9444077,
+   "Activa",
+   "Otro (talud de corte de trocha)"
+  ],
+  [
+   "C-02",
+   "Por determinar",
+   621119,
+   9444053,
+   "Activa",
+   "Por determinar"
+  ],
+  [
+   "C-03",
+   "Por determinar",
+   621188,
+   9444024,
+   "Semi-activa",
+   "Quema"
+  ]
+ ],
+ "obs_dt02": "Los rasgos erosivos más marcados (surcos y cárcavas someras) se localizan en LOS TALUDES DE CORTE DE LA TROCHA AFIRMADA QUE ATRAVIESA EL BLOQUE y en sendas de ganado. Dimensiones instrumentales (longitud, profundidad, ancho), longitud total acumulada y densidad por hectárea quedan pendientes de levantamiento por el especialista de Infraestructura Marrón. SE OBSERVÓ UN SECTOR CON QUEMA RECIENTE DE PASTIZAL asociado a erosión incipiente (C-03).",
+ "parcela": "Recorrido (sin parcela permanente)",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 35,
+ "cob_veg": 80,
+ "ecosistema": "Matorral Andino subhúmedo",
+ "sup_ecosistema": "35.66 ha totales — Matorral andino (Ma) 25.14 ha; Zona agrícola (Agri) 7.37 ha; Bosque relicto montano de vertiente occidental (Br-mvoc) 3.15 ha",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 30,
+ "cob_arbustiva": 25,
+ "cob_herbacea": 40,
+ "cob_hojarasca": 15,
+ "suelo_desnudo": 10,
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "Por determinar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Juglans sp. (Nogal)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "EN — En Peligro"
+  ],
+  [
+   "Podocarpus sp. (Romerillo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "VU — Vulnerable"
+  ],
+  [
+   "Ficus sp. (Higuerón)",
+   "Indicadora de buen estado",
+   "No aplica"
+  ],
+  [
+   "Inga sp. (Pacae)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Annona sp. (Chirimoya silvestre)",
+   "Clave cultural",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "EL BLOQUE INTEGRA TRES ECOSISTEMAS MINAM: Bosque relicto montano de vertiente occidental (Br-mvoc, 3.15 ha), Matorral andino (Ma, 25.14 ha) y Zona agrícola (Agri, 7.37 ha), que suman las 35.66 ha del bloque. LISTA FLORÍSTICA PRELIMINAR, basada en JUICIO DE EXPERTO sobre fotografías y literatura regional; nombres a nivel de especie y categorías de conservación sujetos a colección y determinación botánica formal. DAP y alturas no medidos en este reconocimiento. VALOR DE CONSERVACIÓN ALTO: nogal (Juglans sp., EN) georreferenciado en 621 055 E · 9 444 111 N y romerillo (Podocarpus sp., VU). Cuatro exóticas plantadas registradas (grevilea, eucalipto, ciprés, pino) más pastos cultivados dominantes.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "40%"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "Sí",
+   "Moderada",
+   "10%"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "20%"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "35%"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "10%"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Ligera",
+   "5%"
+  ]
+ ],
+ "causa_subyacente": "Presión agropecuaria sostenida sobre laderas de fuerte pendiente, sin prácticas de conservación de suelos",
+ "causas_directas": "Sobrepastoreo (vacuno/asnal), cambio de uso a pastos cultivados y a cultivos de maíz, arveja y trigo, quema de pastizales y desestabilización de taludes por la trocha afirmada.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 0,
+ "obs_dt04": "Indicadores: cobertura vegetal total 80% (MSAVI 2024, Alto); suelo desnudo 10% (Bajo); especies invasoras 10% (Medio); % área con pendiente >50% = 30% (Medio); distancia a vía 0 m (Alto). NO CUANTIFICADOS: densidad de cárcavas, carga ganadera y frecuencia de quemas, pese a haberse registrado quema reciente de pastizal en el recorrido (C-03), lo que sugiere que la frecuencia de quemas no es cero.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   621000,
+   9443900,
+   "Estacional",
+   "No evaluable",
+   "Por determinar",
+   "Quebrada tributaria"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por verificar",
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Trocha carrozable afirmada (acceso desde Santo Domingo vía C.P. Santa Fe de Portachuelo)",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "No registrado",
+ "t_provincial": "No registrado",
+ "senal": "No registrada",
+ "operador": "No registrado",
+ "alojamiento": "No registrado",
+ "ronda": "No",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "NO se identificaron manantiales ni captaciones poblacionales dentro del recorrido; la distancia a captación poblacional, el nombre de la JASS y los datos de la Ronda Campesina quedan por verificar. El bloque se ubica en ZONA DE ORIGEN Y RECARGA de la microcuenca C1086-Q9570; la presencia de helechos, epífitas y relictos de bosque montano evidencia humedad. Acceso en camioneta por trocha afirmada y a pie por camino de herradura. Señal/operador celular, tiempos de viaje y alojamiento no registrados por no ser necesarios para este diagnóstico.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (1940 msnm)"
+  ],
+  [
+   "F-DT-02",
+   "Las 3 cárcavas inventariadas carecen de tipo, dimensiones y (C-02) de causa",
+   "NO SUSTANTIVA",
+   "Levantamiento instrumental pendiente"
+  ],
+  [
+   "F-DT-04",
+   "Frecuencia de quemas no cuantificada pese a haberse registrado quema reciente de pastizal (C-03)",
+   "SUSTANTIVA",
+   "El indicador no puede consignarse en 0"
+  ],
+  [
+   "F-DT-04",
+   "Densidad de cárcavas y carga ganadera sin valor",
+   "NO SUSTANTIVA",
+   "Cuantificación pendiente"
+  ],
+  [
+   "F-DT-03",
+   "Lista florística basada en juicio de experto sobre fotografías y literatura regional, no en colecta",
+   "SUSTANTIVA",
+   "Determinación botánica formal pendiente"
+  ],
+  [
+   "F-DT-03",
+   "El bloque integra 3 ecosistemas MINAM (Ma 25.14 ha, Agri 7.37 ha, Br-mvoc 3.15 ha)",
+   "NO SUSTANTIVA",
+   "La zona agrícola (7.37 ha) debe excluirse del área efectiva en el tamizaje predial"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_82 (Plan de Ingreso, PDF)",
+ "bloque": "82"
+}

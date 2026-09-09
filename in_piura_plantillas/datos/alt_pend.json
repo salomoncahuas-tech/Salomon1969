@@ -1,0 +1,747 @@
+{
+ "56": {
+  "alt_min": 2342,
+  "alt_max": 2770,
+  "pendiente": 27.27,
+  "msavi": 0.677658
+ },
+ "57": {
+  "alt_min": 2306,
+  "alt_max": 2624,
+  "pendiente": 30.44,
+  "msavi": 0.603055
+ },
+ "59": {
+  "alt_min": 2045,
+  "alt_max": 2218,
+  "pendiente": 29.85,
+  "msavi": 0.614739
+ },
+ "58": {
+  "alt_min": 209,
+  "alt_max": 288,
+  "pendiente": 16.09,
+  "msavi": 0.420325
+ },
+ "61": {
+  "alt_min": 1098,
+  "alt_max": 1336,
+  "pendiente": 22.61,
+  "msavi": 0.611186
+ },
+ "60": {
+  "alt_min": 1638,
+  "alt_max": 2073,
+  "pendiente": 32.67,
+  "msavi": 0.67447
+ },
+ "64": {
+  "alt_min": 2412,
+  "alt_max": 2651,
+  "pendiente": 28.18,
+  "msavi": 0.525448
+ },
+ "66": {
+  "alt_min": 1171,
+  "alt_max": 1769,
+  "pendiente": 31.55,
+  "msavi": 0.640254
+ },
+ "63": {
+  "alt_min": 1508,
+  "alt_max": 2080,
+  "pendiente": 35.5,
+  "msavi": 0.603582
+ },
+ "75": {
+  "alt_min": 1912,
+  "alt_max": 2237,
+  "pendiente": 39.19,
+  "msavi": 0.630888,
+  "correccion_manual": "Lectura alternativa adoptada: 122-237 msnm es incompatible con el piso altitudinal del distrito de San Miguel de El Faique"
+ },
+ "67": {
+  "alt_min": 1575,
+  "alt_max": 1770,
+  "pendiente": 30.33,
+  "msavi": 0.605293
+ },
+ "70": {
+  "alt_min": 2326,
+  "alt_max": 2536,
+  "pendiente": 23.2,
+  "msavi": 0.622295
+ },
+ "68": {
+  "alt_min": 2086,
+  "alt_max": 2374,
+  "pendiente": 36.81,
+  "msavi": 0.482981
+ },
+ "73": {
+  "alt_min": 1845,
+  "alt_max": 2305,
+  "pendiente": 36.34,
+  "msavi": 0.554974
+ },
+ "69": {
+  "alt_min": 1931,
+  "alt_max": 2205,
+  "pendiente": 27.95,
+  "msavi": 0.448926
+ },
+ "72": {
+  "alt_min": 1538,
+  "alt_max": 1742,
+  "pendiente": 28.25,
+  "msavi": 0.518477
+ },
+ "71": {
+  "alt_min": 1478,
+  "alt_max": 1609,
+  "pendiente": 29.45,
+  "msavi": 0.557066
+ },
+ "80": {
+  "alt_min": 2180,
+  "alt_max": 2491,
+  "pendiente": 32.9,
+  "msavi": 0.593069
+ },
+ "74": {
+  "alt_min": 663,
+  "alt_max": 975,
+  "pendiente": 29.51,
+  "msavi": 0.356463
+ },
+ "76": {
+  "alt_min": 1647,
+  "alt_max": 1838,
+  "pendiente": 26.25,
+  "msavi": 0.492462
+ },
+ "79": {
+  "alt_min": 681,
+  "alt_max": 1114,
+  "pendiente": 17.59,
+  "msavi": 0.547879
+ },
+ "77": {
+  "alt_min": 242,
+  "alt_max": 346,
+  "pendiente": 13.71,
+  "msavi": 0.272488
+ },
+ "82": {
+  "alt_min": 1796,
+  "alt_max": 2098,
+  "pendiente": 23.55,
+  "msavi": 0.62835
+ },
+ "M17B1": {
+  "alt_min": 177,
+  "alt_max": 313,
+  "pendiente": 14.73,
+  "msavi": 0.332263
+ },
+ "32": {
+  "alt_min": 197,
+  "alt_max": 269,
+  "pendiente": 12.87,
+  "msavi": 0.371619
+ },
+ "M22B1": {
+  "alt_min": 3216,
+  "alt_max": 3436,
+  "pendiente": 19.98,
+  "msavi": 0.594025
+ },
+ "M6B2-1": {
+  "alt_min": 181,
+  "alt_max": 504,
+  "pendiente": 16.84,
+  "msavi": 0.3381
+ },
+ "M6B2-2": {
+  "alt_min": 195,
+  "alt_max": 440,
+  "pendiente": 14.33,
+  "msavi": 0.302636
+ },
+ "M6B10": {
+  "alt_min": 158,
+  "alt_max": 537,
+  "pendiente": 20.6,
+  "msavi": 0.30989
+ },
+ "M17B4": {
+  "alt_min": 294,
+  "alt_max": 629,
+  "pendiente": 18.69,
+  "msavi": 0.423543
+ },
+ "M10B4": {
+  "alt_min": 170,
+  "alt_max": 313,
+  "pendiente": 13.83,
+  "msavi": 0.313301
+ },
+ "M12B1": {
+  "alt_min": 333,
+  "alt_max": 821,
+  "pendiente": 18.18,
+  "msavi": 0.34753
+ },
+ "M3B3": {
+  "alt_min": 194,
+  "alt_max": 375,
+  "pendiente": 18.87,
+  "msavi": 0.298483
+ },
+ "M17B7": {
+  "alt_min": 553,
+  "alt_max": 1517,
+  "pendiente": 29.82,
+  "msavi": 0.508715
+ },
+ "M18B5": {
+  "alt_min": 157,
+  "alt_max": 645,
+  "pendiente": 18.19,
+  "msavi": 0.356522
+ },
+ "M28B4": {
+  "alt_min": 297,
+  "alt_max": 634,
+  "pendiente": 13.75,
+  "msavi": 0.42751
+ },
+ "M8B2": {
+  "alt_min": 882,
+  "alt_max": 1181,
+  "pendiente": 24.49,
+  "msavi": 0.530453
+ },
+ "M4B3": {
+  "alt_min": 367,
+  "alt_max": 682,
+  "pendiente": 17.22,
+  "msavi": 0.322153
+ },
+ "M4B4": {
+  "alt_min": 314,
+  "alt_max": 686,
+  "pendiente": 16.23,
+  "msavi": 0.319788
+ },
+ "M3B9": {
+  "alt_min": 189,
+  "alt_max": 497,
+  "pendiente": 17.69,
+  "msavi": 0.321386
+ },
+ "M3B8": {
+  "alt_min": 195,
+  "alt_max": 562,
+  "pendiente": 13.65,
+  "msavi": 0.293351
+ },
+ "M3B7": {
+  "alt_min": 238,
+  "alt_max": 447,
+  "pendiente": 18.21,
+  "msavi": 0.370678
+ },
+ "M3B5": {
+  "alt_min": 221,
+  "alt_max": 401,
+  "pendiente": 18.94,
+  "msavi": 0.283016
+ },
+ "M3B6": {
+  "alt_min": 235,
+  "alt_max": 499,
+  "pendiente": 23.39,
+  "msavi": 0.342535
+ },
+ "M11B3": {
+  "alt_min": 278,
+  "alt_max": 477,
+  "pendiente": 18.11,
+  "msavi": 0.395609
+ },
+ "M18B3": {
+  "alt_min": 159,
+  "alt_max": 533,
+  "pendiente": 21.52,
+  "msavi": 0.369424
+ },
+ "M17B6": {
+  "alt_min": 403,
+  "alt_max": 1049,
+  "pendiente": 23.42,
+  "msavi": 0.446441
+ },
+ "M28B2": {
+  "alt_min": 754,
+  "alt_max": 1111,
+  "pendiente": 20.65,
+  "msavi": 0.475342
+ },
+ "M2B5": {
+  "alt_min": 68,
+  "alt_max": 322,
+  "pendiente": 8.32,
+  "msavi": 0.304733
+ },
+ "M17B5": {
+  "alt_min": 794,
+  "alt_max": 1317,
+  "pendiente": 27.42,
+  "msavi": 0.54817
+ },
+ "M28B3": {
+  "alt_min": 73,
+  "alt_max": 777,
+  "pendiente": 22.13,
+  "msavi": 0.507529
+ },
+ "33": {
+  "alt_min": 1841,
+  "alt_max": 2226,
+  "pendiente": 36.6,
+  "msavi": 0.71923
+ },
+ "50": {
+  "alt_min": 1468,
+  "alt_max": 1725,
+  "pendiente": 30.47,
+  "msavi": 0.68307
+ },
+ "38": {
+  "alt_min": 1302,
+  "alt_max": 1533,
+  "pendiente": 24.25,
+  "msavi": 0.672487
+ },
+ "34": {
+  "alt_min": 1286,
+  "alt_max": 1514,
+  "pendiente": 26.78,
+  "msavi": 0.648975
+ },
+ "26": {
+  "alt_min": 1260,
+  "alt_max": 1855,
+  "pendiente": 32.26,
+  "msavi": 0.673303
+ },
+ "37": {
+  "alt_min": 1184,
+  "alt_max": 1455,
+  "pendiente": 23.59,
+  "msavi": 0.658846
+ },
+ "28": {
+  "alt_min": 1462,
+  "alt_max": 1856,
+  "pendiente": 30.36,
+  "msavi": 0.639425
+ },
+ "40": {
+  "alt_min": 1407,
+  "alt_max": 1656,
+  "pendiente": 31.4,
+  "msavi": 0.640099
+ },
+ "21": {
+  "alt_min": 1353,
+  "alt_max": 2004,
+  "pendiente": 31.71,
+  "msavi": 0.620078
+ },
+ "24": {
+  "alt_min": 1319,
+  "alt_max": 1887,
+  "pendiente": 32.98,
+  "msavi": 0.674839
+ },
+ "47": {
+  "alt_min": 2105,
+  "alt_max": 2333,
+  "pendiente": 32.43,
+  "msavi": 0.593628
+ },
+ "43": {
+  "alt_min": 251,
+  "alt_max": 811,
+  "pendiente": 31.39,
+  "msavi": 0.551525
+ },
+ "35": {
+  "alt_min": 1376,
+  "alt_max": 1621,
+  "pendiente": 33.66,
+  "msavi": 0.624477
+ },
+ "44": {
+  "alt_min": 3091,
+  "alt_max": 3277,
+  "pendiente": 22.21,
+  "msavi": 0.511324
+ },
+ "53": {
+  "alt_min": 2235,
+  "alt_max": 2540,
+  "pendiente": 26.89,
+  "msavi": 0.596277
+ },
+ "41": {
+  "alt_min": 1536,
+  "alt_max": 1818,
+  "pendiente": 25.53,
+  "msavi": 0.592669
+ },
+ "19": {
+  "alt_min": 2064,
+  "alt_max": 2503,
+  "pendiente": 31.01,
+  "msavi": 0.537184
+ },
+ "31": {
+  "alt_min": 1741,
+  "alt_max": 2234,
+  "pendiente": 27.08,
+  "msavi": 0.435805
+ },
+ "20": {
+  "alt_min": 1217,
+  "alt_max": 1607,
+  "pendiente": 24.54,
+  "msavi": 0.48513
+ },
+ "51": {
+  "alt_min": 1734,
+  "alt_max": 2018,
+  "pendiente": 31.74,
+  "msavi": 0.523788
+ },
+ "29": {
+  "alt_min": 2142,
+  "alt_max": 2391,
+  "pendiente": 31.54,
+  "msavi": 0.548192
+ },
+ "1": {
+  "alt_min": 291,
+  "alt_max": 1204,
+  "pendiente": 21.39,
+  "msavi": 0.454493
+ },
+ "7": {
+  "alt_min": 257,
+  "alt_max": 577,
+  "pendiente": 18.59,
+  "msavi": 0.375288
+ },
+ "5": {
+  "alt_min": 150,
+  "alt_max": 377,
+  "pendiente": 18.57,
+  "msavi": 0.3394
+ },
+ "2": {
+  "alt_min": 142,
+  "alt_max": 406,
+  "pendiente": 13.27,
+  "msavi": 0.358601
+ },
+ "25": {
+  "alt_min": 143,
+  "alt_max": 210,
+  "pendiente": 11.68,
+  "msavi": 0.256543
+ },
+ "9": {
+  "alt_min": 1529,
+  "alt_max": 2264,
+  "pendiente": 34.82,
+  "msavi": 0.574527
+ },
+ "4": {
+  "alt_min": 1378,
+  "alt_max": 2318,
+  "pendiente": 35.01,
+  "msavi": 0.660111
+ },
+ "18": {
+  "alt_min": 1218,
+  "alt_max": 1904,
+  "pendiente": 28.7,
+  "msavi": 0.640219
+ },
+ "10": {
+  "alt_min": 912,
+  "alt_max": 1510,
+  "pendiente": 27.39,
+  "msavi": 0.546492
+ },
+ "49": {
+  "alt_min": 3065,
+  "alt_max": 3246,
+  "pendiente": 25.96,
+  "msavi": 0.686036
+ },
+ "55": {
+  "alt_min": 3066,
+  "alt_max": 3131,
+  "pendiente": 30.04,
+  "msavi": 0.630032
+ },
+ "52": {
+  "alt_min": 3011,
+  "alt_max": 3164,
+  "pendiente": 26.16,
+  "msavi": 0.66855
+ },
+ "46": {
+  "alt_min": 1371,
+  "alt_max": 1655,
+  "pendiente": 31.77,
+  "msavi": 0.724382
+ },
+ "48": {
+  "alt_min": 1458,
+  "alt_max": 1595,
+  "pendiente": 33.6,
+  "msavi": 0.697809
+ },
+ "3": {
+  "alt_min": 951,
+  "alt_max": 2173,
+  "pendiente": 29.52,
+  "msavi": 0.567707
+ },
+ "6": {
+  "alt_min": 1398,
+  "alt_max": 2016,
+  "pendiente": 33.74,
+  "msavi": 0.538144
+ },
+ "36": {
+  "alt_min": 1239,
+  "alt_max": 1476,
+  "pendiente": 30.65,
+  "msavi": 0.539458
+ },
+ "27": {
+  "alt_min": 1518,
+  "alt_max": 1895,
+  "pendiente": 30.25,
+  "msavi": 0.53228
+ },
+ "12": {
+  "alt_min": 672,
+  "alt_max": 2244,
+  "pendiente": 27.41,
+  "msavi": 0.706689
+ },
+ "13": {
+  "alt_min": 1649,
+  "alt_max": 2267,
+  "pendiente": 28.99,
+  "msavi": 0.671094
+ },
+ "11": {
+  "alt_min": 1375,
+  "alt_max": 1928,
+  "pendiente": 32.19,
+  "msavi": 0.604743
+ },
+ "17": {
+  "alt_min": 1253,
+  "alt_max": 1880,
+  "pendiente": 35.56,
+  "msavi": 0.647895
+ },
+ "23": {
+  "alt_min": 521,
+  "alt_max": 973,
+  "pendiente": 35.28,
+  "msavi": 0.573141
+ },
+ "15": {
+  "alt_min": 1199,
+  "alt_max": 1655,
+  "pendiente": 26.19,
+  "msavi": 0.560518
+ },
+ "14": {
+  "alt_min": 87,
+  "alt_max": 1355,
+  "pendiente": 23.75,
+  "msavi": 0.51974
+ },
+ "42": {
+  "alt_min": 1131,
+  "alt_max": 1548,
+  "pendiente": 27.86,
+  "msavi": 0.634841
+ },
+ "30": {
+  "alt_min": 1216,
+  "alt_max": 1541,
+  "pendiente": 27.91,
+  "msavi": 0.663804
+ },
+ "8": {
+  "alt_min": 1504,
+  "alt_max": 1970,
+  "pendiente": 29.85,
+  "msavi": 0.554802
+ },
+ "M17B10": {
+  "alt_min": 466,
+  "alt_max": 902,
+  "pendiente": 25.94,
+  "msavi": 0.472466
+ },
+ "39": {
+  "alt_min": 1729,
+  "alt_max": 2088,
+  "pendiente": 22.51,
+  "msavi": 0.701601
+ },
+ "M19B7": {
+  "alt_min": 1213,
+  "alt_max": 1578,
+  "pendiente": 28.15,
+  "msavi": 0.591921
+ },
+ "M36B2": {
+  "alt_min": 1331,
+  "alt_max": 1533,
+  "pendiente": 29.67,
+  "msavi": 0.597433
+ },
+ "M30B5": {
+  "alt_min": 1782,
+  "alt_max": 2307,
+  "pendiente": 21.23,
+  "msavi": 0.5564
+ },
+ "16": {
+  "alt_min": 1349,
+  "alt_max": 1746,
+  "pendiente": 22.34,
+  "msavi": 0.628423
+ },
+ "M18B1": {
+  "alt_min": 153,
+  "alt_max": 396,
+  "pendiente": 20.37,
+  "msavi": 0.334299
+ },
+ "M1B1": {
+  "alt_min": 173,
+  "alt_max": 477,
+  "pendiente": 18.7,
+  "msavi": 0.319305
+ },
+ "M6B2-3": {
+  "alt_min": 166,
+  "alt_max": 557,
+  "pendiente": 19.78,
+  "msavi": 0.406259
+ },
+ "M32B3": {
+  "alt_min": 184,
+  "alt_max": 438,
+  "pendiente": 18.79,
+  "msavi": 0.385213
+ },
+ "M19B2": {
+  "alt_min": 203,
+  "alt_max": 523,
+  "pendiente": 21.71,
+  "msavi": 0.401185
+ },
+ "22": {
+  "alt_min": 235,
+  "alt_max": 596,
+  "pendiente": 22.51,
+  "msavi": 0.42317
+ },
+ "M2B8": {
+  "alt_min": 244,
+  "alt_max": 673,
+  "pendiente": 19.24,
+  "msavi": 0.375171
+ },
+ "M3B1": {
+  "alt_min": 184,
+  "alt_max": 395,
+  "pendiente": 19.4,
+  "msavi": 0.323882
+ },
+ "M20B1": {
+  "alt_min": 249,
+  "alt_max": 525,
+  "pendiente": 15.53,
+  "msavi": 0.355329
+ },
+ "M7B1": {
+  "alt_min": 183,
+  "alt_max": 357,
+  "pendiente": 17.35,
+  "msavi": 0.313647
+ },
+ "M7B6": {
+  "alt_min": 228,
+  "alt_max": 453,
+  "pendiente": 16.87,
+  "msavi": 0.287833
+ },
+ "M7B2": {
+  "alt_min": 204,
+  "alt_max": 362,
+  "pendiente": 14.01,
+  "msavi": 0.287689
+ },
+ "M2B1": {
+  "alt_min": 235,
+  "alt_max": 446,
+  "pendiente": 17.48,
+  "msavi": 0.29836
+ },
+ "M7B3": {
+  "alt_min": 209,
+  "alt_max": 372,
+  "pendiente": 19.61,
+  "msavi": 0.298017
+ },
+ "M27B1": {
+  "alt_min": 109,
+  "alt_max": 474,
+  "pendiente": 17.86,
+  "msavi": 0.363228
+ },
+ "M9B1": {
+  "alt_min": 147,
+  "alt_max": 265,
+  "pendiente": 10.17,
+  "msavi": 0.314312
+ },
+ "78": {
+  "alt_min": 1908,
+  "alt_max": 2236,
+  "pendiente": 30.64,
+  "msavi": 0.707402
+ },
+ "81": {
+  "alt_min": 272,
+  "alt_max": 371,
+  "pendiente": 16.05,
+  "msavi": 0.274714
+ }
+}

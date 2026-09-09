@@ -1,0 +1,231 @@
+{
+ "microcuenca_dt": "C1096-Q9564",
+ "evaluador": "Ing. Héctor S. Cahuas Miller / Ing. Pedro Talledo Hernández / Ing. Juan Carlos Domínguez Varas (ANIN-DIME-SESDI)",
+ "correlativo": "DT-B13-01",
+ "fecha_eval": "2026-06-10",
+ "hora": "01:17 p.m.",
+ "cp_cercano": "Huacas",
+ "comunidad": "No aplica – Tierras del Estado bajo administración del GORE Piura",
+ "altitud_gps": "1750",
+ "utm_e_dt": 619674,
+ "utm_n_dt": 9442224,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Oeste",
+ "rango_altitudinal": "1500-2000 m (Quechua media)",
+ "paisaje": "Cerro de cumbre cónica boscosa que domina el Caserío Huacas. Las laderas superiores conservan bosque relicto",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Las laderas superiores presentan fuerte pendiente (perfil de campo: media 41.4%, máx 78.4% sobre 1.28 km con desnivel de 545 m), lo que configura susceptibilidad latente a movimientos en masa pese a la buena cobertura actual. La cota varía de ~1580 msnm (Huacas) a >2180 msnm en la cima.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "No",
+ "nivel_erosion": "Ligera (laminar)",
+ "n_carcavas": 0,
+ "long_carcavas": "0 m",
+ "pct_carcavas": "0",
+ "erosion_laminar": "10",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "No se inventariaron cárcavas activas en el tramo accesible; la erosión es predominantemente laminar bajo buena cobertura herbácea. Erosión concentrada y socavamiento incipiente a lo largo de los caminos de herradura empedrados y en márgenes de quebradas y manantiales. El inventario georreferenciado detallado queda pendiente.",
+ "parcela": "P-01 (ladera media, sector de pastizal-matorral con relictos)",
+ "dim_parcela": "50 x 20 m",
+ "pend_parcela": 40,
+ "cob_veg": 80,
+ "ecosistema": "Matorral Andino subhúmedo",
+ "sup_ecosistema": "60.35 ha (mosaico: BMVO 26.22 ha + Matorral andino 60.35 ha + Zona agrícola 13.94 ha)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 35,
+ "cob_arbustiva": 30,
+ "cob_herbacea": 35,
+ "cob_hojarasca": 10,
+ "suelo_desnudo": 10,
+ "h_dominante": 8,
+ "h_max": 18,
+ "dap": 25,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Nogal (Juglans neotropica)",
+   "Amenazada D.S. 043",
+   "EN — En Peligro",
+   619674,
+   9442224
+  ],
+  [
+   "Diablo fuerte (Podocarpus sp.)",
+   "Amenazada D.S. 043",
+   "VU — Vulnerable",
+   619739,
+   9442286
+  ],
+  [
+   "Higuerón (Ficus sp.)",
+   "Indicadora de buen estado",
+   "",
+   619664,
+   9442222
+  ],
+  [
+   "Tara (Caesalpinia spinosa)",
+   "Clave cultural",
+   "",
+   619613,
+   9442274
+  ],
+  [
+   "Chirimoya silvestre (Annona sp.)",
+   "Clave cultural",
+   "",
+   619663,
+   9442216
+  ],
+  [
+   "Eucalipto / Pino / Ciprés",
+   "Indicadora de perturbación",
+   "",
+   619663,
+   9442216
+  ]
+ ],
+ "obs_dt03": "Listado florístico preliminar basado en juicio de experto, literatura regional y registro fotográfico; determinaciones pendientes de colecta botánica. El bloque conforma un mosaico de tres ecosistemas MINAM: Bosque relicto montano de vertiente occidental (26.22 ha), Matorral andino (60.35 ha) y Zona agrícola (13.94 ha). El bosque relicto es el componente de mayor valor ecológico (Nogal y Podocarpus).",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "40"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Ligera",
+   "15"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "14"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "60"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   "5"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Ligera",
+   "100"
+  ]
+ ],
+ "causa_subyacente": "Economía de subsistencia (ganadería y agricultura de ladera) sin ordenamiento territorial ni manejo del ecosistema",
+ "causas_directas": "Conversión de bosque/matorral a pastizal cultivado y parcelas de maíz/arveja/trigo en laderas, con pastoreo vacuno extensivo; presión sobre el bosque relicto montano y las zonas de recarga hídrica.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dens_carcavas": 0,
+ "ind_invasoras": 5,
+ "ind_carga_ganadera": 0.6,
+ "ind_pend50": "40",
+ "ind_dist_via": 300,
+ "obs_dt04": "A diferencia de bloques degradados, el Bloque 13 mantiene alta vigorosidad de la cobertura (MSAVI predominante >0.6139) y abundante oferta hídrica: ecosistema relativamente conservado pero bajo presión antrópica crónica. La prioridad es preventiva-conservacionista.",
+ "fuentes_agua": [
+  [
+   "Manantial / Puquio",
+   619674,
+   9442224,
+   "Permanente",
+   "Buena (clara)",
+   0,
+   "Captación de concreto"
+  ],
+  [
+   "Quebrada permanente",
+   619739,
+   9442286,
+   "Permanente",
+   "Regular (ligera)",
+   0,
+   "Cauce con caída de agua"
+  ],
+  [
+   "Quebrada permanente",
+   619664,
+   9442222,
+   "Permanente",
+   "Buena (clara)",
+   0,
+   "Riachuelo bajo dosel"
+  ],
+  [
+   "Manantial / Puquio",
+   619650,
+   9442217,
+   "Permanente",
+   "Regular (ligera)",
+   0,
+   "Afloramiento con socavación"
+  ],
+  [
+   "Quebrada permanente",
+   619300,
+   9442500,
+   "Permanente",
+   "Regular (ligera)",
+   50,
+   "Qda. Huacas – límite oeste"
+  ]
+ ],
+ "recarga": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "0",
+ "jass": "Por verificar (captación con manguera observada dentro del bloque; presumiblemente abastece al Caserío Huacas)",
+ "interferencia_riego": "No",
+ "modalidad_acceso": "Vehicular + caminata 30-90 min",
+ "via_principal": "Ruta a Caserío Huacas (trocha carrozable desde Santo Domingo) + camino de herradura",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "75",
+ "t_provincial": "90",
+ "senal": "Intermitente",
+ "operador": "Movistar",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "Bloque hídricamente rico: cabecera de microcuenca con bosque de neblina, múltiples manantiales y quebradas permanentes. Se confirmó una captación poblacional DENTRO del bloque, hallazgo relevante para las salvaguardas sociales.",
+ "correcciones": [
+  [
+   "C-01",
+   "Duplicidad de fichas en el archivo DT",
+   "El PDF del bloque 13 contiene DOS juegos completos de fichas F-DT: el JUEGO 1 (26-06-2026) corresponde en realidad al bloque 3 (microcuenca C1096-Q9545, C.P. Huayabal, correlativo DT-B3-2026, área 459.29 ha); el JUEGO 2 (10-06-2026, correlativo DT-B13-01) es el del bloque 13",
+   "SUSTANTIVA",
+   "Se adopta íntegramente el JUEGO 2. El JUEGO 1 debe retirarse del expediente del bloque 13 por corresponder a otro bloque"
+  ]
+ ],
+ "estaciones_fotograficas": [],
+ "n_estaciones": 15,
+ "fuente_ficha": "Ficha_DT_13_20260907_135546.pdf",
+ "bloque": "13"
+}

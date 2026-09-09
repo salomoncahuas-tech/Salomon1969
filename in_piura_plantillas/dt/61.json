@@ -1,0 +1,171 @@
+{
+ "microcuenca_dt": "C1076-Q9584 (según ficha — valor por defecto de plantilla; catálogo: C1081-Q9590)",
+ "evaluador": "Juan Domínguez",
+ "correlativo": "F-DT/B61/2026",
+ "fecha_eval": "2026-07-07",
+ "hora": "14:30 h",
+ "cp_cercano": "Pedregal",
+ "comunidad": "No consignada",
+ "altitud_gps": "1120 (ficha) / 1098 - 1336 (MDE)",
+ "utm_e_dt": 645575,
+ "utm_n_dt": 9393500,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "15-25% (Fuert. inclinado)",
+ "posicion_fisio": "Ladera baja",
+ "exposicion": "Suroeste",
+ "rango_altitudinal": "1000-1500 m (Quechua baja)",
+ "paisaje": "Sistema de laderas convexo-cóncavas tributarias de la quebrada Q9590 (microcuenca C1081)",
+ "afloramientos": "No",
+ "escarpes": "Sí",
+ "reptacion": "Sí",
+ "deslizamientos": "Sí",
+ "remociones": "No",
+ "obs_dt01": "El bloque se asienta sobre ladera de montaña, con pendiente inferior al 30% y altitud de 1100 msnm. No se observan piedras de tamaño regular, salvo ejemplares medianos semienterrados y dispersos. El terreno se ubica POR ENCIMA DEL TALUD de una vía afirmada que conecta dos centros poblados del distrito; dicha vía presenta en varios tramos evidencias de derrumbes y procesos de erosión. Configuración fragmentada, en mosaico de parcelas de maíz y pastos; zona usada además para pastoreo de ganado vacuno, con notable deterioro del suelo por pisoteo continuo. Presencia de TOCONES (extracción previa de individuos arbóreos y arbustivos) y caminos de herradura en la ladera. Notable presencia de SURCOS, CÁRCAVAS DE TAMAÑO MEDIANO y otras en proceso de formación: alto nivel de impacto antrópico y ganadero que acelera la erosión hídrica. Zonas de reptación en áreas desprovistas de vegetación y derrumbes de menor extensión. NOTA DE CONSISTENCIA: el punto de registro (645 575 E / 9 393 500 N) difiere del centroide del bloque (646 236 E / 9 425 050 N) en ≈31 km en el eje norte; se transcribe tal como consta en el original.",
+ "sellamiento": "Sin registro en ficha",
+ "compactacion": "Sí (deterioro por pisoteo continuo, F-DT-01)",
+ "raices_expuestas": "Sin registro en ficha",
+ "nivel_erosion": "Ficha F-DT-02 SIN CONTENIDO en el documento de origen. Evidencia narrativa F-DT-01: surcos abundantes y cárcavas medianas y en formación (erosión hídrica activa)",
+ "n_carcavas": "No inventariadas (F-DT-02 sin contenido)",
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Por determinar",
+ "socavamiento": "Por determinar",
+ "urgencia_control": "Por determinar",
+ "carcavas": [],
+ "obs_dt02": "LA FICHA F-DT-02 APARECE SIN CONTENIDO en el PDF de origen (Ficha_DT_61_JCDV.pdf). Toda la información de procesos erosivos disponible proviene de la narrativa de F-DT-01: surcos distribuidos en el terreno, cárcavas de tamaño mediano y otras en proceso de formación, reptación en áreas desprovistas de vegetación y derrumbes de menor extensión. El inventario georreferenciado de cárcavas y las mediciones instrumentales quedan PENDIENTES en su totalidad.",
+ "parcela": "No consignada",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 22.61,
+ "cob_veg": "Por determinar",
+ "ecosistema": "Bosque seco / matorral remanente en mosaico agropecuario (tipo MINAM no consignado en ficha)",
+ "sup_ecosistema": "7 ha de ecosistema remanente (de 26.83 ha del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto (agropecuario dominante)",
+ "cob_dosel": 25,
+ "cob_arbustiva": 10,
+ "cob_herbacea": 15,
+ "cob_hojarasca": 5,
+ "suelo_desnudo": 5,
+ "h_dominante": 8,
+ "h_max": 8,
+ "dap": 20,
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 6,
+ "especies_clave": [
+  [
+   "Faique (Vachellia macracantha)",
+   "Indicadora de perturbación",
+   "NE — No Evaluado"
+  ],
+  [
+   "Guaba (Inga sp.)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Roble",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Overo (Cordia lutea)",
+   "Indicadora de perturbación",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "Mosaico dominado por parcelas de maíz y pastos cultivados, seguidas por rodales remanentes de bosque seco y árboles dispersos; LA SUPERFICIE DE CULTIVOS ES CONSIDERABLEMENTE MAYOR que la de vegetación remanente. El área ha sido impactada por retiro de la cobertura arbórea (presencia de tocones) para instalar potreros con cerco para ganado vacuno. Donde se conserva vegetación, la estructura no supera 8 m de altura ni 30 cm de DAP. Especies arbóreas nativas representativas: faique, pasallo, roble, guaba; arbustiva destacada: overo; suculentas: pocos cardos dispersos. NOMBRES CIENTÍFICOS Y FAMILIAS NO CONSIGNADOS en el original.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "65% — 30 años"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "15% — 30 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "65% — 30 años"
+  ]
+ ],
+ "causa_subyacente": "No consignada en la ficha",
+ "causas_directas": "Cambio en el uso del suelo: paso de matorral a zona agrícola de pastos y cultivo de maíz.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": "Por determinar",
+ "obs_dt04": "NINGÚN INDICADOR CUANTITATIVO DE DEGRADACIÓN FUE DILIGENCIADO en la ficha (los 8 indicadores figuran vacíos). Una parte del área seleccionada como bloque se encuentra cercada con alambre de púas y postes a manera de potrero para pastoreo de ganado vacuno. Advertencia: la urgencia ALTA contrasta con la velocidad MODERADA y con la ausencia total de indicadores cuantitativos que la sustenten.",
+ "fuentes_agua": [],
+ "recarga": "Sin registro en ficha",
+ "humedad": "Sin registro en ficha",
+ "escorrentia": "Sin registro en ficha",
+ "dist_captacion": "Sin registro en ficha",
+ "jass": "Sin registro en ficha",
+ "modalidad_acceso": "Sin registro en ficha",
+ "via_principal": "Vía afirmada que conecta dos centros poblados del distrito (F-DT-01); el bloque se ubica por encima de su talud",
+ "tipo_via_final": "Sin registro en ficha",
+ "transit_seca": "Sin registro en ficha",
+ "transit_lluviosa": "Sin registro en ficha",
+ "t_distrital": "Sin registro en ficha",
+ "t_provincial": "Sin registro en ficha",
+ "senal": "Sin registro en ficha",
+ "operador": "Sin registro en ficha",
+ "alojamiento": "Sin registro en ficha",
+ "ronda": "Sin registro en ficha",
+ "contacto_ronda": "Sin registro en ficha",
+ "obs_dt05": "LA FICHA F-DT-05 NO FUE DILIGENCIADA en el documento de origen: inventario de fuentes de agua sin registros y el resto de campos de la sección en blanco. Recursos hídricos y accesibilidad quedan PENDIENTES en su totalidad para la siguiente salida de campo.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Ficha DT",
+   "La ficha consigna microcuenca C1076-Q9584; el catálogo maestro asigna al bloque 61 la microcuenca C1081-Q9590",
+   "SUSTANTIVA",
+   "Valor por defecto de la plantilla; se conserva el del catálogo"
+  ],
+  [
+   "Ficha DT",
+   "El punto de registro (645 575 E / 9 393 500 N) difiere del centroide del bloque (646 236 E / 9 425 050 N) en ≈31 km",
+   "SUSTANTIVA",
+   "Coordenada por defecto de la plantilla; georreferencia por reponer en campo"
+  ],
+  [
+   "F-DT-02",
+   "Sección SIN CONTENIDO en el PDF de origen",
+   "SUSTANTIVA",
+   "Levantamiento de suelo y procesos erosivos pendiente en su totalidad"
+  ],
+  [
+   "F-DT-04",
+   "Ningún indicador cuantitativo de degradación fue diligenciado (8/8 vacíos)",
+   "SUSTANTIVA",
+   "Cuantificación pendiente"
+  ],
+  [
+   "F-DT-05",
+   "Sección SIN REGISTROS en el PDF de origen",
+   "SUSTANTIVA",
+   "Recursos hídricos y accesibilidad pendientes en su totalidad"
+  ],
+  [
+   "F-DT-03",
+   "Nombres científicos y familias no consignados para los 6 taxones registrados",
+   "NO SUSTANTIVA",
+   "Determinación botánica pendiente"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_61_JCDV.pdf",
+ "bloque": "61"
+}

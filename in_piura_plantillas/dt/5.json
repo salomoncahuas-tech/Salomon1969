@@ -1,0 +1,248 @@
+{
+ "microcuenca_dt": "C1077-Q9566",
+ "evaluador": "Ing. Juan Carlos Domínguez Varas",
+ "correlativo": "F-DT-2026-B5-001",
+ "fecha_eval": "2026-05-14",
+ "hora": "10:05 a.m.",
+ "cp_cercano": "Caserío El Ala (~250 m al norte del límite)",
+ "comunidad": "Hualas (referencial - por confirmar con Ronda Campesina)",
+ "altitud_gps": "215",
+ "utm_e_dt": 618722,
+ "utm_n_dt": 9413102,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Oeste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Colinas y montañas bajas vestidas por bosque seco estacional dominado por Charán, Pasallo, Hualtaco y Algarrobo",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Aunque no se evidencian movimientos en masa activos a escala de polígono, la combinación de pendientes 25-50% con cobertura discontinua, suelos delgados sobre material parental rocoso y precipitaciones erráticas de alta intensidad (ENSO costero) configura susceptibilidad media-alta a generación de escorrentía y arrastre de sedimentos. El bloque actúa como zona de ORIGEN del peligro de inundación que afecta aguas abajo a Buenos Aires, Bigote y Salitral.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 4,
+ "long_carcavas": "92 m",
+ "pct_carcavas": "5",
+ "erosion_laminar": "35",
+ "patron_carcavas": "Lineal",
+ "urgencia_control": "Alta",
+ "carcavas": [
+  [
+   "C-01",
+   "Cárcava incipiente (30-50 cm)",
+   618650,
+   9413100,
+   "Semi-activa",
+   "Concentración natural de escorrentía",
+   25,
+   0.35,
+   0.45
+  ],
+  [
+   "C-02",
+   "Cárcava somera (0.5-2 m)",
+   618620,
+   9413110,
+   "Activa",
+   "Socavamiento de cauce",
+   40,
+   0.9,
+   1.2
+  ],
+  [
+   "C-03",
+   "Surco (<30 cm)",
+   618700,
+   9413105,
+   "Activa",
+   "Caminos / huellas de ganado",
+   15,
+   0.2,
+   0.3
+  ],
+  [
+   "C-04",
+   "Surco (<30 cm)",
+   618680,
+   9413090,
+   "Activa",
+   "Caminos / huellas de ganado",
+   12,
+   0.18,
+   0.25
+  ]
+ ],
+ "obs_dt02": "El inventario detallado con georreferenciación de inicio/fin y secciones medidas se completará en microlocalización mediante barrido con dron y GPS sub-métrico. La erosión laminar generalizada (30-40%) y el carcavamiento incipiente asociado al cauce configuran el principal foco de intervención prioritaria (zanjas de infiltración, terrazas de formación lenta, barreras vivas).",
+ "parcela": "P-B5-01",
+ "dim_parcela": "25 x 25 m",
+ "pend_parcela": 35,
+ "cob_veg": 70,
+ "ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+ "sup_ecosistema": "295.73 ha",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 30,
+ "cob_arbustiva": 35,
+ "cob_herbacea": 45,
+ "cob_hojarasca": 12,
+ "suelo_desnudo": 13,
+ "h_dominante": 6,
+ "h_max": 12,
+ "dap": 20,
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Floración",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 14,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada D.S. 043",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Amenazada D.S. 043",
+   "VU — Vulnerable"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Indicadora de buen estado",
+   "LC"
+  ],
+  [
+   "Armatocereus cartwrightianus",
+   "Indicadora de buen estado",
+   "LC"
+  ],
+  [
+   "Prosopis pallida (Algarrobo)",
+   "Clave cultural",
+   "LC"
+  ]
+ ],
+ "obs_dt03": "El bloque conserva fragmentos de comunidad arbórea de buen valor ecológico, con especies amenazadas (Hualtaco CR, Pasallo VU) y poblaciones funcionales de algarrobo, cardones y el Charán semillero. La regeneración natural escasa indica baja tasa de reposición que justifica revegetación activa y clausura temporal.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "70"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "50"
+  ],
+  [
+   "Tala para carbón",
+   "Sí",
+   "Ligera",
+   "20"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "Sí",
+   "Ligera",
+   "30"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Fuerte",
+   "70"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Ligera",
+   "10"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Fuerte",
+   "100"
+  ]
+ ],
+ "causa_subyacente": "Pobreza rural + ausencia de planes comunitarios de manejo silvopastoril + tenencia difusa de la tierra + baja adopción de prácticas de conservación",
+ "causas_directas": "(1) Sobrepastoreo caprino y vacuno extensivo; (2) tala selectiva para leña y carbón; (3) quemas estacionales de renovación de pastos; (4) estrés hídrico recurrente (CC).",
+ "velocidad": "Lenta",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dens_carcavas": 0.8,
+ "ind_invasoras": 1,
+ "ind_carga_ganadera": 2.5,
+ "ind_quemas_5a": 1.5,
+ "ind_pend50": "40",
+ "ind_dist_via": 250,
+ "obs_dt04": "La combinación sobrepastoreo + estrés hídrico configura una degradación lenta pero acumulativa con pérdida progresiva de la capacidad de regeneración natural del Bes-cm. La intervención debe integrar infraestructura natural con gobernanza comunitaria y articulación con MERESE.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   614511,
+   9414400,
+   "",
+   "No evaluable",
+   0,
+   "Quebrada s/n - drenaje"
+  ],
+  [
+   "Reservorio / Represa",
+   613891,
+   9415280,
+   "Permanente",
+   "Regular (lig. turbia)",
+   200,
+   "Tanque / mini-reservorio"
+  ],
+  [
+   "Río",
+   615000,
+   9414500,
+   "Permanente",
+   "Regular (lig. turbia)",
+   300,
+   "Río Piura - uso doméstico"
+  ],
+  [
+   "Otro",
+   617500,
+   9413600,
+   "",
+   "No evaluable",
+   0,
+   "Punto interno CT1"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "600",
+ "interferencia_riego": "No",
+ "sistema_riego": "Sistema gravedad El Ala / Buenos Aires (margen derecha del río Piura)",
+ "modalidad_acceso": "Vehicular + caminata 30-90 min",
+ "via_principal": "PE-2A (Chulucanas - Buenos Aires - Canchaque)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Medio",
+ "t_distrital": "35",
+ "t_provincial": "85",
+ "senal": "Parcial",
+ "operador": "Claro",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Por confirmar con autoridades comunales y municipalidad distrital de Buenos Aires",
+ "obs_dt05": "Accesibilidad adecuada en época seca (mayo-octubre). En temporada lluviosa intensa (enero-abril) algunas trochas internas pueden quedar intransitables: se recomienda programar plantación al inicio de lluvias (diciembre-enero) y mantenimiento en época seca. Coordinación previa con la Ronda Campesina y la JASS es indispensable.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": null,
+ "fuente_ficha": "ficha_5_20260619_035327.pdf",
+ "bloque": "5"
+}

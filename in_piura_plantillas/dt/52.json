@@ -1,0 +1,244 @@
+{
+ "microcuenca_dt": "C1086-Q9575",
+ "evaluador": "Ing. Juan Domínguez Varas",
+ "correlativo": "DT-B52-2026-05",
+ "fecha_eval": "2026-05-26",
+ "hora": "12:38",
+ "cp_cercano": "Miraflores",
+ "comunidad": "C.C. Yamango - Sector Miraflores",
+ "altitud_gps": "3070",
+ "utm_e_dt": 645575,
+ "utm_n_dt": 9437881,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Sur",
+ "rango_altitudinal": "3000-3500 m (Puna baja)",
+ "paisaje": "Sistema de laderas convexo-cóncavas tributarias de la quebrada Q9575 (microcuenca C1086)",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "Sí",
+ "obs_dt01": "Cluster de bloques B52-B49-B55 en microcuenca C1086-Q9575 (zona Z09). Acceso por carretera departamental PI-124 (Yamango-Choco) y trocha vecinal afirmada; ingreso al polígono a pie desde el lado sur. Pendiente media observada en transectos: 24.3% y 32.9%; máxima local 55.9% (sector noreste). El talud de la trocha presenta evidencia de DERRUMBE COLUVIAL RECIENTE.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 3,
+ "pct_carcavas": "8",
+ "patron_carcavas": "Aislado",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01",
+   "Surco (<30 cm)",
+   641610,
+   9437872,
+   "Activa",
+   "Caminos / huellas de ganado",
+   7.5,
+   0.25,
+   0.6
+  ],
+  [
+   "C-02",
+   "Cárcava incipiente (30-50 cm)",
+   641586,
+   9437832,
+   "Semi-activa",
+   "Sobrepastoreo",
+   14,
+   0.45,
+   1.1
+  ],
+  [
+   "C-03",
+   "Cárcava somera (0.5-2 m)",
+   641360,
+   9437903,
+   "Activa",
+   "Concentración natural de escorrentía",
+   8,
+   1.2,
+   1.8
+  ]
+ ],
+ "obs_dt02": "Procesos erosivos dominados por compactación y formación de surcos asociados a senderos de pastoreo extensivo (bovino-ovino). Los rasgos más severos se concentran en el corte del talud de la trocha, donde el material coluvial alterado presenta caídas recientes. La densidad de cárcavas (≈0.27/ha) es baja; su actividad sostenida indica degradación lenta pero progresiva, controlable mediante zanjas de infiltración, clausura temporal y manejo ganadero.",
+ "cob_veg": 70,
+ "ecosistema": "Agroecosistema / Mosaico",
+ "sup_ecosistema": "11.06 ha",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 15,
+ "cob_herbacea": 60,
+ "suelo_desnudo": 12,
+ "h_max": 16,
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 14,
+ "especies_clave": [
+  [
+   "Polylepis racemosa (Queñual)",
+   "Amenazada D.S. 043",
+   "VU — Vulnerable",
+   641675,
+   9437943
+  ],
+  [
+   "Juglans neotropica (Nogal)",
+   "Amenazada D.S. 043",
+   "EN — En Peligro",
+   641675,
+   9437943
+  ],
+  [
+   "Cedrela montana (Cedro)",
+   "Amenazada D.S. 043",
+   "VU — Vulnerable",
+   641675,
+   9437943
+  ],
+  [
+   "Podocarpus oleifolius (Romerillo)",
+   "Amenazada D.S. 043",
+   "NT — Casi Amenazado",
+   641675,
+   9437943
+  ],
+  [
+   "Alnus acuminata (Aliso)",
+   "Indicadora de buen estado",
+   "LC",
+   641618,
+   9437881
+  ],
+  [
+   "Vaccinium sp. (Pushgay)",
+   "Indicadora de buen estado",
+   "LC",
+   641675,
+   9437943
+  ]
+ ],
+ "obs_dt03": "La UP corresponde a un MOSAICO AGROECOSISTÉMICO ALTOANDINO derivado de la conversión histórica de bosque relictual montano (Bosque Relicto Montano de la Vertiente Occidental, BMVO) a pastizal cultivado y mixto. Los relictos arbóreos persisten en crestas y laderas inaccesibles y conservan especies clave de alto valor ecológico y de conservación. La nomenclatura científica es preliminar, basada en referentes regionales (Bosque Mijal-Chalaco; Bosque Cuyas-Ayabaca), y requiere colecta botánica.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Muy fuerte",
+   "80"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "30"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Ligera",
+   "15"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "Sí",
+   "Moderada",
+   "25"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Ligera",
+   "8"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "",
+   "85"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Moderada",
+   "25"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "10"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "100"
+  ]
+ ],
+ "causa_subyacente": "Modelo ganadero tradicional extensivo de subsistencia, débil diversificación productiva en cabeceras y ausencia de manejo silvopastoril",
+ "causas_directas": "(1) Sobrepastoreo extensivo bovino-ovino histórico sobre laderas de pendiente moderada a fuerte; (2) cambio de uso de bosque montano a pastizal cultivado-mixto, con expansión de kikuyo introducido; (3) tala selectiva histórica de especies maderables (Cedrela, Juglans); (4) quemas estacionales para renovación de pastos.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dens_carcavas": 0.27,
+ "ind_invasoras": 30,
+ "ind_carga_ganadera": 2.5,
+ "ind_quemas_5a": 3,
+ "ind_pend50": "20",
+ "ind_dist_via": 50,
+ "obs_dt04": "La degradación es de tipo CRÓNICO-EXTENSIVO: la matriz del bloque ha alcanzado un nuevo equilibrio en pastizal antrópico, con los relictos arbóreos confinados a refugios topográficos. La restauración pasiva es factible mediante clausura temporal, manejo de carga ganadera, control de quemas y enriquecimiento progresivo con nativas (Aliso, Queñual, Nogal). Los antecedentes de la Cooperativa Norandino en Yamango validan la factibilidad técnica.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   641450,
+   9438050,
+   "Estacional (lluvias)",
+   "Regular (lig. turbia)",
+   50,
+   "Drenaje natural Q9575"
+  ],
+  [
+   "Manantial / Puquio",
+   641680,
+   9437950,
+   "Permanente",
+   "Buena (clara)",
+   0,
+   "Manantial pequeño dentro del bloque"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "800",
+ "interferencia_riego": "No",
+ "modalidad_acceso": "Vehicular + caminata 30-90 min",
+ "via_principal": "Carretera departamental PI-124 (Yamango-Choco) + trocha vecinal afirmada",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "45",
+ "t_provincial": "150",
+ "senal": "Intermitente",
+ "operador": "Bitel",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "obs_dt05": "El bloque se ubica en cabecera de la microcuenca C1086-Q9575, con función reguladora hídrica relevante para los sistemas de agua de uso doméstico aguas abajo. La presencia de manantiales y humedad persistente en los relictos confirma el rol de zona de recarga. En época lluviosa la trocha pierde transitabilidad por el talud de derrumbe, lo que condiciona la ventana operativa de obras y plantaciones.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 14,
+ "fuente_ficha": "ficha_52_20260628_154219.pdf",
+ "bloque": "52"
+}
