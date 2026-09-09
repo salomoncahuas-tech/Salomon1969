@@ -127,7 +127,18 @@ def main():
         assert abs(suma_ha - AREA) < 0.01, \
             "las hectareas no suman la superficie de catalogo: %.4f vs %.2f" % (suma_ha, AREA)
         assert abs(suma_pct - 100.0) < 0.05, "los porcentajes no suman 100: %.3f" % suma_pct
-        assert "conteo de celdas" in cob["A10"].value.lower(), "no se reemplazo la nota"
+        pos_nota = mod.busca_fila(cob, "NOTA METODOLOGICA")
+        assert pos_nota, "desaparecio la NOTA METODOLOGICA"
+        assert "conteo de celdas" in cob.cell(row=pos_nota[0], column=pos_nota[1]).value.lower(), \
+            "no se reemplazo la nota"
+        pos_tot = mod.busca_fila(cob, "TOTAL CLASIFICADO", col_max=1)
+        assert pos_tot, "no se agrego la fila TOTAL CLASIFICADO de la seccion A"
+        assert cob.cell(row=pos_tot[0], column=2).value == "=SUM(B4:B8)", \
+            cob.cell(row=pos_tot[0], column=2).value
+        # la nota combinada siguio a su contenido al insertarse la fila TOTAL
+        assert any(r.min_row == pos_nota[0] and r.max_row == pos_nota[0]
+                   for r in cob.merged_cells.ranges), \
+            "el rango combinado de la nota quedo anclado a la fila antigua"
 
         # --- hoja Resumen ---
         res = libro["Resumen"]

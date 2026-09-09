@@ -117,18 +117,28 @@ estadística zonal del ráster MSAVI 2024 recortado a `Bloques_V6`. Mientras ese
 insumo no exista, la medición sobre la cartografía temática es la mejor
 aproximación disponible y así queda declarada en cada libro.
 
-## 6. Resultado agregado (117 bloques, 12 230.4 ha)
+## 6. Resultado agregado (117 bloques, 12 270.22 ha)
+
+Cifras definitivas, tal como quedaron escritas en los 117 libros, sobre la
+superficie de catálogo (V5/V6) que declara cada uno:
 
 | Clase MSAVI 2024 | Superficie | % del ámbito |
 |---|---:|---:|
-| > 0.6139 — Vigor alto | 1 950.6 ha | 15.9 % |
-| 0.4976 – 0.6139 — Vigor moderado | 1 958.1 ha | 16.0 % |
-| 0.3813 – 0.4976 — Vigor bajo | 2 815.1 ha | 23.0 % |
-| 0.2650 – 0.3813 — Vigor muy bajo | 4 259.6 ha | 34.8 % |
-| ≤ 0.2650 — Suelo desnudo / no vegetal | 1 246.9 ha | 10.2 % |
-| **BAJO el umbral 0.4976** | **8 321.6 ha** | **68.0 %** |
+| > 0.6139 — Vigor alto | 1 952.67 ha | 15.9 % |
+| 0.4976 – 0.6139 — Vigor moderado | 1 962.21 ha | 16.0 % |
+| 0.3813 – 0.4976 — Vigor bajo | 2 824.74 ha | 23.0 % |
+| 0.2650 – 0.3813 — Vigor muy bajo | 4 277.46 ha | 34.9 % |
+| ≤ 0.2650 — Suelo desnudo / no vegetal | 1 253.13 ha | 10.2 % |
+| **BAJO el umbral 0.4976** | **8 355.33 ha** | **68.1 %** |
 
-El 68.0 % del ámbito con ficha DT se sitúa por debajo del umbral de brecha, lo
+La suma de las cinco clases iguala la superficie total sin desvío (0.0000 ha).
+
+El CSV de este directorio arroja 12 230.4 ha porque su columna `AREA_HA` procede
+de la tabla de intersección; la cifra oficial es la de catálogo V5/V6 de cada
+libro, que es la que usa el script. La diferencia agregada es de 39.8 ha
+(0.3 %) y no altera ningún porcentaje por clase.
+
+El 68.1 % del ámbito con ficha DT se sitúa por debajo del umbral de brecha, lo
 que sustenta el indicador de brecha del proyecto (*porcentaje de superficie de
 ecosistemas degradados que requieren recuperación*, R.M. N.° 00213-2024-MINAM).
 
@@ -149,6 +159,7 @@ superficie de catálogo V5/V6 declarada en cada libro.
 | `analizar_msavi_png.py` | Medición reproducible sobre las cartografías PNG |
 | `completar_msavi_plantillas.py` | Escribe las tres hojas en los 117 libros |
 | `test_completar_msavi.py` | Prueba del anterior sobre un libro que replica la estructura |
+| `registro_completado_117.txt` | Constancia de la ejecución sobre los 117 libros |
 
 ### Uso
 

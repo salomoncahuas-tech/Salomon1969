@@ -60,26 +60,28 @@ CLASES = [
 ]
 
 NOTA_NUEVA = (
-    "NOTA METODOLOGICA. La media del MSAVI 2024 del bloque procede del catalogo "
-    "maestro de bloques V5/V6 y es dato oficial. La DISTRIBUCION AREAL por clase "
-    "se obtuvo por conteo de celdas sobre la cartografia tematica MSAVI 2024 del "
+    "NOTA METODOLÓGICA. La media del MSAVI 2024 del bloque procede del catálogo "
+    "maestro de bloques V5/V6 y es dato oficial. La DISTRIBUCIÓN AREAL por clase "
+    "se obtuvo por conteo de celdas sobre la cartografía temática MSAVI 2024 del "
     "bloque (carpeta Drive «MSAVI BLOQUES V6»), clasificada con la paleta RdYlGn "
     "de cinco clases y los mismos umbrales del proyecto. El reparto porcentual es "
-    "el medido sobre el poligono del bloque; las hectareas se obtienen aplicando "
-    "ese reparto a la superficie de catalogo (V5/V6) declarada en la hoja "
+    "el medido sobre el polígono del bloque; las hectáreas se obtienen aplicando "
+    "ese reparto a la superficie de catálogo (V5/V6) declarada en la hoja "
     "«Resumen», de modo que el total por clase cuadra con la superficie oficial. "
-    "Umbral de brecha 0.4976 conforme a la R.M. N.o 00213-2024-MINAM. "
-    "Contraste independiente: la tabla de interseccion vectorial "
+    "Umbral de brecha 0.4976 conforme a la R.M. N.° 00213-2024-MINAM. "
+    "CONTRASTE INDEPENDIENTE: la tabla de intersección vectorial "
     "«BLOQUES_V6_INTERSECC_MSAVI» reproduce el mismo ordenamiento de bloques "
-    "(correlacion de Pearson 0.949 sobre el porcentaje bajo umbral en los 117 "
-    "bloques); no se usa para el metrado porque su campo AREA_M2 conserva el area "
-    "del poligono padre y no la de cada pieza de interseccion."
+    "(correlación de Pearson 0.949 sobre el porcentaje bajo umbral en los 117 "
+    "bloques); no se usa para el metrado porque su campo AREA_M2 conserva el área "
+    "del polígono padre y no la de cada pieza de intersección. El refrendo por "
+    "estadística zonal directa sobre el ráster MSAVI 2024 recortado al polígono "
+    "queda pendiente."
 )
 
 TXT_CONSISTENCIA = (
-    "La hoja «Cobertura MSAVI-NDVI» consignaba «Por determinar» en la distribucion "
+    "La hoja «Cobertura MSAVI-NDVI» consignaba «Por determinar» en la distribución "
     "areal de clases MSAVI 2024; se incorpora el metrado por clase medido sobre la "
-    "cartografia tematica MSAVI 2024 del bloque"
+    "cartografía temática MSAVI 2024 del bloque"
 )
 
 
@@ -136,9 +138,36 @@ def copia_estilo(origen, destino):
         destino.number_format = origen.number_format
 
 
+def desplaza_combinadas(hoja, fila_destino, cuantas=1):
+    """Baja `cuantas` filas los rangos combinados situados en `fila_destino` o por
+    debajo, y estira los que la cruzan.
+
+    `Worksheet.insert_rows` de openpyxl mueve celdas y estilos pero NO toca
+    `merged_cells`: sin esto, las cabeceras combinadas de ancho completo que hay
+    debajo del punto de insercion (A32:F32, A40:F40, ...) se quedarian ancladas a
+    su fila antigua mientras su contenido baja, y el libro saldria descuadrado.
+    """
+    viejos, nuevos = [], []
+    for rango in list(hoja.merged_cells.ranges):
+        r = copy.copy(rango)
+        if rango.min_row >= fila_destino:
+            r.shift(0, cuantas)
+        elif rango.max_row >= fila_destino:
+            r.max_row += cuantas
+        viejos.append(str(rango))
+        nuevos.append(str(r))
+    for coord in viejos:
+        hoja.unmerge_cells(coord)
+    for coord in nuevos:
+        hoja.merge_cells(coord)
+
+
 def inserta_fila_como(hoja, fila_modelo, fila_destino, col_max=8):
     """Inserta una fila en `fila_destino` heredando el estilo de `fila_modelo`."""
     hoja.insert_rows(fila_destino)
+    # despues de insertar: openpyxl ya movio el contenido, pero los rangos
+    # combinados siguen apuntando a las filas antiguas
+    desplaza_combinadas(hoja, fila_destino, 1)
     modelo = fila_modelo if fila_modelo < fila_destino else fila_modelo + 1
     for col in range(1, col_max + 1):
         copia_estilo(hoja.cell(row=modelo, column=col),
@@ -171,22 +200,57 @@ def superficie_catalogo(libro):
     return a_float(hoja.cell(row=fila, column=col + 1).value)
 
 
-def completa_cobertura(libro, datos, area_ha, avisos):
+def reparto_exacto(datos, area_ha):
+    """Porcentajes y hectareas por clase que suman exactamente 100 y `area_ha`.
+
+    Los porcentajes del CSV vienen redondeados a dos decimales y en algunos
+    bloques suman 99.99 o 100.01; aplicados sin mas, el metrado no cuadraria con
+    la superficie de catalogo. El residuo se carga sobre la clase de mayor
+    superficie, que es donde resulta despreciable en terminos relativos.
+    """
+    pct = {c[0]: round(float(datos[c[1]]), 2) for c in CLASES}
+    mayor = max(pct, key=lambda k: pct[k])
+    pct[mayor] = round(pct[mayor] + (100.0 - sum(pct.values())), 2)
+
+    ha = {k: round(area_ha * v / 100.0, 4) for k, v in pct.items()}
+    ha[mayor] = round(ha[mayor] + (round(area_ha, 4) - sum(ha.values())), 4)
+    return pct, ha
+
+
+def completa_cobertura(libro, datos, area_ha, insertar, avisos):
     if "Cobertura MSAVI-NDVI" not in libro.sheetnames:
         avisos.append("no existe la hoja 'Cobertura MSAVI-NDVI'")
         return 0
     hoja = libro["Cobertura MSAVI-NDVI"]
     escritas = 0
+    primera = ultima = None
+    pct_cls, ha_cls = reparto_exacto(datos, area_ha)
     for rotulo, columna_csv, _interpretacion in CLASES:
         pos = busca_fila(hoja, rotulo, col_max=2)
         if not pos:
             avisos.append("no se hallo la fila de clase %r" % rotulo)
             continue
         fila, col = pos
-        pct = float(datos[columna_csv])
-        escribe(hoja, fila, col + 1, round(area_ha * pct / 100.0, 4), "0.0000")
-        escribe(hoja, fila, col + 2, round(pct, 2), "0.00")
+        escribe(hoja, fila, col + 1, ha_cls[rotulo], "0.0000")
+        escribe(hoja, fila, col + 2, pct_cls[rotulo], "0.00")
+        primera = fila if primera is None else min(primera, fila)
+        ultima = fila if ultima is None else max(ultima, fila)
         escritas += 1
+
+    # fila TOTAL con formulas, en paralelo a la que ya trae la seccion B del NDVI.
+    # Se comprueba solo la fila siguiente a la ultima clase: buscar en toda la hoja
+    # encontraria el TOTAL CLASIFICADO que la seccion B (NDVI) ya trae.
+    ya_esta = (escritas == len(CLASES) and ultima is not None
+               and normaliza(hoja.cell(row=ultima + 1, column=1).value)
+               .startswith(normaliza("TOTAL CLASIFICADO")))
+    if insertar and escritas == len(CLASES) and not ya_esta:
+        destino = ultima + 1
+        inserta_fila_como(hoja, ultima, destino, col_max=5)
+        escribe(hoja, destino, 1, "TOTAL CLASIFICADO")
+        escribe(hoja, destino, 2, "=SUM(B%d:B%d)" % (primera, ultima), "0.0000")
+        escribe(hoja, destino, 3, "=SUM(C%d:C%d)" % (primera, ultima), "0.00")
+        escribe(hoja, destino, 4, "Suma de las cinco clases MSAVI 2024")
+        escribe(hoja, destino, 5, "Iguala la superficie de catálogo (V5/V6)")
 
     pos = busca_fila(hoja, "NOTA METODOLOGICA", col_max=8)
     if pos:
@@ -201,8 +265,9 @@ def completa_resumen(libro, datos, area_ha, insertar, avisos):
         avisos.append("no existe la hoja 'Resumen'")
         return 0
     hoja = libro["Resumen"]
-    bajo = float(datos["PCT_BAJO_UMBRAL_0_4976"])
-    ha_bajo = round(area_ha * bajo / 100.0, 3)
+    pct_cls, ha_cls = reparto_exacto(datos, area_ha)
+    bajo = round(sum(pct_cls[c[0]] for c in CLASES[2:]), 2)
+    ha_bajo = round(sum(ha_cls[c[0]] for c in CLASES[2:]), 3)
     condicion = "Sobre umbral" if bajo < 50 else "Bajo umbral"
 
     pos = busca_fila(hoja, "Condicion frente al umbral")
@@ -211,18 +276,18 @@ def completa_resumen(libro, datos, area_ha, insertar, avisos):
         return 0
     fila, col = pos
     escribe(hoja, fila, col + 1,
-            "%s - distribucion areal: %.2f %% del bloque BAJO el umbral "
+            "%s · distribución areal: %.2f %% del bloque BAJO el umbral "
             "(%.3f ha de %.3f ha)" % (condicion, bajo, ha_bajo, area_ha))
 
     if not insertar:
         return 1
 
     nuevas = [
-        ("MSAVI 2024 - superficie BAJO el umbral 0.4976 (ha)", ha_bajo,
-         "MSAVI 2024 - % del bloque BAJO el umbral", round(bajo, 2)),
-        ("MSAVI 2024 - clase areal dominante", datos["CLASE_MODAL"],
-         "MSAVI 2024 - fuente de la distribucion areal",
-         "Conteo de celdas sobre cartografia MSAVI 2024 del bloque (%s)"
+        ("MSAVI 2024 — superficie BAJO el umbral 0.4976 (ha)", ha_bajo,
+         "MSAVI 2024 — % del bloque BAJO el umbral", round(bajo, 2)),
+        ("MSAVI 2024 — clase areal dominante", datos["CLASE_MODAL"],
+         "MSAVI 2024 — fuente de la distribución areal",
+         "Conteo de celdas sobre la cartografía MSAVI 2024 del bloque (%s)"
          % datos["MAPA_PNG"]),
     ]
     for desplazamiento, (rot_a, val_a, rot_b, val_b) in enumerate(nuevas):
@@ -248,31 +313,37 @@ def completa_consistencia(libro, datos, area_ha, insertar, avisos):
 
     # ultimo correlativo D-xx por encima de la fila RESUMEN
     ultimo = 0
+    fila_ultima_disc = None
     for f in range(1, fila_resumen):
         m = re.fullmatch(r"D-(\d+)", str(hoja.cell(row=f, column=col).value or "").strip())
         if m:
             ultimo = max(ultimo, int(m.group(1)))
+            fila_ultima_disc = f
     codigo = "D-%02d" % (ultimo + 1)
 
-    bajo = float(datos["PCT_BAJO_UMBRAL_0_4976"])
+    pct_cls, ha_cls = reparto_exacto(datos, area_ha)
+    bajo = round(sum(pct_cls[c[0]] for c in CLASES[2:]), 2)
     detalle = ("%s: %.2f %% del bloque (%.3f ha) bajo el umbral 0.4976 y %.2f %% "
                "sobre el umbral; clase areal dominante «%s»."
-               % (TXT_CONSISTENCIA, bajo, area_ha * bajo / 100.0, 100 - bajo,
-                  datos["CLASE_MODAL"]))
+               % (TXT_CONSISTENCIA, bajo, sum(ha_cls[c[0]] for c in CLASES[2:]),
+                  round(100 - bajo, 2), datos["CLASE_MODAL"]))
     tratamiento = ("Se sustituye «Por determinar» por el metrado por clase. Las "
-                   "hectareas se derivan del reparto porcentual medido aplicado a la "
-                   "superficie de catalogo (V5/V6) del bloque, por lo que la suma de "
+                   "hectáreas se derivan del reparto porcentual medido aplicado a la "
+                   "superficie de catálogo (V5/V6) del bloque, por lo que la suma de "
                    "las cinco clases iguala dicha superficie. Pendiente de refrendo "
-                   "con estadistica zonal directa sobre el raster MSAVI 2024 "
+                   "con estadística zonal directa sobre el ráster MSAVI 2024 "
                    "cuando se disponga del insumo.")
 
     if insertar:
-        inserta_fila_como(hoja, fila_resumen - 1, fila_resumen)
-        escribe(hoja, fila_resumen, col, codigo)
-        escribe(hoja, fila_resumen, col + 1, "Distribucion areal de clases MSAVI 2024")
-        escribe(hoja, fila_resumen, col + 2, detalle)
-        escribe(hoja, fila_resumen, col + 3, "CORREGIDO")
-        escribe(hoja, fila_resumen, col + 4, tratamiento)
+        # justo debajo de la ultima discrepancia, para no ocupar la fila en
+        # blanco que separa el cuadro de la fila RESUMEN
+        destino = (fila_ultima_disc + 1) if fila_ultima_disc else fila_resumen
+        inserta_fila_como(hoja, fila_ultima_disc or fila_resumen, destino, col_max=5)
+        escribe(hoja, destino, col, codigo)
+        escribe(hoja, destino, col + 1, "Distribución areal de clases MSAVI 2024")
+        escribe(hoja, destino, col + 2, detalle)
+        escribe(hoja, destino, col + 3, "CORREGIDO")
+        escribe(hoja, destino, col + 4, tratamiento)
         fila_resumen += 1
 
     # actualiza los conteos de la fila RESUMEN
@@ -289,7 +360,7 @@ def completa_consistencia(libro, datos, area_ha, insertar, avisos):
     if total:
         escribe(hoja, fila_resumen, col + 1, "%d verificaciones" % total)
         escribe(hoja, fila_resumen, col + 2,
-                "CONFORME: %d - NO SUSTANTIVA: %d - SUSTANTIVA: %d - CORREGIDO: %d"
+                "CONFORME: %d \u00b7 NO SUSTANTIVA: %d \u00b7 SUSTANTIVA: %d \u00b7 CORREGIDO: %d"
                 % (conteo["CONFORME"], conteo["NO SUSTANTIVA"],
                    conteo["SUSTANTIVA"], conteo["CORREGIDO"]))
     return 1
@@ -305,7 +376,7 @@ def procesa_libro(ruta, datos, insertar, simular):
         avisos.append("sin 'Superficie de catalogo' legible; se usa el area de "
                       "la tabla de interseccion (%.3f ha)" % area)
 
-    n1 = completa_cobertura(libro, datos, area, avisos)
+    n1 = completa_cobertura(libro, datos, area, insertar, avisos)
     n2 = completa_resumen(libro, datos, area, insertar, avisos)
     n3 = completa_consistencia(libro, datos, area, insertar, avisos)
 
