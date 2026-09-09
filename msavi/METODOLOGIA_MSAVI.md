@@ -160,6 +160,7 @@ superficie de catálogo V5/V6 declarada en cada libro.
 | `completar_msavi_plantillas.py` | Escribe las tres hojas en los 117 libros |
 | `test_completar_msavi.py` | Prueba del anterior sobre un libro que replica la estructura |
 | `registro_completado_117.txt` | Constancia de la ejecución sobre los 117 libros |
+| `verificar_completado.py` | Comprueba si una carpeta de libros está completada y cuadrada |
 
 ### Uso
 
@@ -168,5 +169,15 @@ pip install openpyxl
 python completar_msavi_plantillas.py --dir <carpeta_con_los_117_xlsx> --simular
 python completar_msavi_plantillas.py --dir <carpeta_con_los_117_xlsx>
 ```
+
+Para comprobar una carpeta —por ejemplo, después de subirla o descargarla de
+Drive— y distinguir un libro completado de uno que sigue en su versión original:
+
+```bash
+python verificar_completado.py --dir <carpeta>
+python verificar_completado.py --dir <carpeta> --detalle --csv-informe informe.csv
+```
+
+Devuelve 0 solo si los 117 están completados y cuadrados.
 
 Deja un respaldo `.bak` de cada libro antes de escribir.
