@@ -1,0 +1,327 @@
+{
+ "microcuenca_dt": "C1086-Q9576",
+ "evaluador": "Ing. Héctor S. Cahuas Miller / Ing. Pedro Talledo Hernández",
+ "correlativo": "F-DT-M36B2-01",
+ "fecha_eval": "2026-06-03",
+ "hora": "14:39 - 15:33 h",
+ "cp_cercano": "Santa Rosa de Chirimoyos",
+ "comunidad": "Por verificar (predominio de predios privados; tierras comunales y del Estado)",
+ "altitud_gps": "1 400 (declarada en ficha; el hito del bloque registra 1 453 msnm de GPS de gabinete). Recorrido de campo con altitudes 1 341 - 1 469 msnm (perfil GE); rango altitudinal del bloque ~1 350 - 1 500 msnm",
+ "utm_e_dt": 626400,
+ "utm_n_dt": 9434998,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Noroeste",
+ "rango_altitudinal": "1000-1500 m (Quechua baja)",
+ "paisaje": "Espolón de ladera de colina-montaña entre dos quebradas tributarias de la microcuenca C1086-Q9576; mosaico agropecuario",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Inspección del 03-06-2026. El punto de muestreo se refiere al hito del bloque (626 400 E / 9 434 998 N, 1 453 msnm de GPS de gabinete); el recorrido de campo (track Garmin 66sr) abarcó de 626 580 E / 9 435 291 N a 625 974 E / 9 434 966 N. Los afloramientos, el saprolito y los escarpes activos se concentran en los TALUDES DE CORTE de la trocha y los caminos de herradura (periferia del bloque), no en remociones en masa de superficie. ADVERTENCIA: algunas coordenadas de fotografías pueden presentar error por señal GPS de celular subóptima (cielo nublado y ligera lluvia).",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 4,
+ "long_carcavas": "Pendiente de levantamiento instrumental",
+ "pct_carcavas": "Pendiente de levantamiento instrumental",
+ "erosion_laminar": "Pendiente de levantamiento instrumental",
+ "patron_carcavas": "Aislado",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01",
+   "Cárcava somera",
+   626102,
+   9434928,
+   "Por determinar",
+   "Por determinar",
+   "Por determinar",
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "C-02",
+   "Cárcava incipiente",
+   626547,
+   9435257,
+   "Por determinar",
+   "Por determinar",
+   "Por determinar",
+   "Semi-activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "C-03",
+   "Surco (<30 cm)",
+   626118,
+   9434932,
+   "Por determinar",
+   "Por determinar",
+   "Por determinar",
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "C-04",
+   "Cárcava somera",
+   626314,
+   9434983,
+   "Por determinar",
+   "Por determinar",
+   "Por determinar",
+   "Sin registro en ficha",
+   "Concentración natural de escorrentía"
+  ]
+ ],
+ "obs_dt02": "Erosión predominantemente ligera-moderada en el interior del bloque (surcos y suelo expuesto en sendas, compactación por pisoteo de ganado, raíces expuestas). Las evidencias erosivas más marcadas (cárcavas y escarpes activos) se concentran en los TALUDES DE CORTE de la trocha carrozable y los caminos de herradura (fotos índices 7, 10, 13, 14, 21, 24). El inventario es un REGISTRO RÁPIDO de 4 rasgos: las dimensiones (longitud, profundidad, ancho), la longitud total, el % de bloque afectado y la erosión laminar quedan pendientes de levantamiento instrumental. Coordenadas con posible error por señal GPS subóptima.",
+ "parcela": "Recorrido de bloque (transecto a pie; sin parcela fija)",
+ "dim_parcela": "No aplica (evaluación por recorrido/transecto)",
+ "pend_parcela": 20,
+ "cob_veg": 75,
+ "ecosistema": "Agroecosistema / Mosaico",
+ "sup_ecosistema": "28.19 ha (100% del bloque, catalogado por el MINAM como Zona agrícola)",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 25,
+ "cob_arbustiva": 25,
+ "cob_herbacea": 35,
+ "cob_hojarasca": 10,
+ "suelo_desnudo": 15,
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "Por determinar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Faique (Vachellia macracantha)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "NT - Casi Amenazada",
+   "",
+   "",
+   ""
+  ],
+  [
+   "Quina / Cascarilla (Cinchona sp.)",
+   "Clave cultural",
+   "VU - Vulnerable",
+   "",
+   "",
+   ""
+  ],
+  [
+   "Angolo (Pithecellobium sp.)",
+   "Indicadora de buen estado",
+   "No aplica",
+   "626339",
+   "9434975",
+   "Foto"
+  ],
+  [
+   "Guayacán (Handroanthus chrysanthus)",
+   "Indicadora de buen estado",
+   "NE - No Evaluado",
+   "",
+   "",
+   ""
+  ]
+ ],
+ "obs_dt03": "El bloque está catalogado por el MINAM como Zona agrícola (Agroecosistema) en su totalidad (28.19 ha), pero CONSERVA RELICTOS DE BOSQUE SECO de colina/montaña y árboles nativos dispersos en las partes altas e inaccesibles. Coberturas y alturas son ESTIMACIONES OCULARES apoyadas en el MSAVI Piura 2024, que muestra predominio de clases de vigor moderado a alto (0.4976-0.6139 y >0.6139) con parches degradados (0.2650-0.3813) localizados al sector NE: define un MOSAICO CON DEGRADACIÓN LOCALIZADA antes que generalizada. La lista florística es PRELIMINAR; los nombres científicos y las categorías de conservación están sujetos a determinación botánica formal. DAP y alturas NO se midieron por instrumento. Se registra la presencia de Cinchona sp. (quina), especie de valor cultural nacional, con abundancia Rara (<1%).",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "40% del bloque — ganado vacuno pastando"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "Acopio de leña para autoconsumo"
+  ],
+  [
+   "Tala para carbón",
+   "No",
+   "",
+   ""
+  ],
+  [
+   "Tala para madera",
+   "No",
+   "",
+   ""
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "No",
+   "",
+   "No se observaron quemas"
+  ],
+  [
+   "Quema accidental / Incendio",
+   "No",
+   "",
+   ""
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "25% del bloque — parcelas de maíz, café y plátano"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "35% del bloque — conversión de cobertura a pastos cultivados"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "10% del bloque — apertura de trocha y caminos"
+  ],
+  [
+   "Minería informal",
+   "No",
+   "",
+   ""
+  ],
+  [
+   "Extracción de áridos (cauces)",
+   "No",
+   "",
+   ""
+  ],
+  [
+   "Especies invasoras",
+   "No",
+   "",
+   "Agave americana es introducida pero no se comporta como invasora"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Ligera",
+   "5% del bloque — surcos y cárcavas incipientes"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "No",
+   "",
+   "Factor regional (CC) no evaluable en inspección rápida"
+  ],
+  [
+   "Plagas o enfermedades forestales",
+   "No",
+   "",
+   ""
+  ],
+  [
+   "Otro",
+   "No",
+   "",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Economía de subsistencia agropecuaria sin prácticas de conservación de suelos, sobre un ecosistema de ladera con fuerte pendiente",
+ "causas_directas": "Presión agropecuaria sobre laderas de fuerte pendiente: sobrepastoreo de ganado vacuno, conversión a pastos cultivados y a parcelas de maíz, café y plátano, y extracción de leña para autoconsumo; desestabilización de taludes por apertura de trocha carrozable y caminos de herradura.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 0,
+ "obs_dt04": "Causas con evidencia directa de campo. La sequía / cambio climático es un factor regional contextual no evaluable directamente en la inspección rápida. Los indicadores sin valor (densidad de cárcavas, invasoras, carga ganadera, frecuencia de quemas) quedan pendientes de levantamiento y encuesta predial. Los valores de cobertura (75%) y suelo desnudo (15%) son ESTIMACIONES OCULARES apoyadas en el MSAVI 2024. El indicador 7 (% de área con pendiente >50%) se estimó en 25% a partir del perfil de elevación.",
+ "fuentes_agua": [
+  [
+   "1",
+   "Manantial / Puquio",
+   626580,
+   9435291,
+   "Permanente — calidad no evaluable; CAPTACIÓN DE LA JASS Santa Rosa de Chirimoyos, distancia 0 m"
+  ],
+  [
+   "2",
+   "Quebrada estacional",
+   626100,
+   9434850,
+   "Estacional (lluvias) — calidad no evaluable; quebrada tributaria, distancia 0 m"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": 0,
+ "jass": "JASS Santa Rosa de Chirimoyos (tanque + tubería PVC para consumo humano), ubicada dentro o al borde del bloque",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Carretera PI-805 (desde la capital distrital de Santa Catalina de Mossa) + trocha carrozable + camino de herradura",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 30,
+ "t_provincial": 90,
+ "senal": "Parcial",
+ "operador": "Bitel",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Por verificar (coordinación con autoridades del C.P. Santa Rosa de Chirimoyos)",
+ "obs_dt05": "El bloque se ubica en ZONA DE ORIGEN Y RECARGA de la microcuenca C1086-Q9576, con humedad persistente (neblina; cultivos de café y plátano). La CAPTACIÓN DE LA JASS Santa Rosa de Chirimoyos (tanque + tubería PVC para consumo humano) se ubica dentro o al borde del bloque (fotos índices 15 y 16), lo que convierte la protección de la fuente en criterio de diseño de la intervención. El bloque está delimitado por quebradas tributarias; al norte se referencia la Laguna Colorada (cartografía MSAVI, ubicación referencial). Acceso a pie de ~880 m (track Garmin 66sr). El acceso para la inspección técnica se realizó sin restricción.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-01",
+   "Altitud GPS declarada 1 400 m frente a los 1 453 msnm del hito del bloque (GPS de gabinete)",
+   "NO SUSTANTIVA",
+   "Se conservan ambos registros con indicación de su fuente"
+  ],
+  [
+   "F-DT-01 / F-DT-02",
+   "Algunas coordenadas fotográficas pueden presentar error por señal GPS de celular subóptima (cielo nublado y ligera lluvia)",
+   "SUSTANTIVA",
+   "Se declara la advertencia del propio evaluador; requiere ratificación con GPS diferencial"
+  ],
+  [
+   "F-DT-02",
+   "Inventario de cárcavas como registro rápido de 4 rasgos, sin longitud, profundidad ni ancho; el rasgo C-04 tampoco consigna estado",
+   "SUSTANTIVA",
+   "Pendiente de levantamiento instrumental; no se estiman dimensiones"
+  ],
+  [
+   "F-DT-03",
+   "DAP y alturas no medidos por instrumento",
+   "SUSTANTIVA",
+   "POR DETERMINAR; requiere parcela de muestreo forestal"
+  ],
+  [
+   "F-DT-03",
+   "El MINAM cataloga el bloque como Zona agrícola en su totalidad, pero en campo se verifican relictos de bosque seco y árboles nativos dispersos en las partes altas",
+   "SUSTANTIVA",
+   "Se conserva la clasificación cartográfica y se declara la observación de campo; corresponde precisar la unidad en gabinete"
+  ],
+  [
+   "F-DT-04",
+   "Indicadores 3, 4, 5 y 6 sin valor consignado",
+   "NO SUSTANTIVA",
+   "Pendientes de levantamiento y encuesta predial"
+  ],
+  [
+   "F-DT-05",
+   "La captación de la JASS Santa Rosa de Chirimoyos se ubica dentro o al borde del bloque",
+   "SUSTANTIVA",
+   "Se eleva como criterio de diseño: la protección de la fuente de consumo humano condiciona la intervención"
+  ]
+ ],
+ "fuente_ficha": "Ficha DT M36B2 (Plantilla V5, 03/06/2026)",
+ "bloque": "M36B2"
+}

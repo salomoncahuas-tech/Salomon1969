@@ -1,0 +1,224 @@
+{
+ "microcuenca_dt": "C1081-Q9582",
+ "evaluador": "Ing. Héctor Salomón Cahuas Miller",
+ "correlativo": "F-DT/M3B5/2026",
+ "fecha_eval": "2026-05-07",
+ "hora": "16:17 h",
+ "cp_cercano": "CP San Juan Bautista",
+ "comunidad": "C.C. San Juan de Bigote",
+ "altitud_gps": "216 (GPS de campo)",
+ "utm_e_dt": 635887,
+ "utm_n_dt": 9411740,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Noreste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Colinas medias fuertemente escarpadas con escasa cobertura arbórea y signos de degradación",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "Sí",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Bloque con EVIDENTES SIGNOS DE DEGRADACIÓN por factores diversos (tala, ganadería, cambio de uso). Afloramientos rocosos en zonas medias y altas. SUSCEPTIBILIDAD MUY ALTA A EROSIÓN HÍDRICA SUPERFICIAL Y A MOVIMIENTOS EN MASA SUPERFICIALES en el sector occidental (pendiente máx. 58.6%). SE RECOMIENDA DIAGNÓSTICO SOCIAL Y EVALUACIÓN PRELIMINAR DE TENENCIA DEL ÁREA.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Fuerte (cárcavas incipientes)",
+ "n_carcavas": "No inventariadas",
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Sin registro en ficha",
+ "socavamiento": "Sin registro en ficha",
+ "urgencia_control": "Alta",
+ "carcavas": [],
+ "obs_dt02": "Erosión dominada por PROCESOS LAMINARES en laderas con ≈80% DE SUELO DESNUDO y EROSIÓN RETROGRESIVA ACTIVA EN LAS 3 MICROQUEBRADAS ESTACIONALES que disectan el bloque y drenan al río Bigote. Compactación por pisoteo de ganado caprino confirmada. INVENTARIO GEORREFERENCIADO DE CÁRCAVAS PENDIENTE para la fase de campo profundizada.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 20,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "52.74 ha (100% del bloque)",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 10,
+ "cob_arbustiva": 10,
+ "cob_herbacea": 0,
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": 80,
+ "h_dominante": 5,
+ "h_max": 8,
+ "dap": 20,
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Daño mecánico",
+ "epifitas": "Sin registro en ficha",
+ "fenologia": "Sin registro en ficha",
+ "tipo_cobertura": "Matorral ralo",
+ "n_taxones": 6,
+ "especies_clave": [
+  [
+   "Cordia lutea (Overo)",
+   "Indicadora de perturbación",
+   "NE — No Evaluado"
+  ],
+  [
+   "Cactaceae spp. (Cactáceas)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Vachellia macracantha (Faique)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "NT — Casi Amenazada"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Endémica del Perú",
+   "NE — No Evaluado"
+  ],
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "Ecosistema Bes-cm SEVERAMENTE ALTERADO: cobertura total 20%, SUELO DESNUDO 80%. Seis especies nativas presentes EN BAJA DENSIDAD (overo, cactáceas, faique, charán, hualtaco, pasallo) QUE CONSTITUYEN BANCO GENÉTICO PARA RESTAURACIÓN. Daño mecánico por ramoneo. AUSENCIA DE BOSQUE RELICTO (MSAVI > 0.55 INEXISTENTE). Solo 6 taxones registrados frente al mínimo de 15 exigido por la ficha. COBERTURA HERBÁCEA 0%: sin estrato herbáceo protector.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "Cabras pastando directamente en el bloque"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Fuerte",
+   ""
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Fuerte",
+   "Conversión de bosque a pastizal"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "",
+   "Ipomoea carnea (borrachera)"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Fuerte",
+   "Erosión laminar y retrogresiva"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Crecimiento poblacional y Asociación de Ganaderos local que opera en la zona (presión socio-territorial)",
+ "causas_directas": "Sobrepastoreo caprino/vacuno, tala para leña y cambio de uso a pastoreo (intensidad fuerte); erosión natural severa y sequía/cambio climático como causas modificadoras.",
+ "velocidad": "Rápida",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 150,
+ "obs_dt04": "POTENCIAL DE RECUPERACIÓN MODERADO, CONDICIONADO A EXCLUSIÓN GANADERA EFECTIVA. TODA INTERVENCIÓN TÉCNICA (zanjas, plantación, terrazas) ES INSOSTENIBLE SIN ACUERDOS DE EXCLUSIÓN CON LA CC SAN JUAN DE BIGOTE Y LA ASOCIACIÓN DE GANADEROS. Indicadores: cobertura vegetal total 20% (Bajo); suelo desnudo 80% (Alto); carga ganadera SIN VALOR pero calificada Alto; distancia a vía 150 m (Alto). Densidad de cárcavas, especies invasoras, frecuencia de quemas y % área con pendiente >50% SIN VALOR. Extensión (%) y antigüedad de las causas NO CUANTIFICADAS.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   636554,
+   9411842,
+   "Estacional",
+   "No evaluable",
+   0,
+   "Arrastre de piedras y sedimentos"
+  ],
+  [
+   "Quebrada estacional",
+   636325,
+   9411906,
+   "Estacional",
+   "No evaluable",
+   0,
+   "Arrastre de piedras y sedimentos"
+  ]
+ ],
+ "recarga": "Sin registro en ficha",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por verificar",
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular + caminata 30-90 min",
+ "via_principal": "PE-1NR (departamental asfaltada, corredor Buenos Aires-Bigote)",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Medio",
+ "t_distrital": 5,
+ "t_provincial": 60,
+ "senal": "Completa",
+ "operador": "Bitel",
+ "alojamiento": "Sí",
+ "ronda": "Sí",
+ "contacto_ronda": "Coordinación con la CC San Juan de Bigote y la Asociación de Ganaderos",
+ "obs_dt05": "INVENTARIO DE FUENTES DE AGUA VACÍO en la verificación preliminar; PENDIENTE GEORREFERENCIAR LAS 3 MICROQUEBRADAS INTERNAS y verificar existencia de reservorios JASS en la fase de campo profundizada. El río Bigote discurre al norte, fuera del polígono (≈200 m), con el CP San Juan Bautista al noreste. REQUIERE COORDINACIÓN CON LA CC SAN JUAN DE BIGOTE Y LA ASOCIACIÓN DE GANADEROS.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (216 msnm)"
+  ],
+  [
+   "F-DT-02",
+   "Inventario georreferenciado de cárcavas pendiente pese a calificar la erosión como Fuerte y la urgencia Alta",
+   "SUSTANTIVA",
+   "Levantamiento prioritario"
+  ],
+  [
+   "F-DT-03",
+   "Solo 6 taxones registrados frente al mínimo de 15 exigido",
+   "SUSTANTIVA",
+   "Inventario florístico incompleto"
+  ],
+  [
+   "F-DT-04",
+   "Cinco de los ocho indicadores cuantitativos sin valor; extensión y antigüedad de las causas no cuantificadas",
+   "SUSTANTIVA",
+   "Cuantificación pendiente"
+  ],
+  [
+   "F-DT-04",
+   "Carga ganadera calificada «Alto» sin valor numérico que la sustente",
+   "NO SUSTANTIVA",
+   "Completar el valor"
+  ],
+  [
+   "F-DT-05",
+   "Inventario de fuentes vacío; las 3 microquebradas internas no fueron georreferenciadas",
+   "SUSTANTIVA",
+   "Las dos quebradas registradas se ubican fuera del centroide declarado"
+  ],
+  [
+   "F-DT-04",
+   "La sostenibilidad de toda medida técnica depende de acuerdos de exclusión ganadera",
+   "SUSTANTIVA",
+   "Condición previa para el diseño de MRR-CCC: gobernanza con CC San Juan de Bigote y Asociación de Ganaderos"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M3B5 (Plan de Ingreso, PDF)",
+ "bloque": "M3B5"
+}

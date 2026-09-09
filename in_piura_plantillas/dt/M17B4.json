@@ -1,0 +1,206 @@
+{
+ "microcuenca_dt": "C1076-Q9584 (según ficha — valor por defecto de plantilla; catálogo: C1096-Q9556)",
+ "evaluador": "Juan Domínguez",
+ "correlativo": "Sin registro en ficha",
+ "fecha_eval": "2026-07-03",
+ "hora": "15:43 h",
+ "cp_cercano": "Chililique Alto",
+ "comunidad": "Juan Velasco Alvarado de Chililique Alto; María Ángela Alvarado Zeta",
+ "altitud_gps": "353 (GPS de campo) — la narrativa declara cota media ≈230 msnm",
+ "utm_e_dt": 645575,
+ "utm_n_dt": 9393500,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera baja",
+ "exposicion": "Noroeste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Sistema de laderas convexo-cóncavas tributarias de la quebrada Q9556 (microcuenca C1096)",
+ "afloramientos": "No",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "El bloque se caracteriza por LADERAS DE COLINAS BAJAS, con pendientes inferiores al 60% que se vuelven progresivamente más pronunciadas al ganar altitud. La cota media ronda los 230 msnm; en su sector inferior se localizan el CCPP y una vía afirmada. Presencia de piedras pequeñas y medianas. NO SE EVIDENCIARON SURCOS NI CÁRCAVAS EN FORMACIÓN. SIN EMBARGO, LA EROSIÓN EÓLICA ES ALTA EN LA ZONA DEBIDO A OBRAS EN LA VÍA AFIRMADA. EL BLOQUE BORDEA UNA VÍA AFIRMADA EN LA CUAL ACTUALMENTE SE ESTÁ CONSTRUYENDO LA CARRETERA CHULUCANAS-FRÍAS, POR LO QUE EXISTEN OBRAS DE PERFILADO DE TALUDES Y ENSANCHAMIENTO DE VÍAS, ADEMÁS DEL TRÁNSITO DE CAMIONES Y MAQUINARIA PESADA. ATENCIÓN: el UTM del punto de registro (645 575 · 9 393 500) es el valor por defecto de la plantilla; el centroide de catálogo es 604 926 · 9 444 330.",
+ "sellamiento": "Sin registro en ficha",
+ "compactacion": "Sin registro en ficha",
+ "raices_expuestas": "Sin registro en ficha",
+ "nivel_erosion": "FICHA F-DT-02 SIN CONTENIDO. Narrativa de F-DT-01: sin surcos ni cárcavas; erosión eólica ALTA por obras viales",
+ "n_carcavas": "No inventariadas (F-DT-02 sin contenido)",
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Por determinar",
+ "socavamiento": "Por determinar",
+ "urgencia_control": "Por determinar",
+ "carcavas": [],
+ "obs_dt02": "LA FICHA F-DT-02 APARECE SIN CONTENIDO en el documento de origen. La única información disponible procede de F-DT-01: no se evidenciaron surcos ni cárcavas en formación, pero LA EROSIÓN EÓLICA ES ALTA DEBIDO A LAS OBRAS DE LA CARRETERA CHULUCANAS-FRÍAS (perfilado de taludes, ensanchamiento y tránsito de maquinaria pesada). El levantamiento de suelo y procesos erosivos queda PENDIENTE en su totalidad.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 90,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "110 ha (de 124.71 ha del bloque)",
+ "estado_cons": "Levemente alterado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 90,
+ "cob_arbustiva": 15,
+ "cob_herbacea": 10,
+ "cob_hojarasca": 5,
+ "suelo_desnudo": 5,
+ "h_dominante": 8,
+ "h_max": 10,
+ "dap": 30,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Floración",
+ "tipo_cobertura": "Bosque denso (>70%)",
+ "n_taxones": 6,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico (por confirmar)"
+  ],
+  [
+   "Bursera graveolens (Palo Santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico (por confirmar)"
+  ],
+  [
+   "Vachellia macracantha (Faique)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "NT — Casi Amenazada (por confirmar)"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Cordia lutea (Overo)",
+   "Indicadora de perturbación",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "LA COBERTURA VEGETAL DEL BLOQUE SE ENCUENTRA CONSERVADA, CON UN IMPACTO ANTRÓPICO MUY LEVE. NO SE EVIDENCIARON ACTIVIDADES AGRÍCOLAS O GANADERAS EN EL INTERIOR DEL BLOQUE. El bosque alberga vegetación de porte arbóreo, arbustivo y suculentas. Altura promedio ≤6 m (la narrativa) y clases diamétricas ≤30 cm de DAP. Abundante vegetación arbustiva y cardos dispersos en el área próxima a la vía afirmada y al CCPP. SOLO 6 TAXONES REGISTRADOS, SIN NOMBRE CIENTÍFICO NI FAMILIA, frente al mínimo de 15. INCONSISTENCIA: la narrativa declara alturas ≤6 m frente a los 8 m del estrato dominante consignado; el Charán se clasifica como «Arbustivo alto» pese a ser arbóreo.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Ligera",
+   "15% — 30 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   "5% — 30 años"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5% — 5 años (construcción de la carretera Chulucanas-Frías)"
+  ]
+ ],
+ "causa_subyacente": "No consignada en la ficha",
+ "causas_directas": "La degradación LEVE del ecosistema se debe principalmente a las actividades de pastoreo de ganado caprino y extracción de leña para uso doméstico.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Totalmente reversible",
+ "urgencia": "Baja",
+ "ind_dist_via": 30,
+ "obs_dt04": "RECOMENDACIÓN DE CAMPO: «EVALUAR LA PERTINENCIA DE LA INTERVENCIÓN YA QUE EL ÁREA CONSERVA SU COBERTURA VEGETAL Y EL RIESGO DE DESASTRE POR MOVIMIENTO EN MASA NO ES TAN EVIDENTE». ESTE BLOQUE PODRÍA NO CALIFICAR COMO ECOSISTEMA DEGRADADO BAJO LA R.M. N.° 00213-2024-MINAM. Indicadores: cobertura vegetal total 90% CALIFICADA «BAJO» (incompatible con el umbral >60% = bueno); suelo desnudo 5% (Bajo); densidad de cárcavas 1 N.°/ha (Bajo) — incompatible con la declaración de que no hay cárcavas; especies invasoras 0% (Bajo); carga ganadera 1 UA/ha (Bajo); frecuencia de quemas 0 (Bajo); % área con pendiente >50% = 25% (Medio); distancia a vía 30 m (Alto). INCONSISTENCIA MAYOR: la intensidad de la expansión vial se califica «Ligera» pese a que F-DT-01 declara EROSIÓN EÓLICA ALTA por las obras de la carretera Chulucanas-Frías.",
+ "fuentes_agua": [],
+ "recarga": "Sin registro en ficha",
+ "humedad": "No",
+ "escorrentia": "No",
+ "dist_captacion": "Sin registro en ficha",
+ "jass": "Sin registro en ficha",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Sin registro en ficha",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Medio",
+ "t_distrital": 20,
+ "t_provincial": 40,
+ "senal": "Parcial",
+ "operador": "Bitel",
+ "alojamiento": "No",
+ "ronda": "Sin registro en ficha",
+ "contacto_ronda": "Sin registro en ficha",
+ "obs_dt05": "EL INVENTARIO DE FUENTES DE AGUA ESTÁ VACÍO y no se consignaron zona de recarga hídrica ni distancia a captación. Escorrentía concentrada «No» y humedad persistente «No». La ficha F-DT-05 carece de observaciones. LA CONSTRUCCIÓN DE LA CARRETERA CHULUCANAS-FRÍAS EN EL BORDE DEL BLOQUE (perfilado de taludes, ensanchamiento y tránsito de maquinaria pesada) ES UN FACTOR ACTIVO DE DEGRADACIÓN QUE DEBE INCORPORARSE AL TAMIZAJE, al igual que en el bloque M17B1 de la misma microcuenca.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Ficha DT",
+   "La ficha consigna microcuenca C1076-Q9584; el catálogo maestro asigna a M17B4 la microcuenca C1096-Q9556",
+   "SUSTANTIVA",
+   "Valor por defecto de la plantilla; se conserva el del catálogo"
+  ],
+  [
+   "Ficha DT",
+   "UTM del punto de registro (645 575 · 9 393 500) = valor por defecto; el centroide de catálogo es 604 926 · 9 444 330",
+   "SUSTANTIVA",
+   "Georreferencia por reponer"
+  ],
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (353 msnm)"
+  ],
+  [
+   "F-DT-01",
+   "Altitud GPS 353 msnm frente a la cota media ≈230 msnm de la narrativa",
+   "NO SUSTANTIVA",
+   "Conciliar"
+  ],
+  [
+   "F-DT-02",
+   "Sección SIN CONTENIDO en el documento de origen",
+   "SUSTANTIVA",
+   "Levantamiento pendiente en su totalidad"
+  ],
+  [
+   "F-DT-03",
+   "Solo 6 taxones registrados, sin nombre científico ni familia, frente al mínimo de 15",
+   "SUSTANTIVA",
+   "Inventario florístico incompleto"
+  ],
+  [
+   "F-DT-03",
+   "La narrativa declara alturas ≤6 m frente a los 8 m del estrato dominante; el Charán se clasifica como arbustivo",
+   "NO SUSTANTIVA",
+   "Inconsistencias internas"
+  ],
+  [
+   "F-DT-04",
+   "Cobertura vegetal total 90% calificada «Bajo», incompatible con el umbral de la propia ficha",
+   "SUSTANTIVA",
+   "Recalificar"
+  ],
+  [
+   "F-DT-04",
+   "Expansión vial calificada «Ligera» pese a que F-DT-01 declara erosión eólica ALTA por las obras de la carretera Chulucanas-Frías",
+   "SUSTANTIVA",
+   "Inconsistencia interna: la obra vial es un factor activo de degradación"
+  ],
+  [
+   "F-DT-04",
+   "RECOMENDACIÓN DE CAMPO: evaluar la pertinencia de la intervención — el área conserva su cobertura",
+   "SUSTANTIVA",
+   "ELEVAR A LA SUBDIRECCIÓN: verificar si califica como ecosistema degradado (R.M. 00213-2024-MINAM)"
+  ],
+  [
+   "F-DT-05",
+   "Inventario hídrico vacío; sin zona de recarga ni distancia a captación",
+   "SUSTANTIVA",
+   "Levantamiento pendiente"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M17B4 (Plan de Ingreso, PDF)",
+ "bloque": "M17B4"
+}

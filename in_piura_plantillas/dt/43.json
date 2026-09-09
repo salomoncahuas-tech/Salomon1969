@@ -1,0 +1,171 @@
+{
+ "microcuenca_dt": "C1076-Q9586",
+ "evaluador": "Ing. Héctor Salomón Cahuas Miller",
+ "correlativo": "F-DT-01",
+ "fecha_eval": "2026-07-21",
+ "hora": "14:53 - 15:12 h",
+ "cp_cercano": "Pizarrume (222 hab., ≈0.48 km del centroide); Coyona (74 hab., ≈0.62 km)",
+ "comunidad": "Por verificar",
+ "altitud_gps": "Por verificar (perfil GE ≈1578-1769 msnm, media ≈1689)",
+ "utm_e_dt": 656489,
+ "utm_n_dt": 9395403,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Este",
+ "rango_altitudinal": "1500-2000 m (Quechua media)",
+ "paisaje": "Ladera de colina-montaña de fuerte pendiente, fuertemente intervenida por uso agropecuario. Mosaico de pastos y cultivos",
+ "afloramientos": "No",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Altitud GPS no registrada instrumentalmente; el perfil Google Earth indica un rango aproximado de 1578-1769 msnm (media ≈1689), piso Quechua media. Las evidencias de inestabilidad (escarpes y desprendimientos de material residual rojizo) se concentran en los TALUDES DE CORTE de la trocha carrozable que ATRAVIESA el bloque; no se observaron remociones en masa activas en la superficie natural.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "No",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 3,
+ "long_carcavas": "Por verificar",
+ "pct_carcavas": "Por verificar",
+ "erosion_laminar": "Por verificar",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01",
+   "Por determinar",
+   656535,
+   9395544,
+   "Activa",
+   "Otro (talud de corte de la trocha)"
+  ],
+  [
+   "C-02",
+   "Por determinar",
+   656523,
+   9395528,
+   "Activa",
+   "Otro (talud de corte de la trocha)"
+  ],
+  [
+   "C-03",
+   "Por determinar",
+   656510,
+   9395523,
+   "Activa",
+   "Otro (talud de corte de la trocha)"
+  ]
+ ],
+ "obs_dt02": "Nivel de erosión en el interior del bloque moderado (surcos), con compactación por pisoteo de ganado en laderas de pastizal. Las evidencias erosivas más marcadas se concentran en los taludes de corte de la trocha carrozable. Dimensiones, longitud acumulada, % exacto afectado y densidad por hectárea quedan pendientes de levantamiento instrumental.",
+ "parcela": "Recorrido de campo",
+ "dim_parcela": "Por verificar",
+ "pend_parcela": "Por verificar",
+ "cob_veg": 85,
+ "ecosistema": "Agroecosistema / Mosaico",
+ "sup_ecosistema": "23.17 ha (MINAM: Zona agrícola 100%)",
+ "estado_cons": "Muy alterado / Degradado",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 10,
+ "cob_arbustiva": 15,
+ "cob_herbacea": 60,
+ "cob_hojarasca": 5,
+ "suelo_desnudo": 10,
+ "h_dominante": 0.5,
+ "h_max": "Por verificar",
+ "dap": "Por verificar",
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 9,
+ "especies_clave": [
+  [
+   "Pacae / Guaba (Inga sp.)",
+   "Indicadora de buen estado",
+   "NE"
+  ]
+ ],
+ "obs_dt03": "El Reporte de Ecosistemas por Bloques (MINAM) clasifica el bloque 43 como 100% Zona agrícola. En campo se confirma un agroecosistema/mosaico MUY ALTERADO: pastos cultivados dominantes, cultivos de plátano y café, plantaciones dispersas de eucalipto y grevilea, agave en taludes. MSAVI 2024 = 0.5515 (vigor moderado). Lista florística PRELIMINAR; no se instalaron parcelas ni se midieron DAP ni alturas.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "≈30"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Fuerte",
+   "≈50"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "≈35"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Fuerte",
+   "≈15"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Moderada",
+   "≈15"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Ligera",
+   "≈10"
+  ]
+ ],
+ "causa_subyacente": "Presión agropecuaria y de conectividad vial sobre laderas de fuerte pendiente sin prácticas de conservación de suelos",
+ "causas_directas": "Conversión a agricultura (plátano, café) y a pastos cultivados; presión vial por la trocha carrozable que atraviesa el bloque con taludes de corte inestables; plantaciones exóticas (eucalipto, grevilea) y agave.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_invasoras": 15,
+ "ind_pend50": "25",
+ "ind_dist_via": 0,
+ "obs_dt04": "NOTA DE GESTIÓN: al ser 100% Zona agrícola (MINAM) y estar fuertemente intervenido, se recomienda evaluar su RECATEGORIZACIÓN O EXCLUSIÓN en el tamizaje, conforme al criterio de exclusión de áreas agrícolas del proceso de selección de bloques.",
+ "fuentes_agua": [
+  [
+   "Manantial / Puquio",
+   656280,
+   9395464,
+   "Permanente",
+   "No evaluable",
+   0,
+   "Captación de agua poblacional (estructura de concreto con tapa metálica)"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "0",
+ "interferencia_riego": "No",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Trocha carrozable desde San Miguel de El Faique vía C.P. Pizarrume",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por verificar",
+ "t_provincial": "Por verificar",
+ "senal": "Por verificar",
+ "operador": "Por verificar",
+ "alojamiento": "No",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "El bloque se ubica en zona de origen y recarga de la microcuenca C1076-Q9586. Se registró una CAPTACIÓN DE AGUA POBLACIONAL dentro del ámbito; nombre de la JASS, régimen de la fuente y distancia formal quedan por verificar.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": null,
+ "fuente_ficha": "ficha_43_20260725_012113.pdf",
+ "bloque": "43"
+}

@@ -1,0 +1,252 @@
+{
+ "microcuenca_dt": "C1077-Q9566",
+ "evaluador": "Ing. H. S. Cahuas Miller / Ing. J.C. Domínguez Varas",
+ "correlativo": "F-DT-01-M6B10-001",
+ "fecha_eval": "2026-05-13",
+ "hora": "08:00 - 10:00 h",
+ "cp_cercano": "Caserío La Pilca",
+ "comunidad": "No aplica / por confirmar con autoridades locales",
+ "altitud_gps": "244 (GPS de campo)",
+ "utm_e_dt": 617140,
+ "utm_n_dt": 9423015,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Oeste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Cerro aislado de origen estructural, emergente sobre la terraza aluvial del río Piura, con cima rocosa y vertientes de bosque seco",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "Sí",
+ "remociones": "No",
+ "obs_dt01": "CERRO AISLADO enclavado entre la planicie aluvial cultivada del valle del río Piura (SE) y los centros poblados de Pilca, Ingenio (O) y Maravilla (S). TRES UNIDADES FISIOGRÁFICAS INTERNAS: (i) cresta rocosa con afloramientos y vegetación arbustiva-cactácea; (ii) ladera media con bosque seco caducifolio EN MEJOR ESTADO; (iii) pie de monte y bordes de quebrada sin nombre, CON MAYOR PRESIÓN ANTRÓPICA (pastoreo y huellas). Pendientes máximas registradas en Google Earth: 61.4% (cara oeste, sobre Pilca). El acceso se realiza desde la trocha que parte del C.P. La Pilca, tras cruzar la Quebrada sin nombre (punto de ingreso 617 345 E · 9 422 993 N).",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "No",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": "Inventario preliminar (no consignado el número)",
+ "long_carcavas": 380,
+ "pct_carcavas": 12,
+ "erosion_laminar": 15,
+ "patron_carcavas": "Dendrítico",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "La erosión hídrica predominante es de TIPO LAMINAR-SURCO en laderas con cobertura arbustiva incompleta. LAS CÁRCAVAS MÁS PROFUNDAS SE CONCENTRAN EN LOS BORDES DE LA QUEBRADA SIN NOMBRE (flanco norte), asociadas a concentración natural de escorrentía y socavamiento de ladera. En el flanco sur (hacia el río Piura) prevalecen surcos incipientes en zonas con menor cobertura vegetal y mayor pisoteo de ganado. EL INVENTARIO PRESENTADO ES PRELIMINAR; se recomienda RECORRIDO SISTEMÁTICO CON GPS para completar el catastro de cárcavas en el estudio definitivo. ADVERTENCIA: se declara longitud total de cárcavas (380 m) y % de bloque afectado (12%) sin consignar el número de cárcavas ni su georreferencia.",
+ "parcela": "P-01 (cara oeste, ladera media)",
+ "dim_parcela": "20 × 50 m",
+ "pend_parcela": 32,
+ "cob_veg": 30,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "≈200 ha (de 249.89 ha del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Forestal de protección",
+ "cob_dosel": 25,
+ "cob_arbustiva": 15,
+ "cob_herbacea": 20,
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": 30,
+ "h_dominante": 5.5,
+ "h_max": 8,
+ "dap": 18,
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Caducifolio (hojas caídas)",
+ "tipo_cobertura": "Matorral ralo",
+ "n_taxones": 13,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG) — 8 ind. en 617 150 · 9 423 020",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG) — 5 ind. en 617 155 · 9 423 015",
+   "Categoría no consignada"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Endémica del Perú — 10 ind. en 617 134 · 9 423 015",
+   "Categoría no consignada"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Endémica del norte — 13 ind. en 617 200 · 9 423 050",
+   "VU — Vulnerable"
+  ],
+  [
+   "Neoraimondia arequipensis (Cardón / Gigantón)",
+   "Indicadora de buen estado — 20 ind. en 617 090 · 9 423 010",
+   "NT — Casi Amenazada"
+  ]
+ ],
+ "obs_dt03": "El bloque alberga UN PARCHE REPRESENTATIVO DEL Bes-cm EN BUEN ESTADO RELATIVO, pese a la presión periférica por sobrepastoreo y tala selectiva. SOBRESALE LA PRESENCIA DE Loxopterygium huasango (HUALTACO, CR), especie categorizada como amenazada en el D.S. 043-2006-AG. La estructura vertical muestra dominancia del estrato arbustivo (40%) sobre el arbóreo (25%), compatible con un bosque seco semiabierto en estado medianamente alterado. LA CIMA ROCOSA FUNCIONA COMO REFUGIO NATURAL PARA REGENERACIÓN DE CACTÁCEAS COLUMNARES. Visita realizada al inicio de la estación seca: la mayoría de especies caducifolias con hojas en caída o inicio de rebrote. PARCELA P-01 INSTALADA (20 × 50 m) — uno de los pocos bloques con parcela de muestreo formal.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "40% — 25 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "20% — 30 años"
+  ],
+  [
+   "Tala para carbón",
+   "Sí",
+   "Moderada",
+   "10% — 20 años"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Moderada",
+   "8% — 30 años"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "Sí",
+   "Moderada",
+   "18% — 15 años"
+  ],
+  [
+   "Quema accidental / Incendio",
+   "Sí",
+   "Moderada",
+   "10% — 10 años"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Fuerte",
+   "15% — 50 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "30% — 30 años"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5% — 40 años"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "25% — 30 años"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "60% — 20 años"
+  ]
+ ],
+ "causa_subyacente": "Pobreza rural + ausencia de alternativas económicas locales + débil gobernanza forestal y debilitada presencia institucional",
+ "causas_directas": "(1) Sobrepastoreo extensivo principalmente caprino; (2) tala selectiva de especies maderables (Loxopterygium huasango, Bursera graveolens); (3) quemas para renovación de pastos; (4) cambio histórico de uso del suelo en pie de monte hacia agricultura bajo riego del valle del Piura; (5) erosión natural acelerada en eventos FEN.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 300,
+ "obs_dt04": "PATRÓN TÍPICO DE DEGRADACIÓN DE BOSQUES SECOS COSTEROS DEL NORTE: presión combinada de pastoreo, tala selectiva y quemas estacionales que, aunque individualmente de intensidad ligera a moderada, GENERAN SINERGIAS QUE LIMITAN LA REGENERACIÓN NATURAL. La proximidad al valle agrícola del Piura (alta presión por uso del suelo) y la cercanía a vías vecinales (<500 m) incrementan la accesibilidad y por ende la presión antrópica. Degradación PARCIALMENTE REVERSIBLE mediante restauración pasiva (clausura temporal, control de pastoreo) complementada con medidas activas (revegetación con nativas, zanjas de infiltración). EL ESCENARIO CLIMÁTICO FUTURO (MPI-ESM1-2HR SSP585, 2021-2040) ANTICIPA DÉFICIT HÍDRICO CRECIENTE QUE AUMENTARÁ LA VULNERABILIDAD ECOLÓGICA. Indicadores: cobertura 30% (Medio); suelo desnudo 20% (Medio); densidad de cárcavas 1.8 N.°/ha (Medio); invasoras 3% (Bajo); carga ganadera 0.8 UA/ha (Medio); frecuencia de quemas SIN VALOR (Medio); % pendiente >50% = 25% (Alto); distancia a vía 300 m (Alto).",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   617400,
+   9423050,
+   "Estacional",
+   "Regular (ligeramente turbia)",
+   0,
+   "Quebrada sin nombre que bordea el flanco norte"
+  ],
+  [
+   "Río",
+   618800,
+   9422700,
+   "Permanente",
+   "Regular (ligeramente turbia)",
+   1260,
+   "Río Piura, eje hidrológico regional"
+  ],
+  [
+   "Canal de riego",
+   617050,
+   9422850,
+   "Permanente",
+   "Regular (ligeramente turbia)",
+   350,
+   "Canal de riego del sistema del valle"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "No",
+ "escorrentia": "No",
+ "dist_captacion": 1200,
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "PE-1NJ / vía departamental Chulucanas-Buenos Aires + trocha hacia Pilca y PI-813",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 20,
+ "t_provincial": 50,
+ "senal": "Completa",
+ "operador": "Movistar",
+ "alojamiento": "No",
+ "ronda": "No",
+ "contacto_ronda": "Coordinar con autoridades del C.P. Pilca y Municipalidad Distrital de Buenos Aires",
+ "obs_dt05": "El bloque NO presenta fuentes de agua superficial de carácter permanente al interior de su perímetro; la quebrada sin nombre es estacional y depende directamente de las precipitaciones. ESTA CARACTERÍSTICA REFUERZA LA IMPORTANCIA DEL BLOQUE COMO ZONA DE GENERACIÓN DE ESCORRENTÍA HACIA EL RÍO PIURA, lo que justificaría la intervención con MEDIDAS DE INFILTRACIÓN (zanjas, barreras vivas, terrazas de formación lenta) para aumentar el tiempo de residencia del agua y reducir el aporte de sedimentos hacia el cauce principal. Accesibilidad regular en estación seca (acceso vehicular hasta Pilca, camioneta 4x4 recomendable, y caminata de 20-30 min al interior), restringida en lluvias. Se recomienda gestionar autorización formal de la Autoridad del Centro Poblado y coordinación con la JASS local. LOS TERRENOS, SEGÚN REFIERE ENTREVISTADO LUGAREÑO, SON DE PROPIEDAD DEL ESTADO (dato relevante para el tamizaje predial).",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (244 msnm)"
+  ],
+  [
+   "F-DT-02",
+   "Se declara longitud total de cárcavas (380 m) y % de bloque afectado (12%) sin consignar el número de cárcavas ni su georreferencia",
+   "SUSTANTIVA",
+   "Recorrido sistemático con GPS pendiente"
+  ],
+  [
+   "F-DT-04",
+   "Frecuencia de quemas sin valor pese a registrarse quema de renovación de pastos (18%) y quema accidental (10%)",
+   "SUSTANTIVA",
+   "El indicador no puede quedar vacío"
+  ],
+  [
+   "F-DT-03",
+   "Categorías de amenaza incompletas para Palo santo y Charán",
+   "NO SUSTANTIVA",
+   "Completar categorización"
+  ],
+  [
+   "F-DT-05",
+   "Escorrentía concentrada «No» pese a que el bloque se declara zona de generación de escorrentía hacia el río Piura",
+   "SUSTANTIVA",
+   "Inconsistencia interna a resolver"
+  ],
+  [
+   "F-DT-05",
+   "Los terrenos serían de propiedad del Estado según entrevistado lugareño",
+   "SUSTANTIVA",
+   "Verificar en el tamizaje predial: condiciona el Expediente de Liberación de Áreas"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M6B10 (Plan de Ingreso, PDF)",
+ "bloque": "M6B10"
+}

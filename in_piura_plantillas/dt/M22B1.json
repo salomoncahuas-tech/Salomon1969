@@ -1,0 +1,171 @@
+{
+ "microcuenca_dt": "C1076-Q9586",
+ "evaluador": "Ing. Héctor S. Cahuas Miller",
+ "correlativo": "F-DT-M22B1-01",
+ "fecha_eval": "2026-07-22",
+ "hora": "10:27 - 12:01 h",
+ "cp_cercano": "Santa Rosa",
+ "comunidad": "No consignada",
+ "altitud_gps": "Sin registro en ficha (celda en blanco; no se consigna valor por principio de no fabricación). Perfil del bloque según MDE: 3 207 - 3 378 msnm, media 3 303 msnm",
+ "utm_e_dt": 663663,
+ "utm_n_dt": 9404682,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado) — pendiente media 26.5%, máxima 44.3% según MDE",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Suroeste (derivada del perfil del MDE, no de lectura de brújula en campo)",
+ "rango_altitudinal": "3000-3500 m (Puna baja)",
+ "paisaje": "Ladera de páramo con matorral andino en cabecera de cuenca, sector Santa Rosa – La Antena, con neblina persistente",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "Por determinar",
+ "deslizamientos": "Por determinar",
+ "remociones": "Por determinar",
+ "obs_dt01": "La altitud GPS no fue registrada en campo (celda en blanco). El rango altitudinal y la exposición se derivan del modelo digital de elevaciones, lo que se declara expresamente para no atribuir a la ficha datos que no contiene.",
+ "sellamiento": "Por determinar",
+ "compactacion": "Por determinar",
+ "raices_expuestas": "Por determinar",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 1,
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Por determinar",
+ "socavamiento": "Por determinar",
+ "urgencia_control": "Alta",
+ "carcavas": [
+  [
+   "E-01",
+   663617,
+   9404700,
+   "Escarpe con material residual rojizo; vegetación arbustiva quemada aguas arriba de la cárcava"
+  ]
+ ],
+ "obs_dt02": "Se registra una (1) cárcava activa (E-01) asociada a un escarpe con material residual rojizo. Aguas arriba se observa vegetación arbustiva quemada, coherente con la práctica de quema de renovación de pastos registrada en el F-DT-04.",
+ "parcela": "Por determinar",
+ "dim_parcela": "Por determinar",
+ "pend_parcela": 26.5,
+ "cob_veg": 85,
+ "ecosistema": "Páramo (44.89 ha, 81.4%) y Matorral andino (10.28 ha, 18.6%)",
+ "sup_ecosistema": "55.17 ha (100% del bloque): 44.89 ha de Páramo + 10.28 ha de Matorral andino",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Pastoreo extensivo con quema de renovación",
+ "cob_dosel": 15,
+ "cob_arbustiva": 55,
+ "cob_herbacea": 25,
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": 8,
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "Por determinar",
+ "regeneracion": "Por determinar",
+ "sanitario": "Rebrote vigoroso (rebrote observado entre fustes carbonizados)",
+ "epifitas": "Sí — Usnea sp.",
+ "fenologia": "Por determinar",
+ "tipo_cobertura": "Matorral / pajonal de páramo",
+ "n_taxones": 15,
+ "especies_clave": [],
+ "obs_dt03": "Los 15 taxones registrados figuran como \"por confirmar\" o indeterminados: NO SE REALIZÓ NINGUNA DETERMINACIÓN BOTÁNICA FORMAL. El estado sanitario \"Rebrote vigoroso\" corresponde al rebrote observado entre fustes carbonizados por quema. Se registran epífitas del género Usnea sp., indicadoras de alta humedad ambiental.",
+ "causas": [
+  [
+   "Quema de renovación de pastos",
+   "Sí",
+   "Moderada",
+   "25% del bloque"
+  ],
+  [
+   "Sobrepastoreo",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Expansión de la red vial",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Especies invasoras (Pinus sp.)",
+   "Sí",
+   "",
+   "Presencia de Pinus sp. como especie exótica invasora"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   ""
+  ]
+ ],
+ "causa_subyacente": "No consignada en el formato de campo",
+ "causas_directas": "Quema de renovación de pastos, sobrepastoreo, expansión vial, introducción de Pinus sp. como especie invasora y erosión natural severa.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": "Por determinar",
+ "obs_dt04": "TENSIÓN TÉCNICA A ELEVAR: el VIVERO FORESTAL del Gobierno Regional de Piura, ubicado en 663 568 E / 9 404 100 N, produce Aliso, Queñua y Cedro de altura, PERO TAMBIÉN Pinus radiata — es decir, el mismo vivero que abastecería la restauración oferta la especie exótica identificada en esta ficha como causa de degradación.",
+ "fuentes_agua": [
+  [
+   "Fuente 1",
+   "Manantial con captación de concreto",
+   663845,
+   9404560,
+   ""
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Por determinar",
+ "dist_captacion": "Por verificar",
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular + caminata",
+ "via_principal": "Trocha carrozable \"Unnamed Road\", sector Santa Rosa – La Antena",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Por determinar",
+ "transit_lluviosa": "Por determinar",
+ "t_distrital": 120,
+ "t_provincial": 90,
+ "senal": "Nula",
+ "operador": "No aplica (sin señal celular)",
+ "alojamiento": "Por determinar",
+ "ronda": "Sí",
+ "contacto_ronda": "Requiere autorización de la Ronda Campesina para el ingreso al sector",
+ "obs_dt05": "Zona de recarga hídrica en cabecera de cuenca, con neblina persistente. Se registra un manantial con captación de concreto en 663 845 E / 9 404 560 N. El sector carece de señal celular.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 11,
+ "estaciones_dentro": "Por determinar",
+ "correcciones": [
+  [
+   "F-DT-01",
+   "Altitud GPS no registrada en campo (celda en blanco)",
+   "SUSTANTIVA",
+   "No se consigna valor; el perfil altitudinal (3 207 - 3 378 msnm) se toma del MDE y se declara como tal"
+  ],
+  [
+   "F-DT-01",
+   "La exposición (SO) se deriva del perfil del MDE y no de lectura de brújula en campo",
+   "NO SUSTANTIVA",
+   "Se declara la fuente del dato"
+  ],
+  [
+   "F-DT-03",
+   "Los 15 taxones figuran como \"por confirmar\" o indeterminados; no hay determinación botánica formal",
+   "SUSTANTIVA",
+   "Se declara la ausencia de determinación taxonómica; requiere colecta e identificación"
+  ],
+  [
+   "F-DT-04",
+   "Pinus sp. registrada como especie invasora causante de degradación",
+   "SUSTANTIVA",
+   "Se eleva a la Subdirección: el vivero del GORE Piura (663 568 / 9 404 100) oferta Pinus radiata, en tensión con esta ficha"
+  ],
+  [
+   "F-DT-01",
+   "MSAVI 2024 = 0.594 (superior al umbral de brecha 0.4976 de la R.M. N.° 00213-2024-MINAM)",
+   "SUSTANTIVA",
+   "Corresponde ratificar la condición de ecosistema degradado del bloque ante la Subdirección"
+  ]
+ ],
+ "fuente_ficha": "Ficha DT M22B1",
+ "bloque": "M22B1"
+}

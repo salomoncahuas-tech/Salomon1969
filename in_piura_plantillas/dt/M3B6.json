@@ -1,0 +1,220 @@
+{
+ "microcuenca_dt": "C1081-Q9582",
+ "evaluador": "Juan Domínguez y Pedro Talledo",
+ "correlativo": "F-DT/M3B6/2026",
+ "fecha_eval": "2026-06-03",
+ "hora": "09:08 - 10:52 h",
+ "cp_cercano": "Manzanares; Bado de Garzas",
+ "comunidad": "C.C. Andanjo (según F-DS-01/F-DS-02)",
+ "altitud_gps": "350 (GPS de campo)",
+ "utm_e_dt": 638023,
+ "utm_n_dt": 9412539,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Norte",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Sistema de laderas convexo-cóncavas tributarias de la quebrada Q9582 (microcuenca C1081); ladera media colinosa",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "Sí",
+ "remociones": "Sí",
+ "obs_dt01": "Acceso por vía vecinal, ruta desde San Juan de Bigote al CCPP de Manzanares y Bado de Garzas. Se ingresó al bloque por la zona norte, colindante al talud de la vía. Por zonas coincide con potreros pero EN GENERAL TODO EL BLOQUE COLINDA CON LA VÍA AFIRMADA, CUYO TALUD EN VARIOS TRAMOS HA SUFRIDO DERRUMBES. Se evidenció presencia de GANADO CAPRINO SUELTO y TOCONES POR EXTRACCIÓN DE LEÑA. LA ZONA PRÓXIMA AL TALUD DE LA VÍA TIENE MAYOR IMPACTO QUE LAS ZONAS MÁS INTERNAS Y ELEVADAS DEL BLOQUE.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "No",
+ "nivel_erosion": "Moderada (surcos) — síntesis: Fuerte (cárcavas incipientes)",
+ "n_carcavas": 2,
+ "long_carcavas": 35,
+ "pct_carcavas": 2.5,
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Aislado",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01",
+   "Cárcava somera (0.5-2 m) — 15 m, 0.5 m prof., 1.5 m ancho",
+   638023,
+   9412539,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "C-02",
+   "Cárcava somera (0.5-2 m) — 20 m, 0.5 m prof., 2.0 m ancho",
+   637999,
+   9412543,
+   "Activa",
+   "Sobrepastoreo"
+  ]
+ ],
+ "obs_dt02": "Se evidenció LA FORMACIÓN DE CÁRCAVAS QUE INICIAN A MITAD DE LADERA PARA FINALIZAR EN EL TALUD DE LA VÍA ASFALTADA. Están en proceso de formación con nivel de avance moderado, con profundidades cercanas al metro y anchos superiores al metro y medio. LA MAYOR PARTE DE LA EROSIÓN SE OBSERVÓ EN ZONAS COLINDANTES AL TALUD DE LA VÍA. ADVERTENCIA: el nivel general de erosión (Moderada) y la síntesis (Fuerte) son distintos en la misma ficha; además la narrativa declara profundidades «cercanas al metro» mientras el inventario registra 0.5 m.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 80,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "60.35 ha (100% del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 80,
+ "cob_arbustiva": "Por determinar",
+ "cob_herbacea": 5,
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": 10,
+ "h_dominante": "Por determinar",
+ "h_max": 10,
+ "dap": "Por determinar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 8,
+ "especies_clave": [
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado — DOMINANTE",
+   "NE — No Evaluado"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Endémica del Perú — Abundante",
+   "NE — No Evaluado"
+  ],
+  [
+   "Ceiba pentandra (Ceibo)",
+   "Indicadora de buen estado — Frecuente",
+   "NE — No Evaluado"
+  ],
+  [
+   "Bursera graveolens (Palo Santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Armatocereus cartwrightianus (Cardos)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "El bosque se encuentra DEGRADADO EN ZONAS CERCANAS AL CENTRO POBLADO Y AL TALUD DE LA VÍA, con menor densidad de especies arbóreas, claros y áreas desprovistas de vegetación. LA ZONA ALTA DEL BLOQUE, DE MAYOR PENDIENTE, CONSERVA LA VEGETACIÓN con árboles altos (>8 m) y clases diamétricas mayores a 30 cm. Solo 8 taxones registrados frente al mínimo de 15. INCONSISTENCIA: cobertura de dosel 80% incompatible con el tipo de cobertura dominante «Bosque ralo (30-70%)».",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "25% — 20 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   "10% — 10 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera",
+   "10% — 10 años"
+  ]
+ ],
+ "causa_subyacente": "Pastoreo de ganado caprino",
+ "causas_directas": "Extracción de individuos para leña y sobrepastoreo de ganado caprino.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 0,
+ "obs_dt04": "El bloque se encuentra degradado a nivel de cobertura vegetal y suelo EN ZONAS PRÓXIMAS AL TALUD DE LA VÍA Y CERCANAS AL CCPP. EN LA PARTE ALTA SE CONSERVA LA VEGETACIÓN. Se evidencian claros producto de la extracción de individuos arbóreos cercanos a la carretera. Indicadores: cobertura vegetal total 80% (Alto); suelo desnudo 5% (Bajo); densidad de cárcavas 1 N.°/ha (Bajo); carga ganadera 5 UA/ha (Medio); frecuencia de quemas 1 (Bajo); % área con pendiente >50% = 20% (Medio); distancia a vía 0 m (Alto). Especies invasoras SIN VALOR. ADVERTENCIA: la matriz NO marca «Erosión natural severa» pese a que F-DT-01 registra deslizamientos antiguos y REMOCIONES EN MASA ACTIVAS.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   638202,
+   9412495,
+   "Estacional",
+   "Regular (ligeramente turbia)",
+   0,
+   "Drenaje natural; seca en la evaluación"
+  ]
+ ],
+ "recarga": "No",
+ "humedad": "No",
+ "escorrentia": "No",
+ "dist_captacion": 600,
+ "jass": "JASS de 5 caseríos «Eloy Alberca» — Operador Oscar Melendres Cuello (935230277), según F-DS-01/F-DS-02",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Vía vecinal afirmada San Juan de Bigote - Manzanares",
+ "tipo_via_final": "Vecinal afirmada",
+ "transit_seca": "Bajo",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 10,
+ "t_provincial": 40,
+ "senal": "Intermitente",
+ "operador": "Entel",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Teniente Gobernador Luciano Chinguel Córdova (974592636), según F-DS-02",
+ "obs_dt05": "Las quebradas que discurren del bloque ESTABAN SECAS POR EVALUARSE EN ÉPOCA SECA. NO SE CONTÓ CON LA PRESENCIA DEL ESPECIALISTA EN HIDROLOGÍA para mayor detalle. DIAGNÓSTICO SOCIAL (F-DS-01, C.P. Manzanares / Bado de Garzas, C.C. Andanjo): 40 familias, 160 habitantes; primaria completa; TASA DE MIGRACIÓN ALTA hacia Lima/Callao; JASS de 5 caseríos «Eloy Alberca»; saneamiento por letrina seca; energía en red pública al 100%; NO HAY ESTABLECIMIENTO DE SALUD; manantial/quebrada San Rafael; FONCODES ejecutó cocinas mejoradas y biohuertos hace 2 años; MANO DE OBRA DISPONIBLE ESTIMADA: 50 personas.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (350 msnm)"
+  ],
+  [
+   "F-DT-02",
+   "Nivel general de erosión «Moderada» frente a síntesis «Fuerte» en la misma ficha",
+   "SUSTANTIVA",
+   "Resolver en la carga definitiva"
+  ],
+  [
+   "F-DT-02",
+   "La narrativa declara profundidades «cercanas al metro» mientras el inventario registra 0.5 m",
+   "NO SUSTANTIVA",
+   "Verificar con medición instrumental"
+  ],
+  [
+   "F-DT-03",
+   "Cobertura de dosel 80% incompatible con el tipo de cobertura dominante «Bosque ralo (30-70%)»",
+   "SUSTANTIVA",
+   "Inconsistencia interna a resolver"
+  ],
+  [
+   "F-DT-03",
+   "Solo 8 taxones registrados frente al mínimo de 15 exigido",
+   "SUSTANTIVA",
+   "Inventario florístico incompleto"
+  ],
+  [
+   "F-DT-04",
+   "La matriz no marca «Erosión natural severa» pese a que F-DT-01 registra deslizamientos antiguos y remociones en masa ACTIVAS",
+   "SUSTANTIVA",
+   "Inconsistencia interna a resolver"
+  ],
+  [
+   "F-DT-05",
+   "Zona de recarga hídrica «No» y escorrentía concentrada «No», pese a registrarse cárcavas activas por concentración de escorrentía",
+   "SUSTANTIVA",
+   "Verificar con el especialista en hidrología, ausente en la evaluación"
+  ],
+  [
+   "F-DS-01 / F-DS-02",
+   "Las fichas sociales consignan microcuenca C1076-Q9584 (valor heredado de plantilla)",
+   "NO SUSTANTIVA",
+   "Se conserva la microcuenca del catálogo C1081-Q9582"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M3B6 (Plan de Ingreso, PDF)",
+ "bloque": "M3B6"
+}

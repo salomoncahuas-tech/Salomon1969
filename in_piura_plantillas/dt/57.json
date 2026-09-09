@@ -1,0 +1,196 @@
+{
+ "microcuenca_dt": "C1086-Q9576",
+ "evaluador": "Ing. Héctor S. Cahuas Miller",
+ "correlativo": "DT-57",
+ "fecha_eval": "2026-07-01",
+ "hora": "10:27 - 11:30 h",
+ "cp_cercano": "Taspa (631 621 E · 9 440 841 N; 250 hab.) / San Lorenzo (126 hab.) — ref. Los Lúcumos",
+ "comunidad": "Comunidad Campesina Chalaco - Trigopampa (según F-DS-03)",
+ "altitud_gps": "Por verificar (ref. Google Earth ≈2435) / 2306 - 2624 (MDE)",
+ "utm_e_dt": 631723,
+ "utm_n_dt": 9439702,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Este",
+ "rango_altitudinal": "2000-2500 m (Quechua alta)",
+ "paisaje": "Ladera de matorral andino húmedo en mosaico agropecuario; relictos de bosque montano en cimas y quebradas",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "Sí",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Pendiente media 42.7% y máxima 65.0% (perfil Google Earth). Se observó reptación de suelo en laderas de pastoreo y un parche de suelo expuesto rojizo (631 809 E · 9 440 087 N) cuya naturaleza (remoción incipiente vs. desbroce) queda por verificar. NOTA DE CATÁLOGO: el centroide de campo (631 723 E · 9 439 702 N, Centroides_V5) coincide con la evidencia GPS; el registro este/norte de «Bloques V4» (631 195 E · 9 441 777 N) difiere ≈2.1 km al N y debe revisarse.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "No",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": "Por determinar",
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Aislado",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "Predominan reptación de suelo y surcos por pisoteo de ganado en laderas de fuerte pendiente; NO se registraron cárcavas activas. Dimensiones instrumentales, longitud total, % de bloque afectado y densidad de cárcavas/ha pendientes de levantamiento por el especialista de Infraestructura Marrón.",
+ "parcela": "Recorrido de reconocimiento (sin parcela permanente)",
+ "dim_parcela": "No aplica (recorrido)",
+ "pend_parcela": 43,
+ "cob_veg": 85,
+ "ecosistema": "Matorral Andino húmedo",
+ "sup_ecosistema": "21.26 ha de matorral andino húmedo (de 25.67 ha del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 15,
+ "cob_arbustiva": 25,
+ "cob_herbacea": 45,
+ "cob_hojarasca": "Por verificar",
+ "suelo_desnudo": 10,
+ "h_dominante": "Por verificar",
+ "h_max": "Por verificar",
+ "dap": "Por verificar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Floración",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Pacae (Inga sp.)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Tarwi silvestre (Lupinus sp.)",
+   "Clave cultural",
+   "NE — No Evaluado"
+  ],
+  [
+   "Bromeliáceas / Helechos",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Palo Blanco / Chin Chin",
+   "Indicadora de buen estado",
+   "DD — Datos Insuficientes"
+  ]
+ ],
+ "obs_dt03": "Composición florística de 15 taxones (11 nativos, 4 introducidos: Agave americana, Grevillea robusta, Eucalyptus sp., Poaceae cultivadas). Se registraron además cultivos de maíz (Zea mays), arveja (Pisum sativum) y trigo (Triticum aestivum). LISTA PRELIMINAR: nombres comunes ambiguos (Palo Blanco, Palo hoja Blanca, Chin Chin, Pega Pega) se mantienen «Por determinar» hasta colección y determinación botánica formal. No se registran especies de bosque seco en peligro crítico (hualtaco, palo santo, sapote) por corresponder a otro piso ecológico.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "≈40%"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "≈17%"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "≈35%"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   "≈10%"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Ligera",
+   "≈5%"
+  ]
+ ],
+ "causa_subyacente": "Presión agropecuaria sostenida sobre laderas de fuerte pendiente sin prácticas de conservación de suelos",
+ "causas_directas": "Sobrepastoreo vacuno; cambio de uso a agricultura (maíz, arveja, trigo) y a pastos cultivados; reptación de suelo en laderas empinadas; presencia de especies exóticas (eucalipto, grevilea, agave).",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 0,
+ "obs_dt04": "Sin evidencia directa de quema reciente en el recorrido; frecuencia de quemas, carga ganadera (UA/ha) y densidad de cárcavas quedan por cuantificar. Indicadores: cobertura vegetal total 85% (Alto); suelo desnudo 10% (Bajo); especies invasoras ≈10% (Medio); % de área con pendiente >50% ≈35% (Medio); distancia a vía ≈0 m (Alto).",
+ "fuentes_agua": [
+  [
+   "Manantial / Puquio",
+   631909,
+   9440083,
+   "Permanente",
+   "Buena (clara)",
+   0,
+   "Pileta/reservorio de captación dentro del bloque"
+  ],
+  [
+   "Quebrada estacional",
+   "Por verificar",
+   "Por verificar",
+   "Estacional",
+   "No evaluable",
+   "Por verificar",
+   "Quebrada tributaria"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "0 (pileta observada dentro del bloque)",
+ "jass": "JASS San Lorenzo — Presidente Sabino Guerrero Córdova (993349943), según F-DS-03",
+ "modalidad_acceso": "Vehicular + caminata 30-90 min",
+ "via_principal": "Trocha carrozable desde Chalaco + camino de herradura",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 35,
+ "t_provincial": "Por verificar",
+ "senal": "Parcial",
+ "operador": "Bitel",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Por verificar — Teniente Gobernador Abimel Córdova Ramirez (920087031), F-DS-03",
+ "obs_dt05": "La autorización formal de la Ronda Campesina queda por confirmar con autoridades del C.P. El diagnóstico social F-DS-03 (2 entrevistas: Presidente de JASS y Teniente Gobernador de San Lorenzo/Taspa) reporta sequía de mayo a diciembre y huaicos de febrero a abril, abastecimiento por el manantial Cieneguita y riego desde los ríos Taspa y Chalaco.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Catálogo",
+   "El registro este/norte de «Bloques V4» (631 195 E · 9 441 777 N) difiere ≈2.1 km al N del centroide de campo/Centroides_V5 (631 723 E · 9 439 702 N)",
+   "SUSTANTIVA",
+   "Documentada en la propia ficha; conciliar catálogo maestro"
+  ],
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "NO SUSTANTIVA",
+   "Se sustituye por el rango del MDE 2306-2624 msnm"
+  ],
+  [
+   "F-DS-03",
+   "Las fichas sociales del C.P. San Lorenzo/Taspa consignan microcuenca C1076-Q9584 y UTM 631 195 · 9 441 780 (valores heredados de plantilla)",
+   "NO SUSTANTIVA",
+   "Se conserva la microcuenca del catálogo C1086-Q9576"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_57 (Plan de Ingreso, PDF)",
+ "bloque": "57"
+}

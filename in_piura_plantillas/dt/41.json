@@ -1,0 +1,236 @@
+{
+ "microcuenca_dt": "C1076-Q9592",
+ "evaluador": "Ing. Héctor Cahuas; brigada: Ing. Albert Flores Mendoza (operador RPAS)",
+ "correlativo": "DT-B41-01",
+ "fecha_eval": "2026-08-11",
+ "hora": "17:47 - 17:58 h",
+ "cp_cercano": "Cambrurán",
+ "comunidad": "Por verificar",
+ "altitud_gps": "1677",
+ "utm_e_dt": 660525,
+ "utm_n_dt": 9394327,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Este",
+ "rango_altitudinal": "1500-2000 m (Quechua media)",
+ "paisaje": "Vertiente de exposición este del sistema de laderas de la margen izquierda de la quebrada de Cambrurán",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "Sí",
+ "deslizamientos": "Sí",
+ "remociones": "No",
+ "obs_dt01": "VERIFICACIÓN PERIMETRAL. Las 10 estaciones RPAS y las 2 tomas terrestres se sitúan entre 337 y 597 m al SSE del límite sur del polígono, a una cota de 1327 msnm — 209 m POR DEBAJO de la cota mínima del bloque (1536 msnm). El interior del Bloque 41 NO fue sobrevolado ni recorrido. Los parámetros fisiográficos proceden de estadística zonal sobre MDE; los indicios de inestabilidad corresponden al corredor de aproximación y se transfieren al bloque POR ANALOGÍA DE VERTIENTE, con carácter referencial.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 4,
+ "long_carcavas": "Por medir",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "11.9",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "R-41-01",
+   "Surco (<30 cm)",
+   660702,
+   9393218,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "R-41-02",
+   "Surco (<30 cm)",
+   660677,
+   9393198,
+   "Activa",
+   "Sobrepastoreo"
+  ],
+  [
+   "R-41-03",
+   "Cárcava incipiente (30-50 cm)",
+   660659,
+   9393232,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "R-41-04",
+   "Surco (<30 cm)",
+   660828,
+   9393207,
+   "Activa",
+   "Surcos de labranza en pendiente"
+  ]
+ ],
+ "obs_dt02": "Los cuatro rasgos fueron FOTOIDENTIFICADOS sobre tomas del RPAS y se sitúan en el CORREDOR DE APROXIMACIÓN, no en el interior del bloque. Las coordenadas corresponden a la posición GPS del RPAS (EXIF), no a una medición sobre el rasgo. El valor de erosión laminar (11.9%) corresponde a la superficie bajo el umbral MSAVI 0.4976 (7.74 ha de 64.92 ha). Se advierte que el Bes-cm es CADUCIFOLIO: en escena de estación seca el MSAVI subestima sistemáticamente la cobertura leñosa.",
+ "parcela": "No aplica – verificación aérea perimetral",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 25.53,
+ "cob_veg": 85,
+ "ecosistema": "Agroecosistema / Mosaico",
+ "sup_ecosistema": "64.92 ha",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 45,
+ "cob_herbacea": 20,
+ "suelo_desnudo": 10,
+ "h_max": 18,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Caducifolio (hojas caídas)",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Guadua angustifolia (bambú)",
+   "Indicadora de buen estado",
+   "No aplica",
+   660705,
+   9393252
+  ],
+  [
+   "Neoraimondia / Armatocereus sp.",
+   "Amenazada D.S. 043",
+   "DD — Datos Insuficientes",
+   660702,
+   9393218
+  ],
+  [
+   "Ficus sp. (higuerón)",
+   "Indicadora de buen estado",
+   "No aplica",
+   660804,
+   9393011
+  ],
+  [
+   "Tillandsia sp. (bromeliácea)",
+   "Indicadora de buen estado",
+   "No aplica",
+   660737,
+   9393181
+  ],
+  [
+   "Ricinus communis (higuerilla)",
+   "Indicadora de perturbación",
+   "No aplica",
+   660793,
+   9393019
+  ],
+  [
+   "Baccharis latifolia (chilca)",
+   "Indicadora de perturbación",
+   "No aplica",
+   660677,
+   9393198
+  ],
+  [
+   "Eucalyptus globulus / Grevillea",
+   "Indicadora de perturbación",
+   "No aplica",
+   660845,
+   9393030
+  ]
+ ],
+ "obs_dt03": "Listado florístico PRELIMINAR y REFERENCIAL, obtenido en el CORREDOR DE APROXIMACIÓN y transferido al Bloque 41 POR ANALOGÍA de microcuenca y faja altitudinal. No se instalaron parcelas, no se efectuó colecta botánica ni medición dasométrica. DISCREPANCIA DE ECOSISTEMA: el reporte oficial V5 asigna «Zona agrícola» al 100% del bloque, mientras el MSAVI 2024 sitúa el 88.07% por encima del umbral 0.4976 y el NDVI 2025 clasifica el 98.90% como «Vegetación alta». Se recomienda reconciliar la capa oficial con la lectura de sensores remotos y el reconocimiento de campo.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "25"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "30"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "25"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   "5"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Ligera",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Economía agropecuaria familiar de subsistencia con acceso vial reciente, que amplía la frontera de cultivo y de pastoreo",
+ "causas_directas": "Cambio de uso del suelo sobre el mosaico de bosque estacionalmente seco: parcelas de cultivo, plátano y maíz sobre rellanos y terrazas, y conversión de laderas a potreros, con sobrepastoreo vacuno-caprino moderado. Se suma la apertura y el mantenimiento de la trocha carrozable, con taludes de corte no tratados y un área de préstamo activa.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_invasoras": 5,
+ "ind_dist_via": 0,
+ "obs_dt04": "La matriz se construyó sobre el registro del CORREDOR DE APROXIMACIÓN (todas las estaciones fuera del polígono). Las causas marcadas «No» se registran como NO OBSERVADAS en el material disponible; ello NO equivale a ausencia confirmada dentro del bloque. El Bloque 41 conserva cobertura alta para el conjunto de la microcuenca (MSAVI 0.5927, 4.º de 11, sobre el promedio local de 0.5435): la urgencia MEDIA responde a que es un bloque de VALOR DE CONSERVACIÓN con degradación focalizada.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   660705,
+   9393252,
+   "Estacional",
+   "No evaluable",
+   337,
+   "Quebrada de la red de drenaje"
+  ],
+  [
+   "Otro (línea de conducción)",
+   660702,
+   9393218,
+   "Permanente",
+   "No evaluable",
+   368,
+   "Línea de conducción"
+  ],
+  [
+   "Otro (caja de reunión)",
+   660677,
+   9393198,
+   "Permanente",
+   "No evaluable",
+   380,
+   "Segunda caja de reunión"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por verificar",
+ "modalidad_acceso": "Vehicular + caminata 30-90 min",
+ "via_principal": "Trocha carrozable de acceso al C.P. Cambrurán, desde la red vial de Huarmaca",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por verificar",
+ "t_provincial": "Por verificar",
+ "senal": "Por verificar",
+ "operador": "Por verificar",
+ "ronda": "Sí",
+ "contacto_ronda": "Por identificar nominalmente",
+ "obs_dt05": "Las tres fuentes inventariadas se localizan en el CORREDOR DE APROXIMACIÓN, entre 337 y 380 m del límite sur; NINGUNA se ubica dentro del polígono. Las coordenadas corresponden a la posición GPS del RPAS (EXIF). El bloque se sitúa en la ZONA DE ORIGEN de los peligros: su función hidrológica es de interceptación, infiltración y regulación del escurrimiento aguas abajo.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 12,
+ "estaciones_dentro": 0,
+ "fuente_ficha": "Ficha_DT_41_20260907_144236.pdf",
+ "bloque": "41"
+}

@@ -1,0 +1,337 @@
+{
+ "microcuenca_dt": "C1096-Q9556",
+ "evaluador": "Ing. Héctor S. Cahuas Miller (ANIN/DIME-SESDI); demás integrantes por confirmar",
+ "correlativo": "F-DT-01 / M17B6-01",
+ "fecha_eval": "2026-07-14",
+ "hora": "13:09 - 13:13 h",
+ "cp_cercano": "Platanal Alto (≈0.6 km al SO); El Guabo",
+ "comunidad": "Por verificar",
+ "altitud_gps": "≈430 - 520 (puntos de observación, derivados del MDE; el aplicativo no consignó cota). Rango del bloque 403 - 1049",
+ "utm_e_dt": 605682,
+ "utm_n_dt": 9445753,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "15-25% (Fuert. inclinado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Noroeste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Ladera de colina-montaña de exposición NO que desciende desde la divisoria (1 049 msnm) hasta el fondo del valle",
+ "afloramientos": "Sí",
+ "escarpes": "Sí (taludes de corte de la vía)",
+ "reptacion": "No (no observado)",
+ "deslizamientos": "No (no observado)",
+ "remociones": "Sí",
+ "obs_dt01": "MODALIDAD: RECONOCIMIENTO EXTERNO DESDE LA CARRETERA CHULUCANAS-FRÍAS (14/07/2026, 13:09-13:13 h). NO SE REALIZÓ TRAVESÍA POR EL INTERIOR DEL BLOQUE; COMPLETITUD FÍSICA ESTIMADA ≈10%. Los seis puntos de observación se sitúan entre 605 663-605 885 E / 9 445 732-9 445 824 N, sobre el límite NO del lóbulo occidental, A 1.3-1.6 km DEL CENTROIDE DE CATÁLOGO. ESCARPES ACTIVOS: taludes de corte de la vía, DE 4 A 8 m DE ALTURA, CON RETROCESO ACTIVO, RAÍCES COLGANTES Y DESPRENDIMIENTOS AL PIE. No se verificaron escarpes de origen natural en el interior. REMOCIONES ACTIVAS: caída de bloques y derrumbes de talud sobre la plataforma vial. ALTITUD GPS: el aplicativo no consignó cota; el valor deriva del MDE. Rango del bloque 403-1 049 msnm; pendiente promedio 23.42%.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Fuerte (cárcavas incipientes) en el punto de muestreo — síntesis de bloque: Moderada (surcos)",
+ "n_carcavas": 3,
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Menor a 2% (estimado; restringido al corredor vial NO)",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01",
+   "Surco (<30 cm)",
+   605663,
+   9445732,
+   "Activa",
+   "Otro (corte y ensanche de la plataforma vial)"
+  ],
+  [
+   "C-02",
+   "Surco (<30 cm)",
+   605811,
+   9445811,
+   "Activa",
+   "Otro (corte y ensanche de la plataforma vial)"
+  ],
+  [
+   "C-03",
+   "Cárcava incipiente",
+   605885,
+   9445824,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ]
+ ],
+ "obs_dt02": "DIFERENCIACIÓN NIVEL PUNTUAL vs. NIVEL DE BLOQUE. El nivel de erosión del punto de muestreo (FUERTE, cárcavas incipientes) DESCRIBE EL CORREDOR VIAL DEL LÍMITE NO, donde el corte de talud ha expuesto un PERFIL ARENO-LIMOSO DE 4 A 8 m con acanaladuras verticales continuas, raíces descalzadas y material suelto acumulado al pie. LA SÍNTESIS DE BLOQUE (MODERADA, surcos) PONDERA ESE CORREDOR CON EL INTERIOR, que presenta cobertura vegetal media a alta según NDVI 2025 y NO MUESTRA PROCESOS EROSIVOS GENERALIZADOS. INVENTARIO: los tres registros provienen de reconocimiento externo; NO SE MIDIERON longitud, profundidad ni ancho, ni se levantaron coordenadas de cierre. CAUSA de C-01 y C-02 = «Otro»: CORTE Y ENSANCHE DE LA PLATAFORMA VIAL (Chulucanas-Frías), causa antrópica no tipificada en la lista. SOCAVAMIENTO: quebrada tributaria estacional cruzada por la vía (605 710 · 9 445 765), con bolonería granítica expuesta y márgenes descubiertos. COMPACTACIÓN: inferida por senderos y huellas con suelo desnudo; no se observó ganado.",
+ "parcela": "No se instaló parcela; inventario florístico rápido por observación externa y registro fotográfico",
+ "dim_parcela": "No aplica (sin parcela instalada)",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 70,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "Por determinar (Bes-cm dominante en más del 85% de las 106.54 ha; estimación preliminar)",
+ "estado_cons": "Levemente alterado",
+ "uso_dominante": "Forestal de protección",
+ "cob_dosel": 60,
+ "cob_arbustiva": 25,
+ "cob_herbacea": 20,
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": 15,
+ "h_dominante": 8,
+ "h_max": 18,
+ "dap": "Por determinar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Caducifolio (hojas caídas)",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Colicodendron scabridum (Sapote)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Neltuma pallida (Algarrobo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "VU — Vulnerable"
+  ],
+  [
+   "Vachellia macracantha (Faique)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "NT — Casi Amenazada"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Endémica del Perú",
+   "NE — No Evaluado"
+  ],
+  [
+   "Ceiba trischistandra (Ceibo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Erythrina edulis (Pajuro)",
+   "Clave cultural",
+   "NE — No Evaluado"
+  ],
+  [
+   "Tillandsia sp. (Salvajina / Achupalla)",
+   "Indicadora de buen estado",
+   "No aplica"
+  ],
+  [
+   "Ipomoea carnea (Borrachera)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Agave americana (Penca)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "BASE DEL REGISTRO: las trece primeras especies corresponden al listado reportado por la brigada de campo PARA ESTE BLOQUE (M17B6 es el bloque de referencia del que se transfirió la flora a M17B5); las dos últimas (Bougainvillea sp. y Tillandsia sp.) provienen de identificación preliminar sobre el registro fotográfico. NO SE INSTALÓ PARCELA NI SE REALIZARON MEDICIONES DENDROMÉTRICAS: DAP, cobertura de hojarasca y pendiente de parcela quedan «Por determinar». Las coberturas y alturas son ESTIMACIONES VISUALES desde puntos externos. ESTADO «Levemente alterado»: el NDVI 2025 clasifica la práctica totalidad del bloque como vegetación media a alta, SIN CLASES DE TIERRA DESNUDA; el sector oriental y de mayor cota (750-1 049 msnm) CONCENTRA LOS RODALES DE VEGETACIÓN ALTA. Esto, junto con la PRESENCIA DE EMERGENTES MADUROS DE Ceiba trischistandra (18 m) Y CARGA EPIFÍTICA DE Tillandsia, sustenta la calificación de alteración leve y MOTIVA LA OBSERVACIÓN DE TIPOLOGÍA ELEVADA A LA SUBDIRECCIÓN. CAVEAT MSAVI: el MSAVI 2024 de catálogo (0.4464) SUBESTIMA la cobertura leñosa real por tratarse de un bosque caducifolio capturado fuera de la temporada húmeda. PENDIENTES: inventario florístico con parcelas y CENSO DE INDIVIDUOS DE HUALTACO, PALO SANTO Y SAPOTE (LAS TRES EN CR).",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Ligera",
+   "10%"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Ligera",
+   "8%"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera",
+   "8%"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   "5% — 2 años"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   "3% — Agave americana naturalizada"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "5%"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "100%"
+  ],
+  [
+   "Otro (tendido eléctrico)",
+   "Sí",
+   "Ligera",
+   "2%"
+  ]
+ ],
+ "causa_subyacente": "Ausencia de gestión del corredor vial en fase de mejoramiento (taludes sin estabilizar ni revegetar)",
+ "causas_directas": "PRESIÓN DE BORDE ASOCIADA AL CORREDOR VIAL CHULUCANAS-FRÍAS (corte de taludes, desprendimientos y erosión acelerada sobre el límite NO); pastoreo extensivo de baja intensidad con senderos y suelo desnudo en ladera; interfaz agropecuaria en el fondo de valle contiguo al límite SO; y estrés hídrico estacional acentuado por el escenario de cambio climático. EL INTERIOR DEL BLOQUE NO PRESENTA EVIDENCIAS DE DEGRADACIÓN GENERALIZADA.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Totalmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 0,
+ "obs_dt04": "CRITERIO DE REGISTRO: los «No» de la columna Presencia expresan AUSENCIA DE EVIDENCIA OBSERVABLE desde los puntos de reconocimiento externo y NO constituyen verificación de ausencia en el interior. INDICADOR 8 (distancia a vía = 0 m): LA CARRETERA CHULUCANAS-FRÍAS SE SUPERPONE AL LÍMITE NO DEL BLOQUE, lo que sitúa la presión de acceso en nivel Alto pese a que el resto de indicadores arroja niveles Bajo o Medio. LECTURA DE CONJUNTO: el bloque se comporta como UN REMANENTE DE Bes-cm EN ESTADO DE ALTERACIÓN LEVE con degradación CONCENTRADA EN SU FRANJA PERIMETRAL NOROESTE. La velocidad es lenta y el proceso técnicamente reversible, LO QUE ORIENTA LA INTERVENCIÓN HACIA CONSERVACIÓN, ENRIQUECIMIENTO Y ESTABILIZACIÓN DEL CORREDOR VIAL ANTES QUE HACIA RESTAURACIÓN ACTIVA EXTENSIVA. Indicadores: cobertura 70% (Bajo); suelo desnudo 15% (Medio); densidad de cárcavas 0.03 N.°/ha (Bajo); invasoras 3% (Bajo); carga ganadera, quemas y % pendiente >50% POR DETERMINAR.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   605710,
+   9445765,
+   "Estacional",
+   "No evaluable",
+   0,
+   "Quebrada tributaria cruzada por la vía"
+  ],
+  [
+   "Otro (catarata)",
+   "Por determinar",
+   "Por determinar",
+   "Estacional",
+   "No evaluable",
+   "Por determinar",
+   "Catarata El Guabo (referencia cartográfica)"
+  ],
+  [
+   "Laguna / Humedal",
+   "Por determinar",
+   "Por determinar",
+   "Permanente",
+   "No evaluable",
+   "Por determinar",
+   "Laguna del Amor El Huabo (referencia cartográfica)"
+  ],
+  [
+   "Laguna / Humedal",
+   "Por determinar",
+   "Por determinar",
+   "Permanente",
+   "No evaluable",
+   "Por determinar",
+   "Laguna El Checo (referencia cartográfica)"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Carretera Chulucanas – Frías (afirmada, EN OBRAS DE MEJORAMIENTO). Código de ruta MTC por confirmar",
+ "tipo_via_final": "Departamental afirmada",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "Por determinar",
+ "operador": "Por determinar",
+ "alojamiento": "Por determinar",
+ "ronda": "Sí",
+ "contacto_ronda": "Por determinar (Ronda Campesina de Platanal Alto / El Guabo pendiente de gestión)",
+ "obs_dt05": "ACCESIBILIDAD: el bloque es DIRECTAMENTE ACCESIBLE EN VEHÍCULO por la carretera Chulucanas-Frías, que DISCURRE SOBRE SU LÍMITE NO. Transitabilidad alta en época seca (plataforma afirmada reciente); BAJA en época lluviosa POR RIESGO DE DERRUMBES DESDE TALUDES DE CORTE SIN ESTABILIZAR y por el cruce de la quebrada estacional SIN OBRA DE ARTE VERIFICADA. RECURSOS HÍDRICOS: la fuente 1 es la ÚNICA VERIFICADA EN CAMPO; las fuentes 2 a 4 son REFERENCIAS CARTOGRÁFICAS DE GOOGLE EARTH pendientes de verificación y georreferenciación. ZONA DE RECARGA «Sí»: el bloque ocupa la ladera de exposición NO que alimenta la quebrada tributaria; las cotas superiores (750-1 049 msnm) con vegetación alta cumplen función de interceptación e infiltración. HUMEDAD PERSISTENTE «Sí»: pastizal de fondo de valle con VERDOR PLENO EN PLENA ÉPOCA SECA, indicio de humedad edáfica persistente o de riego.",
+ "estaciones_fotograficas": [
+  [
+   "F-01",
+   605663,
+   9445732
+  ],
+  [
+   "F-02",
+   605710,
+   9445765
+  ],
+  [
+   "F-05",
+   605811,
+   9445811
+  ],
+  [
+   "F-06",
+   605885,
+   9445824
+  ]
+ ],
+ "n_estaciones": 6,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-01",
+   "Reconocimiento EXTERNO desde la carretera; completitud física ≈10%; los puntos se sitúan a 1.3-1.6 km del centroide",
+   "SUSTANTIVA",
+   "Travesía interior pendiente"
+  ],
+  [
+   "F-DT-01",
+   "Altitud GPS no consignada por el aplicativo; el valor deriva del MDE",
+   "NO SUSTANTIVA",
+   "Por levantar"
+  ],
+  [
+   "F-DT-02",
+   "Nivel de erosión puntual «Fuerte» frente a síntesis de bloque «Moderada»",
+   "NO SUSTANTIVA",
+   "Diferenciación declarada y justificada en la propia ficha"
+  ],
+  [
+   "F-DT-02",
+   "Dimensiones y coordenadas de cierre de las 3 cárcavas sin medir",
+   "SUSTANTIVA",
+   "Levantamiento pendiente"
+  ],
+  [
+   "F-DT-03",
+   "Sin parcela ni mediciones dendrométricas; coberturas y alturas estimadas visualmente desde puntos externos",
+   "SUSTANTIVA",
+   "Inventario con parcelas pendiente"
+  ],
+  [
+   "F-DT-03",
+   "Tres especies en Peligro Crítico (hualtaco, palo santo, sapote) sin censo de individuos",
+   "SUSTANTIVA",
+   "Censo pendiente: alto valor de conservación"
+  ],
+  [
+   "F-DT-03",
+   "Estado «Levemente alterado» con NDVI de vegetación media a alta y emergentes maduros de Ceiba",
+   "SUSTANTIVA",
+   "OBSERVACIÓN DE TIPOLOGÍA ELEVADA A LA SUBDIRECCIÓN"
+  ],
+  [
+   "F-DT-04",
+   "La carretera Chulucanas-Frías, en obras de mejoramiento, se superpone al límite NO del bloque",
+   "SUSTANTIVA",
+   "Causa dominante de la degradación: la intervención debe incluir estabilización y revegetación de taludes"
+  ],
+  [
+   "F-DT-05",
+   "Las fuentes 2 a 4 son referencias cartográficas de Google Earth, no verificadas en campo",
+   "NO SUSTANTIVA",
+   "Georreferenciación pendiente"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M17B6_20260907_153842.pdf",
+ "bloque": "M17B6"
+}

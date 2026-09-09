@@ -1,0 +1,216 @@
+{
+ "microcuenca_dt": "C1086-Q9570",
+ "evaluador": "Ing. Héctor Salomón Cahuas Miller — Especialista en Infraestructura Verde, ANIN/DIME-SESDI",
+ "correlativo": "F-DT/M19B7/2026",
+ "fecha_eval": "2026-06-17",
+ "hora": "16:52 h",
+ "cp_cercano": "El Faique",
+ "comunidad": "Propiedad privada; caserío y predios dispersos",
+ "altitud_gps": "1350 (GPS de campo)",
+ "utm_e_dt": 620775,
+ "utm_n_dt": 9436581,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Sureste",
+ "rango_altitudinal": "1000-1500 m (Quechua baja)",
+ "paisaje": "Montañoso; laderas con afloramientos y bloques graníticos por exfoliación",
+ "afloramientos": "Sí",
+ "escarpes": "Sí (reportado como posible, no concluyente)",
+ "reptacion": "Sí (reportado como posible, no concluyente)",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Bloque colinoso a montañoso en el C.P. El Faique (Santo Domingo). MATERIAL PARENTAL: ROCA INTRUSIVA PROFUNDAMENTE METEORIZADA (SAPROLITO/GRUS) CON BLOQUES GRANÍTICOS POR EXFOLIACIÓN. PENDIENTE MEDIA 42.8% / MÁXIMA 65.6%. CAÍDA DE BLOQUES/ROCAS CONFIRMADA; escarpes activos y reptación reportados como «POSIBLES, NO CONCLUYENTES» (por verificar en campo profundizado).",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": "No inventariadas",
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Sin registro en ficha",
+ "socavamiento": "Posible, no concluyente",
+ "urgencia_control": "Alta",
+ "carcavas": [],
+ "obs_dt02": "EROSIÓN LAMINAR Y EN CÁRCAVAS, nivel general moderado. LOS CORTES DE TALUD DE LA VÍA VECINAL PI-799 EXPONEN SAPROLITO ARENO-GRAVOSO DE BAJA COHESIÓN, SUSCEPTIBLE A EROSIÓN Y DESPRENDIMIENTOS. Textura franco arenosa, color pardo claro, PROFUNDIDAD EFECTIVA SUPERFICIAL (25-50 cm), pedregosidad/afloramientos alta, drenaje bueno. Socavamiento de márgenes de quebrada reportado como «posible, no concluyente». INVENTARIO GEORREFERENCIADO DE CÁRCAVAS PENDIENTE para la fase de campo profundizada.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 42.8,
+ "cob_veg": "60 - 80 (estimación)",
+ "ecosistema": "Agroecosistema / Mosaico (con relicto de Bes-cm como ecosistema secundario)",
+ "sup_ecosistema": "Por determinar",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": "Por determinar",
+ "cob_arbustiva": "Por determinar",
+ "cob_herbacea": "Por determinar",
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": "Por determinar",
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "Por determinar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sin registro en ficha",
+ "epifitas": "Sin registro en ficha",
+ "fenologia": "Sin registro en ficha",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 9,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG) — POR CONFIRMAR en campo",
+   "CR — En Peligro Crítico (por confirmar)"
+  ],
+  [
+   "Handroanthus / Tabebuia sp. (Guayacán)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Ficus sp. (Higuerón)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Inga sp. (Pacae)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Agave sp. (Penca)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "ECOSISTEMA DOMINANTE: AGROECOSISTEMA/MOSAICO SOBRE LADERAS, CON RELICTO DE Bes-cm COMO ECOSISTEMA SECUNDARIO. Estado ALTERADO. Cobertura vegetal total estimada MEDIA A ALTA (60-80%); rango MSAVI 2024 predominante 0.4976-0.6139; DEGRADACIÓN MODERADA SIN SECTORES CRÍTICOS. Regeneración natural regular. El estrato «Suculenta/Cactácea» (Agave, Cactáceas) NO TIENE EQUIVALENTE EN LA LISTA DE ESTRATOS DEL FORMATO. ABUNDANCIA, DAP, ALTURAS Y SUPERFICIE DEL ECOSISTEMA (ha) POR LEVANTAR en inventario florístico. Especies clave/indicadoras (p. ej. Hualtaco) POR CONFIRMAR con categorías UICN/D.S. 043 en campo. Solo 9 taxones registrados frente al mínimo de 15. ADVERTENCIA: EL BLOQUE SE CLASIFICA COMO AGROECOSISTEMA/MOSAICO, no como ecosistema natural: el área efectiva de intervención debe determinarse tras el tamizaje predial.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "",
+   "Pastoreo caprino/vacuno"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "",
+   "Ampliación de frontera agrícola"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "",
+   "Ganadería extensiva"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "",
+   "Cortes de talud por la vía PI-799"
+  ],
+  [
+   "Otro (pérdida/fragmentación del bosque seco)",
+   "Sí",
+   "",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Presión agropecuaria sobre laderas y apertura/expansión vial sin medidas de control",
+ "causas_directas": "Ampliación de frontera agrícola en ladera, pastoreo/ganadería extensiva con sobrepastoreo y cortes de talud por apertura de la vía PI-799; PÉRDIDA/FRAGMENTACIÓN DEL BOSQUE SECO.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": "Por determinar",
+ "obs_dt04": "PELIGROS PRELIMINARES (ZONA DE ORIGEN): PMM ALTO, EPH ALTO, PGI MEDIO. FACTOR DESENCADENANTE PRINCIPAL: PRECIPITACIÓN INTENSA/ACUMULADA, AGRAVADA EN EVENTOS EL NIÑO (FEN) Y CAMBIO CLIMÁTICO. La velocidad de degradación y la reversibilidad son JUICIO PRELIMINAR DE GABINETE; confirmar con indicadores cuantitativos (cobertura, suelo desnudo, densidad de cárcavas, carga ganadera) en campo. Evidencias de inestabilidad (escarpes activos, reptación) reportadas como «posibles, no concluyentes». NINGUNO DE LOS 8 INDICADORES CUANTITATIVOS FUE DILIGENCIADO; la intensidad, extensión y antigüedad de las causas tampoco se cuantificaron.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   620458,
+   9436638,
+   "Estacional",
+   "No evaluable",
+   "Por determinar",
+   "Quebrada que diseca el bloque; vegetación riparia densa en cauce"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sin registro en ficha",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por verificar",
+ "jass": "Por verificar (no verificado en campo)",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Vía vecinal PI-799",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 60,
+ "t_provincial": 120,
+ "senal": "Parcial",
+ "operador": "Bitel",
+ "alojamiento": "Por verificar",
+ "ronda": "Por verificar",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "QUEBRADAS ESTACIONALES (régimen de lluvias) CON FUNCIÓN DE ZONA DE ORIGEN/RECARGA; VEGETACIÓN RIPARIA DENSA EN CAUCE. Acceso por vía vecinal PI-799 (trocha carrozable), transitabilidad regular; LOS CORTES DE TALUD EXPONEN SAPROLITO ARENO-GRAVOSO. TENENCIA: PROPIEDAD PRIVADA; caserío y predios dispersos; uso actual: pastoreo, ganadería y cultivos (maíz). Bloques graníticos por exfoliación en el ámbito. Fuentes de agua (manantiales/JASS), distancias, tiempos de acceso, señal/operador celular y requerimiento de autorización de Ronda Campesina: POR VERIFICAR en campo.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (1350 msnm)"
+  ],
+  [
+   "F-DT-01",
+   "Escarpes activos y reptación reportados como «posibles, no concluyentes»",
+   "SUSTANTIVA",
+   "Verificación en campo profundizado pendiente"
+  ],
+  [
+   "F-DT-02",
+   "Inventario georreferenciado de cárcavas pendiente pese a calificar la urgencia de control como Alta",
+   "SUSTANTIVA",
+   "Levantamiento prioritario"
+  ],
+  [
+   "F-DT-03",
+   "EL ECOSISTEMA SE CLASIFICA COMO AGROECOSISTEMA/MOSAICO, no como ecosistema natural",
+   "SUSTANTIVA",
+   "El área efectiva de intervención debe determinarse tras el tamizaje predial"
+  ],
+  [
+   "F-DT-03",
+   "El estrato «Suculenta/Cactácea» no tiene equivalente en la lista del formato",
+   "NO SUSTANTIVA",
+   "Ajustar la lista de estratos de la plantilla"
+  ],
+  [
+   "F-DT-03",
+   "Coberturas por estrato, DAP, alturas y superficie de ecosistema sin registrar; solo 9 taxones",
+   "SUSTANTIVA",
+   "Inventario florístico pendiente"
+  ],
+  [
+   "F-DT-04",
+   "Ninguno de los 8 indicadores cuantitativos fue diligenciado; intensidad, extensión y antigüedad sin cuantificar",
+   "SUSTANTIVA",
+   "Cuantificación pendiente"
+  ],
+  [
+   "F-DT-04",
+   "Peligros preliminares por juicio de experto: PMM Alto, EPH Alto, PGI Medio",
+   "NO SUSTANTIVA",
+   "No sustituyen el Peligro Integrado por AHP"
+  ],
+  [
+   "F-DT-01 / F-DT-02",
+   "Material parental de saprolito/grus de baja cohesión con caída de bloques confirmada y pendiente máxima 65.6%",
+   "SUSTANTIVA",
+   "Alta susceptibilidad a movimientos en masa: priorizar obras de estabilización complementarias"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M19B7 (Plan de Ingreso, PDF)",
+ "bloque": "M19B7"
+}

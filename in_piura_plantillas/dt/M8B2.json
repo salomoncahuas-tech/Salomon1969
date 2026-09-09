@@ -1,0 +1,237 @@
+{
+ "microcuenca_dt": "C1096-Q9558",
+ "evaluador": "Ing. Héctor Salomón Cahuas Miller (Esp. Infraestructura Verde); Ing. Pedro Talledo Hernández; Ing. Juan Carlos Domínguez Varas",
+ "correlativo": "F-DT/M8B2/2026",
+ "fecha_eval": "2026-06-16",
+ "hora": "03:46 h (hora de registro según ficha)",
+ "cp_cercano": "Botijas",
+ "comunidad": "No aplica (predios de propiedad privada)",
+ "altitud_gps": "1050 (GPS de campo)",
+ "utm_e_dt": 617630,
+ "utm_n_dt": 9436148,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Suroeste",
+ "rango_altitudinal": "1000-1500 m (Quechua baja)",
+ "paisaje": "Montaña/colina de la vertiente occidental andina; ladera empinada con mosaico de bosque estacionalmente seco y zona agrícola",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "Sí",
+ "deslizamientos": "Sin registro en ficha",
+ "remociones": "Sí",
+ "obs_dt01": "BLOQUE EN CABECERA DE MICROCUENCA tributaria del río Piura; relieve de ladera empinada (PENDIENTE MEDIA 35.5%, MÁXIMA 62.2%). Exposición dominante de laderas SO-NO. Acceso por vía vecinal PI-799. TENENCIA PRIVADA; uso actual pastoreo/ganadería y cultivo de maíz. Verificación de campo 16/06/2026.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Fuerte (cárcavas incipientes)",
+ "n_carcavas": "No inventariadas",
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Sin registro en ficha",
+ "socavamiento": "Sin registro en ficha",
+ "urgencia_control": "Sin registro en ficha",
+ "carcavas": [],
+ "obs_dt02": "EROSIÓN CONCENTRADA EN PLATAFORMA Y TALUDES DE LA TROCHA PI-799: surcos y cárcavas incipientes y cicatrices en cortes de talud; SOCAVAMIENTO Y COLAPSO DE BANCA. Erosión laminar en cimas por sobrepastoreo. Suelos residuales franco-arenosos a franco-arcillosos, profundidad variable, con fragmentos rocosos. SIN ANÁLISIS DE LABORATORIO en esta etapa (estudio especializado de suelos). INVENTARIO GEORREFERENCIADO DE CÁRCAVAS (coordenadas, dimensiones, longitud total y % afectado) PENDIENTE.",
+ "parcela": "Sin parcela formal (UTM = punto referencial del bloque)",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 35.5,
+ "cob_veg": "Por determinar",
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "Tomar del Reporte de Ecosistemas por Bloques (no medida en campo)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": "Por determinar",
+ "cob_arbustiva": "Por determinar",
+ "cob_herbacea": "Por determinar",
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": "Por determinar",
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "Por determinar",
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sin registro en ficha",
+ "fenologia": "Sin registro en ficha",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 9,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico (por confirmar)"
+  ],
+  [
+   "Handroanthus / Tabebuia sp. (Guayacán)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Ficus sp. (Higuerón)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Inga sp. (Pacae / Guabo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Agave americana (Penca)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "Ecosistema dominante Bes-cm, EN MOSAICO CON ZONA AGRÍCOLA (sector superior) y cobertura intervenida (pastos cultivados, maíz). VIGOR MSAVI (Sentinel-2, Piura 2024) MAYORITARIAMENTE MODERADO A ALTO (0.4976-0.6139), con parches densos (>0.6139) y focos degradados (0.2650-0.4976). SUPERFICIE POR ECOSISTEMA: tomar del Reporte de Ecosistemas por Bloques (no medida en campo). COBERTURAS %, ESTRATO, ABUNDANCIA, DAP, ALTURA Y ESPECIES CLAVE/INDICADORAS: PENDIENTES DEL INVENTARIO FLORÍSTICO ESPECIALIZADO. Nombres científicos referenciales (confirmación taxonómica pendiente). Solo 9 taxones registrados frente al mínimo de 15.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "",
+   "Pastizales sobrepastoreados"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "",
+   "Parcelas de maíz habilitadas"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "",
+   "Conversión de cimas a pastizal"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "",
+   "Apertura de trochas y caminos en ladera"
+  ],
+  [
+   "Otro (deforestación y tala selectiva)",
+   "Sí",
+   "",
+   ""
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "No",
+   "",
+   ""
+  ],
+  [
+   "Quema accidental / Incendio",
+   "No",
+   "",
+   ""
+  ]
+ ],
+ "causa_subyacente": "No consignada en la ficha",
+ "causas_directas": "Deforestación y tala selectiva, sobrepastoreo/ganadería extensiva, apertura de trochas y caminos en ladera, y agricultura (maíz) en pendiente.",
+ "velocidad": "Sin registro en ficha",
+ "reversibilidad": "Sin registro en ficha",
+ "urgencia": "Sin registro en ficha",
+ "ind_dist_via": 0,
+ "obs_dt04": "Causas de degradación según verificación de campo: deforestación/tala selectiva, sobrepastoreo, apertura de trochas y agricultura en ladera. Sin evidencia de quemas. PELIGROS (JUICIO DE EXPERTO DE CAMPO): PMM MEDIO-ALTO, EPH MODERADO-ALTO, PGI MODERADO. Intensidad, extensión y antigüedad de las causas, e indicadores cuantitativos (cobertura, suelo desnudo, densidad de cárcavas, carga ganadera), PENDIENTES de gabinete/estudios especializados. LOS NIVELES CUALITATIVOS NO SUSTITUYEN EL PELIGRO INTEGRADO (PI = PMM·0.4 + EPH·0.3 + PGI·0.3) POR AHP. Solo 2 de los 8 indicadores fueron diligenciados: frecuencia de quemas 0 (Bajo) y distancia a vía 0 m — vía PI-799 (Alto).",
+ "fuentes_agua": [
+  [
+   "Reservorio / Represa",
+   "Por determinar",
+   "Por determinar",
+   "Por determinar",
+   "Por determinar",
+   "Por determinar",
+   "Caja/reservorio rústico en desuso"
+  ],
+  [
+   "Quebrada estacional",
+   "Por determinar",
+   "Por determinar",
+   "Estacional",
+   "Por determinar",
+   "Por determinar",
+   "Quebrada tributaria del río Piura"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sin registro en ficha",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por verificar",
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Vía vecinal PI-799 (trocha carrozable)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 60,
+ "t_provincial": 120,
+ "senal": "Parcial",
+ "operador": "Bitel",
+ "alojamiento": "No",
+ "ronda": "Por verificar",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "El bloque DRENA HACIA QUEBRADAS TRIBUTARIAS DEL RÍO PIURA; se identificó una CAJA/RESERVORIO RÚSTICO EN DESUSO. Sin aforos en esta etapa. Accesibilidad por vía vecinal PI-799 (trocha carrozable), FACTIBLE PERO CONDICIONADA POR EROSIÓN DE PLATAFORMA, SURCOS, TALUDES INESTABLES Y COLAPSOS DE BANCA; transitabilidad reducida en lluvias; REQUIERE MANTENIMIENTO Y ESTABILIZACIÓN DE TALUDES. Coordenadas de fuentes, distancias a captación, señal celular y datos de Ronda Campesina: POR VERIFICAR.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (1050 msnm)"
+  ],
+  [
+   "F-DT-02",
+   "Inventario georreferenciado de cárcavas pendiente pese a calificar la erosión como Fuerte",
+   "SUSTANTIVA",
+   "Levantamiento pendiente"
+  ],
+  [
+   "F-DT-03",
+   "Coberturas por estrato, DAP, altura y especies clave sin registrar; superficie de ecosistema no medida",
+   "SUSTANTIVA",
+   "Pendientes del inventario florístico especializado"
+  ],
+  [
+   "F-DT-03",
+   "Solo 9 taxones registrados frente al mínimo de 15 exigido",
+   "NO SUSTANTIVA",
+   "Inventario a completar"
+  ],
+  [
+   "F-DT-04",
+   "Solo 2 de los 8 indicadores cuantitativos diligenciados; intensidad, extensión y antigüedad de las causas sin cuantificar",
+   "SUSTANTIVA",
+   "Cuantificación pendiente"
+  ],
+  [
+   "F-DT-04",
+   "Velocidad de degradación, reversibilidad y urgencia de intervención no consignadas",
+   "SUSTANTIVA",
+   "Calificación pendiente"
+  ],
+  [
+   "F-DT-04",
+   "Peligros calificados por juicio de experto (PMM medio-alto, EPH moderado-alto, PGI moderado)",
+   "NO SUSTANTIVA",
+   "No sustituyen el Peligro Integrado por AHP; declarado en la propia ficha"
+  ],
+  [
+   "F-DT-05",
+   "Las dos fuentes de agua inventariadas carecen de coordenadas",
+   "NO SUSTANTIVA",
+   "Georreferenciación pendiente"
+  ],
+  [
+   "F-DT-05",
+   "La vía PI-799 presenta erosión de plataforma, taludes inestables y colapsos de banca",
+   "SUSTANTIVA",
+   "Condiciona el acceso y es a la vez foco de erosión: incorporar al diseño de MRR-CCC complementarias"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M8B2 (Plan de Ingreso, PDF)",
+ "bloque": "M8B2"
+}

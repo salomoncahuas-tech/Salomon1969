@@ -1,0 +1,262 @@
+{
+ "microcuenca_dt": "C1081-Q9582",
+ "evaluador": "Ing. Héctor S. Cahuas Miller / Ing. Juan Carlos Domínguez Varas",
+ "correlativo": "F-DT-01-M3B8",
+ "fecha_eval": "2026-05-19",
+ "hora": "13:20 h",
+ "cp_cercano": "Santa Rosa",
+ "comunidad": "Caserío Santa Rosa / Anexo Hacienda Bigote (sin C.C. titulada verificada)",
+ "altitud_gps": "285 (GPS de campo)",
+ "utm_e_dt": 632159,
+ "utm_n_dt": 9414407,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Sureste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Laderas de colina del bosque estacionalmente seco; cobertura herbácea-graminoide seca dominante con árboles dispersos",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "Sí",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Ingreso al bloque desde la capital distrital de Salitral (Morropón), CON CRUCE (VADO) DEL CAUCE DE RÍO SECO. Inspección del 19/05/2026. EL PROCESO MORFODINÁMICO DOMINANTE ES LA EROSIÓN HÍDRICA (cárcavas incipientes, surcos y erosión laminar) SOBRE SUELOS ROJIZOS DELGADOS, MÁS QUE LA REMOCIÓN EN MASA; se observa reptación de suelo asociada a sobrepastoreo. RELICTOS DEL BOSQUE SECO DE COLINA/MONTAÑA SE CONSERVAN EN LA PARTE ALTA INACCESIBLE. BLOQUE DE MAYOR SUPERFICIE DEL PORTAFOLIO: 565.58 ha.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Fuerte (cárcavas incipientes)",
+ "n_carcavas": 3,
+ "long_carcavas": 62,
+ "pct_carcavas": 5,
+ "erosion_laminar": 40,
+ "patron_carcavas": "Paralelo",
+ "socavamiento": "Sí",
+ "urgencia_control": "Alta",
+ "carcavas": [
+  [
+   "C-01",
+   "Cárcava incipiente — 25 m, 0.4 m prof., 0.6 m ancho",
+   632159,
+   9414407,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "C-02",
+   "Cárcava somera — 22 m, 0.6 m prof., 0.9 m ancho",
+   632167,
+   9414417,
+   "Activa",
+   "Tala / pérdida de cobertura"
+  ],
+  [
+   "C-03",
+   "Surco (<30 cm) — 15 m, 0.25 m prof., 0.35 m ancho",
+   632141,
+   9414451,
+   "Semi-activa",
+   "Caminos / huellas de ganado"
+  ]
+ ],
+ "obs_dt02": "PROCESOS EROSIVOS GENERALIZADOS EN LADERA: erosión laminar extendida (≈40%), surcos y cárcavas incipientes a someras que evolucionan por concentración de escorrentía en zonas de cobertura reducida. RAÍCES EXPUESTAS Y COSTRA SUPERFICIAL EVIDENCIAN PÉRDIDA DE HORIZONTE ORGÁNICO. Recomendable priorizar control de erosión con ZANJAS DE INFILTRACIÓN, TERRAZAS DE FORMACIÓN LENTA Y BARRERAS VIVAS, complementadas con DIQUES DE CONTROL EN CÁRCAVAS ACTIVAS. ADVERTENCIA: solo 3 rasgos inventariados en un bloque de 565.58 ha — el inventario NO es representativo de la superficie total.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 45,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "565.58 ha (100% del bloque)",
+ "estado_cons": "Muy alterado / Degradado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 20,
+ "cob_arbustiva": 10,
+ "cob_herbacea": 45,
+ "cob_hojarasca": 10,
+ "suelo_desnudo": 25,
+ "h_dominante": 6,
+ "h_max": 12,
+ "dap": 25,
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Caducifolio (hojas caídas)",
+ "tipo_cobertura": "Pastizal natural",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG) — 6 ind. en 632 141 · 9 414 361",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG) — 3 ind. en 632 159 · 9 414 407",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado — 2 ind. en 632 196 · 9 414 467",
+   "No aplica"
+  ],
+  [
+   "Ceiba trichistandra (Ceibo)",
+   "Indicadora de buen estado — 1 ind. en 632 196 · 9 414 467",
+   "No aplica"
+  ],
+  [
+   "Senna sp. (Flor amarilla invasora)",
+   "Indicadora de perturbación — Abundante",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "La UP corresponde al Bes-cm, FUERTEMENTE ALTERADO EN EL SECTOR ACCESIBLE (fisonomía de PASTIZAL SECO CON ÁRBOLES DISPERSOS) y con RELICTOS ARBÓREOS EN CIMAS INACCESIBLES. Se confirma presencia de especies amenazadas (Hualtaco y Palo Santo, CR según D.S. 043-2006-AG). LA REGENERACIÓN NATURAL ES ESCASA POR SOBREPASTOREO. LA ESPECIE DE FLOR AMARILLA (NO PALATABLE, ABUNDANTE) SE PRESUME INVASORA (probable Senna sp.); REQUIERE CONFIRMACIÓN TAXONÓMICA. Nombres científicos preliminares, sujetos a verificación botánica. Se registran 15 taxones — el bloque cumple el mínimo exigido por la ficha.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "70% — >20 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "40% — >20 años"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Ligera",
+   "15% — >20 años"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "Sí",
+   "Moderada",
+   "30% — 5-10 años"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Ligera",
+   "10% — >20 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Fuerte",
+   "60% — >20 años"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5% — 10-20 años"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Moderada",
+   "20% — 5-10 años"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Fuerte",
+   "30% — >20 años"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Fuerte",
+   "100% — >10 años"
+  ]
+ ],
+ "causa_subyacente": "Ganadería extensiva no regulada y presión de subsistencia, con débil gobernanza territorial sobre el ecosistema",
+ "causas_directas": "Sobrepastoreo caprino/vacuno y conversión a pastizal, tala selectiva para leña/madera, quemas de renovación de pastos y erosión hídrica acelerada (cárcavas y surcos), agravados por déficit hídrico (cambio climático) y AVANCE DE ESPECIE INVASORA NO PALATABLE.",
+ "velocidad": "Rápida",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 300,
+ "obs_dt04": "La degradación es de ORIGEN PREDOMINANTEMENTE ANTRÓPICO (sobrepastoreo y cambio de uso) potenciada por factores climáticos. REVERSIBILIDAD PARCIAL: viable con infraestructura natural (revegetación/reforestación con nativas, manejo de la regeneración, control de erosión) CONDICIONADA A ACUERDOS DE GOBERNANZA PARA REGULAR LA CARGA GANADERA Y LAS QUEMAS. URGENCIA ALTA POR LA PÉRDIDA ACTIVA DE SUELO. Indicadores: cobertura vegetal total 45% (Medio); suelo desnudo 25% (Medio); densidad de cárcavas 1 N.°/ha (Medio); especies invasoras 18% (Medio); carga ganadera 0.8 UA/ha (Alto); frecuencia de quemas 1 (Medio); % área con pendiente >50% = 25% (Medio); distancia a vía 300 m (Medio). NOTA: la densidad de cárcavas de 1 N.°/ha es incompatible con 3 cárcavas inventariadas en 565.58 ha (0.005 N.°/ha).",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   631900,
+   9414250,
+   "Intermitente",
+   "No evaluable",
+   50,
+   "Cauce de Río Seco; seco en la evaluación"
+  ],
+  [
+   "Quebrada estacional",
+   632160,
+   9414410,
+   "Intermitente",
+   "No evaluable",
+   0,
+   "Drenaje natural interno"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "No",
+ "escorrentia": "Sí",
+ "dist_captacion": 800,
+ "jass": "Canales de riego del valle de Bigote (Río Seco); sin interferencia con el bloque (zona de ladera)",
+ "modalidad_acceso": "Vehicular + caminata 30-90 min",
+ "via_principal": "Acceso desde Salitral por trocha carrozable y CRUCE (VADO) DEL CAUCE DE RÍO SECO",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 60,
+ "t_provincial": 120,
+ "senal": "Parcial",
+ "operador": "Movistar",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Coordinar con la Ronda Campesina de Bigote/Santa Rosa (contacto por verificar en campo)",
+ "obs_dt05": "El bloque se sitúa en ZONA DE ORIGEN/RECARGA: LAS LADERAS CONCENTRAN ESCORRENTÍA HACIA RÍO SECO, CONTRIBUYENDO A LA GENERACIÓN DE CRECIDAS AGUAS ABAJO. No se observaron fuentes permanentes ni humedales dentro del bloque. EL ACCESO ES CONDICIONADO: EN ÉPOCA LLUVIOSA EL CRUCE DE RÍO SECO LIMITA LA TRANSITABILIDAD (factor logístico crítico para la ejecución de las MRR-CCC en las 565.58 ha del bloque). Se requiere coordinación con la Ronda Campesina local.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (285 msnm)"
+  ],
+  [
+   "F-DT-02",
+   "Solo 3 rasgos erosivos inventariados en un bloque de 565.58 ha",
+   "SUSTANTIVA",
+   "El inventario NO es representativo de la superficie total; ampliar el levantamiento"
+  ],
+  [
+   "F-DT-04",
+   "Densidad de cárcavas declarada 1 N.°/ha frente a 3 cárcavas en 565.58 ha (0.005 N.°/ha)",
+   "SUSTANTIVA",
+   "Inconsistencia aritmética a resolver"
+  ],
+  [
+   "F-DT-03",
+   "La especie de flor amarilla se presume invasora (probable Senna sp.); requiere confirmación taxonómica",
+   "SUSTANTIVA",
+   "Determinación botánica prioritaria: condiciona el diseño del control de invasoras (18-20% del área)"
+  ],
+  [
+   "F-DT-05",
+   "El cruce (vado) del cauce de Río Seco limita la transitabilidad en época lluviosa",
+   "SUSTANTIVA",
+   "Factor logístico crítico para la ejecución en 565.58 ha: dimensionar en el cronograma y el presupuesto"
+  ],
+  [
+   "F-DT-01",
+   "Los relictos del bosque seco se conservan en la parte alta INACCESIBLE, no verificada en campo",
+   "NO SUSTANTIVA",
+   "Caracterización del sector alto pendiente"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M3B8 (Plan de Ingreso, PDF)",
+ "bloque": "M3B8"
+}

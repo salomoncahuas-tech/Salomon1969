@@ -1,0 +1,279 @@
+{
+ "microcuenca_dt": "C1081-Q9582",
+ "evaluador": "Juan Carlos Domínguez Varas",
+ "correlativo": "F-DT/M3B7/2026",
+ "fecha_eval": "2026-06-03",
+ "hora": "12:10 - 13:03 h",
+ "cp_cercano": "Polluco; Sinaí",
+ "comunidad": "No pertenecen a ninguna comunidad campesina (F-DS-02)",
+ "altitud_gps": "260 (GPS de campo)",
+ "utm_e_dt": 637368,
+ "utm_n_dt": 9414353,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Suroeste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Sistema de laderas convexo-cóncavas tributarias de la quebrada Q9582 (microcuenca C1081); ladera media colinosa",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Acceso por vía vecinal, ruta desde San Juan de Bigote al CCPP de Polluco y Sinaí; se detuvo la camioneta en el centro poblado y al pie del bloque en la vía afirmada. Se ingresó por la zona suroeste, colindante a la vía. POR ZONAS EL BLOQUE COLINDA CON EL CCPP DE POLLUCO EN ÁREAS DESTINADAS AL PASTOREO DE GANADO CAPRINO. Se observó presencia de TOCONES POR EXTRACCIÓN DE LEÑA. LA ZONA PRÓXIMA A LA VÍA Y AL CCPP ES LA PARTE MÁS DEGRADADA DEL BLOQUE.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Fuerte (cárcavas incipientes)",
+ "n_carcavas": 15,
+ "long_carcavas": "375 (suma de los 10 rasgos georreferenciados)",
+ "pct_carcavas": 5,
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Paralelo",
+ "socavamiento": "No",
+ "urgencia_control": "Alta",
+ "carcavas": [
+  [
+   "C-01",
+   "Cárcava somera — 15 m, 0.5 m prof., 2.0 m ancho",
+   637368,
+   9414353,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "C-02",
+   "Cárcava somera — 30 m, 0.5 m prof., 1.5 m ancho",
+   637352,
+   9414391,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "C-03",
+   "Cárcava incipiente — 10 m, 0.3 m prof., 0.5 m ancho",
+   637371,
+   9414397,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "C-04",
+   "Cárcava somera — 50 m, 0.5 m prof., 1.5 m ancho",
+   637400,
+   9414445,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "C-05",
+   "Cárcava incipiente — 20 m, 0.3 m prof., 1.0 m ancho",
+   637417,
+   9414458,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "C-06",
+   "Cárcava incipiente — 30 m, 0.3 m prof., 0.5 m ancho",
+   637487,
+   9414495,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "C-07",
+   "Cárcava somera — 50 m, 0.5 m prof., 1.5 m ancho",
+   637498,
+   9414496,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "C-08",
+   "Cárcava somera — 60 m, 0.6 m prof., 2.0 m ancho",
+   637562,
+   9414531,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "C-09",
+   "Cárcava somera — 100 m, 0.5 m prof., 2.5 m ancho",
+   637572,
+   9414534,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "C-10",
+   "Cárcava incipiente — 10 m, 0.3 m prof., 0.5 m ancho",
+   637700,
+   9414556,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ]
+ ],
+ "obs_dt02": "Se evidenció LA FORMACIÓN DE VARIAS CÁRCAVAS de distintas profundidades y anchos QUE DISCURREN POR LA LADERA Y TERMINAN EN LA VÍA AFIRMADA, CON UN NIVEL AVANZADO DE FORMACIÓN. El terreno presenta erosión eólica e hídrica; CON LAS LLUVIAS LAS CÁRCAVAS TIENDEN A AUMENTAR EN NÚMERO, PROFUNDIDAD Y ANCHO, por la degradación del suelo por el ganado caprino y el retiro de individuos arbóreos. Se observan raíces expuestas. INVENTARIO: 15 CÁRCAVAS EN TOTAL; SE REGISTRAN 10 REPRESENTATIVAS GEORREFERENCIADAS. Es el bloque con el inventario de cárcavas más completo del portafolio.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 60,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "122.95 ha (100% del bloque)",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 40,
+ "cob_arbustiva": "Por determinar",
+ "cob_herbacea": 20,
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": 40,
+ "h_dominante": "Por determinar",
+ "h_max": 10,
+ "dap": "Por determinar",
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 7,
+ "especies_clave": [
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado — Abundante",
+   "NE — No Evaluado"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Endémica del Perú — Dominante",
+   "NE — No Evaluado"
+  ],
+  [
+   "Ceiba pentandra (Ceibo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Bursera graveolens (Palo Santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Armatocereus cartwrightianus (Cardos)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "El bosque se encuentra DEGRADADO EN ZONAS CERCANAS AL CENTRO POBLADO, con población arbórea menos densa y árboles dispersos de altura menor a 10 m y clases diamétricas menores a 40 cm. LA ZONA ALTA DEL BLOQUE, DE MAYOR PENDIENTE, CONSERVA LA VEGETACIÓN con árboles altos (>8 m) y clases diamétricas mayores a 30 cm. Solo 7 taxones registrados frente al mínimo de 15. LA SECCIÓN DE ESPECIES CLAVE / INDICADORAS QUEDÓ COMPLETAMENTE VACÍA en la ficha (las aquí consignadas se derivan de la composición florística). INCONSISTENCIA: suelo desnudo 40% en F-DT-03 frente a 15% en el indicador N.° 2 de F-DT-04.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "25% — 20 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "10% — 10 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera",
+   "25% — 10 años"
+  ]
+ ],
+ "causa_subyacente": "Pastoreo de ganado caprino",
+ "causas_directas": "Extracción de individuos para leña y sobrepastoreo de ganado caprino.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 0,
+ "obs_dt04": "El bloque se encuentra degradado a nivel de cobertura vegetal y suelo en zonas próximas a la vía y cercanas al CCPP. EN LA PARTE ALTA SE CONSERVA LA VEGETACIÓN. Se evidencian claros producto de la extracción de individuos arbóreos cercanos a la carretera. Indicadores: cobertura vegetal total 60% (Alto); suelo desnudo 15% (Bajo); DENSIDAD DE CÁRCAVAS 10 N.°/ha CALIFICADA «BAJO» —INCOMPATIBLE con el umbral de la propia ficha (0 nulo; 1-3 medio; >3 alto)—; carga ganadera 10 UA/ha (Medio); frecuencia de quemas 1 (Bajo); % área con pendiente >50% = 10% (Medio); distancia a vía 0 m (Alto). ADVERTENCIA: la urgencia de intervención declarada (Media) contrasta con la urgencia de control de erosión (Alta) y con un inventario de 15 cárcavas activas.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   637567,
+   9414532,
+   "Estacional",
+   "Regular (ligeramente turbia)",
+   0,
+   "Drenaje natural; seca en la evaluación"
+  ]
+ ],
+ "recarga": "No",
+ "humedad": "No",
+ "escorrentia": "No",
+ "dist_captacion": 300,
+ "jass": "Presidente de la JASS Alejandro Román Peña (950727681), según F-DS-02",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Vía vecinal afirmada San Juan de Bigote - Polluco",
+ "tipo_via_final": "Vecinal afirmada",
+ "transit_seca": "Bajo",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 10,
+ "t_provincial": 40,
+ "senal": "Intermitente",
+ "operador": "Entel",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Presidente de la Ronda Campesina Wiltar Gonzales Cruz (986293808); Teniente Gobernador Mitridates Guevara Román (974579575)",
+ "obs_dt05": "Las quebradas que discurren del bloque ESTABAN SECAS POR EVALUARSE EN ÉPOCA SECA. DIAGNÓSTICO SOCIAL (F-DS-02, C.P. Polluco, 08/07/2026): no pertenecen a ninguna comunidad campesina; desde hace 6 meses tienen PANELES SOLARES (la luz de ENOSA se usa solo por emergencia, convenio con la Municipalidad y el CIPCA). Autoridades identificadas: Teniente Gobernador, Presidente de la Ronda Campesina y Presidente de la JASS.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (260 msnm)"
+  ],
+  [
+   "F-DT-03",
+   "Suelo desnudo 40% en F-DT-03 frente a 15% en el indicador N.° 2 de F-DT-04",
+   "SUSTANTIVA",
+   "Inconsistencia interna a resolver"
+  ],
+  [
+   "F-DT-03",
+   "La sección de especies clave / indicadoras quedó completamente vacía",
+   "SUSTANTIVA",
+   "Completar con georreferencia y número de individuos"
+  ],
+  [
+   "F-DT-03",
+   "Solo 7 taxones registrados frente al mínimo de 15 exigido",
+   "SUSTANTIVA",
+   "Inventario florístico incompleto"
+  ],
+  [
+   "F-DT-04",
+   "Densidad de cárcavas 10 N.°/ha calificada «Bajo», incompatible con el umbral de la propia ficha (>3 = alto)",
+   "SUSTANTIVA",
+   "Recalificar a nivel ALTO"
+  ],
+  [
+   "F-DT-04",
+   "Urgencia de intervención «Media» frente a urgencia de control de erosión «Alta» y 15 cárcavas activas",
+   "SUSTANTIVA",
+   "Revisar calificación"
+  ],
+  [
+   "F-DT-05",
+   "Zona de recarga «No» y escorrentía concentrada «No», pese a 15 cárcavas activas por concentración de escorrentía",
+   "SUSTANTIVA",
+   "Inconsistencia interna a resolver"
+  ],
+  [
+   "F-DS-02",
+   "La ficha social consigna microcuenca C1076-Q9584 (valor heredado de plantilla)",
+   "NO SUSTANTIVA",
+   "Se conserva la microcuenca del catálogo C1081-Q9582"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M3B7 (Plan de Ingreso, PDF)",
+ "bloque": "M3B7"
+}

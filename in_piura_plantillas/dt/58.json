@@ -1,0 +1,224 @@
+{
+ "microcuenca_dt": "C1076-Q9584 (según ficha de campo — error de transcripción; catálogo: C1086-Q9569)",
+ "evaluador": "Juan Domínguez Varas / Ángela Cruz",
+ "correlativo": "F-DT-B58-01",
+ "fecha_eval": "2026-05-06",
+ "hora": "11:20 h",
+ "cp_cercano": "Maray (618 786 E · 9 426 011 N; 329 hab.) — figura como «Nuevo Maray» en el 2.º Producto OS 1993-2026",
+ "comunidad": "Por verificar",
+ "altitud_gps": "182 (GPS de campo) / 209 - 288 (MDE)",
+ "utm_e_dt": 619316,
+ "utm_n_dt": 9426189,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Noreste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Ladera colinosa de bosque seco de colina y montaña sobre la margen derecha del río Corrales",
+ "afloramientos": "Por determinar",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Ausencia de cárcavas prominentes; se evidencian quebradas que se activan solo en temporada de lluvias. En tramos al pie del bloque se están construyendo badenes que desfogan hacia el exterior. SEIS DISCREPANCIAS DOCUMENTADAS (ver hoja de Control de consistencia): microcuenca de ficha vs. catálogo; altitud 0 por defecto; pendiente de campo vs. MDE; atribución de brigada; asignación distrital compartida con M32B3; rótulo «B4_2» en el mapa MSAVI.",
+ "sellamiento": "No",
+ "compactacion": "No",
+ "raices_expuestas": "No",
+ "nivel_erosion": "Ligera (laminar)",
+ "n_carcavas": 1,
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Paralelo",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "01",
+   "Cárcava incipiente (no medida)",
+   619285,
+   9426260,
+   "Por determinar",
+   "Por determinar"
+  ]
+ ],
+ "obs_dt02": "Predomina erosión laminar difusa. No se registró sellamiento superficial, costras, compactación por pisoteo ni raíces expuestas: los suelos conservan integridad estructural relativa. El suelo de ladera presenta piedras medianas y cantos rodados. CÁRCAVA 01 georreferenciada en 619 285 E · 9 426 260 N; descrita como «cárcava incipiente»; NO se midieron longitud, profundidad ni ancho, por lo que NO se asigna clase dimensional ni estado/causa. Al pie del bloque, fuera del perímetro, badenes en construcción desfogan escorrentía hacia campos de cultivo externos; su efecto sobre la concentración de flujos requiere verificación. DISCREPANCIA: la ficha califica la urgencia de control MEDIA; la memoria del 2.º Producto OS 1993-2026 la consigna BAJA.",
+ "parcela": "No instalada — estimación visual sobre recorrido",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 16.09,
+ "cob_veg": 60,
+ "ecosistema": "Bosque seco de colina y montaña (Bes-cm)",
+ "sup_ecosistema": "11.47 ha (100% del bloque)",
+ "estado_cons": "Conservado (sin intervención evidente)",
+ "uso_dominante": "Forestal de protección",
+ "cob_dosel": 60,
+ "cob_arbustiva": 20,
+ "cob_herbacea": 20,
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": 10,
+ "h_dominante": "6 - 8",
+ "h_max": "6 - 8",
+ "dap": "20 - 25",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Floración",
+ "tipo_cobertura": "Bosque denso (>70%)",
+ "n_taxones": 12,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Prosopis pallida (Algarrobo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "VU — Vulnerable"
+  ],
+  [
+   "Vachellia macracantha (Faique)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "NT — Casi Amenazada"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Endémica del Perú",
+   "NE — No Evaluado"
+  ],
+  [
+   "Armatocereus cartwrightianus (Cardo maderero)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "PROCEDENCIA DE LOS REGISTROS: la ficha F-DT-03 de campo (06-05-2026) consigna faique, hualtaco, charán y overo; la memoria del 2.º Producto OS añade palo santo, uña de gato, borrachera y cardo maderero; el especialista forestal incorpora algarrobo, pasallo, pacae y cactáceas columnares. Todos los nombres científicos son PRELIMINARES: no hubo colecta botánica ni determinación de herbario. Abundancia relativa, DAP y altura individuales NO registrados; tampoco coordenadas ni número de individuos de las especies clave. DISCREPANCIA: la ficha registra dosel 60%, la memoria del 1.º Producto OS refiere 80% y la ficha F-EE-05 90%: se declara el rango 60-90% como intervalo a verificar. La suma de coberturas por estrato excede 100% por corresponder a estratos superpuestos. ESTACIONALIDAD: evaluación inmediatamente posterior a la temporada de lluvias; el estado de conservación aparente puede estar sobreestimado respecto de la época seca.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   ""
+  ]
+ ],
+ "causa_subyacente": "No consignada en ficha de campo. Preliminar: demanda energética doméstica de leña y pastoreo extensivo sin manejo",
+ "causas_directas": "Extracción de leña de bajo impacto; sobrepastoreo caprino/vacuno de intensidad moderada; presión vial incipiente (vía afirmada y badenes al pie del bloque).",
+ "velocidad": "Lenta",
+ "reversibilidad": "En recuperación",
+ "urgencia": "Baja",
+ "ind_dist_via": 200,
+ "obs_dt04": "REGISTRO EN BLANCO — ADVERTENCIA: solo se marcaron como presentes las causas N.° 1, 2 y 9. Las causas N.° 3-8 y 10-16 NO fueron marcadas; se registran EN BLANCO y NO deben interpretarse como ausencia verificada. Extensión (%) y antigüedad no cuantificadas. INDICADOR N.° 3: la ficha consigna densidad de cárcavas = 0 N.°/ha; el valor reportado 0.09 N.°/ha se deriva del inventario F-DT-02 (1 cárcava / 11.47 ha). Indicadores N.° 4 (especies invasoras) y N.° 7 (% área con pendiente >50%) sin valor. Carga ganadera estimada 5 UA/ha. Ecosistema con degradación baja y dinámica estable.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   "Por verificar",
+   "Por verificar",
+   "Estacional",
+   "No evaluable",
+   "Por verificar",
+   "Quebrada de aprox. 5 m de ancho, inactiva a la fecha de visita"
+  ]
+ ],
+ "recarga": "No",
+ "humedad": "No",
+ "escorrentia": "No",
+ "dist_captacion": "Sin registro en ficha (por verificar con el diagnóstico social del CP Maray)",
+ "jass": "Sin registro en ficha (por verificar con el diagnóstico social del CP Maray)",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Vía Morropón–Yamango (afirmada), margen derecha del río Corrales; desvío y caminata de aprox. 20-30 min",
+ "tipo_via_final": "Departamental afirmada",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Medio",
+ "t_distrital": 30,
+ "t_provincial": 120,
+ "senal": "Intermitente",
+ "operador": "Bitel",
+ "alojamiento": "Sí",
+ "ronda": "Sí",
+ "contacto_ronda": "No consignado (gestión pendiente)",
+ "obs_dt05": "Bloque con degradación observable baja; por la época de evaluación (post-lluvias) se encuentra cubierto predominantemente por vegetación arbórea y arbustiva. PRIORIDAD DE INTERVENCIÓN: BAJA. No se identificaron fuentes de agua permanentes, zonas de recarga activa, humedad persistente ni escorrentía concentrada durante la visita, realizada en tiempo seco. DISCREPANCIA: la ficha clasifica la vía final «Departamental afirmada»; la memoria del 2.º Producto OS la describe «vía vecinal afirmada (Morropón-Yamango)».",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-01",
+   "La ficha consigna microcuenca «C1076-Q9584»; el catálogo maestro Bloques_V5 y el registro CP-Bloques asignan C1086-Q9569",
+   "SUSTANTIVA",
+   "Se conserva el valor del catálogo y se deja constancia del error de transcripción"
+  ],
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS del punto de muestreo (182 msnm) y se descarta el valor cero"
+  ],
+  [
+   "F-DT-01",
+   "Rango de pendiente de campo 25-50% frente a la pendiente media zonal del MDE 16.09% (clase 15-25%)",
+   "NO SUSTANTIVA",
+   "Ambos valores se reportan por separado: campo = recorrido efectivo, MDE = estadística zonal"
+  ],
+  [
+   "F-DT-01",
+   "Brigada según ficha (Juan Domínguez / Ángela Cruz) vs. cuadro consolidado del 2.º Producto OS 1993-2026 (Juan Domínguez / Héctor Cahuas)",
+   "NO SUSTANTIVA",
+   "Discrepancia por verificar"
+  ],
+  [
+   "F-DT-01",
+   "El bloque 58 comparte microcuenca y centro poblado de referencia (Maray) con el bloque contiguo M32B3, asignado al distrito de Morropón",
+   "SUSTANTIVA",
+   "La asignación distrital de ambos bloques debe verificarse contra el límite político oficial"
+  ],
+  [
+   "F-DT-01",
+   "El mapa temático MSAVI rotula el polígono como «B4_2»",
+   "NO SUSTANTIVA",
+   "Corresponde al bloque 58 según el catálogo maestro"
+  ],
+  [
+   "F-DT-02",
+   "Urgencia de control: ficha MEDIA vs. memoria del 2.º Producto OS BAJA",
+   "NO SUSTANTIVA",
+   "Se conserva el valor de la ficha de campo (fuente primaria)"
+  ],
+  [
+   "F-DT-03",
+   "Cobertura de dosel: F-DT-03 60% vs. 1.º Producto OS 80% vs. F-EE-05 90%",
+   "SUSTANTIVA",
+   "Se conserva el valor de la ficha primaria y se declara el rango 60-90% como intervalo a verificar"
+  ],
+  [
+   "F-DT-04",
+   "Densidad de cárcavas: ficha 0 N.°/ha vs. valor derivado 0.09 N.°/ha (1 cárcava / 11.47 ha)",
+   "NO SUSTANTIVA",
+   "Se declara la derivación por trazabilidad"
+  ],
+  [
+   "F-DT-05",
+   "Vía final: ficha «Departamental afirmada» vs. memoria del 2.º Producto OS «vía vecinal afirmada»",
+   "NO SUSTANTIVA",
+   "Se conserva el valor de la ficha"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_58_20260907_151341.pdf",
+ "bloque": "58"
+}

@@ -1,0 +1,193 @@
+{
+ "microcuenca_dt": "C1081-Q9590",
+ "evaluador": "Ing. Héctor S. Cahuas Miller (ANIN/DIME-SESDI)",
+ "correlativo": "F-DT-01 / B34",
+ "fecha_eval": "2026-07-07",
+ "hora": "15:41 - 16:25 h",
+ "cp_cercano": "Maray Chico (142 hab.) / Maray Grande — cap. dist. Tunal",
+ "comunidad": "Por determinar",
+ "altitud_gps": "Por determinar (rango del sector ≈1303-1450 msnm)",
+ "utm_e_dt": 646360,
+ "utm_n_dt": 9426461,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Suroeste",
+ "rango_altitudinal": "1000-1500 m (Quechua baja)",
+ "paisaje": "Ladera montañosa de fuerte pendiente sobre la margen izquierda del curso principal, frente al C.P. Tunal (Lalaquiz)",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Punto de muestreo consignado = talud de corte con desprendimiento de suelo residual rojizo (646225 E · 9426501, rumbo 132° SE). La pendiente promedio (33.6%) corresponde al perfil de elevación Google Earth del acceso (427 m), no a una parcela.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 0,
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "0",
+ "erosion_laminar": "5",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "S-01",
+   "Surco activo (senda/camino)",
+   646232,
+   9426505,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "S-02",
+   "Surco activo (senda/camino)",
+   646603,
+   9426759,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ]
+ ],
+ "obs_dt02": "No se registraron cárcavas propiamente dichas (0). Se inventariaron 2 grupos de SURCOS activos asociados a sendas y caminos de herradura; sus dimensiones NO fueron medidas instrumentalmente. Erosión laminar estimada ocularmente (≈5%).",
+ "parcela": "Recorrido de reconocimiento (sin parcela permanente)",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 33.6,
+ "cob_veg": 90,
+ "ecosistema": "Agroecosistema / Mosaico",
+ "sup_ecosistema": "Zona agrícola 26.93 ha + Matorral andino 1.52 ha = 28.45 ha",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 30,
+ "cob_arbustiva": 35,
+ "cob_herbacea": 30,
+ "cob_hojarasca": 20,
+ "suelo_desnudo": 5,
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "Por determinar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Floración",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Podocarpus sp. (Romerillo)",
+   "Indicadora de buen estado",
+   "NE"
+  ],
+  [
+   "Ficus sp. (Higuerón)",
+   "Indicadora de buen estado",
+   "NE"
+  ],
+  [
+   "Melastomataceae (por determinar)",
+   "Indicadora de buen estado",
+   "NE",
+   646477,
+   9426654
+  ],
+  [
+   "Agave americana",
+   "Indicadora de perturbación",
+   "No aplica",
+   646347,
+   9426469
+  ]
+ ],
+ "obs_dt03": "Composición florística PRELIMINAR: nombres científicos y categorías de conservación sujetos a determinación botánica formal. Coberturas por estrato = estimación ocular (no suman 100%; son proyecciones independientes por estrato). El «Origen» de Bambú, Falsa yuca y el arbusto de flores rojas se deja en blanco por no corresponder a una categoría verificable.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Ligera",
+   "10"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "50"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera",
+   "10"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   "5"
+  ]
+ ],
+ "causa_subyacente": "Agricultura de subsistencia sobre laderas de fuerte pendiente, en un territorio con escasa disponibilidad de tierras",
+ "causas_directas": "Cambio de uso a agricultura de ladera (maíz y agroforestería de café/cacao/plátano) sin prácticas de conservación de suelos; apertura y corte de taludes para caminos de herradura; pastoreo y tala puntual para leña; presencia de Agave americana en bordes.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dens_carcavas": 0,
+ "ind_invasoras": 5,
+ "ind_dist_via": 0,
+ "obs_dt04": "Las extensiones (%) son estimaciones oculares del recorrido y requieren validación con cartografía de uso actual. Densidad de cárcavas, carga ganadera, frecuencia de quemas y % de área con pendiente >50% quedan pendientes de cuantificación.",
+ "fuentes_agua": [
+  [
+   "Río",
+   646150,
+   9426520,
+   "Permanente",
+   "No evaluable",
+   "Por determinar",
+   "Curso principal"
+  ],
+  [
+   "Quebrada estacional",
+   646700,
+   9426900,
+   "Estacional (lluvias)",
+   "No evaluable",
+   "Por determinar",
+   "Quebrada tributaria"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por determinar",
+ "interferencia_riego": "No",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Camino de herradura desde el C.P. Tunal",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "Parcial",
+ "operador": "Bitel",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Por determinar",
+ "obs_dt05": "Recorrido a pie por camino de herradura desde el C.P. Tunal (perfil Google Earth: 427 m, desnivel +147 m, pendiente media 33.6%, máxima 66.3%). No se identificaron manantiales ni captaciones dentro del recorrido. Coordenadas de las fuentes son aproximadas (digitalización sobre imagen satelital).",
+ "estaciones_fotograficas": [],
+ "n_estaciones": null,
+ "fuente_ficha": "ficha_34_20260709_144241.pdf",
+ "bloque": "34"
+}
