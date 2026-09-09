@@ -204,7 +204,7 @@ def main(argv=None):
             ("HA_MENOR_IGUAL_0_2650", round(area * pct[1] / 100, 3)),
             ("PCT_BAJO_UMBRAL_0_4976", round(bajo, 2)),
             ("HA_BAJO_UMBRAL_0_4976", round(area * bajo / 100, 3)),
-            ("PCT_SOBRE_UMBRAL_0_4976", round(100 - bajo, 2)),
+            ("PCT_SOBRE_UMBRAL_0_4976", round(100 - bajo, 2) + 0.0),
             ("CLASE_MODAL", INTERPRETACION[modal]),
             ("PIXELES", total),
             ("POLIG_EN_MAPA", len(componentes)),
