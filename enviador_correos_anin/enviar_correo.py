@@ -678,26 +678,93 @@ def leer_configuracion(ruta):
     }
 
 
-def detectar_plataforma(dominio):
-    """Consulta los registros MX del dominio para saber Google o Microsoft."""
-    print("\nConsultando registros MX de %s ...\n" % dominio)
-    salida = ""
-    for comando in (["nslookup", "-type=mx", dominio],
-                    ["dig", "+short", "MX", dominio]):
+# Servidores DNS publicos de respaldo. El DNS interno de una entidad suele
+# resolver solo nombres internos y devolver una respuesta vacia para consultas
+# MX de dominios externos, sin marcarlo como error.
+DNS_PUBLICOS = ["8.8.8.8", "1.1.1.1"]
+
+# Marcadores que confirman que la respuesta trae registros MX de verdad.
+# nslookup imprime la cabecera "Server:/Address:" aunque no encuentre nada,
+# de modo que la sola presencia de salida no prueba que haya registros.
+MARCAS_MX = (
+    "mail exchanger",
+    "intercambiador de correo",
+    "mx preference",
+    "preferencia mx",
+)
+
+
+def _consultar_mx(dominio, servidor=None):
+    """Ejecuta la consulta MX. Devuelve la salida cruda o cadena vacia."""
+    comandos = []
+    nslookup = ["nslookup", "-type=mx", dominio]
+    if servidor:
+        nslookup.append(servidor)
+    comandos.append(nslookup)
+    if not servidor:
+        comandos.append(["dig", "+short", "MX", dominio])
+
+    for comando in comandos:
         try:
             res = subprocess.run(comando, capture_output=True, text=True, timeout=30)
-            if res.returncode == 0 and res.stdout.strip():
-                salida = res.stdout
-                break
         except (OSError, subprocess.TimeoutExpired):
             continue
+        if res.stdout.strip():
+            return res.stdout
+    return ""
 
-    if not salida.strip():
-        print("No se pudo consultar el DNS desde este equipo.\n")
-        print("Metodo alternativo, igual de fiable:")
-        print("  Abra su correo institucional en el navegador y mire la direccion:")
-        print("    mail.google.com    -> perfil = google")
-        print("    outlook.office.com -> perfil = microsoft\n")
+
+def _trae_registros_mx(salida):
+    """Indica si la salida contiene registros MX reales."""
+    minus = salida.lower()
+    if any(marca in minus for marca in MARCAS_MX):
+        return True
+    # 'dig +short MX' devuelve lineas del tipo '10 aspmx.l.google.com.'
+    for linea in salida.splitlines():
+        if re.match(r"^\s*\d+\s+[A-Za-z0-9.\-]+\.?\s*$", linea):
+            return True
+    return False
+
+
+def _explicar_metodo_manual():
+    print("Metodo manual, que si es concluyente:")
+    print("  Abra su correo institucional en el navegador y mire la barra")
+    print("  de direcciones:")
+    print("    mail.google.com    -> perfil = google")
+    print("    outlook.office.com -> perfil = microsoft")
+    print("    otra cosa          -> servidor propio: pida host y puerto a TI")
+    print("")
+
+
+def detectar_plataforma(dominio):
+    """Consulta los registros MX del dominio para saber Google o Microsoft.
+
+    Solo concluye si la respuesta trae registros MX. Una respuesta vacia
+    significa que no se pudo averiguar, NO que la entidad tenga servidor
+    propio: distinguir ambos casos es importante porque llevan a
+    configuraciones distintas.
+    """
+    print("\nConsultando registros MX de %s ...\n" % dominio)
+
+    salida = ""
+    intentos = [None] + DNS_PUBLICOS
+    for servidor in intentos:
+        if servidor:
+            print("  Reintentando con el DNS publico %s ..." % servidor)
+        candidata = _consultar_mx(dominio, servidor)
+        if _trae_registros_mx(candidata):
+            salida = candidata
+            break
+
+    if not salida:
+        print("")
+        print("No se obtuvieron registros MX para %s." % dominio)
+        print("")
+        print("Esto NO significa que la entidad tenga servidor propio: lo mas")
+        print("probable es que el DNS de la red corporativa no responda")
+        print("consultas MX externas, o que el dominio del correo sea otro.")
+        print("")
+        _explicar_metodo_manual()
         return 2
 
     print(salida.strip() + "\n")
@@ -712,8 +779,13 @@ def detectar_plataforma(dominio):
         print("   En config.ini escriba:  perfil = microsoft")
         print("   " + PERFILES_SMTP["microsoft"]["ayuda"].replace("\n", "\n   "))
         return 0
-    print("=> No es Google ni Microsoft: servidor de correo propio de la entidad.")
+
+    print("=> Hay registros MX, pero no son de Google ni de Microsoft:")
+    print("   la entidad usa un servidor de correo propio.")
     print("   Pida a TI el host y puerto SMTP y use  perfil = manual  en config.ini")
+    print("")
+    print("   Confirmelo de todos modos con el metodo manual:")
+    _explicar_metodo_manual()
     return 0
 
 
