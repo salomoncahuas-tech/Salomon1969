@@ -16,6 +16,7 @@ import tempfile
 
 import database as db
 import export_diagnosticos as exp_diag
+import resumenes_bloques as rbq
 from bloque_lookup import buscar_label_bloque
 
 # ── Constante de version de cache (incrementar tras escritura) ───────────
@@ -71,6 +72,10 @@ def _cached_obtener_todos_diagnosticos(_version):
 @st.cache_data(ttl=300, show_spinner=False, max_entries=2)
 def _cached_obtener_todos_diagnosticos_sociales(_version):
     return db.obtener_todos_diagnosticos_sociales()
+
+@st.cache_data(ttl=300, show_spinner=False, max_entries=2)
+def _cached_obtener_resumenes_bloques(_version):
+    return db.obtener_resumenes_bloques()
 
 # ── Constantes de fecha para validacion ──────────────────────────────────
 FECHA_MIN_PROYECTO = date(2024, 1, 1)
@@ -1556,6 +1561,413 @@ def _dt_dataeditor(label, columns, num_rows, key, options=None, edit_data=None):
     return edited.to_dict(orient="records")
 
 
+# ══════════════════════════════════════════════════════════════════════════
+# RESUMENES EXCEL POR BLOQUE (117 libros de Diagnostico Territorial)
+# ══════════════════════════════════════════════════════════════════════════
+
+def _mime_xlsx():
+    return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+
+
+def _tabla_resumenes(filas):
+    """DataFrame del catalogo de resumenes cargados."""
+    return pd.DataFrame([{
+        "Bloque": r.get("codigo_bloque", ""),
+        "Microcuenca": r.get("microcuenca", ""),
+        "Provincia": r.get("provincia", ""),
+        "Distrito": r.get("distrito", ""),
+        "Area (ha)": r.get("area_ha"),
+        "UTM ESTE": r.get("utm_este"),
+        "UTM NORTE": r.get("utm_norte"),
+        "Pendiente (%)": r.get("pendiente_pct"),
+        "MSAVI 2024": r.get("msavi_2024"),
+        "Sustantivas": r.get("n_sustantivas"),
+        "Verificacion": r.get("estado_verificacion", ""),
+        "UTM 17S": r.get("validacion_utm", ""),
+        "Archivo": r.get("nombre_archivo", ""),
+        "Cargado": r.get("fecha_carga", ""),
+    } for r in filas])
+
+
+def _carga_masiva_resumenes(bm):
+    """Carga de los libros de resumen: multiples .xlsx o un .zip de la carpeta."""
+    st.markdown("**1. Cargar los libros de resumen por bloque**")
+    st.caption(
+        "Suba los archivos `Plantilla_Excel_Bloque_<codigo>_IN_Piura.xlsx` "
+        "de la carpeta **Plantillas_Resumenes_Excel_IN_Piura_117_bloques/salida** "
+        "de Google Drive. Puede seleccionar los 117 a la vez o subir la carpeta "
+        "comprimida en un solo .zip. Los libros ya cargados se actualizan; "
+        "ningun otro registro del aplicativo se toca.")
+
+    manifiesto = rbq.cargar_manifiesto()
+    if manifiesto.get("carpeta_drive_url"):
+        st.caption(f"Carpeta de origen: {manifiesto['carpeta_drive_url']}")
+
+    subidos = st.file_uploader(
+        "Archivos .xlsx de resumen o .zip con la carpeta",
+        type=["xlsx", "zip"], accept_multiple_files=True,
+        key="rbq_uploader")
+
+    if not subidos:
+        return
+
+    # Expandir los .zip antes de contar, para que el usuario vea cuantos
+    # libros se van a procesar realmente.
+    archivos, errores_zip = [], []
+    for f in subidos:
+        contenido = f.getvalue()
+        if f.name.lower().endswith(".zip"):
+            try:
+                archivos.extend(rbq.expandir_zip(contenido))
+            except Exception as exc:
+                errores_zip.append((f.name, f"ZIP ilegible: {exc}"))
+        else:
+            archivos.append((f.name, contenido))
+
+    for nombre, motivo in errores_zip:
+        st.error(f"{nombre}: {motivo}")
+    if not archivos:
+        st.warning("No se encontraron libros .xlsx en lo subido.")
+        return
+
+    st.info(f"Se procesaran **{len(archivos)}** libro(s) "
+            f"({sum(len(c) for _, c in archivos) / 1024 / 1024:.1f} MB).")
+
+    if not st.button(f"Cargar {len(archivos)} resumen(es) al aplicativo",
+                     type="primary", key="rbq_cargar"):
+        return
+
+    barra = st.progress(0.0, text="Leyendo libros...")
+    insertados = actualizados = 0
+    fallidos = list(errores_zip)
+    for i, (nombre, contenido) in enumerate(archivos, start=1):
+        try:
+            datos = rbq.parsear_resumen_bloque(contenido, nombre)
+            codigo = datos.get("codigo_bloque", "")
+            if not codigo:
+                raise ValueError("El libro no declara codigo de bloque.")
+            bloque_id = _id_bloque_por_codigo(bm, codigo)
+            if db.guardar_resumen_bloque(datos, contenido, bloque_id) == "insertado":
+                insertados += 1
+            else:
+                actualizados += 1
+        except Exception as exc:
+            fallidos.append((nombre, f"{type(exc).__name__}: {exc}"))
+        barra.progress(i / len(archivos), text=f"{i}/{len(archivos)} - {nombre}")
+    barra.empty()
+
+    try:
+        db.vincular_resumenes_a_bloques()
+    except Exception:
+        # La vinculacion es una comodidad; su fallo no invalida la carga.
+        pass
+    _invalidar_cache()
+
+    if insertados or actualizados:
+        _flash(f"Carga completada: {insertados} nuevo(s), "
+               f"{actualizados} actualizado(s).")
+    if fallidos:
+        st.error(f"{len(fallidos)} archivo(s) no pudieron cargarse:")
+        st.dataframe(pd.DataFrame(fallidos, columns=["Archivo", "Motivo"]),
+                     use_container_width=True, hide_index=True)
+    if insertados or actualizados:
+        st.rerun()
+
+
+def _id_bloque_por_codigo(bm, codigo):
+    """Id del bloque del catalogo cuyo codigo coincide, ignorando mayusculas.
+
+    Devuelve None si el bloque del resumen no esta dado de alta: el resumen
+    se guarda igual y queda sin vincular.
+    """
+    objetivo = (codigo or "").strip().upper()
+    for actual, bloque_id in bm.items():
+        if str(actual).strip().upper() == objetivo:
+            return bloque_id
+    return None
+
+
+def _detalle_resumen_bloque(codigo):
+    """Vista de un bloque: sintesis, tablas de las 5 hojas y descargas."""
+    registro = db.obtener_resumen_bloque(codigo)
+    if not registro:
+        st.warning(f"El bloque {codigo} no tiene resumen cargado.")
+        return
+    datos = registro.get("datos") or {}
+
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Area de catalogo (ha)",
+              f"{datos.get('area_ha_num'):,.2f}" if datos.get("area_ha_num")
+              is not None else "s/d")
+    c2.metric("Pendiente promedio (%)",
+              f"{datos.get('pendiente_pct_num'):,.2f}"
+              if datos.get("pendiente_pct_num") is not None else "s/d")
+    msavi = datos.get("msavi_2024_num")
+    c3.metric("MSAVI 2024", f"{msavi:.4f}" if msavi is not None else "s/d",
+              delta=("BAJO umbral" if msavi is not None and msavi < rbq.UMBRAL_MSAVI
+                     else "Sobre umbral" if msavi is not None else None),
+              delta_color="inverse")
+    c4.metric("Discrepancias sustantivas",
+              (datos.get("consistencia_resumen") or {}).get("SUSTANTIVA", 0))
+
+    validacion = datos.get("validacion_utm", "")
+    if validacion and validacion != "Conforme":
+        st.warning(f"Validacion UTM 17S: {validacion}")
+    if datos.get("advertencias"):
+        st.warning("Hojas no leidas: " + " | ".join(datos["advertencias"]))
+
+    st.markdown("**Hoja 1 - Resumen**")
+    generales = [
+        ("Codigo del bloque", "codigo_bloque"),
+        ("Microcuenca (catalogo)", "microcuenca"),
+        ("Microcuenca declarada en ficha", "microcuenca_ficha"),
+        ("Departamento", "departamento"), ("Provincia", "provincia"),
+        ("Distrito", "distrito"), ("Centro poblado asociado", "centro_poblado"),
+        ("Comunidad campesina", "comunidad_campesina"),
+        ("Tipo de intervencion", "tipo_intervencion"),
+        ("Centroide UTM ESTE (m)", "utm_este"),
+        ("Centroide UTM NORTE (m)", "utm_norte"),
+        ("Altitud minima (msnm)", "altitud_min"),
+        ("Altitud maxima (msnm)", "altitud_max"),
+        ("Piso altitudinal dominante", "piso_altitudinal"),
+        ("Clase de pendiente", "clase_pendiente"),
+        ("Forma del terreno", "forma_terreno"),
+        ("Tipo de ecosistema (UP)", "tipo_ecosistema"),
+        ("Estado de conservacion", "estado_conservacion"),
+        ("Uso actual dominante", "uso_dominante"),
+        ("Nivel general de erosion", "nivel_erosion"),
+        ("Velocidad de degradacion", "velocidad_degradacion"),
+        ("Urgencia de intervencion", "urgencia_intervencion"),
+        ("Peligro integrado (MCA-AHP)", "peligro_integrado"),
+        ("Estado de verificacion de campo", "estado_verificacion"),
+        ("Responsable de la evaluacion", "evaluador"),
+        ("Fecha de evaluacion", "fecha_evaluacion"),
+    ]
+    st.dataframe(pd.DataFrame(
+        [{"Campo": etiqueta, "Valor": datos.get(clave, "")}
+         for etiqueta, clave in generales if datos.get(clave, "")]),
+        use_container_width=True, hide_index=True)
+
+    ndvi = datos.get("ndvi_tabla") or []
+    if ndvi:
+        st.markdown("**Hoja 2 - NDVI mediana 2025 (distribucion areal)**")
+        df_ndvi = pd.DataFrame([{
+            "Clase NDVI": r.get("clase", ""),
+            "Superficie (ha)": r.get("superficie_ha"),
+            "% del area": r.get("pct"),
+            "Interpretacion": r.get("interpretacion", ""),
+        } for r in ndvi])
+        col_t, col_g = st.columns([1.3, 1])
+        col_t.dataframe(df_ndvi, use_container_width=True, hide_index=True)
+        graficables = df_ndvi.dropna(subset=["Superficie (ha)"])
+        if not graficables.empty:
+            col_g.bar_chart(graficables.set_index("Clase NDVI")["Superficie (ha)"],
+                            color="#1B4D2E")
+
+    msavi_tabla = datos.get("msavi_tabla") or []
+    if msavi_tabla:
+        st.markdown(f"**Hoja 2 - MSAVI 2024 (umbral {rbq.UMBRAL_MSAVI})**")
+        df_msavi = pd.DataFrame([{
+            "Clase MSAVI": r.get("clase", ""),
+            "Superficie (ha)": r.get("superficie_ha_txt", ""),
+            "% del area": r.get("pct_txt", ""),
+            "Interpretacion": r.get("interpretacion", ""),
+            "Condicion": r.get("condicion", ""),
+        } for r in msavi_tabla])
+        st.dataframe(df_msavi, use_container_width=True, hide_index=True)
+        if all(r.get("superficie_ha") is None for r in msavi_tabla):
+            st.caption("La distribucion areal por clase de MSAVI no figura en "
+                       "los insumos de este entregable. Se consigna «Por "
+                       "determinar» y no se estima, conforme a la declaracion "
+                       "de integridad de datos del proyecto.")
+
+    estaciones = datos.get("estaciones") or []
+    if estaciones:
+        st.markdown("**Hoja 3 - Puntos georreferenciados de la ficha DT**")
+        st.dataframe(pd.DataFrame([{
+            "Codigo": r.get("codigo", ""),
+            "Naturaleza del punto": r.get("naturaleza", ""),
+            "UTM ESTE (m)": r.get("utm_este"),
+            "UTM NORTE (m)": r.get("utm_norte"),
+            "Dist. al centroide (m)": r.get("dist_centroide"),
+            "Contenido registrado": r.get("contenido", ""),
+        } for r in estaciones]), use_container_width=True, hide_index=True)
+
+    micro = datos.get("microcuenca_tabla") or []
+    if micro:
+        st.markdown(f"**Hoja 4 - Contexto intramicrocuenca "
+                    f"{datos.get('microcuenca', '')}**")
+        df_micro = pd.DataFrame([{
+            "Bloque": ("> " + r.get("bloque", "")) if r.get("es_actual")
+                      else r.get("bloque", ""),
+            "Area (ha)": r.get("area_ha"),
+            "% microcuenca": r.get("pct_microcuenca"),
+            "Rango altitudinal": r.get("rango_altitudinal", ""),
+            "Pendiente (%)": r.get("pendiente_pct"),
+            "MSAVI 2024": r.get("msavi"),
+        } for r in micro])
+        col_t, col_g = st.columns([1.4, 1])
+        col_t.dataframe(df_micro, use_container_width=True, hide_index=True)
+        graficables = df_micro.dropna(subset=["Area (ha)"])
+        if len(graficables) > 1:
+            col_g.bar_chart(graficables.set_index("Bloque")["Area (ha)"],
+                            color="#1B4D2E")
+
+    consistencia = datos.get("consistencia") or []
+    if consistencia:
+        resumen_cons = datos.get("consistencia_resumen") or {}
+        st.markdown(f"**Hoja 5 - Control de consistencia "
+                    f"({resumen_cons.get('total', 0)} verificaciones)**")
+        cols = st.columns(len(rbq.CALIFICACIONES))
+        for col, calificacion in zip(cols, rbq.CALIFICACIONES):
+            col.metric(calificacion.capitalize(), resumen_cons.get(calificacion, 0))
+        st.dataframe(pd.DataFrame([{
+            "Cod.": r.get("codigo", ""),
+            "Campo afectado": r.get("campo", ""),
+            "Discrepancia observada": r.get("discrepancia", ""),
+            "Calificacion": r.get("calificacion", ""),
+            "Tratamiento adoptado": r.get("tratamiento", ""),
+        } for r in consistencia]), use_container_width=True, hide_index=True)
+
+    # ── Descargas del bloque ──
+    st.markdown("**Descargas del bloque**")
+    original = db.obtener_archivo_resumen_bloque(codigo)
+    d1, d2, d3 = st.columns(3)
+    if original:
+        d1.download_button(
+            "Excel original (.xlsx)", original,
+            file_name=registro.get("nombre_archivo") or f"Bloque_{codigo}.xlsx",
+            mime=_mime_xlsx(), use_container_width=True,
+            key=f"rbq_dl_orig_{codigo}")
+        try:
+            d2.download_button(
+                "Excel con graficos (.xlsx)",
+                rbq.generar_excel_con_graficos(original, datos),
+                file_name=f"Resumen_Graficos_Bloque_{codigo}_IN_Piura.xlsx",
+                mime=_mime_xlsx(), use_container_width=True,
+                key=f"rbq_dl_graf_{codigo}")
+        except Exception as exc:
+            d2.error(f"No se pudieron generar los graficos: {exc}")
+    try:
+        d3.download_button(
+            "Ficha PDF con graficos", rbq.generar_pdf_bloque(datos),
+            file_name=f"Ficha_Resumen_DT_Bloque_{codigo}_IN_Piura.pdf",
+            mime="application/pdf", use_container_width=True,
+            key=f"rbq_dl_pdf_{codigo}")
+    except Exception as exc:
+        d3.error(f"No se pudo generar el PDF: {exc}")
+
+
+def _tab_resumenes_bloques(bm):
+    """Pestana de resumenes Excel de Diagnostico Territorial por bloque."""
+    st.markdown("### Resumenes Excel de Diagnostico Territorial por bloque")
+    st.caption(
+        "Un libro por bloque con cinco hojas: Resumen, Cobertura MSAVI-NDVI, "
+        "Estaciones fotograficas, Microcuenca y Control de consistencia. "
+        "Fuente: fichas F-DT-01 a F-DT-05, catalogo maestro Bloques V5/V6, "
+        "estadistica zonal sobre el MDE y compuestos Sentinel-2. "
+        "Sistema de referencia UTM WGS 84 Zona 17S (EPSG:32717).")
+
+    _carga_masiva_resumenes(bm)
+    st.markdown("---")
+
+    cargados = _cached_obtener_resumenes_bloques(_cache_version())
+    esperados = rbq.codigos_esperados()
+    codigos_cargados = {r["codigo_bloque"] for r in cargados}
+
+    st.markdown("**2. Catalogo de resumenes cargados**")
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("Bloques cargados", f"{len(cargados)} / {len(esperados) or '?'}")
+    area = sum(r.get("area_ha") or 0 for r in cargados)
+    m2.metric("Superficie acumulada (ha)", f"{area:,.2f}")
+    bajo = sum(1 for r in cargados if (r.get("msavi_2024") is not None
+                                       and r["msavi_2024"] < rbq.UMBRAL_MSAVI))
+    m3.metric(f"Bajo umbral MSAVI {rbq.UMBRAL_MSAVI}", bajo)
+    m4.metric("Discrepancias sustantivas",
+              sum(r.get("n_sustantivas") or 0 for r in cargados))
+
+    if not cargados:
+        st.info("Aun no hay resumenes cargados. Use el cargador de arriba para "
+                "subir los libros de la carpeta de Google Drive.")
+        return
+
+    pendientes = [c for c in esperados if c not in codigos_cargados]
+    if pendientes:
+        with st.expander(f"Faltan {len(pendientes)} de los {len(esperados)} "
+                         "bloques con ficha DT", expanded=False):
+            st.write(", ".join(pendientes))
+    else:
+        st.success(f"Los {len(esperados)} bloques con ficha DT estan cargados.")
+
+    # ── Filtros ──
+    f1, f2, f3 = st.columns(3)
+    provincias = sorted({r.get("provincia", "") for r in cargados if r.get("provincia")})
+    distritos = sorted({r.get("distrito", "") for r in cargados if r.get("distrito")})
+    microcuencas = sorted({r.get("microcuenca", "") for r in cargados if r.get("microcuenca")})
+    fil_prov = f1.multiselect("Provincia", provincias, key="rbq_f_prov")
+    fil_dist = f2.multiselect("Distrito", distritos, key="rbq_f_dist")
+    fil_micro = f3.multiselect("Microcuenca", microcuencas, key="rbq_f_micro")
+
+    filtrados = [
+        r for r in cargados
+        if (not fil_prov or r.get("provincia") in fil_prov)
+        and (not fil_dist or r.get("distrito") in fil_dist)
+        and (not fil_micro or r.get("microcuenca") in fil_micro)
+    ]
+    st.caption(f"{len(filtrados)} bloque(s) tras aplicar los filtros.")
+    st.dataframe(_tabla_resumenes(filtrados), use_container_width=True,
+                 hide_index=True)
+
+    # ── Consolidados ──
+    st.markdown("**3. Descargas consolidadas (con graficos)**")
+    codigos_filtrados = [r["codigo_bloque"] for r in filtrados]
+    if codigos_filtrados:
+        if st.button(f"Generar consolidado de {len(codigos_filtrados)} bloque(s)",
+                     key="rbq_gen_consolidado"):
+            with st.spinner("Generando Excel y PDF consolidados..."):
+                datos = db.obtener_datos_resumenes(codigos_filtrados)
+                st.session_state["rbq_consolidado"] = {
+                    "n": len(datos),
+                    "xlsx": rbq.generar_excel_consolidado(datos),
+                    "pdf": rbq.generar_pdf_consolidado(datos),
+                }
+        consolidado = st.session_state.get("rbq_consolidado")
+        if consolidado:
+            c1, c2 = st.columns(2)
+            c1.download_button(
+                f"Excel consolidado ({consolidado['n']} bloques)",
+                consolidado["xlsx"],
+                file_name="Consolidado_Resumenes_DT_IN_Piura.xlsx",
+                mime=_mime_xlsx(), use_container_width=True,
+                key="rbq_dl_cons_xlsx")
+            c2.download_button(
+                f"PDF consolidado ({consolidado['n']} bloques)",
+                consolidado["pdf"],
+                file_name="Consolidado_Resumenes_DT_IN_Piura.pdf",
+                mime="application/pdf", use_container_width=True,
+                key="rbq_dl_cons_pdf")
+
+    # ── Detalle por bloque ──
+    st.markdown("---")
+    st.markdown("**4. Detalle del bloque**")
+    opciones = [r["codigo_bloque"] for r in filtrados]
+    if not opciones:
+        return
+    codigo = st.selectbox("Bloque", opciones, key="rbq_sel_bloque")
+    _detalle_resumen_bloque(codigo)
+
+    with st.expander("Eliminar el resumen de este bloque", expanded=False):
+        st.caption("Solo se elimina el libro de resumen cargado. Las fichas "
+                   "F-DT registradas en el aplicativo no se tocan.")
+        if st.checkbox(f"Confirmo eliminar el resumen del bloque {codigo}",
+                       key=f"rbq_conf_del_{codigo}"):
+            if st.button("Eliminar resumen", key=f"rbq_del_{codigo}"):
+                db.eliminar_resumen_bloque(codigo)
+                _invalidar_cache()
+                _flash(f"Resumen del bloque {codigo} eliminado.", "info")
+                st.rerun()
+
+
 def pagina_diagnostico_territorial():
     import json as _json
     st.subheader("Diagnostico Territorial - Fichas de Evaluacion")
@@ -1582,8 +1994,9 @@ def pagina_diagnostico_territorial():
     dt_edit_id = st.session_state.get("dt_edit_id")
     dt_edit = st.session_state.get("dt_edit_data") or {}
 
-    tab_reg, tab_hist, tab_excel = st.tabs([
+    tab_reg, tab_hist, tab_excel, tab_resumen = st.tabs([
         "Registro de Diagnostico", "Historial / Consulta", "Importar desde Excel",
+        "Resumenes por Bloque (117)",
     ])
 
     with tab_reg:
@@ -2682,6 +3095,12 @@ def pagina_diagnostico_territorial():
                         st.rerun()
             except Exception as e:
                 st.error(f"Error al leer el archivo Excel: {e}")
+
+    # ══════════════════════════════════════════════════════════════════
+    # TAB RESUMENES EXCEL POR BLOQUE (117 libros)
+    # ══════════════════════════════════════════════════════════════════
+    with tab_resumen:
+        _tab_resumenes_bloques(bm)
 
 # ══════════════════════════════════════════════════════════════════════════
 # DIAGNOSTICO SOCIAL

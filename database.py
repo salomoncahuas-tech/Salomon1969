@@ -670,6 +670,54 @@ def inicializar_bd():
             "WHERE codigo = ANY(%s) AND COALESCE(activo, 1) <> 0",
             (list(BLOQUES_RETIRADOS),))
 
+    # ── Resumenes Excel de Diagnostico Territorial por bloque ─────────────
+    # Un libro por bloque (117 con ficha DT). Se guarda el archivo original
+    # en BYTEA junto con los campos parseados: asi el resumen queda
+    # consultable y graficable sin perder el documento de origen, que puede
+    # volver a descargarse identico al cargado.
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS resumen_bloque_excel (
+            id SERIAL PRIMARY KEY,
+            codigo_bloque TEXT NOT NULL,
+            bloque_id INTEGER REFERENCES bloques(id) ON DELETE SET NULL,
+            nombre_archivo TEXT NOT NULL,
+            microcuenca TEXT DEFAULT '',
+            departamento TEXT DEFAULT '',
+            provincia TEXT DEFAULT '',
+            distrito TEXT DEFAULT '',
+            centro_poblado TEXT DEFAULT '',
+            area_ha REAL,
+            utm_este REAL,
+            utm_norte REAL,
+            altitud_min REAL,
+            altitud_max REAL,
+            pendiente_pct REAL,
+            msavi_2024 REAL,
+            tipo_ecosistema TEXT DEFAULT '',
+            estado_conservacion TEXT DEFAULT '',
+            estado_verificacion TEXT DEFAULT '',
+            evaluador TEXT DEFAULT '',
+            fecha_evaluacion TEXT DEFAULT '',
+            n_sustantivas INTEGER DEFAULT 0,
+            n_verificaciones INTEGER DEFAULT 0,
+            validacion_utm TEXT DEFAULT '',
+            datos_json TEXT DEFAULT '',
+            archivo_xlsx BYTEA,
+            tamano_bytes INTEGER DEFAULT 0,
+            fecha_carga TEXT NOT NULL
+        )
+    """)
+    # Un bloque, un resumen vigente: recargar el mismo libro actualiza la
+    # fila en lugar de acumular duplicados.
+    cursor.execute("""
+        DO $$ BEGIN
+            IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'uq_resumen_bloque_codigo') THEN
+                CREATE UNIQUE INDEX uq_resumen_bloque_codigo
+                ON resumen_bloque_excel (codigo_bloque);
+            END IF;
+        END $$
+    """)
+
     conn.commit()
     conn.close()
 
@@ -1936,3 +1984,190 @@ def obtener_resumen_elementos_expuestos():
     rows = _dictfetch(cursor)
     conn.close()
     return rows
+
+
+# ── Resumenes Excel de Diagnostico Territorial por bloque ─────────────────
+# Columnas que se devuelven en los listados. Se omite `archivo_xlsx` a
+# proposito: son 117 libros y arrastrar el BYTEA en cada consulta de catalogo
+# cargaria varios MB por recarga de pagina.
+_COLS_RESUMEN = """
+    id, codigo_bloque, bloque_id, nombre_archivo, microcuenca, departamento,
+    provincia, distrito, centro_poblado, area_ha, utm_este, utm_norte,
+    altitud_min, altitud_max, pendiente_pct, msavi_2024, tipo_ecosistema,
+    estado_conservacion, estado_verificacion, evaluador, fecha_evaluacion,
+    n_sustantivas, n_verificaciones, validacion_utm, tamano_bytes, fecha_carga
+"""
+
+
+def guardar_resumen_bloque(datos, contenido_xlsx, bloque_id=None):
+    """Inserta o actualiza el resumen de un bloque (upsert por codigo).
+
+    `datos` es la salida de resumenes_bloques.parsear_resumen_bloque. El
+    archivo original se conserva integro para poder volver a descargarlo.
+    Devuelve "insertado" o "actualizado".
+    """
+    import json as _json
+    import psycopg2 as _pg
+
+    codigo = (datos.get("codigo_bloque") or "").strip()
+    if not codigo:
+        raise ValueError("El resumen no declara codigo de bloque.")
+
+    resumen_cons = datos.get("consistencia_resumen") or {}
+    valores = (
+        codigo, bloque_id, datos.get("nombre_archivo", ""),
+        datos.get("microcuenca", ""), datos.get("departamento", ""),
+        datos.get("provincia", ""), datos.get("distrito", ""),
+        datos.get("centro_poblado", ""),
+        datos.get("area_ha_num"), datos.get("utm_este_num"),
+        datos.get("utm_norte_num"), datos.get("altitud_min_num"),
+        datos.get("altitud_max_num"), datos.get("pendiente_pct_num"),
+        datos.get("msavi_2024_num"), datos.get("tipo_ecosistema", ""),
+        datos.get("estado_conservacion", ""),
+        datos.get("estado_verificacion", ""), datos.get("evaluador", ""),
+        datos.get("fecha_evaluacion", ""),
+        int(resumen_cons.get("SUSTANTIVA", 0) or 0),
+        int(resumen_cons.get("total", 0) or 0),
+        datos.get("validacion_utm", ""),
+        _json.dumps(datos, ensure_ascii=False, default=str),
+        _pg.Binary(contenido_xlsx), len(contenido_xlsx),
+        datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+    )
+
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id FROM resumen_bloque_excel WHERE codigo_bloque=?",
+                   (codigo,))
+    existente = _dictfetchone(cursor)
+    if existente:
+        cursor.execute("""
+            UPDATE resumen_bloque_excel SET
+                bloque_id=?, nombre_archivo=?, microcuenca=?, departamento=?,
+                provincia=?, distrito=?, centro_poblado=?, area_ha=?,
+                utm_este=?, utm_norte=?, altitud_min=?, altitud_max=?,
+                pendiente_pct=?, msavi_2024=?, tipo_ecosistema=?,
+                estado_conservacion=?, estado_verificacion=?, evaluador=?,
+                fecha_evaluacion=?, n_sustantivas=?, n_verificaciones=?,
+                validacion_utm=?, datos_json=?, archivo_xlsx=?,
+                tamano_bytes=?, fecha_carga=?
+            WHERE codigo_bloque=?
+        """, valores[1:] + (codigo,))
+        resultado = "actualizado"
+    else:
+        cursor.execute("""
+            INSERT INTO resumen_bloque_excel (
+                codigo_bloque, bloque_id, nombre_archivo, microcuenca,
+                departamento, provincia, distrito, centro_poblado, area_ha,
+                utm_este, utm_norte, altitud_min, altitud_max, pendiente_pct,
+                msavi_2024, tipo_ecosistema, estado_conservacion,
+                estado_verificacion, evaluador, fecha_evaluacion,
+                n_sustantivas, n_verificaciones, validacion_utm, datos_json,
+                archivo_xlsx, tamano_bytes, fecha_carga)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        """, valores)
+        resultado = "insertado"
+    conn.commit()
+    conn.close()
+    return resultado
+
+
+def obtener_resumenes_bloques():
+    """Catalogo de resumenes cargados, sin el binario del libro."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT {_COLS_RESUMEN} FROM resumen_bloque_excel "
+                   "ORDER BY codigo_bloque")
+    rows = _dictfetch(cursor)
+    conn.close()
+    return rows
+
+
+def obtener_resumen_bloque(codigo_bloque):
+    """Resumen completo de un bloque, con `datos_json` ya deserializado."""
+    import json as _json
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT {_COLS_RESUMEN}, datos_json FROM resumen_bloque_excel "
+                   "WHERE codigo_bloque=?", (codigo_bloque,))
+    row = _dictfetchone(cursor)
+    conn.close()
+    if not row:
+        return None
+    try:
+        row["datos"] = _json.loads(row.get("datos_json") or "{}")
+    except ValueError:
+        row["datos"] = {}
+    return row
+
+
+def obtener_archivo_resumen_bloque(codigo_bloque):
+    """Bytes del libro Excel original. None si el bloque no esta cargado."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT archivo_xlsx FROM resumen_bloque_excel "
+                   "WHERE codigo_bloque=?", (codigo_bloque,))
+    row = _dictfetchone(cursor)
+    conn.close()
+    if not row or row.get("archivo_xlsx") is None:
+        return None
+    # psycopg2 devuelve BYTEA como memoryview.
+    return bytes(row["archivo_xlsx"])
+
+
+def obtener_datos_resumenes(codigos=None):
+    """Diccionarios parseados de varios bloques, para reportes consolidados."""
+    import json as _json
+    conn = get_connection()
+    cursor = conn.cursor()
+    if codigos:
+        cursor.execute("SELECT codigo_bloque, datos_json FROM resumen_bloque_excel "
+                       "WHERE codigo_bloque = ANY(%s) ORDER BY codigo_bloque",
+                       (list(codigos),))
+    else:
+        cursor.execute("SELECT codigo_bloque, datos_json FROM resumen_bloque_excel "
+                       "ORDER BY codigo_bloque")
+    rows = _dictfetch(cursor)
+    conn.close()
+    salida = []
+    for row in rows:
+        try:
+            salida.append(_json.loads(row.get("datos_json") or "{}"))
+        except ValueError:
+            continue
+    return salida
+
+
+def eliminar_resumen_bloque(codigo_bloque):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM resumen_bloque_excel WHERE codigo_bloque=?",
+                   (codigo_bloque,))
+    conn.commit()
+    conn.close()
+
+
+def contar_resumenes_bloques():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) AS n, COALESCE(SUM(tamano_bytes), 0) AS bytes "
+                   "FROM resumen_bloque_excel")
+    row = _dictfetchone(cursor) or {}
+    conn.close()
+    return int(row.get("n", 0) or 0), int(row.get("bytes", 0) or 0)
+
+
+def vincular_resumenes_a_bloques():
+    """Enlaza cada resumen con el bloque del catalogo que tenga su codigo.
+
+    Se ejecuta despues de una carga masiva: los resumenes que aun no tengan
+    `bloque_id` quedan asociados sin tocar los ya vinculados.
+    """
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE resumen_bloque_excel r SET bloque_id = b.id
+        FROM bloques b
+        WHERE r.bloque_id IS NULL AND b.codigo = r.codigo_bloque
+    """)
+    conn.commit()
+    conn.close()
