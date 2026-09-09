@@ -1,0 +1,15 @@
+# Datos sensibles y de trabajo: NO deben subirse al repositorio
+config.ini
+clave_smtp.txt
+*.clave
+
+# Correos reales (contienen destinatarios). Solo se versionan los .ejemplo
+correos/*.ini
+!correos/*.ini.ejemplo
+
+# Salidas generadas en el equipo
+registro/
+marcadores/
+pruebas/
+tareas/
+__pycache__/
