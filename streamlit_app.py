@@ -1724,7 +1724,10 @@ def _detalle_resumen_bloque(codigo):
     if not registro:
         st.warning(f"El bloque {codigo} no tiene resumen cargado.")
         return
-    datos = registro.get("datos") or {}
+    # Los resumenes guardados antes de que los libros trajeran el resultado
+    # de sus formulas no incluyen el reparto porcentual: se deriva aqui, sin
+    # necesidad de volver a cargarlos.
+    datos = rbq.completar_sintesis_msavi(registro.get("datos") or {})
 
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("Area de catalogo (ha)",
@@ -1801,6 +1804,8 @@ def _detalle_resumen_bloque(codigo):
         df_msavi = pd.DataFrame([{
             "Clase MSAVI": r.get("clase", ""),
             "Superficie (ha)": r.get("superficie_ha_txt", ""),
+            "Superficie (m2)": (f"{r['superficie_ha'] * 10000:,.0f}".replace(",", " ")
+                                if r.get("superficie_ha") is not None else ""),
             "% del area": r.get("pct_txt", ""),
             "Interpretacion": r.get("interpretacion", ""),
             "Condicion": r.get("condicion", ""),
@@ -1837,6 +1842,9 @@ def _detalle_resumen_bloque(codigo):
             if datos.get("msavi_poligonos_num"):
                 detalle.append(f"{int(datos['msavi_poligonos_num']):,} poligonos"
                                .replace(",", " "))
+            if datos.get("msavi_sintesis_calculada"):
+                detalle.append("porcentajes y totales calculados por el "
+                               "aplicativo sobre las superficies del libro")
             st.caption(
                 "Distribucion areal obtenida de la estadistica zonal del raster "
                 "MSAVI 2024 clasificado (AREAS_MSAVI_BLOQUES_V6_REV_HSCM)"
@@ -1988,7 +1996,8 @@ def _tab_resumenes_bloques(bm):
         if st.button(f"Generar consolidado de {len(codigos_filtrados)} bloque(s)",
                      key="rbq_gen_consolidado"):
             with st.spinner("Generando Excel y PDF consolidados..."):
-                datos = db.obtener_datos_resumenes(codigos_filtrados)
+                datos = [rbq.completar_sintesis_msavi(d)
+                         for d in db.obtener_datos_resumenes(codigos_filtrados)]
                 st.session_state["rbq_consolidado"] = {
                     "n": len(datos),
                     "xlsx": rbq.generar_excel_consolidado(datos),

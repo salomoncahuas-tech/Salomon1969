@@ -429,6 +429,48 @@ def _leer_msavi_ndvi(rej, datos):
         datos["ndvi_total_ha"] = _num(rej.valor(pos[0], pos[1] + 1))
 
 
+def completar_sintesis_msavi(datos):
+    """Deriva el reparto porcentual del MSAVI cuando el libro no lo trae.
+
+    En la seccion A el porcentaje y los totales son formulas. Un libro
+    guardado sin recalcular no lleva el resultado, y quien lee valores (este
+    aplicativo, pandas) obtendria celdas vacias. Las superficies por clase si
+    son literales, de modo que el reparto se reconstruye sobre ellas y queda
+    marcado como calculado. Es idempotente: lo que el libro ya declara no se
+    toca.
+    """
+    tabla = datos.get("msavi_tabla") or []
+    areas = [f.get("superficie_ha") for f in tabla]
+    if not areas or any(a is None for a in areas):
+        return datos
+
+    total = datos.get("msavi_total_ha")
+    if total is None:
+        total = round(sum(areas), 4)
+        datos["msavi_total_ha"] = total
+        datos["msavi_sintesis_calculada"] = True
+    if not total:
+        return datos
+
+    for fila in tabla:
+        if fila.get("pct") is None:
+            fila["pct"] = round(fila["superficie_ha"] / total * 100, 2)
+            fila["pct_txt"] = f"{fila['pct']:.2f}"
+            fila["pct_calculado"] = True
+
+    # El umbral 0.4976 separa las clases: la propia tabla declara de que lado
+    # cae cada una.
+    sobre = sum(f["superficie_ha"] for f in tabla
+                if _norm(f.get("condicion")).startswith("sobre"))
+    for clave, valor in (("msavi_sobre_umbral_ha", round(sobre, 4)),
+                         ("msavi_bajo_umbral_ha", round(total - sobre, 4))):
+        if datos.get(clave) is None:
+            datos[clave] = valor
+            datos[clave.replace("_ha", "_pct")] = round(valor / total * 100, 2)
+            datos["msavi_sintesis_calculada"] = True
+    return datos
+
+
 def _leer_estaciones(rej, datos):
     """Hoja 3: inventario de puntos georreferenciados de la ficha DT."""
     datos["estaciones"], _ = _leer_tabla(
@@ -572,6 +614,7 @@ def parsear_resumen_bloque(archivo, nombre_archivo=""):
     if not datos.get("codigo_bloque"):
         datos["codigo_bloque"] = codigo_desde_nombre(datos["nombre_archivo"])
 
+    completar_sintesis_msavi(datos)
     datos["validacion_utm"] = validar_utm(datos.get("utm_este_num"),
                                           datos.get("utm_norte_num"))
     return datos
