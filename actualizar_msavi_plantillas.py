@@ -56,6 +56,7 @@ import statistics
 import sys
 import tempfile
 import zipfile
+from xml.etree import ElementTree
 from dataclasses import dataclass, field
 
 import openpyxl
@@ -104,6 +105,10 @@ VERIFICACIONES = [
 
 RE_PLANTILLA = re.compile(r"^Plantilla_Excel_Bloque_(.+)_IN_Piura\.xlsx$")
 RE_CODIGO_D = re.compile(r"^D-(\d+)$")
+# Algunos libros incorporan una segunda serie de verificaciones (C-01, C-02:
+# hallazgos sobre el propio archivo de la ficha DT). Se conservan con su
+# código, pero cuentan en el resumen del control.
+RE_CODIGO_VERIFICACION = re.compile(r"^[A-Z]{1,3}-\d+$")
 
 
 # --------------------------------------------------------------------------
@@ -284,6 +289,146 @@ def num(valor, decimales: int = 0) -> str:
     """Número con separador de millares en espacio fino, uso peruano."""
     texto = f"{valor:,.{decimales}f}"
     return texto.replace(",", "\u202f")
+
+
+# Formas de fórmula que emplean estas plantillas. Se evalúan en Python para
+# poder guardar el valor en caché junto a la fórmula: openpyxl escribe la
+# fórmula sin resultado, y cualquier lector de valores (el aplicativo IN Piura,
+# pandas, una vista previa) leería la celda como vacía hasta abrirla en Excel.
+_RE_SUMA = re.compile(r"^=SUM\((\$?[A-Z]+)\$?(\d+):(\$?[A-Z]+)\$?(\d+)\)$", re.I)
+_RE_PROMEDIO = re.compile(
+    r"^=ROUND\(AVERAGE\((\$?[A-Z]+)\$?(\d+):(\$?[A-Z]+)\$?(\d+)\),(\d+)\)$", re.I)
+_RE_PORCENTAJE = re.compile(
+    r"^=ROUND\(\$?([A-Z]+)\$?(\d+)/\$?([A-Z]+)\$?(\d+)\*100,(\d+)\)$", re.I)
+
+
+def _valor_celda(ws, columna: str, fila: int, resueltos: dict):
+    """Valor numérico de una celda: literal o fórmula ya evaluada."""
+    coord = f"{columna.replace('$', '')}{fila}"
+    if coord in resueltos:
+        return resueltos[coord]
+    valor = ws[coord].value
+    if isinstance(valor, (int, float)):
+        return float(valor)
+    return None
+
+
+def _evaluar_formula(ws, formula: str, resueltos: dict):
+    """Evalúa las formas de fórmula presentes en las plantillas."""
+    m = _RE_SUMA.match(formula)
+    if m:
+        col, desde, _col2, hasta = m.group(1), int(m.group(2)), m.group(3), int(m.group(4))
+        valores = [_valor_celda(ws, col, f, resueltos) for f in range(desde, hasta + 1)]
+        presentes = [v for v in valores if v is not None]
+        return sum(presentes) if presentes else None
+
+    m = _RE_PROMEDIO.match(formula)
+    if m:
+        col, desde, _col2, hasta = m.group(1), int(m.group(2)), m.group(3), int(m.group(4))
+        decimales = int(m.group(5))
+        valores = [_valor_celda(ws, col, f, resueltos) for f in range(desde, hasta + 1)]
+        presentes = [v for v in valores if v is not None]
+        return round(statistics.mean(presentes), decimales) if presentes else None
+
+    m = _RE_PORCENTAJE.match(formula)
+    if m:
+        numerador = _valor_celda(ws, m.group(1), int(m.group(2)), resueltos)
+        denominador = _valor_celda(ws, m.group(3), int(m.group(4)), resueltos)
+        if numerador is None or not denominador:
+            return None
+        return round(numerador / denominador * 100, int(m.group(5)))
+
+    return None
+
+
+def calcular_valores_cacheados(wb) -> dict:
+    """{hoja: {coordenada: valor}} para toda fórmula evaluable del libro.
+
+    Se repite hasta estabilizar porque hay fórmulas encadenadas (el porcentaje
+    de cada clase divide entre el total, que es a su vez una suma).
+    """
+    cacheados = {}
+    for ws in wb.worksheets:
+        resueltos = {}
+        formulas = {
+            celda.coordinate: celda.value
+            for fila in ws.iter_rows() for celda in fila
+            if isinstance(celda.value, str) and celda.value.startswith("=")
+        }
+        for _ in range(len(formulas) + 1):
+            pendientes = [c for c in formulas if c not in resueltos]
+            if not pendientes:
+                break
+            avance = False
+            for coord in pendientes:
+                valor = _evaluar_formula(ws, formulas[coord], resueltos)
+                if valor is not None:
+                    resueltos[coord] = valor
+                    avance = True
+            if not avance:
+                break
+        sin_resolver = sorted(set(formulas) - set(resueltos))
+        if sin_resolver:
+            raise ValueError(
+                f"Fórmulas sin valor calculable en «{ws.title}»: "
+                f"{', '.join(sin_resolver[:5])}"
+            )
+        if resueltos:
+            cacheados[ws.title] = resueltos
+    return cacheados
+
+
+def _hojas_del_paquete(zf) -> dict:
+    """{título de hoja: ruta del XML} leyendo workbook.xml y sus relaciones."""
+    ns_rel = "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
+    libro = ElementTree.fromstring(zf.read("xl/workbook.xml"))
+    relaciones = ElementTree.fromstring(zf.read("xl/_rels/workbook.xml.rels"))
+    destinos = {
+        rel.get("Id"): rel.get("Target")
+        for rel in relaciones
+    }
+    rutas = {}
+    for hoja in libro.iter():
+        if not hoja.tag.endswith("}sheet"):
+            continue
+        destino = destinos.get(hoja.get(f"{ns_rel}id"), "")
+        if destino:
+            rutas[hoja.get("name")] = "xl/" + destino.lstrip("/").replace("xl/", "", 1)
+    return rutas
+
+
+def inyectar_valores_cacheados(ruta: str, cacheados: dict) -> int:
+    """Escribe el resultado de cada fórmula como valor en caché del .xlsx.
+
+    La fórmula se conserva intacta: Excel la recalcula al abrir (el libro
+    declara fullCalcOnLoad) y, entre tanto, quien lea valores obtiene el
+    número correcto en vez de una celda vacía.
+    """
+    escritos = 0
+    with zipfile.ZipFile(ruta) as zf:
+        rutas = _hojas_del_paquete(zf)
+        partes = {nombre: zf.read(nombre) for nombre in zf.namelist()}
+        orden = zf.namelist()
+
+    for hoja, valores in cacheados.items():
+        destino = rutas.get(hoja)
+        if not destino or destino not in partes:
+            raise ValueError(f"No se ubicó el XML de la hoja «{hoja}»")
+        xml = partes[destino].decode("utf-8")
+        for coord, valor in valores.items():
+            patron = re.compile(
+                r'(<c r="%s"[^>]*>)(<f[^>]*>.*?</f>)(?:<v\s*/>|<v>.*?</v>)?(</c>)' % coord,
+                re.S)
+            texto = repr(round(float(valor), 10)) if isinstance(valor, float) else str(valor)
+            xml, n = patron.subn(
+                lambda m: f"{m.group(1)}{m.group(2)}<v>{texto}</v>{m.group(3)}", xml)
+            escritos += n
+        partes[destino] = xml.encode("utf-8")
+
+    with zipfile.ZipFile(ruta, "w", zipfile.ZIP_DEFLATED) as zf:
+        for nombre in orden:
+            zf.writestr(nombre, partes[nombre])
+    return escritos
 
 
 def copiar_estilo(origen, destino) -> None:
@@ -608,19 +753,31 @@ def actualizar_control(wb, d: DatosMSAVI, media: float, sup_catalogo: float,
 
     # Renumeración correlativa de los códigos D-xx y recuento del resumen.
     campos_nuevos = [c[0] for c in contenidos]
-    filas_d = sorted(
+
+    def codigo_de(fila):
+        valor = ws.cell(fila, 1).value
+        return str(valor).strip() if isinstance(valor, str) else ""
+
+    # Toda fila de verificación cuenta en el resumen; solo se renumera la
+    # serie D, que es la que crece con este traspaso.
+    filas_verificacion = sorted(
         r for r in range(1, ws.max_row + 1)
-        if (isinstance(ws.cell(r, 1).value, str) and RE_CODIGO_D.match(str(ws.cell(r, 1).value).strip()))
+        if RE_CODIGO_VERIFICACION.match(codigo_de(r))
         or ws.cell(r, 2).value in campos_nuevos
     )
-    recuento = {}
+    filas_d = [r for r in filas_verificacion
+               if RE_CODIGO_D.match(codigo_de(r)) or not codigo_de(r)]
+
     for i, fila in enumerate(filas_d, start=1):
         ws.cell(fila, 1).value = f"D-{i:02d}"
+
+    recuento = {}
+    for fila in filas_verificacion:
         calificacion = str(ws.cell(fila, 4).value or "").strip()
         recuento[calificacion] = recuento.get(calificacion, 0) + 1
 
     fila_resumen = buscar_fila(ws, "RESUMEN")
-    ws.cell(fila_resumen, 2).value = f"{len(filas_d)} verificaciones"
+    ws.cell(fila_resumen, 2).value = f"{len(filas_verificacion)} verificaciones"
     orden = ["CONFORME", "CORREGIDO", "NO SUSTANTIVA", "SUSTANTIVA"]
     partes = [f"{k}: {recuento[k]}" for k in orden if recuento.get(k)]
     partes += [f"{k}: {v}" for k, v in recuento.items() if k not in orden and k]
@@ -729,7 +886,15 @@ def procesar_plantilla(ruta: str, codigo: str, datos: dict, verificacion: dict,
     )
     actualizar_microcuenca(wb, datos, codigo, d)
 
+    # Excel recalcula al abrir; el valor en caché sirve a quien lea valores.
+    wb.calculation.fullCalcOnLoad = True
+    cacheados = calcular_valores_cacheados(wb)
     wb.save(destino)
+    escritos = inyectar_valores_cacheados(destino, cacheados)
+    esperados = sum(len(v) for v in cacheados.values())
+    if escritos != esperados:
+        raise ValueError(
+            f"{codigo}: se cachearon {escritos} de {esperados} fórmulas")
 
     rep.filas.append(
         {

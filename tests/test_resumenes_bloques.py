@@ -481,3 +481,78 @@ class TestExportaciones(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TestLibrosDelRepositorio(unittest.TestCase):
+    """Los 117 libros vigentes (V6) que el aplicativo trae consigo."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.libros = rb.libros_del_repositorio()
+
+    def test_el_repositorio_trae_los_117_libros_del_manifiesto(self):
+        self.assertEqual(len(self.libros), 117)
+        nombres = {n for n, _ in self.libros}
+        esperados = {b["archivo"] for b in rb.cargar_manifiesto()["bloques"]}
+        self.assertEqual(nombres, esperados)
+
+    def test_carpeta_ausente_no_rompe_la_carga(self):
+        self.assertEqual(rb.libros_del_repositorio("/no/existe"), [])
+
+    def test_cada_libro_declara_su_codigo_de_bloque(self):
+        codigos = set()
+        for nombre, contenido in self.libros:
+            datos = rb.parsear_resumen_bloque(contenido, nombre)
+            self.assertTrue(datos.get("codigo_bloque"), nombre)
+            codigos.add(datos["codigo_bloque"])
+        self.assertEqual(codigos, set(rb.codigos_esperados()))
+
+    def test_la_distribucion_msavi_trae_superficie_y_porcentaje(self):
+        """Las cinco clases DN con valor: ninguna queda «Por determinar».
+
+        El porcentaje es una fórmula en el libro; se comprueba que llegue con
+        su valor en caché, porque el aplicativo lee valores, no fórmulas.
+        """
+        for nombre, contenido in self.libros:
+            datos = rb.parsear_resumen_bloque(contenido, nombre)
+            tabla = datos.get("msavi_tabla") or []
+            self.assertEqual(len(tabla), 5, nombre)
+            for fila in tabla:
+                self.assertIsNotNone(fila.get("superficie_ha"), nombre)
+                self.assertIsNotNone(fila.get("pct"), nombre)
+
+    def test_la_sintesis_msavi_cuadra_con_las_clases(self):
+        for nombre, contenido in self.libros:
+            datos = rb.parsear_resumen_bloque(contenido, nombre)
+            clases = sum(f["superficie_ha"] for f in datos["msavi_tabla"])
+            self.assertAlmostEqual(datos["msavi_total_ha"], clases, places=3,
+                                   msg=nombre)
+            self.assertAlmostEqual(
+                datos["msavi_sobre_umbral_ha"] + datos["msavi_bajo_umbral_ha"],
+                datos["msavi_total_ha"], places=3, msg=nombre)
+
+    def test_la_hoja_resumen_replica_la_sintesis_msavi(self):
+        for nombre, contenido in self.libros:
+            datos = rb.parsear_resumen_bloque(contenido, nombre)
+            self.assertAlmostEqual(datos["superficie_msavi_ha_num"],
+                                   datos["msavi_total_ha"], places=2, msg=nombre)
+            self.assertAlmostEqual(datos["superficie_bajo_umbral_ha_num"],
+                                   datos["msavi_bajo_umbral_ha"], places=2,
+                                   msg=nombre)
+            self.assertTrue(datos.get("msavi_clase_dominante"), nombre)
+            self.assertGreater(datos["msavi_poligonos_num"], 0, nombre)
+
+    def test_el_control_de_consistencia_registra_el_traspaso(self):
+        for nombre, contenido in self.libros:
+            datos = rb.parsear_resumen_bloque(contenido, nombre)
+            campos = [f["campo"] for f in datos["consistencia"]]
+            self.assertIn("Distribución areal MSAVI 2024", campos, nombre)
+            # La serie D queda correlativa; otras series (C-01: hallazgos
+            # sobre el archivo de la ficha DT) conservan su código.
+            serie_d = [f["codigo"] for f in datos["consistencia"]
+                       if f["codigo"].startswith("D-")]
+            self.assertEqual(serie_d,
+                             [f"D-{i:02d}" for i in range(1, len(serie_d) + 1)],
+                             nombre)
+            total = datos["consistencia_resumen"]["total"]
+            self.assertEqual(total, len(datos["consistencia"]), nombre)

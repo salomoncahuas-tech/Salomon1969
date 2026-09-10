@@ -26,6 +26,7 @@ registro en ficha" se conservan tal cual.
 
 import io
 import json
+import os
 import re
 import unicodedata
 import zipfile
@@ -247,6 +248,15 @@ _CAMPOS_RESUMEN = {
     "ndvi mediana 2025 clase modal": "ndvi_clase_modal",
     "superficie clasificada ndvi 2025 (ha)": "superficie_ndvi_ha",
     "desviacion frente al catalogo (%)": "desviacion_catalogo_pct",
+    # Distribucion areal del MSAVI 2024 por clase DN (plantillas V6 en
+    # adelante). En los libros anteriores estas filas no existen y las
+    # claves quedan ausentes.
+    "superficie clasificada msavi 2024 (ha)": "superficie_msavi_ha",
+    "desviacion msavi frente al catalogo (%)": "desviacion_msavi_pct",
+    "superficie bajo umbral msavi 0.4976 (ha)": "superficie_bajo_umbral_ha",
+    "% del bloque bajo umbral (brecha espectral)": "bajo_umbral_pct",
+    "clase dn dominante (msavi 2024)": "msavi_clase_dominante",
+    "n. de poligonos msavi del bloque": "msavi_poligonos",
     # 4. Ecosistema y estado de conservacion
     "tipo de ecosistema (up)": "tipo_ecosistema",
     "superficie de ecosistema (ha)": "superficie_ecosistema",
@@ -290,6 +300,8 @@ _CAMPOS_NUMERICOS = [
     "amplitud_altitudinal", "pendiente_pct", "pendiente_grados",
     "msavi_2024", "superficie_ndvi_ha", "desviacion_catalogo_pct",
     "cobertura_total_pct", "suelo_desnudo_pct", "n_taxones", "n_estaciones",
+    "superficie_msavi_ha", "desviacion_msavi_pct", "superficie_bajo_umbral_ha",
+    "bajo_umbral_pct", "msavi_poligonos",
 ]
 
 
@@ -385,7 +397,21 @@ def _leer_msavi_ndvi(rej, datos):
          ("Interpretacion", "interpretacion", "texto"),
          ("Condicion frente al umbral", "condicion", "texto")],
         filas_corte=("MSAVI 2024 - MEDIA DEL BLOQUE", "MSAVI 2024 MEDIA DEL BLOQUE",
+                     "TOTAL CLASIFICADO", "Superficie SOBRE umbral",
+                     "Superficie BAJO umbral", "Superficie de catalogo",
                      "NOTA METODOLOGICA", "B. NDVI"))
+
+    # Sintesis de la distribucion MSAVI (plantillas V6). Ausente en los
+    # libros anteriores, donde la seccion solo tenia las cinco clases.
+    for etiqueta, clave in (
+            ("total clasificado msavi", "msavi_total_ha"),
+            ("superficie sobre umbral", "msavi_sobre_umbral_ha"),
+            ("superficie bajo umbral", "msavi_bajo_umbral_ha")):
+        pos = rej.buscar_etiqueta(etiqueta, columna_max=rej.n_columnas)
+        if pos:
+            datos[clave] = _num(rej.valor(pos[0], pos[1] + 1))
+            datos[clave.replace("_ha", "_pct")] = _num(
+                rej.valor(pos[0], pos[1] + 2))
 
     datos["ndvi_tabla"], _ = _leer_tabla(
         rej,
@@ -623,6 +649,30 @@ def cargar_manifiesto():
         except (OSError, ValueError):
             _MANIFIESTO_CACHE = {"total_bloques": 0, "bloques": []}
     return _MANIFIESTO_CACHE
+
+
+# Carpeta del repositorio con los 117 libros vigentes (V6: distribucion areal
+# del MSAVI 2024 por clase DN). Viaja con el aplicativo, de modo que la
+# recarga masiva no depende de que alguien vuelva a subir los archivos.
+CARPETA_LIBROS = "plantillas_117_msavi_v6"
+
+
+def libros_del_repositorio(carpeta=None):
+    """[(nombre, contenido)] de los libros de resumen incluidos en el repo.
+
+    Devuelve lista vacia si la carpeta no esta presente en el despliegue.
+    """
+    ruta = carpeta or os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), CARPETA_LIBROS)
+    if not os.path.isdir(ruta):
+        return []
+    libros = []
+    for nombre in sorted(os.listdir(ruta)):
+        if not nombre.lower().endswith(".xlsx") or nombre.startswith("~$"):
+            continue
+        with open(os.path.join(ruta, nombre), "rb") as fh:
+            libros.append((nombre, fh.read()))
+    return libros
 
 
 def codigos_esperados():
