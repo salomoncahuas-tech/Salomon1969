@@ -1594,14 +1594,16 @@ def _carga_masiva_resumenes(bm):
     st.markdown("**1. Cargar los libros de resumen por bloque**")
     st.caption(
         "Suba los archivos `Plantilla_Excel_Bloque_<codigo>_IN_Piura.xlsx` "
-        "de la carpeta **Plantillas_Resumenes_Excel_IN_Piura_117_bloques/salida** "
-        "de Google Drive. Puede seleccionar los 117 a la vez o subir la carpeta "
-        "comprimida en un solo .zip. Los libros ya cargados se actualizan; "
-        "ningun otro registro del aplicativo se toca.")
+        "de la carpeta **plantillas_117_msavi_v6** de Google Drive. Puede "
+        "seleccionar los 117 a la vez o subir la carpeta comprimida en un "
+        "solo .zip. Los libros ya cargados se actualizan; ningun otro "
+        "registro del aplicativo se toca.")
 
     manifiesto = rbq.cargar_manifiesto()
     if manifiesto.get("carpeta_drive_url"):
         st.caption(f"Carpeta de origen: {manifiesto['carpeta_drive_url']}")
+
+    _actualizar_desde_repositorio(bm)
 
     subidos = st.file_uploader(
         "Archivos .xlsx de resumen o .zip con la carpeta",
@@ -1637,9 +1639,18 @@ def _carga_masiva_resumenes(bm):
                      type="primary", key="rbq_cargar"):
         return
 
+    _procesar_libros(bm, archivos, errores_zip)
+
+
+def _procesar_libros(bm, archivos, errores_previos=()):
+    """Parsea y guarda cada libro (upsert por codigo de bloque).
+
+    Un bloque tiene un solo resumen vigente: volver a cargar su libro
+    reemplaza el anterior y no toca ningun otro registro del aplicativo.
+    """
     barra = st.progress(0.0, text="Leyendo libros...")
     insertados = actualizados = 0
-    fallidos = list(errores_zip)
+    fallidos = list(errores_previos)
     for i, (nombre, contenido) in enumerate(archivos, start=1):
         try:
             datos = rbq.parsear_resumen_bloque(contenido, nombre)
@@ -1674,6 +1685,26 @@ def _carga_masiva_resumenes(bm):
         st.rerun()
 
 
+def _actualizar_desde_repositorio(bm):
+    """Reemplaza los resumenes cargados por los libros vigentes del repo.
+
+    Evita tener que volver a subir los 117 archivos a mano: el aplicativo
+    los trae consigo en la carpeta `plantillas_117_msavi_v6`.
+    """
+    libros = rbq.libros_del_repositorio()
+    if not libros:
+        return
+    st.info(
+        f"El aplicativo incluye **{len(libros)} libros vigentes (V6)** con la "
+        f"distribucion areal del MSAVI 2024 por clase DN (superficie y "
+        f"porcentaje por clase, totales y superficie bajo el umbral "
+        f"{rbq.UMBRAL_MSAVI}). Reemplazan a los ya cargados por codigo de "
+        f"bloque; ningun otro registro del aplicativo se toca.")
+    if st.button(f"Reemplazar los {len(libros)} resumenes por la version vigente (V6)",
+                 key="rbq_repo"):
+        _procesar_libros(bm, libros)
+
+
 def _id_bloque_por_codigo(bm, codigo):
     """Id del bloque del catalogo cuyo codigo coincide, ignorando mayusculas.
 
@@ -1693,7 +1724,10 @@ def _detalle_resumen_bloque(codigo):
     if not registro:
         st.warning(f"El bloque {codigo} no tiene resumen cargado.")
         return
-    datos = registro.get("datos") or {}
+    # Los resumenes guardados antes de que los libros trajeran el resultado
+    # de sus formulas no incluyen el reparto porcentual: se deriva aqui, sin
+    # necesidad de volver a cargarlos.
+    datos = rbq.completar_sintesis_msavi(registro.get("datos") or {})
 
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("Area de catalogo (ha)",
@@ -1770,16 +1804,53 @@ def _detalle_resumen_bloque(codigo):
         df_msavi = pd.DataFrame([{
             "Clase MSAVI": r.get("clase", ""),
             "Superficie (ha)": r.get("superficie_ha_txt", ""),
+            "Superficie (m2)": (f"{r['superficie_ha'] * 10000:,.0f}".replace(",", " ")
+                                if r.get("superficie_ha") is not None else ""),
             "% del area": r.get("pct_txt", ""),
             "Interpretacion": r.get("interpretacion", ""),
             "Condicion": r.get("condicion", ""),
         } for r in msavi_tabla])
-        st.dataframe(df_msavi, use_container_width=True, hide_index=True)
+        col_t, col_g = st.columns([1.3, 1])
+        col_t.dataframe(df_msavi, use_container_width=True, hide_index=True)
+        graficables = pd.DataFrame([{
+            "Clase MSAVI": r.get("clase", ""),
+            "Superficie (ha)": r.get("superficie_ha"),
+        } for r in msavi_tabla if r.get("superficie_ha") is not None])
+        if not graficables.empty:
+            col_g.bar_chart(graficables.set_index("Clase MSAVI")["Superficie (ha)"],
+                            color="#1B4D2E")
         if all(r.get("superficie_ha") is None for r in msavi_tabla):
             st.caption("La distribucion areal por clase de MSAVI no figura en "
                        "los insumos de este entregable. Se consigna «Por "
                        "determinar» y no se estima, conforme a la declaracion "
                        "de integridad de datos del proyecto.")
+        elif datos.get("msavi_total_ha") is not None:
+            m1, m2, m3 = st.columns(3)
+            m1.metric("Total clasificado MSAVI (ha)",
+                      f"{datos['msavi_total_ha']:,.2f}")
+            if datos.get("msavi_sobre_umbral_ha") is not None:
+                m2.metric(f"Sobre umbral {rbq.UMBRAL_MSAVI} (ha)",
+                          f"{datos['msavi_sobre_umbral_ha']:,.2f}",
+                          f"{datos.get('msavi_sobre_umbral_pct') or 0:.2f} %")
+            if datos.get("msavi_bajo_umbral_ha") is not None:
+                m3.metric(f"Bajo umbral {rbq.UMBRAL_MSAVI} (ha) - brecha",
+                          f"{datos['msavi_bajo_umbral_ha']:,.2f}",
+                          f"{datos.get('msavi_bajo_umbral_pct') or 0:.2f} %")
+            detalle = []
+            if datos.get("msavi_clase_dominante"):
+                detalle.append(f"clase DN dominante: {datos['msavi_clase_dominante']}")
+            if datos.get("msavi_poligonos_num"):
+                detalle.append(f"{int(datos['msavi_poligonos_num']):,} poligonos"
+                               .replace(",", " "))
+            if datos.get("msavi_sintesis_calculada"):
+                detalle.append("porcentajes y totales calculados por el "
+                               "aplicativo sobre las superficies del libro")
+            st.caption(
+                "Distribucion areal obtenida de la estadistica zonal del raster "
+                "MSAVI 2024 clasificado (AREAS_MSAVI_BLOQUES_V6_REV_HSCM)"
+                + (" - " + " - ".join(detalle) if detalle else "")
+                + ". La superficie bajo el umbral es la base del indicador de "
+                  "brecha (R.M. N.° 00213-2024-MINAM).")
 
     estaciones = datos.get("estaciones") or []
     if estaciones:
@@ -1925,7 +1996,8 @@ def _tab_resumenes_bloques(bm):
         if st.button(f"Generar consolidado de {len(codigos_filtrados)} bloque(s)",
                      key="rbq_gen_consolidado"):
             with st.spinner("Generando Excel y PDF consolidados..."):
-                datos = db.obtener_datos_resumenes(codigos_filtrados)
+                datos = [rbq.completar_sintesis_msavi(d)
+                         for d in db.obtener_datos_resumenes(codigos_filtrados)]
                 st.session_state["rbq_consolidado"] = {
                     "n": len(datos),
                     "xlsx": rbq.generar_excel_consolidado(datos),
