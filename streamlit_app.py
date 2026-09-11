@@ -12,11 +12,13 @@ import uuid
 import io
 import csv
 import json
+import re
 import tempfile
 
 import database as db
 import export_diagnosticos as exp_diag
 import resumenes_bloques as rbq
+import analitica_social as ans
 from bloque_lookup import buscar_label_bloque
 
 # ── Constante de version de cache (incrementar tras escritura) ───────────
@@ -3975,6 +3977,223 @@ def _ds_render_detalle(ficha, form):
                     cols[j].markdown(f"**{_ds_humaniza(k)}:** {v}")
 
 
+# ══════════════════════════════════════════════════════════════════════════
+# GRAFICOS Y RESUMENES DEL DIAGNOSTICO SOCIAL
+# ══════════════════════════════════════════════════════════════════════════
+# Contraparte social de los resumenes Excel del Diagnostico Territorial: las
+# mismas fichas F-DS-01..07 que alimentan el PDF se leen aqui como graficos
+# interactivos y se descargan como libro Excel con graficos nativos.
+
+_TONOS_METRICA = {"favorable": "#2E7D4F", "critico": "#C0392B",
+                  "neutro": "#7A7975"}
+
+
+def _ds_tema():
+    """Tema activo de Streamlit, para elegir la paleta del grafico.
+
+    La deteccion cambio de sitio entre versiones; si ninguna via responde se
+    asume el tema claro, que es el que usa el aplicativo por defecto.
+    """
+    try:
+        tipo = st.context.theme.type          # Streamlit >= 1.44
+        if tipo:
+            return "oscuro" if tipo == "dark" else "claro"
+    except Exception:
+        pass
+    try:
+        return "oscuro" if st.get_option("theme.base") == "dark" else "claro"
+    except Exception:
+        return "claro"
+
+
+def _ds_metricas(metricas):
+    """Fila de cifras de cabecera, de cuatro en cuatro."""
+    for inicio in range(0, len(metricas), 4):
+        for col, m in zip(st.columns(4), metricas[inicio:inicio + 4]):
+            col.metric(m["etiqueta"], m["valor"])
+            detalle = m.get("detalle", "")
+            if detalle:
+                # El detalle sube a pegarse al valor y deja aire por debajo,
+                # para que no se confunda con el rotulo de la fila siguiente.
+                color = _TONOS_METRICA.get(m.get("tono", "neutro"),
+                                           _TONOS_METRICA["neutro"])
+                col.markdown(
+                    f'<div style="margin:-.7rem 0 .9rem;font-size:.78rem;'
+                    f'line-height:1.2;color:{color}">{detalle}</div>',
+                    unsafe_allow_html=True)
+
+
+def _ds_render_serie(serie, tema, clave):
+    """Un grafico interactivo con su tabla de respaldo desplegable."""
+    try:
+        grafico = ans.grafico_altair(serie, tema=tema)
+    except Exception as exc:
+        st.warning(f"No se pudo dibujar «{serie['titulo']}»: {exc}")
+        return
+    if grafico is None:
+        return
+    # theme=None: el tema propio de Streamlit reescribe colores, tipografia y
+    # tamanos de banda, y deja las barras apiladas sin dibujar. La paleta y la
+    # geometria ya vienen resueltas y validadas desde `analitica_social`.
+    st.altair_chart(grafico, use_container_width=True, theme=None)
+    # La tabla no es un adorno: sostiene la lectura de los tonos claros y
+    # permite copiar las cifras sin exportar el libro.
+    with st.expander("Ver los datos del gráfico", expanded=False):
+        st.dataframe(ans.tabla_serie(serie), use_container_width=True,
+                     hide_index=True)
+        if serie.get("nota"):
+            st.caption("Fuente: " + serie["nota"])
+
+
+def _ds_descargas_analitica(informe, clave):
+    """Botones de descarga del libro Excel y del anexo grafico en PDF."""
+    st.markdown("**Descargas**")
+    st.caption("El libro Excel trae una hoja por sección con su tabla de "
+               "datos y su gráfico nativo (editable en Excel), más las hojas "
+               "de respaldo con el detalle ficha por ficha. El anexo PDF "
+               "reproduce los mismos gráficos con el formato institucional.")
+    c1, c2 = st.columns(2)
+    if c1.button("Generar Excel con gráficos", key=f"{clave}_gen_xlsx",
+                 type="primary", use_container_width=True):
+        with st.spinner("Construyendo el libro..."):
+            try:
+                st.session_state[f"{clave}_xlsx"] = (
+                    ans.nombre_excel(informe), ans.generar_excel_social(informe))
+            except Exception as exc:
+                st.error(f"No se pudo generar el Excel: {exc}")
+    if c2.button("Generar anexo gráfico (PDF)", key=f"{clave}_gen_pdf",
+                 use_container_width=True):
+        with st.spinner("Construyendo el anexo..."):
+            try:
+                st.session_state[f"{clave}_pdf"] = (
+                    ans.nombre_pdf(informe), ans.generar_pdf_social(informe))
+            except Exception as exc:
+                st.error(f"No se pudo generar el PDF: {exc}")
+    listo_xlsx = st.session_state.get(f"{clave}_xlsx")
+    if listo_xlsx:
+        c1.download_button(f"⬇️ Descargar {listo_xlsx[0]}", listo_xlsx[1],
+                           file_name=listo_xlsx[0], mime=_mime_xlsx(),
+                           key=f"{clave}_dl_xlsx", use_container_width=True)
+    listo_pdf = st.session_state.get(f"{clave}_pdf")
+    if listo_pdf:
+        c2.download_button(f"⬇️ Descargar {listo_pdf[0]}", listo_pdf[1],
+                           file_name=listo_pdf[0], mime="application/pdf",
+                           key=f"{clave}_dl_pdf", use_container_width=True)
+
+
+def _ds_render_informe(informe, clave):
+    """Informe analitico completo: cifras, descargas y graficos por ficha."""
+    if not informe.get("secciones"):
+        st.info("No hay fichas sociales registradas en el ámbito "
+                "seleccionado; no hay nada que graficar todavía.")
+        return
+    _ds_metricas(informe.get("metricas", []))
+    for aviso in informe.get("avisos", []):
+        st.caption("⚠️ " + aviso)
+    st.markdown("---")
+    _ds_descargas_analitica(informe, clave)
+    st.markdown("---")
+
+    tema = informe.get("tema", "claro")
+    titulos = [s["titulo"] for s in informe["secciones"]]
+    for pestana, seccion in zip(st.tabs(titulos), informe["secciones"]):
+        with pestana:
+            if seccion.get("descripcion"):
+                st.caption(seccion["descripcion"])
+            for serie in seccion["series"]:
+                _ds_render_serie(serie, tema, f"{clave}_{serie['id']}")
+                st.markdown("")
+
+
+@st.cache_data(ttl=300, show_spinner=False, max_entries=8)
+def _cached_informe_social(codigo, bloque_id, tema, _version):
+    """Informe analitico de un bloque, tal como lo ve el PDF de la ficha.
+
+    Se cachea porque la pagina de Reportes y el historial lo reconstruyen en
+    cada rerun: sin cache, cada clic en cualquier control del formulario
+    dispara dos consultas y el parseo de todas las fichas del bloque.
+    """
+    bloque = db.obtener_bloque_por_id(bloque_id) or {"codigo": codigo}
+    return ans.indicadores_bloque(
+        bloque, db.obtener_diagnosticos_sociales_por_bloque(bloque_id),
+        datos_cp=_cp_bloque(codigo), tema=tema)
+
+
+def _ds_informe_bloque(codigo, bloque_id):
+    return _cached_informe_social(codigo, bloque_id, _ds_tema(),
+                                  _cache_version())
+
+
+def _tab_graficos_sociales(bm):
+    """Pestana de graficos y resumenes del Diagnostico Social."""
+    st.markdown("### Gráficos y resúmenes del Diagnóstico Social")
+    st.caption(
+        "Lectura analítica de las fichas F-DS-01 a F-DS-07 registradas: "
+        "cobertura del levantamiento, demografía y servicios, mapa de "
+        "actores, talleres, conflictos y oportunidades, percepción de "
+        "peligros y cambio climático, y consentimiento previo informado. "
+        "Los gráficos son interactivos (pase el cursor por cada barra) y se "
+        "descargan como libro Excel con gráficos nativos y como anexo PDF, "
+        "para acompañar a la ficha PDF del bloque.")
+
+    ambito = st.radio("Ámbito del análisis",
+                      ["Un bloque", "Consolidado de varios bloques"],
+                      horizontal=True, key="ds_graf_ambito")
+    todos = _cached_obtener_todos_diagnosticos_sociales(_cache_version())
+    if not todos:
+        st.info("Aún no hay fichas sociales registradas.")
+        return
+
+    if ambito == "Un bloque":
+        codigos = sorted({d.get("bloque_codigo", "") for d in todos
+                          if d.get("bloque_codigo")})
+        if not codigos:
+            st.info("Las fichas registradas no están asociadas a un bloque.")
+            return
+        codigo = st.selectbox("Bloque", codigos, key="ds_graf_bloque")
+        bloque_id = bm.get(codigo)
+        if not bloque_id:
+            st.error(f"El bloque {codigo} ya no existe en la base de datos.")
+            return
+        informe = _ds_informe_bloque(codigo, bloque_id)
+        st.markdown(f"#### Bloque {codigo}")
+        _ds_render_informe(informe, f"ds_graf_b_{codigo}")
+        return
+
+    # ── Consolidado ──
+    f1, f2, f3 = st.columns(3)
+    provincias = sorted({d.get("provincia", "") for d in todos if d.get("provincia")})
+    distritos = sorted({d.get("distrito", "") for d in todos if d.get("distrito")})
+    microcuencas = sorted({d.get("microcuenca", "") for d in todos if d.get("microcuenca")})
+    fil_prov = f1.multiselect("Provincia", provincias, key="ds_graf_prov")
+    fil_dist = f2.multiselect("Distrito", distritos, key="ds_graf_dist")
+    fil_micro = f3.multiselect("Microcuenca", microcuencas, key="ds_graf_micro")
+    filtrados = [
+        d for d in todos
+        if (not fil_prov or d.get("provincia") in fil_prov)
+        and (not fil_dist or d.get("distrito") in fil_dist)
+        and (not fil_micro or d.get("microcuenca") in fil_micro)
+    ]
+    etiqueta = " / ".join(filter(None, [
+        ", ".join(fil_prov), ", ".join(fil_dist), ", ".join(fil_micro)])) \
+        or "todo el ámbito"
+    st.caption(f"{len(filtrados)} ficha(s) social(es) tras aplicar los filtros "
+               f"({etiqueta}).")
+    if not filtrados:
+        st.info("Ningún registro cumple los filtros seleccionados.")
+        return
+    informe = ans.indicadores_consolidado(filtrados, etiqueta=etiqueta,
+                                          tema=_ds_tema())
+    # La clave del estado incluye el filtro: asi un Excel ya generado no se
+    # ofrece como descarga cuando el usuario cambia de ambito.
+    _ds_render_informe(informe, "ds_graf_cons_" + _clave_filtro(etiqueta))
+
+
+def _clave_filtro(etiqueta):
+    """Clave de session_state estable a partir de la etiqueta del filtro."""
+    return re.sub(r"[^A-Za-z0-9]+", "_", etiqueta)[:60] or "todo"
+
+
 def pagina_diagnostico_social():
     st.subheader("Diagnostico Social - Fichas de Campo (V4)")
     st.caption("Proyecto IN Piura CUI 2669244 | ANIN - DIME - SESDI | "
@@ -3995,8 +4214,9 @@ def pagina_diagnostico_social():
         "Seleccionar ficha", FICHAS_DS, horizontal=True, key="ds_ficha_sel",
         format_func=lambda x: f"{x} - {FICHAS_DS_TITULOS.get(x, '')}")
 
-    tab_reg, tab_hist, tab_excel = st.tabs(
-        ["Registro", "Historial / Consulta", "Importar desde Excel"])
+    tab_reg, tab_hist, tab_graf, tab_excel = st.tabs(
+        ["Registro", "Historial / Consulta", "Gráficos y Resúmenes",
+         "Importar desde Excel"])
 
     with tab_reg:
         edit_id = st.session_state.get("ds_edit_id")
@@ -4175,6 +4395,23 @@ def pagina_diagnostico_social():
                         data=st.session_state["ds_pdf_bytes"],
                         file_name=st.session_state["ds_pdf_nombre"],
                         mime="application/pdf", key="ds_pdf_dl")
+
+                # Graficos y resumenes del mismo bloque, para descargarlos
+                # junto con la ficha PDF.
+                st.markdown("**Gráficos y resúmenes del bloque**")
+                st.caption("Mismo contenido de la ficha leído como gráficos: "
+                           "libro Excel con gráficos nativos y anexo PDF. La "
+                           "versión interactiva está en la pestaña "
+                           "**Gráficos y Resúmenes**.")
+                bid_graf = bm.get(bl_ds_pdf)
+                if bid_graf:
+                    try:
+                        _ds_descargas_analitica(
+                            _ds_informe_bloque(bl_ds_pdf, bid_graf),
+                            f"ds_hist_graf_{bl_ds_pdf}")
+                    except Exception as exc:
+                        st.error(f"No se pudo preparar la analítica del "
+                                 f"bloque {bl_ds_pdf}: {exc}")
             st.markdown("---")
 
             ds_pag, total_pags_ds, pag_actual_ds = _paginar(todos_ds, "pag_ds")
@@ -4277,6 +4514,10 @@ def pagina_diagnostico_social():
                     "Total Fichas": r.get("total_fichas", "") or "",
                     "Fichas Completadas": r.get("fichas_completadas", "") or "",
                 } for r in resumen_ds]), use_container_width=True, hide_index=True)
+
+    # ── GRAFICOS Y RESUMENES ───────────────────────────────────────────
+    with tab_graf:
+        _tab_graficos_sociales(bm)
 
     # ── IMPORTAR DESDE EXCEL ───────────────────────────────────────────
     with tab_excel:
@@ -5328,6 +5569,20 @@ def pagina_reportes():
             st.download_button(f"⬇️ Descargar {pdf_listo[1]}", data=pdf_listo[2],
                                file_name=pdf_listo[1], mime="application/pdf",
                                key="rep_diag_dl")
+
+        # Graficos y resumenes del Diagnostico Social, equivalentes a los que
+        # el Diagnostico Territorial ya ofrece en sus resumenes por bloque.
+        st.markdown("#### Gráficos y resúmenes del Diagnóstico Social")
+        st.caption("Acompañan a la ficha DS: libro Excel con una hoja por "
+                   "sección y gráficos nativos, y anexo gráfico en PDF. Los "
+                   "gráficos interactivos están en **Diagnóstico Social → "
+                   "Gráficos y Resúmenes**.")
+        try:
+            _ds_descargas_analitica(_ds_informe_bloque(bl_diag, bm[bl_diag]),
+                                    f"rep_ds_graf_{bl_diag}")
+        except Exception as exc:
+            st.error(f"No se pudo preparar la analítica social del bloque "
+                     f"{bl_diag}: {exc}")
 
         # ── Descarga masiva en ZIP ─────────────────────────────────────
         st.markdown("#### Descarga masiva (ZIP)")
