@@ -483,6 +483,155 @@ if __name__ == "__main__":
     unittest.main(verbosity=2)
 
 
+# ══════════════════════════════════════════════════════════════════════════
+# Maquetacion de los reportes
+# ══════════════════════════════════════════════════════════════════════════
+
+def cajas_de_graficos(ws):
+    """Caja (x0, y0, x1, y1) en cm de cada grafico anclado en la hoja.
+
+    Un grafico no ocupa celdas: flota sobre la rejilla desde su celda de
+    anclaje con el tamano que guarda el anclaje (en EMU). Para saber si dos
+    se encimarian al abrir el libro hay que reconstruir esas cajas.
+    """
+    emu_cm = 360000.0
+    punto_cm = 2.54 / 72
+    ancho_defecto = (8.43 * 7 + 5) / 96 * 2.54
+
+    def alto_fila(fila):
+        dim = ws.row_dimensions.get(fila)
+        return (dim.height if dim is not None and dim.height else 15) * punto_cm
+
+    def ancho_col(col):
+        from openpyxl.utils import get_column_letter
+        dim = ws.column_dimensions.get(get_column_letter(col))
+        if dim is None or not dim.width:
+            return ancho_defecto
+        return (dim.width * 7 + 5) / 96 * 2.54
+
+    cajas = []
+    for grafico in ws._charts:
+        origen = grafico.anchor._from
+        x0 = sum(ancho_col(c) for c in range(1, origen.col + 1))
+        y0 = sum(alto_fila(f) for f in range(1, origen.row + 1))
+        ext = getattr(grafico.anchor, "ext", None)
+        ancho = ext.cx / emu_cm if ext is not None else 12.0
+        alto = ext.cy / emu_cm if ext is not None else 8.0
+        cajas.append((x0, y0, x0 + ancho, y0 + alto))
+    return cajas
+
+
+def graficos_encimados(ws):
+    """Pares de graficos cuyas cajas se solapan."""
+    cajas = cajas_de_graficos(ws)
+    encimados = []
+    for i in range(len(cajas)):
+        for j in range(i + 1, len(cajas)):
+            ax0, ay0, ax1, ay1 = cajas[i]
+            bx0, by0, bx1, by1 = cajas[j]
+            if ax0 < bx1 and bx0 < ax1 and ay0 < by1 and by0 < ay1:
+                encimados.append((i + 1, j + 1))
+    return encimados
+
+
+class TestHojaDeGraficos(unittest.TestCase):
+    """Los graficos de la hoja se apilan; ninguno puede pisar al anterior."""
+
+    def setUp(self):
+        self.libro = construir_libro(codigo="M9B1", con_msavi_areal=True)
+        self.datos = rb.completar_sintesis_msavi(
+            rb.parsear_resumen_bloque(self.libro, "Plantilla_Excel_Bloque_M9B1_IN_Piura.xlsx"))
+
+    def _hoja_graficos(self):
+        contenido = rb.generar_excel_con_graficos(self.libro, self.datos)
+        return load_workbook(io.BytesIO(contenido))["Graficos"]
+
+    def test_la_hoja_trae_un_grafico_por_serie(self):
+        # NDVI (torta + barras), MSAVI, microcuenca (dos) y consistencia.
+        self.assertGreaterEqual(len(self._hoja_graficos()._charts), 4)
+
+    def test_ningun_grafico_se_encima_con_otro(self):
+        self.assertEqual(graficos_encimados(self._hoja_graficos()), [])
+
+    def test_los_graficos_no_invaden_la_tabla_siguiente(self):
+        """Cada seccion empieza debajo de los graficos de la anterior."""
+        ws = self._hoja_graficos()
+        cajas = cajas_de_graficos(ws)
+        punto_cm = 2.54 / 72
+        for titulo in ("B. MSAVI", "C. Contexto", "D. Control"):
+            fila = next((c.row for col in ws.iter_cols(min_col=1, max_col=1)
+                         for c in col
+                         if str(c.value or "").startswith(titulo)), None)
+            if fila is None:
+                continue
+            y_titulo = sum(
+                (ws.row_dimensions[f].height
+                 if f in ws.row_dimensions and ws.row_dimensions[f].height
+                 else 15) * punto_cm for f in range(1, fila))
+            previos = [caja for caja in cajas if caja[1] < y_titulo]
+            for caja in previos:
+                self.assertLessEqual(
+                    caja[3], y_titulo + 0.01,
+                    f"un grafico llega a {caja[3]:.1f} cm y la seccion "
+                    f"«{titulo}» empieza en {y_titulo:.1f} cm")
+
+    def test_el_consolidado_tampoco_encima_sus_graficos(self):
+        contenido = rb.generar_excel_consolidado([self.datos, self.datos])
+        wb = load_workbook(io.BytesIO(contenido))
+        self.assertEqual(graficos_encimados(wb["Graficos"]), [])
+
+
+class TestTablaDelPDF(unittest.TestCase):
+    """Una celda de varias lineas no debe desparramar la tabla.
+
+    `multi_cell` toma su segundo argumento como alto de CADA linea: si se le
+    pasa el alto de la fila, una celda larga se estira hasta invadir las
+    filas siguientes y la tabla ocupa varias paginas casi vacias.
+    """
+
+    TEXTO = ("Se adopta el valor de campo por ser la fuente que manda sobre "
+             "el dato y la mas reciente. El valor anterior queda declarado "
+             "para trazabilidad, conforme a la nota metodologica de la hoja "
+             "de control de consistencia del bloque.")
+
+    def _pdf(self, n_filas):
+        pdf = rb.PDFResumen(subtitulo="PRUEBA DE MAQUETACION")
+        pdf.alias_nb_pages()
+        pdf.add_page()
+        pdf.tabla(["Cod.", "Campo afectado", "Discrepancia observada",
+                   "Calificacion", "Tratamiento adoptado"],
+                  [[f"D-{i:02d}", "Campo afectado", self.TEXTO, "CONFORME",
+                    self.TEXTO] for i in range(n_filas)],
+                  anchos_rel=[0.5, 1.6, 3.4, 1.0, 3.2])
+        return rb.pdf_bytes(pdf)
+
+    def test_diez_filas_largas_caben_en_una_pagina(self):
+        import pdfplumber
+        with pdfplumber.open(io.BytesIO(self._pdf(10))) as pdf:
+            self.assertEqual(len(pdf.pages), 1)
+
+    def test_las_lineas_de_una_celda_van_seguidas(self):
+        """Dentro de una celda las lineas se separan por el interlineado."""
+        import pdfplumber
+        with pdfplumber.open(io.BytesIO(self._pdf(4))) as pdf:
+            pagina = pdf.pages[0]
+            # Solo la caja de la tabla: fuera quedan la banda institucional
+            # de arriba y el pie de pagina, separados por diseno.
+            alturas = sorted({round(p["top"], 1) for p in pagina.extract_words()
+                              if 95 <= p["top"] <= pagina.height - 60})
+        saltos = [b - a for a, b in zip(alturas, alturas[1:])]
+        # El interlineado es de ~3.85 mm (11 pt). Un salto de mas de 25 pt
+        # significa que una celda se estiro y arrastro el resto de la fila.
+        self.assertLess(max(saltos), 25, f"saltos verticales: {saltos}")
+
+    def test_la_tabla_vacia_no_dibuja_nada(self):
+        pdf = rb.PDFResumen()
+        pdf.add_page()
+        y = pdf.get_y()
+        pdf.tabla(["A", "B"], [])
+        self.assertEqual(pdf.get_y(), y)
+
+
 class TestLibrosDelRepositorio(unittest.TestCase):
     """Los 117 libros de gabinete (V6), linea base de la integracion.
 

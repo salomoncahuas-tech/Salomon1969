@@ -1648,18 +1648,19 @@ def _hoja_graficos_integracion(wb, integrado):
         ["Fuente", "Hechos"],
         [[ETIQUETA_FUENTE[f], integrado["conteo_fuente"].get(f, 0)]
          for f in FUENTES])
-    rbq.grafico_torta_excel(ws, "Procedencia de los hechos declarados",
-                               fila_cab, len(FUENTES), 1, 2, "D%d" % fila_cab)
-    fila += 16
+    libre = rbq.grafico_torta_excel(ws, "Procedencia de los hechos declarados",
+                                    fila_cab, len(FUENTES), 1, 2,
+                                    "D%d" % fila_cab)
+    fila = max(fila, libre) + 2
 
     fila_cab, fila = rbq.escribir_tabla(
         ws, fila, "Estado del cruce entre fuentes",
         ["Estado", "Hechos"],
         [[e, integrado["conteo_estado"].get(e, 0)] for e in ESTADOS])
-    rbq.grafico_barras_excel(ws, "Estado del cruce entre fuentes", fila_cab,
-                                len(ESTADOS), 1, 2, "D%d" % fila_cab,
-                                eje_y="Hechos")
-    fila += 16
+    libre = rbq.grafico_barras_excel(ws, "Estado del cruce entre fuentes",
+                                     fila_cab, len(ESTADOS), 1, 2,
+                                     "D%d" % fila_cab, eje_y="Hechos")
+    fila = max(fila, libre) + 2
 
     estratos = [
         ("Dosel", integrado["por_clave"]["cobertura_dosel"]["valor"]),
@@ -1673,10 +1674,10 @@ def _hoja_graficos_integracion(wb, integrado):
         fila_cab, fila = rbq.escribir_tabla(
             ws, fila, "Cobertura por estrato — campo (%)",
             ["Estrato", "% del área"], [[e, v] for e, v in estratos])
-        rbq.grafico_barras_excel(ws, "Cobertura por estrato (%)", fila_cab,
-                                    len(estratos), 1, 2, "D%d" % fila_cab,
-                                    eje_y="%")
-        fila += 16
+        libre = rbq.grafico_barras_excel(ws, "Cobertura por estrato (%)",
+                                         fila_cab, len(estratos), 1, 2,
+                                         "D%d" % fila_cab, eje_y="%")
+        fila = max(fila, libre) + 2
 
     causas = integrado["causas_activas"][:10]
     if causas:
@@ -1684,10 +1685,10 @@ def _hoja_graficos_integracion(wb, integrado):
             ws, fila, "Causas activas de degradación (F-DT-04)",
             ["Causa", "Intensidad (1 ligera - 4 muy fuerte)"],
             [[c["causa"], c["peso"]] for c in causas])
-        rbq.grafico_barras_excel(ws, "Causas activas por intensidad",
-                                    fila_cab, len(causas), 1, 2,
-                                    "D%d" % fila_cab, eje_y="Intensidad")
-        fila += 16
+        libre = rbq.grafico_barras_excel(ws, "Causas activas por intensidad",
+                                         fila_cab, len(causas), 1, 2,
+                                         "D%d" % fila_cab, eje_y="Intensidad")
+        fila = max(fila, libre) + 2
 
     calificaciones = [(c, integrado["consistencia_resumen"].get(c, 0))
                       for c in rbq.CALIFICACIONES]
@@ -1946,19 +1947,23 @@ def generar_excel_consolidado(lista_integrados, agrupacion="provincia"):
                    for g in grupos]
     fila_cab, fila = rbq.escribir_tabla(
         ws, fila, "AGREGADO POR %s" % etiqueta.upper(), cabeceras, filas_grupo)
+    # Los graficos van en dos filas de dos: la segunda arranca donde
+    # termina la primera, no a una distancia fija que podria solaparse.
     n = len(grupos)
-    rbq.grafico_barras_excel(ws, "Superficie por %s (ha)" % etiqueta.lower(),
-                                fila_cab, n, 1, 3, "A%d" % (fila + 2),
-                                eje_y="ha")
-    rbq.grafico_barras_excel(ws, "Brecha MSAVI por %s (ha)" % etiqueta.lower(),
-                                fila_cab, n, 1, 4, "J%d" % (fila + 2),
-                                eje_y="ha")
-    rbq.grafico_barras_excel(ws, "Bloques por %s" % etiqueta.lower(),
-                                fila_cab, n, 1, 2, "A%d" % (fila + 20),
-                                eje_y="Bloques")
-    rbq.grafico_barras_excel(ws, "Discrepancias sustantivas por %s"
-                                % etiqueta.lower(), fila_cab, n, 1, 14,
-                                "J%d" % (fila + 20), eje_y="Verificaciones")
+    superior = fila + 2
+    libre = rbq.grafico_barras_excel(
+        ws, "Superficie por %s (ha)" % etiqueta.lower(), fila_cab, n, 1, 3,
+        "A%d" % superior, eje_y="ha")
+    rbq.grafico_barras_excel(
+        ws, "Brecha MSAVI por %s (ha)" % etiqueta.lower(), fila_cab, n, 1, 4,
+        "J%d" % superior, eje_y="ha")
+    inferior = libre + 1
+    rbq.grafico_barras_excel(
+        ws, "Bloques por %s" % etiqueta.lower(), fila_cab, n, 1, 2,
+        "A%d" % inferior, eje_y="Bloques")
+    rbq.grafico_barras_excel(
+        ws, "Discrepancias sustantivas por %s" % etiqueta.lower(), fila_cab,
+        n, 1, 14, "J%d" % inferior, eje_y="Verificaciones")
     _ajustar_anchos(ws, [30, 10, 16, 18, 13, 14, 18, 18, 17, 11, 11, 16, 18,
                          13, 34, 20])
     ws.freeze_panes = ws.cell(fila_cab + 1, 2)
@@ -2381,8 +2386,8 @@ def generar_pdf_consolidado(lista_integrados, agrupacion="provincia",
                 b["conteo_estado"].get(ACTUALIZADO, 0),
                 (b.get("consistencia_resumen") or {}).get("SUSTANTIVA", 0)]
                for b in lista_integrados],
-              anchos_rel=[0.8, 1.3, 1.2, 1.5, 1.0, 0.8, 0.9, 2.2, 1.4, 0.9,
-                          0.9, 0.9],
+              anchos_rel=[0.8, 1.3, 1.2, 1.4, 1.0, 0.8, 0.9, 2.0, 1.4, 0.9,
+                          1.15, 1.15],
               alineaciones=["L", "L", "L", "L", "R", "R", "R", "L", "L", "L",
                             "C", "C"])
 
