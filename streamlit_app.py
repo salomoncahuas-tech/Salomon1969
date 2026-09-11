@@ -21,6 +21,8 @@ import export_diagnosticos as exp_diag
 import resumenes_bloques as rbq
 import dt_campo as dtc
 import analitica_social as ans
+import analitica_series as ase
+import analitica_territorial as ate
 from bloque_lookup import buscar_label_bloque
 
 # ── Constante de version de cache (incrementar tras escritura) ───────────
@@ -1739,6 +1741,24 @@ def _id_bloque_por_codigo(bm, codigo):
     return None
 
 
+def _serie_en_columna(columna, serie):
+    """Dibuja una serie declarada dentro de una columna del detalle.
+
+    Usa el mismo grafico que el informe analitico -orden declarado, color por
+    severidad y tooltip- en lugar del `st.bar_chart` monocromo, sin cambiar
+    la maqueta de la ficha.
+    """
+    if not serie or not serie.get("filas"):
+        return
+    try:
+        grafico = ase.grafico_altair(serie, tema=_tema_analitica(), altura=240)
+    except Exception:
+        grafico = None
+    if grafico is None:
+        return
+    columna.altair_chart(grafico, use_container_width=True, theme=None)
+
+
 def _detalle_resumen_bloque(codigo):
     """Vista de un bloque: sintesis, tablas de las 5 hojas y descargas."""
     registro = db.obtener_resumen_bloque(codigo)
@@ -1749,6 +1769,9 @@ def _detalle_resumen_bloque(codigo):
     # de sus formulas no incluyen el reparto porcentual: se deriva aqui, sin
     # necesidad de volver a cargarlos.
     datos = rbq.completar_sintesis_msavi(registro.get("datos") or {})
+    # Las mismas series que arma el informe analitico: la ficha y el libro
+    # Excel no pueden dibujar dos cosas distintas del mismo dato.
+    series_dt = ate.series_de_bloque(datos)
 
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("Area de catalogo (ha)",
@@ -1814,10 +1837,7 @@ def _detalle_resumen_bloque(codigo):
         } for r in ndvi])
         col_t, col_g = st.columns([1.3, 1])
         col_t.dataframe(df_ndvi, use_container_width=True, hide_index=True)
-        graficables = df_ndvi.dropna(subset=["Superficie (ha)"])
-        if not graficables.empty:
-            col_g.bar_chart(graficables.set_index("Clase NDVI")["Superficie (ha)"],
-                            color="#1B4D2E")
+        _serie_en_columna(col_g, series_dt.get("dt_ndvi"))
 
     msavi_tabla = datos.get("msavi_tabla") or []
     if msavi_tabla:
@@ -1833,13 +1853,7 @@ def _detalle_resumen_bloque(codigo):
         } for r in msavi_tabla])
         col_t, col_g = st.columns([1.3, 1])
         col_t.dataframe(df_msavi, use_container_width=True, hide_index=True)
-        graficables = pd.DataFrame([{
-            "Clase MSAVI": r.get("clase", ""),
-            "Superficie (ha)": r.get("superficie_ha"),
-        } for r in msavi_tabla if r.get("superficie_ha") is not None])
-        if not graficables.empty:
-            col_g.bar_chart(graficables.set_index("Clase MSAVI")["Superficie (ha)"],
-                            color="#1B4D2E")
+        _serie_en_columna(col_g, series_dt.get("dt_msavi"))
         if all(r.get("superficie_ha") is None for r in msavi_tabla):
             st.caption("La distribucion areal por clase de MSAVI no figura en "
                        "los insumos de este entregable. Se consigna «Por "
@@ -1900,10 +1914,7 @@ def _detalle_resumen_bloque(codigo):
         } for r in micro])
         col_t, col_g = st.columns([1.4, 1])
         col_t.dataframe(df_micro, use_container_width=True, hide_index=True)
-        graficables = df_micro.dropna(subset=["Area (ha)"])
-        if len(graficables) > 1:
-            col_g.bar_chart(graficables.set_index("Bloque")["Area (ha)"],
-                            color="#1B4D2E")
+        _serie_en_columna(col_g, series_dt.get("dt_micro_area"))
 
     consistencia = datos.get("consistencia") or []
     if consistencia:
@@ -2582,6 +2593,107 @@ def _tab_integracion_campo(bm):
                 st.rerun()
 
 
+# ══════════════════════════════════════════════════════════════════════════
+# GRAFICOS Y RESUMENES DEL DIAGNOSTICO TERRITORIAL
+# ══════════════════════════════════════════════════════════════════════════
+# Contraparte territorial de los graficos del Diagnostico Social: las mismas
+# series declarativas, los mismos tres renderizadores y la misma paleta
+# ordenada. Lee los resumenes por bloque ya cargados y su integracion con la
+# ficha DT de campo; no toca ningun registro.
+
+
+@st.cache_data(ttl=300, show_spinner=False, max_entries=8)
+def _cached_informe_dt_bloque(codigo, tema, _version):
+    """Informe analitico territorial de un bloque, con su ficha de campo."""
+    registro = db.obtener_resumen_bloque(codigo)
+    if not registro:
+        return None
+    datos = registro.get("datos") or {}
+    campo = db.obtener_datos_dt_campos([codigo]).get(codigo)
+    integrado = dtc.integrar_bloque(datos, campo, codigo) if campo else None
+    return ate.indicadores_bloque(datos, integrado, tema=tema)
+
+
+@st.cache_data(ttl=300, show_spinner=False, max_entries=8)
+def _cached_informe_dt_consolidado(codigos, agrupacion, etiqueta, tema, _version):
+    """Informe analitico territorial de un conjunto de bloques."""
+    return ate.indicadores_consolidado(
+        db.obtener_datos_resumenes(list(codigos)), etiqueta=etiqueta,
+        agrupacion=agrupacion, tema=tema)
+
+
+def _tab_graficos_territoriales(bm):
+    """Pestana de graficos y resumenes analiticos del Diagnostico Territorial."""
+    st.markdown("### Gráficos y resúmenes del Diagnóstico Territorial")
+    st.caption(
+        "Lectura analítica de las fichas de resumen por bloque y de su "
+        "integración con la ficha DT de campo: índices de vegetación y "
+        "brecha frente al umbral %s, contexto intramicrocuenca, verificación "
+        "de campo, procedencia de cada dato y control de consistencia. Las "
+        "clases se colorean por severidad, no por identidad: el tono comunica "
+        "cuán degradado está el bloque. No se estima ningún valor ausente."
+        % rbq.UMBRAL_MSAVI)
+
+    cargados = _cached_obtener_resumenes_bloques(_cache_version())
+    if not cargados:
+        st.info("Aún no hay resúmenes por bloque cargados. Use la pestaña "
+                "**Resumenes por Bloque (117)** para cargarlos.")
+        return
+
+    vista = st.radio("Vista", ["Consolidado del ámbito", "Bloque individual"],
+                     horizontal=True, key="dtg_vista")
+    tema = _tema_analitica()
+
+    if vista == "Bloque individual":
+        codigos = [r["codigo_bloque"] for r in cargados]
+        codigo = st.selectbox("Bloque", codigos, key="dtg_bloque")
+        informe = _cached_informe_dt_bloque(codigo, tema, _cache_version())
+        if informe is None:
+            st.warning(f"El bloque {codigo} no tiene resumen cargado.")
+            return
+        _analitica_render_informe(
+            informe, f"dtg_b_{codigo}", modulo=ate,
+            vacio="La ficha de este bloque no trae distribuciones graficables; "
+                  "su contenido está en la pestaña de resúmenes por bloque.")
+        return
+
+    # ── Consolidado: filtros y nivel de agregacion ──
+    f1, f2, f3, f4 = st.columns(4)
+    provincias = sorted({r.get("provincia", "") for r in cargados
+                         if r.get("provincia")})
+    distritos = sorted({r.get("distrito", "") for r in cargados
+                        if r.get("distrito")})
+    microcuencas = sorted({r.get("microcuenca", "") for r in cargados
+                           if r.get("microcuenca")})
+    fil_prov = f1.multiselect("Provincia", provincias, key="dtg_f_prov")
+    fil_dist = f2.multiselect("Distrito", distritos, key="dtg_f_dist")
+    fil_micro = f3.multiselect("Microcuenca", microcuencas, key="dtg_f_micro")
+    agrupacion = f4.selectbox(
+        "Agrupar por", list(ate.AGRUPACIONES),
+        format_func=lambda c: ate.AGRUPACIONES[c], key="dtg_agrup")
+
+    filtrados = [
+        r for r in cargados
+        if (not fil_prov or r.get("provincia") in fil_prov)
+        and (not fil_dist or r.get("distrito") in fil_dist)
+        and (not fil_micro or r.get("microcuenca") in fil_micro)
+    ]
+    if not filtrados:
+        st.info("Ningún bloque cumple los filtros seleccionados.")
+        return
+
+    etiqueta = " · ".join(
+        [", ".join(fil_prov)] if fil_prov else []) or f"{len(filtrados)} bloques"
+    st.caption(f"{len(filtrados)} bloque(s) en el ámbito, agrupados por "
+               f"{ate.AGRUPACIONES[agrupacion].lower()}.")
+    informe = _cached_informe_dt_consolidado(
+        tuple(r["codigo_bloque"] for r in filtrados), agrupacion, etiqueta,
+        tema, _cache_version())
+    _analitica_render_informe(
+        informe, "dtg_cons_" + agrupacion, modulo=ate,
+        vacio="Los bloques del ámbito no traen distribuciones graficables.")
+
+
 def pagina_diagnostico_territorial():
     import json as _json
     st.subheader("Diagnostico Territorial - Fichas de Evaluacion")
@@ -2608,9 +2720,10 @@ def pagina_diagnostico_territorial():
     dt_edit_id = st.session_state.get("dt_edit_id")
     dt_edit = st.session_state.get("dt_edit_data") or {}
 
-    tab_reg, tab_hist, tab_excel, tab_resumen, tab_campo = st.tabs([
+    tab_reg, tab_hist, tab_excel, tab_resumen, tab_campo, tab_graf = st.tabs([
         "Registro de Diagnostico", "Historial / Consulta", "Importar desde Excel",
         "Resumenes por Bloque (117)", "Integracion de Campo (117)",
+        "Graficos y Resumenes",
     ])
 
     with tab_reg:
@@ -3722,6 +3835,12 @@ def pagina_diagnostico_territorial():
     with tab_campo:
         _tab_integracion_campo(bm)
 
+    # ══════════════════════════════════════════════════════════════════
+    # TAB GRAFICOS Y RESUMENES ANALITICOS
+    # ══════════════════════════════════════════════════════════════════
+    with tab_graf:
+        _tab_graficos_territoriales(bm)
+
 # ══════════════════════════════════════════════════════════════════════════
 # DIAGNOSTICO SOCIAL
 # ══════════════════════════════════════════════════════════════════════════
@@ -4534,7 +4653,7 @@ _TONOS_METRICA = {"favorable": "#2E7D4F", "critico": "#C0392B",
                   "neutro": "#7A7975"}
 
 
-def _ds_tema():
+def _tema_analitica():
     """Tema activo de Streamlit, para elegir la paleta del grafico.
 
     La deteccion cambio de sitio entre versiones; si ninguna via responde se
@@ -4552,7 +4671,7 @@ def _ds_tema():
         return "claro"
 
 
-def _ds_metricas(metricas):
+def _analitica_metricas(metricas):
     """Fila de cifras de cabecera, de cuatro en cuatro."""
     for inicio in range(0, len(metricas), 4):
         for col, m in zip(st.columns(4), metricas[inicio:inicio + 4]):
@@ -4569,10 +4688,10 @@ def _ds_metricas(metricas):
                     unsafe_allow_html=True)
 
 
-def _ds_render_serie(serie, tema, clave):
+def _analitica_render_serie(serie, tema, clave):
     """Un grafico interactivo con su tabla de respaldo desplegable."""
     try:
-        grafico = ans.grafico_altair(serie, tema=tema)
+        grafico = ase.grafico_altair(serie, tema=tema)
     except Exception as exc:
         st.warning(f"No se pudo dibujar «{serie['titulo']}»: {exc}")
         return
@@ -4585,18 +4704,23 @@ def _ds_render_serie(serie, tema, clave):
     # La tabla no es un adorno: sostiene la lectura de los tonos claros y
     # permite copiar las cifras sin exportar el libro.
     with st.expander("Ver los datos del gráfico", expanded=False):
-        st.dataframe(ans.tabla_serie(serie), use_container_width=True,
+        st.dataframe(ase.tabla_serie(serie), use_container_width=True,
                      hide_index=True)
         if serie.get("nota"):
             st.caption("Fuente: " + serie["nota"])
 
 
-def _ds_descargas_analitica(informe, clave):
-    """Botones de descarga del libro Excel y del anexo grafico en PDF."""
+def _analitica_descargas(informe, clave, modulo=ans):
+    """Botones de descarga del libro Excel y del anexo grafico en PDF.
+
+    `modulo` es el de analitica que arma el informe -social o territorial-;
+    ambos exponen `nombre_excel`, `generar_excel`, `nombre_pdf` y
+    `generar_pdf`, de modo que la descarga no distingue entre uno y otro.
+    """
     st.markdown("**Descargas**")
     st.caption("El libro Excel trae una hoja por sección con su tabla de "
                "datos y su gráfico nativo (editable en Excel), más las hojas "
-               "de respaldo con el detalle ficha por ficha. El anexo PDF "
+               "de respaldo con el detalle fila por fila. El anexo PDF "
                "reproduce los mismos gráficos con el formato institucional.")
     c1, c2 = st.columns(2)
     if c1.button("Generar Excel con gráficos", key=f"{clave}_gen_xlsx",
@@ -4604,7 +4728,7 @@ def _ds_descargas_analitica(informe, clave):
         with st.spinner("Construyendo el libro..."):
             try:
                 st.session_state[f"{clave}_xlsx"] = (
-                    ans.nombre_excel(informe), ans.generar_excel_social(informe))
+                    modulo.nombre_excel(informe), modulo.generar_excel(informe))
             except Exception as exc:
                 st.error(f"No se pudo generar el Excel: {exc}")
     if c2.button("Generar anexo gráfico (PDF)", key=f"{clave}_gen_pdf",
@@ -4612,7 +4736,7 @@ def _ds_descargas_analitica(informe, clave):
         with st.spinner("Construyendo el anexo..."):
             try:
                 st.session_state[f"{clave}_pdf"] = (
-                    ans.nombre_pdf(informe), ans.generar_pdf_social(informe))
+                    modulo.nombre_pdf(informe), modulo.generar_pdf(informe))
             except Exception as exc:
                 st.error(f"No se pudo generar el PDF: {exc}")
     listo_xlsx = st.session_state.get(f"{clave}_xlsx")
@@ -4627,17 +4751,17 @@ def _ds_descargas_analitica(informe, clave):
                            key=f"{clave}_dl_pdf", use_container_width=True)
 
 
-def _ds_render_informe(informe, clave):
-    """Informe analitico completo: cifras, descargas y graficos por ficha."""
+def _analitica_render_informe(informe, clave, modulo=ans, vacio=None):
+    """Informe analitico completo: cifras, descargas y graficos por seccion."""
     if not informe.get("secciones"):
-        st.info("No hay fichas sociales registradas en el ámbito "
-                "seleccionado; no hay nada que graficar todavía.")
+        st.info(vacio or "No hay fichas sociales registradas en el ámbito "
+                         "seleccionado; no hay nada que graficar todavía.")
         return
-    _ds_metricas(informe.get("metricas", []))
+    _analitica_metricas(informe.get("metricas", []))
     for aviso in informe.get("avisos", []):
         st.caption("⚠️ " + aviso)
     st.markdown("---")
-    _ds_descargas_analitica(informe, clave)
+    _analitica_descargas(informe, clave, modulo)
     st.markdown("---")
 
     tema = informe.get("tema", "claro")
@@ -4647,8 +4771,16 @@ def _ds_render_informe(informe, clave):
             if seccion.get("descripcion"):
                 st.caption(seccion["descripcion"])
             for serie in seccion["series"]:
-                _ds_render_serie(serie, tema, f"{clave}_{serie['id']}")
+                _analitica_render_serie(serie, tema, f"{clave}_{serie['id']}")
                 st.markdown("")
+            # Una seccion sin series -el detalle por bloque- se sostiene en
+            # sus tablas de respaldo: se muestran aqui en vez de dejar la
+            # pestana en blanco.
+            if not seccion["series"]:
+                for titulo, filas in seccion.get("tablas", []):
+                    st.markdown(f"**{titulo}**")
+                    st.dataframe(pd.DataFrame(filas),
+                                 use_container_width=True, hide_index=True)
 
 
 @st.cache_data(ttl=300, show_spinner=False, max_entries=8)
@@ -4666,7 +4798,7 @@ def _cached_informe_social(codigo, bloque_id, tema, _version):
 
 
 def _ds_informe_bloque(codigo, bloque_id):
-    return _cached_informe_social(codigo, bloque_id, _ds_tema(),
+    return _cached_informe_social(codigo, bloque_id, _tema_analitica(),
                                   _cache_version())
 
 
@@ -4703,7 +4835,7 @@ def _tab_graficos_sociales(bm):
             return
         informe = _ds_informe_bloque(codigo, bloque_id)
         st.markdown(f"#### Bloque {codigo}")
-        _ds_render_informe(informe, f"ds_graf_b_{codigo}")
+        _analitica_render_informe(informe, f"ds_graf_b_{codigo}")
         return
 
     # ── Consolidado ──
@@ -4729,10 +4861,10 @@ def _tab_graficos_sociales(bm):
         st.info("Ningún registro cumple los filtros seleccionados.")
         return
     informe = ans.indicadores_consolidado(filtrados, etiqueta=etiqueta,
-                                          tema=_ds_tema())
+                                          tema=_tema_analitica())
     # La clave del estado incluye el filtro: asi un Excel ya generado no se
     # ofrece como descarga cuando el usuario cambia de ambito.
-    _ds_render_informe(informe, "ds_graf_cons_" + _clave_filtro(etiqueta))
+    _analitica_render_informe(informe, "ds_graf_cons_" + _clave_filtro(etiqueta))
 
 
 def _clave_filtro(etiqueta):
@@ -4952,7 +5084,7 @@ def pagina_diagnostico_social():
                 bid_graf = bm.get(bl_ds_pdf)
                 if bid_graf:
                     try:
-                        _ds_descargas_analitica(
+                        _analitica_descargas(
                             _ds_informe_bloque(bl_ds_pdf, bid_graf),
                             f"ds_hist_graf_{bl_ds_pdf}")
                     except Exception as exc:
@@ -6124,7 +6256,7 @@ def pagina_reportes():
                    "gráficos interactivos están en **Diagnóstico Social → "
                    "Gráficos y Resúmenes**.")
         try:
-            _ds_descargas_analitica(_ds_informe_bloque(bl_diag, bm[bl_diag]),
+            _analitica_descargas(_ds_informe_bloque(bl_diag, bm[bl_diag]),
                                     f"rep_ds_graf_{bl_diag}")
         except Exception as exc:
             st.error(f"No se pudo preparar la analítica social del bloque "

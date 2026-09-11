@@ -1429,15 +1429,20 @@ def _sector(pdf, cx, cy, radio, ang_ini, ang_fin, pasos=None):
 
 
 def _fmt(valor):
-    """Formato numerico compacto para etiquetas de grafico."""
+    """Formato numerico compacto para etiquetas de grafico.
+
+    El separador de millares es un espacio fino, como en el resto de los
+    entregables del proyecto: la coma se reserva para separar elementos de
+    una lista y no debe competir con ella dentro de una cifra.
+    """
     if valor is None:
         return ""
     if isinstance(valor, float):
         if abs(valor) < 1:
             return f"{valor:.4f}".rstrip("0").rstrip(".")
         if abs(valor) >= 1000:
-            return f"{valor:,.0f}"
-        return f"{valor:,.2f}".rstrip("0").rstrip(".")
+            return f"{valor:,.0f}".replace(",", " ")
+        return f"{valor:,.2f}".rstrip("0").rstrip(".").replace(",", " ")
     return str(valor)
 
 

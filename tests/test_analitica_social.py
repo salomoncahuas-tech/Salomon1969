@@ -18,6 +18,7 @@ from openpyxl import load_workbook
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import analitica_social as an  # noqa: E402
+import analitica_series as ase  # noqa: E402
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -222,24 +223,24 @@ class LecturaCampos(unittest.TestCase):
 
     def test_numeros_en_texto_libre(self):
         """Los campos numericos son cajas de texto: se recupera la cifra."""
-        self.assertEqual(an._num("1,450"), 1450.0)
-        self.assertEqual(an._num("35 %"), 35.0)
-        self.assertEqual(an._num("S/ 620"), 620.0)
-        self.assertEqual(an._num("12.5"), 12.5)
-        self.assertEqual(an._num("aprox. 40 familias"), 40.0)
-        self.assertEqual(an._num("12,5"), 12.5)
+        self.assertEqual(ase._num("1,450"), 1450.0)
+        self.assertEqual(ase._num("35 %"), 35.0)
+        self.assertEqual(ase._num("S/ 620"), 620.0)
+        self.assertEqual(ase._num("12.5"), 12.5)
+        self.assertEqual(ase._num("aprox. 40 familias"), 40.0)
+        self.assertEqual(ase._num("12,5"), 12.5)
 
     def test_sin_dato_no_es_cero(self):
         """Un campo vacio no puede contarse como cero en los promedios."""
         for vacio in ("", None, "s/d", "  ", "sin dato"):
-            self.assertIsNone(an._num(vacio), vacio)
+            self.assertIsNone(ase._num(vacio), vacio)
 
     def test_normalizacion_si_no(self):
-        self.assertEqual(an._sino("si"), "Sí")
-        self.assertEqual(an._sino("SÍ"), "Sí")
-        self.assertEqual(an._sino("No"), "No")
-        self.assertEqual(an._sino("No aplica"), "No aplica")
-        self.assertEqual(an._sino(""), "")
+        self.assertEqual(ase._sino("si"), "Sí")
+        self.assertEqual(ase._sino("SÍ"), "Sí")
+        self.assertEqual(ase._sino("No"), "No")
+        self.assertEqual(ase._sino("No aplica"), "No aplica")
+        self.assertEqual(ase._sino(""), "")
 
     def test_columnas_con_alias_y_tildes(self):
         """El encabezado de la tabla puede venir con o sin tilde."""
@@ -319,7 +320,7 @@ class Informe(unittest.TestCase):
         resuelto = [c for c in serie["colores"]
                     if c.lower().startswith("resuelto")]
         self.assertTrue(resuelto)
-        self.assertIn(serie["colores"][resuelto[0]], an.RAMPA_FAVORABLE)
+        self.assertIn(serie["colores"][resuelto[0]], ase.RAMPA_FAVORABLE)
 
     def test_solo_se_grafican_peligros_ocurrentes(self):
         """El peligro marcado 'No ocurre' no entra en la frecuencia."""
@@ -350,9 +351,9 @@ class Informe(unittest.TestCase):
 
     def test_el_nivel_mas_alto_recibe_el_tono_mas_oscuro(self):
         """Las listas de la ficha van de mayor a menor: la rampa se invierte."""
-        for id_, rampa in (("f1_percepciones", an.RAMPA_NEUTRA),
-                           ("f6_frecuencia", an.RAMPA_CRITICA),
-                           ("f6_magnitud", an.RAMPA_CRITICA)):
+        for id_, rampa in (("f1_percepciones", ase.RAMPA_NEUTRA),
+                           ("f6_frecuencia", ase.RAMPA_CRITICA),
+                           ("f6_magnitud", ase.RAMPA_CRITICA)):
             colores = self._serie(id_)["colores"]
             orden = self._serie(id_)["orden_sub"]
             posiciones = [rampa.index(colores[s]) for s in orden]
@@ -375,22 +376,22 @@ class Informe(unittest.TestCase):
     def test_filas_repetidas_se_acumulan_una_sola_vez(self):
         """Dos centros poblados con la misma actividad dan un tramo, no dos."""
         serie = self._serie("f1_actividades")
-        df, categorias, subclases = an._datos_grafico(serie)
+        df, categorias, subclases = ase._datos_grafico(serie)
         self.assertEqual(len(df), len(df.drop_duplicates(["cat", "sub"])))
         self.assertEqual(
             df.loc[df["cat"] == "Agricultura de secano", "valor"].iloc[0], 180)
 
     def test_eje_de_conteos_usa_marcas_enteras(self):
         """Un eje que llega a 2 no puede rotularse '0 1 1 2'."""
-        spec = an.grafico_altair(self._serie("f7_cpi")).to_dict()
+        spec = ase.grafico_altair(self._serie("f7_cpi")).to_dict()
         self.assertEqual(spec["encoding"]["x"]["axis"]["values"], [0, 1, 2])
 
     def test_la_leyenda_no_declara_clases_ausentes(self):
         """Una entrada sin tramo hace dudar de si el dato falta o vale cero."""
         serie = self._serie("f1_gobernanza")
-        _df, _categorias, subclases = an._datos_grafico(serie)
+        _df, _categorias, subclases = ase._datos_grafico(serie)
         self.assertEqual(subclases, ["Sí", "No"])
-        dominio = an.grafico_altair(serie).to_dict()[
+        dominio = ase.grafico_altair(serie).to_dict()[
             "encoding"]["color"]["scale"]["domain"]
         self.assertEqual(dominio, ["Sí", "No"])
 
@@ -402,15 +403,15 @@ class Informe(unittest.TestCase):
     def test_bateria_sino_se_ordena_por_respuestas_afirmativas(self):
         """La brecha (todo 'No') debe quedar al final de la lista."""
         serie = self._serie("f7_cpi")
-        _df, categorias, _sub = an._datos_grafico(serie)
+        _df, categorias, _sub = ase._datos_grafico(serie)
         self.assertEqual(categorias[-1], "Se entregó material informativo")
 
     def test_colores_declarados_existen_en_la_paleta_validada(self):
         """Ningun grafico puede inventar un color fuera de las paletas."""
-        permitidos = set(an.CATEGORICA_CLARA) | set(an.CATEGORICA_OSCURA)
-        permitidos |= set(an.RAMPA_NEUTRA) | set(an.RAMPA_CRITICA)
-        permitidos |= set(an.RAMPA_FAVORABLE) | set(an.DIVERGENTE)
-        permitidos |= {an.SIN_DATO, "#C4A03C"}
+        permitidos = set(ase.CATEGORICA_CLARA) | set(ase.CATEGORICA_OSCURA)
+        permitidos |= set(ase.RAMPA_NEUTRA) | set(ase.RAMPA_CRITICA)
+        permitidos |= set(ase.RAMPA_FAVORABLE) | set(ase.DIVERGENTE)
+        permitidos |= {ase.SIN_DATO, "#C4A03C"}
         for seccion in self.informe["secciones"]:
             for serie in seccion["series"]:
                 for color in (serie.get("colores") or {}).values():
@@ -516,20 +517,20 @@ class Salidas(unittest.TestCase):
         """Toda serie debe producir una especificacion Vega-Lite valida."""
         for seccion in self.informe["secciones"]:
             for serie in seccion["series"]:
-                grafico = an.grafico_altair(serie)
+                grafico = ase.grafico_altair(serie)
                 self.assertIsNotNone(grafico, serie["id"])
                 spec = grafico.to_dict()
                 self.assertIn("$schema", spec)
 
     def test_grafico_altair_en_tema_oscuro(self):
         serie = self.informe["secciones"][0]["series"][0]
-        self.assertIn("$schema", an.grafico_altair(serie, tema="oscuro").to_dict())
+        self.assertIn("$schema", ase.grafico_altair(serie, tema="oscuro").to_dict())
 
     def test_tabla_de_respaldo_de_cada_serie(self):
         """Cada grafico debe poder leerse tambien como tabla."""
         for seccion in self.informe["secciones"]:
             for serie in seccion["series"]:
-                df = an.tabla_serie(serie)
+                df = ase.tabla_serie(serie)
                 self.assertFalse(df.empty, serie["id"])
 
 
