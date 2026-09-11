@@ -120,6 +120,14 @@ def _num(valor):
         return None
 
 
+# Lectores publicos: los modulos que integran otras fuentes con estos libros
+# deben leer los valores exactamente igual que el propio lector, o el mismo
+# dato quedaria comparado consigo mismo con dos interpretaciones distintas.
+normalizar = _norm
+texto = _txt
+numero = _num
+
+
 # ══════════════════════════════════════════════════════════════════════════
 # Rejilla acotada de hoja
 # ══════════════════════════════════════════════════════════════════════════
@@ -293,6 +301,13 @@ _CAMPOS_RESUMEN = {
     "estado de verificacion de campo": "estado_verificacion",
     "marco del indicador de brecha": "marco_indicador",
 }
+
+# Los libros V6 rotulan esta fila con el umbral incrustado ("Condicion
+# frente al umbral 0.4976"). Se registra tambien esa variante para que la
+# condicion se lea en todas las versiones del formato.
+_CAMPOS_RESUMEN["condicion frente al umbral %s" % UMBRAL_MSAVI] = \
+    "condicion_umbral"
+
 
 # Campos que se exponen tambien como numero, para filtros y graficos.
 _CAMPOS_NUMERICOS = [
@@ -694,10 +709,15 @@ def cargar_manifiesto():
     return _MANIFIESTO_CACHE
 
 
-# Carpeta del repositorio con los 117 libros vigentes (V6: distribucion areal
-# del MSAVI 2024 por clase DN). Viaja con el aplicativo, de modo que la
-# recarga masiva no depende de que alguien vuelva a subir los archivos.
-CARPETA_LIBROS = "plantillas_117_msavi_v6"
+# Carpeta del repositorio con los 117 libros de gabinete (V6: distribucion
+# areal del MSAVI 2024 por clase DN). Es la linea base sobre la que
+# `integrar_dt_campo.py` aplica la verificacion de campo.
+CARPETA_LIBROS_V6 = "plantillas_117_msavi_v6"
+
+# Carpeta de los 117 libros vigentes (V7: los V6 con la ficha de campo
+# F-DT integrada). Viajan con el aplicativo, de modo que la recarga masiva
+# no depende de que alguien vuelva a subir los archivos.
+CARPETA_LIBROS = "plantillas_117_integradas_v7"
 
 
 def libros_del_repositorio(carpeta=None):
@@ -1626,3 +1646,21 @@ def generar_pdf_consolidado(lista_datos, incluir_graficos=True):
              "compuestos Sentinel-2). Umbral de brecha MSAVI 0.4976 conforme a "
              "la R.M. N. 00213-2024-MINAM.")
     return _pdf_bytes(pdf)
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# Utilidades compartidas con la integracion de campo
+# ══════════════════════════════════════════════════════════════════════════
+# `dt_campo` arma sus libros y fichas con la misma identidad institucional y
+# el mismo vocabulario de consistencia que este modulo. Exponerlas aqui
+# evita duplicar el formato ANIN en dos sitios y que las dos salidas se
+# separen con el tiempo.
+
+CAMPOS_RESUMEN = _CAMPOS_RESUMEN
+titulo_hoja = _titulo_hoja
+escribir_tabla = _escribir_bloque_datos
+grafico_barras_excel = _agregar_grafico_barras
+grafico_torta_excel = _agregar_grafico_torta
+PDFResumen = _PDFResumen
+texto_pdf = _s
+pdf_bytes = _pdf_bytes

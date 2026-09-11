@@ -14,10 +14,12 @@ import csv
 import json
 import re
 import tempfile
+import zipfile
 
 import database as db
 import export_diagnosticos as exp_diag
 import resumenes_bloques as rbq
+import dt_campo as dtc
 import analitica_social as ans
 from bloque_lookup import buscar_label_bloque
 
@@ -78,6 +80,21 @@ def _cached_obtener_todos_diagnosticos_sociales(_version):
 @st.cache_data(ttl=300, show_spinner=False, max_entries=2)
 def _cached_obtener_resumenes_bloques(_version):
     return db.obtener_resumenes_bloques()
+
+@st.cache_data(ttl=300, show_spinner=False, max_entries=2)
+def _cached_obtener_dt_campos(_version):
+    return db.obtener_dt_campos()
+
+@st.cache_data(ttl=300, show_spinner=False, max_entries=2)
+def _cached_integracion_dt(_version):
+    """Integra las fichas de campo con las de resumen ya cargadas.
+
+    El cruce se rehace sobre los diccionarios guardados en la base, sin
+    volver a abrir ningun Excel: por eso puede recalcularse en cada carga
+    sin coste apreciable.
+    """
+    return dtc.integrar_lote(db.obtener_datos_resumenes(),
+                             db.obtener_datos_dt_campos())
 
 # ── Constantes de fecha para validacion ──────────────────────────────────
 FECHA_MIN_PROYECTO = date(2024, 1, 1)
@@ -1697,12 +1714,14 @@ def _actualizar_desde_repositorio(bm):
     if not libros:
         return
     st.info(
-        f"El aplicativo incluye **{len(libros)} libros vigentes (V6)** con la "
-        f"distribucion areal del MSAVI 2024 por clase DN (superficie y "
-        f"porcentaje por clase, totales y superficie bajo el umbral "
-        f"{rbq.UMBRAL_MSAVI}). Reemplazan a los ya cargados por codigo de "
-        f"bloque; ningun otro registro del aplicativo se toca.")
-    if st.button(f"Reemplazar los {len(libros)} resumenes por la version vigente (V6)",
+        f"El aplicativo incluye **{len(libros)} libros vigentes (V7)**: los "
+        f"libros de gabinete V6 —con la distribucion areal del MSAVI 2024 "
+        f"por clase DN y la superficie bajo el umbral {rbq.UMBRAL_MSAVI}— ya "
+        f"cruzados con la ficha DT de campo, con su control de consistencia "
+        f"regenerado y las hojas de integracion, registro de campo y "
+        f"graficos. Reemplazan a los ya cargados por codigo de bloque; "
+        f"ningun otro registro del aplicativo se toca.")
+    if st.button(f"Reemplazar los {len(libros)} resumenes por la version vigente (V7)",
                  key="rbq_repo"):
         _procesar_libros(bm, libros)
 
@@ -1936,10 +1955,12 @@ def _tab_resumenes_bloques(bm):
     st.markdown("### Resumenes Excel de Diagnostico Territorial por bloque")
     st.caption(
         "Un libro por bloque con cinco hojas: Resumen, Cobertura MSAVI-NDVI, "
-        "Estaciones fotograficas, Microcuenca y Control de consistencia. "
-        "Fuente: fichas F-DT-01 a F-DT-05, catalogo maestro Bloques V5/V6, "
-        "estadistica zonal sobre el MDE y compuestos Sentinel-2. "
-        "Sistema de referencia UTM WGS 84 Zona 17S (EPSG:32717).")
+        "Estaciones fotograficas, Microcuenca y Control de consistencia; los "
+        "libros vigentes suman ademas las hojas de integracion de campo, "
+        "registro F-DT y graficos. Fuente: fichas F-DT-01 a F-DT-05, "
+        "catalogo maestro Bloques V5/V6, estadistica zonal sobre el MDE y "
+        "compuestos Sentinel-2. Sistema de referencia UTM WGS 84 Zona 17S "
+        "(EPSG:32717).")
 
     _carga_masiva_resumenes(bm)
     st.markdown("---")
@@ -2042,6 +2063,525 @@ def _tab_resumenes_bloques(bm):
                 st.rerun()
 
 
+# ══════════════════════════════════════════════════════════════════════════
+# INTEGRACION DE LAS FICHAS DT DE CAMPO CON LOS RESUMENES POR BLOQUE
+# ══════════════════════════════════════════════════════════════════════════
+# Contraparte de campo de los 117 resumenes: las plantillas F-DT-01 a F-DT-05
+# llenadas en terreno. El aplicativo las cruza con el libro de gabinete de
+# cada bloque y declara cada hecho una sola vez, con la fuente que manda
+# sobre el (campo, gabinete o fuente oficial).
+
+_ETIQUETA_ESTADO = {
+    dtc.CONFORME: "Coincidente",
+    dtc.COMPLEMENTADO: "Complementado",
+    dtc.ACTUALIZADO: "Actualizado por campo",
+    dtc.DISCREPANTE: "Discrepante",
+    dtc.PENDIENTE: "Sin declarar",
+}
+
+
+def _carga_masiva_campo(bm):
+    """Carga de las plantillas DT de campo: varios .xlsx o un .zip."""
+    st.markdown("**1. Cargar las plantillas DT de campo**")
+    st.caption(
+        "Suba las plantillas `Plantilla_DT_Campo_Check_Validada_V5` llenadas "
+        "en terreno (fichas F-DT-01 a F-DT-05). Puede seleccionar las 117 a "
+        "la vez o subir la carpeta comprimida en un solo .zip. El bloque se "
+        "reconoce por lo que declara la ficha y, si no lo declara, por el "
+        "nombre del archivo. Una ficha por bloque: recargarla reemplaza la "
+        "anterior y no toca ningun otro registro del aplicativo.")
+
+    manifiesto = dtc.cargar_manifiesto_campo()
+    if manifiesto.get("carpeta_drive_url"):
+        st.caption(f"Carpeta de origen: {manifiesto['carpeta_drive_url']}")
+
+    fichas_repo = dtc.fichas_del_repositorio()
+    if fichas_repo:
+        st.info(
+            f"El aplicativo incluye **{len(fichas_repo)} plantillas DT de "
+            "campo vigentes**. Cargarlas evita tener que volver a subirlas a "
+            "mano.")
+        if st.button(f"Cargar las {len(fichas_repo)} fichas de campo del repositorio",
+                     key="dtc_repo"):
+            _procesar_fichas_campo(bm, fichas_repo)
+
+    subidos = st.file_uploader(
+        "Archivos .xlsx de campo o .zip con la carpeta",
+        type=["xlsx", "zip"], accept_multiple_files=True, key="dtc_uploader")
+    if not subidos:
+        return
+
+    archivos, errores_zip = [], []
+    for archivo in subidos:
+        contenido = archivo.getvalue()
+        if archivo.name.lower().endswith(".zip"):
+            try:
+                archivos.extend(rbq.expandir_zip(contenido))
+            except Exception as exc:
+                errores_zip.append((archivo.name, f"ZIP ilegible: {exc}"))
+        else:
+            archivos.append((archivo.name, contenido))
+
+    for nombre, motivo in errores_zip:
+        st.error(f"{nombre}: {motivo}")
+    if not archivos:
+        st.warning("No se encontraron plantillas .xlsx en lo subido.")
+        return
+
+    st.info(f"Se procesaran **{len(archivos)}** plantilla(s) "
+            f"({sum(len(c) for _, c in archivos) / 1024 / 1024:.1f} MB).")
+    if st.button(f"Integrar {len(archivos)} ficha(s) de campo", type="primary",
+                 key="dtc_cargar"):
+        _procesar_fichas_campo(bm, archivos, errores_zip)
+
+
+def _procesar_fichas_campo(bm, archivos, errores_previos=()):
+    """Parsea y guarda cada plantilla de campo (upsert por codigo de bloque)."""
+    barra = st.progress(0.0, text="Leyendo plantillas de campo...")
+    insertados = actualizados = 0
+    fallidos = list(errores_previos)
+    for i, (nombre, contenido) in enumerate(archivos, start=1):
+        try:
+            datos = dtc.parsear_ficha_campo(contenido, nombre)
+            codigo = datos.get("codigo_bloque", "")
+            if not codigo:
+                raise ValueError("La ficha no declara codigo de bloque y el "
+                                 "nombre del archivo tampoco lo indica.")
+            bloque_id = _id_bloque_por_codigo(bm, codigo)
+            if db.guardar_dt_campo(datos, contenido, bloque_id) == "insertado":
+                insertados += 1
+            else:
+                actualizados += 1
+        except Exception as exc:
+            fallidos.append((nombre, f"{type(exc).__name__}: {exc}"))
+        barra.progress(i / len(archivos), text=f"{i}/{len(archivos)} - {nombre}")
+    barra.empty()
+
+    try:
+        db.vincular_dt_campo_a_bloques()
+    except Exception:
+        # La vinculacion es una comodidad; su fallo no invalida la carga.
+        pass
+    _invalidar_cache()
+
+    if insertados or actualizados:
+        _flash(f"Integracion completada: {insertados} nueva(s), "
+               f"{actualizados} actualizada(s).")
+    if fallidos:
+        st.error(f"{len(fallidos)} archivo(s) no pudieron integrarse:")
+        st.dataframe(pd.DataFrame(fallidos, columns=["Archivo", "Motivo"]),
+                     use_container_width=True, hide_index=True)
+    if insertados or actualizados:
+        st.rerun()
+
+
+def _reportes_integracion(integrados, sufijo):
+    """Descargas consolidadas por provincia, distrito, microcuenca o bloque."""
+    if not integrados:
+        return
+    agrupacion = st.selectbox(
+        "Agrupar el reporte por", list(dtc.AGRUPACIONES),
+        format_func=lambda c: dtc.AGRUPACIONES[c], key=f"dtc_agrup_{sufijo}")
+
+    grupos = dtc.agrupar(integrados, agrupacion)
+    etiqueta = dtc.AGRUPACIONES[agrupacion]
+    df_grupos = pd.DataFrame([{
+        etiqueta: g["grupo"],
+        "Bloques": g["n_bloques"],
+        "Superficie (ha)": g["area_ha"],
+        "Brecha MSAVI (ha)": g["brecha_ha"],
+        "MSAVI prom.": g["msavi_promedio"],
+        "% bajo umbral": g["bajo_umbral_pct"],
+        "Cobertura campo (%)": g["cobertura_total_pct"],
+        "Carcavas": g["n_carcavas"],
+        "Taxones": g["n_taxones"],
+        "Hechos de campo": g["hechos_campo"],
+        "Actualizados": g["n_actualizados"],
+        "Sustantivas": g["n_sustantivas"],
+        "Conservacion dominante": g["estado_conservacion"],
+        "Urgencia dominante": g["urgencia_intervencion"],
+    } for g in grupos])
+    st.dataframe(df_grupos, use_container_width=True, hide_index=True)
+
+    col_a, col_b = st.columns(2)
+    col_a.bar_chart(df_grupos.set_index(etiqueta)["Superficie (ha)"],
+                    color="#1B4D2E")
+    col_b.bar_chart(df_grupos.set_index(etiqueta)["Brecha MSAVI (ha)"],
+                    color="#1B4F72")
+
+    if st.button(f"Generar reporte por {etiqueta.lower()} "
+                 f"({len(integrados)} bloque(s))", key=f"dtc_gen_{sufijo}"):
+        with st.spinner("Generando Excel y PDF con graficos..."):
+            st.session_state["dtc_reporte"] = {
+                "n": len(integrados),
+                "etiqueta": etiqueta,
+                "xlsx": dtc.generar_excel_consolidado(integrados, agrupacion),
+                "pdf": dtc.generar_pdf_consolidado(integrados, agrupacion),
+            }
+    reporte = st.session_state.get("dtc_reporte")
+    if reporte:
+        base = f"Integracion_DT_Campo_por_{reporte['etiqueta']}_IN_Piura"
+        col_x, col_p = st.columns(2)
+        col_x.download_button(
+            f"Excel consolidado ({reporte['n']} bloques)", reporte["xlsx"],
+            file_name=f"{base}.xlsx", mime=_mime_xlsx(),
+            use_container_width=True, key=f"dtc_dl_x_{sufijo}")
+        col_p.download_button(
+            f"PDF consolidado ({reporte['n']} bloques)", reporte["pdf"],
+            file_name=f"{base}.pdf", mime="application/pdf",
+            use_container_width=True, key=f"dtc_dl_p_{sufijo}")
+
+
+def _detalle_integracion(integrado):
+    """Vista de un bloque integrado: cada hecho una vez, con su procedencia."""
+    codigo = integrado.get("codigo_bloque", "")
+    resumen_cons = integrado.get("consistencia_resumen") or {}
+
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Hechos declarados",
+              f"{integrado['n_declarados']} / {integrado['n_campos']}",
+              f"{integrado['cobertura_pct']:.1f} % de cobertura")
+    c2.metric("Aportados por campo", integrado["conteo_fuente"].get(dtc.CAMPO, 0))
+    c3.metric("Actualizados por campo",
+              integrado["conteo_estado"].get(dtc.ACTUALIZADO, 0))
+    c4.metric("Discrepancias sustantivas", resumen_cons.get("SUSTANTIVA", 0))
+
+    if not integrado.get("tiene_campo"):
+        st.warning("Este bloque no tiene plantilla DT de campo integrada: lo "
+                   "que se muestra procede solo del libro de gabinete.")
+    if not integrado.get("tiene_resumen"):
+        st.warning("Este bloque no tiene ficha de resumen cargada: lo que se "
+                   "muestra procede solo de la verificacion de campo.")
+    ausentes = integrado.get("fichas_ausentes") or []
+    if integrado.get("tiene_campo") and ausentes:
+        st.warning("La plantilla de campo no trae: " + ", ".join(ausentes))
+    if integrado.get("validacion_utm") not in ("", "Conforme"):
+        st.warning(f"Validacion UTM 17S: {integrado['validacion_utm']}")
+
+    col_f, col_e = st.columns(2)
+    col_f.bar_chart(pd.DataFrame(
+        [{"Fuente": dtc.ETIQUETA_FUENTE[f],
+          "Hechos": integrado["conteo_fuente"].get(f, 0)}
+         for f in dtc.FUENTES]).set_index("Fuente")["Hechos"], color="#1B4D2E")
+    col_e.bar_chart(pd.DataFrame(
+        [{"Estado": _ETIQUETA_ESTADO[e],
+          "Hechos": integrado["conteo_estado"].get(e, 0)}
+         for e in dtc.ESTADOS]).set_index("Estado")["Hechos"], color="#1B4F72")
+
+    solo_diferencias = st.checkbox(
+        "Mostrar solo los hechos que las dos fuentes declaran distinto",
+        key=f"dtc_solo_dif_{codigo}")
+    for seccion in dtc.SECCIONES:
+        filas = [r for r in integrado["campos"] if r["seccion"] == seccion
+                 and r["estado"] != dtc.PENDIENTE]
+        if solo_diferencias:
+            filas = [r for r in filas
+                     if r["estado"] in (dtc.ACTUALIZADO, dtc.DISCREPANTE)]
+        if not filas:
+            continue
+        st.markdown(f"**{seccion}**")
+        st.dataframe(pd.DataFrame([{
+            "Hecho": r["etiqueta"],
+            "Valor": r["valor"],
+            "Unidad": r["unidad"],
+            "Fuente": dtc.ETIQUETA_FUENTE[r["fuente_valor"]],
+            "Estado": _ETIQUETA_ESTADO[r["estado"]],
+            "Valor de la otra fuente": r["valor_alterno"],
+        } for r in filas]), use_container_width=True, hide_index=True)
+
+    pendientes = [r["etiqueta"] for r in integrado["campos"]
+                  if r["estado"] == dtc.PENDIENTE]
+    if pendientes:
+        with st.expander(f"{len(pendientes)} hecho(s) que ninguna fuente "
+                         "declara", expanded=False):
+            st.caption("No se estiman: se consignan como pendientes, conforme "
+                       "a la declaracion de integridad de datos del proyecto.")
+            st.write(", ".join(pendientes))
+
+    _tablas_campo_bloque(integrado)
+
+    consistencia = integrado.get("consistencia") or []
+    if consistencia:
+        st.markdown(f"**Control de consistencia ({len(consistencia)} "
+                    "verificaciones)**")
+        cols = st.columns(len(rbq.CALIFICACIONES))
+        for col, calificacion in zip(cols, rbq.CALIFICACIONES):
+            col.metric(calificacion.capitalize(),
+                       resumen_cons.get(calificacion, 0))
+        st.dataframe(pd.DataFrame([{
+            "Cod.": r["codigo"], "Campo afectado": r["campo"],
+            "Discrepancia observada": r["discrepancia"],
+            "Calificacion": r["calificacion"],
+            "Tratamiento adoptado": r["tratamiento"],
+        } for r in consistencia]), use_container_width=True, hide_index=True)
+
+    observaciones = [(k, v) for k, v in
+                     (integrado.get("observaciones_campo") or {}).items() if v]
+    if observaciones:
+        with st.expander("Observaciones del evaluador por ficha", expanded=False):
+            for ficha, texto in observaciones:
+                st.markdown(f"**{ficha}** — {texto}")
+
+    _descargas_integracion(integrado)
+
+
+def _tablas_campo_bloque(integrado):
+    """Tablas del formulario de campo que el libro de gabinete no reproduce."""
+    tablas = (
+        ("carcavas", "Inventario de carcavas (F-DT-02)",
+         [("codigo", "Codigo"), ("tipo", "Tipo"), ("longitud_m", "Longitud (m)"),
+          ("prof_m", "Prof. (m)"), ("ancho_m", "Ancho (m)"),
+          ("estado", "Estado"), ("causa", "Causa")]),
+        ("floristica", "Elenco floristico (F-DT-03)",
+         [("n", "N.o"), ("nombre_comun", "Nombre comun"),
+          ("nombre_cientifico", "Nombre cientifico"), ("familia", "Familia"),
+          ("estrato", "Estrato"), ("origen", "Origen"),
+          ("abundancia", "Abundancia")]),
+        ("especies_clave", "Especies clave georreferenciadas (F-DT-03)",
+         [("n", "N.o"), ("nombre", "Especie"), ("categoria", "Categoria"),
+          ("estado_uicn", "Estado UICN"), ("utm_e", "UTM ESTE"),
+          ("utm_n", "UTM NORTE"), ("observacion", "Observacion")]),
+        ("indicadores", "Indicadores cuantitativos (F-DT-04)",
+         [("n", "N.o"), ("indicador", "Indicador"), ("unidad", "Unidad"),
+          ("valor", "Valor"), ("umbral", "Umbral"), ("nivel", "Nivel")]),
+        ("fuentes_agua", "Fuentes de agua inventariadas (F-DT-05)",
+         [("n", "N.o"), ("tipo", "Tipo de fuente"), ("utm_e", "UTM ESTE"),
+          ("utm_n", "UTM NORTE"), ("regimen", "Regimen"),
+          ("calidad", "Calidad"), ("distancia_m", "Distancia (m)"),
+          ("uso_obs", "Uso / observacion")]),
+    )
+    for clave, titulo, columnas in tablas:
+        filas = integrado.get(clave) or []
+        if not filas:
+            continue
+        st.markdown(f"**{titulo}**")
+        st.dataframe(pd.DataFrame([
+            {etiqueta: fila.get(campo, "") for campo, etiqueta in columnas}
+            for fila in filas]), use_container_width=True, hide_index=True)
+
+    causas = integrado.get("causas_activas") or []
+    if causas:
+        st.markdown("**Causas activas de degradacion (F-DT-04)**")
+        df_causas = pd.DataFrame([{
+            "Causa": c["causa"], "Intensidad": c["intensidad"],
+            "Extension": c["extension"], "Antiguedad": c["antiguedad"],
+            "Evidencia": c["evidencia"], "Peso": c["peso"],
+        } for c in causas])
+        col_t, col_g = st.columns([1.5, 1])
+        col_t.dataframe(df_causas.drop(columns=["Peso"]),
+                        use_container_width=True, hide_index=True)
+        col_g.bar_chart(df_causas.set_index("Causa")["Peso"], color="#1B4D2E")
+
+
+def _descargas_integracion(integrado):
+    """Ficha de resumen actualizada, ficha PDF y plantilla de campo original."""
+    codigo = integrado.get("codigo_bloque", "")
+    st.markdown("**Descargas del bloque integrado**")
+    col_1, col_2, col_3 = st.columns(3)
+
+    original = db.obtener_archivo_resumen_bloque(codigo)
+    if original:
+        try:
+            col_1.download_button(
+                "Ficha de resumen actualizada (.xlsx)",
+                dtc.actualizar_libro(original, integrado),
+                file_name=f"Resumen_Integrado_Bloque_{codigo}_IN_Piura.xlsx",
+                mime=_mime_xlsx(), use_container_width=True,
+                key=f"dtc_dl_v7_{codigo}")
+        except Exception as exc:
+            col_1.error(f"No se pudo actualizar el libro: {exc}")
+    else:
+        col_1.caption("Sin ficha de resumen cargada para este bloque.")
+
+    try:
+        col_2.download_button(
+            "Ficha PDF integrada", dtc.generar_pdf_bloque(integrado),
+            file_name=f"Ficha_Integrada_DT_Bloque_{codigo}_IN_Piura.pdf",
+            mime="application/pdf", use_container_width=True,
+            key=f"dtc_dl_pdf_{codigo}")
+    except Exception as exc:
+        col_2.error(f"No se pudo generar el PDF: {exc}")
+
+    campo = db.obtener_archivo_dt_campo(codigo)
+    if campo:
+        col_3.download_button(
+            "Plantilla DT de campo original (.xlsx)", campo,
+            file_name=integrado.get("nombre_archivo_campo")
+            or f"DT_Campo_Bloque_{codigo}.xlsx",
+            mime=_mime_xlsx(), use_container_width=True,
+            key=f"dtc_dl_campo_{codigo}")
+    else:
+        col_3.caption("Sin plantilla de campo cargada para este bloque.")
+
+
+def _actualizar_resumenes_con_campo(integrados):
+    """Reescribe los libros de resumen guardados con la integracion vigente."""
+    st.caption(
+        "Aplica la verificacion de campo sobre los libros de resumen ya "
+        "cargados: reescribe los valores que la ficha F-DT actualiza, "
+        "regenera el control de consistencia y agrega las hojas de "
+        "integracion, registro de campo y graficos. Los libros quedan "
+        "guardados en el aplicativo y pueden descargarse en un solo .zip.")
+    con_ambas = [b for b in integrados
+                 if b.get("tiene_campo") and b.get("tiene_resumen")]
+    if not con_ambas:
+        st.info("Aun no hay bloques con las dos fuentes cargadas.")
+        return
+    if not st.button(f"Actualizar los {len(con_ambas)} libros de resumen con "
+                     "la ficha de campo", key="dtc_actualizar_libros"):
+        return
+
+    barra = st.progress(0.0, text="Actualizando libros...")
+    memoria = io.BytesIO()
+    actualizados, fallidos = 0, []
+    with zipfile.ZipFile(memoria, "w", zipfile.ZIP_DEFLATED) as zf:
+        for i, integrado in enumerate(con_ambas, start=1):
+            codigo = integrado.get("codigo_bloque", "")
+            try:
+                original = db.obtener_archivo_resumen_bloque(codigo)
+                if not original:
+                    raise ValueError("El libro de resumen no esta guardado.")
+                nuevo = dtc.actualizar_libro(original, integrado)
+                datos = rbq.completar_sintesis_msavi(
+                    rbq.parsear_resumen_bloque(
+                        nuevo, f"Plantilla_Excel_Bloque_{codigo}_IN_Piura.xlsx"))
+                db.guardar_resumen_bloque(datos, nuevo,
+                                          _id_bloque_por_codigo(_bloques_map(),
+                                                                codigo))
+                zf.writestr(f"Resumen_Integrado_Bloque_{codigo}_IN_Piura.xlsx",
+                            nuevo)
+                actualizados += 1
+            except Exception as exc:
+                fallidos.append((codigo, f"{type(exc).__name__}: {exc}"))
+            barra.progress(i / len(con_ambas),
+                           text=f"{i}/{len(con_ambas)} - bloque {codigo}")
+    barra.empty()
+    _invalidar_cache()
+
+    if actualizados:
+        st.session_state["dtc_zip_libros"] = memoria.getvalue()
+        _flash(f"{actualizados} libro(s) de resumen actualizados con la "
+               "ficha de campo.")
+    if fallidos:
+        st.error(f"{len(fallidos)} libro(s) no pudieron actualizarse:")
+        st.dataframe(pd.DataFrame(fallidos, columns=["Bloque", "Motivo"]),
+                     use_container_width=True, hide_index=True)
+    if actualizados:
+        st.rerun()
+
+
+def _tab_integracion_campo(bm):
+    """Pestana de integracion de las fichas DT de campo con los resumenes."""
+    st.markdown("### Integracion de las fichas DT de campo con los resumenes "
+                "por bloque")
+    st.caption(
+        "Cruza las plantillas F-DT-01 a F-DT-05 levantadas en terreno con la "
+        "ficha de resumen de gabinete de cada bloque. Cada hecho territorial "
+        "se declara una sola vez, con la fuente que manda sobre el: campo "
+        "para lo observado en terreno, gabinete para lo derivado del MDE y "
+        "de los compuestos Sentinel-2, y fuente oficial para el catalogo "
+        "maestro de bloques, la division politica INEI y la codificacion de "
+        "microcuencas de la ANA. Lo que ninguna fuente declara se consigna "
+        "como pendiente y no se estima.")
+
+    _carga_masiva_campo(bm)
+    st.markdown("---")
+
+    integrados = _cached_integracion_dt(_cache_version())
+    cargadas = _cached_obtener_dt_campos(_cache_version())
+    esperados = dtc.codigos_campo_esperados()
+
+    st.markdown("**2. Catalogo integrado**")
+    if not integrados:
+        st.info("Aun no hay bloques integrados. Cargue las fichas de campo "
+                "con el cargador de arriba y los resumenes por bloque en su "
+                "propia pestana.")
+        return
+
+    resumen = dtc.totales(integrados)
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("Bloques integrados",
+              f"{resumen['n_bloques']} / {len(esperados) or '?'}")
+    m2.metric("Con ficha de campo",
+              f"{resumen['bloques_con_campo']} / {resumen['n_bloques']}")
+    m3.metric("Hechos actualizados por campo", resumen["n_actualizados"])
+    m4.metric("Discrepancias sustantivas", resumen["n_sustantivas"])
+
+    f1, f2, f3 = st.columns(3)
+    f1.metric("Hechos de campo", resumen["hechos_campo"])
+    f2.metric("Hechos de gabinete", resumen["hechos_gabinete"])
+    f3.metric("Hechos de fuente oficial", resumen["hechos_oficial"])
+
+    codigos_con_campo = {r["codigo_bloque"] for r in cargadas}
+    pendientes = [c for c in esperados if c not in codigos_con_campo]
+    if pendientes:
+        with st.expander(f"Faltan {len(pendientes)} de las {len(esperados)} "
+                         "fichas de campo", expanded=False):
+            st.write(", ".join(pendientes))
+    elif esperados:
+        st.success(f"Las {len(esperados)} fichas de campo estan integradas.")
+
+    # ── Filtros ──
+    g1, g2, g3 = st.columns(3)
+    provincias = sorted({b.get("provincia", "") for b in integrados
+                         if b.get("provincia")})
+    distritos = sorted({b.get("distrito", "") for b in integrados
+                        if b.get("distrito")})
+    microcuencas = sorted({b.get("microcuenca", "") for b in integrados
+                           if b.get("microcuenca")})
+    fil_prov = g1.multiselect("Provincia", provincias, key="dtc_f_prov")
+    fil_dist = g2.multiselect("Distrito", distritos, key="dtc_f_dist")
+    fil_micro = g3.multiselect("Microcuenca", microcuencas, key="dtc_f_micro")
+
+    filtrados = [
+        b for b in integrados
+        if (not fil_prov or b.get("provincia") in fil_prov)
+        and (not fil_dist or b.get("distrito") in fil_dist)
+        and (not fil_micro or b.get("microcuenca") in fil_micro)
+    ]
+    st.caption(f"{len(filtrados)} bloque(s) tras aplicar los filtros.")
+    st.dataframe(pd.DataFrame(dtc.tabla_integrados(filtrados)),
+                 use_container_width=True, hide_index=True)
+
+    # ── Reportes por provincia, distrito, microcuenca o bloque ──
+    st.markdown("**3. Reportes con graficos**")
+    _reportes_integracion(filtrados, "filtrados")
+
+    # ── Actualizacion de los libros de resumen ──
+    st.markdown("---")
+    st.markdown("**4. Actualizar los libros de resumen con la ficha de campo**")
+    _actualizar_resumenes_con_campo(integrados)
+    if st.session_state.get("dtc_zip_libros"):
+        st.download_button(
+            "Descargar los libros actualizados (.zip)",
+            st.session_state["dtc_zip_libros"],
+            file_name="Resumenes_Integrados_DT_IN_Piura.zip",
+            mime="application/zip", key="dtc_dl_zip")
+
+    # ── Detalle por bloque ──
+    st.markdown("---")
+    st.markdown("**5. Detalle del bloque integrado**")
+    opciones = [b["codigo_bloque"] for b in filtrados]
+    if not opciones:
+        return
+    codigo = st.selectbox("Bloque", opciones, key="dtc_sel_bloque")
+    elegido = next((b for b in filtrados if b["codigo_bloque"] == codigo), None)
+    if elegido:
+        _detalle_integracion(elegido)
+
+    with st.expander("Eliminar la ficha de campo de este bloque", expanded=False):
+        st.caption("Solo se elimina la plantilla DT de campo cargada. El "
+                   "libro de resumen y las fichas F-DT registradas en el "
+                   "aplicativo no se tocan.")
+        if st.checkbox(f"Confirmo eliminar la ficha de campo del bloque {codigo}",
+                       key=f"dtc_conf_del_{codigo}"):
+            if st.button("Eliminar ficha de campo", key=f"dtc_del_{codigo}"):
+                db.eliminar_dt_campo(codigo)
+                _invalidar_cache()
+                _flash(f"Ficha de campo del bloque {codigo} eliminada.", "info")
+                st.rerun()
+
+
 def pagina_diagnostico_territorial():
     import json as _json
     st.subheader("Diagnostico Territorial - Fichas de Evaluacion")
@@ -2068,9 +2608,9 @@ def pagina_diagnostico_territorial():
     dt_edit_id = st.session_state.get("dt_edit_id")
     dt_edit = st.session_state.get("dt_edit_data") or {}
 
-    tab_reg, tab_hist, tab_excel, tab_resumen = st.tabs([
+    tab_reg, tab_hist, tab_excel, tab_resumen, tab_campo = st.tabs([
         "Registro de Diagnostico", "Historial / Consulta", "Importar desde Excel",
-        "Resumenes por Bloque (117)",
+        "Resumenes por Bloque (117)", "Integracion de Campo (117)",
     ])
 
     with tab_reg:
@@ -3175,6 +3715,12 @@ def pagina_diagnostico_territorial():
     # ══════════════════════════════════════════════════════════════════
     with tab_resumen:
         _tab_resumenes_bloques(bm)
+
+    # ══════════════════════════════════════════════════════════════════
+    # TAB INTEGRACION DE LAS FICHAS DT DE CAMPO CON LOS RESUMENES
+    # ══════════════════════════════════════════════════════════════════
+    with tab_campo:
+        _tab_integracion_campo(bm)
 
 # ══════════════════════════════════════════════════════════════════════════
 # DIAGNOSTICO SOCIAL

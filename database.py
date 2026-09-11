@@ -718,6 +718,53 @@ def inicializar_bd():
         END $$
     """)
 
+    # ── Plantillas DT de campo por bloque (fichas F-DT-01 a F-DT-05) ─────
+    # Contraparte de campo de la ficha de resumen: una plantilla por bloque
+    # con lo levantado en terreno. Se guarda el archivo original junto a los
+    # campos parseados, de modo que la integracion con la ficha de resumen
+    # pueda rehacerse sin volver a subir nada.
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS dt_campo_bloque (
+            id SERIAL PRIMARY KEY,
+            codigo_bloque TEXT NOT NULL,
+            bloque_id INTEGER REFERENCES bloques(id) ON DELETE SET NULL,
+            nombre_archivo TEXT NOT NULL,
+            microcuenca TEXT DEFAULT '',
+            provincia TEXT DEFAULT '',
+            distrito TEXT DEFAULT '',
+            centro_poblado TEXT DEFAULT '',
+            evaluador TEXT DEFAULT '',
+            fecha_evaluacion TEXT DEFAULT '',
+            utm_este REAL,
+            utm_norte REAL,
+            altitud_gps REAL,
+            tipo_ecosistema TEXT DEFAULT '',
+            estado_conservacion TEXT DEFAULT '',
+            nivel_erosion TEXT DEFAULT '',
+            urgencia_intervencion TEXT DEFAULT '',
+            modalidad_acceso TEXT DEFAULT '',
+            n_taxones INTEGER DEFAULT 0,
+            n_carcavas INTEGER DEFAULT 0,
+            n_fuentes_agua INTEGER DEFAULT 0,
+            n_causas_activas INTEGER DEFAULT 0,
+            completitud_pct REAL DEFAULT 0,
+            fichas_leidas TEXT DEFAULT '',
+            datos_json TEXT DEFAULT '',
+            archivo_xlsx BYTEA,
+            tamano_bytes INTEGER DEFAULT 0,
+            fecha_carga TEXT NOT NULL
+        )
+    """)
+    # Un bloque, una ficha de campo vigente: recargarla actualiza la fila.
+    cursor.execute("""
+        DO $$ BEGIN
+            IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'uq_dt_campo_codigo') THEN
+                CREATE UNIQUE INDEX uq_dt_campo_codigo
+                ON dt_campo_bloque (codigo_bloque);
+            END IF;
+        END $$
+    """)
+
     conn.commit()
     conn.close()
 
@@ -2154,6 +2201,194 @@ def contar_resumenes_bloques():
     row = _dictfetchone(cursor) or {}
     conn.close()
     return int(row.get("n", 0) or 0), int(row.get("bytes", 0) or 0)
+
+
+# ── Plantillas DT de campo (fichas F-DT-01 a F-DT-05) ────────────────────
+
+_COLS_DT_CAMPO = """
+    id, codigo_bloque, bloque_id, nombre_archivo, microcuenca, provincia,
+    distrito, centro_poblado, evaluador, fecha_evaluacion, utm_este,
+    utm_norte, altitud_gps, tipo_ecosistema, estado_conservacion,
+    nivel_erosion, urgencia_intervencion, modalidad_acceso, n_taxones,
+    n_carcavas, n_fuentes_agua, n_causas_activas, completitud_pct,
+    fichas_leidas, tamano_bytes, fecha_carga
+"""
+
+
+def guardar_dt_campo(datos, contenido_xlsx, bloque_id=None):
+    """Inserta o actualiza la ficha de campo de un bloque (upsert por codigo).
+
+    `datos` es la salida de dt_campo.parsear_ficha_campo. Devuelve
+    "insertado" o "actualizado".
+    """
+    import json as _json
+    import psycopg2 as _pg
+
+    codigo = (datos.get("codigo_bloque") or "").strip()
+    if not codigo:
+        raise ValueError("La ficha de campo no declara codigo de bloque.")
+
+    def _f(clave):
+        try:
+            return float(str(datos.get(clave, "")).replace(",", "."))
+        except (TypeError, ValueError):
+            return None
+
+    valores = (
+        codigo, bloque_id, datos.get("nombre_archivo", ""),
+        datos.get("microcuenca", ""), datos.get("provincia", ""),
+        datos.get("distrito", ""), datos.get("centro_poblado_cercano", ""),
+        datos.get("evaluador", ""), datos.get("fecha_evaluacion", ""),
+        _f("utm_este_dt"), _f("utm_norte_dt"), _f("altitud_gps"),
+        datos.get("dt03_tipo_ecosistema", ""),
+        datos.get("dt03_estado_conservacion_eco", ""),
+        datos.get("dt02_nivel_erosion_general", ""),
+        datos.get("dt04_urgencia_intervencion", ""),
+        datos.get("dt05_modalidad_acceso", ""),
+        int(datos.get("n_taxones", 0) or 0),
+        int(datos.get("n_carcavas_inventariadas", 0) or 0),
+        int(datos.get("n_fuentes_agua", 0) or 0),
+        int(datos.get("n_causas_activas", 0) or 0),
+        float(datos.get("completitud_pct", 0) or 0),
+        ", ".join(datos.get("fichas_leidas") or []),
+        _json.dumps(datos, ensure_ascii=False, default=str),
+        _pg.Binary(contenido_xlsx), len(contenido_xlsx),
+        datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+    )
+
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id FROM dt_campo_bloque WHERE codigo_bloque=?",
+                   (codigo,))
+    existente = _dictfetchone(cursor)
+    if existente:
+        cursor.execute("""
+            UPDATE dt_campo_bloque SET
+                bloque_id=?, nombre_archivo=?, microcuenca=?, provincia=?,
+                distrito=?, centro_poblado=?, evaluador=?, fecha_evaluacion=?,
+                utm_este=?, utm_norte=?, altitud_gps=?, tipo_ecosistema=?,
+                estado_conservacion=?, nivel_erosion=?,
+                urgencia_intervencion=?, modalidad_acceso=?, n_taxones=?,
+                n_carcavas=?, n_fuentes_agua=?, n_causas_activas=?,
+                completitud_pct=?, fichas_leidas=?, datos_json=?,
+                archivo_xlsx=?, tamano_bytes=?, fecha_carga=?
+            WHERE codigo_bloque=?
+        """, valores[1:] + (codigo,))
+        resultado = "actualizado"
+    else:
+        cursor.execute("""
+            INSERT INTO dt_campo_bloque (
+                codigo_bloque, bloque_id, nombre_archivo, microcuenca,
+                provincia, distrito, centro_poblado, evaluador,
+                fecha_evaluacion, utm_este, utm_norte, altitud_gps,
+                tipo_ecosistema, estado_conservacion, nivel_erosion,
+                urgencia_intervencion, modalidad_acceso, n_taxones,
+                n_carcavas, n_fuentes_agua, n_causas_activas, completitud_pct,
+                fichas_leidas, datos_json, archivo_xlsx, tamano_bytes,
+                fecha_carga)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        """, valores)
+        resultado = "insertado"
+    conn.commit()
+    conn.close()
+    return resultado
+
+
+def obtener_dt_campos():
+    """Catalogo de fichas de campo cargadas, sin el binario del archivo."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT {_COLS_DT_CAMPO} FROM dt_campo_bloque "
+                   "ORDER BY codigo_bloque")
+    rows = _dictfetch(cursor)
+    conn.close()
+    return rows
+
+
+def obtener_dt_campo(codigo_bloque):
+    """Ficha de campo completa de un bloque, con `datos_json` deserializado."""
+    import json as _json
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT {_COLS_DT_CAMPO}, datos_json FROM dt_campo_bloque "
+                   "WHERE codigo_bloque=?", (codigo_bloque,))
+    row = _dictfetchone(cursor)
+    conn.close()
+    if not row:
+        return None
+    try:
+        row["datos"] = _json.loads(row.get("datos_json") or "{}")
+    except ValueError:
+        row["datos"] = {}
+    return row
+
+
+def obtener_archivo_dt_campo(codigo_bloque):
+    """Bytes de la plantilla de campo original. None si no esta cargada."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT archivo_xlsx FROM dt_campo_bloque "
+                   "WHERE codigo_bloque=?", (codigo_bloque,))
+    row = _dictfetchone(cursor)
+    conn.close()
+    if not row or row.get("archivo_xlsx") is None:
+        return None
+    return bytes(row["archivo_xlsx"])
+
+
+def obtener_datos_dt_campos(codigos=None):
+    """Fichas de campo parseadas, indexadas por codigo de bloque."""
+    import json as _json
+    conn = get_connection()
+    cursor = conn.cursor()
+    if codigos:
+        cursor.execute("SELECT codigo_bloque, datos_json FROM dt_campo_bloque "
+                       "WHERE codigo_bloque = ANY(%s) ORDER BY codigo_bloque",
+                       (list(codigos),))
+    else:
+        cursor.execute("SELECT codigo_bloque, datos_json FROM dt_campo_bloque "
+                       "ORDER BY codigo_bloque")
+    rows = _dictfetch(cursor)
+    conn.close()
+    salida = {}
+    for row in rows:
+        try:
+            salida[row["codigo_bloque"]] = _json.loads(row.get("datos_json") or "{}")
+        except ValueError:
+            continue
+    return salida
+
+
+def eliminar_dt_campo(codigo_bloque):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM dt_campo_bloque WHERE codigo_bloque=?",
+                   (codigo_bloque,))
+    conn.commit()
+    conn.close()
+
+
+def contar_dt_campos():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) AS n, COALESCE(SUM(tamano_bytes), 0) AS bytes "
+                   "FROM dt_campo_bloque")
+    row = _dictfetchone(cursor) or {}
+    conn.close()
+    return int(row.get("n", 0) or 0), int(row.get("bytes", 0) or 0)
+
+
+def vincular_dt_campo_a_bloques():
+    """Enlaza cada ficha de campo con el bloque del catalogo de su codigo."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE dt_campo_bloque d SET bloque_id = b.id
+        FROM bloques b
+        WHERE d.bloque_id IS NULL AND b.codigo = d.codigo_bloque
+    """)
+    conn.commit()
+    conn.close()
 
 
 def vincular_resumenes_a_bloques():

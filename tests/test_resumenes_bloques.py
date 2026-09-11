@@ -484,11 +484,18 @@ if __name__ == "__main__":
 
 
 class TestLibrosDelRepositorio(unittest.TestCase):
-    """Los 117 libros vigentes (V6) que el aplicativo trae consigo."""
+    """Los 117 libros de gabinete (V6), linea base de la integracion.
+
+    El aplicativo carga los libros ya integrados con la ficha de campo (V7);
+    esta clase comprueba la carpeta de origen, que es la que sostiene el
+    traspaso del MSAVI por clase DN.
+    """
 
     @classmethod
     def setUpClass(cls):
-        cls.libros = rb.libros_del_repositorio()
+        raiz = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        cls.libros = rb.libros_del_repositorio(
+            os.path.join(raiz, rb.CARPETA_LIBROS_V6))
 
     def test_el_repositorio_trae_los_117_libros_del_manifiesto(self):
         self.assertEqual(len(self.libros), 117)
