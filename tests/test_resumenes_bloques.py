@@ -14,6 +14,7 @@ import unittest
 import zipfile
 
 from openpyxl import Workbook, load_workbook
+from openpyxl.utils.units import EMU_to_cm
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -415,6 +416,30 @@ class TestManifiesto(unittest.TestCase):
         self.assertTrue(all(b["archivo"].endswith(".xlsx") for b in bloques))
 
 
+def _cajas_de_graficos(ws):
+    """(col_ini, fila_ini, col_fin, fila_fin) de cada grafico de la hoja.
+
+    La extension viene en EMU: se traduce con el alto de fila y el ancho de
+    columna reales del area de graficos para comparar ocupaciones.
+    """
+    ancho_col = rb._cm_de_columna(rb._ANCHO_COL_GRAFICO)
+    cajas = []
+    for grafico in ws._charts:
+        ancla = grafico.anchor
+        ancho_cm = EMU_to_cm(ancla.ext.cx)
+        alto_cm = EMU_to_cm(ancla.ext.cy)
+        col = ancla._from.col + 1
+        fila = ancla._from.row + 1
+        cajas.append((col, fila,
+                      col + ancho_cm / ancho_col,
+                      fila + alto_cm / rb._ALTO_FILA_CM))
+    return cajas
+
+
+def _se_pisan(a, b):
+    return (a[0] < b[2] and b[0] < a[2]) and (a[1] < b[3] and b[1] < a[3])
+
+
 class TestExportaciones(unittest.TestCase):
 
     @classmethod
@@ -439,6 +464,66 @@ class TestExportaciones(unittest.TestCase):
         dos = rb.generar_excel_con_graficos(una, self.datos)
         wb = load_workbook(io.BytesIO(dos))
         self.assertEqual(wb.sheetnames.count("Graficos"), 1)
+
+    def test_los_graficos_no_se_superponen(self):
+        """Cada grafico ocupa su propia banda: ni entre si ni sobre la tabla.
+
+        openpyxl ancla por celda y dimensiona en centimetros; sin traducir esa
+        medida a filas, la hoja apilaba graficos encima de graficos.
+        """
+        salida = rb.generar_excel_con_graficos(self.contenido, self.datos)
+        ws = load_workbook(io.BytesIO(salida))["Graficos"]
+        cajas = _cajas_de_graficos(ws)
+        self.assertGreaterEqual(len(cajas), 4)
+        for i, a in enumerate(cajas):
+            for b in cajas[i + 1:]:
+                self.assertFalse(_se_pisan(a, b), f"{a} se superpone con {b}")
+
+    def test_los_graficos_no_tapan_las_tablas(self):
+        salida = rb.generar_excel_con_graficos(self.contenido, self.datos)
+        ws = load_workbook(io.BytesIO(salida))["Graficos"]
+        for col_ini, fila_ini, col_fin, fila_fin in _cajas_de_graficos(ws):
+            self.assertGreaterEqual(col_ini, rb._COL_GRAFICOS)
+            for fila in range(int(fila_ini), int(fila_fin) + 1):
+                for col in range(int(col_ini), int(col_fin) + 1):
+                    if fila <= ws.max_row and col <= ws.max_column:
+                        self.assertIn(ws.cell(fila, col).value, (None, ""))
+
+    def test_cada_grafico_trae_titulo_y_etiquetas_de_datos(self):
+        salida = rb.generar_excel_con_graficos(self.contenido, self.datos)
+        for grafico in load_workbook(io.BytesIO(salida))["Graficos"]._charts:
+            self.assertIsNotNone(grafico.title)
+            etiquetas = grafico.dLbls or next(
+                (s.dLbls for s in grafico.series if s.dLbls), None)
+            self.assertIsNotNone(etiquetas, type(grafico).__name__)
+            self.assertTrue(etiquetas.showVal or etiquetas.showPercent)
+
+    def test_las_series_llevan_color_por_categoria(self):
+        salida = rb.generar_excel_con_graficos(self.contenido, self.datos)
+        for grafico in load_workbook(io.BytesIO(salida))["Graficos"]._charts:
+            serie = grafico.series[0]
+            if serie.dLbls is None and grafico.dLbls is None:
+                continue
+            self.assertTrue(serie.data_points,
+                            f"{type(grafico).__name__} sin color por punto")
+
+    def test_el_texto_de_ejes_y_leyendas_no_escribe_el_literal_none(self):
+        """openpyxl inserta una corrida vacia si no se declara 'r'."""
+        salida = rb.generar_excel_con_graficos(self.contenido, self.datos)
+        with zipfile.ZipFile(io.BytesIO(salida)) as z:
+            for nombre in z.namelist():
+                if nombre.startswith("xl/charts/chart"):
+                    self.assertNotIn("<a:t>None</a:t>",
+                                     z.read(nombre).decode("utf-8"))
+
+    def test_la_brecha_msavi_se_grafica_cuando_hay_condicion(self):
+        libro = construir_libro(con_msavi_areal=True)
+        datos = rb.parsear_resumen_bloque(libro)
+        salida = rb.generar_excel_con_graficos(libro, datos)
+        ws = load_workbook(io.BytesIO(salida))["Graficos"]
+        titulos = [c.value for fila in ws.iter_rows() for c in fila
+                   if isinstance(c.value, str)]
+        self.assertTrue(any("Brecha de degradacion" in t for t in titulos))
 
     def test_excel_consolidado(self):
         datos_28 = rb.parsear_resumen_bloque(construir_libro("28"))
