@@ -827,8 +827,9 @@
    "tamano_bytes": 22559
   }
  ],
- "version": "V6 - distribucion areal del MSAVI 2024 por clase DN",
- "carpeta_repositorio": "plantillas_117_msavi_v6",
+ "version": "V7 - fichas de resumen V6 (distribucion areal del MSAVI 2024 por clase DN) con la ficha DT de campo integrada",
+ "carpeta_repositorio": "plantillas_117_integradas_v7",
  "fuente_msavi": "AREAS_MSAVI_BLOQUES_V6_REV_HSCM.xlsx (hoja Resumen_por_Bloque)",
- "actualizado": "2026-09-10"
+ "actualizado": "2026-09-10",
+ "carpeta_repositorio_v6": "plantillas_117_msavi_v6"
 }

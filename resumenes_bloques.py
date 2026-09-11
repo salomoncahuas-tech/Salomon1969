@@ -120,6 +120,14 @@ def _num(valor):
         return None
 
 
+# Lectores publicos: los modulos que integran otras fuentes con estos libros
+# deben leer los valores exactamente igual que el propio lector, o el mismo
+# dato quedaria comparado consigo mismo con dos interpretaciones distintas.
+normalizar = _norm
+texto = _txt
+numero = _num
+
+
 # ══════════════════════════════════════════════════════════════════════════
 # Rejilla acotada de hoja
 # ══════════════════════════════════════════════════════════════════════════
@@ -293,6 +301,13 @@ _CAMPOS_RESUMEN = {
     "estado de verificacion de campo": "estado_verificacion",
     "marco del indicador de brecha": "marco_indicador",
 }
+
+# Los libros V6 rotulan esta fila con el umbral incrustado ("Condicion
+# frente al umbral 0.4976"). Se registra tambien esa variante para que la
+# condicion se lea en todas las versiones del formato.
+_CAMPOS_RESUMEN["condicion frente al umbral %s" % UMBRAL_MSAVI] = \
+    "condicion_umbral"
+
 
 # Campos que se exponen tambien como numero, para filtros y graficos.
 _CAMPOS_NUMERICOS = [
@@ -694,10 +709,15 @@ def cargar_manifiesto():
     return _MANIFIESTO_CACHE
 
 
-# Carpeta del repositorio con los 117 libros vigentes (V6: distribucion areal
-# del MSAVI 2024 por clase DN). Viaja con el aplicativo, de modo que la
-# recarga masiva no depende de que alguien vuelva a subir los archivos.
-CARPETA_LIBROS = "plantillas_117_msavi_v6"
+# Carpeta del repositorio con los 117 libros de gabinete (V6: distribucion
+# areal del MSAVI 2024 por clase DN). Es la linea base sobre la que
+# `integrar_dt_campo.py` aplica la verificacion de campo.
+CARPETA_LIBROS_V6 = "plantillas_117_msavi_v6"
+
+# Carpeta de los 117 libros vigentes (V7: los V6 con la ficha de campo
+# F-DT integrada). Viajan con el aplicativo, de modo que la recarga masiva
+# no depende de que alguien vuelva a subir los archivos.
+CARPETA_LIBROS = "plantillas_117_integradas_v7"
 
 
 def libros_del_repositorio(carpeta=None):
@@ -779,10 +799,25 @@ def _escribir_bloque_datos(ws, fila, titulo, cabeceras, filas):
     return fila_cab, fila
 
 
+# Alto de una fila de Excel por omision: 15 puntos, es decir 0.529 cm. Un
+# grafico se ancla en una celda y se dibuja flotando sobre la rejilla, de
+# modo que la unica forma de saber donde puede empezar el siguiente es
+# traducir su alto en centimetros a filas.
+_ALTO_FILA_CM = 15 * 2.54 / 72
+
+
+def _fila_tras_grafico(ancla, alto_cm):
+    """Primera fila libre debajo de un grafico anclado en `ancla`."""
+    fila = int(re.sub(r"[^0-9]", "", ancla) or 1)
+    filas = int(alto_cm / _ALTO_FILA_CM) + 1
+    return fila + filas
+
+
 def _agregar_grafico_barras(ws, titulo, fila_cab, n_filas, col_cat, col_val,
                             ancla, eje_y="", ancho=16, alto=8):
+    """Dibuja el grafico y devuelve la primera fila libre debajo de el."""
     if n_filas <= 0:
-        return
+        return _fila_tras_grafico(ancla, 0)
     graf = BarChart()
     graf.type = "col"
     graf.style = 10
@@ -797,12 +832,14 @@ def _agregar_grafico_barras(ws, titulo, fila_cab, n_filas, col_cat, col_val,
     graf.set_categories(cats)
     graf.legend = None
     ws.add_chart(graf, ancla)
+    return _fila_tras_grafico(ancla, alto)
 
 
 def _agregar_grafico_torta(ws, titulo, fila_cab, n_filas, col_cat, col_val,
                            ancla, ancho=12, alto=8):
+    """Dibuja el grafico y devuelve la primera fila libre debajo de el."""
     if n_filas <= 0:
-        return
+        return _fila_tras_grafico(ancla, 0)
     graf = PieChart()
     graf.title = titulo
     graf.height, graf.width = alto, ancho
@@ -813,6 +850,7 @@ def _agregar_grafico_torta(ws, titulo, fila_cab, n_filas, col_cat, col_val,
     graf.add_data(datos, titles_from_data=True)
     graf.set_categories(cats)
     ws.add_chart(graf, ancla)
+    return _fila_tras_grafico(ancla, alto)
 
 
 def generar_excel_con_graficos(contenido_original, datos):
@@ -846,11 +884,12 @@ def _construir_hoja_graficos(ws, datos):
             ws, fila, "A. NDVI mediana 2025 - distribucion areal",
             ["Clase NDVI", "Superficie (ha)", "% del area"],
             [[r["clase"], r["superficie_ha"], r.get("pct")] for r in ndvi])
-        _agregar_grafico_torta(ws, f"NDVI 2025 - {codigo} (ha)", cab, len(ndvi),
-                               1, 2, f"E{cab}")
-        _agregar_grafico_barras(ws, f"NDVI 2025 - {codigo} (% del area)", cab,
-                                len(ndvi), 1, 3, f"E{cab + 17}", eje_y="%")
-        fila = fin + 18
+        libre = _agregar_grafico_torta(ws, f"NDVI 2025 - {codigo} (ha)", cab,
+                                       len(ndvi), 1, 2, f"E{cab}")
+        libre = _agregar_grafico_barras(ws, f"NDVI 2025 - {codigo} (% del area)",
+                                        cab, len(ndvi), 1, 3, f"E{libre + 1}",
+                                        eje_y="%")
+        fila = max(fin, libre) + 2
 
     # ── MSAVI 2024: clases del proyecto ──
     msavi = [r for r in datos.get("msavi_tabla", [])
@@ -860,9 +899,9 @@ def _construir_hoja_graficos(ws, datos):
             ws, fila, f"B. MSAVI 2024 - clases (umbral {UMBRAL_MSAVI})",
             ["Clase MSAVI", "Superficie (ha)", "% del area"],
             [[r["clase"], r["superficie_ha"], r.get("pct")] for r in msavi])
-        _agregar_grafico_barras(ws, f"MSAVI 2024 - {codigo} (ha)", cab,
-                                len(msavi), 1, 2, f"E{cab}", eje_y="ha")
-        fila = fin + 18
+        libre = _agregar_grafico_barras(ws, f"MSAVI 2024 - {codigo} (ha)", cab,
+                                        len(msavi), 1, 2, f"E{cab}", eje_y="ha")
+        fila = max(fin, libre) + 2
     else:
         media = datos.get("msavi_2024_num")
         if media is not None:
@@ -884,11 +923,12 @@ def _construir_hoja_graficos(ws, datos):
             [[("> " + r["bloque"]) if r.get("es_actual") else r["bloque"],
               r["area_ha"], r.get("pendiente_pct"), r.get("msavi")]
              for r in micro])
-        _agregar_grafico_barras(ws, "Area por bloque (ha)", cab, len(micro),
-                                1, 2, f"F{cab}", eje_y="ha")
-        _agregar_grafico_barras(ws, "MSAVI 2024 por bloque", cab, len(micro),
-                                1, 4, f"F{cab + 17}", eje_y="MSAVI")
-        fila = fin + 18
+        libre = _agregar_grafico_barras(ws, "Area por bloque (ha)", cab,
+                                        len(micro), 1, 2, f"F{cab}", eje_y="ha")
+        libre = _agregar_grafico_barras(ws, "MSAVI 2024 por bloque", cab,
+                                        len(micro), 1, 4, f"F{libre + 1}",
+                                        eje_y="MSAVI")
+        fila = max(fin, libre) + 2
 
     # ── Control de consistencia ──
     resumen = datos.get("consistencia_resumen", {})
@@ -898,9 +938,9 @@ def _construir_hoja_graficos(ws, datos):
         cab, fin = _escribir_bloque_datos(
             ws, fila, "D. Control de consistencia por calificacion",
             ["Calificacion", "N. de verificaciones"], filas_cal)
-        _agregar_grafico_torta(ws, "Verificaciones por calificacion", cab,
-                               len(filas_cal), 1, 2, f"E{cab}")
-        fila = fin + 18
+        libre = _agregar_grafico_torta(ws, "Verificaciones por calificacion",
+                                       cab, len(filas_cal), 1, 2, f"E{cab}")
+        fila = max(fin, libre) + 2
 
     celda = ws.cell(fila, 1,
                     "Graficos generados por el aplicativo IN Piura sobre los "
@@ -978,11 +1018,13 @@ def _hoja_graficos_consolidado(wb, lista_datos):
         cab, fin = _escribir_bloque_datos(
             ws, fila, "A. Bloques y superficie por distrito",
             ["Distrito", "N. de bloques", "Area (ha)"], filas)
-        _agregar_grafico_barras(ws, "Superficie por distrito (ha)", cab,
-                                len(filas), 1, 3, f"E{cab}", eje_y="ha")
-        _agregar_grafico_barras(ws, "Bloques por distrito", cab, len(filas),
-                                1, 2, f"E{cab + 17}", eje_y="bloques")
-        fila = fin + 18
+        libre = _agregar_grafico_barras(ws, "Superficie por distrito (ha)",
+                                        cab, len(filas), 1, 3, f"E{cab}",
+                                        eje_y="ha")
+        libre = _agregar_grafico_barras(ws, "Bloques por distrito", cab,
+                                        len(filas), 1, 2, f"E{libre + 1}",
+                                        eje_y="bloques")
+        fila = max(fin, libre) + 2
 
     # Distribucion de bloques frente al umbral de brecha MSAVI.
     bajo = sum(1 for d in lista_datos
@@ -998,9 +1040,9 @@ def _hoja_graficos_consolidado(wb, lista_datos):
     cab, fin = _escribir_bloque_datos(
         ws, fila, "B. Bloques frente al umbral de brecha (R.M. 00213-2024-MINAM)",
         ["Condicion", "N. de bloques"], filas)
-    _agregar_grafico_torta(ws, "Condicion frente al umbral MSAVI", cab,
-                           len(filas), 1, 2, f"E{cab}")
-    fila = fin + 18
+    libre = _agregar_grafico_torta(ws, "Condicion frente al umbral MSAVI", cab,
+                                   len(filas), 1, 2, f"E{cab}")
+    fila = max(fin, libre) + 2
 
     # Verificaciones de consistencia acumuladas.
     acumulado = {c: 0 for c in CALIFICACIONES}
@@ -1168,7 +1210,14 @@ class _PDFResumen(FPDF):
 
     def tabla(self, cabeceras, filas, anchos_rel=None, alineaciones=None,
               tam=7):
-        """Tabla con cabecera verde y filas alternas."""
+        """Tabla con cabecera verde y filas alternas.
+
+        Cada celda se dibuja como un rectangulo del alto de la fila y su
+        texto se escribe dentro con la altura de UNA linea. Pasarle a
+        `multi_cell` el alto de la fila seria pasarle el alto de cada
+        linea: una celda de varias lineas se estiraria hasta invadir las
+        filas siguientes y la tabla se desparramaria por varias paginas.
+        """
         if not filas:
             return
         ancho_total = self.w - 24
@@ -1176,40 +1225,68 @@ class _PDFResumen(FPDF):
         suma = float(sum(anchos_rel))
         anchos = [ancho_total * a / suma for a in anchos_rel]
         alineaciones = alineaciones or ["L"] * len(cabeceras)
+        cabeceras = [_s(c) for c in cabeceras]
+        alto_linea = tam * 0.55
+        margen = 1.0                    # aire a cada lado dentro de la celda
+
+        def alto_de(celdas, tam_texto, negrita=False):
+            """Alto que necesita la fila: el de su celda mas alta."""
+            self.set_font("Helvetica", "B" if negrita else "", tam_texto)
+            lineas = 1
+            for ancho, texto in zip(anchos, celdas):
+                lineas = max(lineas, len(self.multi_cell(
+                    ancho - 2 * margen, alto_linea, texto, dry_run=True,
+                    output="LINES")))
+            return max(5.0, lineas * alto_linea + 1.8)
+
+        def dibujar(celdas, alto, relleno, color_texto, negrita, alins,
+                    tam_texto):
+            y0, x0 = self.get_y(), 12.0
+            self.set_draw_color(150, 150, 150)
+            self.set_fill_color(*relleno)
+            self.set_text_color(*color_texto)
+            self.set_font("Helvetica", "B" if negrita else "", tam_texto)
+            for ancho, texto, alin in zip(anchos, celdas, alins):
+                self.rect(x0, y0, ancho, alto, "FD")
+                self.set_xy(x0 + margen, y0 + 0.9)
+                self.multi_cell(ancho - 2 * margen, alto_linea, texto, 0, alin)
+                x0 += ancho
+            self.set_text_color(0, 0, 0)
+            self.set_y(y0 + alto)
+
+        # Una palabra de cabecera mas ancha que su columna se parte a la
+        # mitad ("Actualizad / os"). Antes que eso, se achica la letra de la
+        # cabecera hasta que la palabra mas larga entre.
+        tam_cabecera = tam
+        while tam_cabecera > 5.0:
+            self.set_font("Helvetica", "B", tam_cabecera)
+            if all(self.get_string_width(palabra) <= ancho - 2 * margen
+                   for ancho, texto in zip(anchos, cabeceras)
+                   for palabra in texto.split()):
+                break
+            tam_cabecera -= 0.5
+
+        alto_cabecera = alto_de(cabeceras, tam_cabecera, negrita=True)
 
         def dibujar_cabecera():
-            self.set_font("Helvetica", "B", tam)
-            self.set_fill_color(27, 77, 46)
-            self.set_text_color(255, 255, 255)
-            for ancho, texto in zip(anchos, cabeceras):
-                self.cell(ancho, 6, _s(texto), 1, 0, "C", True)
-            self.ln()
-            self.set_text_color(0, 0, 0)
+            dibujar(cabeceras, alto_cabecera, (27, 77, 46), (255, 255, 255),
+                    True, ["C"] * len(cabeceras), tam_cabecera)
 
-        self._salto_si_falta(18)
+        self._salto_si_falta(alto_cabecera + 12)
         dibujar_cabecera()
         for i, fila in enumerate(filas):
             celdas = [_s(v) for v in fila]
-            self.set_font("Helvetica", "", tam)
-            alto_linea = tam * 0.55
-            alto = 5
-            for ancho, texto in zip(anchos, celdas):
-                lineas = max(1, len(self.multi_cell(
-                    ancho, alto_linea, texto, dry_run=True, output="LINES")))
-                alto = max(alto, lineas * alto_linea + 1.2)
-            if self.get_y() + alto > self.page_break_trigger:
+            alto = alto_de(celdas, tam)
+            # Una fila mas alta que la caja de texto de la pagina no cabe
+            # entera en ninguna: se dibuja donde esta y se deja que siga en
+            # la siguiente, en lugar de saltar de pagina indefinidamente.
+            cabe_en_una_pagina = alto <= self.page_break_trigger - self.t_margin
+            if cabe_en_una_pagina and self.get_y() + alto > self.page_break_trigger:
                 self.add_page(self.cur_orientation)
                 dibujar_cabecera()
-                self.set_font("Helvetica", "", tam)
-            y0 = self.get_y()
-            x0 = 12
-            relleno = i % 2 == 1
-            self.set_fill_color(244, 247, 245)
-            for ancho, texto, alin in zip(anchos, celdas, alineaciones):
-                self.set_xy(x0, y0)
-                self.multi_cell(ancho, alto, texto, 1, alin, relleno)
-                x0 += ancho
-            self.set_y(y0 + alto)
+            dibujar(celdas, alto,
+                    (244, 247, 245) if i % 2 else (255, 255, 255),
+                    (0, 0, 0), False, alineaciones, tam)
         self.ln(2)
 
     def nota(self, texto):
@@ -1352,15 +1429,20 @@ def _sector(pdf, cx, cy, radio, ang_ini, ang_fin, pasos=None):
 
 
 def _fmt(valor):
-    """Formato numerico compacto para etiquetas de grafico."""
+    """Formato numerico compacto para etiquetas de grafico.
+
+    El separador de millares es un espacio fino, como en el resto de los
+    entregables del proyecto: la coma se reserva para separar elementos de
+    una lista y no debe competir con ella dentro de una cifra.
+    """
     if valor is None:
         return ""
     if isinstance(valor, float):
         if abs(valor) < 1:
             return f"{valor:.4f}".rstrip("0").rstrip(".")
         if abs(valor) >= 1000:
-            return f"{valor:,.0f}"
-        return f"{valor:,.2f}".rstrip("0").rstrip(".")
+            return f"{valor:,.0f}".replace(",", " ")
+        return f"{valor:,.2f}".rstrip("0").rstrip(".").replace(",", " ")
     return str(valor)
 
 
@@ -1626,3 +1708,21 @@ def generar_pdf_consolidado(lista_datos, incluir_graficos=True):
              "compuestos Sentinel-2). Umbral de brecha MSAVI 0.4976 conforme a "
              "la R.M. N. 00213-2024-MINAM.")
     return _pdf_bytes(pdf)
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# Utilidades compartidas con la integracion de campo
+# ══════════════════════════════════════════════════════════════════════════
+# `dt_campo` arma sus libros y fichas con la misma identidad institucional y
+# el mismo vocabulario de consistencia que este modulo. Exponerlas aqui
+# evita duplicar el formato ANIN en dos sitios y que las dos salidas se
+# separen con el tiempo.
+
+CAMPOS_RESUMEN = _CAMPOS_RESUMEN
+titulo_hoja = _titulo_hoja
+escribir_tabla = _escribir_bloque_datos
+grafico_barras_excel = _agregar_grafico_barras
+grafico_torta_excel = _agregar_grafico_torta
+PDFResumen = _PDFResumen
+texto_pdf = _s
+pdf_bytes = _pdf_bytes

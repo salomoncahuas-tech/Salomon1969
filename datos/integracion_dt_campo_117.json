@@ -1,0 +1,5480 @@
+{
+ "version": "V7 - resumen V6 + campo F-DT integrado",
+ "carpeta_repositorio": "plantillas_117_integradas_v7",
+ "totales": {
+  "n_bloques": 117,
+  "area_ha": 12270.22,
+  "brecha_ha": 8341.82,
+  "msavi_promedio": 0.4901,
+  "n_provincias": 3,
+  "n_distritos": 15,
+  "n_microcuencas": 26,
+  "hechos_campo": 6877,
+  "hechos_gabinete": 2739,
+  "hechos_oficial": 1638,
+  "n_actualizados": 184,
+  "n_pendientes": 2084,
+  "n_sustantivas": 527,
+  "n_verificaciones": 2374,
+  "cobertura_pct": 84.3778,
+  "bloques_con_campo": 117
+ },
+ "por_provincia": [
+  {
+   "grupo": "Ayabaca",
+   "n_bloques": 10,
+   "area_ha": 1391.7,
+   "brecha_ha": 525.21,
+   "msavi_promedio": 0.5533,
+   "bajo_umbral_pct": 37.673,
+   "pendiente_pct": 28.054,
+   "cobertura_total_pct": 80.0,
+   "suelo_desnudo_pct": 11.0,
+   "n_carcavas": 16,
+   "n_taxones": 123,
+   "cobertura_integracion_pct": 80.09,
+   "n_actualizados": 13,
+   "n_pendientes": 227,
+   "n_sustantivas": 35,
+   "n_verificaciones": 186,
+   "hechos_campo": 538,
+   "hechos_gabinete": 235,
+   "hechos_oficial": 140,
+   "estado_conservacion": "Levemente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "3",
+    "6",
+    "27",
+    "36",
+    "39",
+    "56",
+    "M17B5",
+    "M17B6",
+    "M17B7",
+    "M17B10"
+   ]
+  },
+  {
+   "grupo": "Huancabamba",
+   "n_bloques": 48,
+   "area_ha": 3551.15,
+   "brecha_ha": 1599.99,
+   "msavi_promedio": 0.5577,
+   "bajo_umbral_pct": 29.191,
+   "pendiente_pct": 27.1402,
+   "cobertura_total_pct": 74.8088,
+   "suelo_desnudo_pct": 9.6364,
+   "n_carcavas": 42,
+   "n_taxones": 536,
+   "cobertura_integracion_pct": 81.8396,
+   "n_actualizados": 33,
+   "n_pendientes": 994,
+   "n_sustantivas": 202,
+   "n_verificaciones": 879,
+   "hechos_campo": 2710,
+   "hechos_gabinete": 1096,
+   "hechos_oficial": 672,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "4",
+    "8",
+    "9",
+    "10",
+    "16",
+    "18",
+    "19",
+    "20",
+    "21",
+    "24",
+    "26",
+    "28",
+    "30",
+    "31",
+    "34",
+    "35",
+    "37",
+    "38",
+    "40",
+    "41",
+    "43",
+    "44",
+    "47",
+    "50",
+    "51",
+    "53",
+    "60",
+    "61",
+    "63",
+    "64",
+    "66",
+    "67",
+    "69",
+    "70",
+    "71",
+    "72",
+    "73",
+    "76",
+    "79",
+    "80",
+    "81",
+    "M2B8",
+    "M4B3",
+    "M4B4",
+    "M12B1",
+    "M20B1",
+    "M22B1",
+    "M30B5"
+   ]
+  },
+  {
+   "grupo": "Morropon",
+   "n_bloques": 59,
+   "area_ha": 7327.37,
+   "brecha_ha": 6216.63,
+   "msavi_promedio": 0.4244,
+   "bajo_umbral_pct": 69.6341,
+   "pendiente_pct": 19.4353,
+   "cobertura_total_pct": 60.8,
+   "suelo_desnudo_pct": 23.6591,
+   "n_carcavas": 72,
+   "n_taxones": 656,
+   "cobertura_integracion_pct": 87.1695,
+   "n_actualizados": 138,
+   "n_pendientes": 863,
+   "n_sustantivas": 290,
+   "n_verificaciones": 1309,
+   "hechos_campo": 3629,
+   "hechos_gabinete": 1408,
+   "hechos_oficial": 826,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "2",
+    "5",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "17",
+    "22",
+    "23",
+    "42",
+    "49",
+    "52",
+    "55",
+    "57",
+    "58",
+    "59",
+    "77",
+    "78",
+    "82",
+    "83",
+    "84",
+    "85",
+    "86",
+    "87",
+    "M1B1",
+    "M2B1",
+    "M2B5",
+    "M3B1",
+    "M3B3",
+    "M3B5",
+    "M3B6",
+    "M3B7",
+    "M3B8",
+    "M3B9",
+    "M6B2-1",
+    "M6B2-2",
+    "M6B2-3",
+    "M6B10",
+    "M7B1",
+    "M7B2",
+    "M7B3",
+    "M7B6",
+    "M8B2",
+    "M9B1",
+    "M10B4",
+    "M11B3",
+    "M17B1",
+    "M17B4",
+    "M18B1",
+    "M18B3",
+    "M19B2",
+    "M19B7",
+    "M27B1",
+    "M28B2",
+    "M28B3",
+    "M28B4",
+    "M32B3",
+    "M36B2"
+   ]
+  }
+ ],
+ "por_distrito": [
+  {
+   "grupo": "Buenos Aires",
+   "n_bloques": 7,
+   "area_ha": 1903.13,
+   "brecha_ha": 1876.71,
+   "msavi_promedio": 0.3357,
+   "bajo_umbral_pct": 98.1729,
+   "pendiente_pct": 18.4557,
+   "cobertura_total_pct": 55.8333,
+   "suelo_desnudo_pct": 22.5714,
+   "n_carcavas": 8,
+   "n_taxones": 91,
+   "cobertura_integracion_pct": 91.7286,
+   "n_actualizados": 16,
+   "n_pendientes": 66,
+   "n_sustantivas": 36,
+   "n_verificaciones": 154,
+   "hechos_campo": 476,
+   "hechos_gabinete": 158,
+   "hechos_oficial": 98,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Alta",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "5",
+    "M1B1",
+    "M6B2-1",
+    "M6B2-2",
+    "M6B2-3",
+    "M6B10",
+    "M18B1"
+   ]
+  },
+  {
+   "grupo": "Canchaque",
+   "n_bloques": 10,
+   "area_ha": 587.42,
+   "brecha_ha": 56.06,
+   "msavi_promedio": 0.5979,
+   "bajo_umbral_pct": 15.469,
+   "pendiente_pct": 28.772,
+   "cobertura_total_pct": 84.25,
+   "suelo_desnudo_pct": 7.5,
+   "n_carcavas": 2,
+   "n_taxones": 121,
+   "cobertura_integracion_pct": 78.07,
+   "n_actualizados": 4,
+   "n_pendientes": 250,
+   "n_sustantivas": 31,
+   "n_verificaciones": 168,
+   "hechos_campo": 526,
+   "hechos_gabinete": 224,
+   "hechos_oficial": 140,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Matorral Andino subhúmedo",
+   "codigos": [
+    "21",
+    "24",
+    "28",
+    "30",
+    "40",
+    "60",
+    "63",
+    "66",
+    "79",
+    "81"
+   ]
+  },
+  {
+   "grupo": "Chalaco",
+   "n_bloques": 2,
+   "area_ha": 39.22,
+   "brecha_ha": 3.04,
+   "msavi_promedio": 0.6089,
+   "bajo_umbral_pct": 9.15,
+   "pendiente_pct": 30.145,
+   "cobertura_total_pct": 75.0,
+   "suelo_desnudo_pct": 15.0,
+   "n_carcavas": 5,
+   "n_taxones": 30,
+   "cobertura_integracion_pct": 87.3,
+   "n_actualizados": 5,
+   "n_pendientes": 29,
+   "n_sustantivas": 7,
+   "n_verificaciones": 42,
+   "hechos_campo": 128,
+   "hechos_gabinete": 43,
+   "hechos_oficial": 28,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Severa (cárcavas activas)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Matorral Andino húmedo",
+   "codigos": [
+    "57",
+    "59"
+   ]
+  },
+  {
+   "grupo": "Chulucanas",
+   "n_bloques": 7,
+   "area_ha": 1450.14,
+   "brecha_ha": 1415.78,
+   "msavi_promedio": 0.3612,
+   "bajo_umbral_pct": 97.1914,
+   "pendiente_pct": 15.8657,
+   "cobertura_total_pct": 77.8571,
+   "suelo_desnudo_pct": 10.8333,
+   "n_carcavas": -4,
+   "n_taxones": 56,
+   "cobertura_integracion_pct": 84.1,
+   "n_actualizados": 24,
+   "n_pendientes": 127,
+   "n_sustantivas": 43,
+   "n_verificaciones": 168,
+   "hechos_campo": 406,
+   "hechos_gabinete": 167,
+   "hechos_oficial": 98,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Ligera (laminar)",
+   "urgencia_intervencion": "Baja",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "2",
+    "22",
+    "M9B1",
+    "M10B4",
+    "M17B1",
+    "M17B4",
+    "M27B1"
+   ]
+  },
+  {
+   "grupo": "Frias",
+   "n_bloques": 10,
+   "area_ha": 1391.7,
+   "brecha_ha": 525.21,
+   "msavi_promedio": 0.5533,
+   "bajo_umbral_pct": 37.673,
+   "pendiente_pct": 28.054,
+   "cobertura_total_pct": 80.0,
+   "suelo_desnudo_pct": 11.0,
+   "n_carcavas": 16,
+   "n_taxones": 123,
+   "cobertura_integracion_pct": 80.09,
+   "n_actualizados": 13,
+   "n_pendientes": 227,
+   "n_sustantivas": 35,
+   "n_verificaciones": 186,
+   "hechos_campo": 538,
+   "hechos_gabinete": 235,
+   "hechos_oficial": 140,
+   "estado_conservacion": "Levemente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "3",
+    "6",
+    "27",
+    "36",
+    "39",
+    "56",
+    "M17B5",
+    "M17B6",
+    "M17B7",
+    "M17B10"
+   ]
+  },
+  {
+   "grupo": "Huancabamba",
+   "n_bloques": 2,
+   "area_ha": 126.67,
+   "brecha_ha": 44.87,
+   "msavi_promedio": 0.5409,
+   "bajo_umbral_pct": 37.255,
+   "pendiente_pct": 24.705,
+   "cobertura_total_pct": 51.25,
+   "suelo_desnudo_pct": 7.5,
+   "n_carcavas": 2,
+   "n_taxones": 13,
+   "cobertura_integracion_pct": 87.3,
+   "n_actualizados": 1,
+   "n_pendientes": 29,
+   "n_sustantivas": 12,
+   "n_verificaciones": 43,
+   "hechos_campo": 125,
+   "hechos_gabinete": 46,
+   "hechos_oficial": 28,
+   "estado_conservacion": "Muy alterado / Degradado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Matorral Andino subhúmedo",
+   "codigos": [
+    "64",
+    "M30B5"
+   ]
+  },
+  {
+   "grupo": "Huarmaca",
+   "n_bloques": 21,
+   "area_ha": 1966.12,
+   "brecha_ha": 1075.64,
+   "msavi_promedio": 0.5228,
+   "bajo_umbral_pct": 40.6619,
+   "pendiente_pct": 26.9548,
+   "cobertura_total_pct": 76.7143,
+   "suelo_desnudo_pct": 11.3077,
+   "n_carcavas": 17,
+   "n_taxones": 227,
+   "cobertura_integracion_pct": 81.9667,
+   "n_actualizados": 8,
+   "n_pendientes": 432,
+   "n_sustantivas": 111,
+   "n_verificaciones": 395,
+   "hechos_campo": 1197,
+   "hechos_gabinete": 471,
+   "hechos_oficial": 294,
+   "estado_conservacion": "Alterado (intervención marcada)",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Alta",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "4",
+    "8",
+    "10",
+    "16",
+    "18",
+    "19",
+    "20",
+    "31",
+    "41",
+    "51",
+    "53",
+    "69",
+    "70",
+    "71",
+    "72",
+    "73",
+    "76",
+    "80",
+    "M4B3",
+    "M4B4",
+    "M12B1"
+   ]
+  },
+  {
+   "grupo": "Lalaquiz",
+   "n_bloques": 6,
+   "area_ha": 201.2,
+   "brecha_ha": 7.74,
+   "msavi_promedio": 0.658,
+   "bajo_umbral_pct": 4.385,
+   "pendiente_pct": 26.66,
+   "cobertura_total_pct": 80.0,
+   "suelo_desnudo_pct": 8.0,
+   "n_carcavas": 14,
+   "n_taxones": 82,
+   "cobertura_integracion_pct": 83.9,
+   "n_actualizados": 13,
+   "n_pendientes": 110,
+   "n_sustantivas": 13,
+   "n_verificaciones": 107,
+   "hechos_campo": 353,
+   "hechos_gabinete": 137,
+   "hechos_oficial": 84,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Agroecosistema / Mosaico",
+   "codigos": [
+    "26",
+    "34",
+    "37",
+    "38",
+    "50",
+    "61"
+   ]
+  },
+  {
+   "grupo": "Morropon",
+   "n_bloques": 2,
+   "area_ha": 125.34,
+   "brecha_ha": 119.42,
+   "msavi_promedio": 0.3932,
+   "bajo_umbral_pct": 95.06,
+   "pendiente_pct": 20.25,
+   "cobertura_total_pct": 87.5,
+   "suelo_desnudo_pct": 2.5,
+   "n_carcavas": 0,
+   "n_taxones": 9,
+   "cobertura_integracion_pct": 91.7,
+   "n_actualizados": 2,
+   "n_pendientes": 19,
+   "n_sustantivas": 12,
+   "n_verificaciones": 45,
+   "hechos_campo": 133,
+   "hechos_gabinete": 48,
+   "hechos_oficial": 28,
+   "estado_conservacion": "Levemente alterado",
+   "nivel_erosion": "Nula",
+   "urgencia_intervencion": "Baja",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "M19B2",
+    "M32B3"
+   ]
+  },
+  {
+   "grupo": "Salitral",
+   "n_bloques": 9,
+   "area_ha": 1264.53,
+   "brecha_ha": 1255.34,
+   "msavi_promedio": 0.3117,
+   "bajo_umbral_pct": 99.5344,
+   "pendiente_pct": 16.9167,
+   "cobertura_total_pct": 53.8889,
+   "suelo_desnudo_pct": 33.7778,
+   "n_carcavas": 13,
+   "n_taxones": 93,
+   "cobertura_integracion_pct": 92.7778,
+   "n_actualizados": 46,
+   "n_pendientes": 74,
+   "n_sustantivas": 52,
+   "n_verificaciones": 240,
+   "hechos_campo": 619,
+   "hechos_gabinete": 207,
+   "hechos_oficial": 126,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "M2B1",
+    "M2B5",
+    "M3B1",
+    "M3B9",
+    "M7B1",
+    "M7B2",
+    "M7B3",
+    "M7B6",
+    "M18B3"
+   ]
+  },
+  {
+   "grupo": "San Juan de Bigote",
+   "n_bloques": 12,
+   "area_ha": 1143.86,
+   "brecha_ha": 1122.89,
+   "msavi_promedio": 0.297,
+   "bajo_umbral_pct": 98.5192,
+   "pendiente_pct": 10.4067,
+   "cobertura_total_pct": 36.4167,
+   "suelo_desnudo_pct": 42.1042,
+   "n_carcavas": 29,
+   "n_taxones": 129,
+   "cobertura_integracion_pct": 85.4583,
+   "n_actualizados": 16,
+   "n_pendientes": 199,
+   "n_sustantivas": 77,
+   "n_verificaciones": 273,
+   "hechos_campo": 696,
+   "hechos_gabinete": 305,
+   "hechos_oficial": 168,
+   "estado_conservacion": "Alterado (intervención marcada)",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Alta",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "77",
+    "83",
+    "84",
+    "85",
+    "86",
+    "87",
+    "M3B3",
+    "M3B5",
+    "M3B6",
+    "M3B7",
+    "M3B8",
+    "M11B3"
+   ]
+  },
+  {
+   "grupo": "San Miguel de El Faique",
+   "n_bloques": 9,
+   "area_ha": 669.74,
+   "brecha_ha": 415.69,
+   "msavi_promedio": 0.5317,
+   "bajo_umbral_pct": 32.4178,
+   "pendiente_pct": 26.6211,
+   "cobertura_total_pct": 68.75,
+   "suelo_desnudo_pct": 9.75,
+   "n_carcavas": 7,
+   "n_taxones": 93,
+   "cobertura_integracion_pct": 83.1444,
+   "n_actualizados": 7,
+   "n_pendientes": 173,
+   "n_sustantivas": 35,
+   "n_verificaciones": 166,
+   "hechos_campo": 509,
+   "hechos_gabinete": 218,
+   "hechos_oficial": 126,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Alta",
+   "tipo_ecosistema": "Matorral Andino subhúmedo",
+   "codigos": [
+    "9",
+    "35",
+    "43",
+    "44",
+    "47",
+    "67",
+    "M2B8",
+    "M20B1",
+    "M22B1"
+   ]
+  },
+  {
+   "grupo": "Santa Catalina de Mossa",
+   "n_bloques": 4,
+   "area_ha": 213.18,
+   "brecha_ha": 53.38,
+   "msavi_promedio": 0.5431,
+   "bajo_umbral_pct": 36.77,
+   "pendiente_pct": 24.3425,
+   "cobertura_total_pct": 67.5,
+   "suelo_desnudo_pct": 12.5,
+   "n_carcavas": 8,
+   "n_taxones": 51,
+   "cobertura_integracion_pct": 85.5,
+   "n_actualizados": 7,
+   "n_pendientes": 66,
+   "n_sustantivas": 15,
+   "n_verificaciones": 86,
+   "hechos_campo": 243,
+   "hechos_gabinete": 91,
+   "hechos_oficial": 56,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "14",
+    "42",
+    "58",
+    "M36B2"
+   ]
+  },
+  {
+   "grupo": "Santo Domingo",
+   "n_bloques": 10,
+   "area_ha": 728.29,
+   "brecha_ha": 71.99,
+   "msavi_promedio": 0.6222,
+   "bajo_umbral_pct": 11.145,
+   "pendiente_pct": 29.245,
+   "cobertura_total_pct": 72.4444,
+   "suelo_desnudo_pct": 11.0,
+   "n_carcavas": 4,
+   "n_taxones": 132,
+   "cobertura_integracion_pct": 80.43,
+   "n_actualizados": 12,
+   "n_pendientes": 223,
+   "n_sustantivas": 29,
+   "n_verificaciones": 188,
+   "hechos_campo": 527,
+   "hechos_gabinete": 250,
+   "hechos_oficial": 140,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Agroecosistema / Mosaico",
+   "codigos": [
+    "11",
+    "12",
+    "13",
+    "15",
+    "17",
+    "23",
+    "78",
+    "82",
+    "M8B2",
+    "M19B7"
+   ]
+  },
+  {
+   "grupo": "Yamango",
+   "n_bloques": 6,
+   "area_ha": 459.68,
+   "brecha_ha": 298.08,
+   "msavi_promedio": 0.5658,
+   "bajo_umbral_pct": 32.645,
+   "pendiente_pct": 23.115,
+   "cobertura_total_pct": 73.75,
+   "suelo_desnudo_pct": 17.8333,
+   "n_carcavas": 9,
+   "n_taxones": 65,
+   "cobertura_integracion_pct": 91.2333,
+   "n_actualizados": 10,
+   "n_pendientes": 60,
+   "n_sustantivas": 19,
+   "n_verificaciones": 113,
+   "hechos_campo": 401,
+   "hechos_gabinete": 139,
+   "hechos_oficial": 84,
+   "estado_conservacion": "Alterado (intervención marcada)",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "49",
+    "52",
+    "55",
+    "M28B2",
+    "M28B3",
+    "M28B4"
+   ]
+  }
+ ],
+ "por_microcuenca": [
+  {
+   "grupo": "C1076-Q9581",
+   "n_bloques": 4,
+   "area_ha": 402.84,
+   "brecha_ha": 401.93,
+   "msavi_promedio": 0.2968,
+   "bajo_umbral_pct": 99.7925,
+   "pendiente_pct": 16.96,
+   "cobertura_total_pct": 58.75,
+   "suelo_desnudo_pct": 32.5,
+   "n_carcavas": 4,
+   "n_taxones": 35,
+   "cobertura_integracion_pct": 91.875,
+   "n_actualizados": 13,
+   "n_pendientes": 37,
+   "n_sustantivas": 23,
+   "n_verificaciones": 96,
+   "hechos_campo": 269,
+   "hechos_gabinete": 94,
+   "hechos_oficial": 56,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Baja",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "M7B1",
+    "M7B2",
+    "M7B3",
+    "M7B6"
+   ]
+  },
+  {
+   "grupo": "C1076-Q9584",
+   "n_bloques": 3,
+   "area_ha": 228.8,
+   "brecha_ha": 219.58,
+   "msavi_promedio": 0.3261,
+   "bajo_umbral_pct": 97.1133,
+   "pendiente_pct": 15.0133,
+   "cobertura_total_pct": 60.0,
+   "suelo_desnudo_pct": 25.0,
+   "n_carcavas": 6,
+   "n_taxones": 31,
+   "cobertura_integracion_pct": 90.6667,
+   "n_actualizados": 15,
+   "n_pendientes": 32,
+   "n_sustantivas": 18,
+   "n_verificaciones": 79,
+   "hechos_campo": 199,
+   "hechos_gabinete": 69,
+   "hechos_oficial": 42,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "M2B1",
+    "M2B5",
+    "M2B8"
+   ]
+  },
+  {
+   "grupo": "C1076-Q9585",
+   "n_bloques": 2,
+   "area_ha": 288.61,
+   "brecha_ha": 280.73,
+   "msavi_promedio": 0.315,
+   "bajo_umbral_pct": 98.59,
+   "pendiente_pct": 15.79,
+   "cobertura_total_pct": 75.0,
+   "suelo_desnudo_pct": 12.5,
+   "n_carcavas": 2,
+   "n_taxones": 21,
+   "cobertura_integracion_pct": 79.85,
+   "n_actualizados": 1,
+   "n_pendientes": 46,
+   "n_sustantivas": 9,
+   "n_verificaciones": 39,
+   "hechos_campo": 107,
+   "hechos_gabinete": 47,
+   "hechos_oficial": 28,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "81",
+    "M20B1"
+   ]
+  },
+  {
+   "grupo": "C1076-Q9586",
+   "n_bloques": 7,
+   "area_ha": 273.96,
+   "brecha_ha": 36.71,
+   "msavi_promedio": 0.5792,
+   "bajo_umbral_pct": 14.61,
+   "pendiente_pct": 29.26,
+   "cobertura_total_pct": 65.0,
+   "suelo_desnudo_pct": 9.6667,
+   "n_carcavas": 7,
+   "n_taxones": 79,
+   "cobertura_integracion_pct": 83.4571,
+   "n_actualizados": 6,
+   "n_pendientes": 132,
+   "n_sustantivas": 21,
+   "n_verificaciones": 122,
+   "hechos_campo": 399,
+   "hechos_gabinete": 169,
+   "hechos_oficial": 98,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Alta",
+   "tipo_ecosistema": "Matorral Andino subhúmedo",
+   "codigos": [
+    "9",
+    "35",
+    "43",
+    "44",
+    "47",
+    "67",
+    "M22B1"
+   ]
+  },
+  {
+   "grupo": "C1076-Q9587",
+   "n_bloques": 1,
+   "area_ha": 94.81,
+   "brecha_ha": 28.15,
+   "msavi_promedio": 0.5479,
+   "bajo_umbral_pct": 29.69,
+   "pendiente_pct": 17.59,
+   "cobertura_total_pct": null,
+   "suelo_desnudo_pct": null,
+   "n_carcavas": 0,
+   "n_taxones": 10,
+   "cobertura_integracion_pct": 72.8,
+   "n_actualizados": 0,
+   "n_pendientes": 31,
+   "n_sustantivas": 5,
+   "n_verificaciones": 19,
+   "hechos_campo": 41,
+   "hechos_gabinete": 28,
+   "hechos_oficial": 14,
+   "estado_conservacion": "Alterado (intervención marcada)",
+   "nivel_erosion": "Sin registro en ficha",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "79"
+   ]
+  },
+  {
+   "grupo": "C1076-Q9588",
+   "n_bloques": 2,
+   "area_ha": 498.49,
+   "brecha_ha": 280.54,
+   "msavi_promedio": 0.5038,
+   "bajo_umbral_pct": 52.925,
+   "pendiente_pct": 26.595,
+   "cobertura_total_pct": 80.5,
+   "suelo_desnudo_pct": 10.0,
+   "n_carcavas": 0,
+   "n_taxones": 17,
+   "cobertura_integracion_pct": 81.6,
+   "n_actualizados": 1,
+   "n_pendientes": 42,
+   "n_sustantivas": 12,
+   "n_verificaciones": 41,
+   "hechos_campo": 113,
+   "hechos_gabinete": 45,
+   "hechos_oficial": 28,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "4",
+    "M12B1"
+   ]
+  },
+  {
+   "grupo": "C1076-Q9589",
+   "n_bloques": 2,
+   "area_ha": 523.98,
+   "brecha_ha": 518.47,
+   "msavi_promedio": 0.321,
+   "bajo_umbral_pct": 98.91,
+   "pendiente_pct": 16.725,
+   "cobertura_total_pct": 65.0,
+   "suelo_desnudo_pct": 10.0,
+   "n_carcavas": 0,
+   "n_taxones": 14,
+   "cobertura_integracion_pct": 82.5,
+   "n_actualizados": 0,
+   "n_pendientes": 40,
+   "n_sustantivas": 17,
+   "n_verificaciones": 45,
+   "hechos_campo": 108,
+   "hechos_gabinete": 52,
+   "hechos_oficial": 28,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos) — NO REPRESENTATIVO (ver D-01)",
+   "urgencia_intervencion": "Baja",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "M4B3",
+    "M4B4"
+   ]
+  },
+  {
+   "grupo": "C1076-Q9592",
+   "n_bloques": 9,
+   "area_ha": 419.78,
+   "brecha_ha": 117.29,
+   "msavi_promedio": 0.5497,
+   "bajo_umbral_pct": 32.8,
+   "pendiente_pct": 28.3278,
+   "cobertura_total_pct": 79.7778,
+   "suelo_desnudo_pct": 10.7778,
+   "n_carcavas": 14,
+   "n_taxones": 108,
+   "cobertura_integracion_pct": 85.4889,
+   "n_actualizados": 2,
+   "n_pendientes": 149,
+   "n_sustantivas": 40,
+   "n_verificaciones": 159,
+   "hechos_campo": 552,
+   "hechos_gabinete": 199,
+   "hechos_oficial": 126,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Matorral Andino subhúmedo",
+   "codigos": [
+    "18",
+    "19",
+    "31",
+    "41",
+    "53",
+    "69",
+    "70",
+    "72",
+    "73"
+   ]
+  },
+  {
+   "grupo": "C1076-Q9593",
+   "n_bloques": 8,
+   "area_ha": 523.87,
+   "brecha_ha": 159.34,
+   "msavi_promedio": 0.5477,
+   "bajo_umbral_pct": 31.8787,
+   "pendiente_pct": 28.0575,
+   "cobertura_total_pct": 65.0,
+   "suelo_desnudo_pct": 20.0,
+   "n_carcavas": 3,
+   "n_taxones": 88,
+   "cobertura_integracion_pct": 77.9625,
+   "n_actualizados": 5,
+   "n_pendientes": 201,
+   "n_sustantivas": 42,
+   "n_verificaciones": 150,
+   "hechos_campo": 424,
+   "hechos_gabinete": 175,
+   "hechos_oficial": 112,
+   "estado_conservacion": "Alterado (intervención marcada)",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Alta",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "8",
+    "10",
+    "16",
+    "20",
+    "51",
+    "71",
+    "76",
+    "80"
+   ]
+  },
+  {
+   "grupo": "C1077-Q9566",
+   "n_bloques": 5,
+   "area_ha": 1553.97,
+   "brecha_ha": 1529.25,
+   "msavi_promedio": 0.3393,
+   "bajo_umbral_pct": 97.632,
+   "pendiente_pct": 18.024,
+   "cobertura_total_pct": 53.75,
+   "suelo_desnudo_pct": 19.6,
+   "n_carcavas": 7,
+   "n_taxones": 65,
+   "cobertura_integracion_pct": 90.0,
+   "n_actualizados": 11,
+   "n_pendientes": 57,
+   "n_sustantivas": 26,
+   "n_verificaciones": 109,
+   "hechos_campo": 329,
+   "hechos_gabinete": 114,
+   "hechos_oficial": 70,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "5",
+    "M6B2-1",
+    "M6B2-2",
+    "M6B2-3",
+    "M6B10"
+   ]
+  },
+  {
+   "grupo": "C1077-Q9579",
+   "n_bloques": 2,
+   "area_ha": 534.17,
+   "brecha_ha": 527.57,
+   "msavi_promedio": 0.3518,
+   "bajo_umbral_pct": 99.025,
+   "pendiente_pct": 20.945,
+   "cobertura_total_pct": 65.0,
+   "suelo_desnudo_pct": 27.5,
+   "n_carcavas": 1,
+   "n_taxones": 28,
+   "cobertura_integracion_pct": 95.15,
+   "n_actualizados": 5,
+   "n_pendientes": 11,
+   "n_sustantivas": 11,
+   "n_verificaciones": 46,
+   "hechos_campo": 144,
+   "hechos_gabinete": 45,
+   "hechos_oficial": 28,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Ligera (laminar)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "M18B1",
+    "M18B3"
+   ]
+  },
+  {
+   "grupo": "C1077-Q9580",
+   "n_bloques": 1,
+   "area_ha": 188.8,
+   "brecha_ha": 187.63,
+   "msavi_promedio": 0.3193,
+   "bajo_umbral_pct": 99.38,
+   "pendiente_pct": 18.7,
+   "cobertura_total_pct": 60.0,
+   "suelo_desnudo_pct": 20.0,
+   "n_carcavas": 1,
+   "n_taxones": 13,
+   "cobertura_integracion_pct": 96.5,
+   "n_actualizados": 2,
+   "n_pendientes": 4,
+   "n_sustantivas": 5,
+   "n_verificaciones": 23,
+   "hechos_campo": 75,
+   "hechos_gabinete": 21,
+   "hechos_oficial": 14,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Alta",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "M1B1"
+   ]
+  },
+  {
+   "grupo": "C1081-Q9582",
+   "n_bloques": 7,
+   "area_ha": 1261.62,
+   "brecha_ha": 1251.02,
+   "msavi_promedio": 0.3191,
+   "bajo_umbral_pct": 99.1543,
+   "pendiente_pct": 18.5929,
+   "cobertura_total_pct": 50.0,
+   "suelo_desnudo_pct": 38.4286,
+   "n_carcavas": 26,
+   "n_taxones": 68,
+   "cobertura_integracion_pct": 90.7286,
+   "n_actualizados": 28,
+   "n_pendientes": 74,
+   "n_sustantivas": 43,
+   "n_verificaciones": 183,
+   "hechos_campo": 456,
+   "hechos_gabinete": 170,
+   "hechos_oficial": 98,
+   "estado_conservacion": "Alterado (intervención marcada)",
+   "nivel_erosion": "Fuerte (cárcavas incipientes)",
+   "urgencia_intervencion": "Alta",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "M3B1",
+    "M3B3",
+    "M3B5",
+    "M3B6",
+    "M3B7",
+    "M3B8",
+    "M3B9"
+   ]
+  },
+  {
+   "grupo": "C1081-Q9583",
+   "n_bloques": 9,
+   "area_ha": 398.04,
+   "brecha_ha": 248.69,
+   "msavi_promedio": 0.3616,
+   "bajo_umbral_pct": 76.9578,
+   "pendiente_pct": 11.1444,
+   "cobertura_total_pct": 23.8571,
+   "suelo_desnudo_pct": 47.1786,
+   "n_carcavas": 5,
+   "n_taxones": 100,
+   "cobertura_integracion_pct": 80.8,
+   "n_actualizados": 4,
+   "n_pendientes": 197,
+   "n_sustantivas": 53,
+   "n_verificaciones": 185,
+   "hechos_campo": 477,
+   "hechos_gabinete": 226,
+   "hechos_oficial": 126,
+   "estado_conservacion": "Alterado (intervención marcada)",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Alta",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "24",
+    "63",
+    "77",
+    "83",
+    "84",
+    "85",
+    "86",
+    "87",
+    "M11B3"
+   ]
+  },
+  {
+   "grupo": "C1081-Q9590",
+   "n_bloques": 4,
+   "area_ha": 118.75,
+   "brecha_ha": 5.96,
+   "msavi_promedio": 0.654,
+   "bajo_umbral_pct": 5.51,
+   "pendiente_pct": 26.0275,
+   "cobertura_total_pct": 78.75,
+   "suelo_desnudo_pct": 5.75,
+   "n_carcavas": 10,
+   "n_taxones": 54,
+   "cobertura_integracion_pct": 88.15,
+   "n_actualizados": 11,
+   "n_pendientes": 54,
+   "n_sustantivas": 10,
+   "n_verificaciones": 73,
+   "hechos_campo": 260,
+   "hechos_gabinete": 86,
+   "hechos_oficial": 56,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Agroecosistema / Mosaico",
+   "codigos": [
+    "34",
+    "38",
+    "50",
+    "61"
+   ]
+  },
+  {
+   "grupo": "C1081-Q9591",
+   "n_bloques": 10,
+   "area_ha": 552.18,
+   "brecha_ha": 62.08,
+   "msavi_promedio": 0.6292,
+   "bajo_umbral_pct": 9.854,
+   "pendiente_pct": 29.086,
+   "cobertura_total_pct": 76.3571,
+   "suelo_desnudo_pct": 7.8571,
+   "n_carcavas": 6,
+   "n_taxones": 118,
+   "cobertura_integracion_pct": 80.17,
+   "n_actualizados": 7,
+   "n_pendientes": 226,
+   "n_sustantivas": 32,
+   "n_verificaciones": 177,
+   "hechos_campo": 548,
+   "hechos_gabinete": 226,
+   "hechos_oficial": 140,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Agroecosistema / Mosaico",
+   "codigos": [
+    "21",
+    "26",
+    "28",
+    "30",
+    "37",
+    "40",
+    "60",
+    "64",
+    "66",
+    "M30B5"
+   ]
+  },
+  {
+   "grupo": "C1086-Q9569",
+   "n_bloques": 2,
+   "area_ha": 62.44,
+   "brecha_ha": 59.03,
+   "msavi_promedio": 0.4027,
+   "bajo_umbral_pct": 95.665,
+   "pendiente_pct": 17.44,
+   "cobertura_total_pct": 70.0,
+   "suelo_desnudo_pct": 7.5,
+   "n_carcavas": 1,
+   "n_taxones": 17,
+   "cobertura_integracion_pct": 90.35,
+   "n_actualizados": 2,
+   "n_pendientes": 22,
+   "n_sustantivas": 10,
+   "n_verificaciones": 48,
+   "hechos_campo": 130,
+   "hechos_gabinete": 48,
+   "hechos_oficial": 28,
+   "estado_conservacion": "Levemente alterado",
+   "nivel_erosion": "Ligera (laminar)",
+   "urgencia_intervencion": "Baja",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "58",
+    "M32B3"
+   ]
+  },
+  {
+   "grupo": "C1086-Q9570",
+   "n_bloques": 12,
+   "area_ha": 853.87,
+   "brecha_ha": 169.94,
+   "msavi_promedio": 0.5992,
+   "bajo_umbral_pct": 19.1367,
+   "pendiente_pct": 28.5117,
+   "cobertura_total_pct": 72.25,
+   "suelo_desnudo_pct": 11.2,
+   "n_carcavas": 12,
+   "n_taxones": 151,
+   "cobertura_integracion_pct": 81.5,
+   "n_actualizados": 20,
+   "n_pendientes": 253,
+   "n_sustantivas": 37,
+   "n_verificaciones": 235,
+   "hechos_campo": 659,
+   "hechos_gabinete": 288,
+   "hechos_oficial": 168,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Agroecosistema / Mosaico",
+   "codigos": [
+    "11",
+    "12",
+    "14",
+    "15",
+    "17",
+    "23",
+    "42",
+    "59",
+    "78",
+    "82",
+    "M19B2",
+    "M19B7"
+   ]
+  },
+  {
+   "grupo": "C1086-Q9575",
+   "n_bloques": 6,
+   "area_ha": 459.68,
+   "brecha_ha": 298.08,
+   "msavi_promedio": 0.5658,
+   "bajo_umbral_pct": 32.645,
+   "pendiente_pct": 23.115,
+   "cobertura_total_pct": 73.75,
+   "suelo_desnudo_pct": 17.8333,
+   "n_carcavas": 9,
+   "n_taxones": 65,
+   "cobertura_integracion_pct": 91.2333,
+   "n_actualizados": 10,
+   "n_pendientes": 60,
+   "n_sustantivas": 19,
+   "n_verificaciones": 113,
+   "hechos_campo": 401,
+   "hechos_gabinete": 139,
+   "hechos_oficial": 84,
+   "estado_conservacion": "Alterado (intervención marcada)",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "49",
+    "52",
+    "55",
+    "M28B2",
+    "M28B3",
+    "M28B4"
+   ]
+  },
+  {
+   "grupo": "C1086-Q9576",
+   "n_bloques": 2,
+   "area_ha": 53.86,
+   "brecha_ha": 2.58,
+   "msavi_promedio": 0.6002,
+   "bajo_umbral_pct": 4.775,
+   "pendiente_pct": 30.055,
+   "cobertura_total_pct": 80.0,
+   "suelo_desnudo_pct": 12.5,
+   "n_carcavas": 4,
+   "n_taxones": 30,
+   "cobertura_integracion_pct": 87.7,
+   "n_actualizados": 4,
+   "n_pendientes": 28,
+   "n_sustantivas": 8,
+   "n_verificaciones": 41,
+   "hechos_campo": 128,
+   "hechos_gabinete": 44,
+   "hechos_oficial": 28,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Matorral Andino húmedo",
+   "codigos": [
+    "57",
+    "M36B2"
+   ]
+  },
+  {
+   "grupo": "C1096-Q9545",
+   "n_bloques": 2,
+   "area_ha": 814.65,
+   "brecha_ha": 486.46,
+   "msavi_promedio": 0.441,
+   "bajo_umbral_pct": 64.195,
+   "pendiente_pct": 19.845,
+   "cobertura_total_pct": 87.5,
+   "suelo_desnudo_pct": 10.0,
+   "n_carcavas": 0,
+   "n_taxones": 20,
+   "cobertura_integracion_pct": 82.45,
+   "n_actualizados": 3,
+   "n_pendientes": 40,
+   "n_sustantivas": 12,
+   "n_verificaciones": 42,
+   "hechos_campo": 111,
+   "hechos_gabinete": 49,
+   "hechos_oficial": 28,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "3",
+    "M9B1"
+   ]
+  },
+  {
+   "grupo": "C1096-Q9547",
+   "n_bloques": 3,
+   "area_ha": 262.14,
+   "brecha_ha": 137.24,
+   "msavi_promedio": 0.4636,
+   "bajo_umbral_pct": 56.95,
+   "pendiente_pct": 26.0733,
+   "cobertura_total_pct": 86.6667,
+   "suelo_desnudo_pct": 8.3333,
+   "n_carcavas": 1,
+   "n_taxones": 26,
+   "cobertura_integracion_pct": 85.7,
+   "n_actualizados": 13,
+   "n_pendientes": 49,
+   "n_sustantivas": 11,
+   "n_verificaciones": 67,
+   "hechos_campo": 186,
+   "hechos_gabinete": 65,
+   "hechos_oficial": 42,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Ligera (laminar)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Agroecosistema / Mosaico",
+   "codigos": [
+    "6",
+    "36",
+    "M10B4"
+   ]
+  },
+  {
+   "grupo": "C1096-Q9556",
+   "n_bloques": 8,
+   "area_ha": 839.41,
+   "brecha_ha": 549.48,
+   "msavi_promedio": 0.4609,
+   "bajo_umbral_pct": 69.3825,
+   "pendiente_pct": 24.0975,
+   "cobertura_total_pct": 75.0,
+   "suelo_desnudo_pct": 10.8333,
+   "n_carcavas": 7,
+   "n_taxones": 91,
+   "cobertura_integracion_pct": 81.5875,
+   "n_actualizados": 16,
+   "n_pendientes": 168,
+   "n_sustantivas": 40,
+   "n_verificaciones": 169,
+   "hechos_campo": 439,
+   "hechos_gabinete": 193,
+   "hechos_oficial": 112,
+   "estado_conservacion": "Levemente alterado",
+   "nivel_erosion": "Moderada (surcos)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "22",
+    "27",
+    "M17B1",
+    "M17B4",
+    "M17B5",
+    "M17B6",
+    "M17B7",
+    "M17B10"
+   ]
+  },
+  {
+   "grupo": "C1096-Q9557",
+   "n_bloques": 1,
+   "area_ha": 448.8,
+   "brecha_ha": 435.11,
+   "msavi_promedio": 0.3632,
+   "bajo_umbral_pct": 96.95,
+   "pendiente_pct": 17.86,
+   "cobertura_total_pct": 70.0,
+   "suelo_desnudo_pct": 15.0,
+   "n_carcavas": 0,
+   "n_taxones": 12,
+   "cobertura_integracion_pct": 83.3,
+   "n_actualizados": 1,
+   "n_pendientes": 19,
+   "n_sustantivas": 5,
+   "n_verificaciones": 21,
+   "hechos_campo": 59,
+   "hechos_gabinete": 22,
+   "hechos_oficial": 14,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Ligera (laminar)",
+   "urgencia_intervencion": "Alta",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "M27B1"
+   ]
+  },
+  {
+   "grupo": "C1096-Q9558",
+   "n_bloques": 2,
+   "area_ha": 365.95,
+   "brecha_ha": 338.92,
+   "msavi_promedio": 0.4446,
+   "bajo_umbral_pct": 65.2,
+   "pendiente_pct": 18.88,
+   "cobertura_total_pct": 70.0,
+   "suelo_desnudo_pct": 25.0,
+   "n_carcavas": 0,
+   "n_taxones": 19,
+   "cobertura_integracion_pct": 81.6,
+   "n_actualizados": 2,
+   "n_pendientes": 42,
+   "n_sustantivas": 8,
+   "n_verificaciones": 40,
+   "hechos_campo": 107,
+   "hechos_gabinete": 51,
+   "hechos_oficial": 28,
+   "estado_conservacion": "Medianamente alterado",
+   "nivel_erosion": "Ligera (laminar)",
+   "urgencia_intervencion": "Sin registro en ficha",
+   "tipo_ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+   "codigos": [
+    "2",
+    "M8B2"
+   ]
+  },
+  {
+   "grupo": "C1096-Q9564",
+   "n_bloques": 3,
+   "area_ha": 246.75,
+   "brecha_ha": 10.05,
+   "msavi_promedio": 0.6835,
+   "bajo_umbral_pct": 3.95,
+   "pendiente_pct": 26.2567,
+   "cobertura_total_pct": 85.0,
+   "suelo_desnudo_pct": 6.5,
+   "n_carcavas": 4,
+   "n_taxones": 35,
+   "cobertura_integracion_pct": 79.5333,
+   "n_actualizados": 2,
+   "n_pendientes": 70,
+   "n_sustantivas": 10,
+   "n_verificaciones": 52,
+   "hechos_campo": 156,
+   "hechos_gabinete": 74,
+   "hechos_oficial": 42,
+   "estado_conservacion": "Levemente alterado",
+   "nivel_erosion": "Ligera (laminar)",
+   "urgencia_intervencion": "Media",
+   "tipo_ecosistema": "Matorral Andino subhúmedo",
+   "codigos": [
+    "13",
+    "39",
+    "56"
+   ]
+  }
+ ],
+ "bloques": [
+  {
+   "codigo": "2",
+   "provincia": "Morropon",
+   "distrito": "Chulucanas",
+   "microcuenca": "C1096-Q9558",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque2_IN_Piura_V5.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_2_IN_Piura.xlsx",
+   "cobertura_pct": 89.5,
+   "conteo_fuente": {
+    "CAMPO": 67,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 100,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 12
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 2,
+    "CONFORME": 11,
+    "total": 18
+   },
+   "campos_reescritos": [
+    "parcela_muestreo",
+    "superficie_ecosistema"
+   ]
+  },
+  {
+   "codigo": "3",
+   "provincia": "Ayabaca",
+   "distrito": "Frias",
+   "microcuenca": "C1096-Q9545",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque3_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_3_IN_Piura.xlsx",
+   "cobertura_pct": 84.2,
+   "conteo_fuente": {
+    "CAMPO": 61,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 94,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 18
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 1,
+    "CONFORME": 10,
+    "total": 16
+   },
+   "campos_reescritos": [
+    "parcela_muestreo",
+    "superficie_ecosistema"
+   ]
+  },
+  {
+   "codigo": "4",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9588",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque4_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_4_IN_Piura.xlsx",
+   "cobertura_pct": 80.7,
+   "conteo_fuente": {
+    "CAMPO": 58,
+    "GABINETE": 20,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 91,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 22
+   },
+   "consistencia": {
+    "SUSTANTIVA": 3,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 1,
+    "CONFORME": 11,
+    "total": 18
+   },
+   "campos_reescritos": [
+    "causa_subyacente"
+   ]
+  },
+  {
+   "codigo": "5",
+   "provincia": "Morropon",
+   "distrito": "Buenos Aires",
+   "microcuenca": "C1077-Q9566",
+   "archivo_campo": "Plantilla_DT_M_C1077Q9566_B5_Buenos_Aires.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_5_IN_Piura.xlsx",
+   "cobertura_pct": 96.5,
+   "conteo_fuente": {
+    "CAMPO": 75,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 110,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 4
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 0,
+    "CONFORME": 12,
+    "total": 16
+   },
+   "campos_reescritos": []
+  },
+  {
+   "codigo": "6",
+   "provincia": "Ayabaca",
+   "distrito": "Frias",
+   "microcuenca": "C1096-Q9547",
+   "archivo_campo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque6.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_6_IN_Piura.xlsx",
+   "cobertura_pct": 85.1,
+   "conteo_fuente": {
+    "CAMPO": 61,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 96,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 17
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 0,
+    "CONFORME": 12,
+    "total": 16
+   },
+   "campos_reescritos": [
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "8",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9593",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque8_IN_Piura_rev_hscm.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_8_IN_Piura.xlsx",
+   "cobertura_pct": 77.2,
+   "conteo_fuente": {
+    "CAMPO": 54,
+    "GABINETE": 20,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 87,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 26
+   },
+   "consistencia": {
+    "SUSTANTIVA": 3,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 1,
+    "CONFORME": 11,
+    "total": 16
+   },
+   "campos_reescritos": [
+    "n_taxones"
+   ]
+  },
+  {
+   "codigo": "9",
+   "provincia": "Huancabamba",
+   "distrito": "San Miguel de El Faique",
+   "microcuenca": "C1076-Q9586",
+   "archivo_campo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque9_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_9_IN_Piura.xlsx",
+   "cobertura_pct": 95.6,
+   "conteo_fuente": {
+    "CAMPO": 73,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 109,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 5
+   },
+   "consistencia": {
+    "SUSTANTIVA": 3,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 0,
+    "CONFORME": 11,
+    "total": 16
+   },
+   "campos_reescritos": []
+  },
+  {
+   "codigo": "10",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9593",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque10_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_10_IN_Piura.xlsx",
+   "cobertura_pct": 71.9,
+   "conteo_fuente": {
+    "CAMPO": 48,
+    "GABINETE": 20,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 82,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 32
+   },
+   "consistencia": {
+    "SUSTANTIVA": 3,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 0,
+    "CONFORME": 11,
+    "total": 15
+   },
+   "campos_reescritos": []
+  },
+  {
+   "codigo": "11",
+   "provincia": "Morropon",
+   "distrito": "Santo Domingo",
+   "microcuenca": "C1086-Q9570",
+   "archivo_campo": "FDT_Bloque11_Diagnostico_Territorial.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_11_IN_Piura.xlsx",
+   "cobertura_pct": 78.9,
+   "conteo_fuente": {
+    "CAMPO": 54,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 87,
+    "COMPLEMENTADO": 2,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 24
+   },
+   "consistencia": {
+    "SUSTANTIVA": 1,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 1,
+    "CONFORME": 12,
+    "total": 16
+   },
+   "campos_reescritos": [
+    "evaluador",
+    "parcela_muestreo",
+    "suelo_desnudo_pct"
+   ]
+  },
+  {
+   "codigo": "12",
+   "provincia": "Morropon",
+   "distrito": "Santo Domingo",
+   "microcuenca": "C1086-Q9570",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque12_Validada.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_12_IN_Piura.xlsx",
+   "cobertura_pct": 90.4,
+   "conteo_fuente": {
+    "CAMPO": 68,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 102,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 11
+   },
+   "consistencia": {
+    "SUSTANTIVA": 1,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 1,
+    "CONFORME": 12,
+    "total": 15
+   },
+   "campos_reescritos": [
+    "causa_subyacente"
+   ]
+  },
+  {
+   "codigo": "13",
+   "provincia": "Morropon",
+   "distrito": "Santo Domingo",
+   "microcuenca": "C1096-Q9564",
+   "archivo_campo": "DT_B13_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_13_IN_Piura.xlsx",
+   "cobertura_pct": 96.5,
+   "conteo_fuente": {
+    "CAMPO": 74,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 109,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 4
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 0,
+    "CONFORME": 12,
+    "total": 15
+   },
+   "campos_reescritos": [
+    "comunidad_campesina"
+   ]
+  },
+  {
+   "codigo": "14",
+   "provincia": "Morropon",
+   "distrito": "Santa Catalina de Mossa",
+   "microcuenca": "C1086-Q9570",
+   "archivo_campo": "Plantilla_DT_Bloque14_LLENADA.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_14_IN_Piura.xlsx",
+   "cobertura_pct": 86.8,
+   "conteo_fuente": {
+    "CAMPO": 64,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 97,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 15
+   },
+   "consistencia": {
+    "SUSTANTIVA": 3,
+    "NO SUSTANTIVA": 4,
+    "CORREGIDO": 2,
+    "CONFORME": 12,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "evaluador",
+    "fecha_evaluacion"
+   ]
+  },
+  {
+   "codigo": "15",
+   "provincia": "Morropon",
+   "distrito": "Santo Domingo",
+   "microcuenca": "C1086-Q9570",
+   "archivo_campo": "FDT_B15_Diagnostico_Territorial.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_15_IN_Piura.xlsx",
+   "cobertura_pct": 86.8,
+   "conteo_fuente": {
+    "CAMPO": 65,
+    "GABINETE": 20,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 98,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 15
+   },
+   "consistencia": {
+    "SUSTANTIVA": 1,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 1,
+    "CONFORME": 12,
+    "total": 15
+   },
+   "campos_reescritos": [
+    "evaluador"
+   ]
+  },
+  {
+   "codigo": "16",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9593",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque16_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_16_IN_Piura.xlsx",
+   "cobertura_pct": 71.1,
+   "conteo_fuente": {
+    "CAMPO": 47,
+    "GABINETE": 20,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 81,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 33
+   },
+   "consistencia": {
+    "SUSTANTIVA": 4,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 0,
+    "CONFORME": 11,
+    "total": 17
+   },
+   "campos_reescritos": []
+  },
+  {
+   "codigo": "17",
+   "provincia": "Morropon",
+   "distrito": "Santo Domingo",
+   "microcuenca": "C1086-Q9570",
+   "archivo_campo": "FDT_B17_Diagnostico_Territorial.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_17_IN_Piura.xlsx",
+   "cobertura_pct": 84.2,
+   "conteo_fuente": {
+    "CAMPO": 60,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 94,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 18
+   },
+   "consistencia": {
+    "SUSTANTIVA": 1,
+    "NO SUSTANTIVA": 4,
+    "CORREGIDO": 1,
+    "CONFORME": 12,
+    "total": 18
+   },
+   "campos_reescritos": [
+    "evaluador",
+    "suelo_desnudo_pct"
+   ]
+  },
+  {
+   "codigo": "18",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9592",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque18_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_18_IN_Piura.xlsx",
+   "cobertura_pct": 78.1,
+   "conteo_fuente": {
+    "CAMPO": 53,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 88,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 25
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 0,
+    "CONFORME": 11,
+    "total": 16
+   },
+   "campos_reescritos": [
+    "cobertura_total_pct"
+   ]
+  },
+  {
+   "codigo": "19",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9592",
+   "archivo_campo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque19_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_19_IN_Piura.xlsx",
+   "cobertura_pct": 93.9,
+   "conteo_fuente": {
+    "CAMPO": 72,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 107,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 7
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 0,
+    "CONFORME": 11,
+    "total": 14
+   },
+   "campos_reescritos": []
+  },
+  {
+   "codigo": "20",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9593",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque20_IN_Piura_V5.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_20_IN_Piura.xlsx",
+   "cobertura_pct": 74.6,
+   "conteo_fuente": {
+    "CAMPO": 49,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 84,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 29
+   },
+   "consistencia": {
+    "SUSTANTIVA": 4,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 0,
+    "CONFORME": 10,
+    "total": 16
+   },
+   "campos_reescritos": [
+    "n_carcavas"
+   ]
+  },
+  {
+   "codigo": "21",
+   "provincia": "Huancabamba",
+   "distrito": "Canchaque",
+   "microcuenca": "C1081-Q9591",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque21_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_21_IN_Piura.xlsx",
+   "cobertura_pct": 83.3,
+   "conteo_fuente": {
+    "CAMPO": 61,
+    "GABINETE": 20,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 93,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 19
+   },
+   "consistencia": {
+    "SUSTANTIVA": 1,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 2,
+    "CONFORME": 12,
+    "total": 16
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "hora_registro"
+   ]
+  },
+  {
+   "codigo": "22",
+   "provincia": "Morropon",
+   "distrito": "Chulucanas",
+   "microcuenca": "C1096-Q9556",
+   "archivo_campo": "FDT_Bloque22_IN_Piura_V5_19Ago.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_22_IN_Piura.xlsx",
+   "cobertura_pct": 86.0,
+   "conteo_fuente": {
+    "CAMPO": 62,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 92,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 5,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 16
+   },
+   "consistencia": {
+    "SUSTANTIVA": 3,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 5,
+    "CONFORME": 12,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "correlativo_ficha",
+    "evaluador",
+    "n_carcavas",
+    "nivel_erosion",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "23",
+   "provincia": "Morropon",
+   "distrito": "Santo Domingo",
+   "microcuenca": "C1086-Q9570",
+   "archivo_campo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque23.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_23_IN_Piura.xlsx",
+   "cobertura_pct": 58.8,
+   "conteo_fuente": {
+    "CAMPO": 12,
+    "GABINETE": 41,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 43,
+    "COMPLEMENTADO": 21,
+    "ACTUALIZADO": 3,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 47
+   },
+   "consistencia": {
+    "SUSTANTIVA": 4,
+    "NO SUSTANTIVA": 5,
+    "CORREGIDO": 3,
+    "CONFORME": 9,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "afloramientos_rocosos",
+    "causa_subyacente",
+    "correlativo_ficha",
+    "escarpes_activos",
+    "estado_conservacion",
+    "estado_sanitario",
+    "evaluador",
+    "exposicion",
+    "fecha_evaluacion",
+    "hora_registro",
+    "modalidad_acceso",
+    "n_carcavas",
+    "nivel_erosion",
+    "parcela_muestreo",
+    "pendiente_campo",
+    "remociones_masa",
+    "reversibilidad",
+    "suelo_desnudo_pct",
+    "tipo_cobertura",
+    "tipo_ecosistema",
+    "urgencia_intervencion",
+    "uso_dominante",
+    "velocidad_degradacion",
+    "zona_recarga"
+   ]
+  },
+  {
+   "codigo": "24",
+   "provincia": "Huancabamba",
+   "distrito": "Canchaque",
+   "microcuenca": "C1081-Q9583",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque24_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_24_IN_Piura.xlsx",
+   "cobertura_pct": 76.3,
+   "conteo_fuente": {
+    "CAMPO": 52,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 86,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 27
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 0,
+    "CONFORME": 12,
+    "total": 15
+   },
+   "campos_reescritos": [
+    "hora_registro"
+   ]
+  },
+  {
+   "codigo": "26",
+   "provincia": "Huancabamba",
+   "distrito": "Lalaquiz",
+   "microcuenca": "C1081-Q9591",
+   "archivo_campo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque26.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_26_IN_Piura.xlsx",
+   "cobertura_pct": 78.9,
+   "conteo_fuente": {
+    "CAMPO": 50,
+    "GABINETE": 26,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 85,
+    "COMPLEMENTADO": 5,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 24
+   },
+   "consistencia": {
+    "SUSTANTIVA": 1,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 0,
+    "CONFORME": 11,
+    "total": 15
+   },
+   "campos_reescritos": [
+    "correlativo_ficha",
+    "hora_registro",
+    "n_carcavas",
+    "parcela_muestreo",
+    "suelo_desnudo_pct"
+   ]
+  },
+  {
+   "codigo": "27",
+   "provincia": "Ayabaca",
+   "distrito": "Frias",
+   "microcuenca": "C1096-Q9556",
+   "archivo_campo": "Plantilla_DT_Campo_Check_V5_Bloque27_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_27_IN_Piura.xlsx",
+   "cobertura_pct": 77.2,
+   "conteo_fuente": {
+    "CAMPO": 52,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 87,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 26
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 0,
+    "CONFORME": 11,
+    "total": 16
+   },
+   "campos_reescritos": [
+    "modalidad_acceso"
+   ]
+  },
+  {
+   "codigo": "28",
+   "provincia": "Huancabamba",
+   "distrito": "Canchaque",
+   "microcuenca": "C1081-Q9591",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque28_IN_Piura_rev_hscm.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_28_IN_Piura.xlsx",
+   "cobertura_pct": 76.3,
+   "conteo_fuente": {
+    "CAMPO": 52,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 86,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 27
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 0,
+    "CORREGIDO": 0,
+    "CONFORME": 12,
+    "total": 14
+   },
+   "campos_reescritos": [
+    "hora_registro"
+   ]
+  },
+  {
+   "codigo": "30",
+   "provincia": "Huancabamba",
+   "distrito": "Canchaque",
+   "microcuenca": "C1081-Q9591",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque30_IN_Piura_rev_hscm.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_30_IN_Piura.xlsx",
+   "cobertura_pct": 76.3,
+   "conteo_fuente": {
+    "CAMPO": 51,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 86,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 27
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 0,
+    "CORREGIDO": 0,
+    "CONFORME": 12,
+    "total": 14
+   },
+   "campos_reescritos": [
+    "hora_registro"
+   ]
+  },
+  {
+   "codigo": "31",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9592",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque31_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_31_IN_Piura.xlsx",
+   "cobertura_pct": 91.2,
+   "conteo_fuente": {
+    "CAMPO": 70,
+    "GABINETE": 20,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 104,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 10
+   },
+   "consistencia": {
+    "SUSTANTIVA": 3,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 0,
+    "CONFORME": 10,
+    "total": 14
+   },
+   "campos_reescritos": []
+  },
+  {
+   "codigo": "34",
+   "provincia": "Huancabamba",
+   "distrito": "Lalaquiz",
+   "microcuenca": "C1081-Q9590",
+   "archivo_campo": "Plantilla_DT_Campo_V5_Bloque34_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_34_IN_Piura.xlsx",
+   "cobertura_pct": 88.6,
+   "conteo_fuente": {
+    "CAMPO": 66,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 101,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 13
+   },
+   "consistencia": {
+    "SUSTANTIVA": 1,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 0,
+    "CONFORME": 11,
+    "total": 14
+   },
+   "campos_reescritos": []
+  },
+  {
+   "codigo": "35",
+   "provincia": "Huancabamba",
+   "distrito": "San Miguel de El Faique",
+   "microcuenca": "C1076-Q9586",
+   "archivo_campo": "Plantilla_DT_Campo_V5_Bloque35_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_35_IN_Piura.xlsx",
+   "cobertura_pct": 85.1,
+   "conteo_fuente": {
+    "CAMPO": 63,
+    "GABINETE": 20,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 96,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 17
+   },
+   "consistencia": {
+    "SUSTANTIVA": 1,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 1,
+    "CONFORME": 11,
+    "total": 16
+   },
+   "campos_reescritos": [
+    "centro_poblado"
+   ]
+  },
+  {
+   "codigo": "36",
+   "provincia": "Ayabaca",
+   "distrito": "Frias",
+   "microcuenca": "C1096-Q9547",
+   "archivo_campo": "DT_Campo_Bloque36_V5.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_36_IN_Piura.xlsx",
+   "cobertura_pct": 82.5,
+   "conteo_fuente": {
+    "CAMPO": 59,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 92,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 20
+   },
+   "consistencia": {
+    "SUSTANTIVA": 1,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 2,
+    "CONFORME": 11,
+    "total": 16
+   },
+   "campos_reescritos": [
+    "evaluador",
+    "n_taxones"
+   ]
+  },
+  {
+   "codigo": "37",
+   "provincia": "Huancabamba",
+   "distrito": "Lalaquiz",
+   "microcuenca": "C1081-Q9591",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque37_V5.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_37_IN_Piura.xlsx",
+   "cobertura_pct": 71.9,
+   "conteo_fuente": {
+    "CAMPO": 43,
+    "GABINETE": 25,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 76,
+    "COMPLEMENTADO": 4,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 32
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 4,
+    "CORREGIDO": 2,
+    "CONFORME": 11,
+    "total": 19
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "correlativo_ficha",
+    "evaluador",
+    "hora_registro",
+    "n_carcavas",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "38",
+   "provincia": "Huancabamba",
+   "distrito": "Lalaquiz",
+   "microcuenca": "C1081-Q9590",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque38_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_38_IN_Piura.xlsx",
+   "cobertura_pct": 86.0,
+   "conteo_fuente": {
+    "CAMPO": 63,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 98,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 16
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 0,
+    "CONFORME": 12,
+    "total": 15
+   },
+   "campos_reescritos": []
+  },
+  {
+   "codigo": "39",
+   "provincia": "Ayabaca",
+   "distrito": "Frias",
+   "microcuenca": "C1096-Q9564",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque39_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_39_IN_Piura.xlsx",
+   "cobertura_pct": 78.1,
+   "conteo_fuente": {
+    "CAMPO": 51,
+    "GABINETE": 24,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 85,
+    "COMPLEMENTADO": 3,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 25
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 1,
+    "CONFORME": 11,
+    "total": 15
+   },
+   "campos_reescritos": [
+    "escarpes_activos",
+    "n_taxones",
+    "regeneracion",
+    "remociones_masa"
+   ]
+  },
+  {
+   "codigo": "40",
+   "provincia": "Huancabamba",
+   "distrito": "Canchaque",
+   "microcuenca": "C1081-Q9591",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque40_IN_Piura_rev_hscm.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_40_IN_Piura.xlsx",
+   "cobertura_pct": 76.3,
+   "conteo_fuente": {
+    "CAMPO": 51,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 86,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 27
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 0,
+    "CONFORME": 12,
+    "total": 15
+   },
+   "campos_reescritos": [
+    "hora_registro"
+   ]
+  },
+  {
+   "codigo": "41",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9592",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque41_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_41_IN_Piura.xlsx",
+   "cobertura_pct": 87.7,
+   "conteo_fuente": {
+    "CAMPO": 64,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 99,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 14
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 0,
+    "CONFORME": 11,
+    "total": 14
+   },
+   "campos_reescritos": [
+    "evaluador"
+   ]
+  },
+  {
+   "codigo": "42",
+   "provincia": "Morropon",
+   "distrito": "Santa Catalina de Mossa",
+   "microcuenca": "C1086-Q9570",
+   "archivo_campo": "Plantilla_DT_Bloque42_LLENADA.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_42_IN_Piura.xlsx",
+   "cobertura_pct": 80.7,
+   "conteo_fuente": {
+    "CAMPO": 54,
+    "GABINETE": 24,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 85,
+    "COMPLEMENTADO": 4,
+    "ACTUALIZADO": 3,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 22
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 3,
+    "CONFORME": 12,
+    "total": 19
+   },
+   "campos_reescritos": [
+    "comunidad_campesina",
+    "correlativo_ficha",
+    "evaluador",
+    "fecha_evaluacion",
+    "hora_registro",
+    "parcela_muestreo",
+    "suelo_desnudo_pct"
+   ]
+  },
+  {
+   "codigo": "43",
+   "provincia": "Huancabamba",
+   "distrito": "San Miguel de El Faique",
+   "microcuenca": "C1076-Q9586",
+   "archivo_campo": "Plantilla_DT_Campo_B43_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_43_IN_Piura.xlsx",
+   "cobertura_pct": 85.1,
+   "conteo_fuente": {
+    "CAMPO": 62,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 95,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 17
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 2,
+    "CONFORME": 10,
+    "total": 17
+   },
+   "campos_reescritos": [
+    "centro_poblado",
+    "hora_registro"
+   ]
+  },
+  {
+   "codigo": "44",
+   "provincia": "Huancabamba",
+   "distrito": "San Miguel de El Faique",
+   "microcuenca": "C1076-Q9586",
+   "archivo_campo": "DT_Campo_Bloque44_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_44_IN_Piura.xlsx",
+   "cobertura_pct": 84.2,
+   "conteo_fuente": {
+    "CAMPO": 59,
+    "GABINETE": 23,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 94,
+    "COMPLEMENTADO": 2,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 18
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 0,
+    "CONFORME": 10,
+    "total": 15
+   },
+   "campos_reescritos": [
+    "estado_sanitario",
+    "regeneracion"
+   ]
+  },
+  {
+   "codigo": "47",
+   "provincia": "Huancabamba",
+   "distrito": "San Miguel de El Faique",
+   "microcuenca": "C1076-Q9586",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque47_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_47_IN_Piura.xlsx",
+   "cobertura_pct": 84.2,
+   "conteo_fuente": {
+    "CAMPO": 61,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 96,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 18
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 0,
+    "CONFORME": 11,
+    "total": 15
+   },
+   "campos_reescritos": []
+  },
+  {
+   "codigo": "49",
+   "provincia": "Morropon",
+   "distrito": "Yamango",
+   "microcuenca": "C1086-Q9575",
+   "archivo_campo": "FDT_B49_Diagnostico_Territorial.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_49_IN_Piura.xlsx",
+   "cobertura_pct": 96.5,
+   "conteo_fuente": {
+    "CAMPO": 76,
+    "GABINETE": 20,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 108,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 4
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 2,
+    "CONFORME": 11,
+    "total": 16
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "superficie_ecosistema"
+   ]
+  },
+  {
+   "codigo": "50",
+   "provincia": "Huancabamba",
+   "distrito": "Lalaquiz",
+   "microcuenca": "C1081-Q9590",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque50_V5.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_50_IN_Piura.xlsx",
+   "cobertura_pct": 86.8,
+   "conteo_fuente": {
+    "CAMPO": 65,
+    "GABINETE": 20,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 98,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 15
+   },
+   "consistencia": {
+    "SUSTANTIVA": 1,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 1,
+    "CONFORME": 10,
+    "total": 14
+   },
+   "campos_reescritos": [
+    "superficie_ecosistema"
+   ]
+  },
+  {
+   "codigo": "51",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9593",
+   "archivo_campo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque51_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_51_IN_Piura.xlsx",
+   "cobertura_pct": 96.5,
+   "conteo_fuente": {
+    "CAMPO": 74,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 109,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 4
+   },
+   "consistencia": {
+    "SUSTANTIVA": 6,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 2,
+    "CONFORME": 11,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "correlativo_ficha"
+   ]
+  },
+  {
+   "codigo": "52",
+   "provincia": "Morropon",
+   "distrito": "Yamango",
+   "microcuenca": "C1086-Q9575",
+   "archivo_campo": "FDT_B52_Diagnostico_Territorial.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_52_IN_Piura.xlsx",
+   "cobertura_pct": 88.6,
+   "conteo_fuente": {
+    "CAMPO": 64,
+    "GABINETE": 23,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 97,
+    "COMPLEMENTADO": 2,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 13
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 2,
+    "CONFORME": 12,
+    "total": 18
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "cobertura_total_pct",
+    "evaluador",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "53",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9592",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque53_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_53_IN_Piura.xlsx",
+   "cobertura_pct": 78.1,
+   "conteo_fuente": {
+    "CAMPO": 51,
+    "GABINETE": 24,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 85,
+    "COMPLEMENTADO": 3,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 25
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 1,
+    "CONFORME": 11,
+    "total": 16
+   },
+   "campos_reescritos": [
+    "cobertura_total_pct",
+    "fecha_evaluacion",
+    "parcela_muestreo",
+    "suelo_desnudo_pct"
+   ]
+  },
+  {
+   "codigo": "55",
+   "provincia": "Morropon",
+   "distrito": "Yamango",
+   "microcuenca": "C1086-Q9575",
+   "archivo_campo": "FDT_B55_Huacas_Yamango_Llenado.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_55_IN_Piura.xlsx",
+   "cobertura_pct": 96.5,
+   "conteo_fuente": {
+    "CAMPO": 73,
+    "GABINETE": 23,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 107,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 4
+   },
+   "consistencia": {
+    "SUSTANTIVA": 1,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 2,
+    "CONFORME": 11,
+    "total": 16
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "n_taxones",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "56",
+   "provincia": "Ayabaca",
+   "distrito": "Frias",
+   "microcuenca": "C1096-Q9564",
+   "archivo_campo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque56.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_56_IN_Piura.xlsx",
+   "cobertura_pct": 64.0,
+   "conteo_fuente": {
+    "CAMPO": 31,
+    "GABINETE": 28,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 68,
+    "COMPLEMENTADO": 4,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 41
+   },
+   "consistencia": {
+    "SUSTANTIVA": 6,
+    "NO SUSTANTIVA": 6,
+    "CORREGIDO": 1,
+    "CONFORME": 9,
+    "total": 22
+   },
+   "campos_reescritos": [
+    "afloramientos_rocosos",
+    "correlativo_ficha",
+    "hora_registro",
+    "n_taxones",
+    "remociones_masa"
+   ]
+  },
+  {
+   "codigo": "57",
+   "provincia": "Morropon",
+   "distrito": "Chalaco",
+   "microcuenca": "C1086-Q9576",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque57_V5.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_57_IN_Piura.xlsx",
+   "cobertura_pct": 88.6,
+   "conteo_fuente": {
+    "CAMPO": 65,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 97,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 3,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 13
+   },
+   "consistencia": {
+    "SUSTANTIVA": 3,
+    "NO SUSTANTIVA": 5,
+    "CORREGIDO": 3,
+    "CONFORME": 9,
+    "total": 20
+   },
+   "campos_reescritos": [
+    "centro_poblado",
+    "comunidad_campesina",
+    "evaluador",
+    "hora_registro"
+   ]
+  },
+  {
+   "codigo": "58",
+   "provincia": "Morropon",
+   "distrito": "Santa Catalina de Mossa",
+   "microcuenca": "C1086-Q9569",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque58_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_58_IN_Piura.xlsx",
+   "cobertura_pct": 87.7,
+   "conteo_fuente": {
+    "CAMPO": 62,
+    "GABINETE": 24,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 98,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 14
+   },
+   "consistencia": {
+    "SUSTANTIVA": 5,
+    "NO SUSTANTIVA": 6,
+    "CORREGIDO": 2,
+    "CONFORME": 12,
+    "total": 25
+   },
+   "campos_reescritos": [
+    "parcela_muestreo",
+    "uso_dominante"
+   ]
+  },
+  {
+   "codigo": "59",
+   "provincia": "Morropon",
+   "distrito": "Chalaco",
+   "microcuenca": "C1086-Q9570",
+   "archivo_campo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque59.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_59_IN_Piura.xlsx",
+   "cobertura_pct": 86.0,
+   "conteo_fuente": {
+    "CAMPO": 63,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 95,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 16
+   },
+   "consistencia": {
+    "SUSTANTIVA": 4,
+    "NO SUSTANTIVA": 6,
+    "CORREGIDO": 2,
+    "CONFORME": 10,
+    "total": 22
+   },
+   "campos_reescritos": [
+    "centro_poblado",
+    "comunidad_campesina",
+    "superficie_ecosistema"
+   ]
+  },
+  {
+   "codigo": "60",
+   "provincia": "Huancabamba",
+   "distrito": "Canchaque",
+   "microcuenca": "C1081-Q9591",
+   "archivo_campo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque60.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_60_IN_Piura.xlsx",
+   "cobertura_pct": 82.5,
+   "conteo_fuente": {
+    "CAMPO": 57,
+    "GABINETE": 23,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 91,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 20
+   },
+   "consistencia": {
+    "SUSTANTIVA": 4,
+    "NO SUSTANTIVA": 4,
+    "CORREGIDO": 2,
+    "CONFORME": 11,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "centro_poblado",
+    "correlativo_ficha",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "61",
+   "provincia": "Huancabamba",
+   "distrito": "Lalaquiz",
+   "microcuenca": "C1081-Q9590",
+   "archivo_campo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque61.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_61_IN_Piura.xlsx",
+   "cobertura_pct": 91.2,
+   "conteo_fuente": {
+    "CAMPO": 66,
+    "GABINETE": 24,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 93,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 10,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 10
+   },
+   "consistencia": {
+    "SUSTANTIVA": 6,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 10,
+    "CONFORME": 11,
+    "total": 30
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "comunidad_campesina",
+    "correlativo_ficha",
+    "evaluador",
+    "modalidad_acceso",
+    "n_carcavas",
+    "n_taxones",
+    "nivel_erosion",
+    "parcela_muestreo",
+    "tipo_ecosistema",
+    "zona_recarga"
+   ]
+  },
+  {
+   "codigo": "63",
+   "provincia": "Huancabamba",
+   "distrito": "Canchaque",
+   "microcuenca": "C1081-Q9583",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque63_IN_Piura_rev_hscm.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_63_IN_Piura.xlsx",
+   "cobertura_pct": 77.2,
+   "conteo_fuente": {
+    "CAMPO": 51,
+    "GABINETE": 23,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 86,
+    "COMPLEMENTADO": 2,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 26
+   },
+   "consistencia": {
+    "SUSTANTIVA": 5,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 0,
+    "CONFORME": 12,
+    "total": 18
+   },
+   "campos_reescritos": [
+    "hora_registro",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "64",
+   "provincia": "Huancabamba",
+   "distrito": "Huancabamba",
+   "microcuenca": "C1081-Q9591",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque64_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_64_IN_Piura.xlsx",
+   "cobertura_pct": 85.1,
+   "conteo_fuente": {
+    "CAMPO": 60,
+    "GABINETE": 23,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 95,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 17
+   },
+   "consistencia": {
+    "SUSTANTIVA": 8,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 1,
+    "CONFORME": 12,
+    "total": 22
+   },
+   "campos_reescritos": [
+    "comunidad_campesina",
+    "uso_dominante"
+   ]
+  },
+  {
+   "codigo": "66",
+   "provincia": "Huancabamba",
+   "distrito": "Canchaque",
+   "microcuenca": "C1081-Q9591",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque66_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_66_IN_Piura.xlsx",
+   "cobertura_pct": 81.6,
+   "conteo_fuente": {
+    "CAMPO": 58,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 92,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 21
+   },
+   "consistencia": {
+    "SUSTANTIVA": 6,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 0,
+    "CONFORME": 11,
+    "total": 20
+   },
+   "campos_reescritos": [
+    "evaluador"
+   ]
+  },
+  {
+   "codigo": "67",
+   "provincia": "Huancabamba",
+   "distrito": "San Miguel de El Faique",
+   "microcuenca": "C1076-Q9586",
+   "archivo_campo": "DT_Bloque67_V5.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_67_IN_Piura.xlsx",
+   "cobertura_pct": 67.5,
+   "conteo_fuente": {
+    "CAMPO": 29,
+    "GABINETE": 34,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 64,
+    "COMPLEMENTADO": 13,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 37
+   },
+   "consistencia": {
+    "SUSTANTIVA": 7,
+    "NO SUSTANTIVA": 7,
+    "CORREGIDO": 0,
+    "CONFORME": 8,
+    "total": 22
+   },
+   "campos_reescritos": [
+    "correlativo_ficha",
+    "estado_conservacion",
+    "estado_sanitario",
+    "exposicion",
+    "n_carcavas",
+    "parcela_muestreo",
+    "regeneracion",
+    "reversibilidad",
+    "tipo_ecosistema",
+    "urgencia_erosion",
+    "urgencia_intervencion",
+    "velocidad_degradacion",
+    "zona_recarga"
+   ]
+  },
+  {
+   "codigo": "69",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9592",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque69_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_69_IN_Piura.xlsx",
+   "cobertura_pct": 91.2,
+   "conteo_fuente": {
+    "CAMPO": 68,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 104,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 10
+   },
+   "consistencia": {
+    "SUSTANTIVA": 9,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 0,
+    "CONFORME": 11,
+    "total": 22
+   },
+   "campos_reescritos": []
+  },
+  {
+   "codigo": "70",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9592",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque70_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_70_IN_Piura.xlsx",
+   "cobertura_pct": 78.1,
+   "conteo_fuente": {
+    "CAMPO": 50,
+    "GABINETE": 25,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 85,
+    "COMPLEMENTADO": 3,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 25
+   },
+   "consistencia": {
+    "SUSTANTIVA": 8,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 1,
+    "CONFORME": 11,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "cobertura_total_pct",
+    "fecha_evaluacion",
+    "parcela_muestreo",
+    "suelo_desnudo_pct"
+   ]
+  },
+  {
+   "codigo": "71",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9593",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque71_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_71_IN_Piura.xlsx",
+   "cobertura_pct": 75.4,
+   "conteo_fuente": {
+    "CAMPO": 48,
+    "GABINETE": 24,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 81,
+    "COMPLEMENTADO": 3,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 28
+   },
+   "consistencia": {
+    "SUSTANTIVA": 8,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 2,
+    "CONFORME": 11,
+    "total": 22
+   },
+   "campos_reescritos": [
+    "cobertura_total_pct",
+    "evaluador",
+    "n_taxones",
+    "regeneracion",
+    "suelo_desnudo_pct"
+   ]
+  },
+  {
+   "codigo": "72",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9592",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque72_IN_Piura_rev_hscm.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_72_IN_Piura.xlsx",
+   "cobertura_pct": 81.6,
+   "conteo_fuente": {
+    "CAMPO": 57,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 92,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 21
+   },
+   "consistencia": {
+    "SUSTANTIVA": 5,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 0,
+    "CONFORME": 11,
+    "total": 19
+   },
+   "campos_reescritos": [
+    "regeneracion"
+   ]
+  },
+  {
+   "codigo": "73",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9592",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque73_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_73_IN_Piura.xlsx",
+   "cobertura_pct": 89.5,
+   "conteo_fuente": {
+    "CAMPO": 67,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 102,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 12
+   },
+   "consistencia": {
+    "SUSTANTIVA": 7,
+    "NO SUSTANTIVA": 4,
+    "CORREGIDO": 0,
+    "CONFORME": 12,
+    "total": 23
+   },
+   "campos_reescritos": []
+  },
+  {
+   "codigo": "76",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9593",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque76_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_76_IN_Piura.xlsx",
+   "cobertura_pct": 78.1,
+   "conteo_fuente": {
+    "CAMPO": 52,
+    "GABINETE": 23,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 87,
+    "COMPLEMENTADO": 2,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 25
+   },
+   "consistencia": {
+    "SUSTANTIVA": 8,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 0,
+    "CONFORME": 12,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "evaluador",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "77",
+   "provincia": "Morropon",
+   "distrito": "San Juan de Bigote",
+   "microcuenca": "C1081-Q9583",
+   "archivo_campo": "Plantilla_DT_Campo_V5_Bloque77.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_77_IN_Piura.xlsx",
+   "cobertura_pct": 87.7,
+   "conteo_fuente": {
+    "CAMPO": 62,
+    "GABINETE": 24,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 98,
+    "COMPLEMENTADO": 2,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 14
+   },
+   "consistencia": {
+    "SUSTANTIVA": 5,
+    "NO SUSTANTIVA": 5,
+    "CORREGIDO": 1,
+    "CONFORME": 11,
+    "total": 22
+   },
+   "campos_reescritos": [
+    "correlativo_ficha",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "78",
+   "provincia": "Morropon",
+   "distrito": "Santo Domingo",
+   "microcuenca": "C1086-Q9570",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque78_V5.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_78_IN_Piura.xlsx",
+   "cobertura_pct": 79.8,
+   "conteo_fuente": {
+    "CAMPO": 56,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 89,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 23
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 4,
+    "CORREGIDO": 3,
+    "CONFORME": 12,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "evaluador",
+    "hora_registro"
+   ]
+  },
+  {
+   "codigo": "79",
+   "provincia": "Huancabamba",
+   "distrito": "Canchaque",
+   "microcuenca": "C1076-Q9587",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque79_IN_Piura_rev_hscm.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_79_IN_Piura.xlsx",
+   "cobertura_pct": 72.8,
+   "conteo_fuente": {
+    "CAMPO": 41,
+    "GABINETE": 28,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 76,
+    "COMPLEMENTADO": 7,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 31
+   },
+   "consistencia": {
+    "SUSTANTIVA": 5,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 0,
+    "CONFORME": 12,
+    "total": 19
+   },
+   "campos_reescritos": [
+    "afloramientos_rocosos",
+    "escarpes_activos",
+    "estado_sanitario",
+    "hora_registro",
+    "nivel_erosion",
+    "parcela_muestreo",
+    "remociones_masa"
+   ]
+  },
+  {
+   "codigo": "80",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9593",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque80_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_80_IN_Piura.xlsx",
+   "cobertura_pct": 78.9,
+   "conteo_fuente": {
+    "CAMPO": 52,
+    "GABINETE": 24,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 87,
+    "COMPLEMENTADO": 2,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 24
+   },
+   "consistencia": {
+    "SUSTANTIVA": 6,
+    "NO SUSTANTIVA": 4,
+    "CORREGIDO": 1,
+    "CONFORME": 11,
+    "total": 22
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "regeneracion",
+    "suelo_desnudo_pct"
+   ]
+  },
+  {
+   "codigo": "81",
+   "provincia": "Huancabamba",
+   "distrito": "Canchaque",
+   "microcuenca": "C1076-Q9585",
+   "archivo_campo": "Plantilla_DT_Campo_B81_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_81_IN_Piura.xlsx",
+   "cobertura_pct": 78.1,
+   "conteo_fuente": {
+    "CAMPO": 52,
+    "GABINETE": 23,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 87,
+    "COMPLEMENTADO": 2,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 25
+   },
+   "consistencia": {
+    "SUSTANTIVA": 2,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 0,
+    "CONFORME": 11,
+    "total": 16
+   },
+   "campos_reescritos": [
+    "correlativo_ficha",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "82",
+   "provincia": "Morropon",
+   "distrito": "Santo Domingo",
+   "microcuenca": "C1086-Q9570",
+   "archivo_campo": "Plantilla_DT_Campo_Check_Validada_V5 Bloque 82.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_82_IN_Piura.xlsx",
+   "cobertura_pct": 86.8,
+   "conteo_fuente": {
+    "CAMPO": 63,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 97,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 15
+   },
+   "consistencia": {
+    "SUSTANTIVA": 4,
+    "NO SUSTANTIVA": 4,
+    "CORREGIDO": 2,
+    "CONFORME": 12,
+    "total": 22
+   },
+   "campos_reescritos": [
+    "afloramientos_rocosos",
+    "hora_registro"
+   ]
+  },
+  {
+   "codigo": "83",
+   "provincia": "Morropon",
+   "distrito": "San Juan de Bigote",
+   "microcuenca": "C1081-Q9583",
+   "archivo_campo": "FDT_V5_Bloque83_IN_Piura_rev_hscm.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_83_IN_Piura.xlsx",
+   "cobertura_pct": 79.8,
+   "conteo_fuente": {
+    "CAMPO": 52,
+    "GABINETE": 25,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 86,
+    "COMPLEMENTADO": 4,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 23
+   },
+   "consistencia": {
+    "SUSTANTIVA": 6,
+    "NO SUSTANTIVA": 4,
+    "CORREGIDO": 1,
+    "CONFORME": 10,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "estado_sanitario",
+    "evaluador",
+    "n_carcavas",
+    "parcela_muestreo",
+    "velocidad_degradacion"
+   ]
+  },
+  {
+   "codigo": "84",
+   "provincia": "Morropon",
+   "distrito": "San Juan de Bigote",
+   "microcuenca": "C1081-Q9583",
+   "archivo_campo": "FDT_V5_Bloque84_IN_Piura_rev_hscm.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_84_IN_Piura.xlsx",
+   "cobertura_pct": 79.8,
+   "conteo_fuente": {
+    "CAMPO": 52,
+    "GABINETE": 25,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 86,
+    "COMPLEMENTADO": 4,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 23
+   },
+   "consistencia": {
+    "SUSTANTIVA": 7,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 1,
+    "CONFORME": 10,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "estado_sanitario",
+    "evaluador",
+    "n_carcavas",
+    "parcela_muestreo",
+    "velocidad_degradacion"
+   ]
+  },
+  {
+   "codigo": "85",
+   "provincia": "Morropon",
+   "distrito": "San Juan de Bigote",
+   "microcuenca": "C1081-Q9583",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque85_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_85_IN_Piura.xlsx",
+   "cobertura_pct": 81.6,
+   "conteo_fuente": {
+    "CAMPO": 52,
+    "GABINETE": 27,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 88,
+    "COMPLEMENTADO": 5,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 21
+   },
+   "consistencia": {
+    "SUSTANTIVA": 7,
+    "NO SUSTANTIVA": 4,
+    "CORREGIDO": 0,
+    "CONFORME": 10,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "comunidad_campesina",
+    "estado_sanitario",
+    "n_carcavas",
+    "parcela_muestreo",
+    "velocidad_degradacion"
+   ]
+  },
+  {
+   "codigo": "86",
+   "provincia": "Morropon",
+   "distrito": "San Juan de Bigote",
+   "microcuenca": "C1081-Q9583",
+   "archivo_campo": "Plantilla_DT_Campo_Bloque86_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_86_IN_Piura.xlsx",
+   "cobertura_pct": 81.6,
+   "conteo_fuente": {
+    "CAMPO": 51,
+    "GABINETE": 28,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 88,
+    "COMPLEMENTADO": 5,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 21
+   },
+   "consistencia": {
+    "SUSTANTIVA": 7,
+    "NO SUSTANTIVA": 5,
+    "CORREGIDO": 0,
+    "CONFORME": 9,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "comunidad_campesina",
+    "estado_sanitario",
+    "n_carcavas",
+    "parcela_muestreo",
+    "velocidad_degradacion"
+   ]
+  },
+  {
+   "codigo": "87",
+   "provincia": "Morropon",
+   "distrito": "San Juan de Bigote",
+   "microcuenca": "C1081-Q9583",
+   "archivo_campo": "FDT_V5_Bloque87_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_87_IN_Piura.xlsx",
+   "cobertura_pct": 80.7,
+   "conteo_fuente": {
+    "CAMPO": 50,
+    "GABINETE": 28,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 86,
+    "COMPLEMENTADO": 6,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 22
+   },
+   "consistencia": {
+    "SUSTANTIVA": 7,
+    "NO SUSTANTIVA": 4,
+    "CORREGIDO": 0,
+    "CONFORME": 10,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "comunidad_campesina",
+    "estado_sanitario",
+    "n_carcavas",
+    "parcela_muestreo",
+    "velocidad_degradacion",
+    "zona_recarga"
+   ]
+  },
+  {
+   "codigo": "M1B1",
+   "provincia": "Morropon",
+   "distrito": "Buenos Aires",
+   "microcuenca": "C1077-Q9580",
+   "archivo_campo": "DT_M1B1_llenado.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M1B1_IN_Piura.xlsx",
+   "cobertura_pct": 96.5,
+   "conteo_fuente": {
+    "CAMPO": 75,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 108,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 4
+   },
+   "consistencia": {
+    "SUSTANTIVA": 5,
+    "NO SUSTANTIVA": 5,
+    "CORREGIDO": 3,
+    "CONFORME": 10,
+    "total": 23
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "comunidad_campesina"
+   ]
+  },
+  {
+   "codigo": "M2B1",
+   "provincia": "Morropon",
+   "distrito": "Salitral",
+   "microcuenca": "C1076-Q9584",
+   "archivo_campo": "Plantilla_DT_M2B1_Llenada.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M2B1_IN_Piura.xlsx",
+   "cobertura_pct": 93.9,
+   "conteo_fuente": {
+    "CAMPO": 71,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 95,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 12,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 7
+   },
+   "consistencia": {
+    "SUSTANTIVA": 7,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 13,
+    "CONFORME": 12,
+    "total": 35
+   },
+   "campos_reescritos": [
+    "estado_conservacion",
+    "estado_sanitario",
+    "exposicion",
+    "forma_terreno",
+    "nivel_erosion",
+    "parcela_muestreo",
+    "pendiente_campo",
+    "regeneracion",
+    "reversibilidad",
+    "tipo_cobertura",
+    "velocidad_degradacion",
+    "zona_recarga"
+   ]
+  },
+  {
+   "codigo": "M2B5",
+   "provincia": "Morropon",
+   "distrito": "Salitral",
+   "microcuenca": "C1076-Q9584",
+   "archivo_campo": "Plantilla_DT_M2B5_Llenada.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M2B5_IN_Piura.xlsx",
+   "cobertura_pct": 95.6,
+   "conteo_fuente": {
+    "CAMPO": 73,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 105,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 3,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 5
+   },
+   "consistencia": {
+    "SUSTANTIVA": 4,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 4,
+    "CONFORME": 12,
+    "total": 23
+   },
+   "campos_reescritos": [
+    "comunidad_campesina",
+    "evaluador",
+    "parcela_muestreo",
+    "superficie_ecosistema"
+   ]
+  },
+  {
+   "codigo": "M2B8",
+   "provincia": "Huancabamba",
+   "distrito": "San Miguel de El Faique",
+   "microcuenca": "C1076-Q9584",
+   "archivo_campo": "Plantilla_DT_Campo_V5_Bloque_M2B8_IN_Piura_rev_hscm.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M2B8_IN_Piura.xlsx",
+   "cobertura_pct": 82.5,
+   "conteo_fuente": {
+    "CAMPO": 55,
+    "GABINETE": 25,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 91,
+    "COMPLEMENTADO": 3,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 20
+   },
+   "consistencia": {
+    "SUSTANTIVA": 7,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 0,
+    "CONFORME": 12,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "comunidad_campesina",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "M3B1",
+   "provincia": "Morropon",
+   "distrito": "Salitral",
+   "microcuenca": "C1081-Q9582",
+   "archivo_campo": "Plantilla_DT_M3B1_Llenada.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M3B1_IN_Piura.xlsx",
+   "cobertura_pct": 86.8,
+   "conteo_fuente": {
+    "CAMPO": 60,
+    "GABINETE": 25,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 81,
+    "COMPLEMENTADO": 5,
+    "ACTUALIZADO": 13,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 15
+   },
+   "consistencia": {
+    "SUSTANTIVA": 5,
+    "NO SUSTANTIVA": 5,
+    "CORREGIDO": 14,
+    "CONFORME": 12,
+    "total": 36
+   },
+   "campos_reescritos": [
+    "comunidad_campesina",
+    "escarpes_activos",
+    "estado_conservacion",
+    "estado_sanitario",
+    "exposicion",
+    "forma_terreno",
+    "modalidad_acceso",
+    "n_carcavas",
+    "n_taxones",
+    "nivel_erosion",
+    "parcela_muestreo",
+    "pendiente_campo",
+    "regeneracion",
+    "reversibilidad",
+    "tipo_cobertura",
+    "tipo_ecosistema",
+    "uso_dominante",
+    "zona_recarga"
+   ]
+  },
+  {
+   "codigo": "M3B3",
+   "provincia": "Morropon",
+   "distrito": "San Juan de Bigote",
+   "microcuenca": "C1081-Q9582",
+   "archivo_campo": "F-DT_M3B3_Prellenado.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M3B3_IN_Piura.xlsx",
+   "cobertura_pct": 92.1,
+   "conteo_fuente": {
+    "CAMPO": 67,
+    "GABINETE": 24,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 93,
+    "COMPLEMENTADO": 2,
+    "ACTUALIZADO": 10,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 9
+   },
+   "consistencia": {
+    "SUSTANTIVA": 5,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 11,
+    "CONFORME": 12,
+    "total": 29
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "comunidad_campesina",
+    "escarpes_activos",
+    "estado_sanitario",
+    "modalidad_acceso",
+    "n_taxones",
+    "parcela_muestreo",
+    "reversibilidad",
+    "tipo_cobertura",
+    "uso_dominante",
+    "velocidad_degradacion",
+    "zona_recarga"
+   ]
+  },
+  {
+   "codigo": "M3B5",
+   "provincia": "Morropon",
+   "distrito": "San Juan de Bigote",
+   "microcuenca": "C1081-Q9582",
+   "archivo_campo": "Plantilla_DT_Campo_Check_Validada_V5_M3B5.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M3B5_IN_Piura.xlsx",
+   "cobertura_pct": 85.1,
+   "conteo_fuente": {
+    "CAMPO": 56,
+    "GABINETE": 27,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 91,
+    "COMPLEMENTADO": 6,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 17
+   },
+   "consistencia": {
+    "SUSTANTIVA": 7,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 1,
+    "CONFORME": 12,
+    "total": 23
+   },
+   "campos_reescritos": [
+    "comunidad_campesina",
+    "correlativo_ficha",
+    "hora_registro",
+    "n_carcavas",
+    "parcela_muestreo",
+    "zona_recarga"
+   ]
+  },
+  {
+   "codigo": "M3B6",
+   "provincia": "Morropon",
+   "distrito": "San Juan de Bigote",
+   "microcuenca": "C1081-Q9582",
+   "archivo_campo": "Plantilla_DT_Campo_V5_BloqueM3B6.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M3B6_IN_Piura.xlsx",
+   "cobertura_pct": 88.6,
+   "conteo_fuente": {
+    "CAMPO": 61,
+    "GABINETE": 26,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 98,
+    "COMPLEMENTADO": 3,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 13
+   },
+   "consistencia": {
+    "SUSTANTIVA": 7,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 1,
+    "CONFORME": 12,
+    "total": 23
+   },
+   "campos_reescritos": [
+    "comunidad_campesina",
+    "correlativo_ficha",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "M3B7",
+   "provincia": "Morropon",
+   "distrito": "San Juan de Bigote",
+   "microcuenca": "C1081-Q9582",
+   "archivo_campo": "Plantilla_DT_Campo_V5_BloqueM3B7.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M3B7_IN_Piura.xlsx",
+   "cobertura_pct": 88.6,
+   "conteo_fuente": {
+    "CAMPO": 62,
+    "GABINETE": 25,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 98,
+    "COMPLEMENTADO": 3,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 13
+   },
+   "consistencia": {
+    "SUSTANTIVA": 6,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 1,
+    "CONFORME": 12,
+    "total": 22
+   },
+   "campos_reescritos": [
+    "comunidad_campesina",
+    "correlativo_ficha",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "M3B8",
+   "provincia": "Morropon",
+   "distrito": "San Juan de Bigote",
+   "microcuenca": "C1081-Q9582",
+   "archivo_campo": "DT_M3B8_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M3B8_IN_Piura.xlsx",
+   "cobertura_pct": 97.4,
+   "conteo_fuente": {
+    "CAMPO": 76,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 109,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 3
+   },
+   "consistencia": {
+    "SUSTANTIVA": 6,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 3,
+    "CONFORME": 12,
+    "total": 24
+   },
+   "campos_reescritos": [
+    "hora_registro",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "M3B9",
+   "provincia": "Morropon",
+   "distrito": "Salitral",
+   "microcuenca": "C1081-Q9582",
+   "archivo_campo": "FDT_M3B9_Diagnostico_Territorial.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M3B9_IN_Piura.xlsx",
+   "cobertura_pct": 96.5,
+   "conteo_fuente": {
+    "CAMPO": 74,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 107,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 3,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 4
+   },
+   "consistencia": {
+    "SUSTANTIVA": 7,
+    "NO SUSTANTIVA": 5,
+    "CORREGIDO": 4,
+    "CONFORME": 10,
+    "total": 26
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "evaluador",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "M4B3",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9589",
+   "archivo_campo": "Plantilla_DT_Campo_V5_Bloque_M4B3_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M4B3_IN_Piura.xlsx",
+   "cobertura_pct": 82.5,
+   "conteo_fuente": {
+    "CAMPO": 53,
+    "GABINETE": 27,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 91,
+    "COMPLEMENTADO": 3,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 20
+   },
+   "consistencia": {
+    "SUSTANTIVA": 8,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 0,
+    "CONFORME": 11,
+    "total": 22
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "comunidad_campesina",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "M4B4",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9589",
+   "archivo_campo": "Plantilla_DT_Campo_V5_Bloque_M4B4.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M4B4_IN_Piura.xlsx",
+   "cobertura_pct": 82.5,
+   "conteo_fuente": {
+    "CAMPO": 55,
+    "GABINETE": 25,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 91,
+    "COMPLEMENTADO": 3,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 20
+   },
+   "consistencia": {
+    "SUSTANTIVA": 9,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 0,
+    "CONFORME": 12,
+    "total": 23
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "comunidad_campesina",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "M6B2-1",
+   "provincia": "Morropon",
+   "distrito": "Buenos Aires",
+   "microcuenca": "C1077-Q9566",
+   "archivo_campo": "FDT_M6B2-1_Diagnostico_Territorial_V5.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M6B2-1_IN_Piura.xlsx",
+   "cobertura_pct": 77.2,
+   "conteo_fuente": {
+    "CAMPO": 50,
+    "GABINETE": 24,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 83,
+    "COMPLEMENTADO": 3,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 26
+   },
+   "consistencia": {
+    "SUSTANTIVA": 7,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 3,
+    "CONFORME": 10,
+    "total": 22
+   },
+   "campos_reescritos": [
+    "comunidad_campesina",
+    "evaluador",
+    "hora_registro",
+    "modalidad_acceso",
+    "zona_recarga"
+   ]
+  },
+  {
+   "codigo": "M6B2-2",
+   "provincia": "Morropon",
+   "distrito": "Buenos Aires",
+   "microcuenca": "C1077-Q9566",
+   "archivo_campo": "Plantilla_DT_Campo_M6B2-2_Validada.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M6B2-2_IN_Piura.xlsx",
+   "cobertura_pct": 96.5,
+   "conteo_fuente": {
+    "CAMPO": 73,
+    "GABINETE": 23,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 105,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 5,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 4
+   },
+   "consistencia": {
+    "SUSTANTIVA": 5,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 6,
+    "CONFORME": 11,
+    "total": 25
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "centro_poblado",
+    "comunidad_campesina",
+    "evaluador",
+    "superficie_ecosistema"
+   ]
+  },
+  {
+   "codigo": "M6B2-3",
+   "provincia": "Morropon",
+   "distrito": "Buenos Aires",
+   "microcuenca": "C1077-Q9566",
+   "archivo_campo": "FDT_M6B2-3_Diagnostico_Territorial validada.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M6B2-3_IN_Piura.xlsx",
+   "cobertura_pct": 83.3,
+   "conteo_fuente": {
+    "CAMPO": 56,
+    "GABINETE": 25,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 92,
+    "COMPLEMENTADO": 3,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 19
+   },
+   "consistencia": {
+    "SUSTANTIVA": 6,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 1,
+    "CONFORME": 12,
+    "total": 20
+   },
+   "campos_reescritos": [
+    "comunidad_campesina",
+    "correlativo_ficha",
+    "zona_recarga"
+   ]
+  },
+  {
+   "codigo": "M6B10",
+   "provincia": "Morropon",
+   "distrito": "Buenos Aires",
+   "microcuenca": "C1077-Q9566",
+   "archivo_campo": "F-DT_M6B10_Diagnostico_Territorial.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M6B10_IN_Piura.xlsx",
+   "cobertura_pct": 96.5,
+   "conteo_fuente": {
+    "CAMPO": 75,
+    "GABINETE": 21,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 105,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 4,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 4
+   },
+   "consistencia": {
+    "SUSTANTIVA": 6,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 5,
+    "CONFORME": 12,
+    "total": 26
+   },
+   "campos_reescritos": [
+    "evaluador",
+    "hora_registro",
+    "n_carcavas",
+    "superficie_ecosistema",
+    "uso_dominante"
+   ]
+  },
+  {
+   "codigo": "M7B1",
+   "provincia": "Morropon",
+   "distrito": "Salitral",
+   "microcuenca": "C1076-Q9581",
+   "archivo_campo": "FDT_M7B1_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M7B1_IN_Piura.xlsx",
+   "cobertura_pct": 95.6,
+   "conteo_fuente": {
+    "CAMPO": 72,
+    "GABINETE": 23,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 106,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 5
+   },
+   "consistencia": {
+    "SUSTANTIVA": 6,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 3,
+    "CONFORME": 11,
+    "total": 23
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "comunidad_campesina",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "M7B2",
+   "provincia": "Morropon",
+   "distrito": "Salitral",
+   "microcuenca": "C1076-Q9581",
+   "archivo_campo": "FDT_M7B2_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M7B2_IN_Piura.xlsx",
+   "cobertura_pct": 88.6,
+   "conteo_fuente": {
+    "CAMPO": 65,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 95,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 5,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 13
+   },
+   "consistencia": {
+    "SUSTANTIVA": 8,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 6,
+    "CONFORME": 10,
+    "total": 25
+   },
+   "campos_reescritos": [
+    "centro_poblado",
+    "correlativo_ficha",
+    "estado_conservacion",
+    "hora_registro",
+    "n_taxones",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "M7B3",
+   "provincia": "Morropon",
+   "distrito": "Salitral",
+   "microcuenca": "C1076-Q9581",
+   "archivo_campo": "Plantilla_DT_Campo_Check_Validada_V5_M7B3.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M7B3_IN_Piura.xlsx",
+   "cobertura_pct": 86.8,
+   "conteo_fuente": {
+    "CAMPO": 59,
+    "GABINETE": 26,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 88,
+    "COMPLEMENTADO": 6,
+    "ACTUALIZADO": 5,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 15
+   },
+   "consistencia": {
+    "SUSTANTIVA": 4,
+    "NO SUSTANTIVA": 5,
+    "CORREGIDO": 6,
+    "CONFORME": 12,
+    "total": 27
+   },
+   "campos_reescritos": [
+    "estado_conservacion",
+    "estado_sanitario",
+    "fecha_evaluacion",
+    "hora_registro",
+    "n_carcavas",
+    "nivel_erosion",
+    "parcela_muestreo",
+    "pendiente_campo",
+    "suelo_desnudo_pct",
+    "tipo_cobertura",
+    "uso_dominante"
+   ]
+  },
+  {
+   "codigo": "M7B6",
+   "provincia": "Morropon",
+   "distrito": "Salitral",
+   "microcuenca": "C1076-Q9581",
+   "archivo_campo": "DT_M7B6_llenado.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M7B6_IN_Piura.xlsx",
+   "cobertura_pct": 96.5,
+   "conteo_fuente": {
+    "CAMPO": 73,
+    "GABINETE": 23,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 108,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 4
+   },
+   "consistencia": {
+    "SUSTANTIVA": 5,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 2,
+    "CONFORME": 12,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "evaluador",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "M8B2",
+   "provincia": "Morropon",
+   "distrito": "Santo Domingo",
+   "microcuenca": "C1096-Q9558",
+   "archivo_campo": "Plantilla_DT_Campo_Check_Validada_V5_M8B2.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M8B2_IN_Piura.xlsx",
+   "cobertura_pct": 73.7,
+   "conteo_fuente": {
+    "CAMPO": 40,
+    "GABINETE": 30,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 74,
+    "COMPLEMENTADO": 10,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 30
+   },
+   "consistencia": {
+    "SUSTANTIVA": 6,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 1,
+    "CONFORME": 12,
+    "total": 22
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "correlativo_ficha",
+    "hora_registro",
+    "n_carcavas",
+    "parcela_muestreo",
+    "reversibilidad",
+    "superficie_ecosistema",
+    "urgencia_erosion",
+    "urgencia_intervencion",
+    "velocidad_degradacion"
+   ]
+  },
+  {
+   "codigo": "M9B1",
+   "provincia": "Morropon",
+   "distrito": "Chulucanas",
+   "microcuenca": "C1096-Q9545",
+   "archivo_campo": "FDT_M9B1_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M9B1_IN_Piura.xlsx",
+   "cobertura_pct": 80.7,
+   "conteo_fuente": {
+    "CAMPO": 50,
+    "GABINETE": 28,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 85,
+    "COMPLEMENTADO": 5,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 22
+   },
+   "consistencia": {
+    "SUSTANTIVA": 10,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 3,
+    "CONFORME": 11,
+    "total": 26
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "correlativo_ficha",
+    "evaluador",
+    "n_carcavas",
+    "nivel_erosion",
+    "parcela_muestreo",
+    "zona_recarga"
+   ]
+  },
+  {
+   "codigo": "M10B4",
+   "provincia": "Morropon",
+   "distrito": "Chulucanas",
+   "microcuenca": "C1096-Q9547",
+   "archivo_campo": "FDT_M10B4_IN_Piura_V5.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M10B4_IN_Piura.xlsx",
+   "cobertura_pct": 89.5,
+   "conteo_fuente": {
+    "CAMPO": 66,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 91,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 11,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 12
+   },
+   "consistencia": {
+    "SUSTANTIVA": 8,
+    "NO SUSTANTIVA": 4,
+    "CORREGIDO": 12,
+    "CONFORME": 11,
+    "total": 35
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "comunidad_campesina",
+    "correlativo_ficha",
+    "evaluador",
+    "modalidad_acceso",
+    "n_carcavas",
+    "n_taxones",
+    "nivel_erosion",
+    "parcela_muestreo",
+    "pendiente_campo",
+    "zona_recarga"
+   ]
+  },
+  {
+   "codigo": "M11B3",
+   "provincia": "Morropon",
+   "distrito": "San Juan de Bigote",
+   "microcuenca": "C1081-Q9583",
+   "archivo_campo": "Plantilla_DT_Campo_M11B3_07may2026.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M11B3_IN_Piura.xlsx",
+   "cobertura_pct": 82.5,
+   "conteo_fuente": {
+    "CAMPO": 55,
+    "GABINETE": 25,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 90,
+    "COMPLEMENTADO": 2,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 20
+   },
+   "consistencia": {
+    "SUSTANTIVA": 7,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 3,
+    "CONFORME": 12,
+    "total": 25
+   },
+   "campos_reescritos": [
+    "hora_registro",
+    "n_taxones",
+    "regeneracion",
+    "uso_dominante"
+   ]
+  },
+  {
+   "codigo": "M12B1",
+   "provincia": "Huancabamba",
+   "distrito": "Huarmaca",
+   "microcuenca": "C1076-Q9588",
+   "archivo_campo": "Plantilla_DT_Campo_V5_Bloque_M12B1_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M12B1_IN_Piura.xlsx",
+   "cobertura_pct": 82.5,
+   "conteo_fuente": {
+    "CAMPO": 55,
+    "GABINETE": 25,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 91,
+    "COMPLEMENTADO": 3,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 20
+   },
+   "consistencia": {
+    "SUSTANTIVA": 9,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 0,
+    "CONFORME": 12,
+    "total": 23
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "comunidad_campesina",
+    "parcela_muestreo"
+   ]
+  },
+  {
+   "codigo": "M17B1",
+   "provincia": "Morropon",
+   "distrito": "Chulucanas",
+   "microcuenca": "C1096-Q9556",
+   "archivo_campo": "Plantilla_DT_Campo_Check_Validada_V5_M17B1_CORREGIDA.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M17B1_IN_Piura.xlsx",
+   "cobertura_pct": 77.2,
+   "conteo_fuente": {
+    "CAMPO": 49,
+    "GABINETE": 25,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 87,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 26
+   },
+   "consistencia": {
+    "SUSTANTIVA": 6,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 2,
+    "CONFORME": 11,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "uso_dominante"
+   ]
+  },
+  {
+   "codigo": "M17B4",
+   "provincia": "Morropon",
+   "distrito": "Chulucanas",
+   "microcuenca": "C1096-Q9556",
+   "archivo_campo": "FDT_M17B4_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M17B4_IN_Piura.xlsx",
+   "cobertura_pct": 82.5,
+   "conteo_fuente": {
+    "CAMPO": 53,
+    "GABINETE": 27,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 87,
+    "COMPLEMENTADO": 5,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 20
+   },
+   "consistencia": {
+    "SUSTANTIVA": 9,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 3,
+    "CONFORME": 11,
+    "total": 26
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "correlativo_ficha",
+    "evaluador",
+    "n_carcavas",
+    "nivel_erosion",
+    "parcela_muestreo",
+    "zona_recarga"
+   ]
+  },
+  {
+   "codigo": "M17B5",
+   "provincia": "Ayabaca",
+   "distrito": "Frias",
+   "microcuenca": "C1096-Q9556",
+   "archivo_campo": "M17B5.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M17B5_IN_Piura.xlsx",
+   "cobertura_pct": 80.7,
+   "conteo_fuente": {
+    "CAMPO": 50,
+    "GABINETE": 28,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 86,
+    "COMPLEMENTADO": 2,
+    "ACTUALIZADO": 4,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 22
+   },
+   "consistencia": {
+    "SUSTANTIVA": 6,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 4,
+    "CONFORME": 11,
+    "total": 22
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "evaluador",
+    "fecha_evaluacion",
+    "n_carcavas",
+    "regeneracion",
+    "suelo_desnudo_pct"
+   ]
+  },
+  {
+   "codigo": "M17B6",
+   "provincia": "Ayabaca",
+   "distrito": "Frias",
+   "microcuenca": "C1096-Q9556",
+   "archivo_campo": "Plantilla_DT_Campo_M17B6_IN_Piura_V5.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M17B6_IN_Piura.xlsx",
+   "cobertura_pct": 86.0,
+   "conteo_fuente": {
+    "CAMPO": 62,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 96,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 16
+   },
+   "consistencia": {
+    "SUSTANTIVA": 5,
+    "NO SUSTANTIVA": 5,
+    "CORREGIDO": 2,
+    "CONFORME": 10,
+    "total": 22
+   },
+   "campos_reescritos": [
+    "centro_poblado",
+    "uso_dominante"
+   ]
+  },
+  {
+   "codigo": "M17B7",
+   "provincia": "Ayabaca",
+   "distrito": "Frias",
+   "microcuenca": "C1096-Q9556",
+   "archivo_campo": "Plantilla_DT_Campo_Check_Validada_V5_M17B7.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M17B7_IN_Piura.xlsx",
+   "cobertura_pct": 84.2,
+   "conteo_fuente": {
+    "CAMPO": 60,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 96,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 18
+   },
+   "consistencia": {
+    "SUSTANTIVA": 4,
+    "NO SUSTANTIVA": 7,
+    "CORREGIDO": 1,
+    "CONFORME": 9,
+    "total": 21
+   },
+   "campos_reescritos": []
+  },
+  {
+   "codigo": "M17B10",
+   "provincia": "Ayabaca",
+   "distrito": "Frias",
+   "microcuenca": "C1096-Q9556",
+   "archivo_campo": "Plantilla_DT_Campo_Check_M17B10_IN_Piura_V5.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M17B10_IN_Piura.xlsx",
+   "cobertura_pct": 78.9,
+   "conteo_fuente": {
+    "CAMPO": 51,
+    "GABINETE": 25,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 86,
+    "COMPLEMENTADO": 2,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 24
+   },
+   "consistencia": {
+    "SUSTANTIVA": 5,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 2,
+    "CONFORME": 10,
+    "total": 20
+   },
+   "campos_reescritos": [
+    "regeneracion",
+    "superficie_ecosistema",
+    "uso_dominante",
+    "zona_recarga"
+   ]
+  },
+  {
+   "codigo": "M18B1",
+   "provincia": "Morropon",
+   "distrito": "Buenos Aires",
+   "microcuenca": "C1077-Q9579",
+   "archivo_campo": "Diagnostico_Territorial_M18B1_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M18B1_IN_Piura.xlsx",
+   "cobertura_pct": 95.6,
+   "conteo_fuente": {
+    "CAMPO": 72,
+    "GABINETE": 23,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 105,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 3,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 5
+   },
+   "consistencia": {
+    "SUSTANTIVA": 5,
+    "NO SUSTANTIVA": 1,
+    "CORREGIDO": 4,
+    "CONFORME": 12,
+    "total": 22
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "comunidad_campesina",
+    "n_taxones",
+    "uso_dominante"
+   ]
+  },
+  {
+   "codigo": "M18B3",
+   "provincia": "Morropon",
+   "distrito": "Salitral",
+   "microcuenca": "C1077-Q9579",
+   "archivo_campo": "Plantilla_DT_M18B3_Llenada.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M18B3_IN_Piura.xlsx",
+   "cobertura_pct": 94.7,
+   "conteo_fuente": {
+    "CAMPO": 72,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 105,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 6
+   },
+   "consistencia": {
+    "SUSTANTIVA": 6,
+    "NO SUSTANTIVA": 4,
+    "CORREGIDO": 3,
+    "CONFORME": 11,
+    "total": 24
+   },
+   "campos_reescritos": [
+    "comunidad_campesina",
+    "parcela_muestreo",
+    "uso_dominante"
+   ]
+  },
+  {
+   "codigo": "M19B2",
+   "provincia": "Morropon",
+   "distrito": "Morropon",
+   "microcuenca": "C1086-Q9570",
+   "archivo_campo": "FDT_M19B2_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M19B2_IN_Piura.xlsx",
+   "cobertura_pct": 90.4,
+   "conteo_fuente": {
+    "CAMPO": 65,
+    "GABINETE": 24,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 100,
+    "COMPLEMENTADO": 2,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 11
+   },
+   "consistencia": {
+    "SUSTANTIVA": 7,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 1,
+    "CONFORME": 12,
+    "total": 22
+   },
+   "campos_reescritos": [
+    "parcela_muestreo",
+    "reversibilidad",
+    "uso_dominante"
+   ]
+  },
+  {
+   "codigo": "M19B7",
+   "provincia": "Morropon",
+   "distrito": "Santo Domingo",
+   "microcuenca": "C1086-Q9570",
+   "archivo_campo": "Plantilla_DT_Campo_Check_Validada_V5_M19B7 (1).xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M19B7_IN_Piura.xlsx",
+   "cobertura_pct": 68.4,
+   "conteo_fuente": {
+    "CAMPO": 35,
+    "GABINETE": 29,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 68,
+    "COMPLEMENTADO": 8,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 36
+   },
+   "consistencia": {
+    "SUSTANTIVA": 7,
+    "NO SUSTANTIVA": 2,
+    "CORREGIDO": 3,
+    "CONFORME": 11,
+    "total": 23
+   },
+   "campos_reescritos": [
+    "cobertura_total_pct",
+    "comunidad_campesina",
+    "correlativo_ficha",
+    "escarpes_activos",
+    "estado_sanitario",
+    "evaluador",
+    "hora_registro",
+    "n_carcavas",
+    "parcela_muestreo",
+    "remociones_masa"
+   ]
+  },
+  {
+   "codigo": "M20B1",
+   "provincia": "Huancabamba",
+   "distrito": "San Miguel de El Faique",
+   "microcuenca": "C1076-Q9585",
+   "archivo_campo": "Plantilla_DT_Campo_V5_Bloque_M20B1_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M20B1_IN_Piura.xlsx",
+   "cobertura_pct": 81.6,
+   "conteo_fuente": {
+    "CAMPO": 55,
+    "GABINETE": 24,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 90,
+    "COMPLEMENTADO": 2,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 21
+   },
+   "consistencia": {
+    "SUSTANTIVA": 7,
+    "NO SUSTANTIVA": 4,
+    "CORREGIDO": 1,
+    "CONFORME": 11,
+    "total": 23
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "comunidad_campesina",
+    "tipo_cobertura"
+   ]
+  },
+  {
+   "codigo": "M22B1",
+   "provincia": "Huancabamba",
+   "distrito": "San Miguel de El Faique",
+   "microcuenca": "C1076-Q9586",
+   "archivo_campo": "Plantilla_DT_Campo_M22B1_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M22B1_IN_Piura.xlsx",
+   "cobertura_pct": 82.5,
+   "conteo_fuente": {
+    "CAMPO": 52,
+    "GABINETE": 28,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 90,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 3,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 20
+   },
+   "consistencia": {
+    "SUSTANTIVA": 4,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 3,
+    "CONFORME": 11,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "causa_subyacente",
+    "comunidad_campesina",
+    "posicion_fisiografica",
+    "tipo_cobertura"
+   ]
+  },
+  {
+   "codigo": "M27B1",
+   "provincia": "Morropon",
+   "distrito": "Chulucanas",
+   "microcuenca": "C1096-Q9557",
+   "archivo_campo": "Plantilla_DT_Campo_Check_Validada_V5_M27B1.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M27B1_IN_Piura.xlsx",
+   "cobertura_pct": 83.3,
+   "conteo_fuente": {
+    "CAMPO": 59,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 94,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 19
+   },
+   "consistencia": {
+    "SUSTANTIVA": 5,
+    "NO SUSTANTIVA": 4,
+    "CORREGIDO": 1,
+    "CONFORME": 11,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "causa_subyacente"
+   ]
+  },
+  {
+   "codigo": "M28B2",
+   "provincia": "Morropon",
+   "distrito": "Yamango",
+   "microcuenca": "C1086-Q9575",
+   "archivo_campo": "FDT_M28B2_Diagnostico_Territorial.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M28B2_IN_Piura.xlsx",
+   "cobertura_pct": 84.2,
+   "conteo_fuente": {
+    "CAMPO": 57,
+    "GABINETE": 25,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 91,
+    "COMPLEMENTADO": 3,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 18
+   },
+   "consistencia": {
+    "SUSTANTIVA": 5,
+    "NO SUSTANTIVA": 4,
+    "CORREGIDO": 2,
+    "CONFORME": 12,
+    "total": 23
+   },
+   "campos_reescritos": [
+    "cobertura_total_pct",
+    "comunidad_campesina",
+    "evaluador",
+    "parcela_muestreo",
+    "uso_dominante"
+   ]
+  },
+  {
+   "codigo": "M28B3",
+   "provincia": "Morropon",
+   "distrito": "Yamango",
+   "microcuenca": "C1086-Q9575",
+   "archivo_campo": "FDT_M28B3_Diagnostico_Territorial.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M28B3_IN_Piura.xlsx",
+   "cobertura_pct": 84.2,
+   "conteo_fuente": {
+    "CAMPO": 57,
+    "GABINETE": 25,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 91,
+    "COMPLEMENTADO": 3,
+    "ACTUALIZADO": 2,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 18
+   },
+   "consistencia": {
+    "SUSTANTIVA": 5,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 2,
+    "CONFORME": 11,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "cobertura_total_pct",
+    "comunidad_campesina",
+    "evaluador",
+    "parcela_muestreo",
+    "uso_dominante"
+   ]
+  },
+  {
+   "codigo": "M28B4",
+   "provincia": "Morropon",
+   "distrito": "Yamango",
+   "microcuenca": "C1086-Q9575",
+   "archivo_campo": "Plantilla_DT_M28B4_LLENADA.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M28B4_IN_Piura.xlsx",
+   "cobertura_pct": 97.4,
+   "conteo_fuente": {
+    "CAMPO": 74,
+    "GABINETE": 23,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 111,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 3
+   },
+   "consistencia": {
+    "SUSTANTIVA": 4,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 0,
+    "CONFORME": 12,
+    "total": 19
+   },
+   "campos_reescritos": []
+  },
+  {
+   "codigo": "M30B5",
+   "provincia": "Huancabamba",
+   "distrito": "Huancabamba",
+   "microcuenca": "C1081-Q9591",
+   "archivo_campo": "FDT_M30B5_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M30B5_IN_Piura.xlsx",
+   "cobertura_pct": 89.5,
+   "conteo_fuente": {
+    "CAMPO": 65,
+    "GABINETE": 23,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 101,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 0,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 12
+   },
+   "consistencia": {
+    "SUSTANTIVA": 4,
+    "NO SUSTANTIVA": 6,
+    "CORREGIDO": 0,
+    "CONFORME": 11,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "comunidad_campesina"
+   ]
+  },
+  {
+   "codigo": "M32B3",
+   "provincia": "Morropon",
+   "distrito": "Morropon",
+   "microcuenca": "C1086-Q9569",
+   "archivo_campo": "FDT_M32B3_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M32B3_IN_Piura.xlsx",
+   "cobertura_pct": 93.0,
+   "conteo_fuente": {
+    "CAMPO": 68,
+    "GABINETE": 24,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 104,
+    "COMPLEMENTADO": 1,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 8
+   },
+   "consistencia": {
+    "SUSTANTIVA": 5,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 3,
+    "CONFORME": 12,
+    "total": 23
+   },
+   "campos_reescritos": [
+    "parcela_muestreo",
+    "uso_dominante"
+   ]
+  },
+  {
+   "codigo": "M36B2",
+   "provincia": "Morropon",
+   "distrito": "Santa Catalina de Mossa",
+   "microcuenca": "C1086-Q9576",
+   "archivo_campo": "DT_M36B2_IN_Piura.xlsx",
+   "archivo_resumen": "Plantilla_Excel_Bloque_M36B2_IN_Piura.xlsx",
+   "cobertura_pct": 86.8,
+   "conteo_fuente": {
+    "CAMPO": 63,
+    "GABINETE": 22,
+    "OFICIAL": 14
+   },
+   "conteo_estado": {
+    "CONFORME": 98,
+    "COMPLEMENTADO": 0,
+    "ACTUALIZADO": 1,
+    "DISCREPANTE": 0,
+    "PENDIENTE": 15
+   },
+   "consistencia": {
+    "SUSTANTIVA": 5,
+    "NO SUSTANTIVA": 3,
+    "CORREGIDO": 1,
+    "CONFORME": 12,
+    "total": 21
+   },
+   "campos_reescritos": [
+    "causa_subyacente"
+   ]
+  }
+ ]
+}
