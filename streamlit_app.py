@@ -18,6 +18,7 @@ import tempfile
 import database as db
 import export_diagnosticos as exp_diag
 import resumenes_bloques as rbq
+import fichas_dt as fdt
 import analitica_social as ans
 from bloque_lookup import buscar_label_bloque
 
@@ -1934,6 +1935,328 @@ def _detalle_resumen_bloque(codigo):
         d3.error(f"No se pudo generar el PDF: {exc}")
 
 
+# ══════════════════════════════════════════════════════════════════════════
+# FICHAS F-DT ACTUALIZADAS (117 libros de campo)
+# ══════════════════════════════════════════════════════════════════════════
+
+@st.cache_data(ttl=3600, show_spinner=False, max_entries=2)
+def _cached_fichas_dt(catalogo_items):
+    """Lee los 117 libros F-DT del repositorio y los deja en cache.
+
+    La lectura completa toma del orden de diez segundos: se memoriza por el
+    catalogo de bloques con el que se resuelve la localizacion, de modo que
+    solo se repite si el catalogo cambia.
+    """
+    catalogo = {codigo: dict(campos) for codigo, campos in catalogo_items}
+    return fdt.cargar_fichas(catalogo=catalogo)
+
+
+def _catalogo_para_fichas(cargados):
+    """{codigo: {provincia, distrito, microcuenca, area_ha}} del aplicativo.
+
+    Manda el catalogo de bloques; lo que falte se completa con el resumen
+    cargado del mismo bloque. Once libros F-DT dejaron la localizacion en
+    blanco y uno trae un valor que no es una provincia: el aplicativo si
+    sabe donde esta cada bloque y esa es la fuente que gobierna.
+    """
+    catalogo = {}
+    for bloque in _cached_obtener_bloques(_cache_version()):
+        codigo = str(bloque.get("codigo") or "").strip().upper()
+        if not codigo:
+            continue
+        catalogo[codigo] = {
+            "provincia": bloque.get("provincia") or "",
+            "distrito": bloque.get("distrito") or "",
+            "microcuenca": bloque.get("microcuenca") or "",
+            "area_ha": bloque.get("area_hectareas") or "",
+        }
+    for resumen in cargados:
+        codigo = str(resumen.get("codigo_bloque") or "").strip().upper()
+        if not codigo:
+            continue
+        registro = catalogo.setdefault(
+            codigo, {"provincia": "", "distrito": "", "microcuenca": "",
+                     "area_ha": ""})
+        for campo, origen in (("provincia", "provincia"),
+                              ("distrito", "distrito"),
+                              ("microcuenca", "microcuenca"),
+                              ("area_ha", "area_ha")):
+            if not registro.get(campo):
+                registro[campo] = resumen.get(origen) or ""
+    return catalogo
+
+
+def _items_catalogo(catalogo):
+    """Catalogo en forma inmutable, para poder usarlo como clave de cache."""
+    return tuple(sorted(
+        (codigo, tuple(sorted((k, str(v)) for k, v in campos.items())))
+        for codigo, campos in catalogo.items()))
+
+
+def _df_tabla_compacta(fichas, nivel):
+    cabeceras, filas = fdt.tabla_compacta(fichas, nivel, breve=True)
+    return pd.DataFrame(filas, columns=cabeceras)
+
+
+def _grafico_fdt(df, columna, titulo, nivel):
+    """Barras de una columna de la tabla compacta, por grupo."""
+    if columna not in df.columns:
+        return
+    datos = df[[df.columns[0], columna]].dropna()
+    datos = datos[datos[columna] != 0] if columna.startswith("Carcavas") else datos
+    if datos.empty:
+        st.caption(f"{titulo}: ningun grupo declara el dato.")
+        return
+    if nivel == "bloque" and len(datos) > 30:
+        datos = datos.sort_values(columna, ascending=False).head(30)
+        titulo += " - 30 primeros"
+    st.caption(titulo)
+    st.bar_chart(datos.set_index(df.columns[0])[columna], color="#1B4D2E",
+                 use_container_width=True)
+
+
+def _detalle_ficha_dt(ficha):
+    """Reporte de un bloque: campos declarados de las cinco fichas."""
+    etiquetas = fdt.etiquetas_indicador()
+    generales = [
+        ("Codigo de bloque", ficha.get("codigo_bloque")),
+        ("Microcuenca", ficha.get("microcuenca")),
+        ("Provincia", ficha.get("provincia")),
+        ("Distrito", ficha.get("distrito")),
+        ("Centro poblado mas cercano", ficha.get("centro_poblado_cercano")),
+        ("Comunidad campesina", ficha.get("comunidad_campesina_dt")),
+        ("UTM ESTE / NORTE del punto de muestreo",
+         f"{ficha.get('utm_este_dt', '')} / {ficha.get('utm_norte_dt', '')}"),
+        ("Altitud del punto (msnm)", ficha.get("altitud_gps")),
+        ("Brigada / responsable", ficha.get("evaluador")),
+        ("Fecha de evaluacion", ficha.get("fecha_evaluacion")),
+        ("Ficha (correlativo)", ficha.get("ficha_correlativo")),
+        ("Archivo de origen", ficha.get("nombre_archivo")),
+    ]
+    st.dataframe(pd.DataFrame(
+        [{"Campo": e, "Valor": v} for e, v in generales if fdt.declarado(v)]),
+        use_container_width=True, hide_index=True)
+
+    c1, c2 = st.columns(2)
+    numericos = [{"Indicador": etiquetas[c][0], "Unidad": etiquetas[c][1],
+                  "Valor": ficha.get(c + "_num")}
+                 for c, _e, _u, _a in fdt.INDICADORES_NUM
+                 if ficha.get(c + "_num") is not None]
+    c1.markdown("**Indicadores declarados**")
+    c1.dataframe(pd.DataFrame(numericos), use_container_width=True,
+                 hide_index=True)
+
+    sino = [{"Observacion": etq,
+             "Respuesta": "Si" if ficha.get(c + "_si") else "No"}
+            for c, etq in fdt.INDICADORES_SINO
+            if ficha.get(c + "_si") is not None]
+    c2.markdown("**Observaciones de campo**")
+    c2.dataframe(pd.DataFrame(sino), use_container_width=True, hide_index=True)
+
+    categoricas = [{"Variable": etq, "Valor": fdt.categoria(ficha, campo)}
+                   for campo, etq in fdt.CATEGORICOS]
+    st.markdown("**Caracterizacion**")
+    st.dataframe(pd.DataFrame(categoricas), use_container_width=True,
+                 hide_index=True)
+
+    for tipo, etiqueta, _clave, _acr, _cols in fdt.INVENTARIOS:
+        filas = fdt.inventario([ficha], tipo)
+        with st.expander(f"{etiqueta} - {len(filas)} registro(s)",
+                         expanded=False):
+            if filas:
+                st.dataframe(pd.DataFrame(filas).drop(
+                    columns=["Bloque", "Distrito", "Provincia"]),
+                    use_container_width=True, hide_index=True)
+            else:
+                st.caption("La ficha no registra filas en este inventario.")
+
+    observaciones = [
+        ("F-DT-01 - Datos generales y fisiografia", ficha.get("dt01_observaciones")),
+        ("F-DT-02 - Suelo y procesos erosivos", ficha.get("dt02_observaciones")),
+        ("F-DT-03 - Vegetacion y ecosistema", ficha.get("dt03_observaciones")),
+        ("F-DT-04 - Causas de degradacion", ficha.get("dt04_observaciones")),
+        ("F-DT-05 - Hidrologia y accesibilidad", ficha.get("dt05_observaciones")),
+    ]
+    with st.expander("Observaciones de las cinco fichas", expanded=False):
+        for titulo, texto in observaciones:
+            if fdt.declarado(texto):
+                st.markdown(f"**{titulo}**")
+                st.write(texto)
+
+
+def _seccion_fichas_dt(cargados):
+    """Graficos y tablas construidos sobre los 117 libros de campo F-DT."""
+    st.markdown("**5. Fichas F-DT actualizadas: graficos y tablas**")
+    st.caption(
+        "Analitica de los 117 libros de campo `Plantillas Excel FDT "
+        "actualizadas` que viajan con el aplicativo: las cinco fichas "
+        "F-DT-01 a F-DT-05 de cada bloque, con sus inventarios de carcavas, "
+        "elenco floristico, especies clave, matriz de causas, indicadores "
+        "cuantitativos y fuentes de agua. Se despliega por bloque, distrito, "
+        "provincia y consolidado total. Ningun valor ausente se estima: cada "
+        "promedio informa cuantos bloques lo sustentan.")
+
+    libros = fdt.fichas_del_repositorio()
+    if not libros:
+        st.info("El paquete de fichas F-DT no viaja en este despliegue. "
+                "Suba `Plantillas Excel FDT actualizadas.zip` al repositorio "
+                "para habilitar esta seccion.")
+        return
+
+    if not st.session_state.get("fdt_cargadas"):
+        st.info(f"El aplicativo incluye **{len(libros)} libros de campo "
+                f"F-DT**. La lectura completa toma unos segundos y queda en "
+                f"memoria para el resto de la sesion.")
+        if st.button(f"Leer las {len(libros)} fichas F-DT y generar la "
+                     f"analitica", key="fdt_cargar", type="primary"):
+            st.session_state["fdt_cargadas"] = True
+            st.rerun()
+        return
+
+    catalogo = _catalogo_para_fichas(cargados)
+    with st.spinner("Leyendo las fichas F-DT del repositorio..."):
+        fichas, errores = _cached_fichas_dt(_items_catalogo(catalogo))
+    if errores:
+        st.error(f"{len(errores)} libro(s) no pudieron leerse:")
+        st.dataframe(pd.DataFrame(errores, columns=["Archivo", "Motivo"]),
+                     use_container_width=True, hide_index=True)
+    if not fichas:
+        return
+
+    # ── Filtros territoriales de la seccion ──
+    provincias = sorted({f["provincia"] for f in fichas if f.get("provincia")})
+    distritos = sorted({f["distrito"] for f in fichas if f.get("distrito")})
+    c1, c2 = st.columns(2)
+    fil_prov = c1.multiselect("Provincia", provincias, key="fdt_f_prov")
+    fil_dist = c2.multiselect("Distrito", distritos, key="fdt_f_dist")
+    seleccion = [f for f in fichas
+                 if (not fil_prov or f.get("provincia") in fil_prov)
+                 and (not fil_dist or f.get("distrito") in fil_dist)]
+    if not seleccion:
+        st.warning("Ningun bloque cumple los filtros.")
+        return
+
+    general = fdt.resumen_general(seleccion)
+    m1, m2, m3, m4, m5 = st.columns(5)
+    m1.metric("Bloques con ficha", general["bloques"])
+    m2.metric("Cobertura vegetal media (%)",
+              f"{general['cobertura_media']:.1f}"
+              if general["cobertura_media"] is not None else "s/d",
+              f"{general['cobertura_media_n']} bloques con dato")
+    m3.metric("Suelo desnudo medio (%)",
+              f"{general['suelo_desnudo_medio']:.1f}"
+              if general["suelo_desnudo_medio"] is not None else "s/d",
+              f"{general['suelo_desnudo_medio_n']} bloques con dato")
+    m4.metric("Carcavas inventariadas", general["carcavas"])
+    m5.metric("Fuentes de agua", general["fuentes_agua"])
+
+    # Por omision, distrito: el nivel al que se leen los reportes del
+    # estudio. Bloque son 117 filas y total una sola.
+    nivel = st.radio(
+        "Nivel de desagregacion", list(fdt.NIVELES), index=1, horizontal=True,
+        format_func=lambda n: fdt.ETIQUETA_NIVEL[n], key="fdt_nivel")
+
+    df = _df_tabla_compacta(seleccion, nivel)
+    st.markdown(f"**Indicadores de cabecera por {fdt.ETIQUETA_NIVEL[nivel].lower()}**")
+    st.dataframe(df, use_container_width=True, hide_index=True)
+
+    g1, g2 = st.columns(2)
+    with g1:
+        _grafico_fdt(df, "Cobertura (%)", "Cobertura vegetal total (%)", nivel)
+        _grafico_fdt(df, "Carcavas (n)", "Carcavas inventariadas", nivel)
+    with g2:
+        _grafico_fdt(df, "Suelo desn. (%)", "Suelo desnudo (%)", nivel)
+        _grafico_fdt(df, "Taxones", "Taxones del elenco floristico", nivel)
+
+    # ── Indicadores detallados del grupo ──
+    resumen = fdt.tabla_resumen(seleccion, nivel)
+    grupos = [fila["grupo"] for fila in resumen]
+    with st.expander("Indicadores detallados de un grupo", expanded=False):
+        grupo = st.selectbox(fdt.ETIQUETA_NIVEL[nivel], grupos,
+                             key="fdt_grupo_detalle")
+        fila = next((f for f in resumen if f["grupo"] == grupo), None)
+        if fila:
+            st.dataframe(pd.DataFrame(fdt.indicadores_largos(fila)),
+                         use_container_width=True, hide_index=True)
+
+    # ── Distribuciones categoricas ──
+    st.markdown("**Distribucion de una variable categorica**")
+    etiquetas_cat = dict(fdt.CATEGORICOS)
+    campo = st.selectbox(
+        "Variable", [c for c, _e in fdt.CATEGORICOS],
+        format_func=lambda c: etiquetas_cat[c], key="fdt_categorico")
+    filas_dist = fdt.distribucion(seleccion, campo, nivel)
+    df_dist = pd.DataFrame(filas_dist)
+    d1, d2 = st.columns([1.3, 1])
+    d1.dataframe(df_dist, use_container_width=True, hide_index=True)
+    total_dist = fdt.distribucion(seleccion, campo, "total")
+    if total_dist:
+        d2.caption(f"{etiquetas_cat[campo]} - todos los bloques filtrados")
+        d2.bar_chart(pd.DataFrame(total_dist).set_index("Categoria")["Bloques"],
+                     color="#1B4D2E", use_container_width=True)
+
+    # ── Inventarios y rankings ──
+    st.markdown("**Inventarios de las fichas**")
+    etiquetas_inv = {t: e for t, e, _c, _a, _co in fdt.INVENTARIOS}
+    tipo = st.selectbox("Inventario", list(etiquetas_inv),
+                        format_func=lambda t: etiquetas_inv[t],
+                        key="fdt_inventario")
+    filas_inv = fdt.inventario(seleccion, tipo)
+    st.caption(f"{len(filas_inv)} registro(s) en {len(seleccion)} bloque(s).")
+    st.dataframe(pd.DataFrame(filas_inv), use_container_width=True,
+                 hide_index=True)
+
+    r1, r2 = st.columns(2)
+    r1.markdown("**Causas de degradacion presentes**")
+    r1.dataframe(pd.DataFrame(fdt.causas_presentes(seleccion, limite=15)),
+                 use_container_width=True, hide_index=True)
+    r2.markdown("**Especies mas frecuentes del elenco floristico**")
+    r2.dataframe(pd.DataFrame(
+        fdt.ranking(seleccion, "floristica", "nombre_comun", limite=15)),
+        use_container_width=True, hide_index=True)
+
+    with st.expander("Cobertura declarada de cada indicador", expanded=False):
+        st.caption("Cuantos bloques declaran cada dato. Un promedio sobre "
+                   "pocos bloques no es el promedio del conjunto.")
+        st.dataframe(pd.DataFrame(fdt.cobertura_declarada(seleccion)),
+                     use_container_width=True, hide_index=True)
+
+    # ── Reporte por bloque ──
+    st.markdown("**Reporte de un bloque**")
+    codigos = [f["codigo_bloque"] for f in seleccion]
+    codigo = st.selectbox("Bloque", codigos, key="fdt_bloque")
+    ficha = next((f for f in seleccion if f["codigo_bloque"] == codigo), None)
+    if ficha:
+        _detalle_ficha_dt(ficha)
+
+    # ── Descargas ──
+    st.markdown("**Descargas del reporte F-DT**")
+    if st.button(f"Generar reporte {fdt.ETIQUETA_NIVEL[nivel].lower()} "
+                 f"({len(seleccion)} bloques)", key="fdt_generar"):
+        with st.spinner("Generando Excel y PDF..."):
+            st.session_state["fdt_reporte"] = {
+                "nivel": nivel,
+                "n": len(seleccion),
+                "xlsx": fdt.generar_excel_fdt(seleccion, nivel),
+                "pdf": fdt.generar_pdf_fdt(seleccion, nivel),
+            }
+    reporte = st.session_state.get("fdt_reporte")
+    if reporte:
+        sufijo = fdt.ETIQUETA_NIVEL[reporte["nivel"]].replace(" ", "_")
+        b1, b2 = st.columns(2)
+        b1.download_button(
+            f"Excel F-DT por {fdt.ETIQUETA_NIVEL[reporte['nivel']].lower()} "
+            f"({reporte['n']} bloques)",
+            reporte["xlsx"], file_name=f"Fichas_FDT_{sufijo}_IN_Piura.xlsx",
+            mime=_mime_xlsx(), use_container_width=True, key="fdt_dl_xlsx")
+        b2.download_button(
+            f"PDF F-DT por {fdt.ETIQUETA_NIVEL[reporte['nivel']].lower()} "
+            f"({reporte['n']} bloques)",
+            reporte["pdf"], file_name=f"Fichas_FDT_{sufijo}_IN_Piura.pdf",
+            mime="application/pdf", use_container_width=True,
+            key="fdt_dl_pdf")
+
+
 def _tab_resumenes_bloques(bm):
     """Pestana de resumenes Excel de Diagnostico Territorial por bloque."""
     st.markdown("### Resumenes Excel de Diagnostico Territorial por bloque")
@@ -1950,6 +2273,16 @@ def _tab_resumenes_bloques(bm):
     st.markdown("---")
 
     cargados = _cached_obtener_resumenes_bloques(_cache_version())
+    _catalogo_resumenes(bm, cargados)
+
+    # La analitica de las fichas F-DT no depende de que haya resumenes
+    # cargados: se construye sobre los libros de campo del repositorio.
+    st.markdown("---")
+    _seccion_fichas_dt(cargados)
+
+
+def _catalogo_resumenes(bm, cargados):
+    """Catalogo, consolidados y detalle de los resumenes ya cargados."""
     esperados = rbq.codigos_esperados()
     codigos_cargados = {r["codigo_bloque"] for r in cargados}
 
