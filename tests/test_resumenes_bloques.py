@@ -561,23 +561,9 @@ class TestLibrosDelRepositorio(unittest.TestCase):
                 datos["msavi_total_ha"], places=3, msg=nombre)
 
     def test_la_hoja_resumen_replica_la_sintesis_msavi(self):
-        """Donde la hoja Resumen repite la síntesis, debe cuadrar con la hoja 2.
-
-        El bloque M28B3 es la excepción conocida: al incorporarse el registro
-        fotográfico del dron, su hoja Resumen perdió las tres filas de la
-        síntesis MSAVI. El dato sigue completo en «Cobertura MSAVI-NDVI», que
-        es de donde el aplicativo toma los totales, y no se rellena la réplica
-        ausente. La excepción se fija aquí para que una revisión posterior que
-        pierda más filas no pase inadvertida.
-        """
-        sin_replica = set()
+        """La hoja Resumen repite la síntesis de la hoja 2 y debe cuadrar."""
         for nombre, contenido in self.libros:
             datos = rb.parsear_resumen_bloque(contenido, nombre)
-            if datos.get("superficie_msavi_ha_num") is None:
-                sin_replica.add(datos["codigo_bloque"])
-                # La síntesis de la hoja 2 sí es exigible siempre.
-                self.assertIsNotNone(datos["msavi_total_ha"], nombre)
-                continue
             self.assertAlmostEqual(datos["superficie_msavi_ha_num"],
                                    datos["msavi_total_ha"], places=2, msg=nombre)
             self.assertAlmostEqual(datos["superficie_bajo_umbral_ha_num"],
@@ -585,7 +571,6 @@ class TestLibrosDelRepositorio(unittest.TestCase):
                                    msg=nombre)
             self.assertTrue(datos.get("msavi_clase_dominante"), nombre)
             self.assertGreater(datos["msavi_poligonos_num"], 0, nombre)
-        self.assertEqual(sin_replica, {"M28B3"})
 
     def test_el_total_ndvi_es_el_de_su_seccion(self):
         """El TOTAL CLASIFICADO leído es el del NDVI, no el del MSAVI.
@@ -608,19 +593,11 @@ class TestLibrosDelRepositorio(unittest.TestCase):
                              tamanos[bloque["archivo"]], bloque["archivo"])
 
     def test_el_control_de_consistencia_registra_el_traspaso(self):
-        """Cada libro deja constancia del traspaso MSAVI en su hoja 5.
-
-        M28B3 es la misma excepción del test anterior: su hoja 5 se rehízo con
-        los 28 hallazgos de la verificación aérea y las tres filas del
-        traspaso MSAVI no se arrastraron. La distribución areal sigue en la
-        hoja «Cobertura MSAVI-NDVI».
-        """
-        sin_traspaso = set()
+        """Cada libro deja constancia del traspaso MSAVI en su hoja 5."""
         for nombre, contenido in self.libros:
             datos = rb.parsear_resumen_bloque(contenido, nombre)
             campos = [f["campo"] for f in datos["consistencia"]]
-            if "Distribución areal MSAVI 2024" not in campos:
-                sin_traspaso.add(datos["codigo_bloque"])
+            self.assertIn("Distribución areal MSAVI 2024", campos, nombre)
             # La serie D queda correlativa; otras series (C-01: hallazgos
             # sobre el archivo de la ficha DT) conservan su código.
             serie_d = [f["codigo"] for f in datos["consistencia"]
@@ -630,7 +607,6 @@ class TestLibrosDelRepositorio(unittest.TestCase):
                              nombre)
             total = datos["consistencia_resumen"]["total"]
             self.assertEqual(total, len(datos["consistencia"]), nombre)
-        self.assertEqual(sin_traspaso, {"M28B3"})
 
 
 class TestSintesisMsaviCalculada(unittest.TestCase):
