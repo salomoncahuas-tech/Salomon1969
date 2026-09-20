@@ -155,11 +155,16 @@ class _Rejilla:
         return all(_txt(v) == "" for v in (self.filas[fila]
                                            if 0 <= fila < self.n_filas else []))
 
-    def buscar_etiqueta(self, *variantes, columna_max=6):
+    def buscar_etiqueta(self, *variantes, columna_max=6, fila_inicio=0):
         """Ubica la primera celda cuyo texto normalizado empieza por alguna
-        de las variantes dadas. Devuelve (fila, col) o None."""
+        de las variantes dadas. Devuelve (fila, col) o None.
+
+        `fila_inicio` acota la busqueda hacia abajo. Una etiqueta que se
+        repite en dos secciones de la misma hoja -el TOTAL CLASIFICADO de
+        MSAVI y el de NDVI- se resuelve asi por seccion.
+        """
         objetivos = [_norm(v) for v in variantes if _norm(v)]
-        for r in range(self.n_filas):
+        for r in range(max(fila_inicio, 0), self.n_filas):
             for c in range(min(self.n_columnas, columna_max)):
                 celda = _norm(self.valor(r, c))
                 if not celda:
@@ -413,7 +418,7 @@ def _leer_msavi_ndvi(rej, datos):
             datos[clave.replace("_ha", "_pct")] = _num(
                 rej.valor(pos[0], pos[1] + 2))
 
-    datos["ndvi_tabla"], _ = _leer_tabla(
+    datos["ndvi_tabla"], fila_cab_ndvi = _leer_tabla(
         rej,
         ["Clase NDVI", "Superficie (ha)", "% del area clasificada"],
         [("Clase NDVI", "clase", "texto"),
@@ -424,9 +429,16 @@ def _leer_msavi_ndvi(rej, datos):
         filas_corte=("TOTAL CLASIFICADO", "Superficie de catalogo",
                      "LECTURA CRITICA", "NOTA METODOLOGICA"))
 
-    pos = rej.buscar_etiqueta("total clasificado", columna_max=rej.n_columnas)
-    if pos:
-        datos["ndvi_total_ha"] = _num(rej.valor(pos[0], pos[1] + 1))
+    # El TOTAL CLASIFICADO se busca por debajo de la cabecera del NDVI: la
+    # seccion A trae una fila con la misma etiqueta (TOTAL CLASIFICADO MSAVI
+    # 2024) y, sin acotar, se leeria el total del MSAVI en su lugar.
+    if fila_cab_ndvi is not None:
+        pos = rej.buscar_etiqueta("total clasificado",
+                                  columna_max=rej.n_columnas,
+                                  fila_inicio=fila_cab_ndvi + 1)
+        if pos:
+            datos["ndvi_total_ha"] = _num(rej.valor(pos[0], pos[1] + 1))
+            datos["ndvi_total_pct"] = _num(rej.valor(pos[0], pos[1] + 2))
 
 
 def completar_sintesis_msavi(datos):
@@ -458,6 +470,15 @@ def completar_sintesis_msavi(datos):
             fila["pct_txt"] = f"{fila['pct']:.2f}"
             fila["pct_calculado"] = True
 
+    # La fila TOTAL de la seccion A suma los porcentajes ya redondeados, de
+    # modo que puede quedar en 99.99 o 100.01. Se reproduce esa suma, no un
+    # 100 de oficio.
+    if datos.get("msavi_total_pct") is None:
+        pcts = [f.get("pct") for f in tabla]
+        if all(p is not None for p in pcts):
+            datos["msavi_total_pct"] = round(sum(pcts), 2)
+            datos["msavi_sintesis_calculada"] = True
+
     # El umbral 0.4976 separa las clases: la propia tabla declara de que lado
     # cae cada una.
     sobre = sum(f["superficie_ha"] for f in tabla
@@ -468,6 +489,31 @@ def completar_sintesis_msavi(datos):
             datos[clave] = valor
             datos[clave.replace("_ha", "_pct")] = round(valor / total * 100, 2)
             datos["msavi_sintesis_calculada"] = True
+    return datos
+
+
+def completar_total_ndvi(datos):
+    """Deriva el total clasificado del NDVI cuando el libro no lo trae.
+
+    La fila TOTAL CLASIFICADO de la seccion B es una formula, igual que la
+    de la seccion A: un libro guardado sin recalcular no lleva el resultado.
+    Las superficies por clase si son literales, de modo que el total se
+    reconstruye sobre ellas y queda marcado como calculado.
+    """
+    tabla = datos.get("ndvi_tabla") or []
+    areas = [f.get("superficie_ha") for f in tabla]
+    if not areas or any(a is None for a in areas):
+        return datos
+
+    if datos.get("ndvi_total_ha") is None:
+        datos["ndvi_total_ha"] = round(sum(areas), 4)
+        datos["ndvi_total_calculado"] = True
+
+    if datos.get("ndvi_total_pct") is None:
+        pcts = [f.get("pct") for f in tabla]
+        if all(p is not None for p in pcts):
+            datos["ndvi_total_pct"] = round(sum(pcts), 2)
+            datos["ndvi_total_calculado"] = True
     return datos
 
 
@@ -615,6 +661,7 @@ def parsear_resumen_bloque(archivo, nombre_archivo=""):
         datos["codigo_bloque"] = codigo_desde_nombre(datos["nombre_archivo"])
 
     completar_sintesis_msavi(datos)
+    completar_total_ndvi(datos)
     datos["validacion_utm"] = validar_utm(datos.get("utm_este_num"),
                                           datos.get("utm_norte_num"))
     return datos
@@ -694,28 +741,63 @@ def cargar_manifiesto():
     return _MANIFIESTO_CACHE
 
 
-# Carpeta del repositorio con los 117 libros vigentes (V6: distribucion areal
-# del MSAVI 2024 por clase DN). Viaja con el aplicativo, de modo que la
-# recarga masiva no depende de que alguien vuelva a subir los archivos.
+# Los 117 libros vigentes (V6, revision 1: distribucion areal del MSAVI 2024
+# por clase DN y verificacion aerea con dron) viajan con el aplicativo, de
+# modo que la recarga masiva no depende de que alguien vuelva a subirlos.
+# Se admiten las dos formas en que llegan al repositorio: la carpeta
+# extraida, o el .zip tal como se publica en GitHub. La carpeta manda si
+# ambas estan presentes.
 CARPETA_LIBROS = "plantillas_117_msavi_v6"
+ZIP_LIBROS = "plantillas_117_msavi_v6.zip"
+
+# Descomprimir el .zip en cada rerun de Streamlit seria gratuito solo la
+# primera vez. Se memoriza por (ruta, fecha, tamano): si el archivo cambia
+# en el repositorio, la firma cambia y se vuelve a leer.
+_LIBROS_ZIP_CACHE = {}
 
 
 def libros_del_repositorio(carpeta=None):
     """[(nombre, contenido)] de los libros de resumen incluidos en el repo.
 
-    Devuelve lista vacia si la carpeta no esta presente en el despliegue.
+    Devuelve lista vacia si ni la carpeta ni el .zip estan presentes en el
+    despliegue. Con `carpeta` explicita solo se mira esa ruta.
     """
-    ruta = carpeta or os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), CARPETA_LIBROS)
-    if not os.path.isdir(ruta):
+    base = os.path.dirname(os.path.abspath(__file__))
+    ruta = carpeta or os.path.join(base, CARPETA_LIBROS)
+    if os.path.isdir(ruta):
+        libros = []
+        for nombre in sorted(os.listdir(ruta)):
+            if not nombre.lower().endswith(".xlsx") or nombre.startswith("~$"):
+                continue
+            with open(os.path.join(ruta, nombre), "rb") as fh:
+                libros.append((nombre, fh.read()))
+        return libros
+    if carpeta:
         return []
-    libros = []
-    for nombre in sorted(os.listdir(ruta)):
-        if not nombre.lower().endswith(".xlsx") or nombre.startswith("~$"):
-            continue
-        with open(os.path.join(ruta, nombre), "rb") as fh:
-            libros.append((nombre, fh.read()))
-    return libros
+    return libros_del_zip(os.path.join(base, ZIP_LIBROS))
+
+
+def libros_del_zip(ruta):
+    """[(nombre, contenido)] de los libros contenidos en un .zip del repo.
+
+    Un .zip ausente o ilegible no rompe la pantalla: se devuelve lista vacia
+    y la carga manual sigue disponible.
+    """
+    if not os.path.isfile(ruta):
+        return []
+    try:
+        firma = (ruta, os.path.getmtime(ruta), os.path.getsize(ruta))
+    except OSError:
+        return []
+    if _LIBROS_ZIP_CACHE.get("firma") != firma:
+        try:
+            with open(ruta, "rb") as fh:
+                libros = expandir_zip(fh.read())
+        except (OSError, ValueError, zipfile.BadZipFile):
+            return []
+        _LIBROS_ZIP_CACHE.clear()
+        _LIBROS_ZIP_CACHE.update(firma=firma, libros=sorted(libros))
+    return list(_LIBROS_ZIP_CACHE["libros"])
 
 
 def codigos_esperados():
