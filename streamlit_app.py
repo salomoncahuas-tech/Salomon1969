@@ -2084,6 +2084,85 @@ def _detalle_ficha_dt(ficha):
                 st.write(texto)
 
 
+def _seccion_carcavas(seleccion, nivel):
+    """Cruce del inventario de campo (F-DT-02) con la caracterizacion SIG."""
+    st.markdown("**Carcavas: campo (F-DT-02) y caracterizacion geoespacial**")
+    st.caption(
+        "El inventario de la F-DT-02 registra lo que la brigada recorrio; la "
+        "caracterizacion geoespacial mide sobre el MDE y los compuestos "
+        "Sentinel-2 la longitud, el rango altitudinal, la pendiente media, el "
+        "indice de irregularidad y el NDVI de cada carcava digitalizada. Las "
+        "dos fuentes se integran por bloque y no se fusionan: de cada carcava "
+        "caracterizada se declara la distancia al registro de campo mas "
+        "cercano de su bloque.")
+
+    if not fdt.carcavas_caracterizadas():
+        st.info("El archivo `Caracterización de cárcavas.xlsx` no viaja en "
+                "este despliegue. Subalo al repositorio para integrarlo al "
+                "inventario de la F-DT-02.")
+        return
+
+    radio = st.slider(
+        "Radio para declarar correspondencia con un registro de campo (m)",
+        min_value=50, max_value=1000,
+        value=int(fdt.RADIO_CORRESPONDENCIA_M), step=50, key="fdt_radio")
+    fdt.integrar_carcavas(seleccion, radio_m=float(radio))
+
+    cruce = fdt.resumen_carcavas(seleccion)
+    c1, c2, c3, c4, c5 = st.columns(5)
+    c1.metric("Carcavas en campo", cruce["carcavas_campo"],
+              f"{cruce['bloques_campo']} bloques")
+    c2.metric("Carcavas caracterizadas", cruce["carcavas_gabinete"],
+              f"{cruce['bloques_gabinete']} bloques")
+    c3.metric("Bloques con ambas fuentes", cruce["bloques_ambas"])
+    c4.metric("Longitud caracterizada (m)",
+              f"{cruce['longitud_total_m']:,.0f}".replace(",", " ")
+              if cruce["longitud_total_m"] is not None else "s/d")
+    c5.metric("Pendiente media de carcava (%)",
+              f"{cruce['pendiente_media_pct']:.2f}"
+              if cruce["pendiente_media_pct"] is not None else "s/d",
+              f"{cruce['con_correspondencia']} con par a <= {radio} m")
+
+    resumen = fdt.tabla_resumen(seleccion, nivel)
+    comparacion = pd.DataFrame([{
+        fdt.ETIQUETA_NIVEL[nivel]: fila["grupo"],
+        "Campo (F-DT-02)": fila.get("n_carcavas_inventario", 0),
+        "Caracterizadas": fila.get("n_carcavas_gabinete", 0),
+    } for fila in resumen])
+    con_datos = comparacion[(comparacion["Campo (F-DT-02)"] > 0) |
+                            (comparacion["Caracterizadas"] > 0)]
+    if not con_datos.empty:
+        if nivel == "bloque" and len(con_datos) > 30:
+            con_datos = con_datos.assign(
+                _t=con_datos["Campo (F-DT-02)"] + con_datos["Caracterizadas"]
+            ).sort_values("_t", ascending=False).head(30).drop(columns="_t")
+            st.caption("Carcavas por fuente - 30 bloques con mas registros")
+        else:
+            st.caption("Carcavas por fuente")
+        st.bar_chart(con_datos.set_index(fdt.ETIQUETA_NIVEL[nivel]),
+                     color=["#1B4D2E", "#B8860B"], use_container_width=True)
+
+    st.caption("Contraste por bloque: lo declarado en la sintesis de la "
+               "F-DT-02, lo inventariado en campo y lo caracterizado.")
+    st.dataframe(pd.DataFrame(fdt.contraste_carcavas(seleccion)),
+                 use_container_width=True, hide_index=True)
+
+    filas_gab = fdt.inventario(seleccion, "carcavas_gabinete")
+    with st.expander(f"Carcavas caracterizadas - {len(filas_gab)} registro(s)",
+                     expanded=False):
+        st.dataframe(pd.DataFrame(filas_gab), use_container_width=True,
+                     hide_index=True)
+        r1, r2 = st.columns(2)
+        r1.markdown("**Clase morfologica**")
+        r1.dataframe(pd.DataFrame(fdt.ranking(
+            seleccion, "carcavas_gabinete", "clase_morfologica")),
+            use_container_width=True, hide_index=True)
+        r2.markdown("**Clase NDVI**")
+        r2.dataframe(pd.DataFrame(fdt.ranking(
+            seleccion, "carcavas_gabinete", "clase_ndvi")),
+            use_container_width=True, hide_index=True)
+
+
 def _seccion_fichas_dt(cargados):
     """Graficos y tablas construidos sobre los 117 libros de campo F-DT."""
     st.markdown("**5. Fichas F-DT actualizadas: graficos y tablas**")
@@ -2214,6 +2293,8 @@ def _seccion_fichas_dt(cargados):
     r2.dataframe(pd.DataFrame(
         fdt.ranking(seleccion, "floristica", "nombre_comun", limite=15)),
         use_container_width=True, hide_index=True)
+
+    _seccion_carcavas(seleccion, nivel)
 
     with st.expander("Cobertura declarada de cada indicador", expanded=False):
         st.caption("Cuantos bloques declaran cada dato. Un promedio sobre "

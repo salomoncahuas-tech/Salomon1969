@@ -308,5 +308,122 @@ class TestExportaciones(unittest.TestCase):
             fdt.generar_pdf_fdt(self.fichas, "microcuenca")
 
 
+# ══════════════════════════════════════════════════════════════════════════
+# Caracterizacion geoespacial de carcavas
+# ══════════════════════════════════════════════════════════════════════════
+
+class TestCaracterizacionDeCarcavas(unittest.TestCase):
+    """Integracion del archivo de caracterizacion con la F-DT-02."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.carcavas = fdt.carcavas_caracterizadas()
+
+    def test_el_archivo_del_repositorio_trae_las_carcavas(self):
+        self.assertEqual(len(self.carcavas), 55)
+        primera = self.carcavas[0]
+        for clave in ("codigo", "codigo_bloque", "utm_este", "utm_norte",
+                      "longitud_m", "pendiente_pct", "ndvi",
+                      "clase_morfologica", "clase_ndvi"):
+            self.assertIn(clave, primera)
+
+    def test_toda_carcava_cae_en_el_ambito_utm_17s(self):
+        for registro in self.carcavas:
+            self.assertEqual(registro["validacion_utm"], "Conforme",
+                             registro["codigo"])
+
+    def test_toda_carcava_pertenece_a_un_bloque_con_ficha(self):
+        codigos = {r["codigo_bloque"] for r in self.carcavas}
+        self.assertTrue(codigos.issubset(set(rb.codigos_esperados())),
+                        sorted(codigos - set(rb.codigos_esperados())))
+
+    def test_archivo_ausente_no_rompe_la_analitica(self):
+        self.assertEqual(fdt.carcavas_caracterizadas("/no/existe.xlsx"), [])
+
+    def test_la_integracion_suma_la_caracterizacion_a_su_bloque(self):
+        fichas = [ficha_sintetica("M9B1"), ficha_sintetica("SIN-CARCAVAS")]
+        fdt.integrar_carcavas(fichas)
+        por_codigo = {f["codigo_bloque"]: f for f in fichas}
+        propias = [r for r in self.carcavas if r["codigo_bloque"] == "M9B1"]
+        self.assertEqual(por_codigo["M9B1"]["n_carcavas_gabinete"],
+                         len(propias))
+        self.assertAlmostEqual(
+            por_codigo["M9B1"]["longitud_carcavas_gabinete"],
+            round(sum(r["longitud_m"] for r in propias), 2), places=2)
+        self.assertEqual(por_codigo["SIN-CARCAVAS"]["n_carcavas_gabinete"], 0)
+        self.assertIsNone(
+            por_codigo["SIN-CARCAVAS"]["longitud_carcavas_gabinete"])
+
+    def test_la_distancia_al_registro_de_campo_se_mide_y_no_se_fusiona(self):
+        """La correspondencia se declara solo dentro del radio pedido."""
+        caracterizadas = [{"codigo": "CV 1 - X", "codigo_bloque": "X",
+                           "utm_este": 620000.0, "utm_norte": 9400000.0,
+                           "longitud_m": 100.0, "pendiente_pct": 8.0,
+                           "ndvi": 0.3}]
+        ficha = ficha_sintetica("X", inv_carcavas=[
+            {"codigo": "C-01", "utm_e_ini": "620300", "utm_n_ini": "9400000"},
+            {"codigo": "C-02", "utm_e_ini": "621000", "utm_n_ini": "9400000"}])
+
+        fdt.integrar_carcavas([ficha], caracterizadas, radio_m=250)
+        registro = ficha["inv_carcavas_gabinete"][0]
+        self.assertAlmostEqual(registro["dist_campo_m"], 300.0, places=1)
+        self.assertEqual(registro["registro_campo"], "")
+        self.assertEqual(ficha["n_carcavas_con_correspondencia"], 0)
+
+        fdt.integrar_carcavas([ficha], caracterizadas, radio_m=400)
+        registro = ficha["inv_carcavas_gabinete"][0]
+        self.assertEqual(registro["registro_campo"], "C-01")
+        self.assertEqual(ficha["n_carcavas_con_correspondencia"], 1)
+
+    def test_sin_coordenadas_de_campo_no_se_inventa_una_distancia(self):
+        caracterizadas = [{"codigo": "CV 1 - X", "codigo_bloque": "X",
+                           "utm_este": 620000.0, "utm_norte": 9400000.0}]
+        ficha = ficha_sintetica("X", inv_carcavas=[
+            {"codigo": "C-01", "utm_e_ini": "", "utm_n_ini": ""}])
+        fdt.integrar_carcavas([ficha], caracterizadas)
+        self.assertIsNone(ficha["inv_carcavas_gabinete"][0]["dist_campo_m"])
+        self.assertEqual(ficha["inv_carcavas_gabinete"][0]["registro_campo"], "")
+
+    def test_el_contraste_declara_de_que_fuente_viene_cada_bloque(self):
+        caracterizadas = [{"codigo": "CV 1 - B", "codigo_bloque": "B",
+                           "utm_este": 620000.0, "utm_norte": 9400000.0,
+                           "longitud_m": 100.0}]
+        fichas = [
+            ficha_sintetica("A", n_carcavas_inventario=2,
+                            inv_carcavas=[{"codigo": "C-01"},
+                                          {"codigo": "C-02"}]),
+            ficha_sintetica("B"),
+            ficha_sintetica("C"),
+        ]
+        fdt.integrar_carcavas(fichas, caracterizadas)
+        fuentes = {f["Bloque"]: f["Fuente"]
+                   for f in fdt.contraste_carcavas(fichas)}
+        self.assertEqual(fuentes["A"], "Solo campo (F-DT-02)")
+        self.assertEqual(fuentes["B"], "Solo caracterizacion")
+        self.assertNotIn("C", fuentes)
+
+    def test_el_cruce_sobre_los_117_bloques_cuadra(self):
+        fichas, _errores = fdt.cargar_fichas()
+        cruce = fdt.resumen_carcavas(fichas)
+        self.assertEqual(cruce["carcavas_gabinete"], len(self.carcavas))
+        self.assertEqual(
+            cruce["carcavas_campo"],
+            sum(f["n_carcavas_inventario"] for f in fichas))
+        self.assertEqual(cruce["bloques_gabinete"],
+                         len({r["codigo_bloque"] for r in self.carcavas}))
+        self.assertAlmostEqual(
+            cruce["longitud_total_m"],
+            round(sum(r["longitud_m"] for r in self.carcavas), 2), places=1)
+
+    def test_el_reporte_recoge_el_cruce(self):
+        fichas, _errores = fdt.cargar_fichas(
+            fdt.fichas_del_repositorio()[:12])
+        wb = load_workbook(io.BytesIO(
+            fdt.generar_excel_fdt(fichas, "provincia")))
+        self.assertIn("Carcavas campo-gabinete", wb.sheetnames)
+        self.assertIn("Inv. Carcavas caracterizadas", wb.sheetnames)
+        self.assertIn(b"%PDF", fdt.generar_pdf_fdt(fichas, "provincia")[:8])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
