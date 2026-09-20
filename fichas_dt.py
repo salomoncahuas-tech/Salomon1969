@@ -36,7 +36,7 @@ import re
 import zipfile
 from collections import Counter, OrderedDict
 
-from openpyxl import Workbook
+from openpyxl import Workbook, load_workbook
 
 import excel_diagnostico_territorial as edt
 
@@ -56,6 +56,7 @@ from resumenes_bloques import (  # noqa: E402
     _txt,
     _PDFResumen,
     expandir_zip,
+    validar_utm,
 )
 
 # ── Origen de los libros de campo ─────────────────────────────────────────
@@ -107,6 +108,12 @@ INDICADORES_NUM = (
     ("dt02_longitud_total_carcavas", "Longitud total de carcavas", "m", "suma"),
     ("dt02_pct_bloque_carcavas", "Bloque afectado por carcavas", "%", "promedio"),
     ("dt02_erosion_laminar_pct", "Erosion laminar observada", "%", "promedio"),
+    ("longitud_carcavas_gabinete", "Longitud de carcavas caracterizadas",
+     "m", "suma"),
+    ("pendiente_carcavas_gabinete", "Pendiente media de las carcavas "
+     "caracterizadas", "%", "promedio"),
+    ("ndvi_carcavas_gabinete", "NDVI medio de las carcavas caracterizadas",
+     "-", "promedio"),
     ("dt05_tiempo_dist_capital", "Tiempo a la capital distrital", "min", "promedio"),
     ("dt05_dist_captacion", "Distancia a la captacion mas cercana", "m", "promedio"),
 )
@@ -119,6 +126,7 @@ INDICADORES_CONTEO = (
     ("n_especies_amenazadas", "Especies clave con categoria de amenaza"),
     ("n_causas_presentes", "Causas de degradacion presentes (F-DT-04)"),
     ("n_indicadores", "Indicadores cuantitativos (F-DT-04)"),
+    ("n_carcavas_gabinete", "Carcavas caracterizadas (geoespacial)"),
     ("n_fuentes_agua", "Fuentes de agua inventariadas (F-DT-05)"),
     ("n_fuentes_permanentes", "Fuentes de agua de regimen permanente"),
 )
@@ -197,6 +205,18 @@ INVENTARIOS = (
      ("indicador",),
      (("indicador", "Indicador"), ("unidad", "Unidad"), ("valor", "Valor"),
       ("nivel", "Nivel"), ("umbral", "Umbral"), ("fuente", "Fuente"))),
+    ("carcavas_gabinete", "Carcavas caracterizadas (geoespacial)",
+     "carcavas_gabinete", ("codigo", "longitud_m"),
+     (("codigo", "Codigo"), ("utm_este", "UTM ESTE"),
+      ("utm_norte", "UTM NORTE"), ("longitud_m", "Longitud (m)"),
+      ("alt_min", "Altitud min. (msnm)"), ("alt_max", "Altitud max. (msnm)"),
+      ("alt_prom", "Altitud media (msnm)"),
+      ("pendiente_pct", "Pendiente media (%)"),
+      ("indice_irregularidad", "Indice de irregularidad"),
+      ("ndvi", "NDVI"), ("clase_morfologica", "Clase morfologica"),
+      ("clase_ndvi", "Clase NDVI"),
+      ("dist_campo_m", "Dist. al registro de campo (m)"),
+      ("registro_campo", "Registro de campo mas cercano"))),
     ("fuentes_agua", "Fuentes de agua (F-DT-05)", "dt05_fuentes_agua",
      ("tipo", "regimen", "calidad"),
      (("tipo", "Tipo"), ("regimen", "Regimen"), ("calidad", "Calidad"),
@@ -428,13 +448,16 @@ def resolver_localidad(ficha, catalogo=None):
     return ficha
 
 
-def cargar_fichas(libros=None, catalogo=None, progreso=None):
+def cargar_fichas(libros=None, catalogo=None, progreso=None,
+                  caracterizacion=True):
     """Parsea los libros F-DT y devuelve una ficha por bloque.
 
     `libros` por omision son los del repositorio. `catalogo` es el catalogo
     de bloques del aplicativo {codigo: {provincia, distrito, microcuenca,
     area_ha}}. `progreso` es un invocable f(i, total, nombre) para informar
-    el avance: leer los 117 libros toma del orden de diez segundos.
+    el avance: leer los 117 libros toma del orden de diez segundos. Con
+    `caracterizacion` se integra, cuando el archivo esta presente, la
+    caracterizacion geoespacial de carcavas al inventario de la F-DT-02.
     """
     libros = fichas_del_repositorio() if libros is None else libros
     fichas, errores = [], []
@@ -449,6 +472,8 @@ def cargar_fichas(libros=None, catalogo=None, progreso=None):
         if progreso:
             progreso(i, total, nombre)
     fichas.sort(key=lambda f: _clave_orden(f.get("codigo_bloque", "")))
+    if caracterizacion:
+        integrar_carcavas(fichas)
     return fichas, errores
 
 
@@ -717,7 +742,10 @@ CABECERA_COMPACTA = (
      "dt03_suelo_desnudo_n"),
     ("dt02_pct_bloque_carcavas", "Bloque afectado por carcavas (%)",
      "Carcavas (% bl.)", "dt02_pct_bloque_carcavas_n"),
-    ("n_carcavas_inventario", "Carcavas inventariadas", "Carcavas (n)", None),
+    ("n_carcavas_inventario", "Carcavas inventariadas en campo",
+     "Carcavas campo", None),
+    ("n_carcavas_gabinete", "Carcavas caracterizadas (geoespacial)",
+     "Carcavas caract.", None),
     ("n_taxones", "Taxones registrados", "Taxones", None),
     ("n_especies_clave", "Especies clave", "Esp. clave", None),
     ("n_fuentes_agua", "Fuentes de agua", "Fuentes", None),
@@ -743,8 +771,13 @@ NOTA_METODOLOGICA = (
     "sustentan. Los promedios son simples entre los bloques que declaran el "
     "dato, no ponderados por superficie. La provincia y el distrito de cada "
     "bloque se toman del catalogo de bloques del aplicativo; cuando el "
-    "catalogo no los tiene, de lo declarado en la ficha. Sistema de "
-    "referencia UTM WGS 84 Zona 17S (EPSG:32717)."
+    "catalogo no los tiene, de lo declarado en la ficha. La "
+    "caracterizacion geoespacial de carcavas (longitud, rango altitudinal, "
+    "pendiente media, indice de irregularidad y NDVI, medidos sobre el MDE y "
+    "los compuestos Sentinel-2) se integra por bloque al inventario de campo "
+    "de la F-DT-02 sin fusionarse con el: de cada carcava caracterizada se "
+    "declara la distancia al registro de campo mas cercano del mismo bloque. "
+    "Sistema de referencia UTM WGS 84 Zona 17S (EPSG:32717)."
 )
 
 
@@ -844,9 +877,13 @@ def generar_excel_fdt(fichas, nivel="distrito", categoricos=None,
                             1, 4, f"A{fila + 1}", eje_y="%", ancho=18, alto=8)
     _agregar_grafico_barras(ws, "Suelo desnudo (%)", fila_cab, n,
                             1, 5, f"A{fila + 18}", eje_y="%", ancho=18, alto=8)
-    _agregar_grafico_barras(ws, "Carcavas inventariadas", fila_cab, n,
-                            1, 7, f"A{fila + 35}", eje_y="n", ancho=18, alto=8)
-    fila += 52
+    _agregar_grafico_barras(ws, "Carcavas inventariadas en campo", fila_cab,
+                            n, 1, 7, f"A{fila + 35}", eje_y="n", ancho=18,
+                            alto=8)
+    _agregar_grafico_barras(ws, "Carcavas caracterizadas (geoespacial)",
+                            fila_cab, n, 1, 8, f"A{fila + 52}", eje_y="n",
+                            ancho=18, alto=8)
+    fila += 69
     ws.cell(fila, 1, NOTA_METODOLOGICA)
     ws.column_dimensions["A"].width = 34
     for letra in "BCDEFGHIJK":
@@ -893,7 +930,41 @@ def generar_excel_fdt(fichas, nivel="distrito", categoricos=None,
     for letra in "CD":
         ws.column_dimensions[letra].width = 14
 
-    # ── Hoja 5: rankings de los inventarios ──
+    # ── Hoja 5: carcavas, campo y caracterizacion geoespacial ──
+    ws = _hoja(wb, "Carcavas campo-gabinete")
+    fila = _titulo_hoja(ws, "CARCAVAS: CAMPO (F-DT-02) Y CARACTERIZACION "
+                            "GEOESPACIAL", ancho=11)
+    cruce = resumen_carcavas(fichas)
+    _, fila = _escribir_bloque_datos(
+        ws, fila, "A. Cifras del cruce", ["Concepto", "Valor"],
+        [["Carcavas inventariadas en campo (F-DT-02)", cruce["carcavas_campo"]],
+         ["Carcavas caracterizadas (geoespacial)", cruce["carcavas_gabinete"]],
+         ["Bloques con inventario de campo", cruce["bloques_campo"]],
+         ["Bloques con caracterizacion", cruce["bloques_gabinete"]],
+         ["Bloques con las dos fuentes", cruce["bloques_ambas"]],
+         ["Longitud caracterizada total (m)", cruce["longitud_total_m"]],
+         ["Pendiente media de las carcavas (%)", cruce["pendiente_media_pct"]],
+         [f"Carcavas caracterizadas con un registro de campo a menos de "
+          f"{int(RADIO_CORRESPONDENCIA_M)} m", cruce["con_correspondencia"]]])
+    fila += 1
+    _, fila = _escribir_tabla_dicts(
+        ws, fila, "B. Contraste por bloque", contraste_carcavas(fichas))
+    fila += 1
+    for titulo, filas_rank in (
+            ("Clase morfologica de las carcavas caracterizadas",
+             ranking(fichas, "carcavas_gabinete", "clase_morfologica")),
+            ("Clase NDVI de las carcavas caracterizadas",
+             ranking(fichas, "carcavas_gabinete", "clase_ndvi")),
+            ("Tipos de carcava registrados en campo",
+             ranking(fichas, "carcavas", "tipo"))):
+        _, fila = _escribir_tabla_dicts(ws, fila, titulo, filas_rank)
+        fila += 1
+    ws.cell(fila + 1, 1, NOTA_METODOLOGICA)
+    ws.column_dimensions["A"].width = 34
+    for letra in "BCDEFGHIJK":
+        ws.column_dimensions[letra].width = 18
+
+    # ── Hoja 6: rankings de los inventarios ──
     ws = _hoja(wb, "Rankings")
     fila = _titulo_hoja(ws, "RANKINGS DE LOS INVENTARIOS", ancho=4)
     for titulo, filas_rank in (
@@ -919,7 +990,7 @@ def generar_excel_fdt(fichas, nivel="distrito", categoricos=None,
     ws.column_dimensions["B"].width = 14
     ws.column_dimensions["C"].width = 14
 
-    # ── Hojas 6+: inventarios completos ──
+    # ── Hojas 7+: inventarios completos ──
     if incluir_inventarios:
         for tipo, etiqueta, _clave, _acreditan, _cols in INVENTARIOS:
             filas_inv = inventario(fichas, tipo)
@@ -1011,8 +1082,9 @@ def generar_pdf_fdt(fichas, nivel="distrito", categoricos=None,
         for columna, titulo, unidad in (
                 (3, "Cobertura vegetal total (%)", "%"),
                 (4, "Suelo desnudo (%)", "%"),
-                (6, "Carcavas inventariadas", "n"),
-                (7, "Taxones registrados", "n")):
+                (6, "Carcavas inventariadas en campo (F-DT-02)", "n"),
+                (7, "Carcavas caracterizadas (geoespacial)", "n"),
+                (8, "Taxones registrados", "n")):
             etqs, vals = _top_para_grafico(filas_compactas, columna)
             if not vals:
                 continue
@@ -1037,8 +1109,47 @@ def generar_pdf_fdt(fichas, nivel="distrito", categoricos=None,
                        for f in filas_dist],
                       anchos_rel=[4, 1, 1], alineaciones=["L", "R", "R"])
 
+    cruce = resumen_carcavas(fichas)
+    if cruce["carcavas_campo"] or cruce["carcavas_gabinete"]:
+        pdf.add_page()
+        pdf.seccion("E. CARCAVAS: CAMPO (F-DT-02) Y CARACTERIZACION "
+                    "GEOESPACIAL")
+        pdf.campos([
+            ("Carcavas inventariadas en campo", cruce["carcavas_campo"]),
+            ("Carcavas caracterizadas", cruce["carcavas_gabinete"]),
+            ("Bloques con inventario de campo", cruce["bloques_campo"]),
+            ("Bloques con caracterizacion", cruce["bloques_gabinete"]),
+            ("Bloques con las dos fuentes", cruce["bloques_ambas"]),
+            ("Longitud caracterizada total (m)",
+             _fmt(cruce["longitud_total_m"])),
+            ("Pendiente media de las carcavas (%)",
+             _fmt(cruce["pendiente_media_pct"])),
+            (f"Con registro de campo a menos de "
+             f"{int(RADIO_CORRESPONDENCIA_M)} m", cruce["con_correspondencia"]),
+        ], columnas=2)
+        filas_cruce = contraste_carcavas(fichas)
+        pdf.tabla(
+            ["Bloque", "Distrito", "Declaradas", "Campo", "Caracterizadas",
+             "Long. declarada (m)", "Long. caracterizada (m)",
+             "Pendiente (%)", "Fuente"],
+            [[f["Bloque"], _recortar(f["Distrito"], 22),
+              _fmt(f["Declaradas en la sintesis F-DT-02"]),
+              f["Inventariadas en campo"], f["Caracterizadas (geoespacial)"],
+              _fmt(f["Longitud declarada (m)"]),
+              _fmt(f["Longitud caracterizada (m)"]),
+              _fmt(f["Pendiente media de carcava (%)"]),
+              _recortar(f["Fuente"], 26)] for f in filas_cruce],
+            anchos_rel=[1.1, 2, 1.2, 1, 1.4, 1.6, 1.8, 1.2, 2.6],
+            alineaciones=["L", "L", "R", "R", "R", "R", "R", "R", "L"],
+            tam=6.5)
+        pdf.nota(
+            "Las dos fuentes no se fusionan: la F-DT-02 declara lo recorrido "
+            "en campo y la caracterizacion lo medido sobre el MDE y los "
+            "compuestos Sentinel-2. De cada carcava caracterizada se declara "
+            "la distancia al registro de campo mas cercano de su bloque.")
+
     pdf.add_page()
-    pdf.seccion("E. RANKINGS DE LOS INVENTARIOS")
+    pdf.seccion("F. RANKINGS DE LOS INVENTARIOS")
     for titulo, filas_rank in (
             ("Causas de degradacion presentes (F-DT-04)",
              causas_presentes(fichas, limite=15)),
@@ -1047,7 +1158,11 @@ def generar_pdf_fdt(fichas, nivel="distrito", categoricos=None,
             ("Especies clave por categoria (F-DT-03)",
              ranking(fichas, "especies_clave", "categoria", limite=10)),
             ("Tipos de fuente de agua (F-DT-05)",
-             ranking(fichas, "fuentes_agua", "tipo", limite=10))):
+             ranking(fichas, "fuentes_agua", "tipo", limite=10)),
+            ("Clase morfologica de las carcavas caracterizadas",
+             ranking(fichas, "carcavas_gabinete", "clase_morfologica")),
+            ("Clase NDVI de las carcavas caracterizadas",
+             ranking(fichas, "carcavas_gabinete", "clase_ndvi"))):
         if not filas_rank:
             continue
         pdf.tabla(["Registro", "Filas", "Bloques"],
@@ -1056,6 +1171,255 @@ def generar_pdf_fdt(fichas, nivel="distrito", categoricos=None,
                   anchos_rel=[6, 1, 1], alineaciones=["L", "R", "R"])
         pdf.nota(titulo)
 
-    pdf.seccion("F. NOTA METODOLOGICA")
+    pdf.seccion("G. NOTA METODOLOGICA")
     pdf.nota(NOTA_METODOLOGICA)
     return _pdf_bytes(pdf)
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# Caracterizacion geoespacial de carcavas
+# ══════════════════════════════════════════════════════════════════════════
+#
+# El inventario de campo de la F-DT-02 registra lo que la brigada pudo
+# recorrer: el codigo, el tipo y el punto de inicio de cada carcava, y rara
+# vez su longitud. La caracterizacion geoespacial, en cambio, mide sobre el
+# MDE y los compuestos Sentinel-2 la longitud, el rango altitudinal, la
+# pendiente media, el indice de irregularidad y el NDVI de cada carcava
+# digitalizada. Son dos lecturas del mismo territorio, no la misma lista:
+# de los 117 bloques, 50 traen carcavas de campo y 32 traen carcavas
+# caracterizadas, y solo 14 traen las dos. Por eso se integran por bloque y
+# se declara la distancia entre ambos registros, sin dar por identica una
+# carcava de campo y una caracterizada que caen cerca.
+
+ARCHIVO_CARCAVAS = "Caracterización de cárcavas.xlsx"
+
+# (cabecera en el archivo, clave de salida, tipo). Las cabeceras se comparan
+# normalizadas, de modo que un cambio de acento o de mayusculas no rompe la
+# lectura.
+COLUMNAS_CARCAVAS = (
+    ("Codigo", "codigo", "texto"),
+    ("Este", "utm_este", "numero"),
+    ("Norte", "utm_norte", "numero"),
+    ("Bloque", "codigo_bloque", "texto"),
+    ("Microc", "microcuenca", "texto"),
+    ("Dist", "distrito", "texto"),
+    ("Prov", "provincia", "texto"),
+    ("Depart", "departamento", "texto"),
+    ("Orden", "orden", "numero"),
+    ("Long", "longitud_m", "numero"),
+    ("Alt_min", "alt_min", "numero"),
+    ("Alt_max", "alt_max", "numero"),
+    ("Alt_prom", "alt_prom", "numero"),
+    ("Pend_prom", "pendiente_pct", "numero"),
+    ("Iirreg", "indice_irregularidad", "numero"),
+    ("NDVI", "ndvi", "numero"),
+    ("Cl_Morf", "clase_morfologica", "texto"),
+    ("Cl_NDVI", "clase_ndvi", "texto"),
+)
+
+# Radio por omision para declarar que una carcava caracterizada y un
+# registro de campo del mismo bloque pueden ser el mismo rasgo. No los
+# fusiona: solo lo anota junto con la distancia medida.
+RADIO_CORRESPONDENCIA_M = 250.0
+
+_CARCAVAS_CACHE = {}
+
+
+def carcavas_caracterizadas(ruta=None):
+    """Filas de "Caracterización de cárcavas.xlsx" del repositorio.
+
+    Devuelve lista vacia si el archivo no viaja en el despliegue: la
+    analitica de las fichas sigue funcionando sin la caracterizacion.
+    """
+    ruta = ruta or os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                ARCHIVO_CARCAVAS)
+    if not os.path.isfile(ruta):
+        return []
+    try:
+        firma = (ruta, os.path.getmtime(ruta), os.path.getsize(ruta))
+    except OSError:
+        return []
+    if _CARCAVAS_CACHE.get("firma") != firma:
+        try:
+            filas = _leer_carcavas(ruta)
+        except Exception:                      # archivo ilegible o cambiado
+            return []
+        _CARCAVAS_CACHE.clear()
+        _CARCAVAS_CACHE.update(firma=firma, filas=filas)
+    return [dict(f) for f in _CARCAVAS_CACHE["filas"]]
+
+
+def _leer_carcavas(ruta):
+    """Lee la hoja de caracterizacion localizando sus columnas por nombre."""
+    wb = load_workbook(ruta, data_only=True, read_only=True)
+    try:
+        ws = wb[wb.sheetnames[0]]
+        filas_hoja = [list(f) for f in ws.iter_rows(max_row=2000,
+                                                    values_only=True)]
+    finally:
+        wb.close()
+    if not filas_hoja:
+        return []
+
+    cabecera = {_norm(v): i for i, v in enumerate(filas_hoja[0]) if _txt(v)}
+    indices = {}
+    for titulo, clave, tipo in COLUMNAS_CARCAVAS:
+        idx = cabecera.get(_norm(titulo))
+        if idx is not None:
+            indices[clave] = (idx, tipo)
+
+    salida = []
+    for fila in filas_hoja[1:]:
+        registro = {}
+        for clave, (idx, tipo) in indices.items():
+            bruto = fila[idx] if idx < len(fila) else None
+            registro[clave] = _num(bruto) if tipo == "numero" else _txt(bruto)
+        if not declarado(registro.get("codigo")) and not declarado(
+                registro.get("codigo_bloque")):
+            continue
+        registro["codigo_bloque"] = _txt(registro.get("codigo_bloque")).upper()
+        registro["validacion_utm"] = validar_utm_carcava(
+            registro.get("utm_este"), registro.get("utm_norte"))
+        salida.append(registro)
+    return salida
+
+
+def validar_utm_carcava(este, norte):
+    """Control UTM WGS 84 Zona 17S del ambito, como en los resumenes."""
+    return validar_utm(este, norte)
+
+
+def _distancia(e1, n1, e2, n2):
+    """Distancia plana en metros entre dos puntos UTM de la misma zona."""
+    if None in (e1, n1, e2, n2):
+        return None
+    return ((e1 - e2) ** 2 + (n1 - n2) ** 2) ** 0.5
+
+
+def integrar_carcavas(fichas, caracterizadas=None,
+                      radio_m=RADIO_CORRESPONDENCIA_M):
+    """Suma a cada ficha las carcavas caracterizadas de su bloque.
+
+    A cada carcava caracterizada se le anota la distancia al registro de
+    campo mas cercano del mismo bloque y, si cae dentro del radio, el codigo
+    de ese registro. No se fusionan los dos inventarios: la F-DT-02 declara
+    lo recorrido en campo y la caracterizacion lo medido sobre el MDE y los
+    compuestos Sentinel-2.
+    """
+    caracterizadas = (carcavas_caracterizadas() if caracterizadas is None
+                      else caracterizadas)
+    por_bloque = {}
+    for registro in caracterizadas:
+        por_bloque.setdefault(registro.get("codigo_bloque", ""), []).append(
+            dict(registro))
+
+    for ficha in fichas:
+        propias = por_bloque.get(_txt(ficha.get("codigo_bloque")).upper(), [])
+        puntos_campo = [
+            (_txt(f.get("codigo")) or "sin codigo",
+             _num(f.get("utm_e_ini")), _num(f.get("utm_n_ini")))
+            for f in ficha.get("inv_carcavas", [])]
+
+        for registro in propias:
+            distancias = [
+                (d, codigo) for codigo, este, norte in puntos_campo
+                if (d := _distancia(registro.get("utm_este"),
+                                    registro.get("utm_norte"),
+                                    este, norte)) is not None]
+            if distancias:
+                distancia, codigo = min(distancias)
+                registro["dist_campo_m"] = round(distancia, 1)
+                registro["registro_campo"] = (
+                    codigo if distancia <= radio_m else "")
+            else:
+                registro["dist_campo_m"] = None
+                registro["registro_campo"] = ""
+
+        ficha["carcavas_gabinete"] = propias
+        ficha["inv_carcavas_gabinete"] = propias
+        ficha["n_carcavas_gabinete"] = len(propias)
+        ficha["n_carcavas_con_correspondencia"] = sum(
+            1 for r in propias if r.get("registro_campo"))
+
+        for clave, valores in (
+                ("longitud_carcavas_gabinete",
+                 [r.get("longitud_m") for r in propias]),
+                ("pendiente_carcavas_gabinete",
+                 [r.get("pendiente_pct") for r in propias]),
+                ("ndvi_carcavas_gabinete", [r.get("ndvi") for r in propias])):
+            declarados = [v for v in valores if v is not None]
+            if not declarados:
+                ficha[clave] = ficha[clave + "_num"] = None
+            elif clave == "longitud_carcavas_gabinete":
+                ficha[clave] = ficha[clave + "_num"] = round(
+                    sum(declarados), 2)
+            else:
+                ficha[clave] = ficha[clave + "_num"] = round(
+                    sum(declarados) / len(declarados), 4)
+    return fichas
+
+
+def contraste_carcavas(fichas, solo_con_datos=True):
+    """Lo que declara la ficha, lo inventariado en campo y lo caracterizado.
+
+    Es la lectura que permite ver de un vistazo en que bloques coinciden las
+    dos fuentes, en cuales solo hay una y donde la sintesis de la F-DT-02 no
+    cuadra con su propio inventario.
+    """
+    filas = []
+    for ficha in fichas:
+        declaradas = ficha.get("dt02_num_carcavas_num")
+        campo = ficha.get("n_carcavas_inventario", 0)
+        gabinete = ficha.get("n_carcavas_gabinete", 0)
+        if solo_con_datos and not (campo or gabinete or declaradas):
+            continue
+        if campo and gabinete:
+            fuente = "Campo y caracterizacion"
+        elif campo:
+            fuente = "Solo campo (F-DT-02)"
+        elif gabinete:
+            fuente = "Solo caracterizacion"
+        else:
+            fuente = "Solo la sintesis de la ficha"
+        filas.append(OrderedDict((
+            ("Bloque", ficha.get("codigo_bloque", "")),
+            ("Distrito", ficha.get("distrito") or SIN_DATO),
+            ("Provincia", ficha.get("provincia") or SIN_DATO),
+            ("Declaradas en la sintesis F-DT-02", declaradas),
+            ("Inventariadas en campo", campo),
+            ("Caracterizadas (geoespacial)", gabinete),
+            ("Con correspondencia en campo",
+             ficha.get("n_carcavas_con_correspondencia", 0)),
+            ("Longitud declarada (m)",
+             ficha.get("dt02_longitud_total_carcavas_num")),
+            ("Longitud caracterizada (m)",
+             ficha.get("longitud_carcavas_gabinete")),
+            ("Pendiente media de carcava (%)",
+             ficha.get("pendiente_carcavas_gabinete")),
+            ("Fuente", fuente),
+        )))
+    filas.sort(key=lambda f: _clave_orden(f["Bloque"]))
+    return filas
+
+
+def resumen_carcavas(fichas):
+    """Cifras de cabecera del cruce campo / caracterizacion."""
+    con_campo = [f for f in fichas if f.get("n_carcavas_inventario")]
+    con_gabinete = [f for f in fichas if f.get("n_carcavas_gabinete")]
+    longitudes = [f["longitud_carcavas_gabinete"] for f in fichas
+                  if f.get("longitud_carcavas_gabinete") is not None]
+    pendientes = [f["pendiente_carcavas_gabinete"] for f in fichas
+                  if f.get("pendiente_carcavas_gabinete") is not None]
+    return {
+        "carcavas_campo": sum(f.get("n_carcavas_inventario", 0) for f in fichas),
+        "carcavas_gabinete": sum(f.get("n_carcavas_gabinete", 0) for f in fichas),
+        "bloques_campo": len(con_campo),
+        "bloques_gabinete": len(con_gabinete),
+        "bloques_ambas": len({f["codigo_bloque"] for f in con_campo} &
+                             {f["codigo_bloque"] for f in con_gabinete}),
+        "longitud_total_m": round(sum(longitudes), 2) if longitudes else None,
+        "pendiente_media_pct": (round(sum(pendientes) / len(pendientes), 2)
+                                if pendientes else None),
+        "con_correspondencia": sum(
+            f.get("n_carcavas_con_correspondencia", 0) for f in fichas),
+    }
