@@ -26,6 +26,7 @@ registro en ficha" se conservan tal cual.
 
 import io
 import json
+import math
 import os
 import re
 import unicodedata
@@ -33,9 +34,20 @@ import zipfile
 from datetime import datetime
 
 from openpyxl import load_workbook, Workbook
-from openpyxl.chart import BarChart, PieChart, Reference
+from openpyxl.chart import BarChart, LineChart, PieChart, Reference
+from openpyxl.chart.label import DataLabelList
+from openpyxl.chart.legend import Legend
+from openpyxl.chart.marker import DataPoint, Marker
+from openpyxl.chart.shapes import GraphicalProperties
+from openpyxl.chart.text import RichText, Text
+from openpyxl.chart.title import Title
+from openpyxl.drawing.line import LineProperties
+from openpyxl.drawing.text import (CharacterProperties, Font as FuenteDibujo,
+                                   Paragraph, ParagraphProperties,
+                                   RegularTextRun, RichTextProperties)
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
+from openpyxl.worksheet.properties import PageSetupProperties
 
 # ── Identidad institucional ANIN ──────────────────────────────────────────
 ANIN_VERDE = "1B4D2E"
@@ -728,6 +740,284 @@ def codigos_esperados():
 
 _BORDE = Border(*(Side(style="thin", color="BFBFBF"),) * 4)
 
+# ── Geometria de la hoja ──────────────────────────────────────────────────
+# openpyxl ancla cada grafico a una celda pero lo dimensiona en centimetros.
+# Si la seccion siguiente se escribe sin traducir esos centimetros a filas,
+# los graficos se pisan entre si y tapan las tablas. Estas medidas permiten
+# calcular cuantas filas y columnas ocupa realmente cada grafico, de modo que
+# la hoja se arme por bandas: tabla a la izquierda, graficos a la derecha y
+# la banda siguiente por debajo de lo mas bajo de las dos.
+_ALTO_FILA_CM = 0.53                     # 15 pt, alto de fila por defecto
+_ANCHO_GRAFICO_CM = 13.0
+_ALTO_GRAFICO_CM = 8.2
+_ANCHOS_TABLA = (36, 16, 16, 16, 18, 2)  # columnas A..F (F separador)
+_ANCHO_COL_GRAFICO = 9                   # ancho de las columnas G en adelante
+_COL_GRAFICOS = len(_ANCHOS_TABLA) + 1   # columna G: area de graficos
+
+
+def _cm_de_columna(caracteres):
+    """Ancho real en cm de una columna de Excel de n caracteres (96 dpi)."""
+    return (caracteres * 7 + 5) / 96 * 2.54
+
+
+def _filas_de(alto_cm):
+    """Filas que cubre un grafico de la altura indicada."""
+    return int(math.ceil(alto_cm / _ALTO_FILA_CM)) + 1
+
+
+_COLS_GRAFICO = int(math.ceil(_ANCHO_GRAFICO_CM /
+                              _cm_de_columna(_ANCHO_COL_GRAFICO)))
+_PASO_GRAFICO = _COLS_GRAFICO + 1        # una columna de aire entre graficos
+_ANCHO_HOJA = _COL_GRAFICOS + 2 * _PASO_GRAFICO - 1
+
+# ── Paletas ───────────────────────────────────────────────────────────────
+# Los mismos tonos que usan los graficos vectoriales del PDF, para que el
+# libro y la ficha impresa se lean como un solo entregable.
+_PALETA_EXCEL = ["1B4D2E", "3A7C4F", "7AA874", "C4A03C", "B06036", "6C7A89",
+                 "8C3C5A", "3C6E8C"]
+
+# En NDVI y MSAVI el color no separa series: informa el estado de la
+# cobertura. Verde = dosel continuo; ocre y rojo = suelo expuesto.
+_COLOR_NDVI = {
+    "vegetacion alta": "1B4D2E",
+    "vegetacion mediana": "5C9E5C",
+    "vegetacion ligera": "C4A03C",
+    "tierra desnuda": "B06036",
+}
+_COLOR_UMBRAL = {"sobre": "3A7C4F", "bajo": "B03A34", "sin": "A6A6A6"}
+_COLOR_CALIFICACION_XL = {
+    "SUSTANTIVA": "B03A34",
+    "NO SUSTANTIVA": "C4A03C",
+    "CORREGIDO": "3A7C4F",
+    "CONFORME": "1B4D2E",
+}
+
+# Formatos de numero de uso frecuente en las etiquetas y en los ejes.
+FMT_HA = "#,##0.00"
+FMT_PCT = '#,##0.0"%"'
+FMT_MSAVI = "0.0000"
+FMT_ENTERO = "#,##0"
+
+
+def _color_ndvi(clase):
+    return _COLOR_NDVI.get(_norm(clase), "6C7A89")
+
+
+def _color_umbral(texto):
+    norma = _norm(texto)
+    if norma.startswith("bajo"):
+        return _COLOR_UMBRAL["bajo"]
+    if norma.startswith("sobre"):
+        return _COLOR_UMBRAL["sobre"]
+    return _COLOR_UMBRAL["sin"]
+
+
+def _paleta(n, colores=None):
+    """Color de cada punto: el explicito si se indica, o la paleta ANIN."""
+    if colores:
+        return list(colores)[:n] + [_PALETA_EXCEL[i % len(_PALETA_EXCEL)]
+                                    for i in range(n - len(colores))]
+    return [_PALETA_EXCEL[i % len(_PALETA_EXCEL)] for i in range(n)]
+
+
+# ── Tipografia de los graficos ────────────────────────────────────────────
+
+def _caracteres(tam, negrita=False, color="404040"):
+    return CharacterProperties(latin=FuenteDibujo(typeface="Arial"),
+                               sz=tam, b=negrita, solidFill=color)
+
+
+def _parrafo(texto, cp):
+    return Paragraph(pPr=ParagraphProperties(defRPr=cp),
+                     r=[RegularTextRun(t=texto, rPr=cp)])
+
+
+def _formato_texto(cp, rotacion=None):
+    """Formato por defecto de un texto del grafico (eje, leyenda, etiqueta).
+
+    El parrafo va sin corridas de texto: openpyxl inserta una vacia cuando no
+    se declara 'r' y Excel la escribe como el literal "None" sobre el eje.
+    """
+    return RichText(
+        bodyPr=RichTextProperties(rot=rotacion, vert="horz", anchor="ctr"),
+        p=[Paragraph(pPr=ParagraphProperties(defRPr=cp), endParaRPr=cp, r=[])])
+
+
+def _titulo_grafico(texto, subtitulo=""):
+    """Titulo Arial en verde institucional, con bajada opcional en gris."""
+    parrafos = [_parrafo(texto, _caracteres(1100, True, ANIN_VERDE))]
+    if subtitulo:
+        parrafos.append(_parrafo(subtitulo, _caracteres(800, False, "7F7F7F")))
+    return Title(tx=Text(rich=RichText(p=parrafos)), overlay=False)
+
+
+def _titulo_eje(texto):
+    return Title(tx=Text(rich=RichText(
+        p=[_parrafo(texto, _caracteres(900, True))])))
+
+
+def _fuente_eje(eje, rotacion=None):
+    """Arial 8 en las marcas del eje, con rotacion opcional de categorias."""
+    eje.txPr = _formato_texto(_caracteres(800), rotacion)
+
+
+def _etiquetas(num_fmt=None, posicion=None, porcentaje=False):
+    """Etiquetas de datos visibles: sin ellas el grafico no se puede leer."""
+    lbl = DataLabelList()
+    lbl.showVal = not porcentaje
+    lbl.showPercent = porcentaje
+    lbl.showSerName = False
+    lbl.showCatName = False
+    lbl.showLegendKey = False
+    lbl.showBubbleSize = False
+    lbl.showLeaderLines = True
+    lbl.numFmt = num_fmt
+    lbl.dLblPos = posicion
+    lbl.txPr = _formato_texto(_caracteres(800, True, "3F3F3F"))
+    return lbl
+
+
+def _marco(graf):
+    """Ajustes comunes: sin bordes redondeados, ejes visibles, area limpia."""
+    graf.roundedCorners = False
+    graf.graphical_properties = GraphicalProperties(
+        solidFill="FFFFFF", ln=LineProperties(solidFill="D9D9D9"))
+    for eje in (graf.x_axis, graf.y_axis):
+        # openpyxl deja 'delete' sin definir y algunas versiones de Excel
+        # esconden el eje: se fija de forma explicita.
+        eje.delete = False
+        eje.majorTickMark = "out"
+        eje.spPr = GraphicalProperties(ln=LineProperties(solidFill="BFBFBF"))
+    if graf.y_axis.majorGridlines is not None:
+        graf.y_axis.majorGridlines.spPr = GraphicalProperties(
+            ln=LineProperties(solidFill="E6E6E6"))
+
+
+# ── Graficos ──────────────────────────────────────────────────────────────
+
+def _agregar_grafico_barras(ws, titulo, fila_cab, n_filas, col_cat, col_val,
+                            ancla, eje_y="", subtitulo="", colores=None,
+                            num_fmt=FMT_HA, horizontal=None, alto=None,
+                            col_umbral=None, ancho=_ANCHO_GRAFICO_CM):
+    """Barras con una serie, un color por categoria y valor rotulado.
+
+    Devuelve las filas que ocupa el grafico, para que la banda siguiente se
+    escriba por debajo y no encima.
+    """
+    if n_filas <= 0:
+        return 0
+    if horizontal is None:
+        # Con muchas categorias las etiquetas verticales se encabalgan; en
+        # barras horizontales cada nombre tiene su propia linea.
+        horizontal = n_filas > 6
+    if alto is None:
+        alto = max(_ALTO_GRAFICO_CM, 2.6 + 0.52 * n_filas) if horizontal \
+            else _ALTO_GRAFICO_CM
+
+    graf = BarChart()
+    graf.type = "bar" if horizontal else "col"
+    graf.style = 2
+    graf.gapWidth = 55
+    graf.title = _titulo_grafico(titulo, subtitulo)
+    graf.height, graf.width = alto, ancho
+
+    datos = Reference(ws, min_col=col_val, min_row=fila_cab,
+                      max_row=fila_cab + n_filas)
+    cats = Reference(ws, min_col=col_cat, min_row=fila_cab + 1,
+                     max_row=fila_cab + n_filas)
+    graf.add_data(datos, titles_from_data=True)
+    graf.set_categories(cats)
+
+    serie = graf.series[0]
+    tintas = _paleta(n_filas, colores)
+    serie.graphicalProperties = GraphicalProperties(solidFill=tintas[0])
+    serie.data_points = [
+        DataPoint(idx=i, spPr=GraphicalProperties(
+            solidFill=color, ln=LineProperties(solidFill="FFFFFF", w=9525)))
+        for i, color in enumerate(tintas)]
+    serie.dLbls = _etiquetas(num_fmt, "outEnd")
+
+    _marco(graf)
+    graf.legend = None
+    if col_umbral:
+        _superponer_umbral(graf, ws, fila_cab, n_filas, col_umbral)
+    if eje_y:
+        graf.y_axis.title = _titulo_eje(eje_y)
+    graf.y_axis.numFmt = num_fmt
+    _fuente_eje(graf.y_axis)
+    # Sin rotar, las clases MSAVI y los nombres de distrito se solapan.
+    _fuente_eje(graf.x_axis,
+                None if horizontal or n_filas <= 4 else -2700000)
+    ws.add_chart(graf, ancla)
+    return _filas_de(alto)
+
+
+def _agregar_grafico_torta(ws, titulo, fila_cab, n_filas, col_cat, col_val,
+                           ancla, subtitulo="", colores=None, alto=None,
+                           ancho=_ANCHO_GRAFICO_CM):
+    """Torta con leyenda a la derecha y el peso de cada clase rotulado."""
+    if n_filas <= 0:
+        return 0
+    alto = alto or _ALTO_GRAFICO_CM
+    graf = PieChart()
+    graf.title = _titulo_grafico(titulo, subtitulo)
+    graf.height, graf.width = alto, ancho
+
+    datos = Reference(ws, min_col=col_val, min_row=fila_cab,
+                      max_row=fila_cab + n_filas)
+    cats = Reference(ws, min_col=col_cat, min_row=fila_cab + 1,
+                     max_row=fila_cab + n_filas)
+    graf.add_data(datos, titles_from_data=True)
+    graf.set_categories(cats)
+
+    serie = graf.series[0]
+    serie.data_points = [
+        DataPoint(idx=i, spPr=GraphicalProperties(
+            solidFill=color, ln=LineProperties(solidFill="FFFFFF", w=19050)))
+        for i, color in enumerate(_paleta(n_filas, colores))]
+    # El porcentaje es la lectura util de una torta; la hectarea exacta esta
+    # en la tabla contigua.
+    graf.dLbls = _etiquetas("0.0%", "outEnd", porcentaje=True)
+    graf.roundedCorners = False
+    graf.legend.position = "r"
+    graf.legend.overlay = False
+    graf.legend.txPr = _formato_texto(_caracteres(800))
+    ws.add_chart(graf, ancla)
+    return _filas_de(alto)
+
+
+def _superponer_umbral(graf, ws, fila_cab, n_filas, col_val,
+                       color=_COLOR_UMBRAL["bajo"]):
+    """Agrega al grafico de barras la linea del umbral normativo."""
+    linea = LineChart()
+    datos = Reference(ws, min_col=col_val, min_row=fila_cab,
+                      max_row=fila_cab + n_filas)
+    linea.add_data(datos, titles_from_data=True)
+    serie = linea.series[0]
+    serie.graphicalProperties = GraphicalProperties(
+        ln=LineProperties(solidFill=color, w=19050, prstDash="dash"))
+    serie.marker = Marker(symbol="none")
+    serie.smooth = False
+    serie.dLbls = None
+    graf += linea
+    graf.legend = Legend()
+    graf.legend.position = "b"
+    graf.legend.overlay = False
+    graf.legend.txPr = _formato_texto(_caracteres(800))
+
+
+def _ancla_grafico(indice, fila):
+    """Celda de anclaje del grafico n de una banda (se ubican en fila)."""
+    return f"{get_column_letter(_COL_GRAFICOS + indice * _PASO_GRAFICO)}{fila}"
+
+
+def _cierre_banda(fila_cab, fila_fin_tabla, filas_graficos):
+    """Primera fila libre bajo la banda: lo mas bajo entre tabla y graficos."""
+    alto = max(filas_graficos) if filas_graficos else 0
+    return max(fila_fin_tabla, fila_cab + alto) + 2
+
+
+# ── Hoja ──────────────────────────────────────────────────────────────────
 
 def _titulo_hoja(ws, titulo, ancho=8):
     """Escribe el encabezado institucional ANIN en una hoja nueva."""
@@ -753,8 +1043,36 @@ def _titulo_hoja(ws, titulo, ancho=8):
     return fila + 2
 
 
-def _escribir_bloque_datos(ws, fila, titulo, cabeceras, filas):
-    """Escribe una tabla con estilo ANIN. Devuelve (fila_cabecera, fila_fin)."""
+def _preparar_hoja_graficos(ws, titulo):
+    """Encabezado, anchos de columna y ajustes de impresion de la hoja."""
+    fila = _titulo_hoja(ws, titulo, ancho=_ANCHO_HOJA)
+    for i, ancho in enumerate(_ANCHOS_TABLA, start=1):
+        ws.column_dimensions[get_column_letter(i)].width = ancho
+    for i in range(_COL_GRAFICOS, _ANCHO_HOJA + _PASO_GRAFICO):
+        ws.column_dimensions[get_column_letter(i)].width = _ANCHO_COL_GRAFICO
+    ws.sheet_view.showGridLines = False
+    ws.sheet_properties.pageSetUpPr = PageSetupProperties(fitToPage=True)
+    ws.page_setup.orientation = "landscape"
+    ws.page_setup.fitToWidth = 1
+    ws.page_setup.fitToHeight = 0
+    return fila
+
+
+def _nota_pie(ws, fila, texto):
+    celda = ws.cell(fila, 1, texto)
+    celda.font = Font(name="Arial", size=8, italic=True, color="595959")
+    celda.alignment = Alignment(vertical="top", wrap_text=True)
+    ws.merge_cells(start_row=fila, start_column=1,
+                   end_row=fila, end_column=_COL_GRAFICOS - 1)
+    ws.row_dimensions[fila].height = 42
+
+
+def _escribir_bloque_datos(ws, fila, titulo, cabeceras, filas, formatos=None):
+    """Escribe una tabla con estilo ANIN. Devuelve (fila_cabecera, fila_fin).
+
+    'formatos' fija el formato de numero de cada columna; sin el, un mismo
+    cuadro mezclaba hectareas con cuatro decimales y porcentajes con dos.
+    """
     celda = ws.cell(fila, 1, titulo)
     celda.font = Font(name="Arial", size=10, bold=True, color=ANIN_AZUL)
     fila += 1
@@ -763,8 +1081,10 @@ def _escribir_bloque_datos(ws, fila, titulo, cabeceras, filas):
         c = ws.cell(fila, i, texto)
         c.font = Font(name="Arial", size=9, bold=True, color="FFFFFF")
         c.fill = PatternFill("solid", fgColor=ANIN_VERDE)
-        c.alignment = Alignment(horizontal="center", wrap_text=True)
+        c.alignment = Alignment(horizontal="center", vertical="center",
+                                wrap_text=True)
         c.border = _BORDE
+    ws.row_dimensions[fila].height = 28
     fila += 1
     for j, registro in enumerate(filas):
         for i, valor in enumerate(registro, start=1):
@@ -773,46 +1093,17 @@ def _escribir_bloque_datos(ws, fila, titulo, cabeceras, filas):
             c.border = _BORDE
             if j % 2:
                 c.fill = PatternFill("solid", fgColor=ANIN_GRIS)
-            if isinstance(valor, float):
-                c.number_format = "#,##0.0000" if abs(valor) < 10 else "#,##0.00"
+            if isinstance(valor, (int, float)) and not isinstance(valor, bool):
+                c.alignment = Alignment(horizontal="right")
+                if formatos and i <= len(formatos) and formatos[i - 1]:
+                    c.number_format = formatos[i - 1]
+                else:
+                    c.number_format = ("#,##0.0000" if abs(valor) < 10
+                                       else "#,##0.00")
+            else:
+                c.alignment = Alignment(horizontal="left", wrap_text=False)
         fila += 1
     return fila_cab, fila
-
-
-def _agregar_grafico_barras(ws, titulo, fila_cab, n_filas, col_cat, col_val,
-                            ancla, eje_y="", ancho=16, alto=8):
-    if n_filas <= 0:
-        return
-    graf = BarChart()
-    graf.type = "col"
-    graf.style = 10
-    graf.title = titulo
-    graf.y_axis.title = eje_y
-    graf.height, graf.width = alto, ancho
-    datos = Reference(ws, min_col=col_val, min_row=fila_cab,
-                      max_row=fila_cab + n_filas)
-    cats = Reference(ws, min_col=col_cat, min_row=fila_cab + 1,
-                     max_row=fila_cab + n_filas)
-    graf.add_data(datos, titles_from_data=True)
-    graf.set_categories(cats)
-    graf.legend = None
-    ws.add_chart(graf, ancla)
-
-
-def _agregar_grafico_torta(ws, titulo, fila_cab, n_filas, col_cat, col_val,
-                           ancla, ancho=12, alto=8):
-    if n_filas <= 0:
-        return
-    graf = PieChart()
-    graf.title = titulo
-    graf.height, graf.width = alto, ancho
-    datos = Reference(ws, min_col=col_val, min_row=fila_cab,
-                      max_row=fila_cab + n_filas)
-    cats = Reference(ws, min_col=col_cat, min_row=fila_cab + 1,
-                     max_row=fila_cab + n_filas)
-    graf.add_data(datos, titles_from_data=True)
-    graf.set_categories(cats)
-    ws.add_chart(graf, ancla)
 
 
 def generar_excel_con_graficos(contenido_original, datos):
@@ -834,35 +1125,81 @@ def generar_excel_con_graficos(contenido_original, datos):
 def _construir_hoja_graficos(ws, datos):
     """Series y graficos del bloque: NDVI, MSAVI, microcuenca y consistencia."""
     codigo = datos.get("codigo_bloque", "")
-    fila = _titulo_hoja(ws, f"GRAFICOS DEL BLOQUE {codigo}", ancho=8)
-    for col, ancho in zip("ABCDEFGH", (34, 16, 16, 16, 16, 16, 16, 16)):
-        ws.column_dimensions[col].width = ancho
+    fila = _preparar_hoja_graficos(ws, f"GRAFICOS DEL BLOQUE {codigo}")
 
-    # ── NDVI 2025: distribucion areal ──
+    # ── A. NDVI 2025: distribucion areal ──
     ndvi = [r for r in datos.get("ndvi_tabla", [])
             if r.get("superficie_ha") is not None]
     if ndvi:
+        tintas = [_color_ndvi(r["clase"]) for r in ndvi]
         cab, fin = _escribir_bloque_datos(
             ws, fila, "A. NDVI mediana 2025 - distribucion areal",
             ["Clase NDVI", "Superficie (ha)", "% del area"],
-            [[r["clase"], r["superficie_ha"], r.get("pct")] for r in ndvi])
-        _agregar_grafico_torta(ws, f"NDVI 2025 - {codigo} (ha)", cab, len(ndvi),
-                               1, 2, f"E{cab}")
-        _agregar_grafico_barras(ws, f"NDVI 2025 - {codigo} (% del area)", cab,
-                                len(ndvi), 1, 3, f"E{cab + 17}", eje_y="%")
-        fila = fin + 18
+            [[r["clase"], r["superficie_ha"], r.get("pct")] for r in ndvi],
+            formatos=[None, FMT_HA, FMT_PCT])
+        altos = [
+            _agregar_grafico_torta(
+                ws, "NDVI 2025 - reparto de la cobertura", cab, len(ndvi),
+                1, 2, _ancla_grafico(0, cab),
+                subtitulo=f"Bloque {codigo} | superficie en ha",
+                colores=tintas),
+            _agregar_grafico_barras(
+                ws, "NDVI 2025 - peso de cada clase", cab, len(ndvi), 1, 3,
+                _ancla_grafico(1, cab), eje_y="% del area del bloque",
+                subtitulo="Sentinel-2, mediana 2025", colores=tintas,
+                num_fmt=FMT_PCT, horizontal=False),
+        ]
+        fila = _cierre_banda(cab, fin, altos)
 
-    # ── MSAVI 2024: clases del proyecto ──
+    # ── B. MSAVI 2024: clases del proyecto ──
     msavi = [r for r in datos.get("msavi_tabla", [])
              if r.get("superficie_ha") is not None]
     if msavi:
+        tintas = [_color_umbral(r.get("condicion")) for r in msavi]
         cab, fin = _escribir_bloque_datos(
             ws, fila, f"B. MSAVI 2024 - clases (umbral {UMBRAL_MSAVI})",
-            ["Clase MSAVI", "Superficie (ha)", "% del area"],
-            [[r["clase"], r["superficie_ha"], r.get("pct")] for r in msavi])
-        _agregar_grafico_barras(ws, f"MSAVI 2024 - {codigo} (ha)", cab,
-                                len(msavi), 1, 2, f"E{cab}", eje_y="ha")
-        fila = fin + 18
+            ["Clase MSAVI", "Superficie (ha)", "% del area", "Condicion"],
+            [[r["clase"], r["superficie_ha"], r.get("pct"),
+              r.get("condicion", "")] for r in msavi],
+            formatos=[None, FMT_HA, FMT_PCT, None])
+        altos = [
+            _agregar_grafico_barras(
+                ws, "MSAVI 2024 - superficie por clase", cab, len(msavi), 1, 2,
+                _ancla_grafico(0, cab), eje_y="ha", colores=tintas,
+                subtitulo=(f"Rojo: bajo el umbral {UMBRAL_MSAVI} "
+                           "(R.M. 00213-2024-MINAM)"),
+                num_fmt=FMT_HA, horizontal=True),
+            _agregar_grafico_barras(
+                ws, "MSAVI 2024 - peso de cada clase", cab, len(msavi), 1, 3,
+                _ancla_grafico(1, cab), eje_y="% del area del bloque",
+                colores=tintas, subtitulo=f"Bloque {codigo}",
+                num_fmt=FMT_PCT, horizontal=True),
+        ]
+        fila = _cierre_banda(cab, fin, altos)
+
+        # ── C. Brecha: superficie sobre y bajo el umbral ──
+        brecha = {}
+        for r in msavi:
+            clave = _norm(r.get("condicion")).startswith("bajo")
+            acu = brecha.setdefault(clave, [0.0, 0.0])
+            acu[0] += r["superficie_ha"]
+            acu[1] += r.get("pct") or 0.0
+        if len(brecha) > 1:
+            filas_brecha = [
+                [f"BAJO umbral {UMBRAL_MSAVI}" if k else "Sobre umbral",
+                 round(v[0], 4), round(v[1], 2)]
+                for k, v in sorted(brecha.items(), reverse=True)]
+            cab, fin = _escribir_bloque_datos(
+                ws, fila,
+                "C. Brecha de degradacion del bloque (R.M. 00213-2024-MINAM)",
+                ["Condicion", "Superficie (ha)", "% del area"], filas_brecha,
+                formatos=[None, FMT_HA, FMT_PCT])
+            altos = [_agregar_grafico_torta(
+                ws, "Superficie frente al umbral de brecha", cab,
+                len(filas_brecha), 1, 2, _ancla_grafico(0, cab),
+                subtitulo=(f"Bloque {codigo} | umbral MSAVI {UMBRAL_MSAVI}"),
+                colores=[_color_umbral(f[0]) for f in filas_brecha])]
+            fila = _cierre_banda(cab, fin, altos)
     else:
         media = datos.get("msavi_2024_num")
         if media is not None:
@@ -873,42 +1210,63 @@ def _construir_hoja_graficos(ws, datos):
             celda.font = Font(name="Arial", size=9, italic=True)
             fila += 2
 
-    # ── Contexto intramicrocuenca ──
+    # ── D. Contexto intramicrocuenca ──
     micro = [r for r in datos.get("microcuenca_tabla", [])
              if r.get("area_ha") is not None]
     if micro:
+        # El bloque en analisis se destaca en verde; el resto en gris, para
+        # que la comparacion se lea sin buscar el nombre en el eje.
+        tintas = [ANIN_VERDE if r.get("es_actual") else "9EB3A3" for r in micro]
         cab, fin = _escribir_bloque_datos(
             ws, fila,
-            f"C. Contexto intramicrocuenca {datos.get('microcuenca', '')}",
-            ["Bloque", "Area (ha)", "Pendiente prom. (%)", "MSAVI 2024"],
+            f"D. Contexto intramicrocuenca {datos.get('microcuenca', '')}",
+            ["Bloque", "Area (ha)", "Pendiente prom. (%)", "MSAVI 2024",
+             f"Umbral {UMBRAL_MSAVI}"],
             [[("> " + r["bloque"]) if r.get("es_actual") else r["bloque"],
-              r["area_ha"], r.get("pendiente_pct"), r.get("msavi")]
-             for r in micro])
-        _agregar_grafico_barras(ws, "Area por bloque (ha)", cab, len(micro),
-                                1, 2, f"F{cab}", eje_y="ha")
-        _agregar_grafico_barras(ws, "MSAVI 2024 por bloque", cab, len(micro),
-                                1, 4, f"F{cab + 17}", eje_y="MSAVI")
-        fila = fin + 18
+              r["area_ha"], r.get("pendiente_pct"), r.get("msavi"),
+              UMBRAL_MSAVI if r.get("msavi") is not None else None]
+             for r in micro],
+            formatos=[None, FMT_HA, FMT_PCT, FMT_MSAVI, FMT_MSAVI])
+        altos = [_agregar_grafico_barras(
+            ws, "Superficie por bloque de la microcuenca", cab, len(micro),
+            1, 2, _ancla_grafico(0, cab), eje_y="ha", colores=tintas,
+            subtitulo=f"En verde el bloque {codigo}", num_fmt=FMT_HA)]
+        if any(r.get("msavi") is not None for r in micro):
+            altos.append(_agregar_grafico_barras(
+                ws, "MSAVI 2024 por bloque de la microcuenca", cab, len(micro),
+                1, 4, _ancla_grafico(1, cab), eje_y="MSAVI", colores=tintas,
+                subtitulo="Linea roja: umbral de brecha MINAM",
+                num_fmt=FMT_MSAVI, col_umbral=5))
+        fila = _cierre_banda(cab, fin, altos)
 
-    # ── Control de consistencia ──
+    # ── E. Control de consistencia ──
     resumen = datos.get("consistencia_resumen", {})
     filas_cal = [[c, resumen.get(c, 0)] for c in CALIFICACIONES
                  if resumen.get(c, 0)]
     if filas_cal:
+        tintas = [_COLOR_CALIFICACION_XL.get(f[0], "6C7A89") for f in filas_cal]
         cab, fin = _escribir_bloque_datos(
-            ws, fila, "D. Control de consistencia por calificacion",
-            ["Calificacion", "N. de verificaciones"], filas_cal)
-        _agregar_grafico_torta(ws, "Verificaciones por calificacion", cab,
-                               len(filas_cal), 1, 2, f"E{cab}")
-        fila = fin + 18
+            ws, fila, "E. Control de consistencia por calificacion",
+            ["Calificacion", "N. de verificaciones"], filas_cal,
+            formatos=[None, FMT_ENTERO])
+        altos = [
+            _agregar_grafico_torta(
+                ws, "Verificaciones por calificacion", cab, len(filas_cal),
+                1, 2, _ancla_grafico(0, cab), colores=tintas,
+                subtitulo=f"Total: {resumen.get('total', 0)} verificaciones"),
+            _agregar_grafico_barras(
+                ws, "Verificaciones por calificacion", cab, len(filas_cal),
+                1, 2, _ancla_grafico(1, cab), eje_y="verificaciones",
+                colores=tintas, num_fmt=FMT_ENTERO, horizontal=True,
+                subtitulo="Rojo: discrepancia sustantiva pendiente"),
+        ]
+        fila = _cierre_banda(cab, fin, altos)
 
-    celda = ws.cell(fila, 1,
-                    "Graficos generados por el aplicativo IN Piura sobre los "
-                    "valores declarados en el libro de origen. Las clases sin "
-                    "estadistica zonal disponible se omiten y no se estiman.")
-    celda.font = Font(name="Arial", size=8, italic=True)
-    ws.merge_cells(start_row=fila, start_column=1, end_row=fila, end_column=8)
-    ws.sheet_view.showGridLines = False
+    _nota_pie(ws, fila,
+              "Graficos generados por el aplicativo IN Piura sobre los valores "
+              "declarados en el libro de origen. Las clases sin estadistica "
+              "zonal disponible se omiten y no se estiman. Sistema de "
+              "referencia UTM WGS 84 Zona 17S (EPSG:32717).")
 
 
 def generar_excel_consolidado(lista_datos):
@@ -937,8 +1295,14 @@ def generar_excel_consolidado(lista_datos):
             d.get("estado_verificacion", ""),
         ])
     fila_cab, fila_fin = _escribir_bloque_datos(
-        ws, fila, "Parametros por bloque", cabeceras, filas)
+        ws, fila, "Parametros por bloque", cabeceras, filas,
+        formatos=[None, None, None, None, FMT_HA, "#,##0", "#,##0", "#,##0",
+                  "#,##0", FMT_PCT, FMT_MSAVI, FMT_ENTERO, None])
     ws.freeze_panes = ws.cell(fila_cab + 1, 1)
+    if filas:
+        ws.auto_filter.ref = (f"A{fila_cab}:"
+                              f"{get_column_letter(len(cabeceras))}"
+                              f"{fila_fin - 1}")
 
     # Totales con formulas, no con valores precalculados.
     ws.cell(fila_fin, 1, "TOTAL / PROMEDIO").font = Font(
@@ -950,7 +1314,8 @@ def generar_excel_consolidado(lista_datos):
             letra = get_column_letter(col)
             c = ws.cell(fila_fin, col, f"={func}({letra}{ini}:{letra}{fin})")
             c.font = Font(name="Arial", size=9, bold=True)
-            c.number_format = "#,##0.0000" if col == 11 else "#,##0.00"
+            c.number_format = FMT_MSAVI if col == 11 else "#,##0.00"
+            c.fill = PatternFill("solid", fgColor=ANIN_VERDE_CLARO)
 
     _hoja_graficos_consolidado(wb, lista_datos)
     salida = io.BytesIO()
@@ -961,11 +1326,10 @@ def generar_excel_consolidado(lista_datos):
 def _hoja_graficos_consolidado(wb, lista_datos):
     """Agregados por distrito, por clase MSAVI y por calificacion."""
     ws = wb.create_sheet("Graficos")
-    fila = _titulo_hoja(ws, "GRAFICOS CONSOLIDADOS", ancho=8)
-    for col, ancho in zip("ABCDEFGH", (34, 16, 16, 16, 16, 16, 16, 16)):
-        ws.column_dimensions[col].width = ancho
+    fila = _preparar_hoja_graficos(
+        ws, f"GRAFICOS CONSOLIDADOS - {len(lista_datos)} BLOQUES")
 
-    # Area y numero de bloques por distrito.
+    # ── A. Area y numero de bloques por distrito ──
     por_distrito = {}
     for d in lista_datos:
         clave = d.get("distrito") or "Sin distrito"
@@ -977,14 +1341,21 @@ def _hoja_graficos_consolidado(wb, lista_datos):
     if filas:
         cab, fin = _escribir_bloque_datos(
             ws, fila, "A. Bloques y superficie por distrito",
-            ["Distrito", "N. de bloques", "Area (ha)"], filas)
-        _agregar_grafico_barras(ws, "Superficie por distrito (ha)", cab,
-                                len(filas), 1, 3, f"E{cab}", eje_y="ha")
-        _agregar_grafico_barras(ws, "Bloques por distrito", cab, len(filas),
-                                1, 2, f"E{cab + 17}", eje_y="bloques")
-        fila = fin + 18
+            ["Distrito", "N. de bloques", "Area (ha)"], filas,
+            formatos=[None, FMT_ENTERO, FMT_HA])
+        altos = [
+            _agregar_grafico_barras(
+                ws, "Superficie por distrito", cab, len(filas), 1, 3,
+                _ancla_grafico(0, cab), eje_y="ha", num_fmt=FMT_HA,
+                subtitulo="Orden descendente por superficie acumulada"),
+            _agregar_grafico_barras(
+                ws, "Bloques por distrito", cab, len(filas), 1, 2,
+                _ancla_grafico(1, cab), eje_y="bloques", num_fmt=FMT_ENTERO,
+                subtitulo="Numero de bloques con resumen DT cargado"),
+        ]
+        fila = _cierre_banda(cab, fin, altos)
 
-    # Distribucion de bloques frente al umbral de brecha MSAVI.
+    # ── B. Distribucion de bloques frente al umbral de brecha MSAVI ──
     bajo = sum(1 for d in lista_datos
                if (d.get("msavi_2024_num") or 0) and
                d["msavi_2024_num"] < UMBRAL_MSAVI)
@@ -995,27 +1366,53 @@ def _hoja_graficos_consolidado(wb, lista_datos):
              [f"Sobre umbral {UMBRAL_MSAVI}", sobre]]
     if sin_dato:
         filas.append(["Sin MSAVI declarado", sin_dato])
+    tintas = [_COLOR_UMBRAL["bajo"], _COLOR_UMBRAL["sobre"],
+              _COLOR_UMBRAL["sin"]][:len(filas)]
     cab, fin = _escribir_bloque_datos(
         ws, fila, "B. Bloques frente al umbral de brecha (R.M. 00213-2024-MINAM)",
-        ["Condicion", "N. de bloques"], filas)
-    _agregar_grafico_torta(ws, "Condicion frente al umbral MSAVI", cab,
-                           len(filas), 1, 2, f"E{cab}")
-    fila = fin + 18
+        ["Condicion", "N. de bloques"], filas, formatos=[None, FMT_ENTERO])
+    altos = [
+        _agregar_grafico_torta(
+            ws, "Condicion frente al umbral MSAVI", cab, len(filas), 1, 2,
+            _ancla_grafico(0, cab), colores=tintas,
+            subtitulo=f"{len(lista_datos)} bloques con resumen DT cargado"),
+        _agregar_grafico_barras(
+            ws, "Bloques por condicion de brecha", cab, len(filas), 1, 2,
+            _ancla_grafico(1, cab), eje_y="bloques", colores=tintas,
+            num_fmt=FMT_ENTERO, horizontal=True,
+            subtitulo="Rojo: MSAVI 2024 medio bajo el umbral"),
+    ]
+    fila = _cierre_banda(cab, fin, altos)
 
-    # Verificaciones de consistencia acumuladas.
+    # ── C. Verificaciones de consistencia acumuladas ──
     acumulado = {c: 0 for c in CALIFICACIONES}
     for d in lista_datos:
         for c in CALIFICACIONES:
             acumulado[c] += (d.get("consistencia_resumen") or {}).get(c, 0)
     filas = [[c, acumulado[c]] for c in CALIFICACIONES if acumulado[c]]
     if filas:
-        cab, _ = _escribir_bloque_datos(
+        tintas = [_COLOR_CALIFICACION_XL.get(f[0], "6C7A89") for f in filas]
+        cab, fin = _escribir_bloque_datos(
             ws, fila, "C. Verificaciones de consistencia acumuladas",
-            ["Calificacion", "N. de verificaciones"], filas)
-        _agregar_grafico_barras(ws, "Verificaciones por calificacion", cab,
-                                len(filas), 1, 2, f"E{cab}",
-                                eje_y="verificaciones")
-    ws.sheet_view.showGridLines = False
+            ["Calificacion", "N. de verificaciones"], filas,
+            formatos=[None, FMT_ENTERO])
+        altos = [
+            _agregar_grafico_barras(
+                ws, "Verificaciones por calificacion", cab, len(filas), 1, 2,
+                _ancla_grafico(0, cab), eje_y="verificaciones", colores=tintas,
+                num_fmt=FMT_ENTERO, horizontal=True,
+                subtitulo=f"Total: {sum(acumulado.values())} verificaciones"),
+            _agregar_grafico_torta(
+                ws, "Reparto de las verificaciones", cab, len(filas), 1, 2,
+                _ancla_grafico(1, cab), colores=tintas,
+                subtitulo="Rojo: discrepancias sustantivas"),
+        ]
+        fila = _cierre_banda(cab, fin, altos)
+
+    _nota_pie(ws, fila,
+              "Agregados calculados sobre los resumenes DT efectivamente "
+              "cargados en el aplicativo y sobre los filtros activos al "
+              "generar el consolidado. No se estiman bloques sin resumen.")
 
 
 # ══════════════════════════════════════════════════════════════════════════
