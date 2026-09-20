@@ -1599,7 +1599,8 @@ def _carga_masiva_resumenes(bm):
         "de la carpeta **plantillas_117_msavi_v6** de Google Drive. Puede "
         "seleccionar los 117 a la vez o subir la carpeta comprimida en un "
         "solo .zip. Los libros ya cargados se actualizan; ningun otro "
-        "registro del aplicativo se toca.")
+        "registro del aplicativo se toca. Solo hace falta si va a cargar una "
+        "revision posterior a la que el aplicativo ya trae consigo.")
 
     manifiesto = rbq.cargar_manifiesto()
     if manifiesto.get("carpeta_drive_url"):
@@ -1691,19 +1692,21 @@ def _actualizar_desde_repositorio(bm):
     """Reemplaza los resumenes cargados por los libros vigentes del repo.
 
     Evita tener que volver a subir los 117 archivos a mano: el aplicativo
-    los trae consigo en la carpeta `plantillas_117_msavi_v6`.
+    los trae consigo en `plantillas_117_msavi_v6.zip` (o en la carpeta
+    `plantillas_117_msavi_v6`, si viaja extraida).
     """
     libros = rbq.libros_del_repositorio()
     if not libros:
         return
     st.info(
-        f"El aplicativo incluye **{len(libros)} libros vigentes (V6)** con la "
-        f"distribucion areal del MSAVI 2024 por clase DN (superficie y "
-        f"porcentaje por clase, totales y superficie bajo el umbral "
-        f"{rbq.UMBRAL_MSAVI}). Reemplazan a los ya cargados por codigo de "
-        f"bloque; ningun otro registro del aplicativo se toca.")
-    if st.button(f"Reemplazar los {len(libros)} resumenes por la version vigente (V6)",
-                 key="rbq_repo"):
+        f"El aplicativo incluye **{len(libros)} libros vigentes (V6 - revision "
+        f"1, 19-09-2026)** con la distribucion areal del MSAVI 2024 por clase "
+        f"DN (superficie y porcentaje por clase, totales y superficie bajo el "
+        f"umbral {rbq.UMBRAL_MSAVI}) y, en los bloques con vuelo, la "
+        f"verificacion aerea con dron. Reemplazan a los ya cargados por "
+        f"codigo de bloque; ningun otro registro del aplicativo se toca.")
+    if st.button(f"Reemplazar los {len(libros)} resumenes por la version vigente "
+                 f"(V6 - revision 1)", key="rbq_repo"):
         _procesar_libros(bm, libros)
 
 
@@ -1937,6 +1940,8 @@ def _tab_resumenes_bloques(bm):
     st.caption(
         "Un libro por bloque con cinco hojas: Resumen, Cobertura MSAVI-NDVI, "
         "Estaciones fotograficas, Microcuenca y Control de consistencia. "
+        "Los libros revisados incorporan ademas las hojas de verificacion "
+        "aerea con dron. "
         "Fuente: fichas F-DT-01 a F-DT-05, catalogo maestro Bloques V5/V6, "
         "estadistica zonal sobre el MDE y compuestos Sentinel-2. "
         "Sistema de referencia UTM WGS 84 Zona 17S (EPSG:32717).")

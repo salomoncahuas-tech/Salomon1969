@@ -10,6 +10,7 @@ MSAVI (el caso mayoritario en los 117 libros) y los libros parciales.
 import io
 import os
 import sys
+import tempfile
 import unittest
 import zipfile
 
@@ -479,12 +480,12 @@ class TestExportaciones(unittest.TestCase):
         self.assertTrue(rb.generar_pdf_bloque(datos).startswith(b"%PDF"))
 
 
-if __name__ == "__main__":
-    unittest.main(verbosity=2)
-
-
 class TestLibrosDelRepositorio(unittest.TestCase):
-    """Los 117 libros vigentes (V6) que el aplicativo trae consigo."""
+    """Los 117 libros vigentes (V6 rev. 1) que el aplicativo trae consigo.
+
+    Viajan en `plantillas_117_msavi_v6.zip`; la carpeta extraida manda si
+    esta presente.
+    """
 
     @classmethod
     def setUpClass(cls):
@@ -499,6 +500,31 @@ class TestLibrosDelRepositorio(unittest.TestCase):
     def test_carpeta_ausente_no_rompe_la_carga(self):
         self.assertEqual(rb.libros_del_repositorio("/no/existe"), [])
 
+    def test_los_libros_viajan_en_el_zip_del_repositorio(self):
+        """Los 117 libros salen del .zip publicado en el repositorio."""
+        base = os.path.dirname(os.path.abspath(rb.__file__))
+        desde_zip = rb.libros_del_zip(os.path.join(base, rb.ZIP_LIBROS))
+        self.assertEqual(len(desde_zip), 117)
+        self.assertEqual({n for n, _ in desde_zip},
+                         {b["archivo"] for b in rb.cargar_manifiesto()["bloques"]})
+
+    def test_la_carpeta_extraida_manda_sobre_el_zip(self):
+        """Si alguien descomprime la carpeta, esa es la que se lee."""
+        with tempfile.TemporaryDirectory() as tmp:
+            libro = construir_libro("M9B1")
+            with open(os.path.join(
+                    tmp, "Plantilla_Excel_Bloque_M9B1_IN_Piura.xlsx"), "wb") as fh:
+                fh.write(libro)
+            # Los temporales de Excel no se cargan.
+            with open(os.path.join(tmp, "~$temporal.xlsx"), "wb") as fh:
+                fh.write(b"basura")
+            self.assertEqual(
+                [n for n, _ in rb.libros_del_repositorio(tmp)],
+                ["Plantilla_Excel_Bloque_M9B1_IN_Piura.xlsx"])
+
+    def test_zip_ausente_no_rompe_la_carga(self):
+        self.assertEqual(rb.libros_del_zip("/no/existe.zip"), [])
+
     def test_cada_libro_declara_su_codigo_de_bloque(self):
         codigos = set()
         for nombre, contenido in self.libros:
@@ -510,8 +536,11 @@ class TestLibrosDelRepositorio(unittest.TestCase):
     def test_la_distribucion_msavi_trae_superficie_y_porcentaje(self):
         """Las cinco clases DN con valor: ninguna queda «Por determinar».
 
-        El porcentaje es una fórmula en el libro; se comprueba que llegue con
-        su valor en caché, porque el aplicativo lee valores, no fórmulas.
+        El porcentaje es una fórmula en el libro. Los libros de la revisión 1
+        se guardaron sin recalcular, de modo que no traen el resultado en
+        caché: el lector lo deriva de las superficies, que sí son literales.
+        El aplicativo lee valores, no fórmulas, y ninguna clase puede quedar
+        sin su reparto.
         """
         for nombre, contenido in self.libros:
             datos = rb.parsear_resumen_bloque(contenido, nombre)
@@ -532,6 +561,7 @@ class TestLibrosDelRepositorio(unittest.TestCase):
                 datos["msavi_total_ha"], places=3, msg=nombre)
 
     def test_la_hoja_resumen_replica_la_sintesis_msavi(self):
+        """La hoja Resumen repite la síntesis de la hoja 2 y debe cuadrar."""
         for nombre, contenido in self.libros:
             datos = rb.parsear_resumen_bloque(contenido, nombre)
             self.assertAlmostEqual(datos["superficie_msavi_ha_num"],
@@ -542,7 +572,28 @@ class TestLibrosDelRepositorio(unittest.TestCase):
             self.assertTrue(datos.get("msavi_clase_dominante"), nombre)
             self.assertGreater(datos["msavi_poligonos_num"], 0, nombre)
 
+    def test_el_total_ndvi_es_el_de_su_seccion(self):
+        """El TOTAL CLASIFICADO leído es el del NDVI, no el del MSAVI.
+
+        Ambas secciones de la hoja 2 traen una fila con esa etiqueta y las dos
+        son fórmulas sin resultado en caché en los libros vigentes.
+        """
+        for nombre, contenido in self.libros:
+            datos = rb.parsear_resumen_bloque(contenido, nombre)
+            clases = sum(f["superficie_ha"] for f in datos["ndvi_tabla"]
+                         if f.get("superficie_ha") is not None)
+            self.assertAlmostEqual(datos["ndvi_total_ha"], clases, places=3,
+                                   msg=nombre)
+
+    def test_el_manifiesto_declara_el_tamano_de_cada_libro(self):
+        """El catálogo y los libros que viajan con el aplicativo no divergen."""
+        tamanos = {n: len(c) for n, c in self.libros}
+        for bloque in rb.cargar_manifiesto()["bloques"]:
+            self.assertEqual(bloque["tamano_bytes"],
+                             tamanos[bloque["archivo"]], bloque["archivo"])
+
     def test_el_control_de_consistencia_registra_el_traspaso(self):
+        """Cada libro deja constancia del traspaso MSAVI en su hoja 5."""
         for nombre, contenido in self.libros:
             datos = rb.parsear_resumen_bloque(contenido, nombre)
             campos = [f["campo"] for f in datos["consistencia"]]
@@ -634,3 +685,56 @@ class TestSintesisMsaviCalculada(unittest.TestCase):
 
     def test_tabla_vacia_no_rompe(self):
         self.assertEqual(rb.completar_sintesis_msavi({}), {})
+
+
+class TestTotalNdviCalculado(unittest.TestCase):
+    """Total del NDVI derivado cuando el libro no trae el resultado.
+
+    La fila TOTAL CLASIFICADO de la sección B es una fórmula, igual que la de
+    la sección A: un libro guardado sin recalcular llega sin ese valor.
+    """
+
+    def _tabla(self):
+        return {"ndvi_tabla": [
+            {"clase": "Vegetación alta", "superficie_ha": 127.9822, "pct": 85.18},
+            {"clase": "Vegetación mediana", "superficie_ha": 18.5976, "pct": 12.38},
+            {"clase": "Vegetación ligera", "superficie_ha": 2.5427, "pct": 1.69},
+            {"clase": "Tierra desnuda", "superficie_ha": 1.1271, "pct": 0.75},
+        ]}
+
+    def test_deriva_el_total_de_las_superficies(self):
+        datos = rb.completar_total_ndvi(self._tabla())
+        self.assertAlmostEqual(datos["ndvi_total_ha"], 150.2496, places=4)
+        self.assertAlmostEqual(datos["ndvi_total_pct"], 100.0, places=2)
+        self.assertTrue(datos["ndvi_total_calculado"])
+
+    def test_no_reescribe_lo_que_el_libro_declara(self):
+        datos = self._tabla()
+        datos["ndvi_total_ha"] = 150.21
+        datos["ndvi_total_pct"] = 99.99
+        salida = rb.completar_total_ndvi(datos)
+        self.assertEqual(salida["ndvi_total_ha"], 150.21)
+        self.assertEqual(salida["ndvi_total_pct"], 99.99)
+        self.assertNotIn("ndvi_total_calculado", salida)
+
+    def test_deriva_solo_lo_que_falta(self):
+        """El total declarado se respeta y el porcentaje ausente se deriva."""
+        datos = self._tabla()
+        datos["ndvi_total_ha"] = 150.21
+        salida = rb.completar_total_ndvi(datos)
+        self.assertEqual(salida["ndvi_total_ha"], 150.21)
+        self.assertAlmostEqual(salida["ndvi_total_pct"], 100.0, places=2)
+        self.assertTrue(salida["ndvi_total_calculado"])
+
+    def test_sin_superficies_no_inventa_nada(self):
+        datos = rb.completar_total_ndvi(
+            {"ndvi_tabla": [{"clase": "Vegetación alta", "superficie_ha": None}]})
+        self.assertIsNone(datos.get("ndvi_total_ha"))
+        self.assertNotIn("ndvi_total_calculado", datos)
+
+    def test_tabla_vacia_no_rompe(self):
+        self.assertEqual(rb.completar_total_ndvi({}), {})
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
