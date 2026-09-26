@@ -115,7 +115,11 @@ def _controles_paginacion(total_paginas, pagina_actual, page_key):
             st.rerun()
 import reports
 from georeferenciacion import utm_a_latlon, latlon_a_utm
-from odk_kobo import generar_xlsform, importar_csv_odk, importar_desde_kobo, KoBoClient
+from odk_kobo import (generar_xlsform, KoBoClient, FORM_ID as ODK_FORM_ID,
+    preparar_envios as odk_preparar_envios, registrar_envios as odk_registrar_envios,
+    resumen_preparacion as odk_resumen_preparacion, texto_resultado as odk_texto_resultado,
+    leer_archivo_odk as odk_leer_archivo, encabezados_plantilla_csv as odk_encabezados_csv,
+    DIST_ALERTA_CENTROIDE_M as ODK_DIST_ALERTA, MAX_PREDIOS_BLOQUE as ODK_MAX_PREDIOS)
 from excel_diagnostico_social import generar_plantilla_ds, parsear_excel_ds, mapear_a_session_state
 from excel_diagnostico_territorial import generar_plantilla_dt, parsear_excel_dt, mapear_dt_a_session_state
 from excel_elementos_expuestos import (generar_plantilla_ee, parsear_excel_ee,
@@ -5871,78 +5875,252 @@ def pagina_georreferenciacion():
 # ══════════════════════════════════════════════════════════════════════════
 # ODK / KoBoToolbox
 # ══════════════════════════════════════════════════════════════════════════
+def _secreto(nombre, defecto=""):
+    """Lee un valor de st.secrets sin romper si no existe."""
+    try:
+        return str(st.secrets.get(nombre, defecto) or defecto)
+    except Exception:
+        return defecto
+
+
+def _odk_vista_previa(preparados, origen, uid="", cliente=None):
+    """Guarda la vista previa en sesion; nada se escribe hasta confirmar."""
+    st.session_state["odk_preview"] = {"preparados": preparados, "origen": origen,
+                                       "uid": uid, "cliente": cliente}
+
+
+def _odk_mostrar_vista_previa():
+    pv = st.session_state.get("odk_preview")
+    if not pv:
+        return
+    preparados = pv["preparados"]
+    n_nuevos = sum(p["estado"] == "listo" for p in preparados)
+    n_dup = sum(p["estado"] == "duplicado" for p in preparados)
+    n_err = sum(p["estado"] == "error" for p in preparados)
+    n_alert = sum(bool(p["alertas"]) and p["estado"] == "listo" for p in preparados)
+    st.markdown("#### Vista previa (aun no se ha guardado nada)")
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Nuevos", n_nuevos)
+    c2.metric("Ya importados", n_dup)
+    c3.metric("Rechazados", n_err)
+    c4.metric("Nuevos con alertas", n_alert)
+    df = pd.DataFrame(odk_resumen_preparacion(preparados))
+    st.dataframe(df, use_container_width=True, hide_index=True)
+    if n_err:
+        st.warning("Los envios rechazados no se guardan (bloque inexistente o retirado, "
+                   "falta fecha o verificador). Corrijalos en KoBo y vuelva a importar.")
+    descargar = False
+    if pv["cliente"] is not None:
+        descargar = st.checkbox("Descargar fotos de los envios nuevos", value=True,
+                                key="odk_descargar_fotos")
+    b1, b2 = st.columns(2)
+    if b1.button(f"Registrar {n_nuevos} envio(s) nuevo(s)", type="primary",
+                 disabled=n_nuevos == 0, key="odk_confirmar"):
+        barra = st.progress(0.0, text="Registrando...")
+        r = odk_registrar_envios(
+            preparados, cliente=pv["cliente"], descargar_fotos=descargar,
+            progreso=lambda i, t: barra.progress(i / max(t, 1),
+                                                 text=f"Registrando {i}/{t}"))
+        barra.empty()
+        _invalidar_cache()
+        st.session_state.pop("odk_preview", None)
+        st.session_state["odk_ultimo_resultado"] = r
+        st.rerun()
+    if b2.button("Descartar vista previa", key="odk_descartar"):
+        st.session_state.pop("odk_preview", None)
+        st.rerun()
+
+
 def pagina_odk():
-    st.subheader("ODK / KoBoToolbox")
-    st.markdown("### Generar Formulario XLSForm")
-    if st.button("Generar Formulario XLSForm", type="primary"):
-        try:
-            ruta = generar_xlsform()
-            with open(ruta,"rb") as f: data = f.read()
-            st.download_button("Descargar XLSForm",data,os.path.basename(ruta),
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-            st.success("Formulario generado.")
-        except Exception as e: st.error(f"Error: {e}")
-    st.markdown("---")
-    st.markdown("### Importar CSV")
-    uf = st.file_uploader("Archivo CSV",type=["csv"])
-    if uf:
-        with tempfile.NamedTemporaryFile(mode="w",suffix=".csv",delete=False,encoding="utf-8") as tmp:
-            tmp.write(uf.read().decode("utf-8-sig")); tp = tmp.name
-        try:
-            r = importar_csv_odk(tp)
-            st.success(f"**{r['total_filas']} registros** | Nuevos: {r['bloques_nuevos']} | Actualizados: {r['bloques_actualizados']} | Inspecciones: {r['inspecciones_creadas']} | Indicadores: {r['indicadores_creados']}")
-            if r["errores"]:
-                with st.expander(f"{len(r['errores'])} errores"):
-                    for e in r["errores"]: st.warning(e)
-        except Exception as e: st.error(f"Error: {e}")
-        finally: os.unlink(tp)
-    enc = ["codigo_bloque","tipo_intervencion","cuenca","distrito","utm_este","utm_norte",
-        "utm_zona","area_hectareas","estado","ubicacion_gps","fecha_visita","inspector",
-        "condiciones_climaticas","avance_fisico","observaciones","desviaciones",
-        "foto_1","foto_2","foto_3","cobertura_vegetal_planificada",
-        "cobertura_vegetal_lograda","sobrevivencia_especies","longitud_zanjas",
-        "volumen_retencion","codigo_verificacion"]
-    buf = io.StringIO(); w = csv.writer(buf); w.writerow(enc)
-    w.writerow(["BLQ-001","revegetacion","Cuenca Alta del Rio Piura","Canchaque",
-        "622150.50","9436720.30","17S","2.5","pendiente","","2026-01-15","Juan Perez",
-        "despejado","45","","","","","","1100","850","78.5","120.5","35.2",""])
-    st.download_button("Descargar plantilla CSV",buf.getvalue(),"plantilla_odk.csv","text/csv")
-    st.markdown("---")
-    st.markdown("### API KoBoToolbox")
-    sv = st.selectbox("Servidor",["https://kf.kobotoolbox.org","https://kobo.humanitarianresponse.info"])
-    tk = st.text_input("Token API",type="password")
-    c1,c2,c3 = st.columns(3)
-    if c1.button("Probar Conexion"):
-        if not tk: st.warning("Ingrese token.")
-        else:
-            cl = KoBoClient(sv,tk); ok,msg = cl.test_conexion()
-            if ok: st.success("Conexion exitosa"); st.session_state["kobo"]=cl
-            else: st.error(msg)
-    if c2.button("Listar Formularios"):
-        if "kobo" not in st.session_state: st.warning("Pruebe la conexion primero.")
-        else:
+    st.subheader("ODK / KoBoToolbox - Verificacion de campo (Paso 6)")
+    st.caption("La importacion solo AGREGA registros nuevos: no crea, modifica ni borra "
+               "bloques, y no duplica envios ya importados.")
+
+    r = st.session_state.pop("odk_ultimo_resultado", None)
+    if r:
+        (st.success if not r["errores"] else st.warning)(odk_texto_resultado(r))
+        if r.get("inspecciones_vinculadas"):
+            st.info(f"{r['inspecciones_vinculadas']} envio(s) se enlazaron a una inspeccion "
+                    "ya existente del mismo bloque, fecha y verificador (sin modificarla).")
+        if r["errores"]:
+            with st.expander(f"{len(r['errores'])} observacion(es)"):
+                for e in r["errores"]:
+                    st.write(f"- {e}")
+
+    t_form, t_api, t_arch, t_reg = st.tabs([
+        "1. Formulario", "2. Importar desde KoBo (API)",
+        "3. Importar archivo CSV / Excel", "4. Verificaciones registradas"])
+
+    # ── 1. Formulario ────────────────────────────────────────────────────
+    with t_form:
+        bloques = _cached_obtener_bloques(_cache_version())
+        st.markdown(
+            f"Genera el XLSForm del **Paso 6** con la lista cerrada de **{len(bloques)} bloques** "
+            "activos (filtrados por distrito) y secciones de accesibilidad real, riesgo social, "
+            "uso actual del suelo, evidencia de movimientos en masa, titulares de predios y "
+            "dictamen. Funciona sin internet en ODK Collect / KoBoCollect.")
+        if st.button("Generar formulario XLSForm", type="primary", key="odk_gen"):
             try:
-                fs = st.session_state["kobo"].listar_formularios()
-                if fs: st.dataframe(pd.DataFrame([{"UID":f["uid"],"Nombre":f["nombre"],
-                    "Envios":f["envios"],"Estado":"Desplegado" if f["desplegado"] else "Borrador"} for f in fs]),
-                    use_container_width=True, hide_index=True)
-            except Exception as e: st.error(f"Error: {e}")
-    uid = st.text_input("UID del formulario")
-    if c3.button("Importar Envios"):
-        if not uid or not tk: st.warning("Complete los campos.")
+                ruta = generar_xlsform(bloques=bloques)
+                with open(ruta, "rb") as f:
+                    st.session_state["odk_xlsform"] = (os.path.basename(ruta), f.read())
+            except Exception as e:
+                st.error(f"Error: {e}")
+        if st.session_state.get("odk_xlsform"):
+            nombre, data = st.session_state["odk_xlsform"]
+            st.download_button("Descargar XLSForm", data, nombre,
+                               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        st.info("Suba el archivo a KoBoToolbox como **formulario nuevo**: su identificador "
+                f"(`{ODK_FORM_ID}`) es distinto del anterior, asi que los envios ya "
+                "recolectados con el formulario anterior se conservan y siguen importandose.")
+        enc = odk_encabezados_csv()
+        buf = io.StringIO()
+        csv.writer(buf).writerow(enc)
+        st.download_button("Descargar plantilla CSV (carga manual)", buf.getvalue(),
+                           "plantilla_in_piura_paso6.csv", "text/csv")
+
+    # ── 2. API ───────────────────────────────────────────────────────────
+    with t_api:
+        sv_def = _secreto("KOBO_SERVER", "https://kf.kobotoolbox.org")
+        servidores = ["https://kf.kobotoolbox.org", "https://eu.kobotoolbox.org",
+                      "https://kobo.humanitarianresponse.info"]
+        if sv_def not in servidores:
+            servidores.insert(0, sv_def)
+        sv = st.selectbox("Servidor", servidores, index=servidores.index(sv_def))
+        token_sec = _secreto("KOBO_TOKEN")
+        if token_sec:
+            st.caption("Token API leido de la configuracion segura (secrets).")
+            token = token_sec
         else:
+            token = st.text_input(
+                "Token API", type="password",
+                help="Se usa solo en esta sesion y no se guarda. Para no escribirlo cada "
+                     "vez, agregue KOBO_TOKEN en los secrets de Streamlit.")
+        if st.button("Conectar y listar formularios", key="odk_listar"):
+            if not token:
+                st.warning("Ingrese el token.")
+            else:
+                try:
+                    cl = KoBoClient(sv, token)
+                    ok_, msg = cl.test_conexion()
+                    if not ok_:
+                        st.error(msg)
+                    else:
+                        st.session_state["odk_cliente"] = cl
+                        st.session_state["odk_formularios"] = cl.listar_formularios()
+                except Exception as e:
+                    st.error(f"Error: {e}")
+        forms = st.session_state.get("odk_formularios")
+        if forms is not None:
+            if not forms:
+                st.info("La cuenta no tiene formularios.")
+            else:
+                uid_def = _secreto("KOBO_FORM_UID")
+                opciones = {f"{f['nombre']}  ·  {f['envios']} envios  ·  {f['uid']}": f["uid"]
+                            for f in forms}
+                etiquetas = list(opciones)
+                idx = next((i for i, k in enumerate(etiquetas) if opciones[k] == uid_def), 0)
+                sel = st.selectbox("Formulario", etiquetas, index=idx)
+                if st.button("Descargar envios y revisar", type="primary", key="odk_bajar"):
+                    try:
+                        with st.spinner("Descargando todos los envios (todas las paginas)..."):
+                            cl = st.session_state["odk_cliente"]
+                            envios = cl.obtener_envios(opciones[sel])
+                            prep = odk_preparar_envios(envios, "api", opciones[sel])
+                        _odk_vista_previa(prep, "api", opciones[sel], cl)
+                    except Exception as e:
+                        st.error(f"Error: {e}")
+        if st.session_state.get("odk_preview", {}).get("origen") == "api":
+            _odk_mostrar_vista_previa()
+
+    # ── 3. Archivo ───────────────────────────────────────────────────────
+    with t_arch:
+        st.markdown("Exporte desde KoBo en **CSV o XLS** con la opcion *Valores y "
+                    "encabezados XML*. Se aceptan CSV separados por coma o punto y coma.")
+        uf = st.file_uploader("Archivo exportado", type=["csv", "xlsx"], key="odk_archivo")
+        if uf and st.button("Revisar archivo", type="primary", key="odk_revisar"):
+            sufijo = os.path.splitext(uf.name)[1].lower()
+            with tempfile.NamedTemporaryFile(suffix=sufijo, delete=False) as tmp:
+                tmp.write(uf.getvalue())
+                tp = tmp.name
             try:
-                r = importar_desde_kobo(sv,tk,uid)
-                st.success(f"Importado: {r['total_filas']} envios | Nuevos: {r['bloques_nuevos']} | Inspecciones: {r['inspecciones_creadas']}")
-            except Exception as e: st.error(f"Error: {e}")
-    with st.expander("Guia Rapida"):
-        st.markdown("""
-1. **GENERAR** el formulario XLSForm
-2. **SUBIR** a KoBoToolbox o ODK Central
-3. **DESPLEGAR** el formulario
-4. **RECOLECTAR** datos con KoBoCollect/ODK Collect (sin internet)
-5. **SINCRONIZAR** al tener conexion
-6. **IMPORTAR** CSV o usar API directa""")
+                envios = odk_leer_archivo(tp)
+                _odk_vista_previa(odk_preparar_envios(envios, "csv"), "csv")
+            except Exception as e:
+                st.error(f"No se pudo leer el archivo: {e}")
+            finally:
+                os.unlink(tp)
+        if st.session_state.get("odk_preview", {}).get("origen") == "csv":
+            _odk_mostrar_vista_previa()
+
+    # ── 4. Registradas ───────────────────────────────────────────────────
+    with t_reg:
+        try:
+            verifs = db.obtener_verificaciones_odk()
+        except Exception as e:
+            st.error(f"No se pudo leer las verificaciones: {e}")
+            verifs = []
+        if not verifs:
+            st.info("Aun no hay verificaciones importadas.")
+        else:
+            df = pd.DataFrame(verifs)
+            c1, c2 = st.columns(2)
+            dictamenes = sorted(x for x in df["dictamen"].dropna().unique() if x)
+            f_dict = c1.multiselect("Dictamen", dictamenes)
+            solo_alertas = c2.checkbox("Solo con alertas")
+            if f_dict:
+                df = df[df["dictamen"].isin(f_dict)]
+            if solo_alertas:
+                df = df[df["alertas"].fillna("") != ""]
+            cols = ["codigo_bloque", "distrito", "fecha_visita", "inspector", "dictamen",
+                    "accesibilidad", "riesgo_social", "uso_suelo_predominante",
+                    "evidencia_mm", "aceptacion_titular", "utm_este", "utm_norte",
+                    "utm_fuente", "coord_valida", "distancia_centroide_m", "n_fotos",
+                    "alertas"]
+            st.dataframe(df[cols], use_container_width=True, hide_index=True)
+            st.download_button("Descargar tabla (CSV)",
+                               df.drop(columns=["fotos"], errors="ignore")
+                                 .to_csv(index=False).encode("utf-8-sig"),
+                               "verificaciones_paso6.csv", "text/csv")
+            etiquetas = {f"{v['codigo_bloque']} · {v['fecha_visita']} · {v['inspector']} (#{v['id']})": v
+                         for v in df.to_dict("records")}
+            if etiquetas:
+                sel = st.selectbox("Ver detalle", list(etiquetas))
+                v = etiquetas[sel]
+                d1, d2 = st.columns(2)
+                d1.markdown(
+                    f"**Bloque:** {v['codigo_bloque']}  \n**Dictamen:** {v['dictamen'] or '-'}  \n"
+                    f"**Accesibilidad:** {v['accesibilidad'] or '-'} ({v['tipo_acceso'] or '-'})  \n"
+                    f"**Riesgo social:** {v['riesgo_social'] or '-'} {v['riesgo_social_factores'] or ''}  \n"
+                    f"**Uso del suelo:** {v['uso_suelo_predominante'] or '-'}  \n"
+                    f"**Mov. en masa:** {v['evidencia_mm'] or '-'} {v['tipos_mm'] or ''} {v['magnitud_mm'] or ''}  \n"
+                    f"**Titulares:** {v['tenencia'] or '-'} · {v['aceptacion_titular'] or '-'}")
+                if v.get("utm_este") is not None and not pd.isna(v.get("utm_este")):
+                    d2.markdown(f"**UTM 17S:** {v['utm_este']:,.1f} E / {v['utm_norte']:,.1f} N "
+                                f"({v['utm_fuente']})")
+                d2.markdown(f"**Observaciones:** {v['observaciones'] or '-'}  \n"
+                            f"**Alertas:** {v['alertas'] or 'ninguna'}")
+                fotos = db.obtener_adjuntos_odk(v["id"])
+                if fotos:
+                    cols_f = st.columns(min(3, len(fotos)))
+                    for i, fa in enumerate(fotos):
+                        contenido = db.obtener_contenido_adjunto_odk(fa["id"])
+                        if contenido:
+                            cols_f[i % len(cols_f)].image(
+                                contenido, caption=f"{fa['campo']} · {fa['nombre_archivo']}")
+
+    with st.expander("Guia rapida"):
+        st.markdown(f"""
+1. **Generar** el XLSForm (pestana 1) y subirlo a KoBoToolbox como formulario nuevo; **desplegar**.
+2. **Recolectar** con KoBoCollect / ODK Collect (sin internet). El GPS se captura en el bloque.
+3. **Enviar** al servidor cuando haya señal.
+4. **Importar** por API (pestana 2) o con el archivo exportado (pestana 3): revise la
+   vista previa y confirme. Solo se guardan los envios nuevos.
+5. La UTM 17S se calcula del GPS del celular (pyproj, EPSG:32717) y se valida en el rango
+   450,000–750,000 E / 9,300,000–9,600,000 N. Se alerta si el punto queda a mas de
+   {ODK_DIST_ALERTA:,} m del centroide del bloque o si hay mas de {ODK_MAX_PREDIOS} predios.
+6. Para no escribir el token cada vez, agregue en los *secrets* de Streamlit:
+   `KOBO_TOKEN = "..."`, opcionalmente `KOBO_SERVER` y `KOBO_FORM_UID`.""")
 
 # ══════════════════════════════════════════════════════════════════════════
 # REPORTES
