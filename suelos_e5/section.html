@@ -1,0 +1,69 @@
+<section id="p-sue" hidden>
+  <div class="sec-h"><h2>Estudio de Suelos a nivel de reconocimiento</h2><span class="tag">E5 · GeoSIG Ingenieros · Entregable 2 · campo al 20/09/2026</span></div>
+  <p class="lede">Calicatas, barrenaciones y chequeos, y pruebas de infiltración de doble anillo del estudio de suelos del proyecto, llevados al bloque de intervención. Cada calicata de bloque se abrió en el sector degradado y tiene una calicata de referencia en el ecosistema conservado de la misma unidad de suelo, de modo que la diferencia entre ambas se atribuye a la degradación.</p>
+  <div class="warnbox" style="margin:0 0 22px"><b>Resultados preliminares de campo.</b> La clasificación taxonómica (Soil Taxonomy a Gran Grupo, WRB), la Capacidad de Uso Mayor (D.S. N.° 005-2022-MIDAGRI) y el Factor K se confirmarán con los análisis de la UNALM (Entregable 3, 11/10/2026). Ningún valor ausente se ha estimado.</div>
+  <div class="selrow"><label for="sueFd">Ámbito</label><select id="sueFd"></select><label for="sueFt">Tipo de calicata</label><select id="sueFt"></select><span class="cnt" id="sueCnt"></span></div>
+  <dl class="int-kpis" id="sueKpi"></dl>
+
+  <div class="sec-h"><h2>Las tres provincias en el mismo estudio</h2><span class="tag">74 calicatas · 148 chequeos · 13 pruebas de infiltración</span></div>
+  <p class="lede">El levantamiento es uno solo para los 117 bloques del proyecto. La fila resaltada es la de este volumen; las demás sirven de contraste.</p>
+  <div class="tw"><table id="sueProvT"></table></div>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Dónde se abrieron las calicatas</h2><span class="tag">UTM WGS 84 Zona 17S · clic en una calicata abre su perfil</span></div>
+  <p class="lede">Círculos grandes: bloques de intervención (área proporcional a la superficie; con borde continuo los que tienen calicata propia). Las líneas discontinuas unen cada calicata de bloque con su referencia. Pase el cursor para ver la ficha resumida.</p>
+  <div class="selrow"><label for="sueMapVar">Colorear por</label><select id="sueMapVar"><option value="pe">Profundidad efectiva</option><option value="g">Grupo de suelos</option><option value="ero">Erosión hídrica en campo</option><option value="cum">CUM de campo (preliminar)</option><option value="mun">Color Munsell del horizonte A</option></select></div>
+  <figure class="chart"><div id="sueMap"></div></figure>
+  <div class="legend" id="sueMapLeg"></div>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2 id="suePairH">Perfil de suelo: bloque degradado frente a su referencia</h2><span class="tag">Ficha edáfica de campo · Cuadros 12 a 16</span></div>
+  <p class="lede">Elija una calicata. Si tiene par, se muestra al lado la otra calicata del par, con las diferencias que se observaron en campo.</p>
+  <div class="selrow"><label for="suePick">Calicata</label><select id="suePick"></select></div>
+  <div id="suePair"></div>
+  <div class="hsub" style="margin:26px 0 8px">Todos los perfiles del filtro, de menor a mayor profundidad efectiva</div>
+  <div class="sue-gal" id="sueGal"></div>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Lo que la degradación le quitó al suelo</h2><span class="tag">Pares bloque–referencia · profundidad efectiva</span></div>
+  <p class="lede">Círculo: calicata de bloque. Rombo: referencia conservada. A la derecha, epipedón y horizonte subsuperficial de cada una (Ócr ócrico, Mól mólico, Cám cámbico); la marca ◂ indica que la referencia conserva un horizonte más desarrollado.</p>
+  <figure class="chart"><div id="suePairs"></div></figure>
+  <p class="foot" id="suePairsTxt"></p>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Infiltración básica</h2><span class="tag">Doble anillo (Muntz) · ajuste de Kostiakov · clases USDA</span></div>
+  <p class="lede">Barra: velocidad básica representativa del sitio (curva promedio, Cuadro 19). Puntos: velocidad básica de cada repetición. En color, las pruebas de este volumen; en gris, las de los otros dos. Seleccione una prueba para ver sus curvas.</p>
+  <figure class="chart"><div id="sueInf"></div></figure>
+  <div id="sueCurve" style="margin-top:16px"></div>
+  <div class="tw" style="margin-top:16px"><table id="sueInfT"></table></div>
+  <p class="foot">ᵃ En las demás tablas, la velocidad marcada con ᵃ procede de la prueba ejecutada en otra calicata de la misma unidad de suelo (analogía). La guía de Forest Trends (2024) pide dimensionar las zanjas con la velocidad del sitio, no con el promedio del ámbito.</p>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Clasificación y capacidad de uso</h2><span class="tag">Tentativas · sin laboratorio</span></div>
+  <div class="hsub" style="margin:0 0 8px">Orden taxonómico por distrito y provincia</div>
+  <figure class="chart"><div id="sueTaxC"></div></figure>
+  <div class="legend" id="sueTaxL"></div>
+  <div class="two" style="margin-top:22px">
+    <div><div class="hsub" style="margin:0 0 8px">Pendiente y profundidad deciden la CUM de campo</div><div class="tw"><table id="sueHeat" class="sue-heat"></table></div><p class="foot">Color de celda: grupo que asigna la regla de pre-clasificación del informe (G–H protección; F forestal o protección; E forestal o pastoreo; D cultivo permanente). Número: calicatas.</p></div>
+    <div><div class="hsub" style="margin:0 0 8px">CUM de campo frente a la CUM de gabinete de la unidad</div><div class="tw"><table id="sueCum" class="sue-heat"></table></div><p class="foot" id="sueCumTxt"></p></div>
+  </div>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Qué obra admite el suelo</h2><span class="tag">Matriz suelo–intervención preliminar (Cuadro 21) · calicatas de bloque y Lotes SUS</span></div>
+  <p class="lede">Reglas del informe: zanjas de infiltración en pendientes de 15 a 50 % con 50 cm o más de suelo; terrazas de formación lenta de 15 a 40 %; en pendientes mayores de 50 %, revegetación, exclusión de pastoreo y control de cárcavas. La revegetación con especies nativas es compatible con los tres grupos de suelos. Clic en una fila abre la ficha del bloque.</p>
+  <dl class="int-kpis" id="sueAptK"></dl>
+  <div class="tw"><table id="sueApt"></table></div>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Cobertura del estudio por bloque</h2><span class="tag">Calicata propia o unidad de suelo representada · ordenable</span></div>
+  <p class="lede">El estudio caracteriza las unidades de suelo pequeñas por analogía con la unidad muestreada que comparte litología y clima. La barra indica cuántas de las unidades de suelo del bloque tienen calicata en algún lugar del ámbito; debajo, las calicatas que las representan.</p>
+  <div class="tw"><table id="sueBlk"></table></div>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Consistencia de la fuente</h2><span class="tag">Observaciones y tratamiento</span></div>
+  <div class="tw"><table id="sueQC"></table></div>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <pattern id="sueRock" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#9a958c"/><path d="M0 10 L10 0 M-2 2 L2 -2 M8 12 L12 8" stroke="#6f6a62" stroke-width="1.2"/></pattern>
+    <pattern id="sueCr" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M0 8 L8 0" stroke="rgba(60,50,40,.35)" stroke-width="1"/></pattern>
+  </defs></svg>
+</section>
