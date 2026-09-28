@@ -8,6 +8,7 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime, date, time as dtime, timedelta
 import os
+import base64
 import uuid
 import io
 import csv
@@ -593,23 +594,122 @@ FICHAS_DS_TITULOS = {
 DS_SINO = FL.L_SINO                       # ["Si", "No"]
 DS_SINONA = FL.L_SINONA                   # ["Si", "No", "No aplica"]
 
+# ── Identidad institucional ANIN ──────────────────────────────────────────
+# Logo vectorial (assets/logo_anin.svg) incrustado como data URI: se ve nitido
+# a cualquier tamano y no depende de rutas estaticas del servidor.
+_LOGO_ANIN_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                               "assets", "logo_anin.svg")
+
+@st.cache_data
+def _logo_anin_data_uri():
+    """Data URI del logo ANIN; cadena vacia si el archivo no esta disponible."""
+    try:
+        with open(_LOGO_ANIN_PATH, "rb") as fh:
+            return "data:image/svg+xml;base64," + base64.b64encode(fh.read()).decode("ascii")
+    except OSError:
+        return ""
+
+def _seccion(titulo, icono=""):
+    """Titulo de seccion con el estilo institucional (reemplaza **negritas**)."""
+    ic = f'<span class="anin-section__ic">{icono}</span>' if icono else ""
+    st.markdown(f'<div class="anin-section">{ic}{titulo}</div>', unsafe_allow_html=True)
+
 # ── CSS ───────────────────────────────────────────────────────────────────
+# Paleta: verde institucional #1B4D2E, verde acento #2A7A48, rojo ANIN #E1141C,
+# azul ANIN #1D3461. Los fondos usan transparencias para que se lean bien
+# tanto en el tema claro como en el oscuro de Streamlit.
 st.markdown("""<style>
-.main-header{background:#2C3E50;padding:1rem 2rem;border-radius:.5rem;margin-bottom:1rem}
-.main-header h1{color:#fff!important;margin:0!important;font-size:1.8rem!important}
-.main-header p{color:#BDC3C7!important;margin:0!important}
+.block-container{padding-top:2.6rem}
+/* Encabezado institucional */
+.anin-header{border-radius:14px;overflow:hidden;margin-bottom:1.1rem;
+    box-shadow:0 6px 22px rgba(15,40,25,.18);font-family:Arial,Helvetica,sans-serif}
+.anin-header__inst{background:#fff;display:flex;align-items:center;gap:1.4rem;
+    padding:.85rem 1.6rem;flex-wrap:wrap}
+.anin-header__logo{height:70px;width:auto;display:block}
+.anin-header__org{border-left:3px solid #E1141C;padding-left:1.1rem;display:flex;
+    flex-direction:column;gap:.15rem;line-height:1.25}
+.anin-header__org .l1{color:#1D3461;font-weight:700;font-size:.82rem;letter-spacing:.02em}
+.anin-header__org .l2{color:#1B4D2E;font-weight:700;font-size:.74rem;letter-spacing:.03em}
+.anin-header__band{background:linear-gradient(115deg,#123821 0%,#1B4D2E 45%,#2A7A48 100%);
+    display:flex;align-items:center;justify-content:space-between;gap:1rem;
+    padding:1rem 1.6rem;flex-wrap:wrap;position:relative}
+.anin-header__band:after{content:"";position:absolute;right:0;top:0;bottom:0;width:38%;
+    background:repeating-linear-gradient(120deg,rgba(255,255,255,.035) 0 14px,transparent 14px 28px);
+    pointer-events:none}
+.anin-header__title{color:#fff;font-size:1.75rem;font-weight:800;margin:0;line-height:1.15;
+    letter-spacing:.01em}
+.anin-header__sub{color:#CFE8D6;font-size:.92rem;margin:.25rem 0 0 0}
+.anin-header__chips{display:flex;gap:.45rem;flex-wrap:wrap;position:relative;z-index:1}
+.anin-chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);color:#fff;
+    padding:.28rem .75rem;border-radius:999px;font-size:.76rem;font-weight:600;white-space:nowrap}
+.anin-chip b{color:#FFD27A}
+.anin-header__stripe{height:5px;background:linear-gradient(90deg,#E1141C 0 33%,#1D3461 33% 66%,#C9A227 66% 100%)}
+@media (max-width:700px){.anin-header__logo{height:46px}.anin-header__org{border-left:none;padding-left:0}
+    .anin-header__title{font-size:1.4rem}}
+/* Titulos de pagina (st.subheader) y de seccion */
+.stApp h3{border-left:5px solid #2A7A48;padding-left:.65rem!important}
+.anin-section{display:flex;align-items:center;gap:.45rem;font-weight:700;font-size:1rem;
+    margin:.2rem 0 .55rem 0;padding-bottom:.35rem;border-bottom:2px solid rgba(42,122,72,.35)}
+.anin-section__ic{font-size:1.05rem}
+/* Tarjetas de indicadores (st.metric) */
+div[data-testid="stMetric"]{background:rgba(42,122,72,.07);border:1px solid rgba(42,122,72,.22);
+    border-left:5px solid #2A7A48;border-radius:.65rem;padding:.65rem .8rem;
+    box-shadow:0 1px 4px rgba(0,0,0,.06);transition:transform .15s ease,box-shadow .15s ease}
+div[data-testid="stMetric"]:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(0,0,0,.10)}
+div[data-testid="stMetricValue"]{font-weight:700;font-size:clamp(1.15rem,1.6vw,1.9rem)}
+div[data-testid="stMetricValue"] > div{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.15}
+/* Pestanas */
+.stTabs [data-baseweb="tab"]{font-weight:600}
+/* Barra lateral */
+section[data-testid="stSidebar"]{border-top:5px solid #1B4D2E}
+.anin-side-logo{background:#fff;border-radius:12px;padding:.7rem .8rem;margin:0 0 .9rem 0;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);border-bottom:4px solid #E1141C}
+.anin-side-logo img{width:100%;height:auto;display:block}
+.anin-side-info{background:rgba(42,122,72,.08);border:1px solid rgba(42,122,72,.25);
+    border-radius:10px;padding:.7rem .85rem;font-size:.82rem;line-height:1.45}
+.anin-side-info .t{font-weight:800;color:#2A7A48;font-size:.95rem}
+.anin-side-info .v{display:inline-block;margin-left:.35rem;font-size:.68rem;font-weight:700;
+    background:#1B4D2E;color:#fff;border-radius:999px;padding:.05rem .45rem;vertical-align:middle}
+/* Pie de pagina */
+.anin-footer{margin-top:2.2rem;padding:.8rem 0 .2rem 0;border-top:1px solid rgba(128,128,128,.25);
+    font-size:.75rem;opacity:.75;text-align:center;font-family:Arial,Helvetica,sans-serif}
+/* Componentes existentes */
 .edit-mode-banner{background:linear-gradient(90deg,#f39c12,#e67e22);color:#fff;padding:.6rem 1.2rem;
     border-radius:.4rem;margin-bottom:.8rem;font-weight:600;display:flex;align-items:center;gap:.5rem}
 .edit-mode-banner .icon{font-size:1.2rem}
 .dup-warning{background:#fff3cd;border-left:4px solid #ffc107;padding:.8rem 1rem;border-radius:0 .4rem .4rem 0;margin:.5rem 0}
 </style>""", unsafe_allow_html=True)
 
-st.markdown("""<div class="main-header">
-<h1>\U0001F331 IN Piura</h1>
-<p>Plan de Ingreso | Verificacion de Campo | Cuenca Alta del Rio Piura</p>
-</div>""", unsafe_allow_html=True)
+_logo_uri = _logo_anin_data_uri()
+_logo_html = (f'<img class="anin-header__logo" src="{_logo_uri}" '
+              f'alt="ANIN - Autoridad Nacional de Infraestructura">' if _logo_uri else
+              '<div class="anin-header__org"><span class="l1">AUTORIDAD NACIONAL DE '
+              'INFRAESTRUCTURA - ANIN</span></div>')
+# El HTML se arma sin sangria: Markdown trataria las lineas indentadas como codigo.
+st.markdown("".join([
+    '<div class="anin-header">',
+    '<div class="anin-header__inst">', _logo_html,
+    '<div class="anin-header__org">',
+    '<span class="l1">DIRECCIÓN DE INTERVENCIONES MULTISECTORIALES Y DE EMERGENCIA - DIME</span>',
+    '<span class="l2">SUBDIRECCIÓN DE ESTUDIOS DE INVERSIÓN</span>',
+    '</div></div>',
+    '<div class="anin-header__band"><div>',
+    '<div class="anin-header__title">\U0001F331 IN Piura</div>',
+    '<p class="anin-header__sub">Plan de Ingreso | Verificacion de Campo | '
+    'Cuenca Alta del Rio Piura</p></div>',
+    '<div class="anin-header__chips">',
+    '<span class="anin-chip">CUI <b>2669244</b></span>',
+    f'<span class="anin-chip"><b>{len(BLOQUES_V5)}</b> bloques vigentes</span>',
+    '<span class="anin-chip">UTM WGS84 · Zona 17S</span>',
+    '</div></div>',
+    '<div class="anin-header__stripe"></div>',
+    '</div>',
+]), unsafe_allow_html=True)
 
 # ── Sidebar ───────────────────────────────────────────────────────────────
+if _logo_uri:
+    st.sidebar.markdown(f'<div class="anin-side-logo"><img src="{_logo_uri}" '
+                        'alt="ANIN"></div>', unsafe_allow_html=True)
 pagina = st.sidebar.selectbox("Navegacion", [
     "Panel de Control","Bloques de Intervencion","Inspeccion de Campo",
     "Indicadores de Calidad","Diagnostico Territorial","Diagnostico Social",
@@ -619,7 +719,11 @@ pagina = st.sidebar.selectbox("Navegacion", [
     "Conversor PDF -> Excel",
 ])
 st.sidebar.markdown("---")
-st.sidebar.markdown("**IN Piura** v2.1 Web\n\nRestauracion de Ecosistemas\nCuenca Alta del Rio Piura")
+st.sidebar.markdown(
+    '<div class="anin-side-info"><span class="t">\U0001F331 IN Piura</span>'
+    '<span class="v">v2.1 Web</span><br>Restauracion de Ecosistemas<br>'
+    'Cuenca Alta del Rio Piura<br><span style="opacity:.75">ANIN · DIME · SESDI</span></div>',
+    unsafe_allow_html=True)
 
 # ── Helpers ───────────────────────────────────────────────────────────────
 def _bloques_map():
@@ -708,35 +812,35 @@ def pagina_dashboard():
     st.markdown("---")
     ci,cd = st.columns(2)
     with ci:
-        st.markdown("**Distribucion por Estado**")
+        _seccion("Distribucion por Estado", "\U0001F4CA")
         tb = max(stats["total_bloques"],1)
         for e in ["Pendiente","En progreso","Verificado"]:
             n = stats["bloques_por_estado"].get(e,0)
             st.progress(n/tb, text=f"{e}: {n} ({n/tb*100:.1f}%)")
     with cd:
-        st.markdown("**Distribucion por Tipo**")
+        _seccion("Distribucion por Tipo", "\U0001F33F")
         if stats["bloques_por_tipo"]:
             df = pd.DataFrame(list(stats["bloques_por_tipo"].items()), columns=["Tipo","Cantidad"])
-            st.bar_chart(df.set_index("Tipo"))
+            st.bar_chart(df.set_index("Tipo"), color="#2A7A48")
         else:
             st.info("Sin bloques.")
     st.markdown("---")
     cp,cc = st.columns(2)
     with cp:
-        st.markdown("**Resumen Presupuestal**")
+        _seccion("Resumen Presupuestal", "\U0001F4B0")
         pl,ej = stats["presupuesto_planificado"],stats["presupuesto_ejecutado"]
         pe = (ej/pl*100) if pl>0 else 0
         st.metric("Planificado",f"S/ {pl:,.2f}"); st.metric("Ejecutado",f"S/ {ej:,.2f}")
         st.progress(min(pe/100,1.0), text=f"Ejecucion: {pe:.1f}%")
         st.caption(f"Saldo: S/ {pl-ej:,.2f}")
     with cc:
-        st.markdown("**Cronograma**")
+        _seccion("Cronograma", "\U0001F4C5")
         ae = stats["actividades_por_estado"]; ta = sum(ae.values()) if ae else 0
         st.caption(f"Total actividades: {ta}")
         for en in ["Programado","En ejecucion","Completado","Retrasado"]:
             cn = ae.get(en,0); st.progress((cn/ta) if ta>0 else 0, text=f"{en}: {cn}")
     st.markdown("---")
-    st.markdown("**Resumen de Bloques**")
+    _seccion("Resumen de Bloques", "\U0001F5C2\uFE0F")
     res = _cached_obtener_resumen_bloques(_cache_version())
     if res:
         def _fmt_area(v):
@@ -6599,3 +6703,10 @@ elif pagina == "ODK / KoBoToolbox": pagina_odk()
 elif pagina == "Liberacion de Areas": pagina_liberacion_areas()
 elif pagina == "Reportes": pagina_reportes()
 elif pagina == "Conversor PDF -> Excel": pagina_conversor_pdf()
+
+# ── Pie de pagina institucional ───────────────────────────────────────────
+st.markdown(
+    '<div class="anin-footer">Autoridad Nacional de Infraestructura - ANIN · DIME · '
+    'Subdireccion de Estudios de Inversion<br>Proyecto IN Piura · CUI 2669244 · '
+    'Cuenca Alta del Rio Piura · Coordenadas UTM WGS84 Zona 17S</div>',
+    unsafe_allow_html=True)
