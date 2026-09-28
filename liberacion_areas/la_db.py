@@ -1,0 +1,366 @@
+# -*- coding: utf-8 -*-
+"""Acceso a Supabase/PostgreSQL del módulo de Liberación de Áreas.
+Usa la MISMA conexión del aplicativo: st.secrets["DATABASE_URL"] (pooler de Supabase), con los
+mismos parámetros de database.py (sslmode=require, keepalives, reintentos). Nunca hay credenciales
+en el código."""
+from __future__ import annotations
+
+import json
+import time
+from pathlib import Path
+
+import pandas as pd
+import psycopg2
+import psycopg2.extras
+from shapely import wkt as shp_wkt
+
+from . import la_core as core
+
+SCHEMA_SQL = Path(__file__).resolve().parent / "la_schema.sql"
+
+_CONNECT_KWARGS = {"connect_timeout": 15, "keepalives": 1, "keepalives_idle": 30,
+                   "keepalives_interval": 10, "keepalives_count": 5}
+
+
+def conectar(url: str | None = None, sslmode: str | None = None):
+    """Sin argumentos usa st.secrets["DATABASE_URL"] con sslmode=require (igual que database.py).
+    Con `url` explícita (pruebas) solo aplica sslmode si se indica."""
+    if url is None:
+        import streamlit as st
+        url, sslmode = st.secrets["DATABASE_URL"], sslmode or "require"
+    kw = dict(_CONNECT_KWARGS)
+    if sslmode:
+        kw["sslmode"] = sslmode
+    ultimo = None
+    for intento in range(4):
+        try:
+            conn = psycopg2.connect(url, **kw)
+            conn.autocommit = False
+            return conn
+        except psycopg2.OperationalError as e:
+            ultimo = e
+            if intento < 3:
+                time.sleep(2 ** intento)
+    raise ultimo
+
+
+def crear_esquema(conn):
+    with conn.cursor() as cur:
+        cur.execute(SCHEMA_SQL.read_text(encoding="utf-8"))
+    conn.commit()
+
+
+def inicializar_la(conn, csv_catalogo: Path | None = None) -> dict:
+    """Crea/actualiza las tablas la_* (aditivo) y, si la_unidades está vacía, carga el catálogo
+    V6 del repositorio (datos/unidades_liberacion_areas.csv). Luego enlaza con `bloques`."""
+    crear_esquema(conn)
+    n = df(conn, "SELECT count(*) AS n FROM la_unidades")["n"][0]
+    cargadas = 0
+    csv_catalogo = csv_catalogo or (Path(__file__).resolve().parent.parent / "datos" / "unidades_liberacion_areas.csv")
+    if n == 0 and csv_catalogo.exists():
+        cargadas = cargar_unidades_csv(conn, pd.read_csv(csv_catalogo, dtype=str))
+    return {"cargadas": cargadas, **vincular_bloques(conn)}
+
+
+def _existe(conn, tabla: str) -> bool:
+    with conn.cursor() as cur:
+        cur.execute("SELECT to_regclass(%s) IS NOT NULL", (f"public.{tabla}",))
+        return bool(cur.fetchone()[0])
+
+
+def vincular_bloques(conn) -> dict:
+    """Enlaza la_unidades con bloques(id) por igualdad EXACTA de código (el mismo criterio de
+    bloque_lookup: nunca se adivina un bloque). No modifica la tabla bloques."""
+    if not _existe(conn, "bloques"):
+        return {"enlazados": 0, "sin_enlace": []}
+    with conn.cursor() as cur:
+        cur.execute("""UPDATE la_unidades u SET bloque_id = b.id FROM bloques b
+                       WHERE u.tipo_unidad = 'bloque' AND b.codigo = u.codigo
+                         AND u.bloque_id IS DISTINCT FROM b.id""")
+        cur.execute("""UPDATE la_unidades u SET bloque_ref_id = b.id FROM bloques b
+                       WHERE u.tipo_unidad = 'lote_sus' AND b.codigo = u.bloque_ref
+                         AND u.bloque_ref_id IS DISTINCT FROM b.id""")
+        cur.execute("SELECT count(*) FROM la_unidades WHERE tipo_unidad='bloque' AND bloque_id IS NOT NULL")
+        enl = cur.fetchone()[0]
+        cur.execute("SELECT codigo FROM la_unidades WHERE tipo_unidad='bloque' AND bloque_id IS NULL ORDER BY codigo")
+        sin = [r[0] for r in cur.fetchall()]
+    conn.commit()
+    return {"enlazados": enl, "sin_enlace": sin}
+
+
+def conciliacion(conn) -> pd.DataFrame:
+    if not _existe(conn, "la_v_conciliacion_bloques"):
+        return pd.DataFrame()
+    return df(conn, "SELECT * FROM la_v_conciliacion_bloques ORDER BY estado, codigo")
+
+
+def antecedentes_paso6(conn) -> pd.DataFrame:
+    if not _existe(conn, "la_v_antecedentes_paso6"):
+        return pd.DataFrame()
+    return df(conn, "SELECT * FROM la_v_antecedentes_paso6 ORDER BY codigo_bloque")
+
+
+def guardar_adjunto(conn, kobo_uuid, cod_predio, campo, nombre, mimetype, url, contenido: bytes | None):
+    with conn.cursor() as cur:
+        cur.execute("""INSERT INTO la_adjuntos (kobo_uuid, cod_predio, campo, nombre_archivo, mimetype, url_original,
+                       contenido, tamano_bytes) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+                       ON CONFLICT (kobo_uuid, nombre_archivo) DO NOTHING""",
+                    (kobo_uuid, cod_predio, campo, nombre, mimetype, url,
+                     psycopg2.Binary(contenido) if contenido else None, len(contenido or b"")))
+    conn.commit()
+
+
+def df(conn, sql: str, params=None) -> pd.DataFrame:
+    with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
+        cur.execute(sql, params)
+        return pd.DataFrame(cur.fetchall())
+
+
+# ------------------------------------------------------------------ catálogo
+def cargar_unidades_csv(conn, unidades: pd.DataFrame, geoms: dict | None = None) -> int:
+    """Carga / actualiza la_unidades desde unidades.csv (mismo archivo que usa Kobo) y, opcionalmente, geometrías."""
+    geoms = geoms or {}
+    filas = []
+    for r in unidades.fillna("").to_dict("records"):
+        area_b = core._num(r.get("area_bloque_ha"))
+        area = core._num(r.get("area_ha"))
+        g = geoms.get(str(r["name"]))
+        filas.append((str(r["name"]), r.get("label"), r["tipo_unidad"], r["provincia"], r["distrito"],
+                      str(r.get("bloque_ref") or "") or None, area, area_b,
+                      round(area / area_b * 100, 2) if (r["tipo_unidad"] == "lote_sus" and area and area_b) else None,
+                      r.get("posicion_sus") or None, r.get("asistente") or None, r.get("asistente_nombre") or None,
+                      g.wkt if g is not None else None))
+    sql = """INSERT INTO la_unidades (codigo,label,tipo_unidad,provincia,distrito,bloque_ref,area_ha,area_bloque_ha,
+             pct_bloque,posicion_sus,asistente,asistente_nombre,geom_wkt) VALUES %s
+             ON CONFLICT (codigo) DO UPDATE SET label=EXCLUDED.label, tipo_unidad=EXCLUDED.tipo_unidad,
+             provincia=EXCLUDED.provincia, distrito=EXCLUDED.distrito, bloque_ref=EXCLUDED.bloque_ref,
+             area_ha=EXCLUDED.area_ha, area_bloque_ha=EXCLUDED.area_bloque_ha, pct_bloque=EXCLUDED.pct_bloque,
+             posicion_sus=EXCLUDED.posicion_sus, asistente=EXCLUDED.asistente, asistente_nombre=EXCLUDED.asistente_nombre,
+             geom_wkt=COALESCE(EXCLUDED.geom_wkt, la_unidades.geom_wkt), actualizado=now()"""
+    with conn.cursor() as cur:
+        psycopg2.extras.execute_values(cur, sql, filas)
+    conn.commit()
+    return len(filas)
+
+
+def cargar_geometrias(conn, geoms: dict) -> int:
+    with conn.cursor() as cur:
+        psycopg2.extras.execute_batch(cur, "UPDATE la_unidades SET geom_wkt=%s, actualizado=now() WHERE codigo=%s",
+                                      [(g.wkt, c) for c, g in geoms.items()])
+        n = cur.rowcount
+    conn.commit()
+    return n
+
+
+def catalogo(conn) -> dict[str, dict]:
+    d = df(conn, "SELECT * FROM la_unidades WHERE activo")
+    return {r["codigo"]: r for r in d.to_dict("records")} if not d.empty else {}
+
+
+def geometrias(conn) -> dict:
+    d = df(conn, "SELECT codigo, geom_wkt FROM la_unidades WHERE geom_wkt IS NOT NULL")
+    return {r["codigo"]: shp_wkt.loads(r["geom_wkt"]) for r in d.to_dict("records")} if not d.empty else {}
+
+
+def uuids_existentes(conn) -> set[str]:
+    d = df(conn, "SELECT kobo_uuid FROM la_envios_raw")
+    return set(d["kobo_uuid"]) if not d.empty else set()
+
+
+def sus_areas(conn, cat: dict) -> dict:
+    """Área vigente por lote SUS: medición de campo más reciente (F-LA-03) o, si no hay, la de gabinete."""
+    base = core.sus_areas_desde_catalogo(cat)
+    d = df(conn, """SELECT DISTINCT ON (cod_unidad) cod_unidad, area_sus_ha FROM la_inspecciones
+                    WHERE area_sus_ha IS NOT NULL ORDER BY cod_unidad, fecha DESC""")
+    for r in (d.to_dict("records") if not d.empty else []):
+        if r["cod_unidad"] in base:
+            base[r["cod_unidad"]] = (base[r["cod_unidad"]][0], float(r["area_sus_ha"]))
+    return base
+
+
+# ------------------------------------------------------------------ importación
+def _s(v):
+    if isinstance(v, (list, dict)):
+        return json.dumps(v, ensure_ascii=False)
+    return None if v in ("", None) else v
+
+
+def importar(conn, resultados: list[core.Resultado], fuente: str, form_id: str, usuario: str) -> dict:
+    """Inserta solo NUEVO y OBSERVADO (los observados quedan registrados con su motivo); ignora DUPLICADO.
+    Idempotente: INSERT … ON CONFLICT (kobo_uuid) DO NOTHING."""
+    nuevos = [r for r in resultados if r.estado_import in ("NUEVO", "OBSERVADO") and r.kobo_uuid]
+    with conn.cursor() as cur:
+        cur.execute("INSERT INTO la_import_log (fuente, form_id, leidos, nuevos, duplicados, observados, usuario) "
+                    "VALUES (%s,%s,%s,%s,%s,%s,%s) RETURNING id",
+                    (fuente, form_id, len(resultados), sum(r.estado_import == "NUEVO" for r in resultados),
+                     sum(r.estado_import == "DUPLICADO" for r in resultados),
+                     sum(r.estado_import == "OBSERVADO" for r in resultados), usuario))
+        import_id = cur.fetchone()[0]
+        for r in nuevos:
+            d = r.datos
+            cur.execute("""INSERT INTO la_envios_raw (kobo_uuid, form_id, cod_unidad, cod_predio, asistente, fecha_envio,
+                           estado_import, motivos, payload, import_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                           ON CONFLICT (kobo_uuid) DO NOTHING""",
+                        (r.kobo_uuid, form_id, _s(r.cod_unidad), _s(r.cod_predio), d.get("asistente"),
+                         d.get("_submission_time") or d.get("fin"), r.estado_import, " | ".join(r.motivos),
+                         json.dumps(d, ensure_ascii=False, default=str), import_id))
+            if cur.rowcount == 0:
+                continue
+            _insertar_formulario(cur, form_id, r)
+    conn.commit()
+    recalcular_estados(conn)
+    return {"import_id": import_id, "insertados": len(nuevos)}
+
+
+def _insertar_formulario(cur, form_id: str, r: core.Resultado):
+    d, u = r.datos, r.kobo_uuid
+    fecha = (d.get("hoy") or d.get("fecha_evento") or d.get("fecha_insp") or d.get("fecha_acta"))
+    if form_id == "f_la_01_reunion":
+        cur.execute("""INSERT INTO la_reuniones VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                       ON CONFLICT DO NOTHING""",
+                    (u, d.get("fecha_evento") or fecha, d.get("asistente"), d.get("distrito"), d.get("centro_poblado"),
+                     d.get("comunidad"), d.get("tipo_evento"), d.get("unidades"), d.get("asist_hombres"), d.get("asist_mujeres"),
+                     d.get("titulares_presentes"), d.get("aceptacion"), d.get("alertas"), d.get("acuerdos"),
+                     d.get("a01_suscrita"), d.get("a02_suscrita"), d.get("este"), d.get("norte")))
+    elif form_id == "f_la_02_titular":
+        cod_tit = _registrar_titular(cur, d)
+        _asegurar_predio(cur, d)
+        if cod_tit and d.get("cod_predio"):
+            cur.execute("INSERT INTO la_predio_titular VALUES (%s,%s,'titular') ON CONFLICT DO NOTHING", (d["cod_predio"], cod_tit))
+        cur.execute("INSERT INTO la_fichas_titular VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING",
+                    (u, fecha, d.get("asistente"), d.get("cod_unidad"), d.get("cod_predio"), cod_tit, d.get("consentimiento"),
+                     d.get("tipo_titularidad"), d.get("docs_exhibidos"), d.get("aceptacion"), d.get("estado_la_propuesto")))
+    elif form_id == "f_la_03_inspeccion":
+        _asegurar_predio(cur, d)
+        cur.execute("""INSERT INTO la_inspecciones VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                       ON CONFLICT DO NOTHING""",
+                    (u, d.get("fecha_insp") or fecha, d.get("asistente"), d.get("cod_unidad"), d.get("cod_predio"),
+                     d.get("este"), d.get("norte"), d.get("precision_m"), d.get("validacion_espacial"), d.get("distancia_m"),
+                     d.get("puntos_fuera"), d.get("interferencias"), d.get("conclusion_campo"), d.get("area_sus_ha"),
+                     d.get("posicion_sus_calc"), d.get("distancia_bloque_m"), d.get("geom_wkt")))
+    elif form_id == "f_la_04_actas":
+        if (d.get("n_predio") not in (0, "0")):
+            _asegurar_predio(cur, d)
+        conforme = r.estado_import == "NUEVO" and d.get("estado_acta") == "completa"
+        cur.execute("""INSERT INTO la_actas (kobo_uuid, cod_doc, tipo_acta, fecha, asistente, cod_unidad, cod_predio,
+                       area_comprometida_ha, plazo, n_firmantes, fedatario_tipo, quorum_pct, checklist, estado_acta, conforme,
+                       fecha_entrega_cd) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING""",
+                    (u, d.get("cod_doc"), d.get("tipo_acta"), d.get("fecha_acta"), d.get("asistente"), d.get("cod_unidad"),
+                     d.get("cod_predio"), core._num(d.get("area_comprometida_ha")), d.get("plazo_consignado"),
+                     len(d.get("r_firmantes") or []), d.get("fedatario_tipo"), core._num(d.get("quorum_pct")),
+                     d.get("checklist"), d.get("estado_acta"), conforme, d.get("fecha_entrega_cd") or None))
+    elif form_id == "f_la_06_vivero":
+        cur.execute("""INSERT INTO la_vivero_alternativas VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                       ON CONFLICT DO NOTHING""",
+                    (u, d.get("cod_vivero"), fecha, d.get("distrito"), d.get("alt_nombre"), d.get("modalidad"),
+                     d.get("tipo_titularidad"), d.get("titular_nombre"), core._num(d.get("area_ha")), core._num(d.get("altitud")),
+                     d.get("pendiente"), d.get("agua_fuente"), core._num(d.get("agua_caudal_ls")), d.get("acceso_tipo"),
+                     d.get("acceso_camion"), d.get("energia"), core._num(d.get("dist_bloques_km")), d.get("inundabilidad"),
+                     d.get("deslizamiento"), d.get("disposicion"), d.get("firmaria_a07"), core.puntaje_vivero(d),
+                     d.get("este"), d.get("norte")))
+
+
+def _asegurar_predio(cur, d: dict):
+    if not d.get("cod_predio") or d.get("tipo_unidad") == "vivero":
+        return
+    cur.execute("""INSERT INTO la_predios (cod_predio, cod_unidad, n_predio, nombre_predio, area_decl_ha, area_unidad_ha,
+                   uso_actual, ocupacion, aceptacion, alertas) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                   ON CONFLICT (cod_predio) DO UPDATE SET
+                     nombre_predio = COALESCE(EXCLUDED.nombre_predio, la_predios.nombre_predio),
+                     area_decl_ha = COALESCE(EXCLUDED.area_decl_ha, la_predios.area_decl_ha),
+                     area_unidad_ha = COALESCE(EXCLUDED.area_unidad_ha, la_predios.area_unidad_ha),
+                     uso_actual = COALESCE(EXCLUDED.uso_actual, la_predios.uso_actual),
+                     ocupacion = COALESCE(EXCLUDED.ocupacion, la_predios.ocupacion),
+                     aceptacion = COALESCE(EXCLUDED.aceptacion, la_predios.aceptacion),
+                     alertas = COALESCE(EXCLUDED.alertas, la_predios.alertas), actualizado = now()""",
+                (d["cod_predio"], d.get("cod_unidad"), int(d.get("n_predio") or 0), d.get("predio_nombre"),
+                 core._num(d.get("predio_area_decl_ha")), core._num(d.get("predio_area_unidad_ha")),
+                 d.get("uso_actual") or d.get("uso_observado"), d.get("ocupacion"), d.get("aceptacion"),
+                 d.get("conflicto_linderos_det") or d.get("interf_detalle")))
+
+
+def _registrar_titular(cur, d: dict) -> str | None:
+    """Deduplica por DNI/RUC; asigna T{nnnn} correlativo si es nuevo."""
+    if d.get("consentimiento") != "si":
+        return None
+    t = d.get("tipo_titularidad")
+    if t == "comunal":
+        nombre, doc = d.get("cc_nombre"), d.get("cc_ruc")
+        rep, rep_dni = d.get("cc_presidente"), d.get("cc_presidente_dni")
+    elif t == "estatal":
+        nombre, doc, rep, rep_dni = d.get("est_entidad_otra") or d.get("est_entidad"), None, d.get("est_contacto"), None
+    elif t == "sin_titular":
+        return None
+    else:
+        nombre = f"{d.get('tit_nombres', '')} {d.get('tit_apellidos', '')}".strip()
+        doc, rep, rep_dni = d.get("tit_dni"), None, None
+    if d.get("cod_titular_prev"):
+        return d["cod_titular_prev"]
+    if doc:
+        cur.execute("SELECT cod_titular FROM la_titulares WHERE dni_ruc=%s", (doc,))
+        x = cur.fetchone()
+        if x:
+            return x[0]
+    cur.execute("SELECT cod_titular FROM la_titulares")
+    cod = core.siguiente_titular([x[0] for x in cur.fetchall()])
+    cur.execute("""INSERT INTO la_titulares (cod_titular, tipo_titularidad, nombre, dni_ruc, celular, representante,
+                   representante_dni, conyuge, conyuge_dni, partida) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+                (cod, t, nombre or "[DATO FALTANTE]", doc, d.get("tit_celular") or d.get("cc_presidente_cel"), rep, rep_dni,
+                 d.get("cony_nombre"), d.get("cony_dni"), d.get("doc_partida") or d.get("cc_partida")))
+    return cod
+
+
+# ------------------------------------------------------------------ estados
+def recalcular_estados(conn):
+    """Recalcula estado_la y clasificación de cada predio a partir de los formularios importados."""
+    pred = df(conn, "SELECT * FROM la_predios")
+    if pred.empty:
+        return
+    tit = df(conn, "SELECT DISTINCT cod_predio FROM la_predio_titular")
+    fich = df(conn, "SELECT cod_predio, consentimiento, tipo_titularidad, aceptacion FROM la_fichas_titular")
+    reun = df(conn, "SELECT unidades FROM la_reuniones")
+    insp = df(conn, "SELECT cod_predio, validacion_espacial FROM la_inspecciones")
+    actas = df(conn, "SELECT cod_unidad, cod_predio, tipo_acta, conforme FROM la_actas")
+    raw = df(conn, "SELECT cod_predio, motivos FROM la_envios_raw WHERE estado_import='OBSERVADO'")
+    socializadas = set()
+    for u in (reun["unidades"] if not reun.empty else []):
+        socializadas.update(str(u or "").split())
+    con_tit = set(tit["cod_predio"]) if not tit.empty else set()
+    filas = []
+    for p in pred.to_dict("records"):
+        cp, cu = p["cod_predio"], p["cod_unidad"]
+        f = fich[fich["cod_predio"] == cp] if not fich.empty else fich
+        i = insp[insp["cod_predio"] == cp] if not insp.empty else insp
+        a = actas[((actas["cod_predio"] == cp) & actas["tipo_acta"].isin(["A-04"])) |
+                  ((actas["cod_unidad"] == cu) & (actas["tipo_acta"] == "A-03"))] if not actas.empty else actas
+        motivos = list(raw[raw["cod_predio"] == cp]["motivos"]) if not raw.empty else []
+        exc = p.get("excepcion_manual")
+        if not exc and not f.empty and (f["aceptacion"] == "rechazo").any():
+            exc = "NEG"
+        if not exc and not f.empty and f["tipo_titularidad"].isin(["sin_titular"]).any():
+            exc = "OBS"
+        ev = {"excepcion": exc, "titular": cp in con_tit,
+              "socializado": cu in socializadas or (not f.empty and (f["consentimiento"] == "si").any()),
+              "inspeccion_dentro": not i.empty and (i["validacion_espacial"] == "DENTRO").any(),
+              "acta_conforme": not a.empty and bool(a["conforme"].fillna(False).any()),
+              "docs_completos": bool(p.get("docs_completos")), "expediente_conforme": bool(p.get("expediente_conforme"))}
+        est = core.estado_predio(ev)
+        filas.append((est, core.clasificacion_matriz(est, motivos), cp))
+    with conn.cursor() as cur:
+        psycopg2.extras.execute_batch(cur, "UPDATE la_predios SET estado_la=%s, clasificacion=%s, actualizado=now() WHERE cod_predio=%s", filas)
+    conn.commit()
+
+
+def registrar_documento(conn, datos: dict) -> str:
+    """F-LA-05: registra una constancia de búsqueda / documento. Código CBU-{UNIDAD}-P{nn}-{n}."""
+    with conn.cursor() as cur:
+        base = f"CBU-{datos['cod_predio'] or datos['cod_unidad'] + '-P00'}"
+        cur.execute("SELECT COUNT(*) FROM la_documentos WHERE cod_doc LIKE %s", (base + "-%",))
+        cod = f"{base}-{cur.fetchone()[0] + 1}"
+        cur.execute("""INSERT INTO la_documentos (cod_doc, cod_unidad, cod_predio, tipo, entidad, fecha, resultado, n_partida,
+                       descripcion, archivo_url, registrado_por) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+                    (cod, datos["cod_unidad"], datos.get("cod_predio"), datos["tipo"], datos.get("entidad"), datos.get("fecha"),
+                     datos.get("resultado"), datos.get("n_partida"), datos.get("descripcion"), datos.get("archivo_url"),
+                     datos.get("registrado_por")))
+    conn.commit()
+    return cod

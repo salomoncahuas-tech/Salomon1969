@@ -135,6 +135,10 @@ try:
 except ImportError:
     PDF_CONV_OK = False
 
+# Modulo Liberacion de Areas (tamizaje predial, formularios F-LA de KoBo).
+# Tablas propias la_* (migracion aditiva) enlazadas a bloques(id).
+from liberacion_areas.pagina import render as pagina_liberacion_areas
+
 # ── Configuracion ─────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="IN Piura - Plan de Ingreso",
@@ -331,6 +335,14 @@ BLOQUES_V5 = [
     (132, "87", "C1081-Q9583", 62.219, "Morropon", "San Juan de Bigote", 0, 0, 642882, 9411123, 0.248717766, "Z08"),
 ]
 
+# Catalogo completo, incluidos los bloques retirados: solo para RESOLVER datos
+# de registros ya ingresados (microcuenca, zona) sin que se rompan.
+BLOQUES_V5_COMPLETO = BLOQUES_V5
+# Catalogo VIGENTE (V6: 117 bloques): sin los codigos de db.BLOQUES_RETIRADOS.
+# Es el que alimentan los desplegables, las plantillas y la sincronizacion, de
+# modo que un bloque retirado no se vuelve a ofrecer ni figura como "faltante".
+BLOQUES_V5 = [b for b in BLOQUES_V5_COMPLETO if b[1] not in db.BLOQUES_RETIRADOS]
+
 # Alias para compatibilidad con codigo previo
 BLOQUES_128 = BLOQUES_V5
 
@@ -338,7 +350,7 @@ BLOQUES_128_MAP = {b[1]: {"n": b[0], "codigo": b[1], "microcuenca": b[2],
     "area_ha": b[3], "provincia": b[4], "distrito": b[5],
     "accesibilidad": b[6], "dia_evaluacion": b[7],
     "utm_este": b[8], "utm_norte": b[9], "msavi_2024": b[10],
-    "zona": b[11] if len(b) > 11 else ""} for b in BLOQUES_128}
+    "zona": b[11] if len(b) > 11 else ""} for b in BLOQUES_V5_COMPLETO}
 
 # Aliases V5
 BLOQUES_V5_MAP = BLOQUES_128_MAP
@@ -603,7 +615,7 @@ pagina = st.sidebar.selectbox("Navegacion", [
     "Indicadores de Calidad","Diagnostico Territorial","Diagnostico Social",
     "Elementos Expuestos (AdR)",
     "Presupuesto","Cronograma",
-    "Georreferenciacion","ODK / KoBoToolbox","Reportes",
+    "Georreferenciacion","ODK / KoBoToolbox","Liberacion de Areas","Reportes",
     "Conversor PDF -> Excel",
 ])
 st.sidebar.markdown("---")
@@ -6190,7 +6202,7 @@ def pagina_reportes():
                                            "Por provincia", "Por distrito"],
                                 key="rep_zip_ambito")
         # La zona solo vive en el catalogo; provincia y distrito, en la BD.
-        zona_por_codigo = {b[1]: (b[11] if len(b) > 11 else "") for b in BLOQUES_V5}
+        zona_por_codigo = {b[1]: (b[11] if len(b) > 11 else "") for b in BLOQUES_V5_COMPLETO}
         bloques_bd = _cached_obtener_bloques(_cache_version())
         # Cada selector lleva su propia clave: compartirla haria que Streamlit
         # intentara restaurar, por ejemplo, una zona sobre la lista de provincias.
@@ -6584,5 +6596,6 @@ elif pagina == "Presupuesto": pagina_presupuesto()
 elif pagina == "Cronograma": pagina_cronograma()
 elif pagina == "Georreferenciacion": pagina_georreferenciacion()
 elif pagina == "ODK / KoBoToolbox": pagina_odk()
+elif pagina == "Liberacion de Areas": pagina_liberacion_areas()
 elif pagina == "Reportes": pagina_reportes()
 elif pagina == "Conversor PDF -> Excel": pagina_conversor_pdf()
