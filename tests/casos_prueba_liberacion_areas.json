@@ -1,0 +1,204 @@
+{
+ "f_la_01_reunion": [
+  {
+   "hoy": "2026-10-05",
+   "asistente": "AP-1",
+   "provincia": "ayabaca",
+   "distrito": "frias",
+   "meta/instanceID": "uuid:t01-a",
+   "g_ubicacion/unidades": "27 3",
+   "cod_unidad": "27 3",
+   "g_evento/tipo_evento": "asamblea_comunal",
+   "g_evento/fecha_evento": "2026-10-05",
+   "g_evento/gps_evento": "-5.1586193 -79.9163955 1500 4.0",
+   "g_asistencia/asist_hombres": 20,
+   "g_asistencia/asist_mujeres": 12,
+   "g_temas/aceptacion": "favorable",
+   "g_temas/alertas": "ninguna",
+   "g_evidencias/a01_suscrita": "si",
+   "g_evidencias/a02_suscrita": "si"
+  }
+ ],
+ "f_la_02_titular": [
+  {
+   "hoy": "2026-10-05",
+   "asistente": "AP-1",
+   "provincia": "ayabaca",
+   "distrito": "frias",
+   "meta/instanceID": "uuid:t02-a",
+   "tipo_unidad": "bloque",
+   "unidad": "27",
+   "cod_unidad": "27",
+   "n_predio": 1,
+   "cod_predio": "27-P01",
+   "consentimiento": "si",
+   "tipo_titularidad": "privado",
+   "tit_nombres": "JUAN (FICTICIO)",
+   "tit_apellidos": "PRUEBA UNO",
+   "tit_dni": "00000001",
+   "tit_estado_civil": "soltero",
+   "predio_area_unidad_ha": "40",
+   "aceptacion": "favorable",
+   "estado_la_propuesto": "LA-2"
+  },
+  {
+   "hoy": "2026-10-05",
+   "asistente": "AP-1",
+   "provincia": "ayabaca",
+   "distrito": "frias",
+   "meta/instanceID": "uuid:t02-b",
+   "tipo_unidad": "bloque",
+   "unidad": "27",
+   "cod_unidad": "27",
+   "n_predio": 2,
+   "cod_predio": "27-P02",
+   "consentimiento": "si",
+   "tipo_titularidad": "sucesion",
+   "sucesion_estado": "sin_tramite",
+   "tit_nombres": "ANA (FICTICIA)",
+   "tit_apellidos": "PRUEBA DOS",
+   "tit_dni": "00000002",
+   "tit_estado_civil": "viudo",
+   "predio_area_unidad_ha": "38",
+   "aceptacion": "condicionada"
+  }
+ ],
+ "f_la_03_inspeccion": [
+  {
+   "hoy": "2026-10-05",
+   "asistente": "AP-1",
+   "provincia": "ayabaca",
+   "distrito": "frias",
+   "meta/instanceID": "uuid:t03-a",
+   "tipo_unidad": "bloque",
+   "unidad": "27",
+   "cod_unidad": "27",
+   "n_predio": 1,
+   "cod_predio": "27-P01",
+   "punto_interior": "-5.1522832 -79.9136999 1500 4.0",
+   "interferencias": "ninguna",
+   "conclusion_campo": "sin_restriccion",
+   "r_puntos": [
+    {
+     "r_puntos/pt_gps": "-5.1531870 -79.9132472 1500 4.0",
+     "r_puntos/pt_tipo": "vertice"
+    }
+   ]
+  },
+  {
+   "hoy": "2026-10-05",
+   "asistente": "AP-1",
+   "provincia": "ayabaca",
+   "distrito": "frias",
+   "meta/instanceID": "uuid:t03-b",
+   "tipo_unidad": "bloque",
+   "unidad": "27",
+   "cod_unidad": "27",
+   "n_predio": 2,
+   "cod_predio": "27-P02",
+   "punto_interior": "-5.1522912 -79.9183909 1500 4.0",
+   "interferencias": "ninguna"
+  },
+  {
+   "hoy": "2026-10-06",
+   "asistente": "AP-6",
+   "provincia": "huancabamba",
+   "distrito": "san_miguel_de_el_faique",
+   "meta/instanceID": "uuid:t03-c",
+   "tipo_unidad": "lote_sus",
+   "unidad": "SUS-059",
+   "cod_unidad": "SUS-059",
+   "bloque_ref": "M20B1",
+   "area_bloque_ha": "279.680",
+   "n_predio": 1,
+   "cod_predio": "SUS-059-P01",
+   "punto_interior": "-5.1549229 -79.8712951 1500 4.0",
+   "poligono_sus": "-5.1553759 -79.8717454 1500 4.0;-5.1553739 -79.8706358 1500 4.0;-5.1542614 -79.8706377 1500 4.0;-5.1542634 -79.8717473 1500 4.0;-5.1553759 -79.8717454 1500 4.0",
+   "posicion_sus_campo": "DENTRO",
+   "interferencias": "ninguna"
+  }
+ ],
+ "f_la_04_actas": [
+  {
+   "hoy": "2026-10-05",
+   "asistente": "AP-1",
+   "provincia": "ayabaca",
+   "distrito": "frias",
+   "meta/instanceID": "uuid:t04-a",
+   "tipo_unidad": "bloque",
+   "unidad": "27",
+   "cod_unidad": "27",
+   "n_predio": 1,
+   "cod_predio": "27-P01",
+   "tipo_acta": "A-04",
+   "cod_doc": "A04-27-P01",
+   "fecha_acta": "2026-10-07",
+   "area_comprometida_ha": "40",
+   "checklist": "coordenadas croquis titularidad gratuidad plazo firmas fedatario dj datos legible",
+   "r_firmantes": [
+    {
+     "r_firmantes/fir_nombre": "JUAN (FICTICIO) PRUEBA UNO",
+     "r_firmantes/fir_dni": "00000001",
+     "r_firmantes/fir_rol": "titular",
+     "r_firmantes/fir_huella": "si"
+    }
+   ],
+   "fedatario_tipo": "juez_paz",
+   "estado_acta": "completa"
+  },
+  {
+   "hoy": "2026-10-05",
+   "asistente": "AP-1",
+   "provincia": "ayabaca",
+   "distrito": "frias",
+   "meta/instanceID": "uuid:t04-b",
+   "tipo_unidad": "bloque",
+   "unidad": "27",
+   "cod_unidad": "27",
+   "n_predio": 2,
+   "cod_predio": "27-P02",
+   "tipo_acta": "A-04",
+   "cod_doc": "A04-27-P02",
+   "fecha_acta": "2026-10-07",
+   "area_comprometida_ha": "38",
+   "checklist": "firmas datos",
+   "r_firmantes": [
+    {
+     "r_firmantes/fir_nombre": "ANA (FICTICIA)",
+     "r_firmantes/fir_dni": "00000002",
+     "r_firmantes/fir_rol": "heredero",
+     "r_firmantes/fir_huella": "no"
+    }
+   ],
+   "fedatario_tipo": "ninguno",
+   "estado_acta": "observada"
+  }
+ ],
+ "f_la_06_vivero": [
+  {
+   "hoy": "2026-10-08",
+   "asistente": "ESP",
+   "provincia": "morropon",
+   "distrito": "chulucanas",
+   "meta/instanceID": "uuid:t06-a",
+   "cod_vivero": "VIV-01",
+   "cod_unidad": "VIV-01",
+   "alt_nombre": "ALTERNATIVA DE PRUEBA",
+   "modalidad": "convenio",
+   "tipo_titularidad": "estatal",
+   "titular_nombre": "ENTIDAD FICTICIA",
+   "gps_centro": "-5.2466434 -80.0976064 1500 4.0",
+   "area_ha": "1.2",
+   "pendiente": "p0_5",
+   "agua_fuente": "canal",
+   "agua_caudal_ls": "2",
+   "agua_permanencia": "permanente",
+   "acceso_tipo": "carretera",
+   "acceso_camion": "si",
+   "energia": "red",
+   "inundabilidad": "bajo",
+   "deslizamiento": "nulo",
+   "disposicion": "favorable"
+  }
+ ]
+}

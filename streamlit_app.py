@@ -135,6 +135,10 @@ try:
 except ImportError:
     PDF_CONV_OK = False
 
+# Modulo Liberacion de Areas (tamizaje predial, formularios F-LA de KoBo).
+# Tablas propias la_* (migracion aditiva) enlazadas a bloques(id).
+from liberacion_areas.pagina import render as pagina_liberacion_areas
+
 # ── Configuracion ─────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="IN Piura - Plan de Ingreso",
@@ -603,7 +607,7 @@ pagina = st.sidebar.selectbox("Navegacion", [
     "Indicadores de Calidad","Diagnostico Territorial","Diagnostico Social",
     "Elementos Expuestos (AdR)",
     "Presupuesto","Cronograma",
-    "Georreferenciacion","ODK / KoBoToolbox","Reportes",
+    "Georreferenciacion","ODK / KoBoToolbox","Liberacion de Areas","Reportes",
     "Conversor PDF -> Excel",
 ])
 st.sidebar.markdown("---")
@@ -6584,5 +6588,6 @@ elif pagina == "Presupuesto": pagina_presupuesto()
 elif pagina == "Cronograma": pagina_cronograma()
 elif pagina == "Georreferenciacion": pagina_georreferenciacion()
 elif pagina == "ODK / KoBoToolbox": pagina_odk()
+elif pagina == "Liberacion de Areas": pagina_liberacion_areas()
 elif pagina == "Reportes": pagina_reportes()
 elif pagina == "Conversor PDF -> Excel": pagina_conversor_pdf()
