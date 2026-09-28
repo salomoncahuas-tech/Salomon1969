@@ -29,7 +29,12 @@ DATABASE_URL = st.secrets["DATABASE_URL"]
 # diagnosticos territorial y social. En su lugar se marcan con activo=0: dejan
 # de listarse en todo el aplicativo, pero su fila y todo lo ya registrado para
 # ellos permanece intacto en la base y el cambio es reversible.
-BLOQUES_RETIRADOS = ("54", "62", "65")
+BLOQUES_RETIRADOS = (
+    "54", "62", "65",
+    # Descartados en el catalogo vigente Bloques V6 (Rev. 07-sep-2026: 117 bloques
+    # activos, 12,270.235 ha). Confirmado por el Especialista en IV el 28-sep-2026.
+    "1", "7", "25", "29", "32", "33", "46", "48", "68", "74", "75", "M18B5",
+)
 
 # Fragmento reutilizable para excluir los bloques retirados. Se usa COALESCE
 # porque las filas anteriores a la migracion podrian no tener el campo.

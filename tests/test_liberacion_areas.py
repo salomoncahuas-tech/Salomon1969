@@ -167,6 +167,26 @@ def _bloques_app():
     return ast.literal_eval(src[i + len("BLOQUES_V5 = "):j])
 
 
+def _retirados_app():
+    """BLOQUES_RETIRADOS de database.py (leído como texto)."""
+    import ast
+    import re
+    fuente = (RAIZ / "database.py").read_text(encoding="utf-8")
+    m = re.search(r"BLOQUES_RETIRADOS = (\(.*?\))\n", fuente, re.DOTALL)
+    return set(ast.literal_eval(m.group(1)))
+
+
+def test_catalogo_vigente_del_app_es_v6():
+    """Todo bloque del catálogo del aplicativo que no está en V6 debe estar retirado, y ningún bloque V6 retirado."""
+    v6 = set(pd.read_csv(CSV, dtype=str).query("tipo_unidad == 'bloque'")["name"])
+    app = {str(b[1]) for b in _bloques_app()}
+    ret = _retirados_app()
+    assert v6 <= app
+    assert app - v6 <= ret, sorted(app - v6 - ret)
+    assert not (v6 & ret), sorted(v6 & ret)
+    assert len(app - ret) == 117
+
+
 def test_integracion_postgres():
     url = os.environ.get("LA_TEST_DB")
     if not url:
@@ -193,6 +213,13 @@ def test_integracion_postgres():
     assert (conc.estado == "OK").sum() == 117, conc.estado.value_counts()
     fuera = sorted(conc[conc.estado == "ACTIVO_EN_APP_FUERA_DE_V6"].codigo)
     assert fuera == sorted(["1", "25", "29", "32", "33", "46", "48", "68", "7", "74", "75", "M18B5"]), fuera
+    # misma instrucción que database.inicializar_bd() aplica en cada arranque
+    with conn.cursor() as cur:
+        cur.execute("UPDATE bloques SET activo = 0 WHERE codigo = ANY(%s) AND COALESCE(activo, 1) <> 0",
+                    (sorted(_retirados_app()),))
+    conn.commit()
+    conc = db.conciliacion(conn)
+    assert (conc.estado == "ACTIVO_EN_APP_FUERA_DE_V6").sum() == 0 and (conc.estado == "OK").sum() == 117
     lotes = db.df(conn, "SELECT count(*) n FROM la_unidades WHERE tipo_unidad='lote_sus' AND bloque_ref_id IS NULL")
     assert lotes["n"][0] == 0
     assert db.antecedentes_paso6(conn).iloc[0]["n_predios"] == 3
