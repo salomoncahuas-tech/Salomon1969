@@ -185,9 +185,15 @@ def _s(v):
     return None if v in ("", None) else v
 
 
-def importar(conn, resultados: list[core.Resultado], fuente: str, form_id: str, usuario: str) -> dict:
+ORIGEN_POR_FUENTE = {"API": "KOBO", "ARCHIVO": "KOBO", "APP": "APP", "PLANTILLA": "PLANTILLA"}
+
+
+def importar(conn, resultados: list[core.Resultado], fuente: str, form_id: str, usuario: str,
+             origen: str | None = None) -> dict:
     """Inserta solo NUEVO y OBSERVADO (los observados quedan registrados con su motivo); ignora DUPLICADO.
-    Idempotente: INSERT … ON CONFLICT (kobo_uuid) DO NOTHING."""
+    Idempotente: INSERT … ON CONFLICT (kobo_uuid) DO NOTHING.
+    fuente: API / ARCHIVO (Kobo), APP (digitado en el aplicativo), PLANTILLA (Excel ANIN), RESTAURACION."""
+    origen = origen or ORIGEN_POR_FUENTE.get(fuente, "KOBO")
     nuevos = [r for r in resultados if r.estado_import in ("NUEVO", "OBSERVADO") and r.kobo_uuid]
     with conn.cursor() as cur:
         cur.execute("INSERT INTO la_import_log (fuente, form_id, leidos, nuevos, duplicados, observados, usuario) "
@@ -199,11 +205,11 @@ def importar(conn, resultados: list[core.Resultado], fuente: str, form_id: str, 
         for r in nuevos:
             d = r.datos
             cur.execute("""INSERT INTO la_envios_raw (kobo_uuid, form_id, cod_unidad, cod_predio, asistente, fecha_envio,
-                           estado_import, motivos, payload, import_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                           estado_import, motivos, payload, import_id, origen) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                            ON CONFLICT (kobo_uuid) DO NOTHING""",
                         (r.kobo_uuid, form_id, _s(r.cod_unidad), _s(r.cod_predio), d.get("asistente"),
-                         d.get("_submission_time") or d.get("fin"), r.estado_import, " | ".join(r.motivos),
-                         json.dumps(d, ensure_ascii=False, default=str), import_id))
+                         _fecha_envio(d), r.estado_import, " | ".join(r.motivos),
+                         json.dumps(d, ensure_ascii=False, default=str), import_id, origen))
             if cur.rowcount == 0:
                 continue
             _insertar_formulario(cur, form_id, r)
@@ -212,7 +218,12 @@ def importar(conn, resultados: list[core.Resultado], fuente: str, form_id: str, 
     return {"import_id": import_id, "insertados": len(nuevos)}
 
 
-def _insertar_formulario(cur, form_id: str, r: core.Resultado):
+def _fecha_envio(d: dict):
+    """Kobo trae _submission_time / fin; en el aplicativo y la plantilla se usa la fecha de registro."""
+    return d.get("_submission_time") or d.get("fin") or d.get("hoy") or None
+
+
+def _insertar_formulario(cur, form_id: str, r: core.Resultado, actualizar_titular: bool = False):
     d, u = r.datos, r.kobo_uuid
     fecha = (d.get("hoy") or d.get("fecha_evento") or d.get("fecha_insp") or d.get("fecha_acta"))
     if form_id == "f_la_01_reunion":
@@ -223,7 +234,7 @@ def _insertar_formulario(cur, form_id: str, r: core.Resultado):
                      d.get("titulares_presentes"), d.get("aceptacion"), d.get("alertas"), d.get("acuerdos"),
                      d.get("a01_suscrita"), d.get("a02_suscrita"), d.get("este"), d.get("norte")))
     elif form_id == "f_la_02_titular":
-        cod_tit = _registrar_titular(cur, d)
+        cod_tit = _registrar_titular(cur, d, actualizar=actualizar_titular)
         _asegurar_predio(cur, d)
         if cod_tit and d.get("cod_predio"):
             cur.execute("INSERT INTO la_predio_titular VALUES (%s,%s,'titular') ON CONFLICT DO NOTHING", (d["cod_predio"], cod_tit))
@@ -279,8 +290,9 @@ def _asegurar_predio(cur, d: dict):
                  d.get("conflicto_linderos_det") or d.get("interf_detalle")))
 
 
-def _registrar_titular(cur, d: dict) -> str | None:
-    """Deduplica por DNI/RUC; asigna T{nnnn} correlativo si es nuevo."""
+def _registrar_titular(cur, d: dict, actualizar: bool = False) -> str | None:
+    """Deduplica por DNI/RUC; asigna T{nnnn} correlativo si es nuevo.
+    Con `actualizar` (edición de una ficha F-LA-02) corrige los datos del titular ya existente."""
     if d.get("consentimiento") != "si":
         return None
     t = d.get("tipo_titularidad")
@@ -300,6 +312,13 @@ def _registrar_titular(cur, d: dict) -> str | None:
         cur.execute("SELECT cod_titular FROM la_titulares WHERE dni_ruc=%s", (doc,))
         x = cur.fetchone()
         if x:
+            if actualizar:
+                cur.execute("""UPDATE la_titulares SET tipo_titularidad=%s, nombre=%s, celular=COALESCE(%s, celular),
+                               representante=COALESCE(%s, representante), representante_dni=COALESCE(%s, representante_dni),
+                               conyuge=COALESCE(%s, conyuge), conyuge_dni=COALESCE(%s, conyuge_dni),
+                               partida=COALESCE(%s, partida) WHERE cod_titular=%s""",
+                            (t, nombre or "[DATO FALTANTE]", d.get("tit_celular") or d.get("cc_presidente_cel"), rep, rep_dni,
+                             d.get("cony_nombre"), d.get("cony_dni"), d.get("doc_partida") or d.get("cc_partida"), x[0]))
             return x[0]
     cur.execute("SELECT cod_titular FROM la_titulares")
     cod = core.siguiente_titular([x[0] for x in cur.fetchall()])
@@ -354,9 +373,13 @@ def recalcular_estados(conn):
 def registrar_documento(conn, datos: dict) -> str:
     """F-LA-05: registra una constancia de búsqueda / documento. Código CBU-{UNIDAD}-P{nn}-{n}."""
     with conn.cursor() as cur:
-        base = f"CBU-{datos['cod_predio'] or datos['cod_unidad'] + '-P00'}"
-        cur.execute("SELECT COUNT(*) FROM la_documentos WHERE cod_doc LIKE %s", (base + "-%",))
-        cod = f"{base}-{cur.fetchone()[0] + 1}"
+        base = f"CBU-{datos.get('cod_predio') or datos['cod_unidad'] + '-P00'}"
+        # correlativo sobre los códigos vigentes y los eliminados (bitácora): un código nunca se reutiliza
+        cur.execute("""SELECT cod_doc FROM la_documentos WHERE cod_doc LIKE %s
+                       UNION SELECT clave FROM la_bitacora WHERE tabla = 'la_documentos' AND clave LIKE %s""",
+                    (base + "-%", base + "-%"))
+        usados = [int(x[0].rsplit("-", 1)[-1]) for x in cur.fetchall() if x[0].rsplit("-", 1)[-1].isdigit()]
+        cod = f"{base}-{max(usados, default=0) + 1}"
         cur.execute("""INSERT INTO la_documentos (cod_doc, cod_unidad, cod_predio, tipo, entidad, fecha, resultado, n_partida,
                        descripcion, archivo_url, registrado_por) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
                     (cod, datos["cod_unidad"], datos.get("cod_predio"), datos["tipo"], datos.get("entidad"), datos.get("fecha"),
@@ -364,3 +387,258 @@ def registrar_documento(conn, datos: dict) -> str:
                      datos.get("registrado_por")))
     conn.commit()
     return cod
+
+
+# ------------------------------------------------------------------ consulta, edición, eliminación y restauración
+# Toda edición o eliminación guarda antes una copia completa en la_bitacora (permite restaurar).
+# Las fotos de un envío eliminado NO se borran: la llave la_adjuntos.kobo_uuid queda en NULL
+# (ON DELETE SET NULL) y se vuelven a enlazar si el envío se restaura.
+
+def _json(v) -> str:
+    return json.dumps(v, ensure_ascii=False, default=str)
+
+
+def _bitacora(cur, usuario, accion, tabla, clave, form_id, datos):
+    cur.execute("INSERT INTO la_bitacora (usuario, accion, tabla, clave, form_id, datos) VALUES (%s,%s,%s,%s,%s,%s)",
+                (usuario, accion, tabla, clave, form_id, _json(datos)))
+
+
+def listar_envios(conn, form_id: str | None = None) -> pd.DataFrame:
+    sql = """SELECT kobo_uuid, form_id, cod_unidad, cod_predio, asistente, fecha_envio, estado_import, motivos,
+                    COALESCE(origen, 'KOBO') AS origen, creado, editado, editado_por
+             FROM la_envios_raw {w} ORDER BY creado DESC, kobo_uuid"""
+    if form_id:
+        return df(conn, sql.format(w="WHERE form_id = %s"), (form_id,))
+    return df(conn, sql.format(w=""))
+
+
+def obtener_envio(conn, kobo_uuid: str) -> dict | None:
+    d = df(conn, "SELECT * FROM la_envios_raw WHERE kobo_uuid = %s", (kobo_uuid,))
+    if d.empty:
+        return None
+    r = d.to_dict("records")[0]
+    if isinstance(r.get("payload"), str):
+        r["payload"] = json.loads(r["payload"])
+    return r
+
+
+def fila_formulario(conn, form_id: str, kobo_uuid: str) -> dict:
+    tabla = core.FORMULARIOS[form_id]["tabla"]
+    d = df(conn, f"SELECT * FROM {tabla} WHERE kobo_uuid = %s", (kobo_uuid,))
+    return d.to_dict("records")[0] if not d.empty else {}
+
+
+def adjuntos_envio(conn, kobo_uuid: str) -> pd.DataFrame:
+    return df(conn, "SELECT id, campo, nombre_archivo, mimetype, url_original, contenido FROM la_adjuntos "
+                    "WHERE kobo_uuid = %s ORDER BY nombre_archivo", (kobo_uuid,))
+
+
+def _quitar_formulario(cur, form_id: str, kobo_uuid: str) -> dict:
+    """Borra la fila del formulario (no el envío crudo). En F-LA-02 retira además el enlace predio–titular si
+    ninguna otra ficha lo sostiene. Devuelve la fila borrada."""
+    tabla = core.FORMULARIOS[form_id]["tabla"]
+    cur.execute(f"SELECT row_to_json(t) FROM {tabla} t WHERE kobo_uuid = %s", (kobo_uuid,))
+    x = cur.fetchone()
+    fila = x[0] if x else {}
+    cur.execute(f"DELETE FROM {tabla} WHERE kobo_uuid = %s", (kobo_uuid,))
+    if form_id == "f_la_02_titular" and fila.get("cod_predio") and fila.get("cod_titular"):
+        cur.execute("""DELETE FROM la_predio_titular pt WHERE pt.cod_predio = %s AND pt.cod_titular = %s AND pt.rol = 'titular'
+                       AND NOT EXISTS (SELECT 1 FROM la_fichas_titular f WHERE f.cod_predio = pt.cod_predio
+                                       AND f.cod_titular = pt.cod_titular)""",
+                    (fila["cod_predio"], fila["cod_titular"]))
+    return fila
+
+
+def actualizar_envio(conn, r: core.Resultado, form_id: str, usuario: str) -> None:
+    """Reemplaza un envío ya registrado (de Kobo, del aplicativo o de la plantilla) por su versión corregida,
+    conservando el mismo kobo_uuid, sus adjuntos y una copia previa en la bitácora."""
+    previo = obtener_envio(conn, r.kobo_uuid)
+    if previo is None:
+        raise ValueError(f"El envío {r.kobo_uuid} ya no existe.")
+    if previo["form_id"] != form_id:
+        raise ValueError("El formulario del envío no coincide.")
+    d = r.datos
+    with conn.cursor() as cur:
+        fila = _quitar_formulario(cur, form_id, r.kobo_uuid)
+        _bitacora(cur, usuario, "EDITAR", "la_envios_raw", r.kobo_uuid, form_id,
+                  {"envio": {k: v for k, v in previo.items() if k != "payload"}, "payload": previo["payload"], "fila": fila})
+        cur.execute("""UPDATE la_envios_raw SET cod_unidad=%s, cod_predio=%s, asistente=%s, estado_import=%s, motivos=%s,
+                       payload=%s, editado=now(), editado_por=%s WHERE kobo_uuid=%s""",
+                    (_s(r.cod_unidad), _s(r.cod_predio), d.get("asistente"), r.estado_import, " | ".join(r.motivos),
+                     _json(d), usuario, r.kobo_uuid))
+        _insertar_formulario(cur, form_id, r, actualizar_titular=True)
+        if form_id == "f_la_04_actas" and fila.get("recibido_cd"):          # control documentario ya registrado
+            cur.execute("UPDATE la_actas SET recibido_cd = TRUE WHERE kobo_uuid = %s", (r.kobo_uuid,))
+    conn.commit()
+    recalcular_estados(conn)
+
+
+def eliminar_envio(conn, kobo_uuid: str, usuario: str) -> None:
+    previo = obtener_envio(conn, kobo_uuid)
+    if previo is None:
+        return
+    with conn.cursor() as cur:
+        cur.execute("SELECT id FROM la_adjuntos WHERE kobo_uuid = %s", (kobo_uuid,))
+        adj = [x[0] for x in cur.fetchall()]
+        fila = _quitar_formulario(cur, previo["form_id"], kobo_uuid)
+        _bitacora(cur, usuario, "ELIMINAR", "la_envios_raw", kobo_uuid, previo["form_id"],
+                  {"envio": {k: v for k, v in previo.items() if k != "payload"}, "payload": previo["payload"],
+                   "fila": fila, "adjuntos": adj})
+        cur.execute("DELETE FROM la_envios_raw WHERE kobo_uuid = %s", (kobo_uuid,))   # adjuntos → kobo_uuid NULL
+    conn.commit()
+    recalcular_estados(conn)
+
+
+def bitacora(conn, solo_eliminados: bool = False, limite: int = 500) -> pd.DataFrame:
+    w = "WHERE accion = 'ELIMINAR' AND NOT restaurado" if solo_eliminados else ""
+    return df(conn, f"""SELECT id, fecha, usuario, accion, tabla, clave, form_id, restaurado FROM la_bitacora {w}
+                        ORDER BY id DESC LIMIT %s""", (limite,))
+
+
+def restaurar(conn, id_bitacora: int, usuario: str) -> str:
+    """Vuelve a registrar un envío / documento / predio eliminado a partir de su copia en la bitácora.
+    Los envíos pasan otra vez por core.validar_envio con el catálogo y geometrías vigentes."""
+    b = df(conn, "SELECT * FROM la_bitacora WHERE id = %s", (id_bitacora,))
+    if b.empty:
+        raise ValueError("Registro de bitácora inexistente.")
+    b = b.to_dict("records")[0]
+    datos = b["datos"] if isinstance(b["datos"], dict) else json.loads(b["datos"])
+    if b["accion"] != "ELIMINAR" or b["restaurado"]:
+        raise ValueError("Solo se restauran eliminaciones no restauradas.")
+    if b["tabla"] == "la_envios_raw":
+        if obtener_envio(conn, b["clave"]):
+            raise ValueError(f"El envío {b['clave']} ya existe.")
+        cat = catalogo(conn)
+        res = core.validar_envio(b["form_id"], datos["payload"], cat, geometrias(conn), uuids_existentes(conn),
+                                 sus_areas(conn, cat))
+        res.kobo_uuid = b["clave"]
+        importar(conn, [res], "RESTAURACION", b["form_id"], usuario, origen=(datos.get("envio") or {}).get("origen"))
+        with conn.cursor() as cur:
+            if datos.get("adjuntos"):
+                cur.execute("UPDATE la_adjuntos SET kobo_uuid = %s WHERE kobo_uuid IS NULL AND id = ANY(%s)",
+                            (b["clave"], datos["adjuntos"]))
+    elif b["tabla"] == "la_documentos":
+        f = datos["fila"]
+        with conn.cursor() as cur:
+            cur.execute("""INSERT INTO la_documentos (cod_doc, cod_unidad, cod_predio, tipo, entidad, fecha, resultado,
+                           n_partida, descripcion, archivo_url, registrado_por) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+                        tuple(f.get(k) for k in ("cod_doc", "cod_unidad", "cod_predio", "tipo", "entidad", "fecha",
+                                                 "resultado", "n_partida", "descripcion", "archivo_url", "registrado_por")))
+    elif b["tabla"] == "la_predios":
+        f = datos["fila"]
+        cols = [k for k in f if k != "actualizado"]
+        with conn.cursor() as cur:
+            cur.execute(f"INSERT INTO la_predios ({', '.join(cols)}) VALUES ({', '.join(['%s'] * len(cols))}) "
+                        "ON CONFLICT (cod_predio) DO NOTHING", tuple(f[k] for k in cols))
+            for t in datos.get("titulares", []):
+                cur.execute("INSERT INTO la_predio_titular VALUES (%s,%s,%s) ON CONFLICT DO NOTHING",
+                            (f["cod_predio"], t["cod_titular"], t["rol"]))
+    with conn.cursor() as cur:
+        cur.execute("UPDATE la_bitacora SET restaurado = TRUE WHERE id = %s", (id_bitacora,))
+        _bitacora(cur, usuario, "RESTAURAR", b["tabla"], b["clave"], b["form_id"], {"id_bitacora": id_bitacora})
+    conn.commit()
+    recalcular_estados(conn)
+    return b["clave"]
+
+
+# ------------------------------------------------------------------ F-LA-05 documentos
+COLS_DOC = ("cod_unidad", "cod_predio", "tipo", "entidad", "fecha", "resultado", "n_partida", "descripcion",
+            "archivo_url", "registrado_por")
+
+
+def documento_existe(conn, datos: dict) -> str | None:
+    """Mismo documento ya registrado (unidad, predio, tipo, entidad, fecha y n.° de partida) → su código."""
+    d = df(conn, """SELECT cod_doc FROM la_documentos WHERE cod_unidad = %s AND cod_predio IS NOT DISTINCT FROM %s
+                    AND tipo = %s AND entidad IS NOT DISTINCT FROM %s AND fecha IS NOT DISTINCT FROM %s
+                    AND COALESCE(n_partida, '') = COALESCE(%s, '')""",
+           (datos.get("cod_unidad"), datos.get("cod_predio"), datos.get("tipo"), datos.get("entidad"), datos.get("fecha"),
+            datos.get("n_partida")))
+    return None if d.empty else d["cod_doc"][0]
+
+
+def obtener_documento(conn, id_doc: int) -> dict | None:
+    d = df(conn, "SELECT * FROM la_documentos WHERE id = %s", (id_doc,))
+    return None if d.empty else d.to_dict("records")[0]
+
+
+def actualizar_documento(conn, id_doc: int, datos: dict, usuario: str) -> None:
+    previo = obtener_documento(conn, id_doc)
+    if previo is None:
+        raise ValueError("El documento ya no existe.")
+    with conn.cursor() as cur:
+        _bitacora(cur, usuario, "EDITAR", "la_documentos", previo["cod_doc"], "f_la_05_documentos", {"fila": previo})
+        cur.execute(f"UPDATE la_documentos SET {', '.join(f'{c}=%s' for c in COLS_DOC)}, editado=now(), editado_por=%s "
+                    "WHERE id=%s", tuple(datos.get(c) for c in COLS_DOC) + (usuario, id_doc))
+    conn.commit()
+
+
+def eliminar_documento(conn, id_doc: int, usuario: str) -> None:
+    previo = obtener_documento(conn, id_doc)
+    if previo is None:
+        return
+    with conn.cursor() as cur:
+        _bitacora(cur, usuario, "ELIMINAR", "la_documentos", previo["cod_doc"], "f_la_05_documentos", {"fila": previo})
+        cur.execute("DELETE FROM la_documentos WHERE id = %s", (id_doc,))
+    conn.commit()
+
+
+# ------------------------------------------------------------------ predios (matriz)
+CAMPOS_PREDIO_EDITABLES = ("nombre_predio", "area_decl_ha", "area_unidad_ha", "uso_actual", "ocupacion", "nucleo",
+                           "docs_completos", "expediente_conforme", "excepcion_manual", "alertas")
+
+
+def actualizar_predios(conn, cambios: list[dict], usuario: str) -> int:
+    """cambios = [{cod_predio, campo: valor…}] con campos de CAMPOS_PREDIO_EDITABLES. Guarda solo lo que cambió."""
+    n = 0
+    with conn.cursor() as cur:
+        for c in cambios:
+            cur.execute("SELECT row_to_json(p) FROM la_predios p WHERE cod_predio = %s", (c["cod_predio"],))
+            x = cur.fetchone()
+            if not x:
+                continue
+            previo = x[0]
+            nuevos = {k: v for k, v in c.items() if k in CAMPOS_PREDIO_EDITABLES and _distinto(previo.get(k), v)}
+            if not nuevos:
+                continue
+            _bitacora(cur, usuario, "EDITAR", "la_predios", c["cod_predio"], None, {"fila": previo, "cambios": nuevos})
+            cur.execute(f"UPDATE la_predios SET {', '.join(f'{k}=%s' for k in nuevos)}, actualizado=now() WHERE cod_predio=%s",
+                        tuple(nuevos.values()) + (c["cod_predio"],))
+            n += 1
+    conn.commit()
+    recalcular_estados(conn)
+    return n
+
+
+def _distinto(a, b) -> bool:
+    if a in (None, "") and b in (None, ""):
+        return False
+    try:
+        return abs(float(a) - float(b)) > 1e-9
+    except (TypeError, ValueError):
+        return str(a) != str(b)
+
+
+def referencias_predio(conn, cod_predio: str) -> dict[str, int]:
+    out = {}
+    for t in ("la_fichas_titular", "la_inspecciones", "la_actas", "la_documentos"):
+        n = df(conn, f"SELECT count(*) AS n FROM {t} WHERE cod_predio = %s", (cod_predio,))["n"][0]
+        if n:
+            out[t] = int(n)
+    return out
+
+
+def eliminar_predio(conn, cod_predio: str, usuario: str) -> None:
+    """Solo si ningún formulario ni documento lo referencia (primero se eliminan / corrigen esos registros)."""
+    refs = referencias_predio(conn, cod_predio)
+    if refs:
+        raise ValueError("El predio tiene registros asociados: " + ", ".join(f"{k} ({v})" for k, v in refs.items()))
+    with conn.cursor() as cur:
+        cur.execute("SELECT row_to_json(p) FROM la_predios p WHERE cod_predio = %s", (cod_predio,))
+        x = cur.fetchone()
+        if not x:
+            return
+        cur.execute("SELECT cod_titular, rol FROM la_predio_titular WHERE cod_predio = %s", (cod_predio,))
+        tit = [{"cod_titular": a, "rol": b} for a, b in cur.fetchall()]
+        _bitacora(cur, usuario, "ELIMINAR", "la_predios", cod_predio, None, {"fila": x[0], "titulares": tit})
+        cur.execute("DELETE FROM la_predios WHERE cod_predio = %s", (cod_predio,))
+    conn.commit()

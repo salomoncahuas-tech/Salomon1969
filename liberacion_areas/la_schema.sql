@@ -202,6 +202,32 @@ ALTER TABLE la_adjuntos    ENABLE ROW LEVEL SECURITY;
 -- (Sin políticas para 'anon' = acceso denegado por defecto. El usuario postgres
 --  del pooler, que usa el aplicativo, no está sujeto a RLS.)
 
+-- 10b. Registro en el aplicativo / plantilla Excel, edición y eliminación con trazabilidad (versión 2026-10)
+--     Solo columnas y tablas nuevas. Nada se borra al migrar.
+ALTER TABLE la_envios_raw ADD COLUMN IF NOT EXISTS origen TEXT;          -- KOBO / APP / PLANTILLA
+ALTER TABLE la_envios_raw ADD COLUMN IF NOT EXISTS editado TIMESTAMPTZ;
+ALTER TABLE la_envios_raw ADD COLUMN IF NOT EXISTS editado_por TEXT;
+ALTER TABLE la_documentos ADD COLUMN IF NOT EXISTS editado TIMESTAMPTZ;
+ALTER TABLE la_documentos ADD COLUMN IF NOT EXISTS editado_por TEXT;
+UPDATE la_envios_raw SET origen = CASE WHEN kobo_uuid LIKE 'app-%' THEN 'APP'
+                                       WHEN kobo_uuid LIKE 'xls-%' THEN 'PLANTILLA' ELSE 'KOBO' END
+ WHERE origen IS NULL;
+
+-- Bitácora: copia completa del registro ANTES de editarlo o eliminarlo (permite restaurar).
+CREATE TABLE IF NOT EXISTS la_bitacora (
+    id          BIGSERIAL PRIMARY KEY,
+    fecha       TIMESTAMPTZ DEFAULT now(),
+    usuario     TEXT,
+    accion      TEXT NOT NULL,                          -- EDITAR / ELIMINAR / RESTAURAR
+    tabla       TEXT NOT NULL,                          -- la_envios_raw / la_documentos / la_predios
+    clave       TEXT NOT NULL,                          -- kobo_uuid / cod_doc / cod_predio
+    form_id     TEXT,
+    datos       JSONB,
+    restaurado  BOOLEAN DEFAULT FALSE
+);
+CREATE INDEX IF NOT EXISTS ix_bitacora_clave ON la_bitacora(tabla, clave);
+ALTER TABLE la_bitacora ENABLE ROW LEVEL SECURITY;
+
 -- 11. OPCIONAL con PostGIS:
 -- CREATE EXTENSION IF NOT EXISTS postgis;
 -- ALTER TABLE la_unidades ADD COLUMN IF NOT EXISTS geom geometry(MultiPolygon, 32717);
