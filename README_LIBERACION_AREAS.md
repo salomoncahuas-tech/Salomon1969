@@ -41,3 +41,59 @@ LA_TEST_DB="postgresql://…/base_vacia_de_pruebas" python -m pytest tests/test_
 ```
 
 Resultado: 8/8. La suite completa queda igual que antes del cambio (las 15 fallas previas de `test_fichas_dt.py` y `test_resumenes_bloques.py` se deben a que los 117 libros Excel no vienen en el ZIP de la rama).
+
+---
+
+## Actualización 30-sep-2026 · Tres vías de registro, plantillas, edición y reportes
+
+### Tres vías de registro equivalentes
+
+| Vía | Dónde | Cómo entra al sistema |
+|---|---|---|
+| 1. KoboToolbox | Pestaña **3 · Importar KoboToolbox** (API o exportación XLSX/JSON) | Sin cambios |
+| 2. Digitación en el aplicativo | Pestaña **1 · Registro en campo** | Formulario construido con los mismos campos; coordenadas en UTM 17S |
+| 3. Plantilla Excel ANIN | Pestaña **2 · Plantillas Excel / Kobo** (descargar → llenar → importar) | Una hoja por formulario + hojas de detalle |
+
+Las tres usan un único diccionario de campos (`liberacion_areas/la_campos.py`) y terminan en el mismo envío
+«aplanado» que produce Kobo, que pasa por `la_core.validar_envio` y `la_db.importar`: mismas reglas (catálogo V6,
+asistente asignado, rango UTM 17S, lotes SUS, checklist de actas) y mismos estados NUEVO / DUPLICADO / OBSERVADO.
+El origen de cada envío queda en `la_envios_raw.origen` (KOBO / APP / PLANTILLA).
+
+- **Plantilla Excel** (`la_plantillas.generar_plantilla_excel`): F-LA-01 a F-LA-06, `F-LA-03_puntos`,
+  `F-LA-03_vertices_SUS`, `F-LA-04_firmantes`, catálogo de unidades e instrucciones; listas desplegables, validación
+  de rangos UTM, fechas y DNI. Puede prepararse por asistente (el desplegable muestra solo sus unidades).
+  Re-importar el mismo archivo no duplica: cada fila tiene un identificador determinista (`xls-…`).
+- **XLSForm para Kobo** (`la_plantillas.paquete_kobo`): ZIP con F-LA-01/02/03/04/06 y `unidades.csv`, generado del
+  mismo diccionario (validado con pyxform). Úselo si aún no están desplegados o si cambió el catálogo; si ya tiene
+  formularios F-LA en la cuenta, compare los nombres de campo antes de reemplazarlos.
+- **F-LA-05** (búsqueda documental) se registra en el aplicativo o en la plantilla (no tiene formulario Kobo).
+
+### Historial, edición, eliminación y restauración (pestaña 4)
+
+- Lista por formulario con filtros (unidad, asistente, estado, origen), **Editar** / **Eliminar** con confirmación,
+  detalle con fotos y exportación a Excel ANIN — igual que en Diagnóstico Territorial y Social.
+- **Editar** carga el registro (de cualquier vía) en «Registro en campo»; al guardar se re-valida, se conserva el
+  mismo identificador y sus fotos, y se recalculan los estados LA.
+- **Eliminar** guarda antes una copia completa en la tabla nueva `la_bitacora`; las fotos no se borran. Los
+  registros eliminados (envíos, documentos, predios) se pueden **Restaurar**. La bitácora se puede exportar.
+- **Matriz predial**: ahora también se editan nombre, área dentro de la unidad, **núcleo**, alertas; y se puede
+  eliminar un predio sin registros asociados. Cada cambio queda en la bitácora.
+
+### Reportes (pestaña 7)
+
+- Excel consolidado ANIN (resumen, matriz, semáforo, avance, cada formulario, documentos, titulares **sin DNI ni
+  celular**, observados), filtrable por asistente o distrito.
+- Expediente preliminar PDF por unidad y ZIP con los expedientes de todas las unidades con predios.
+
+### Migración
+
+Solo aditiva (se aplica sola al abrir la página): columnas `origen`, `editado`, `editado_por` en `la_envios_raw` y
+`editado`, `editado_por` en `la_documentos`; tabla nueva `la_bitacora`. Ningún registro existente se borra ni se
+modifica (salvo rellenar `origen` de los envíos ya importados).
+
+### Pruebas
+
+```bash
+python -m pytest tests/test_liberacion_areas.py tests/test_liberacion_areas_registro.py -q
+LA_TEST_DB="postgresql://…/base_vacia_de_pruebas" python -m pytest tests -q
+```
