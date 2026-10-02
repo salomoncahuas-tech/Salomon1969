@@ -14,15 +14,13 @@ SERVIDOR_POR_DEFECTO = "https://kf.kobotoolbox.org"
 
 
 def cliente(servidor: str | None = None, token: str | None = None):
-    """KoBoClient con los secrets del aplicativo (KOBO_SERVER, KOBO_TOKEN)."""
-    from odk_kobo import KoBoClient
-    if servidor is None or token is None:
-        import streamlit as st
-        try:
-            servidor = servidor or str(st.secrets.get("KOBO_SERVER", SERVIDOR_POR_DEFECTO))
-            token = token or str(st.secrets.get("KOBO_TOKEN", ""))
-        except Exception:  # noqa: BLE001 – sin secrets configurados
-            servidor, token = servidor or SERVIDOR_POR_DEFECTO, token or ""
+    """KoBoClient con los secrets del aplicativo (KOBO_SERVER, KOBO_TOKEN).
+
+    El token se busca igual que en la página «ODK / KoBoToolbox»: nivel superior de los
+    secrets, sección [kobo] o variable de entorno; si no está, el escrito en esta sesión."""
+    from odk_kobo import KoBoClient, normalizar_token, secreto_kobo, token_kobo
+    servidor = servidor or secreto_kobo("KOBO_SERVER", SERVIDOR_POR_DEFECTO)
+    token = normalizar_token(token) if token else token_kobo()[0]
     if not token:
         raise ValueError("Falta KOBO_TOKEN en los secrets del aplicativo.")
     return KoBoClient(servidor, token)

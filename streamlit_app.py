@@ -120,7 +120,8 @@ from odk_kobo import (generar_xlsform, KoBoClient, FORM_ID as ODK_FORM_ID,
     preparar_envios as odk_preparar_envios, registrar_envios as odk_registrar_envios,
     resumen_preparacion as odk_resumen_preparacion, texto_resultado as odk_texto_resultado,
     leer_archivo_odk as odk_leer_archivo, encabezados_plantilla_csv as odk_encabezados_csv,
-    DIST_ALERTA_CENTROIDE_M as ODK_DIST_ALERTA, MAX_PREDIOS_BLOQUE as ODK_MAX_PREDIOS)
+    DIST_ALERTA_CENTROIDE_M as ODK_DIST_ALERTA, MAX_PREDIOS_BLOQUE as ODK_MAX_PREDIOS,
+    secreto_kobo, token_kobo, normalizar_token, CLAVE_TOKEN_SESION as KOBO_TOKEN_SESION)
 from excel_diagnostico_social import generar_plantilla_ds, parsear_excel_ds, mapear_a_session_state
 from excel_diagnostico_territorial import generar_plantilla_dt, parsear_excel_dt, mapear_dt_a_session_state
 from excel_elementos_expuestos import (generar_plantilla_ee, parsear_excel_ee,
@@ -5992,11 +5993,8 @@ def pagina_georreferenciacion():
 # ODK / KoBoToolbox
 # ══════════════════════════════════════════════════════════════════════════
 def _secreto(nombre, defecto=""):
-    """Lee un valor de st.secrets sin romper si no existe."""
-    try:
-        return str(st.secrets.get(nombre, defecto) or defecto)
-    except Exception:
-        return defecto
+    """Lee un secreto de KoBo (nivel superior, seccion [kobo] o entorno) sin romper."""
+    return secreto_kobo(nombre, defecto)
 
 
 def _odk_vista_previa(preparados, origen, uid="", cliente=None):
@@ -6103,15 +6101,16 @@ def pagina_odk():
         if sv_def not in servidores:
             servidores.insert(0, sv_def)
         sv = st.selectbox("Servidor", servidores, index=servidores.index(sv_def))
-        token_sec = _secreto("KOBO_TOKEN")
-        if token_sec:
+        token, fuente_token = token_kobo()
+        if fuente_token == "secrets":
             st.caption("Token API leido de la configuracion segura (secrets).")
-            token = token_sec
         else:
-            token = st.text_input(
-                "Token API", type="password",
+            escrito = st.text_input(
+                "Token API", type="password", value=token, key="odk_token_input",
                 help="Se usa solo en esta sesion y no se guarda. Para no escribirlo cada "
                      "vez, agregue KOBO_TOKEN en los secrets de Streamlit.")
+            token = normalizar_token(escrito)
+            st.session_state[KOBO_TOKEN_SESION] = token
         if st.button("Conectar y listar formularios", key="odk_listar"):
             if not token:
                 st.warning("Ingrese el token.")
