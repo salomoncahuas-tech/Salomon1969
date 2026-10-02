@@ -500,21 +500,42 @@ def _tab_importar(conn):
                            format_func=lambda f: f"{core.FORMULARIOS[f]['codigo']} – {core.FORMULARIOS[f]['nombre']}")
     kobo = None
     if fuente.startswith("API"):
+        from odk_kobo import CLAVE_TOKEN_SESION, normalizar_token, token_kobo
+        token, fuente_token = token_kobo()
+        if fuente_token == "secrets":
+            st.caption("Token API leído de la configuración segura (secrets).")
+        else:
+            st.warning("No se encontró KOBO_TOKEN en los secrets del aplicativo. Puede escribir el token aquí "
+                       "(solo se usa en esta sesión) o agregarlo en Streamlit Cloud → Settings → Secrets como "
+                       "`KOBO_TOKEN = \"...\"` en una línea propia, al inicio del cuadro.")
+            escrito = st.text_input("Token API de KoboToolbox", type="password", value=token, key="la_token_input",
+                                    help="KoboToolbox → Account Settings → Security → API Key. "
+                                         "No se guarda en la base de datos.")
+            token = normalizar_token(escrito)
+            st.session_state[CLAVE_TOKEN_SESION] = token
+            if not token:
+                return
         try:
-            kobo = kb.cliente()
+            kobo = kb.cliente(token=token)
         except ValueError as e:
-            st.warning(f"{e} Es el mismo token que usa la página «ODK / KoBoToolbox».")
+            st.error(str(e))
             return
         if st.button("Listar formularios F-LA"):
             with st.spinner("Consultando KoboToolbox…"):
-                st.session_state["la_forms"] = kb.formularios_la(kobo)
+                try:
+                    st.session_state["la_forms"] = kb.formularios_la(kobo)
+                except Exception as e:  # noqa: BLE001 – token inválido, sin red, etc.
+                    st.error(f"No se pudo consultar KoboToolbox: {e}")
         forms = st.session_state.get("la_forms", [])
         uid = st.selectbox("Formulario en KoboToolbox", [f["uid"] for f in forms],
                            format_func=lambda u: next((f"{f['nombre']} · {f['envios']} envíos" for f in forms if f["uid"] == u), u)) if forms else \
             st.text_input("UID del formulario (asset uid)", help="Aparece en la URL del formulario: /#/forms/<uid>/…")
         if st.button("Descargar envíos", disabled=not uid):
             with st.spinner("Descargando todas las páginas de envíos…"):
-                st.session_state["la_raw"] = kobo.obtener_envios(uid)
+                try:
+                    st.session_state["la_raw"] = kobo.obtener_envios(uid)
+                except Exception as e:  # noqa: BLE001
+                    st.error(f"No se pudieron descargar los envíos: {e}")
     else:
         arch = st.file_uploader("Exportación de Kobo (XLSX con nombres XML, o JSON)", type=["xlsx", "json"])
         if arch is not None:

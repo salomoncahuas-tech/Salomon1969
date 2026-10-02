@@ -981,6 +981,94 @@ def _dominio_base(host):
     return ".".join(partes[-2:])
 
 
+# Nombres alternativos aceptados dentro de una seccion [kobo] de los secrets.
+_ALIAS_SECRETO = {
+    "KOBO_TOKEN": ("token", "api_token", "api_key", "kobo_token"),
+    "KOBO_SERVER": ("server", "servidor", "url", "kobo_server"),
+    "KOBO_FORM_UID": ("form_uid", "uid", "kobo_form_uid"),
+}
+CLAVE_TOKEN_SESION = "kobo_token_sesion"
+
+
+def _es_mapa(valor):
+    return hasattr(valor, "keys") and hasattr(valor, "__getitem__")
+
+
+def leer_secreto_kobo(secretos, nombre, defecto=""):
+    """Busca un secreto de KoBo de forma tolerante en un mapa tipo st.secrets.
+
+    Acepta la clave en el nivel superior (sin distinguir mayusculas) y tambien
+    dentro de cualquier seccion [..] (p. ej. si se pego debajo de [connections])
+    o como [kobo] token = "...". Devuelve el texto sin espacios ni comillas.
+    """
+    if not _es_mapa(secretos):
+        return defecto
+    nombre_u = nombre.upper()
+    alias = {nombre_u.lower(), *_ALIAS_SECRETO.get(nombre_u, ())}
+
+    def _limpio(v):
+        return str(v).strip().strip('"').strip("'").strip() if v is not None else ""
+
+    for k in list(secretos.keys()):
+        if str(k).upper() == nombre_u and not _es_mapa(secretos[k]) and _limpio(secretos[k]):
+            return _limpio(secretos[k])
+
+    def _buscar(seccion, es_kobo, nivel):
+        # Secciones anidadas: [connections.postgresql] -> connections -> postgresql
+        for sk in list(seccion.keys()):
+            v, sk_l = seccion[sk], str(sk).lower()
+            if _es_mapa(v):
+                if nivel < 3:
+                    hallado = _buscar(v, es_kobo or "kobo" in sk_l, nivel + 1)
+                    if hallado:
+                        return hallado
+            elif (sk_l == nombre_u.lower() or (es_kobo and sk_l in alias)) and _limpio(v):
+                return _limpio(v)
+        return ""
+
+    for k in list(secretos.keys()):
+        if _es_mapa(secretos[k]):
+            hallado = _buscar(secretos[k], "kobo" in str(k).lower(), 1)
+            if hallado:
+                return hallado
+    return defecto
+
+
+def normalizar_token(token):
+    """Quita espacios, comillas y el prefijo 'Token ' si se pego completo."""
+    t = str(token or "").strip().strip('"').strip("'").strip()
+    if t.lower().startswith("token "):
+        t = t[6:].strip()
+    return t
+
+
+def secreto_kobo(nombre, defecto=""):
+    """Lee KOBO_TOKEN / KOBO_SERVER / KOBO_FORM_UID de st.secrets o del entorno."""
+    valor = ""
+    try:
+        import streamlit as st
+        valor = leer_secreto_kobo(st.secrets, nombre)
+    except Exception:
+        valor = ""
+    valor = valor or os.environ.get(nombre.upper(), "").strip()
+    if nombre.upper() == "KOBO_TOKEN":
+        valor = normalizar_token(valor)
+    return valor or defecto
+
+
+def token_kobo():
+    """Token de los secrets o, si no hay, el escrito en esta sesion del navegador."""
+    token = secreto_kobo("KOBO_TOKEN")
+    if token:
+        return token, "secrets"
+    try:
+        import streamlit as st
+        token = normalizar_token(st.session_state.get(CLAVE_TOKEN_SESION, ""))
+    except Exception:
+        token = ""
+    return (token, "sesion") if token else ("", "")
+
+
 class KoBoClient:
     """Cliente minimo de la API v2 de KoBoToolbox (verificacion SSL activa)."""
 
