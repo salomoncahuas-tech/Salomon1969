@@ -577,6 +577,7 @@ FDT04_INDICADORES_LABELS = [
 # los 5 formatos anteriores y usan celdas de validacion (desplegables) que
 # replican las listas oficiales del Excel.
 import fds_listas as FL
+import fds_actores as FA
 
 FICHAS_DS = ["F-DS-01", "F-DS-02", "F-DS-03", "F-DS-04",
              "F-DS-05", "F-DS-06", "F-DS-07"]
@@ -3927,6 +3928,8 @@ def _ds_tabla(label, slot, columns, default_rows=None, default_n=3, help=None):
             init = [dict(r) for r in default_rows]
         else:
             init = [{c: "" for c in col_names} for _ in range(default_n)]
+    # Registros antiguos de F-DS-02: separa "Nombre del actor / Organizacion"
+    init = FA.migrar_tabla(slot, init)
     rows = [{c: r.get(c, "") for c in col_names} for r in init]
     df = pd.DataFrame(rows, columns=col_names)
     colcfg = {}
@@ -4068,7 +4071,8 @@ def _render_fds02():
     st.info("TIPO de actor, Influencia, Interes, Posicion y Nivel territorial se eligen "
             "de los desplegables (valores completos). Ver hoja _Codigos del Excel para la leyenda.")
     _TB(f, "**3. Registro de Actores Identificados**", "f2_actores",
-        [("Nombre del actor / Organizacion", "text", None),
+        [(FA.COL_NOMBRE, "text", None),
+         (FA.COL_CARGO, "text", None),
          ("Tipo", "select", FL.L_TIPO_ACTOR),
          ("Rol / Funcion frente al proyecto", "text", None),
          ("Influencia", "select", FL.L_ABC),
@@ -4079,7 +4083,8 @@ def _render_fds02():
          ("Correo / Contacto", "text", None),
          ("Observaciones / Historial", "text", None)],
         default_n=5,
-        help="Registre todos los actores relevantes para la zona del bloque.")
+        help="Registre todos los actores relevantes para la zona del bloque. "
+             "Escriba el nombre del actor y su cargo en columnas separadas.")
     st.markdown("**5. Actores Criticos Prioritarios (sintesis)**")
     _T(f, st, "Actor mas influyente a favor", "f2_favor")
     _T(f, st, "Actor mas influyente en contra / reticente", "f2_contra")
@@ -4502,7 +4507,8 @@ def _ds_render_detalle(ficha, form):
                 "f6_peligros": "Peligros naturales", "f6_cambios": "Cambios climaticos",
             }.get(slot, slot)
             with st.expander(f"{titulo} ({len(form[slot])})", expanded=True):
-                st.dataframe(pd.DataFrame(form[slot]), use_container_width=True, hide_index=True)
+                st.dataframe(pd.DataFrame(FA.migrar_tabla(slot, form[slot])),
+                             use_container_width=True, hide_index=True)
     # Escalares
     escalares = {k: v for k, v in form.items()
                  if k not in _DS_TABLE_SLOTS and v not in ("", None, [])}

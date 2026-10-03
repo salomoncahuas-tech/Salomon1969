@@ -27,6 +27,7 @@ from xml.sax.saxutils import escape
 from openpyxl import load_workbook
 
 from bloque_lookup import buscar_label_bloque
+import fds_actores as FA
 
 
 # ─── Plantilla oficial (vive junto al codigo en el repo) ───────────────────
@@ -234,12 +235,16 @@ def _parse_fds01(ws):
 
 def _parse_fds02(ws):
     form = {}
+    # La plantilla Excel V4 conserva una sola columna "Nombre del actor /
+    # Organizacion" (B); su texto pasa integro a "Nombre del actor" y el
+    # "Cargo" se completa en el aplicativo.
     form["f2_actores"] = _read_table(ws, 16, 35, {
-        "Nombre del actor / Organizacion": 2, "Tipo": 3,
+        "Nombre del actor": 2, "Tipo": 3,
         "Rol / Funcion frente al proyecto": 4, "Influencia": 5, "Interes": 6,
         "Posicion": 7, "Nivel territorial": 8, "Telefono": 9,
         "Correo / Contacto": 10, "Observaciones / Historial": 11,
     })
+    form["f2_actores"] = FA.migrar_filas(form["f2_actores"])
     return form
 
 
