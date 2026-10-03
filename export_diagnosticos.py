@@ -30,6 +30,8 @@ import re
 import pandas as pd
 from datetime import datetime
 
+import fds_actores as FA
+
 
 # ─── Utilidades ────────────────────────────────────────────────────────────
 
@@ -314,7 +316,8 @@ def exportar_fds_consolidado(registros):
         filas_tabla = []
         for r in registros:
             form = _fds_form(r)
-            items = form.get(slot, [])
+            # F-DS-02 antiguos: separa "Nombre del actor" y "Cargo".
+            items = FA.migrar_tabla(slot, form.get(slot, []))
             if not isinstance(items, list):
                 continue
             for it in items:

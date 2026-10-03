@@ -18,6 +18,7 @@ from openpyxl.styles import Font, Alignment, Border, Side, PatternFill
 from openpyxl.utils import get_column_letter
 
 import database as db
+import fds_actores as FA
 
 REPORTES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "reportes")
 
@@ -523,6 +524,47 @@ def _render_ds_form_generico(pdf, form):
         )
 
 
+def _actores_ds02(ds):
+    """Filas del registro de actores F-DS-02 con claves cortas para el PDF.
+
+    Lee el formulario V4 (`ds02_data_v3`) y, si no existe, la columna legacy
+    `ds02_registro_actores`. Acepta la columna antigua "Nombre del actor /
+    Organizacion" y la nueva separacion "Nombre del actor" + "Cargo".
+    """
+    def _cargar(raw):
+        try:
+            return json.loads(raw) if raw else None
+        except (TypeError, ValueError):
+            return None
+
+    form = _cargar(ds.get("ds02_data_v3", ""))
+    filas = form.get(FA.SLOT) if isinstance(form, dict) else None
+    if not isinstance(filas, list) or not filas:
+        filas = _cargar(ds.get("ds02_registro_actores", ""))
+    if not isinstance(filas, list):
+        return []
+
+    def _v(fila, *claves):
+        for k in claves:
+            val = str(fila.get(k, "") or "").strip()
+            if val:
+                return val
+        return ""
+
+    salida = []
+    for fila in FA.migrar_filas([f for f in filas if isinstance(f, dict)]):
+        salida.append({
+            "nombre": fila.get(FA.COL_NOMBRE, ""),
+            "cargo": fila.get(FA.COL_CARGO, ""),
+            "tipo": _v(fila, "Tipo", "tipo"),
+            "rol": _v(fila, "Rol / Funcion frente al proyecto", "rol"),
+            "influencia": _v(fila, "Influencia", "influencia"),
+            "interes": _v(fila, "Interes", "interes"),
+            "posicion": _v(fila, "Posicion", "relacion"),
+        })
+    return salida
+
+
 def _render_ds_registro(pdf, ds):
     """Renderiza en `pdf` un registro de diagnostico social (F-DS-01..07)."""
     ficha_ds = ds.get("ficha", "")
@@ -613,14 +655,15 @@ def _render_ds_registro(pdf, ds):
         pdf._subficha("F-DS-02: Identificacion y Caracterizacion de Actores Clave")
         pdf._tabla_json(
             "Registro de actores identificados",
-            ds.get("ds02_registro_actores", ""),
+            json.dumps(_actores_ds02(ds), ensure_ascii=False),
             [
-                ("nombre", "Nombre / Organizacion", 50),
-                ("tipo", "Tipo", 25),
-                ("rol", "Rol / Funcion", 40),
-                ("relacion", "Rel.Proy.", 20),
-                ("influencia", "Influencia", 22),
-                ("interes", "Interes", 22),
+                ("nombre", "Nombre del actor", 36),
+                ("cargo", "Cargo", 28),
+                ("tipo", "Tipo", 30),
+                ("rol", "Rol / Funcion", 34),
+                ("influencia", "Influencia", 18),
+                ("interes", "Interes", 18),
+                ("posicion", "Posicion", 26),
             ],
         )
         campos_ds02 = [

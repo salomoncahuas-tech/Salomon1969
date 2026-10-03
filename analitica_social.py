@@ -35,6 +35,7 @@ from openpyxl.chart.shapes import GraphicalProperties
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 
+import fds_actores as FA
 import fds_listas as FL
 
 
@@ -707,13 +708,15 @@ def _seccion_actores(registros, tema="claro"):
     actores, detalle = [], []
     for reg in regs:
         for fila in _tabla(formulario(reg), "f2_actores"):
-            nombre = _col(fila, "Nombre del actor / Organizacion",
-                          "Nombre del actor / Organización", "Nombre del actor")
+            fila = FA.migrar_fila(fila)
+            nombre = _col(fila, FA.COL_NOMBRE)
+            cargo = _col(fila, FA.COL_CARGO)
             tipo = _col(fila, "Tipo")
-            if not (nombre or tipo):
+            if not (nombre or cargo or tipo):
                 continue
             actor = {
-                "ambito": _ambito(reg), "nombre": nombre, "tipo": tipo,
+                "ambito": _ambito(reg), "nombre": nombre, "cargo": cargo,
+                "tipo": tipo,
                 "influencia": _col(fila, "Influencia"),
                 "interes": _col(fila, "Interes", "Interés"),
                 "posicion": _col(fila, "Posicion", "Posición"),
@@ -724,7 +727,8 @@ def _seccion_actores(registros, tema="claro"):
             actores.append(actor)
             detalle.append({
                 "Centro poblado / ámbito": actor["ambito"],
-                "Actor / Organización": actor["nombre"], "Tipo": actor["tipo"],
+                "Nombre del actor": actor["nombre"], "Cargo": actor["cargo"],
+                "Tipo": actor["tipo"],
                 "Rol frente al proyecto": actor["rol"],
                 "Influencia": actor["influencia"], "Interés": actor["interes"],
                 "Posición": actor["posicion"], "Nivel territorial": actor["nivel"],
@@ -766,7 +770,10 @@ def _seccion_actores(registros, tema="claro"):
             continue
         clave = (inf, ints)
         celdas[clave] = celdas.get(clave, 0) + 1
-        nombres.setdefault(clave, []).append(a["nombre"] or "(sin nombre)")
+        etiqueta = a["nombre"] or a["cargo"] or "(sin nombre)"
+        if a["nombre"] and a["cargo"]:
+            etiqueta = f'{a["nombre"]} ({a["cargo"]})'
+        nombres.setdefault(clave, []).append(etiqueta)
     if celdas:
         filas_matriz = [{"cat": inf, "sub": ints, "valor": n,
                          "detalle": ", ".join(nombres[(inf, ints)][:8])}
