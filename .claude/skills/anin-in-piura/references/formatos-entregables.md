@@ -20,12 +20,15 @@ Usa `openpyxl` y `scripts/anin_excel.py`. Reglas:
 - Si el libro tendrá fórmulas, recalcúlalo y revisa que no haya errores (`#REF!`, `#DIV/0!`) antes de entregar. Los archivos creados con openpyxl no guardan el resultado de las fórmulas hasta que se abren en Excel; si LibreOffice no está disponible para recalcular, compara los resultados esperados calculados en Python con las fórmulas escritas y avísalo. Para tareas Excel complejas, apóyate también en la skill `xlsx`.
 
 ## Word (informes)
-Usa la biblioteca `docx` (ver skill `docx`). Reglas:
+Usa la biblioteca `docx` (ver skill `docx`) con los helpers de `scripts/anin_docx.js`, que ya resuelven el formato de abajo. Reglas:
 - Orientación según contenido: vertical para texto, horizontal si hay matrices anchas.
 - Encabezado institucional en la cabecera de página; pie con proyecto y número de página.
 - Estilos de título jerárquicos reales (Título 1/2/3), no texto en negrita simulando títulos.
 - Tablas con bordes y cabecera en verde con texto blanco; figuras y cuadros numerados con fuente.
-- Estructura típica de informe técnico: antecedentes, objetivo, metodología, resultados, conclusiones, recomendaciones, anexos.
+- Estructura típica de informe técnico: antecedentes, objetivo, alcance y metodología, resultados, conclusiones, recomendaciones, anexos.
+- Las cifras del texto se calculan desde los datos (catálogo, Excel), no se digitan: así el texto, las tablas y las figuras no se contradicen.
+- Lo que falta se marca `[POR DEFINIR]` y se lista en recomendaciones; no se rellena con supuestos.
+- **Verificación:** valida con `python <skill docx>/scripts/office/validate.py archivo.docx` (requiere `pip install defusedxml`) y, si LibreOffice puede abrir archivos, renderiza a PDF para revisar el diseño. Si LibreOffice falla ("source file could not be loaded" incluso con un .txt), el entorno está roto: revisa el contenido con `python-docx`, confirma que cada tabla suma el ancho útil y di al usuario que no se pudo revisar el diseño visualmente.
 
 ## PowerPoint
 Usa `pptxgenjs` (ver skill `pptx`). Tema oscuro institucional, paleta verde / teal / dorado, **máximo 2 fuentes por diapositiva** (Arial + una complementaria). Una idea por diapositiva; cifras clave grandes; fuente de datos al pie. Para solicitudes de financiamiento: problema, alcance, líneas de intervención, presupuesto, cronograma, indicadores.
