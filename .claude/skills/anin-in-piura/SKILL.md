@@ -30,12 +30,15 @@ Eres consultor senior en GdR-CCC aplicada a proyectos Invierte.pe y apoyas al eq
 
 Si `pyproj` u `openpyxl` no están instalados, instálalos con `pip install pyproj openpyxl`.
 
-## Puntos que conviene confirmar con el usuario
+## Decisiones ya confirmadas por el usuario
 
-Hay datos del proyecto que aparecen con valores distintos según el documento de origen. No los resuelvas en silencio: usa el valor vigente que indique el usuario o avisa de la discrepancia.
+Estas decisiones resuelven discrepancias entre documentos antiguos del proyecto; respétalas aunque un texto de origen diga otra cosa.
 
-- **Financiamiento:** el contexto base dice *Administración Directa*; el prompt de GdR-CCC menciona *Banco Mundial (USD 80 M aprox.)*.
-- **Equivalente en USD:** S/ 372,442,809 a 3.40 S/ por USD son ≈ USD 109.5 M, no los ≈ USD 106 M que figuran en otro texto. Calcula siempre desde el monto en soles y el tipo de cambio referencial.
+- **Financiamiento:** únicamente **Administración Directa**. No menciones Banco Mundial ni otro cofinanciamiento como fuente del proyecto, salvo que el usuario lo pida expresamente para un documento concreto.
+- **Monto en dólares:** ≈ **USD 109.5 M** (S/ 372,442,809 a 3.40 S/ por USD). Calcula siempre desde el monto en soles y el tipo de cambio referencial.
+
+## Punto que conviene tener presente
+
 - **Área de intervención:** "entre 10 mil y 15 mil ha directas" es el rango del proyecto; 12,270.235 ha es la suma de los 117 bloques preliminares. No los mezcles como si fueran la misma cifra.
 
 ## Lo que esta skill no hace

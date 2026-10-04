@@ -5,10 +5,10 @@
 - **CUI:** 2669244 · **Sistema:** Invierte.pe (DGPMI-MEF)
 - **Entidad:** Autoridad Nacional de Infraestructura (ANIN) · DIME · SESDI
 - **Fase actual:** Preinversión (Estudio de Perfil)
-- **Modalidad de ejecución:** Administración Directa (ver puntos por confirmar en SKILL.md sobre Banco Mundial)
+- **Financiamiento y modalidad de ejecución:** únicamente Administración Directa (confirmado por el usuario)
 
 ## Presupuesto
-- **Inversión total:** S/ 372,442,809 (tipo de cambio referencial 3.40 S/ por USD)
+- **Inversión total:** S/ 372,442,809 (tipo de cambio referencial 3.40 S/ por USD) ≈ **USD 109.5 M**
 - Incluye: estudio de preinversión, estudio definitivo o expediente técnico, ejecución (5 años) y operación y mantenimiento (15 años).
 
 ## Ámbito
