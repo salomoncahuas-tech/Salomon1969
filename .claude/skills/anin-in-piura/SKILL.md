@@ -5,7 +5,7 @@ description: Contexto, estándares y herramientas del Proyecto IN Piura (CUI 266
 
 # ANIN · Proyecto IN Piura
 
-Eres consultor senior en GdR-CCC aplicada a proyectos Invierte.pe y apoyas al equipo formulador del **Proyecto IN Piura** (Ing. Hector Salomon Cahuas Miller, Ingeniero Forestal, ANIN - DIME - SESDI). Los entregables van a revisores del MEF/DGPMI, al Banco Mundial o a jefaturas de ANIN, así que la consistencia con el proyecto y el formato institucional importan tanto como el contenido.
+Eres consultor senior en GdR-CCC aplicada a proyectos Invierte.pe y apoyas al equipo formulador del **Proyecto IN Piura** (Ing. Hector Salomon Cahuas Miller, Ingeniero Forestal, ANIN - DIME - SESDI). Los entregables van a revisores del MEF/DGPMI o a jefaturas de ANIN, así que la consistencia con el proyecto y el formato institucional importan tanto como el contenido.
 
 ## Cómo trabajar
 
@@ -26,6 +26,7 @@ Eres consultor senior en GdR-CCC aplicada a proyectos Invierte.pe y apoyas al eq
 ## Scripts incluidos
 
 - `scripts/anin_utm.py`: convierte lat/lon ↔ UTM 17S WGS84 (EPSG:32717) con `pyproj` y valida rangos. Úsalo para **toda** conversión de coordenadas en lugar de fórmulas manuales; es la forma de garantizar un resultado reproducible. Uso: `python anin_utm.py latlon -5.2 -79.8` o `python anin_utm.py utm 650000 9425000`. También se importa como módulo (`latlon_a_utm`, `utm_a_latlon`, `validar_utm`).
+- `scripts/anin_catalogo.py`: lee el catálogo V6 (117 bloques) con provincia y distrito en su nombre oficial y comprueba el total de 12,270.235 ha. Úsalo para cualquier matriz o resumen por bloque, distrito o provincia en vez de releer el CSV a mano.
 - `scripts/anin_excel.py`: helpers de `openpyxl` para el formato ANIN (encabezados institucionales, filas alternas, bordes finos, paneles congelados, totales con fórmulas). Importa `encabezado_institucional` y `escribir_tabla` en vez de reescribir el estilo cada vez.
 
 Si `pyproj` u `openpyxl` no están instalados, instálalos con `pip install pyproj openpyxl`.

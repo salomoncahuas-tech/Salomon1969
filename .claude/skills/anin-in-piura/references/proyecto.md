@@ -16,7 +16,7 @@
 - **15 distritos:** Frías, Canchaque, Huarmaca, Huancabamba, Lalaquiz, San Miguel de El Faique, Buenos Aires, Chalaco, Chulucanas, Morropón, Salitral, San Juan de Bigote, Santa Catalina de Mossa, Santo Domingo, Yamango.
 - **Área de intervención directa:** entre 10,000 y 15,000 ha.
 - **Bloques preliminares de intervención:** 117, que suman **12,270.235 ha**.
-- **Codificación de bloques:** `M[microcuenca]-B[bloque]` (ej. M5-B1).
+- **Codificación de bloques:** `M[microcuenca]-B[bloque]` (ej. M5-B1) en la nomenclatura del proyecto; el catálogo V6 los registra mezclando códigos numéricos (`27`) y `M17B10` sin guion.
 - **Sistema de coordenadas:** UTM WGS84 Zona 17S (EPSG:32717).
 
 ## Fuentes de verdad en el repositorio

@@ -17,7 +17,7 @@ Usa `openpyxl` y `scripts/anin_excel.py`. Reglas:
 - Filas alternas, bordes finos, paneles congelados bajo la cabecera, filtro automático.
 - **Totales con fórmulas** (`=SUM(...)`), nunca valores pegados: el revisor debe poder auditar.
 - Hoja final de notas o avisos cuando haya datos pendientes o supuestos.
-- Si el libro tendrá fórmulas, recalcúlalo y revisa que no haya errores (`#REF!`, `#DIV/0!`) antes de entregar. Para tareas Excel complejas, apóyate también en la skill `xlsx`.
+- Si el libro tendrá fórmulas, recalcúlalo y revisa que no haya errores (`#REF!`, `#DIV/0!`) antes de entregar. Los archivos creados con openpyxl no guardan el resultado de las fórmulas hasta que se abren en Excel; si LibreOffice no está disponible para recalcular, compara los resultados esperados calculados en Python con las fórmulas escritas y avísalo. Para tareas Excel complejas, apóyate también en la skill `xlsx`.
 
 ## Word (informes)
 Usa la biblioteca `docx` (ver skill `docx`). Reglas:
@@ -35,6 +35,6 @@ Usa `pptxgenjs` (ver skill `pptx`). Tema oscuro institucional, paleta verde / te
 - **Validación obligatoria:** ESTE entre 450,000 y 750,000 m; NORTE entre 9,300,000 y 9,600,000 m. Un valor fuera de rango casi siempre es lat/lon invertidos, un signo perdido o una zona UTM equivocada; el script lo advierte.
 - **Áreas y longitudes** se calculan en UTM 17S, nunca en grados. Reproyecta primero y reporta en hectáreas con 3 decimales (como las áreas de los bloques).
 - Con `geopandas`/`shapely`/`rasterio`: confirma el CRS de cada capa al leerla (`gdf.crs`), reproyecta con `to_crs(32717)` y no asumas el CRS de un shapefile sin `.prj`.
-- Controles de consistencia frente al catálogo: 117 bloques vigentes y 12,270.235 ha en total; códigos sin duplicados y con patrón `M#-B#` cuando corresponda.
+- Controles de consistencia frente al catálogo: 117 bloques vigentes y 12,270.235 ha en total; códigos sin duplicados. Los códigos del catálogo mezclan numéricos (`27`) y `M17B10` sin guion; respétalos tal como figuran y no los «normalices» a `M#-B#` sin que el usuario lo pida.
 - Mapas: cuadrícula o ticks en UTM, norte, escala gráfica, leyenda, fuente y sistema de coordenadas al pie. Para el peligro integrado usa una rampa secuencial de 5 clases (Muy Bajo a Muy Alto).
 - Salidas GIS habituales: GeoPackage o shapefile (con `.prj`), Excel de atributos con coordenadas UTM, mapa en PNG/PDF para el informe.
