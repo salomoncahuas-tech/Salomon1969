@@ -31,7 +31,13 @@ Usa la biblioteca `docx` (ver skill `docx`) con los helpers de `scripts/anin_doc
 - **Verificación:** valida con `python <skill docx>/scripts/office/validate.py archivo.docx` (requiere `pip install defusedxml`) y, si LibreOffice puede abrir archivos, renderiza a PDF para revisar el diseño. Si LibreOffice falla ("source file could not be loaded" incluso con un .txt), el entorno está roto: revisa el contenido con `python-docx`, confirma que cada tabla suma el ancho útil y di al usuario que no se pudo revisar el diseño visualmente.
 
 ## PowerPoint
-Usa `pptxgenjs` (ver skill `pptx`). Tema oscuro institucional, paleta verde / teal / dorado, **máximo 2 fuentes por diapositiva** (Arial + una complementaria). Una idea por diapositiva; cifras clave grandes; fuente de datos al pie. Para solicitudes de financiamiento: problema, alcance, líneas de intervención, presupuesto, cronograma, indicadores.
+Usa `pptxgenjs` (ver skill `pptx`) con los helpers de `scripts/anin_pptx.js`: tema oscuro institucional, paleta verde / teal / dorado, Arial (**máximo 2 fuentes por diapositiva**), layouts con encabezado ANIN, pie y número de página. Reglas:
+- Una idea por diapositiva y un elemento visual en cada una (cifra grande, gráfico nativo, tarjetas, proceso numerado); evita diapositivas de solo viñetas.
+- Títulos cortos (34 pt, hasta ~45 caracteres en una línea) y cuerpo de 14 pt o más; si no cabe, recorta palabras o divide la diapositiva.
+- Gráficos nativos con `addChart` (no imágenes); los colores de gráficos van en hex (`HEX.verde`, `HEX.teal`, `HEX.oro`).
+- Las cifras salen de los datos del proyecto, no se digitan; lo pendiente se marca `[POR DEFINIR]`. Fuentes y detalle van en las notas del orador (`addNotes`).
+- Solicitud de financiamiento: problema, alcance, líneas de intervención, presupuesto, cronograma, indicadores. Recuerda que el financiamiento es solo Administración Directa.
+- **Verificación:** `python <skill pptx>/scripts/office/validate.py archivo.pptx`; si LibreOffice no puede abrir archivos, no podrás renderizar: revisa límites, desborde de texto y solapes midiendo el texto con la fuente Liberation Sans (equivalente métrico de Arial), y avisa al usuario que el diseño no se vio renderizado.
 
 ## GIS y coordenadas
 - **CRS de trabajo:** EPSG:32717 (UTM 17S, WGS84). Convierte lat/lon con `scripts/anin_utm.py` (pyproj, `always_xy`).
