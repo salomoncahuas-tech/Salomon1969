@@ -23,3 +23,17 @@
 - Cada polígono de AI colinda con su bloque sin superponerse. A cada AI se le asignan el distrito y la provincia de su bloque.
 - El campo `AREA_HA` del AI suma 17,139.655 ha; el área recalculada de las geometrías (`AREA_GEOM_HA`) suma 17,132.532 ha.
   Los cuadros usan `AREA_HA`.
+
+## Excel de bloques y AI por distrito
+
+`python mapas/excel_bloques_ai_distrito.py` genera `mapas/salidas/IN_Piura_Bloques_AI_por_Distrito_V6.xlsx`:
+
+| Hoja | Contenido |
+|---|---|
+| `Resumen_Distrito` | 15 distritos: N.° de bloques, ha de bloques, polígonos AI, ha de AI, bloques + AI, AI/bloques, % del total |
+| `Resumen_Provincia` | Lo mismo por provincia |
+| `Bloques_AI` | 117 bloques con su AI (SUMIF), punto interior en UTM 17S |
+| `AI_Poligonos` | 130 polígonos AI con área de atributo y área geométrica |
+| `Notas` | Fuentes, exclusiones (74, 75) y controles |
+
+Los resúmenes son fórmulas (`COUNTIFS`/`SUMIFS`) sobre las hojas de detalle, con celdas de control (OK/REVISAR).
