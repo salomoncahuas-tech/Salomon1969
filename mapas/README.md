@@ -49,7 +49,11 @@ Los resúmenes son fórmulas (`COUNTIFS`/`SUMIFS`) sobre las hojas de detalle, c
 | `IN_Piura_Ecosistemas_por_Bloque_V6.xlsx` | `Resumen_Ecosistema`, `Ecosistema_Provincia`, `Bloques` (ecosistema dominante), `Bloque_Ecosistema` (detalle) y `Notas`; porcentajes y totales con fórmulas, control OK/REVISAR contra 12,270.235 ha |
 | `IN_Piura_ecosistemas_bloques_v6.gpkg` | Capas `ecosistemas_ambito` y `ecosistemas_bloques_v6` (EPSG:32717) |
 
-**La capa de ecosistemas no está en el repositorio.** Cópiela en `datos/gis/` con un nombre que contenga
+**Capa usada:** `datos/gis/ecosistemas_microcuencas.zip`. Es el Mapa Nacional de Ecosistemas (MINAM 2018) recortado a las
+microcuencas: 171 polígonos en EPSG:32718, con los campos `ECO_LAYER` y `SIMBOLO`; se reproyecta a 17S. Ejecución:
+`python mapas/mapa_ecosistemas_bloques_v6.py --fuente "Mapa Nacional de Ecosistemas del Perú, MINAM 2018 (R.M. N.° 440-2018-MINAM), recorte a microcuencas (ecosistemas_microcuencas)"`.
+
+Para usar otra capa, cópiela en `datos/gis/` con un nombre que contenga
 `ecosistemas` (`.zip` con el shapefile y su `.prj`, `.gpkg`, `.shp` o `.geojson`), o indíquela con `--ecosistemas`.
 El campo del nombre (`ECOSISTEMA`, `NOMBRE`, ...) y el del símbolo (`SIMBOLO`, `SIMB_ECOS`, ...) se detectan solos;
 si no, use `--campo` y `--campo-simbolo`. Se reproyecta a UTM 17S y se recorta al ámbito más los bloques.
@@ -58,3 +62,7 @@ si no, use `--campo` y `--campo-simbolo`. Se reproyecta a UTM 17S y se recorta a
   catálogo**, así los resúmenes suman 12,270.235 ha.
 - Lo que la capa no cubra dentro de un bloque aparece como «Sin información de ecosistema».
 - El mapa del MINAM es de escala regional: el ecosistema de cada bloque se confirma en campo (F-DT-03).
+- Resultado con `ecosistemas_microcuencas` (ha prorrateadas al catálogo): Bosque estacionalmente seco de colina y montaña
+  7,549.323 (61.5 %), Zona agrícola 2,796.222 (22.8 %), Matorral andino 945.863 (7.7 %), Bosque relicto montano de vertiente
+  occidental 103.982 (0.8 %), Páramo 71.786 (0.6 %) y sin cobertura 803.059 (6.5 %). Los bloques M27B1 y M9B1 (Chulucanas)
+  quedan fuera de la capa, y M10B4 y M6B2-3 lo hacen en menos del 1 %.

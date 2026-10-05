@@ -21,6 +21,7 @@ Requiere geopandas, matplotlib, adjustText y openpyxl.
 import argparse
 import sys
 import textwrap
+import zipfile
 from pathlib import Path
 
 import geopandas as gpd
@@ -45,7 +46,7 @@ from anin_excel import encabezado_institucional, escribir_tabla  # noqa: E402
 
 DIR_GIS = RAIZ / "datos" / "gis"
 SALIDA = RAIZ / "mapas" / "salidas"
-CAMPOS_NOMBRE = ["ECOSISTEMA", "ECOSISTEMAS", "NOM_ECOS", "NOMB_ECOS", "ECOSIS", "NOMBRE", "DESCRIPCIO", "LEYENDA"]
+CAMPOS_NOMBRE = ["ECO_LAYER", "ECO_DETALL", "ECOSISTEMA", "ECOSISTEMAS", "NOM_ECOS", "NOMB_ECOS", "ECOSIS", "NOMBRE", "DESCRIPCIO", "LEYENDA"]
 CAMPOS_SIMBOLO = ["SIMBOLO", "SIMB_ECOS", "SIMB", "SIMBOL", "COD_ECOS", "COD_ECO", "CODIGO"]
 SIN_DATO = "Sin información de ecosistema"
 HA = "#,##0.000"
@@ -80,7 +81,12 @@ def buscar_capa(ruta):
 
 
 def leer_ecosistemas(ruta, campo, campo_simb, ambito, bloques):
-    eco = gpd.read_file(f"zip://{ruta}" if ruta.suffix.lower() == ".zip" else ruta)
+    fuente = ruta
+    if ruta.suffix.lower() == ".zip":  # el .shp puede estar dentro de una subcarpeta del zip
+        with zipfile.ZipFile(ruta) as z:
+            shp = [n for n in z.namelist() if n.lower().endswith(".shp")]
+        fuente = f"zip://{ruta}!{shp[0]}" if len(shp) == 1 else f"zip://{ruta}"
+    eco = gpd.read_file(fuente)
     if eco.crs is None:
         sys.exit(f"{ruta.name} no tiene sistema de coordenadas (.prj). No se asume ninguno: agregue el .prj.")
     print(f"Capa de ecosistemas: {ruta.name} · {len(eco)} polígonos · CRS {eco.crs.to_string()}")
@@ -157,7 +163,8 @@ def pie(fig, fuente_eco):
 def dibujar(ax, b, eco, amb, ctx, colores, xlim, ylim):
     ax.set_facecolor("white")
     ctx.plot(ax=ax, facecolor="#F2F2F2", edgecolor="#BFBFBF", linewidth=0.3, zorder=1)
-    eco.plot(ax=ax, color=eco.ECOSISTEMA.map(colores), edgecolor="none", zorder=2)
+    amb.plot(ax=ax, facecolor="white", edgecolor="none", zorder=1.5)  # lo que la capa no cubre queda en blanco
+    eco.plot(ax=ax, color=eco.ECOSISTEMA.map(colores), edgecolor="none", zorder=2, rasterized=True)
     amb.boundary.plot(ax=ax, color="#7F8C86", linewidth=0.45, zorder=3)
     ctx[ctx.NOMBDEP == "PIURA"].dissolve("NOMBPROV").boundary.plot(ax=ax, color="#4D5656", linewidth=1.1, zorder=3)
     amb.dissolve().boundary.plot(ax=ax, color=VERDE, linewidth=2.2, zorder=4)
@@ -169,12 +176,14 @@ def dibujar(ax, b, eco, amb, ctx, colores, xlim, ylim):
 
 def leyenda(panel, y, eco_orden, colores, tam=7.6):
     elementos = [Patch(facecolor=colores[e], edgecolor="#7F8C86", linewidth=0.4, label=lab)
-                 for e, lab in eco_orden]
+                 for e, lab in eco_orden if e != SIN_DATO]  # el vacío va como «Ámbito sin cobertura»
     elementos += [
         Patch(facecolor="none", edgecolor="#C0392B", linewidth=1.4, label="Bloque de intervención V6"),
         Line2D([], [], color=VERDE, linewidth=2.2, label="Límite del ámbito (15 distritos)"),
         Line2D([], [], color="#4D5656", linewidth=1.1, label="Límite provincial"),
         Line2D([], [], color="#7F8C86", linewidth=0.5, label="Límite distrital"),
+        Patch(facecolor="white", edgecolor="#7F8C86", linewidth=0.4,
+              label="Ámbito sin cobertura de la capa de ecosistemas"),
         Patch(facecolor="#F2F2F2", edgecolor="#BFBFBF", label="Fuera del ámbito (contexto)"),
     ]
     panel.legend(handles=elementos, loc="upper left", bbox_to_anchor=(0.0, y), fontsize=tam, frameon=False,
@@ -419,7 +428,10 @@ def main():
     colores = paleta(list(orden.ECOSISTEMA))
     eco_orden = [(r.ECOSISTEMA, textwrap.fill(etiqueta(r), 52, subsequent_indent="  ")) for r in orden.itertuples()]
     if SIN_DATO in x.ECOSISTEMA.values:
-        print(f"AVISO: {x[x.ECOSISTEMA == SIN_DATO].HA_OFICIAL.sum():,.3f} ha de bloques sin ecosistema en la capa")
+        sd = x[x.ECOSISTEMA == SIN_DATO].sort_values("PCT", ascending=False)
+        print(f"AVISO: {sd.HA_OFICIAL.sum():,.3f} ha de {len(sd)} bloques sin ecosistema en la capa:")
+        for r in sd.itertuples():
+            print(f"   {r.BLOQUE:>8}  {r.NOMBDIST:<24} {r.HA_OFICIAL:9.3f} ha  ({r.PCT:.1%} del bloque)")
 
     salida.mkdir(parents=True, exist_ok=True)
     figs = [("01_ecosistemas_general", lamina_general(b, x, eco, amb, ctx, colores, eco_orden, a.fuente))]
@@ -429,7 +441,7 @@ def main():
     with PdfPages(salida / "IN_Piura_Mapa_Ecosistemas_Bloques_V6.pdf") as pp:
         for nombre, fig in figs:
             fig.savefig(salida / f"IN_Piura_{nombre}.png", dpi=200)
-            pp.savefig(fig)
+            pp.savefig(fig, dpi=200)  # ecosistemas en raster: PDF liviano
             plt.close(fig)
 
     excel(b, x, eco, salida / "IN_Piura_Ecosistemas_por_Bloque_V6.xlsx", a.fuente)
