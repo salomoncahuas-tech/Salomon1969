@@ -68,3 +68,16 @@ si no, use `--campo` y `--campo-simbolo`. Se reproyecta a UTM 17S y se recorta a
 - Resultado (ha prorrateadas al catálogo): Bosque estacionalmente seco de colina y montaña 8,346.672 (68.0 %),
   Zona agrícola 2,801.196 (22.8 %), Matorral andino 945.863 (7.7 %), Bosque relicto montano de vertiente occidental
   103.982 (0.8 %), Páramo 71.786 (0.6 %). Quedan sin cobertura 0.736 ha en los bordes de M10B4 (0.429 ha) y M6B2-3 (0.307 ha).
+
+## Atlas de ecosistemas por bloque (117 fichas)
+
+`python mapas/atlas_ecosistemas_bloques_v6.py` genera `mapas/salidas/IN_Piura_Atlas_Ecosistemas_Bloques_V6.pdf`
+(A4 horizontal, 118 páginas): portada con índice (página, área y ecosistema dominante de cada bloque) y una ficha
+por bloque, ordenadas por provincia, distrito y código.
+
+Cada ficha muestra los ecosistemas dentro del bloque (color pleno) y en su entorno (atenuado), el área de influencia
+aprobada, los bloques vecinos, la ubicación en el ámbito, los datos del bloque y el cuadro de ha y % por ecosistema.
+Usa las mismas capas, paleta y prorrateo que `mapa_ecosistemas_bloques_v6.py` (función `preparar`).
+
+- `--png` guarda además una imagen por bloque en `mapas/salidas/atlas_ecosistemas/` (≈ 33 MB, no se versiona).
+- `--bloques M27B1 3 ...` genera solo esos bloques (prueba rápida).

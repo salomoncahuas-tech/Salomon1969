@@ -420,6 +420,25 @@ def excel(b, x, eco, ruta, fuente_eco):
 
 # ---------------------------------------------------------------- principal
 
+def preparar(ecosistemas=None, complemento=None, campo=None, campo_simbolo=None):
+    """Carga bloques y ecosistemas (base + complementos), cruza y arma la paleta común a mapas y atlas."""
+    b, ai, amb, ctx = cargar()
+    eco = leer_ecosistemas(buscar_capa(ecosistemas), campo, campo_simbolo, amb, b)
+    comps = [Path(c) for c in complemento] if complemento is not None else \
+        [p for p in capas_gis() if "complemento" in p.name.lower()]
+    for c in comps:
+        eco = completar(eco, leer_ecosistemas(c, campo, campo_simbolo, amb, b))
+    x = cruzar(b, eco)
+    assert abs(x.HA_OFICIAL.sum() - TOTAL_V6_HA) < 0.01
+
+    orden = (x.groupby(["ECOSISTEMA", "SIMBOLO"]).HA_OFICIAL.sum().reset_index()
+             .merge(eco.groupby("ECOSISTEMA").AREA_HA.sum().rename("AMB").reset_index(), how="outer")
+             .fillna({"HA_OFICIAL": 0, "SIMBOLO": ""}).sort_values(["HA_OFICIAL", "AMB"], ascending=False))
+    colores = paleta(list(orden.ECOSISTEMA))
+    eco_orden = [(r.ECOSISTEMA, textwrap.fill(etiqueta(r), 52, subsequent_indent="  ")) for r in orden.itertuples()]
+    return b, ai, amb, ctx, eco, x, colores, eco_orden
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--ecosistemas", help="capa de ecosistemas (.gpkg, .shp, .geojson o .zip)")
@@ -434,20 +453,7 @@ def main():
     a = ap.parse_args()
     salida = Path(a.salida)
 
-    b, _, amb, ctx = cargar()
-    eco = leer_ecosistemas(buscar_capa(a.ecosistemas), a.campo, a.campo_simbolo, amb, b)
-    comps = [Path(c) for c in a.complemento] if a.complemento is not None else \
-        [p for p in capas_gis() if "complemento" in p.name.lower()]
-    for c in comps:
-        eco = completar(eco, leer_ecosistemas(c, a.campo, a.campo_simbolo, amb, b))
-    x = cruzar(b, eco)
-    assert abs(x.HA_OFICIAL.sum() - TOTAL_V6_HA) < 0.01
-
-    orden = (x.groupby(["ECOSISTEMA", "SIMBOLO"]).HA_OFICIAL.sum().reset_index()
-             .merge(eco.groupby("ECOSISTEMA").AREA_HA.sum().rename("AMB").reset_index(), how="outer")
-             .fillna({"HA_OFICIAL": 0, "SIMBOLO": ""}).sort_values(["HA_OFICIAL", "AMB"], ascending=False))
-    colores = paleta(list(orden.ECOSISTEMA))
-    eco_orden = [(r.ECOSISTEMA, textwrap.fill(etiqueta(r), 52, subsequent_indent="  ")) for r in orden.itertuples()]
+    b, ai, amb, ctx, eco, x, colores, eco_orden = preparar(a.ecosistemas, a.complemento, a.campo, a.campo_simbolo)
     if SIN_DATO in x.ECOSISTEMA.values:
         sd = x[x.ECOSISTEMA == SIN_DATO].sort_values("PCT", ascending=False)
         print(f"AVISO: {sd.HA_OFICIAL.sum():,.3f} ha de {len(sd)} bloques sin ecosistema en la capa:")
