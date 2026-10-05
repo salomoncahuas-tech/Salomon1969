@@ -1,7 +1,10 @@
-"""Mapa del área de influencia (15 distritos) y los 117 bloques de intervención V6 — Proyecto IN Piura.
+"""Mapa del área de influencia aprobada y los 117 bloques de intervención V6 — Proyecto IN Piura.
 
-Lee datos/gis/IN_Piura_area_influencia_bloques_v6.gpkg (EPSG:32717) y genera, en formato A3 horizontal:
-  - Lámina 1: mapa general (área de influencia + bloques V6, con mapa de ubicación y cuadro por distrito).
+Lee datos/gis/IN_Piura_area_influencia_bloques_v6.gpkg (EPSG:32717):
+  bloques_v6 (117), area_influencia_v6 (130 polígonos AI_<bloque>), ambito_distritos (15) y contexto_distritos.
+Genera, en formato A3 horizontal:
+  - Lámina 1: mapa general (bloques V6 + área de influencia sobre el ámbito de 15 distritos, con ubicación
+    y cuadro por distrito).
   - Láminas 2-4: detalle por provincia (Ayabaca, Huancabamba, Morropón) con el código de cada bloque.
 Salidas: mapas/salidas/*.png y un PDF con las 4 láminas.
 
@@ -25,15 +28,18 @@ GPKG = RAIZ / "datos" / "gis" / "IN_Piura_area_influencia_bloques_v6.gpkg"
 SALIDA = RAIZ / "mapas" / "salidas"
 
 VERDE, AZUL, DORADO = "#1B4D2E", "#1B4F72", "#C9A227"
-COLOR_PROV = {"AYABACA": "#D8EBD0", "HUANCABAMBA": "#CFE6E3", "MORROPON": "#EDE8CC"}
+COLOR_PROV = {"AYABACA": "#E4F0DF", "HUANCABAMBA": "#DDEDEB", "MORROPON": "#F2EFE2"}
 BLOQUE_FILL, BLOQUE_EDGE = "#C0392B", "#7B1E14"
+AI_FILL, AI_EDGE = "#F0AE1E", "#8A6410"
 NOMBRE_PROV = {"AYABACA": "Ayabaca", "HUANCABAMBA": "Huancabamba", "MORROPON": "Morropón"}
 TOTAL_V6_HA = 12270.235
+RETIRADOS = ["74", "75"]
 
 plt.rcParams["font.family"] = ["Arial", "Liberation Sans", "DejaVu Sans"]
 
-FUENTE = ("Fuente: Bloques de intervención V6 (ANIN-DIME-SESDI, 2026; se excluyen los bloques retirados 74 y 75). "
-          "Límites distritales: INEI (capa simplificada, referencial). Elaboración: ANIN-DIME-SESDI.")
+FUENTE = ("Fuente: Bloques de intervención V6 y área de influencia aprobada AI_aprobado_2 (ANIN-DIME-SESDI, 2026; "
+          "se excluyen los bloques retirados 74 y 75 y sus AI). Límites distritales: INEI (capa simplificada, "
+          "referencial). Elaboración: ANIN-DIME-SESDI.")
 
 
 def titulo_cdl(nombre):
@@ -47,12 +53,15 @@ def titulo_cdl(nombre):
 
 def cargar():
     b = gpd.read_file(GPKG, layer="bloques_v6")
-    ai = gpd.read_file(GPKG, layer="area_influencia_distritos")
+    ai = gpd.read_file(GPKG, layer="area_influencia_v6")
+    amb = gpd.read_file(GPKG, layer="ambito_distritos")
     ctx = gpd.read_file(GPKG, layer="contexto_distritos")
     assert len(b) == 117, f"Se esperaban 117 bloques V6 y hay {len(b)}"
-    assert not b.BLOQUE.isin(["74", "75"]).any(), "Hay bloques retirados en la capa"
+    assert not b.BLOQUE.isin(RETIRADOS).any(), "Hay bloques retirados en la capa"
+    assert not ai.BLOQUE.isin(RETIRADOS).any(), "Hay AI de bloques retirados en la capa"
+    assert set(ai.BLOQUE) == set(b.BLOQUE), "Hay bloques V6 sin área de influencia (o AI sin bloque)"
     assert abs(b.AREA_HA.sum() - TOTAL_V6_HA) < 0.01, f"Área total {b.AREA_HA.sum():.3f} ≠ {TOTAL_V6_HA}"
-    return b, ai, ctx
+    return b, ai, amb, ctx
 
 
 def ejes_utm(ax, paso=None):
@@ -122,10 +131,11 @@ def marco(fig, titulo, subtitulo, lamina):
 def leyenda(ax_panel, y, extra=()):
     elementos = [
         Patch(facecolor=BLOQUE_FILL, edgecolor=BLOQUE_EDGE, label="Bloque de intervención V6 (117)"),
-        Patch(facecolor=COLOR_PROV["AYABACA"], edgecolor="#7F8C86", label="Área de influencia – Ayabaca"),
-        Patch(facecolor=COLOR_PROV["HUANCABAMBA"], edgecolor="#7F8C86", label="Área de influencia – Huancabamba"),
-        Patch(facecolor=COLOR_PROV["MORROPON"], edgecolor="#7F8C86", label="Área de influencia – Morropón"),
-        Line2D([], [], color=VERDE, linewidth=2.2, label="Límite del área de influencia"),
+        Patch(facecolor=AI_FILL, edgecolor=AI_EDGE, label="Área de influencia aprobada (130 polígonos)"),
+        Patch(facecolor=COLOR_PROV["AYABACA"], edgecolor="#7F8C86", label="Ámbito del proyecto – Ayabaca"),
+        Patch(facecolor=COLOR_PROV["HUANCABAMBA"], edgecolor="#7F8C86", label="Ámbito del proyecto – Huancabamba"),
+        Patch(facecolor=COLOR_PROV["MORROPON"], edgecolor="#7F8C86", label="Ámbito del proyecto – Morropón"),
+        Line2D([], [], color=VERDE, linewidth=2.2, label="Límite del ámbito (15 distritos)"),
         Line2D([], [], color="#4D5656", linewidth=1.1, label="Límite provincial"),
         Line2D([], [], color="#95A5A6", linewidth=0.5, label="Límite distrital"),
         Patch(facecolor="#F2F2F2", edgecolor="#BFBFBF", label="Otros distritos (contexto)"),
@@ -133,24 +143,25 @@ def leyenda(ax_panel, y, extra=()):
     ]
     ax_panel.legend(handles=elementos, loc="upper left", bbox_to_anchor=(0.0, y), fontsize=8, frameon=False,
                     title="LEYENDA", title_fontproperties={"weight": "bold", "size": 9}, alignment="left",
-                    handlelength=2.2, handleheight=1.1, labelspacing=0.55)
+                    handlelength=2.2, handleheight=1.0, labelspacing=0.4)
 
 
-def dibujar_base(ax, b, ai, ctx, xlim, ylim):
+def dibujar_base(ax, b, ai, amb, ctx, xlim, ylim):
     ax.set_facecolor("white")  # fuera de la capa de contexto (sin datos)
     ctx.plot(ax=ax, facecolor="#F2F2F2", edgecolor="#BFBFBF", linewidth=0.3, zorder=1)
-    for p, sub in ai.groupby("NOMBPROV"):
+    for p, sub in amb.groupby("NOMBPROV"):
         sub.plot(ax=ax, facecolor=COLOR_PROV[p], edgecolor="#95A5A6", linewidth=0.5, zorder=2)
     prov = ctx[ctx.NOMBDEP == "PIURA"].dissolve("NOMBPROV")
     prov.boundary.plot(ax=ax, color="#4D5656", linewidth=1.1, zorder=3)
-    ai.dissolve().boundary.plot(ax=ax, color=VERDE, linewidth=2.2, zorder=4)
+    amb.dissolve().boundary.plot(ax=ax, color=VERDE, linewidth=2.2, zorder=4)
+    ai.plot(ax=ax, facecolor=AI_FILL, edgecolor=AI_EDGE, linewidth=0.45, alpha=0.9, zorder=5.5)
     b.plot(ax=ax, facecolor=BLOQUE_FILL, edgecolor=BLOQUE_EDGE, linewidth=0.6, zorder=6)
     ax.set_xlim(*xlim)
     ax.set_ylim(*ylim)
 
 
-def etiquetas_distritos(ax, ai, xlim, ylim, tam=7.5):
-    for _, r in ai.iterrows():
+def etiquetas_distritos(ax, amb, xlim, ylim, tam=7.5):
+    for _, r in amb.iterrows():
         p = r.geometry.representative_point()
         if xlim[0] < p.x < xlim[1] and ylim[0] < p.y < ylim[1]:
             ax.text(p.x, p.y, titulo_cdl(r.NOMBDIST).upper(), fontsize=tam, color="#2C3E50", ha="center",
@@ -173,14 +184,14 @@ def encuadre(geom, margen=0.06, aspecto=None):
     return (xmin, xmax), (ymin, ymax)
 
 
-def mapa_ubicacion(ax, ctx, ai):
+def mapa_ubicacion(ax, ctx, amb):
     dep = ctx.dissolve("NOMBDEP")
     dep.plot(ax=ax, facecolor="#F2F2F2", edgecolor="#808B96", linewidth=0.5)
     dep.loc[["PIURA"]].plot(ax=ax, facecolor="#E8E1C8", edgecolor="#4D5656", linewidth=0.8)
-    ai.dissolve().plot(ax=ax, facecolor=VERDE, edgecolor=VERDE, linewidth=0.5)
+    amb.dissolve().plot(ax=ax, facecolor=VERDE, edgecolor=VERDE, linewidth=0.5)
     for n, r in dep.iterrows():
         p = r.geometry.representative_point()
-        if n == "PIURA":  # al oeste, fuera de la mancha del área de influencia
+        if n == "PIURA":  # al oeste, fuera de la mancha del ámbito
             b0 = r.geometry.bounds
             p = type(p)(b0[0] + (b0[2] - b0[0]) * 0.22, b0[1] + (b0[3] - b0[1]) * 0.55)
         ax.text(p.x, p.y, n.title(), fontsize=6, ha="center", va="center", color="#333333",
@@ -199,15 +210,22 @@ def mapa_ubicacion(ax, ctx, ai):
         s.set_edgecolor(VERDE)
 
 
+def resumen_distritos(b, ai):
+    """N.° de bloques, ha de bloques y ha de AI por distrito (el AI se asigna al distrito de su bloque)."""
+    rb = b.groupby(["NOMBPROV", "NOMBDIST"]).agg(n=("BLOQUE", "size"), ha=("AREA_HA", "sum"))
+    ra = ai.groupby(["NOMBPROV", "NOMBDIST"]).agg(ai=("AREA_HA", "sum"))
+    return rb.join(ra).fillna(0).reset_index().sort_values(["NOMBPROV", "NOMBDIST"])
+
+
 def cuadro_distritos(ax_panel, b, ai, y_top):
-    resumen = (b.groupby(["NOMBPROV", "NOMBDIST"]).agg(n=("BLOQUE", "size"), ha=("AREA_HA", "sum"))
-               .reset_index().sort_values(["NOMBPROV", "NOMBDIST"]))
-    filas = [[NOMBRE_PROV[r.NOMBPROV], titulo_cdl(r.NOMBDIST), f"{r.n}", f"{r.ha:,.2f}"]
+    resumen = resumen_distritos(b, ai)
+    filas = [[NOMBRE_PROV[r.NOMBPROV], titulo_cdl(r.NOMBDIST), f"{r.n}", f"{r.ha:,.2f}", f"{r.ai:,.2f}"]
              for r in resumen.itertuples()]
-    filas.append(["TOTAL", "15 distritos", f"{resumen.n.sum()}", f"{resumen.ha.sum():,.3f}"])
-    alto = 0.0215 * (len(filas) + 1)
-    t = ax_panel.table(cellText=filas, colLabels=["Provincia", "Distrito", "N.° bloques", "Área (ha)"],
-                       colWidths=[0.27, 0.43, 0.14, 0.16], cellLoc="left",
+    filas.append(["TOTAL", "15 distritos", f"{resumen.n.sum()}", f"{resumen.ha.sum():,.3f}",
+                  f"{resumen.ai.sum():,.3f}"])
+    alto = 0.0195 * (len(filas) + 1)
+    t = ax_panel.table(cellText=filas, colLabels=["Provincia", "Distrito", "Bloques", "Bloques (ha)", "AI (ha)"],
+                       colWidths=[0.22, 0.37, 0.11, 0.16, 0.14], cellLoc="left",
                        bbox=[0.0, y_top - alto, 1.0, alto])
     t.auto_set_font_size(False)
     t.set_fontsize(7)
@@ -224,7 +242,7 @@ def cuadro_distritos(ax_panel, b, ai, y_top):
             c.set_text_props(fontweight="bold")
         elif i % 2 == 0:
             c.set_facecolor("#F2F7F2")
-    ax_panel.text(0.0, y_top + 0.012, "BLOQUES V6 POR DISTRITO", fontsize=9, fontweight="bold", color=VERDE,
+    ax_panel.text(0.0, y_top + 0.012, "BLOQUES V6 Y ÁREA DE INFLUENCIA POR DISTRITO", fontsize=9, fontweight="bold", color=VERDE,
                   transform=ax_panel.transAxes)
     return y_top - alto
 
@@ -235,47 +253,49 @@ def pie(fig):
     fig.text(0.02, 0.019, FUENTE, fontsize=6.5, color="#555555")
 
 
-def lamina_general(b, ai, ctx):
+def lamina_general(b, ai, amb, ctx):
     fig = plt.figure(figsize=(16.54, 11.69))
     marco(fig, "MAPA DEL ÁREA DE INFLUENCIA Y BLOQUES DE INTERVENCIÓN V6",
-          f"117 bloques de intervención ({TOTAL_V6_HA:,.3f} ha) en 15 distritos de las provincias de "
-          "Ayabaca, Huancabamba y Morropón — Región Piura", 1)
+          f"117 bloques de intervención ({TOTAL_V6_HA:,.3f} ha) y su área de influencia ({ai.AREA_HA.sum():,.3f} ha) "
+          "en 15 distritos de Ayabaca, Huancabamba y Morropón — Región Piura", 1)
     ax = fig.add_axes([0.04, 0.075, 0.62, 0.755])
-    xlim, ylim = encuadre(ai, 0.03, aspecto=0.62 * 16.54 / (0.755 * 11.69))
-    dibujar_base(ax, b, ai, ctx, xlim, ylim)
-    etiquetas_distritos(ax, ai, xlim, ylim, tam=7.5)
+    xlim, ylim = encuadre(amb, 0.03, aspecto=0.62 * 16.54 / (0.755 * 11.69))
+    dibujar_base(ax, b, ai, amb, ctx, xlim, ylim)
+    etiquetas_distritos(ax, amb, xlim, ylim, tam=7.5)
     ejes_utm(ax, paso=20000)
     norte_y_escala(ax, 20)
 
     panel = fig.add_axes([0.69, 0.065, 0.29, 0.77])
     panel.axis("off")
     ax_ub = fig.add_axes([0.70, 0.60, 0.27, 0.23])
-    mapa_ubicacion(ax_ub, ctx, ai)
+    mapa_ubicacion(ax_ub, ctx, amb)
     y = cuadro_distritos(panel, b, ai, 0.635)
     leyenda(panel, y - 0.01)
     area_ai = ai.AREA_HA.sum()
-    panel.text(0.0, 0.035,
-               f"Área de influencia: {area_ai:,.0f} ha (15 distritos, capa referencial)\n"
-               f"Bloques V6: {TOTAL_V6_HA:,.3f} ha = {TOTAL_V6_HA / area_ai:.2%} del área de influencia",
+    panel.text(0.0, 0.012,
+               f"Bloques V6: {TOTAL_V6_HA:,.3f} ha (117)\n"
+               f"Área de influencia: {area_ai:,.3f} ha ({len(ai)} polígonos)\n"
+               f"Bloques + área de influencia: {TOTAL_V6_HA + area_ai:,.3f} ha\n"
+               f"Ámbito (15 distritos, referencial): {amb.AREA_HA.sum():,.0f} ha",
                fontsize=7.5, color="#333333", transform=panel.transAxes, va="bottom",
                bbox=dict(boxstyle="round,pad=0.4", facecolor="#F7F3E3", edgecolor=DORADO, linewidth=0.8))
     pie(fig)
     return fig
 
 
-def lamina_provincia(b, ai, ctx, prov, lamina):
-    bp, aip = b[b.NOMBPROV == prov], ai[ai.NOMBPROV == prov]
+def lamina_provincia(b, ai, amb, ctx, prov, lamina):
+    bp, ap, aip = b[b.NOMBPROV == prov], ai[ai.NOMBPROV == prov], amb[amb.NOMBPROV == prov]
     fig = plt.figure(figsize=(16.54, 11.69))
     marco(fig, f"ÁREA DE INFLUENCIA Y BLOQUES V6 — PROVINCIA DE {NOMBRE_PROV[prov].upper()}",
-          f"{len(bp)} bloques de intervención ({bp.AREA_HA.sum():,.3f} ha) en {aip.NOMBDIST.nunique()} "
-          f"distrito(s) del área de influencia", lamina)
+          f"{len(bp)} bloques de intervención ({bp.AREA_HA.sum():,.3f} ha) y su área de influencia "
+          f"({ap.AREA_HA.sum():,.3f} ha, {len(ap)} polígonos) en {aip.NOMBDIST.nunique()} distrito(s)", lamina)
     ax = fig.add_axes([0.04, 0.075, 0.68, 0.755])
     # se reserva una franja inferior para la escala gráfica, así no tapa bloques
     xmin, ymin, xmax, ymax = aip.total_bounds
     caja = gpd.GeoSeries([box(xmin, ymin - (ymax - ymin) * 0.10, xmax, ymax)], crs=aip.crs)
     xlim, ylim = encuadre(caja, 0.04, aspecto=0.68 * 16.54 / (0.755 * 11.69))
-    dibujar_base(ax, b, ai, ctx, xlim, ylim)
-    etiquetas_distritos(ax, ai, xlim, ylim, tam=8.5)
+    dibujar_base(ax, b, ai, amb, ctx, xlim, ylim)
+    etiquetas_distritos(ax, amb, xlim, ylim, tam=8.5)
     # etiquetas de bloque: adjustText las separa entre sí y de los polígonos, con línea guía al bloque
     from adjustText import adjust_text
     w = xlim[1] - xlim[0]
@@ -295,7 +315,7 @@ def lamina_provincia(b, ai, ctx, prov, lamina):
     panel = fig.add_axes([0.745, 0.065, 0.235, 0.77])
     panel.axis("off")
     ax_ub = fig.add_axes([0.75, 0.645, 0.225, 0.185])
-    mapa_ubicacion(ax_ub, ctx, ai)
+    mapa_ubicacion(ax_ub, ctx, amb)
     ax_ub.set_title("Ubicación de la provincia", fontsize=8.5, fontweight="bold", color=VERDE, pad=3)
     xmin, ymin, xmax, ymax = aip.total_bounds
     ax_ub.add_patch(Rectangle((xmin, ymin), xmax - xmin, ymax - ymin, fill=False, edgecolor=BLOQUE_FILL,
@@ -303,13 +323,15 @@ def lamina_provincia(b, ai, ctx, prov, lamina):
     # lista de bloques de la provincia
     filas = bp.sort_values(["NOMBDIST", "BLOQUE"])
     lineas = []
+    ai_dist = ap.groupby("NOMBDIST").AREA_HA.sum()
     for dist, sub in filas.groupby("NOMBDIST"):
-        lineas.append((f"{titulo_cdl(dist)} ({len(sub)} · {sub.AREA_HA.sum():,.2f} ha)", True))
+        lineas.append((f"{titulo_cdl(dist)}: {len(sub)} bloques · {sub.AREA_HA.sum():,.2f} ha · "
+                       f"AI {ai_dist.get(dist, 0):,.2f} ha", True))
         cods = list(sub.BLOQUE)
         for k in range(0, len(cods), 7):
             lineas.append(("   " + ", ".join(cods[k:k + 7]), False))
     y = 0.715
-    panel.text(0.0, y, "BLOQUES V6 POR DISTRITO", fontsize=9, fontweight="bold", color=VERDE,
+    panel.text(0.0, y, "BLOQUES V6 Y ÁREA DE INFLUENCIA (AI)", fontsize=9, fontweight="bold", color=VERDE,
                transform=panel.transAxes)
     y -= 0.025
     paso_y = min(0.019, 0.36 / max(len(lineas), 1))
@@ -323,11 +345,11 @@ def lamina_provincia(b, ai, ctx, prov, lamina):
 
 
 def main():
-    b, ai, ctx = cargar()
+    b, ai, amb, ctx = cargar()
     SALIDA.mkdir(parents=True, exist_ok=True)
-    figs = [("01_mapa_general", lamina_general(b, ai, ctx))]
+    figs = [("01_mapa_general", lamina_general(b, ai, amb, ctx))]
     for i, p in enumerate(["AYABACA", "HUANCABAMBA", "MORROPON"], start=2):
-        figs.append((f"0{i}_{p.lower()}", lamina_provincia(b, ai, ctx, p, i)))
+        figs.append((f"0{i}_{p.lower()}", lamina_provincia(b, ai, amb, ctx, p, i)))
     pdf = SALIDA / "IN_Piura_Mapa_Area_Influencia_Bloques_V6.pdf"
     with PdfPages(pdf) as pp:
         for nombre, fig in figs:
