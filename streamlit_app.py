@@ -3962,10 +3962,13 @@ def _render_fds01():
     c1, c2 = st.columns(2)
     _T(f, c1, "Nombre oficial completo (CP/CC/Anexo)", "f1_nombre_oficial")
     _T(f, c2, "Año de fundacion", "f1_anio_fund")
-    c1, c2, c3 = st.columns(3)
+    c1, c2, c3, c4 = st.columns(4)
     _T(f, c1, "N total de familias / viviendas *", "f1_nfam")
     _T(f, c2, "Poblacion total estimada (hab.) *", "f1_pob_t")
     _T(f, c3, "Pob. autoidentificada originaria", "f1_pob_orig")
+    _T(f, c4, "Mano de obra disponible (N personas)", "f1_mano_obra",
+       help="Personas del CP/Comunidad disponibles para trabajar como mano "
+            "de obra no calificada en las actividades del proyecto.")
     c1, c2, c3, c4 = st.columns(4)
     _T(f, c1, "Pob. hombres", "f1_pob_h")
     _T(f, c2, "Pob. mujeres", "f1_pob_m")
@@ -4599,12 +4602,25 @@ def _ds_descargas_analitica(informe, clave):
                "de respaldo con el detalle ficha por ficha. El anexo PDF "
                "reproduce los mismos gráficos con el formato institucional.")
     c1, c2 = st.columns(2)
+    # Solo cambia las tablas del libro Excel; los graficos y tablas que se
+    # ven en el aplicativo siguen en valores absolutos.
+    modo_xlsx = c1.radio(
+        "Expresar las tablas del Excel en:", list(ans.MODOS_EXCEL),
+        format_func=ans.MODOS_EXCEL.get, key=f"{clave}_modo_xlsx",
+        help="Porcentaje: cada tabla (y su gráfico) se expresa en %. "
+             "Composiciones (barras apiladas): % dentro de cada fila; "
+             "conteos simples: % del total de la columna; marcado múltiple: "
+             "% de fichas que reportan la opción. Valores absolutos y "
+             "porcentaje: se agrega bajo cada tabla su versión en %, con "
+             "fórmulas. Las series que ya están en % (coberturas, tierras "
+             "tituladas) o que mezclan unidades se mantienen en valores.")
     if c1.button("Generar Excel con gráficos", key=f"{clave}_gen_xlsx",
                  type="primary", use_container_width=True):
         with st.spinner("Construyendo el libro..."):
             try:
                 st.session_state[f"{clave}_xlsx"] = (
-                    ans.nombre_excel(informe), ans.generar_excel_social(informe))
+                    ans.nombre_excel(informe, modo_xlsx),
+                    ans.generar_excel_social(informe, modo_xlsx), modo_xlsx)
             except Exception as exc:
                 st.error(f"No se pudo generar el Excel: {exc}")
     if c2.button("Generar anexo gráfico (PDF)", key=f"{clave}_gen_pdf",
@@ -4616,6 +4632,10 @@ def _ds_descargas_analitica(informe, clave):
             except Exception as exc:
                 st.error(f"No se pudo generar el PDF: {exc}")
     listo_xlsx = st.session_state.get(f"{clave}_xlsx")
+    # Un libro generado con otra opcion de expresion no se ofrece: obliga a
+    # regenerarlo para que lo descargado coincida con lo seleccionado.
+    if listo_xlsx and listo_xlsx[2:3] != (modo_xlsx,):
+        listo_xlsx = None
     if listo_xlsx:
         c1.download_button(f"⬇️ Descargar {listo_xlsx[0]}", listo_xlsx[1],
                            file_name=listo_xlsx[0], mime=_mime_xlsx(),

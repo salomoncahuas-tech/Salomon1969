@@ -533,5 +533,135 @@ class Salidas(unittest.TestCase):
                 self.assertFalse(df.empty, serie["id"])
 
 
+# ══════════════════════════════════════════════════════════════════════════
+# Opcion del libro Excel: tablas expresadas en porcentaje
+# ══════════════════════════════════════════════════════════════════════════
+
+def _tabla_de(ws, titulo):
+    """Filas (lista de listas) de la tabla cuyo titulo es `titulo`, desde la
+    cabecera hasta la fila TOTAL / Base inclusive."""
+    for r in range(1, ws.max_row + 1):
+        if ws.cell(r, 1).value == titulo:
+            cab = r + 1
+            while ws.cell(cab, 1).value not in ("Clase", "Influencia sobre el territorio"):
+                cab += 1
+            filas, fila = [], cab
+            while ws.cell(fila, 1).value is not None:
+                filas.append([ws.cell(fila, c).value for c in range(1, 8)])
+                if str(filas[-1][0]).startswith(("TOTAL", "Base:")):
+                    break
+                fila += 1
+            return filas
+    raise AssertionError(f"No se encontro la tabla {titulo!r}")
+
+
+def _hoja(wb, prefijo):
+    return next(ws for ws in wb.worksheets if ws.title.startswith(prefijo))
+
+
+class ExcelPorcentaje(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.informe = an.indicadores_bloque(BLOQUE, registros_completos(),
+                                            DATOS_CP)
+        cls.wb = {m: load_workbook(io.BytesIO(
+                      an.generar_excel_social(cls.informe, m)))
+                  for m in an.MODOS_EXCEL}
+
+    def test_por_defecto_el_libro_sigue_en_valores_absolutos(self):
+        wb = load_workbook(io.BytesIO(an.generar_excel_social(self.informe)))
+        tabla = _tabla_de(_hoja(wb, "F-DS-01"),
+                          "A. Población por centro poblado, según sexo")
+        self.assertEqual(tabla[0][:3], ["Clase", "Hombres", "Mujeres"])
+        self.assertEqual(tabla[1][1:3], [740, 710])
+
+    def test_composicion_suma_cien_por_ciento_por_fila(self):
+        tabla = _tabla_de(_hoja(self.wb["porcentaje"], "F-DS-01"),
+                          "A. Población por centro poblado, según sexo")
+        self.assertEqual(tabla[0][1:3], ["Hombres (%)", "Mujeres (%)"])
+        for fila in tabla[1:-1]:
+            self.assertAlmostEqual(fila[1] + fila[2], 1.0)
+        self.assertAlmostEqual(tabla[1][1], 740 / 1450)
+        self.assertEqual(tabla[-1][0], "TOTAL")
+
+    def test_formato_porcentual_en_las_celdas(self):
+        ws = _hoja(self.wb["porcentaje"], "F-DS-01")
+        formatos = {c.number_format for fila in ws.iter_rows() for c in fila
+                    if isinstance(c.value, float)}
+        self.assertIn("0.0%", formatos)
+
+    def test_marcado_multiple_se_divide_entre_las_fichas(self):
+        n_fichas = len(an._por_ficha(an.deduplicar(registros_completos()),
+                                     "F-DS-01"))
+        tabla = _tabla_de(_hoja(self.wb["porcentaje"], "F-DS-01"),
+                          "D. Fuentes de agua para consumo (centros poblados "
+                          "que la reportan)")
+        self.assertEqual(tabla[-1][0], f"Base: {n_fichas} ficha(s)")
+        for fila in tabla[1:-1]:
+            self.assertLessEqual(fila[1], 1.0)
+
+    def test_asistencia_respecto_de_los_convocados(self):
+        tabla = _tabla_de(_hoja(self.wb["porcentaje"], "F-DS-04"),
+                          "A. Convocatoria frente a asistencia efectiva por taller")
+        self.assertEqual(tabla[1][1], 1.0)
+        self.assertLess(tabla[1][2], 1.0)
+
+    def test_series_ya_en_porcentaje_no_se_reexpresan(self):
+        ws = _hoja(self.wb["porcentaje"], "F-DS-01")
+        tabla = _tabla_de(ws, "C. Cobertura de agua y energía eléctrica (%)")
+        self.assertEqual(tabla[0][1], "Agua para consumo")
+        self.assertEqual(tabla[1][1], 68)
+
+    def test_se_aplica_a_las_siete_fichas(self):
+        for ficha in an.FICHAS_DS:
+            ws = _hoja(self.wb["porcentaje"], ficha)
+            cabeceras = [c.value for fila in ws.iter_rows() for c in fila
+                         if isinstance(c.value, str) and c.value.endswith("(%)")]
+            self.assertTrue(cabeceras, ficha)
+
+    def test_modo_ambos_agrega_la_tabla_porcentual_con_formulas(self):
+        ws = _hoja(self.wb["ambos"], "F-DS-01")
+        absoluta = _tabla_de(ws, "A. Población por centro poblado, según sexo")
+        pct = _tabla_de(ws, "A. Población por centro poblado, según sexo (%)")
+        self.assertEqual(absoluta[1][1], 740)
+        self.assertTrue(str(pct[1][1]).startswith("=IFERROR("))
+
+    def test_un_grafico_por_serie_en_todos_los_modos(self):
+        esperado = sum(len(s["series"]) for s in self.informe["secciones"])
+        for modo, wb in self.wb.items():
+            self.assertEqual(sum(len(ws._charts) for ws in wb.worksheets),
+                             esperado, modo)
+
+    def test_resumen_declara_la_expresion_elegida(self):
+        valores = [c.value for fila in self.wb["porcentaje"]["Resumen DS"].iter_rows()
+                   for c in fila]
+        self.assertIn("Porcentaje (%)", valores)
+
+    def test_modo_invalido(self):
+        with self.assertRaises(ValueError):
+            an.generar_excel_social(self.informe, "fracciones")
+
+    def test_nombre_de_archivo_por_modo(self):
+        self.assertIn("_PCT_", an.nombre_excel(self.informe, "porcentaje"))
+        self.assertIn("_VAL_PCT_", an.nombre_excel(self.informe, "ambos"))
+        self.assertNotIn("PCT", an.nombre_excel(self.informe))
+
+    def test_la_app_no_cambia_sus_tablas(self):
+        """La opcion es solo del Excel: las series siguen en valores."""
+        serie = self.informe["secciones"][1]["series"][0]
+        self.assertGreater(max(f["valor"] for f in serie["filas"]), 1)
+
+
+class ManoDeObra(unittest.TestCase):
+
+    def test_mano_de_obra_en_la_tabla_de_respaldo(self):
+        registros = [_registro("F-DS-01", _fds01(f1_mano_obra="35"))]
+        informe = an.indicadores_bloque(BLOQUE, registros, DATOS_CP)
+        seccion = next(s for s in informe["secciones"] if s["id"] == "F-DS-01")
+        demografia = dict(seccion["tablas"])["Demografía por centro poblado"]
+        self.assertEqual(demografia[0]["Mano de obra disponible (pers.)"], 35)
+
+
 if __name__ == "__main__":
     unittest.main()

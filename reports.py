@@ -632,6 +632,14 @@ def _render_ds_registro(pdf, ds):
             val = ds.get(key, "") or ""
             if val:
                 pdf._campo(label, val)
+        # Campo nuevo del formulario V4: vive solo en el JSON ds01_data_v3.
+        try:
+            form01 = json.loads(ds.get("ds01_data_v3") or "{}")
+        except (TypeError, ValueError):
+            form01 = {}
+        if isinstance(form01, dict) and str(form01.get("f1_mano_obra") or "").strip():
+            pdf._campo("Mano de obra disponible (N personas)",
+                       str(form01["f1_mano_obra"]).strip())
         if ds.get("ds01_percepcion_cambios"):
             pdf._campo_largo("Percepcion de cambios ambientales",
                              ds["ds01_percepcion_cambios"])
