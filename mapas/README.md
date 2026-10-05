@@ -51,7 +51,7 @@ Los resúmenes son fórmulas (`COUNTIFS`/`SUMIFS`) sobre las hojas de detalle, c
 
 **Capa usada:** `datos/gis/ecosistemas_microcuencas.zip`. Es el Mapa Nacional de Ecosistemas (MINAM 2018) recortado a las
 microcuencas: 171 polígonos en EPSG:32718, con los campos `ECO_LAYER` y `SIMBOLO`; se reproyecta a 17S. Ejecución:
-`python mapas/mapa_ecosistemas_bloques_v6.py --fuente "Mapa Nacional de Ecosistemas del Perú, MINAM 2018 (R.M. N.° 440-2018-MINAM), recorte a microcuencas (ecosistemas_microcuencas)"`.
+`python mapas/mapa_ecosistemas_bloques_v6.py --fuente "Mapa Nacional de Ecosistemas del Perú, MINAM 2018 (R.M. N.° 440-2018-MINAM): recorte a microcuencas, completado en M27B1 y M9B1 con el recorte a esos bloques"`.
 
 Para usar otra capa, cópiela en `datos/gis/` con un nombre que contenga
 `ecosistemas` (`.zip` con el shapefile y su `.prj`, `.gpkg`, `.shp` o `.geojson`), o indíquela con `--ecosistemas`.
@@ -62,7 +62,9 @@ si no, use `--campo` y `--campo-simbolo`. Se reproyecta a UTM 17S y se recorta a
   catálogo**, así los resúmenes suman 12,270.235 ha.
 - Lo que la capa no cubra dentro de un bloque aparece como «Sin información de ecosistema».
 - El mapa del MINAM es de escala regional: el ecosistema de cada bloque se confirma en campo (F-DT-03).
-- Resultado con `ecosistemas_microcuencas` (ha prorrateadas al catálogo): Bosque estacionalmente seco de colina y montaña
-  7,549.323 (61.5 %), Zona agrícola 2,796.222 (22.8 %), Matorral andino 945.863 (7.7 %), Bosque relicto montano de vertiente
-  occidental 103.982 (0.8 %), Páramo 71.786 (0.6 %) y sin cobertura 803.059 (6.5 %). Los bloques M27B1 y M9B1 (Chulucanas)
-  quedan fuera de la capa, y M10B4 y M6B2-3 lo hacen en menos del 1 %.
+- **Complemento:** `datos/gis/ecosistemas_complemento_M27B1_M9B1.zip` es el mapa de ecosistemas recortado a los bloques
+  M27B1 y M9B1, que quedan fuera de la capa de microcuencas. Toda capa de `datos/gis/` con «complemento» en el nombre
+  (o indicada con `--complemento`) rellena **solo** los vacíos de la capa base; donde ambas tienen dato, manda la base.
+- Resultado (ha prorrateadas al catálogo): Bosque estacionalmente seco de colina y montaña 8,346.672 (68.0 %),
+  Zona agrícola 2,801.196 (22.8 %), Matorral andino 945.863 (7.7 %), Bosque relicto montano de vertiente occidental
+  103.982 (0.8 %), Páramo 71.786 (0.6 %). Quedan sin cobertura 0.736 ha en los bordes de M10B4 (0.429 ha) y M6B2-3 (0.307 ha).
