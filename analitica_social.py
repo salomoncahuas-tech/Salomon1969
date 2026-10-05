@@ -309,6 +309,10 @@ def _serie(id_, titulo, forma, filas, cat, val, **extra):
         "orden_sub": None, "escala": "neutra", "colores": None,
         "unidad": "", "nota": "", "descripcion": "", "eje_x": "", "eje_y": "",
         "decimales": 0,
+        # Base de los porcentajes del libro Excel (ver _base_porcentaje):
+        # "auto", "fila", "columna", "total", ("ref", subclase), un entero
+        # (N.° de fichas, para marcado multiple) o None (no aplica).
+        "pct_base": "auto",
     }
     serie.update(extra)
     # Una serie con color declarado por clase viene de una escala ordenada
@@ -466,6 +470,7 @@ def _seccion_socioeconomica(registros, tema="claro"):
             "Menores de 18 años": _num(f.get("f1_pob_men18")),
             "Mayores de 65 años": _num(f.get("f1_pob_may65")),
             "Población originaria": _num(f.get("f1_pob_orig")),
+            "Mano de obra disponible (pers.)": _num(f.get("f1_mano_obra")),
             "Idioma predominante": _txt(f.get("f1_idioma")),
             "Nivel educativo predominante": _txt(f.get("f1_nivel_edu")),
         })
@@ -555,7 +560,8 @@ def _seccion_socioeconomica(registros, tema="claro"):
                 descripcion="Cada centro poblado puede reportar más de una "
                             "opción, por lo que el total supera el número de "
                             "centros poblados.",
-                nota="F-DS-01, numeral 5. Marcado múltiple en la ficha."))
+                nota="F-DS-01, numeral 5. Marcado múltiple en la ficha.",
+                pct_base=len(regs)))
 
     # 5. Actividades economicas.
     filas_act, detalle_act = [], []
@@ -609,7 +615,8 @@ def _seccion_socioeconomica(registros, tema="claro"):
             descripcion="Suma de los beneficiarios declarados por los centros "
                         "poblados del bloque.",
             nota="F-DS-01, numeral 7. Las unidades difieren por programa "
-                 "(familias, personas o instituciones educativas)."))
+                 "(familias, personas o instituciones educativas).",
+            pct_base=None))
 
     # 7. Gobernanza comunal y presencia institucional.
     campos_gob = [
@@ -978,7 +985,8 @@ def _seccion_talleres(registros, tema="claro"):
             eje_x="N.° de personas", escala="categorica",
             descripcion="La brecha entre ambas barras mide la capacidad real "
                         "de convocatoria en cada centro poblado.",
-            nota="F-DS-04, numeral 2.1 (Asistencia)."))
+            nota="F-DS-04, numeral 2.1 (Asistencia).",
+            pct_base=("ref", "Convocados")))
 
     if filas_sexo:
         presentes, colores = _apiladas(filas_sexo, ["Hombres", "Mujeres"],
@@ -1013,7 +1021,7 @@ def _seccion_talleres(registros, tema="claro"):
             "barras_h", filas_metod, "clase", "valor", escala="neutra",
             unidad="talleres", eje_x="N.° de talleres",
             descripcion="Cada taller puede emplear más de una metodología.",
-            nota="F-DS-04, numeral 2.2."))
+            nota="F-DS-04, numeral 2.2.", pct_base=len(regs)))
 
     filas_acu = [{"clase": d["Centro poblado / ámbito"],
                   "valor": d["Acuerdos registrados"]}
@@ -1496,7 +1504,8 @@ def _seccion_consentimiento(registros, tema="claro"):
             "barras_h", filas_doc, "clase", "valor", escala="neutra",
             unidad="menciones", eje_x="N.° de menciones",
             descripcion="Un mismo titular puede presentar más de un documento.",
-            nota="F-DS-07, numeral 2.2. Insumo del tamizaje predial del bloque."))
+            nota="F-DS-07, numeral 2.2. Insumo del tamizaje predial del bloque.",
+            pct_base=len(regs)))
 
     if superficies:
         total_ha = sum(s["valor"] for s in superficies)
@@ -2251,8 +2260,155 @@ def _colores_serie(serie, subclases, categorias):
     return [_hex(paso.get(c, rampa[2])) for c in categorias]
 
 
+# ── Tablas en porcentaje ─────────────────────────────────────────────────
+# Opcion del libro Excel: expresar las tablas de resultados en porcentaje.
+# Solo cambia el libro descargado; los graficos y tablas del aplicativo se
+# mantienen en valores absolutos.
+
+MODOS_EXCEL = {
+    "absoluto": "Valores absolutos",
+    "porcentaje": "Porcentaje (%)",
+    "ambos": "Valores absolutos y porcentaje (%)",
+}
+
+_FORMATO_PCT = "0.0%"
+
+
+def _base_porcentaje(serie):
+    """Denominador de los porcentajes de una serie, o None si no aplica.
+
+    - "fila": barras apiladas; cada categoria suma 100 % (composicion).
+    - "columna": barras simples o agrupadas; cada clase sobre el total.
+    - "total": mapa de calor; cada celda sobre el total general.
+    - ("ref", subclase): cada valor sobre el de una subclase de la misma
+      fila (p. ej. asistentes sobre convocados).
+    - entero: N.° de fichas, para preguntas de marcado multiple, donde la
+      suma supera el numero de fichas.
+    - None: la serie ya esta en porcentaje o mezcla unidades.
+    """
+    base = serie.get("pct_base", "auto")
+    if base is None or serie.get("unidad") == "%":
+        return None
+    if base != "auto":
+        return base
+    if serie.get("forma") == "mapa_calor":
+        return "total"
+    if serie.get("sub") and serie.get("forma") == "apiladas":
+        return "fila"
+    return "columna"
+
+
+def _texto_base(base, subclases):
+    if base == "fila":
+        return "Porcentaje sobre el total de cada fila (cada categoría suma 100 %)."
+    if base == "columna":
+        return ("Porcentaje sobre el total de cada columna (la columna suma "
+                "100 %).")
+    if base == "total":
+        return "Porcentaje sobre el total general de la tabla."
+    if isinstance(base, tuple):
+        return f"Porcentaje respecto de «{base[1]}» en cada fila."
+    return (f"Porcentaje sobre las {base} ficha(s) registrada(s); por el "
+            "marcado múltiple, la suma puede superar el 100 %.")
+
+
+def _div(a, b):
+    return (a / b) if b else 0.0
+
+
+def _matriz_porcentaje(base, subclases, matriz):
+    """Matriz en fracciones (0-1, formato 0.0 %) y su fila de totales."""
+    n_sub = len(subclases)
+    col_tot = [sum(f[j] or 0 for f in matriz) for j in range(n_sub)]
+    gran = sum(col_tot)
+    if base == "fila":
+        pct = [[_div(v or 0, sum(x or 0 for x in f)) for v in f] for f in matriz]
+        tot = [_div(c, gran) for c in col_tot]
+    elif base == "columna":
+        pct = [[_div(v or 0, col_tot[j]) for j, v in enumerate(f)] for f in matriz]
+        tot = [1.0 if c else 0.0 for c in col_tot]
+    elif base == "total":
+        pct = [[_div(v or 0, gran) for v in f] for f in matriz]
+        tot = [_div(c, gran) for c in col_tot]
+    elif isinstance(base, tuple):
+        k = subclases.index(base[1]) if base[1] in subclases else None
+        pct = [[_div(v or 0, f[k] or 0) if k is not None else 0.0 for v in f]
+               for f in matriz]
+        tot = [_div(c, col_tot[k]) if k is not None else 0.0 for c in col_tot]
+    else:
+        pct = [[_div(v or 0, base) for v in f] for f in matriz]
+        tot = None          # la suma de un marcado multiple no es un total
+    return pct, tot
+
+
+def _formulas_porcentaje(base, subclases, fila_ini, n_cat, fila_tot):
+    """Formulas de la tabla % que apuntan a la tabla de valores absolutos
+    (filas fila_ini..fila_ini+n_cat-1, columnas B..). Devuelve (celdas, total)."""
+    n_sub = len(subclases)
+    col = [get_column_letter(2 + j) for j in range(n_sub)]
+    ult = col[-1]
+    fin = fila_ini + n_cat - 1
+    celdas, total = [], []
+    k = (subclases.index(base[1])
+         if isinstance(base, tuple) and base[1] in subclases else None)
+    for i in range(n_cat):
+        r = fila_ini + i
+        fila = []
+        for c in col:
+            if base == "fila":
+                f = f"=IFERROR({c}{r}/SUM($B{r}:${ult}{r}),0)"
+            elif base == "columna":
+                f = f"=IFERROR({c}{r}/{c}${fila_tot},0)"
+            elif base == "total":
+                f = f"=IFERROR({c}{r}/SUM($B${fila_ini}:${ult}${fin}),0)"
+            elif isinstance(base, tuple):
+                f = (f"=IFERROR({c}{r}/${col[k]}{r},0)" if k is not None else 0)
+            else:
+                f = f"=IFERROR({c}{r}/{base},0)"
+            fila.append(f)
+        celdas.append(fila)
+    for c in col:
+        if base in ("fila", "total"):
+            total.append(f"=IFERROR({c}{fila_tot}/SUM($B${fila_tot}:${ult}${fila_tot}),0)")
+        elif base == "columna":
+            total.append(f"=IF({c}{fila_tot}>0,1,0)")
+        elif isinstance(base, tuple) and k is not None:
+            total.append(f"=IFERROR({c}{fila_tot}/${col[k]}${fila_tot},0)")
+        else:
+            total = None
+            break
+    return celdas, total
+
+
+def _tabla_porcentaje(ws, fila, titulo, cabecera_cat, categorias, subclases,
+                      celdas, total, base, simple=False):
+    """Escribe una tabla en porcentaje con estilo ANIN. Devuelve
+    (fila_cabecera, fila_siguiente)."""
+    if simple:
+        cabeceras = [cabecera_cat, "Porcentaje (%)"]
+    else:
+        cabeceras = [cabecera_cat] + [f"{s} (%)" for s in subclases]
+    filas = [[c] + list(v) for c, v in zip(categorias, celdas)]
+    subt = _texto_base(base, subclases)
+    fila_cab, fila_fin = _escribir_tabla(ws, fila, titulo, cabeceras, filas,
+                                         subtitulo=subt)
+    for r in range(fila_cab + 1, fila_fin):
+        for j in range(len(subclases)):
+            ws.cell(r, 2 + j).number_format = _FORMATO_PCT
+    if total is not None:
+        ws.cell(fila_fin, 1, "TOTAL").font = Font(name="Arial", size=9, bold=True)
+        for j, v in enumerate(total):
+            celda = ws.cell(fila_fin, 2 + j, v)
+            celda.font = Font(name="Arial", size=9, bold=True)
+            celda.number_format = _FORMATO_PCT
+    else:
+        celda = ws.cell(fila_fin, 1, f"Base: {base} ficha(s)")
+        celda.font = Font(name="Arial", size=9, bold=True)
+    return fila_cab, fila_fin
+
+
 def _grafico_de_serie(ws, serie, fila_cab, categorias, subclases, colores,
-                      ancla):
+                      ancla, porcentaje=False):
     """Agrega a la hoja el grafico nativo que corresponde a la serie."""
     n_cat, n_sub = len(categorias), len(subclases)
     if not n_cat or not n_sub:
@@ -2261,7 +2417,10 @@ def _grafico_de_serie(ws, serie, fila_cab, categorias, subclases, colores,
     graf.type = "bar"                      # barras horizontales, como en la app
     graf.style = 2
     graf.title = serie.get("titulo", "")
-    graf.y_axis.title = serie.get("unidad") or serie.get("eje_x") or ""
+    graf.y_axis.title = ("Porcentaje (%)" if porcentaje
+                         else serie.get("unidad") or serie.get("eje_x") or "")
+    if porcentaje:
+        graf.y_axis.number_format = "0%"
     graf.x_axis.title = ""
     graf.gapWidth = 60
     graf.height = 8.5
@@ -2297,11 +2456,19 @@ def _grafico_de_serie(ws, serie, fila_cab, categorias, subclases, colores,
         serie_excel.dLbls.showSerName = False
         serie_excel.dLbls.showCatName = False
         serie_excel.dLbls.showLegendKey = False
+        if porcentaje:
+            serie_excel.dLbls.numFmt = _FORMATO_PCT
     ws.add_chart(graf, ancla)
 
 
-def _hoja_seccion(wb, seccion, usados):
-    """Una hoja por seccion: cada serie con su tabla y su grafico al lado."""
+def _hoja_seccion(wb, seccion, usados, modo="absoluto"):
+    """Una hoja por seccion: cada serie con su tabla y su grafico al lado.
+
+    `modo` (ver MODOS_EXCEL): "absoluto" conserva el libro tal cual;
+    "porcentaje" reemplaza cada tabla por su version en % (y el grafico la
+    sigue); "ambos" agrega bajo la tabla de valores su tabla en %, con
+    formulas que apuntan a ella.
+    """
     ws = wb.create_sheet(_nombre_hoja(seccion["titulo"], usados))
     fila = _titulo_hoja(ws, seccion["titulo"].upper(), ancho=10)
     for col, ancho in zip("ABCDEFGHIJ", (46, 15, 15, 15, 15, 15, 15, 15, 15, 15)):
@@ -2316,29 +2483,54 @@ def _hoja_seccion(wb, seccion, usados):
         if not categorias:
             continue
         colores = _colores_serie(serie, subclases, categorias)
-        cabeceras = [serie.get("eje_y") or "Clase"] + list(subclases)
-        filas = [[c] + [_celda_num(v) for v in valores]
-                 for c, valores in zip(categorias, matriz)]
-        fila_cab, fila_fin = _escribir_tabla(
-            ws, fila, f"{chr(64 + i)}. {serie['titulo']}", cabeceras, filas,
-            subtitulo=serie.get("descripcion", ""))
-        # Totales por columna, como formula: el usuario puede filtrar y ver
-        # el recalculo, que es lo que se pierde si se graban valores fijos.
-        ws.cell(fila_fin, 1, "TOTAL").font = Font(name="Arial", size=9, bold=True)
-        for j in range(len(subclases)):
-            letra = get_column_letter(2 + j)
-            celda = ws.cell(fila_fin, 2 + j,
-                            f"=SUM({letra}{fila_cab + 1}:{letra}{fila_fin - 1})")
-            celda.font = Font(name="Arial", size=9, bold=True)
-            celda.number_format = "#,##0.00"
+        cab_cat = serie.get("eje_y") or "Clase"
+        titulo = f"{chr(64 + i)}. {serie['titulo']}"
+        base = _base_porcentaje(serie) if modo != "absoluto" else None
+        aviso_na = (modo != "absoluto" and base is None)
+
+        if base is not None and modo == "porcentaje":
+            celdas, total = _matriz_porcentaje(base, subclases, matriz)
+            fila_cab, fila_fin = _tabla_porcentaje(
+                ws, fila, titulo, cab_cat, categorias, subclases, celdas,
+                total, base, simple=not serie.get("sub"))
+            graf_pct = True
+        else:
+            cabeceras = [cab_cat] + list(subclases)
+            filas = [[c] + [_celda_num(v) for v in valores]
+                     for c, valores in zip(categorias, matriz)]
+            subt = serie.get("descripcion", "")
+            if aviso_na:
+                subt = (subt + " " if subt else "") + (
+                    "(Se presenta en valores: la serie ya está expresada en "
+                    "porcentaje o combina unidades distintas.)")
+            fila_cab, fila_fin = _escribir_tabla(
+                ws, fila, titulo, cabeceras, filas, subtitulo=subt)
+            # Totales por columna, como formula: el usuario puede filtrar y
+            # ver el recalculo, que es lo que se pierde con valores fijos.
+            ws.cell(fila_fin, 1, "TOTAL").font = Font(name="Arial", size=9, bold=True)
+            for j in range(len(subclases)):
+                letra = get_column_letter(2 + j)
+                celda = ws.cell(fila_fin, 2 + j,
+                                f"=SUM({letra}{fila_cab + 1}:{letra}{fila_fin - 1})")
+                celda.font = Font(name="Arial", size=9, bold=True)
+                celda.number_format = "#,##0.00"
+            graf_pct = False
         ancla = f"{get_column_letter(3 + len(subclases))}{fila_cab}"
         _grafico_de_serie(ws, serie, fila_cab, categorias, subclases, colores,
-                          ancla)
+                          ancla, porcentaje=graf_pct)
+        fila_sig = fila_fin + 1
         if serie.get("nota"):
-            celda = ws.cell(fila_fin + 1, 1, "Fuente: " + serie["nota"])
+            celda = ws.cell(fila_sig, 1, "Fuente: " + serie["nota"])
             celda.font = Font(name="Arial", size=8, italic=True, color="595959")
-            ws.merge_cells(start_row=fila_fin + 1, start_column=1,
-                           end_row=fila_fin + 1, end_column=8)
+            ws.merge_cells(start_row=fila_sig, start_column=1,
+                           end_row=fila_sig, end_column=8)
+            fila_sig += 1
+        if base is not None and modo == "ambos":
+            celdas, total = _formulas_porcentaje(
+                base, subclases, fila_cab + 1, len(categorias), fila_fin)
+            _cab, fila_fin = _tabla_porcentaje(
+                ws, fila_sig + 1, f"{titulo} (%)", cab_cat, categorias,
+                subclases, celdas, total, base, simple=not serie.get("sub"))
         fila = max(fila_fin + 3,
                    fila_cab + _ALTO_GRAFICO_FILAS + 2)
     ws.sheet_view.showGridLines = False
@@ -2365,7 +2557,7 @@ def _nombre_hoja(nombre, usados):
     return limpio
 
 
-def _hoja_resumen(wb, informe):
+def _hoja_resumen(wb, informe, modo="absoluto"):
     """Portada del libro: identificacion, cifras de cabecera y avisos."""
     ws = wb.active
     ws.title = "Resumen DS"
@@ -2386,6 +2578,7 @@ def _hoja_resumen(wb, informe):
          ", ".join(informe.get("centros_poblados") or []) or "—"),
         ("Fichas sociales vigentes", informe.get("n_registros", 0)),
         ("Fecha de emisión", informe["generado"].strftime("%d/%m/%Y %H:%M")),
+        ("Expresión de las tablas", MODOS_EXCEL.get(modo, MODOS_EXCEL["absoluto"])),
     ]
     fila_cab, fila = _escribir_tabla(
         ws, fila, "1. Identificación", ["Campo", "Valor"],
@@ -2453,14 +2646,20 @@ def _hoja_tablas(wb, seccion, usados):
         ws.sheet_view.showGridLines = False
 
 
-def generar_excel_social(informe):
-    """Libro Excel del Diagnostico Social con graficos nativos. Devuelve bytes."""
+def generar_excel_social(informe, modo="absoluto"):
+    """Libro Excel del Diagnostico Social con graficos nativos. Devuelve bytes.
+
+    `modo`: "absoluto" (por defecto), "porcentaje" o "ambos"; ver MODOS_EXCEL.
+    Solo afecta a las tablas de resultados de las hojas de cada ficha.
+    """
+    if modo not in MODOS_EXCEL:
+        raise ValueError(f"Modo de Excel no reconocido: {modo!r}")
     wb = Workbook()
     usados = {"resumen ds"}
-    _hoja_resumen(wb, informe)
+    _hoja_resumen(wb, informe, modo)
     for seccion in informe.get("secciones", []):
         if seccion.get("series"):
-            _hoja_seccion(wb, seccion, usados)
+            _hoja_seccion(wb, seccion, usados, modo)
     for seccion in informe.get("secciones", []):
         _hoja_tablas(wb, seccion, usados)
     salida = io.BytesIO()
@@ -2468,11 +2667,13 @@ def generar_excel_social(informe):
     return salida.getvalue()
 
 
-def nombre_excel(informe):
+def nombre_excel(informe, modo="absoluto"):
     marca = datetime.now().strftime("%Y%m%d_%H%M%S")
+    sufijo = {"porcentaje": "_PCT", "ambos": "_VAL_PCT"}.get(modo, "")
     if informe.get("alcance") == "bloque":
-        return f"Graficos_DS_Bloque_{informe['codigo']}_IN_Piura_{marca}.xlsx"
-    return f"Graficos_DS_Consolidado_IN_Piura_{marca}.xlsx"
+        return (f"Graficos_DS_Bloque_{informe['codigo']}_IN_Piura"
+                f"{sufijo}_{marca}.xlsx")
+    return f"Graficos_DS_Consolidado_IN_Piura{sufijo}_{marca}.xlsx"
 
 
 # ══════════════════════════════════════════════════════════════════════════

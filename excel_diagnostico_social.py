@@ -230,6 +230,11 @@ def _parse_fds01(ws):
         "Actividad / Rubro": 2, "N fam.": 5, "Productos principales": 6,
         "Ingreso (S/./mes)": 14,
     })
+    # 2.2 Mano de obra disponible (rotulo en H24, valor en L24:N24).
+    r, c = _find_label(ws, "Mano de obra disponible", max_row=40)
+    mano_obra = _value_right(ws, r, c)
+    if mano_obra:
+        form["f1_mano_obra"] = mano_obra
     return form
 
 

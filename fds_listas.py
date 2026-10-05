@@ -160,6 +160,7 @@ L_NIV_EDU_IE = [
     'Inicial + Primaria',
     'Primaria',
     'Primaria + Secundaria',
+    'Inicial + Primaria + Secundaria',
     'Secundaria',
     'Superior',
     'No hay IE',
