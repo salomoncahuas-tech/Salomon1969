@@ -11,10 +11,11 @@ Uso:
     python mapas_pendientes_v6.py --dem-dir CARPETA_DEM [--bloques poligonos.gpkg --campo-codigo codigo]
                                   [--salida salidas/mapas_pendientes_v6] [--descargar-dem]
 
-Sin --bloques el repositorio solo tiene el centroide UTM de cada bloque (datos/atributos_bloques_v6.csv),
-así que las estadísticas se calculan sobre un CÍRCULO DE ÁREA EQUIVALENTE centrado en el centroide.
-Es una aproximación referencial: no es el límite del bloque. Cuando se cuente con la capa de polígonos
-(GPKG o SHP con .prj), pásela con --bloques y el script usará el límite real.
+Ámbito de cálculo: los polígonos de datos/bloques_v6.gpkg (117 bloques vigentes, derivados de la capa
+"Bloques V6"), que se usan por defecto. Si un bloque no tiene polígono, el script usa un CÍRCULO DE ÁREA
+EQUIVALENTE centrado en su centroide (datos/atributos_bloques_v6.csv), solo referencial, y lo avisa.
+Con --bloques se puede pasar otra capa (GPKG, SHP o KML con CRS); los polígonos de bloques retirados
+se ignoran.
 
 Clases de pendiente: rangos del Reglamento de Clasificación de Tierras por su Capacidad de Uso Mayor
 (A 0-2 % ... H > 75 %). El umbral de 75 % coincide con el criterio de idoneidad del Paso 4.
@@ -37,6 +38,7 @@ from anin_catalogo import AREA_TOTAL_HA, cargar_bloques  # noqa: E402
 from anin_utm import validar_utm  # noqa: E402
 
 CRS_PROYECTO = "EPSG:32717"
+CAPA_BLOQUES = RAIZ / "datos" / "bloques_v6.gpkg"
 RES = 30.0  # m
 VERDE = "#1B4D2E"
 
@@ -62,7 +64,7 @@ ENCABEZADOS = [
 SUBTITULO = ("PROYECTO IN PIURA | CUI 2669244 | Cuenca Alta del Río Piura | "
              "UTM WGS 84 Zona 17S (EPSG:32717)")
 FUENTE_DEM = ("DEM: Copernicus GLO-30 (ESA, 30 m, modelo de superficie). "
-              "Bloques: catálogo V6 (datos/unidades_liberacion_areas.csv).")
+              "Bloques: capa Bloques V6 (datos/bloques_v6.gpkg) y catálogo V6.")
 URL_DEM = "https://copernicus-dem-30m.s3.amazonaws.com/{n}/{n}.tif"
 
 
@@ -106,9 +108,18 @@ def preparar_bloques(ruta_centroides=None, ruta_poligonos=None, campo_codigo="co
         if not ok:
             avisos.append(f"Bloque {b['codigo']}: {msg}")
             continue
+        area_geom = None
         if b["codigo"] in poligonos:
             geom, metodo = poligonos[b["codigo"]], "Polígono del bloque"
             area_geom = geom.area / 1e4
+            # Con polígono, el centroide se toma de la geometría (punto interior si cae fuera)
+            pc = geom.centroid if geom.contains(geom.centroid) else geom.representative_point()
+            dist = geom.distance(Point(este, norte))
+            if dist > 500:
+                avisos.append(f"Bloque {b['codigo']}: el centroide de atributos_bloques_v6.csv "
+                              f"({este:,.0f}, {norte:,.0f}) está a {dist:,.0f} m de su polígono; "
+                              f"se usa el del polígono ({pc.x:,.0f}, {pc.y:,.0f})")
+            este, norte = pc.x, pc.y
             if abs(area_geom - b["area_ha"]) > 0.02 * b["area_ha"]:
                 avisos.append(f"Bloque {b['codigo']}: área del polígono {area_geom:,.3f} ha difiere "
                               f"del catálogo {b['area_ha']:,.3f} ha")
@@ -118,7 +129,8 @@ def preparar_bloques(ruta_centroides=None, ruta_poligonos=None, campo_codigo="co
             if poligonos:
                 avisos.append(f"Bloque {b['codigo']}: no figura en la capa de polígonos; se usa círculo")
         bloques.append({**b, "microcuenca": c.get("microcuenca", ""), "zona": c.get("zona", ""),
-                        "este": este, "norte": norte, "geom": geom, "metodo": metodo})
+                        "este": este, "norte": norte, "geom": geom, "metodo": metodo,
+                        "area_geom": area_geom})
     if poligonos:
         sobrantes = set(poligonos) - {b["codigo"] for b in catalogo}
         for k in sorted(sobrantes):
@@ -379,8 +391,8 @@ def mapa_bloque(b, st, cls, hs, tr, ruta_png=None, pdf=None):
     ax.imshow(_rgb_clases(cls[r0:r1, c0:c1], hs[r0:r1, c0:c1]), extent=ext, interpolation="nearest")
     es_circulo = b["metodo"].startswith("Círculo")
     geoms = [b["geom"]] if b["geom"].geom_type == "Polygon" else list(b["geom"].geoms)
-    for gm in geoms:
-        gx, gy = gm.exterior.xy
+    for anillo in [r for gm in geoms for r in (gm.exterior, *gm.interiors)]:
+        gx, gy = anillo.xy
         ax.plot(gx, gy, color="black", lw=1.4, ls="--" if es_circulo else "-", zorder=4)
         ax.plot(gx, gy, color="white", lw=0.5, ls="--" if es_circulo else "-", zorder=4)
     ax.plot(b["este"], b["norte"], marker="+", color="black", ms=11, mew=1.8, zorder=5)
@@ -510,6 +522,17 @@ def mapa_general(bloques, resultados, cls, hs, tr, ruta_png=None, pdf=None):
 
 
 # ---------------------------------------------------------------- Excel
+def nota_ambito(bloques):
+    n_pol = sum(1 for b in bloques if b["metodo"] == "Polígono del bloque")
+    texto = (f"Ámbito de cálculo: {n_pol} de {len(bloques)} bloques con su polígono "
+             "(datos/bloques_v6.gpkg, derivado de la capa 'Bloques V6'); el centroide se toma del "
+             "polígono.")
+    if n_pol < len(bloques):
+        texto += (" Los demás usan un círculo de área equivalente centrado en el centroide de "
+                  "atributos_bloques_v6.csv: son REFERENCIALES. [POR DEFINIR]: completar sus polígonos.")
+    return texto
+
+
 def matriz_excel(ruta, bloques, resultados, avisos):
     import openpyxl
     from openpyxl.styles import Font
@@ -520,7 +543,7 @@ def matriz_excel(ruta, bloques, resultados, avisos):
     ws = wb.active
     ws.title = "Pendientes por bloque"
     cols = (["N°", "Código", "Provincia", "Distrito", "Microcuenca", "Área (ha)", "Este (m)",
-             "Norte (m)", "Pend. media (%)", "Mediana (%)", "P90 (%)", "Máx. (%)"]
+             "Norte (m)", "Área polígono (ha)", "Pend. media (%)", "Mediana (%)", "P90 (%)", "Máx. (%)"]
             + [f"{c[0]} {c[1]}–{c[2]} %" if c[2] else f"{c[0]} >{c[1]} %" for c in CLASES]
             + ["Área > 75 % (ha)", "Ámbito de cálculo"])
     fila = encabezado_institucional(ws, "MATRIZ DE PENDIENTES POR BLOQUE – CATÁLOGO V6", len(cols),
@@ -533,7 +556,8 @@ def matriz_excel(ruta, bloques, resultados, avisos):
         st = resultados.get(b["codigo"])
         r = ini + n - 1
         base = [n, b["codigo"], b["provincia"], b["distrito"], b["microcuenca"], b["area_ha"],
-                round(b["este"]), round(b["norte"])]
+                round(b["este"]), round(b["norte"]),
+                round(b["area_geom"], 3) if b["area_geom"] else None]
         if st:
             base += [round(st["media"], 2), round(st["mediana"], 2), round(st["p90"], 2), round(st["max"], 2)]
             base += [round(p, 2) for p in st["pct_clases"]]
@@ -541,13 +565,13 @@ def matriz_excel(ruta, bloques, resultados, avisos):
             base += [None] * (4 + len(CLASES))
         base += [f"={get_column_letter(i_area)}{r}*{get_column_letter(i_h)}{r}/100", b["metodo"]]
         filas.append(base)
-    fmt = {c: "0.00" for c in cols[8:-2]}
-    fmt.update({"Área (ha)": "#,##0.000", "Este (m)": "#,##0", "Norte (m)": "#,##0",
+    fmt = {c: "0.00" for c in cols[9:-2]}
+    fmt.update({"Área (ha)": "#,##0.000", "Área polígono (ha)": "#,##0.000", "Este (m)": "#,##0", "Norte (m)": "#,##0",
                 "Área > 75 % (ha)": "#,##0.00"})
     anchos = {"N°": 6, "Código": 10, "Provincia": 14, "Distrito": 24, "Microcuenca": 15,
               "Ámbito de cálculo": 28}
     sig = escribir_tabla(ws, fila, cols, filas, anchos=anchos, formato_num=fmt,
-                         totales={"Área (ha)": "SUM", "Área > 75 % (ha)": "SUM"})
+                         totales={"Área (ha)": "SUM", "Área polígono (ha)": "SUM", "Área > 75 % (ha)": "SUM"})
     ult = fila + len(filas)
     tot = ult + 1
     a = get_column_letter(i_area)
@@ -589,11 +613,7 @@ def matriz_excel(ruta, bloques, resultados, avisos):
         "Clases A–H: rangos de pendiente del Reglamento de Clasificación de Tierras por su Capacidad de "
         "Uso Mayor (verificar la versión vigente antes de citar). El límite de 75 % coincide con el "
         "criterio de idoneidad del Paso 4 de selección de bloques.",
-        "Ámbito de cálculo: el repositorio no contiene polígonos de los bloques. Cuando la columna "
-        "'Ámbito de cálculo' dice 'Círculo de área equivalente', las estadísticas se calcularon sobre "
-        "un círculo centrado en el centroide del bloque con la misma área del catálogo V6. Son "
-        "REFERENCIALES. [POR DEFINIR]: recalcular con la capa oficial de polígonos "
-        "(python mapas_pendientes_v6.py --bloques bloques_v6.gpkg).",
+        nota_ambito(bloques),
         "Área > 75 % (ha) = Área del catálogo × % de la clase H / 100 (estimación).",
         f"Control: {len(bloques)} bloques vigentes del catálogo V6; área total esperada "
         f"{AREA_TOTAL_HA:,.3f} ha.",
@@ -622,7 +642,9 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--dem-dir", required=True, help="Carpeta con las teselas DEM (GeoTIFF)")
     ap.add_argument("--descargar-dem", action="store_true", help="Descarga las teselas Copernicus que falten")
-    ap.add_argument("--bloques", help="Capa de polígonos de bloques (GPKG/SHP con CRS)")
+    ap.add_argument("--bloques", default=str(CAPA_BLOQUES) if CAPA_BLOQUES.exists() else None,
+                    help="Capa de polígonos de bloques (GPKG/SHP/KML con CRS); "
+                         "por defecto datos/bloques_v6.gpkg si existe")
     ap.add_argument("--campo-codigo", default="codigo", help="Campo con el código del bloque")
     ap.add_argument("--centroides", help="CSV de centroides (por defecto datos/atributos_bloques_v6.csv)")
     ap.add_argument("--salida", default=str(RAIZ / "salidas" / "mapas_pendientes_v6"))
