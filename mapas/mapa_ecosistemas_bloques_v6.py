@@ -65,14 +65,18 @@ COLORES_CLAVE = [
 
 # ---------------------------------------------------------------- datos
 
+def capas_gis():
+    return sorted(p for p in DIR_GIS.rglob("*")
+                  if "ecosistem" in p.name.lower() and p.suffix.lower() in (".gpkg", ".shp", ".geojson", ".zip"))
+
+
 def buscar_capa(ruta):
     if ruta:
         p = Path(ruta)
         if not p.exists():
             sys.exit(f"No existe la capa de ecosistemas: {p}")
         return p
-    cands = sorted(p for p in DIR_GIS.rglob("*")
-                   if "ecosistem" in p.name.lower() and p.suffix.lower() in (".gpkg", ".shp", ".geojson", ".zip"))
+    cands = [p for p in capas_gis() if "complemento" not in p.name.lower()]
     if not cands:
         sys.exit("No se encontró la capa de ecosistemas.\n"
                  f"Copie el Mapa Nacional de Ecosistemas (MINAM 2018) o su recorte al ámbito en {DIR_GIS}\n"
@@ -111,6 +115,16 @@ def leer_ecosistemas(ruta, campo, campo_simb, ambito, bloques):
     eco_amb = eco_amb.dissolve(["ECOSISTEMA", "SIMBOLO"]).reset_index()
     eco_amb["AREA_HA"] = (eco_amb.area / 10_000).round(3)
     return eco_amb
+
+
+def completar(eco, comp):
+    """Agrega una capa complementaria solo donde la capa base no tiene cobertura (la base manda)."""
+    nuevo = gpd.overlay(comp, eco[["geometry"]].dissolve(), how="difference", keep_geom_type=True)
+    print(f"  complemento: {nuevo.area.sum() / 10_000:,.3f} ha nuevas fuera de la capa base")
+    eco = pd.concat([eco, nuevo[["ECOSISTEMA", "SIMBOLO", "geometry"]]], ignore_index=True)
+    eco = gpd.GeoDataFrame(eco, geometry="geometry", crs=comp.crs).dissolve(["ECOSISTEMA", "SIMBOLO"]).reset_index()
+    eco["AREA_HA"] = (eco.area / 10_000).round(3)
+    return eco
 
 
 def cruzar(b, eco):
@@ -409,6 +423,9 @@ def excel(b, x, eco, ruta, fuente_eco):
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--ecosistemas", help="capa de ecosistemas (.gpkg, .shp, .geojson o .zip)")
+    ap.add_argument("--complemento", nargs="*",
+                    help="capas que rellenan los vacíos de la base (por defecto, las de datos/gis con «complemento» "
+                         "en el nombre)")
     ap.add_argument("--campo", help="campo con el nombre del ecosistema")
     ap.add_argument("--campo-simbolo", help="campo con el símbolo del ecosistema")
     ap.add_argument("--fuente", default="Mapa Nacional de Ecosistemas del Perú, MINAM 2018 "
@@ -419,6 +436,10 @@ def main():
 
     b, _, amb, ctx = cargar()
     eco = leer_ecosistemas(buscar_capa(a.ecosistemas), a.campo, a.campo_simbolo, amb, b)
+    comps = [Path(c) for c in a.complemento] if a.complemento is not None else \
+        [p for p in capas_gis() if "complemento" in p.name.lower()]
+    for c in comps:
+        eco = completar(eco, leer_ecosistemas(c, a.campo, a.campo_simbolo, amb, b))
     x = cruzar(b, eco)
     assert abs(x.HA_OFICIAL.sum() - TOTAL_V6_HA) < 0.01
 
