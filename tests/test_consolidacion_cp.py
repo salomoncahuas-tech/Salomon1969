@@ -295,6 +295,42 @@ class FichasQueNoCoinciden(unittest.TestCase):
         self.assertTrue(any("no coincide" in o["Detalle"] for o in control))
 
 
+class TenenciaPorBloque(unittest.TestCase):
+    """La seccion 4 de la F-DS-01 es "Tenencia de la tierra relacionada al
+    bloque": un valor por bloque, no por centro poblado ni por ficha."""
+
+    def setUp(self):
+        regs = [
+            _reg("F-DS-01", {"f1_tenencia": "Comunal (tierras comunales)",
+                             "f1_pct_tituladas": "40", "f1_superpone": "Sí"},
+                 cp, bloque="M6B10", distrito="Buenos Aires",
+                 fecha_evaluacion=fecha, nombre_entrevistado=cp)
+            for cp, fecha in (("La Pilca", "2026-07-14"), ("La Maravilla", "2026-06-17"))]
+        regs.append(_reg("F-DS-01", {"f1_tenencia": "Estatal", "f1_pct_tituladas": "0"},
+                         "Ingenio de Buenos Aires", bloque="M6B10", distrito="Buenos Aires",
+                         fecha_evaluacion="2026-06-17"))
+        regs.append(_reg("F-DS-01", {"f1_tenencia": "Estatal"}, "Rio Seco",
+                         bloque="M1B1", distrito="Buenos Aires"))
+        self.informe = an.indicadores_consolidado(regs)
+
+    def test_un_regimen_por_bloque(self):
+        tenencia = {f["clase"]: f["valor"]
+                    for f in _serie(self.informe, "f1_tenencia")["filas"]}
+        # M6B10: Comunal (2 de 3 fichas); M1B1: Estatal. Antes: 3 + 1 "CP".
+        self.assertEqual(tenencia, {"Comunal (tierras comunales)": 1, "Estatal": 1})
+        self.assertEqual(_serie(self.informe, "f1_tenencia")["unidad"], "bloques")
+
+    def test_tituladas_una_barra_por_bloque(self):
+        tituladas = _serie(self.informe, "f1_tituladas")["filas"]
+        self.assertEqual(tituladas, [{"clase": "Bloque M6B10", "valor": 40}])
+
+    def test_fichas_del_bloque_que_no_coinciden(self):
+        control = dict(self.informe["control"]["tablas"])["Control de calidad"]
+        temas = [o for o in control if o["Tema"].startswith("Tenencia del bloque")
+                 and "M6B10" in o["Bloque(s)"]]
+        self.assertTrue(any("Estatal (1)" in o["Detalle"] for o in temas), temas)
+
+
 class OtrasFichas(unittest.TestCase):
 
     def test_dos_entrevistas_distintas_se_conservan(self):
@@ -339,6 +375,102 @@ class OtrasFichas(unittest.TestCase):
         informe = an.indicadores_bloque({"codigo": "M3B3"}, regs)
         frecuencia = _serie(informe, "f6_frecuencia")
         self.assertEqual(sum(f["valor"] for f in frecuencia["filas"]), 1)
+
+
+class HallazgosDeLaRevision(unittest.TestCase):
+
+    def test_ficha_sin_cp_que_repite_a_un_cp_no_se_suma(self):
+        """M10B4: Rio Seco Alto y la ficha de la comunidad Carlos Augusto
+        Rivera declaran los mismos 233 hab.; antes la poblacion daba 466."""
+        regs = [_reg("F-DS-01", {"f1_pob_t": "233", "f1_nfam": "113"}, "Rio Seco Alto",
+                     bloque="M10B4", distrito="Chulucanas"),
+                _reg("F-DS-01", {"f1_pob_t": "233", "f1_nfam": "113"}, "",
+                     comunidad_campesina="Carlos Augusto Rivera", bloque="M10B4",
+                     distrito="Chulucanas")]
+        informe = an.indicadores_bloque({"codigo": "M10B4"}, regs)
+        metricas = {m["etiqueta"]: m["valor"] for m in informe["metricas"]}
+        self.assertEqual(metricas["Población del ámbito"], "233")
+        control = dict(informe["control"]["tablas"])["Control de calidad"]
+        self.assertTrue(any(o["Tema"] == "Ámbito repetido (no se suma)" for o in control))
+
+    def test_ambito_compuesto_cuyos_cp_tienen_ficha_propia(self):
+        regs = [_reg("F-DS-01", {"f1_pob_t": "100"}, "A", bloque="X1", distrito="D"),
+                _reg("F-DS-01", {"f1_pob_t": "50"}, "B", bloque="X1", distrito="D"),
+                _reg("F-DS-01", {"f1_pob_t": "150"}, "A / B", bloque="X1", distrito="D")]
+        informe = an.indicadores_bloque({"codigo": "X1"}, regs)
+        metricas = {m["etiqueta"]: m["valor"] for m in informe["metricas"]}
+        self.assertEqual(metricas["Población del ámbito"], "150")
+        self.assertNotIn("A / B", _tabla(_serie(informe, "f1_poblacion")))
+
+    def test_homonimos_del_mismo_distrito_no_se_funden(self):
+        catalogo = {"A1": {"demografia": [{"centro_poblado": "Santa Rosa", "poblacion_total": 300,
+                                           "utm_este": 600000, "utm_norte": 9400000}]},
+                    "B1": {"demografia": [{"centro_poblado": "Santa Rosa", "poblacion_total": 80,
+                                           "utm_este": 610000, "utm_norte": 9410000}]}}
+        original = an._catalogo_bloque
+        an._catalogo_bloque = lambda codigo: catalogo.get(codigo, {})
+        try:
+            regs = [_reg("F-DS-01", {"f1_pob_t": "310"}, "Santa Rosa", bloque="A1", distrito="D1"),
+                    _reg("F-DS-01", {"f1_pob_t": "75"}, "Santa Rosa", bloque="B1", distrito="D1")]
+            informe = an.indicadores_consolidado(regs)
+        finally:
+            an._catalogo_bloque = original
+        metricas = {m["etiqueta"]: m["valor"] for m in informe["metricas"]}
+        self.assertEqual(metricas["Población del ámbito"], "385")
+        self.assertEqual(len(_tabla(_serie(informe, "f1_poblacion"))), 2)
+
+    def test_fila_precargada_sin_datos_no_tapa_la_ficha_anterior(self):
+        llena = {"Peligro observado": "Huaycos", "¿Ocurre?": "Sí",
+                 "Frecuencia": "F (Frecuente)", "Magnitud": "A (Alta)"}
+        vacia = {"Peligro observado": "Huaycos", "¿Ocurre?": "", "Frecuencia": ""}
+        regs = [_reg("F-DS-06", {"f6_peligros": [llena]}, "A", bloque="X1",
+                     fecha_evaluacion="2026-07-01"),
+                _reg("F-DS-06", {"f6_peligros": [vacia]}, "A", bloque="X1",
+                     fecha_evaluacion="2026-07-05")]
+        informe = an.indicadores_bloque({"codigo": "X1"}, regs)
+        self.assertIsNotNone(_serie(informe, "f6_frecuencia"))
+
+    def test_union_del_marcado_multiple_con_texto_heredado(self):
+        regs = [_reg("F-DS-01", {"f1_sanea": ["Letrina seca"]}, "Chacayo", bloque="12",
+                     fecha_evaluacion="2026-09-10"),
+                _reg("F-DS-01", {"f1_sanea": "Letrina seca / Pozo séptico"}, "Chacayo",
+                     bloque="12", fecha_evaluacion="2026-06-09")]
+        informe = an.indicadores_bloque({"codigo": "12"}, regs)
+        sanea = {f["clase"]: f["valor"] for f in _serie(informe, "f1_saneamiento")["filas"]}
+        self.assertEqual(sanea, {"Letrina seca": 1, "Pozo séptico": 1})
+
+    def test_prioridad_de_peligros_de_una_misma_ficha(self):
+        pares = (("Sequía", "Helada"), ("Helada", "Sequía"), ("Sequía", "Lluvias"),
+                 ("Lluvias", "Sequía"))
+        regs = [_reg("F-DS-06", {"f6_p1": p1, "f6_p2": p2}, "A", bloque="X1",
+                     nombre_entrevistado=f"I{i}")
+                for i, (p1, p2) in enumerate(pares)]
+        informe = an.indicadores_bloque({"codigo": "X1"}, regs)
+        puntos = {f["clase"]: f["valor"] for f in _serie(informe, "f6_prioridad")["filas"]}
+        self.assertEqual(sum(puntos.values()), 5)          # 3 + 2, una vez por CP
+        self.assertTrue(all(v in (2, 3) for v in puntos.values()), puntos)
+
+    def test_asistencia_sin_convocados_no_supera_100(self):
+        regs = [_reg("F-DS-04", {"f4_fecha": "2026-07-01", "f4_lugar": "Local",
+                                 "f4_conv_n": "80", "f4_tot": "62"}, "Chungayo", bloque="X1"),
+                _reg("F-DS-04", {"f4_fecha": "2026-07-02", "f4_lugar": "Local",
+                                 "f4_tot": "62"}, "Sapalache", bloque="X1")]
+        informe = an.indicadores_bloque({"codigo": "X1"}, regs)
+        serie = _serie(informe, "f4_asistencia")
+        categorias, subclases, matriz = an._pivote(serie)
+        pct, total = an._matriz_porcentaje(("ref", "Convocados"), subclases, matriz)
+        self.assertLessEqual(max(t for t in total if t is not None), 1.0)
+        fila_sin = pct[categorias.index(next(c for c in categorias if "Sapalache" in c))]
+        self.assertTrue(all(v is None for v in fila_sin))
+
+    def test_control_de_una_seccion_sin_graficos(self):
+        regs = [_reg("F-DS-01", {"f1_agua_cob": "150%"}, "A", bloque="X1",
+                     fecha_evaluacion="2026-07-02"),
+                _reg("F-DS-01", {"f1_agua_cob": "sin servicio"}, "A", bloque="X1",
+                     fecha_evaluacion="2026-07-01")]
+        informe = an.indicadores_bloque({"codigo": "X1"}, regs)
+        control = dict(informe["control"]["tablas"])["Control de calidad"]
+        self.assertTrue(any("150%" in o["Detalle"] for o in control), control)
 
 
 class CatalogoDelAmbito(unittest.TestCase):

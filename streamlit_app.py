@@ -4006,11 +4006,17 @@ def _render_fds01():
     _SB(f, c2, "¿Comite de RRNN?", DS_SINO, "f1_comite_rrnn")
     _T(f, c3, "Nombre del comite (si existe)", "f1_nombre_comite")
 
-    st.markdown("**4. Tenencia de la Tierra**")
-    _SB(f, st, "4.1 Regimen predominante de tenencia", FL.L_TENENCIA, "f1_tenencia")
+    st.markdown("**4. Tenencia de la Tierra relacionada al Bloque**")
+    # Como en la plantilla V4: la seccion describe al bloque, no al CP. El
+    # analisis toma un valor por bloque (el mas frecuente entre sus fichas).
+    st.caption("Responda para el BLOQUE de intervención, no para el centro "
+               "poblado. Si el bloque tiene varias fichas F-DS-01, todas "
+               "deben declarar la misma tenencia.")
+    _SB(f, st, "4.1 Regimen predominante de tenencia del bloque", FL.L_TENENCIA,
+        "f1_tenencia")
     c1, c2 = st.columns(2)
-    _T(f, c1, "N aprox. de predios individuales", "f1_n_predios")
-    _T(f, c2, "% tierras tituladas", "f1_pct_tituladas")
+    _T(f, c1, "N aprox. de predios individuales en el bloque", "f1_n_predios")
+    _T(f, c2, "% tierras tituladas en el bloque", "f1_pct_tituladas")
     c1, c2 = st.columns(2)
     _SB(f, c1, "¿Conflictos de linderos registrados?", DS_SINO, "f1_conf_linderos")
     _SB(f, c2, "¿Bloque se superpone a tierras comunales?", DS_SINO, "f1_superpone")
@@ -4686,7 +4692,8 @@ def _ds_descargas_analitica(informe, clave):
         help="Porcentaje: cada tabla (y su gráfico) se expresa en %. "
              "Composiciones (barras apiladas): % dentro de cada fila; "
              "conteos simples: % del total de la columna; marcado múltiple: "
-             "% de fichas que reportan la opción. Valores absolutos y "
+             "% de centros poblados con dato (F-DS-01) o de talleres y "
+             "titulares (F-DS-04 y F-DS-07) que reportan la opción. Valores absolutos y "
              "porcentaje: se agrega bajo cada tabla su versión en %, con "
              "fórmulas. Las series que ya están en % (coberturas, tierras "
              "tituladas) o que mezclan unidades se mantienen en valores.")

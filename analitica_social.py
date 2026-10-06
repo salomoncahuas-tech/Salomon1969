@@ -381,17 +381,23 @@ def _minutos(valor):
     texto = _txt(valor).lower()
     if not texto:
         return None
-    texto = (texto.replace("una hora", "1 hora").replace("media hora", "30 min")
-             .replace("y media", " 30 min"))
-    horas = re.search(r"(\d+(?:[.,]\d+)?)\s*(?:h\b|hr|hora)", texto)
-    mins = re.search(r"(\d+(?:[.,]\d+)?)\s*(?:m\b|min|')", texto)
-    if horas or mins:
-        total = 0.0
-        if horas:
-            total += 60 * float(horas.group(1).replace(",", "."))
-        if mins and (not horas or mins.start() > horas.start()):
-            total += float(mins.group(1).replace(",", "."))
+    m = re.fullmatch(r"(\d{1,2}):(\d{2})(?::\d{2})?\s*(?:h|hrs?|horas?)?", texto)
+    if m:                                       # "1:30" = una hora y media
+        return 60 * int(m.group(1)) + int(m.group(2)) or None
+    texto = (texto.replace("una hora y media", "1 hora 30 min")
+             .replace("hora y media", "1 hora 30 min").replace("una hora", "1 hora")
+             .replace("media hora", "30 min").replace("y media", " 30 min"))
+    horas = re.search(r"(\d+(?:[.,]\d+)?)\s*(?:horas?|hrs?|h)(?![a-z])", texto)
+    if horas:
+        total = 60 * float(horas.group(1).replace(",", "."))
+        # Los minutos van despues de las horas, con o sin unidad ("1h30").
+        resto = re.match(r"\s*(?:y\s*)?(\d+)", texto[horas.end():])
+        if resto:
+            total += float(resto.group(1))
         return total or None
+    mins = re.search(r"(\d+(?:[.,]\d+)?)\s*(?:m\b|min|')", texto)
+    if mins:
+        return float(mins.group(1).replace(",", ".")) or None
     return _num(texto)
 
 
@@ -476,7 +482,8 @@ def _distrito(registro):
 
 
 def _identidad(registro):
-    """Claves de identidad del ambito de una ficha y su descripcion."""
+    """Identidad del ambito de una ficha: tipo, nombre, distrito, bloque y,
+    si el CP figura en el catalogo INEI de su bloque, su ubicacion (xy)."""
     nombre = _txt(registro.get("centro_poblado"))
     bloque = _txt(registro.get("bloque_codigo"))
     distrito = _distrito(registro)
@@ -485,56 +492,57 @@ def _identidad(registro):
         # el propio bloque. No se mezcla con ningun otro ambito.
         comunidad = _comunidad(registro)
         if comunidad:
-            return {"nombre": comunidad, "distrito": distrito,
-                    "claves": [("cc", _clave(comunidad), _clave(distrito))],
+            return {"nombre": comunidad, "distrito": distrito, "xy": None,
+                    "clave": ("cc", _clave(comunidad), _clave(distrito)),
                     "tipo": "comunidad", "bloque": bloque}
         etiqueta = f"Bloque {bloque} (sin CP consignado)" if bloque else \
             "Sin ámbito consignado"
-        return {"nombre": etiqueta, "distrito": distrito,
-                "claves": [("bloque", bloque)], "tipo": "sin_cp",
-                "bloque": bloque}
+        return {"nombre": etiqueta, "distrito": distrito, "xy": None,
+                "clave": ("bloque", bloque), "tipo": "sin_cp", "bloque": bloque}
     partes = _partes_cp(nombre)
     if len(partes) > 1:
         # Una sola ficha para varios CP: sus cifras no se pueden repartir,
         # de modo que el conjunto es su propio ambito.
         clave = "+".join(sorted(_clave(p) for p in partes))
-        return {"nombre": " / ".join(partes), "distrito": distrito,
-                "claves": [("nd", clave, _clave(distrito))],
+        return {"nombre": " / ".join(partes), "distrito": distrito, "xy": None,
+                "clave": ("nd", clave, _clave(distrito)),
                 "tipo": "compuesto", "bloque": bloque}
-    claves = [("nd", _clave(nombre), _clave(distrito))]
-    ubicacion = _ubicacion_catalogo(bloque, nombre)
-    if ubicacion:
-        claves.append(("xy",) + ubicacion)
-    return {"nombre": nombre, "distrito": distrito, "claves": claves,
+    return {"nombre": nombre, "distrito": distrito,
+            "xy": _ubicacion_catalogo(bloque, nombre),
+            "clave": ("nd", _clave(nombre), _clave(distrito)),
             "tipo": "cp", "bloque": bloque}
 
 
 def _agrupar_ambitos(registros):
     """Asigna a cada registro la clave de su centro poblado.
 
-    Dos fichas son del mismo CP si comparten nombre y distrito, o la misma
-    ubicacion del catalogo INEI. Devuelve (clave_por_registro, etiquetas),
-    donde la clave es estable y la etiqueta es el nombre a mostrar, con el
-    distrito entre parentesis solo cuando hay homonimos.
+    La ubicacion del catalogo INEI manda: dos fichas con la misma ubicacion
+    son el mismo CP aunque sus bloques esten en distritos distintos
+    (Chililique Alto, Maray), y dos con ubicaciones distintas son CP
+    distintos aunque se llamen igual (las dos Coyona). Una ficha cuyo CP no
+    figura en el catalogo de su bloque se une a la unica ubicacion conocida
+    de ese nombre en su distrito; si no la hay, a las demas fichas del mismo
+    nombre y distrito. Devuelve (clave_por_registro, etiquetas), donde la
+    etiqueta es el nombre a mostrar, con el distrito entre parentesis solo
+    cuando hay homonimos.
     """
-    padre = {}
-
-    def raiz(k):
-        while padre.setdefault(k, k) != k:
-            padre[k] = padre[padre[k]]
-            k = padre[k]
-        return k
-
     identidades = [_identidad(r) for r in registros]
+    ubicaciones = {}
     for ident in identidades:
-        primera = raiz(ident["claves"][0])
-        for otra in ident["claves"][1:]:
-            padre[raiz(otra)] = primera
+        if ident["tipo"] == "cp" and ident["xy"]:
+            ubicaciones.setdefault(ident["clave"], set()).add(ident["xy"])
     grupos = {}
     for i, ident in enumerate(identidades):
-        grupos.setdefault(raiz(ident["claves"][0]), []).append(i)
+        k = ident["clave"]
+        if ident["tipo"] == "cp":
+            xy = ident["xy"]
+            if not xy and len(ubicaciones.get(k, ())) == 1:
+                xy = next(iter(ubicaciones[k]))
+            if xy:
+                k = ("xy",) + tuple(xy)
+        grupos.setdefault(k, []).append(i)
 
-    claves, nombres, distritos = {}, {}, {}
+    claves, nombres, distritos, bloques = {}, {}, {}, {}
     for k, indices in grupos.items():
         # Nombre a mostrar: la grafia mas frecuente entre sus fichas.
         conteo = {}
@@ -546,20 +554,30 @@ def _agrupar_ambitos(registros):
         nombres[clave] = nombre
         distritos[clave] = next((identidades[i]["distrito"] for i in indices
                                  if identidades[i]["distrito"]), "")
+        bloques[clave] = sorted({identidades[i]["bloque"] for i in indices
+                                 if identidades[i]["bloque"]})
         for i in indices:
             claves[i] = clave
-    # Homonimos (mismo nombre, distinto CP): se distinguen por el distrito.
+    # Homonimos (mismo nombre, distinto CP): se distinguen por el distrito y,
+    # si comparten distrito, tambien por el bloque.
     por_nombre = {}
     for clave, nombre in nombres.items():
         por_nombre.setdefault(_clave(nombre), []).append(clave)
     etiquetas = {}
     for lista in por_nombre.values():
+        mismo_distrito = {}
+        for clave in lista:
+            mismo_distrito.setdefault(_clave(distritos[clave]), []).append(clave)
         for clave in lista:
             etiqueta = nombres[clave]
-            if len(lista) > 1 and distritos[clave]:
-                etiqueta = f"{etiqueta} ({distritos[clave]})"
+            if len(lista) > 1:
+                detalle = [distritos[clave]] if distritos[clave] else []
+                if len(mismo_distrito[_clave(distritos[clave])]) > 1 and bloques[clave]:
+                    detalle.append("bloque " + ", ".join(bloques[clave]))
+                if detalle:
+                    etiqueta = f"{etiqueta} ({', '.join(detalle)})"
             etiquetas[clave] = etiqueta
-    # Si aun asi se repite (mismo distrito, distinta ubicacion), se numera.
+    # Ultimo recurso: si aun se repite, se numera.
     vistas = {}
     for clave in sorted(etiquetas):
         etiqueta = etiquetas[clave]
@@ -597,7 +615,15 @@ def _es_tabla(valor):
 _GRUPO_DEMOGRAFIA = ("f1_pob_t", "f1_pob_h", "f1_pob_m", "f1_pob_men18",
                      "f1_pob_may65")
 
+# La priorizacion local de peligros (1.°, 2.° y 3.°) es una sola respuesta:
+# se toma completa de una ficha para no repetir un peligro en dos puestos.
+_GRUPO_PRIORIDAD = ("f6_p1", "f6_p2", "f6_p3")
+
 _CAMPOS_PCT = {"f1_agua_cob", "f1_energia_cob", "f1_pct_tituladas"}
+
+# Campos de marcado multiple y sus opciones (para separar el texto heredado).
+_OPCIONES_MULTIPLES = {"f1_agua": FL.L_AGUA, "f1_sanea": FL.L_SANEA,
+                       "f1_energia": FL.L_ENERG}
 
 # Tablas que se combinan por su columna clave: cada fila (actividad, peligro,
 # cambio, oportunidad) se toma de la ficha de mayor prioridad que la
@@ -619,8 +645,6 @@ _CONTROL_FDS01 = [
     ("f1_nfam", "Familias / viviendas"),
     ("f1_agua_cob", "Cobertura de agua (%)"),
     ("f1_energia_cob", "Cobertura de energía (%)"),
-    ("f1_pct_tituladas", "Tierras tituladas (%)"),
-    ("f1_tenencia", "Régimen de tenencia"),
     ("f1_juntos", "JUNTOS (familias)"),
     ("f1_pension65", "Pensión 65 (personas)"),
     ("f1_migracion", "Tasa de migración juvenil"),
@@ -665,9 +689,15 @@ def _moda(campo, formularios):
     campo entre las fichas (ordenadas de la mas reciente a la mas antigua);
     en caso de empate manda la ficha mas reciente. None si ninguna lo trae."""
     conteo, primero = {}, {}
+    validos = (campo in _CAMPOS_PCT and any(
+        _pct_valido(f.get(campo)) is not None for f in formularios))
     for pos, form in enumerate(formularios):
         valor = form.get(campo)
         if not _tiene(valor):
+            continue
+        # Un porcentaje ilegible ("80'/dia") no le gana a uno valido de otra
+        # ficha del mismo CP: se lo sigue informando en el control.
+        if validos and _pct_valido(valor) is None:
             continue
         k = _valor_norm(campo, valor)
         conteo[k] = conteo.get(k, 0) + 1
@@ -704,17 +734,28 @@ def _combinar_tabla(campo, formularios, orden):
             if filas:
                 return filas
         return []
-    salida, tomadas = [], set()
+    def con_datos(fila):
+        # La app precarga las filas de peligros y cambios con solo su nombre:
+        # una fila sin ningun otro dato no "registra" la clave y no debe
+        # tapar la respuesta de una ficha mas antigua del mismo CP.
+        return any(_txt(v) for k, v in fila.items()
+                   if _clave(k) not in {_clave(c) for c in columnas})
+
+    salida, tomadas, vacias = [], set(), {}
     for i in orden:
         propias = {}
         for fila in _tabla(formularios[i], campo):
             clave = _clave(_col(fila, *columnas))
             if not clave or clave in tomadas:
                 continue
+            if not con_datos(fila):
+                vacias.setdefault(clave, fila)
+                continue
             propias.setdefault(clave, []).append(fila)
         for clave, filas in propias.items():
             tomadas.add(clave)
             salida += filas
+    salida += [fila for clave, fila in vacias.items() if clave not in tomadas]
     return salida
 
 
@@ -738,25 +779,30 @@ def _consolidar_formularios(fichas, referencia=0):
     base = dict(formularios[referencia])
     campos = list(dict.fromkeys(k for f in formularios for k in f))
     for campo in campos:
-        if campo in _GRUPO_DEMOGRAFIA:
+        if campo in _GRUPO_DEMOGRAFIA or campo in _GRUPO_PRIORIDAD:
             continue
         valores = [f.get(campo) for f in formularios if _tiene(f.get(campo))]
         if not valores:
             continue
         if any(_es_tabla(v) for v in valores):
             base[campo] = _combinar_tabla(campo, formularios, orden)
-        elif any(isinstance(v, (list, tuple)) for v in valores):
+        elif campo in _OPCIONES_MULTIPLES or any(isinstance(v, (list, tuple))
+                                                 for v in valores):
+            # Se decide por el campo, no por el tipo guardado: las fichas
+            # antiguas traen el marcado como texto ("Letrina seca / Pozo
+            # septico") y deben separarse con las opciones de la ficha.
             reunidas = []
             for i in orden:
-                reunidas += _lista(formularios[i].get(campo))
+                reunidas += _lista(formularios[i].get(campo),
+                                   opciones=_OPCIONES_MULTIPLES.get(campo))
             base[campo] = list(dict.fromkeys(reunidas))
         else:
             base[campo] = _moda(campo, formularios)[0]
-    fuente = next((i for i in orden
-                   if any(_tiene(formularios[i].get(k)) for k in _GRUPO_DEMOGRAFIA)),
-                  None)
-    for k in _GRUPO_DEMOGRAFIA:
-        base[k] = formularios[fuente].get(k, "") if fuente is not None else ""
+    for grupo in (_GRUPO_DEMOGRAFIA, _GRUPO_PRIORIDAD):
+        fuente = next((i for i in orden
+                       if any(_tiene(formularios[i].get(k)) for k in grupo)), None)
+        for k in grupo:
+            base[k] = formularios[fuente].get(k, "") if fuente is not None else ""
     return base
 
 
@@ -769,8 +815,18 @@ def _referencia(fichas, ficha):
     reciente."""
     if ficha != "F-DS-01":
         return 0
-    moda = _moda("f1_pob_t", [formulario(r) for r in fichas])
-    return moda[1] if moda else 0
+    formularios = [formulario(r) for r in fichas]
+    moda = _moda("f1_pob_t", formularios)
+    if not moda:
+        return 0
+    modal = _valor_norm("f1_pob_t", moda[0])
+    # Entre las fichas que declaran esa poblacion, la que mas la desagrega
+    # (sexo y edad); en empate, la mas reciente.
+    candidatas = [i for i, f in enumerate(formularios)
+                  if _tiene(f.get("f1_pob_t"))
+                  and _valor_norm("f1_pob_t", f.get("f1_pob_t")) == modal]
+    return max(candidatas, key=lambda i: (
+        sum(1 for k in _GRUPO_DEMOGRAFIA if _tiene(formularios[i].get(k))), -i))
 
 
 def unidades_por_cp(registros, ficha="F-DS-01"):
@@ -806,7 +862,8 @@ def unidades_por_cp(registros, ficha="F-DS-01"):
                     usado = _valor_norm(campo, form.get(campo))
                     discrepancias.append({
                         "campo": etiqueta,
-                        "usado": _mostrar(campo, form.get(campo)),
+                        "usado": _mostrar(campo, form.get(campo))
+                        or "(la ficha de referencia no lo consigna)",
                         "n_usado": distintos.get(usado, [None, 0])[1],
                         "n_con_dato": sum(n for _v, n in distintos.values()),
                         "otros": [f"{_mostrar(campo, v)} ({n})"
@@ -821,7 +878,102 @@ def unidades_por_cp(registros, ficha="F-DS-01"):
             "tipo": _identidad(fichas[0])["tipo"],
         })
     unidades.sort(key=lambda u: _clave(u["etiqueta"]))
+    _marcar_repetidos(unidades)
     return unidades
+
+
+def _marcar_repetidos(unidades):
+    """Marca con "suma"=False los ambitos que repetirian a un CP con ficha
+    propia: una ficha "A / B" cuando A o B tienen su propia ficha, y una
+    ficha sin CP (solo comunidad, o ni eso) en un bloque que ya tiene fichas
+    de sus CP. Sumarlos contaria dos veces la misma poblacion (en M10B4,
+    Rio Seco Alto y la ficha de la comunidad Carlos Augusto Rivera declaran
+    los mismos 233 hab.). No se grafican ni se suman; quedan en el
+    control de calidad."""
+    propios, bloques_con_cp = set(), set()
+    for u in unidades:
+        if u["tipo"] == "cp":
+            for r in u["fichas"]:
+                propios.add((_clave(r.get("centro_poblado")), _clave(_distrito(r))))
+            bloques_con_cp.update(u["bloques"])
+    for u in unidades:
+        u["suma"], u["motivo_excluido"] = True, ""
+        if u["tipo"] == "compuesto":
+            repetidos = sorted({p for r in u["fichas"]
+                                for p in _partes_cp(r.get("centro_poblado"))
+                                if (_clave(p), _clave(_distrito(r))) in propios})
+            if repetidos:
+                u["suma"] = False
+                u["motivo_excluido"] = ("sus centros poblados " + ", ".join(repetidos)
+                                        + " ya tienen ficha propia")
+        elif u["tipo"] in ("comunidad", "sin_cp"):
+            comunes = sorted(set(u["bloques"]) & bloques_con_cp)
+            if comunes:
+                u["suma"] = False
+                u["motivo_excluido"] = ("la ficha no consigna centro poblado y el bloque "
+                                        + ", ".join(comunes)
+                                        + " ya tiene fichas de sus centros poblados")
+
+
+# Seccion 4 de la F-DS-01 ("Tenencia de la tierra relacionada al bloque").
+_CAMPOS_TENENCIA = [
+    ("f1_tenencia", "Régimen predominante de tenencia"),
+    ("f1_n_predios", "N.° aprox. de predios individuales"),
+    ("f1_pct_tituladas", "Tierras tituladas (%)"),
+    ("f1_conf_linderos", "Conflictos de linderos registrados"),
+    ("f1_superpone", "El bloque se superpone a tierras comunales"),
+    ("f1_reg_titulacion", "Organismo responsable del registro"),
+]
+
+
+def tenencia_por_bloque(registros):
+    """Un registro por bloque con la seccion 4 de la F-DS-01 consolidada.
+
+    La tenencia de la tierra se responde para el bloque, no para cada centro
+    poblado: todas las F-DS-01 del bloque (de cualquiera de sus CP) son
+    fuentes del mismo dato. Cada campo es el valor mas frecuente entre ellas;
+    en empate, el de la ficha mas reciente. Las fichas que no coinciden se
+    informan en "discrepancias"."""
+    por_bloque = {}
+    for r in _por_ficha(registros or [], "F-DS-01"):
+        por_bloque.setdefault(_txt(r.get("bloque_codigo")) or "(sin bloque)", []).append(r)
+    salida = []
+    for bloque, fichas in sorted(por_bloque.items()):
+        fichas = sorted(fichas, key=_orden_reciente, reverse=True)
+        formularios = [formulario(r) for r in fichas]
+        form, discrepancias = {}, []
+        for campo, etiqueta in _CAMPOS_TENENCIA:
+            moda = _moda(campo, formularios)
+            form[campo] = moda[0] if moda else ""
+            distintos = {}
+            for f in formularios:
+                if _tiene(f.get(campo)):
+                    k = _valor_norm(campo, f.get(campo))
+                    distintos.setdefault(k, [f.get(campo), 0])[1] += 1
+            if len(distintos) > 1:
+                usado = _valor_norm(campo, form[campo])
+                discrepancias.append({
+                    "campo": etiqueta, "usado": _mostrar(campo, form[campo]),
+                    "n_usado": distintos.get(usado, [None, 0])[1],
+                    "n_con_dato": sum(n for _v, n in distintos.values()),
+                    "otros": [f"{_mostrar(campo, v)} ({n})"
+                              for k, (v, n) in distintos.items() if k != usado]})
+        salida.append({
+            "bloque": bloque, "etiqueta": f"Bloque {bloque}",
+            "distrito": next((_txt(r.get("bloque_distrito")) or _distrito(r)
+                              for r in fichas if _txt(r.get("bloque_distrito"))
+                              or _distrito(r)), ""),
+            "bloques": [bloque], "fichas": fichas, "referencia": fichas[0],
+            "form": form, "discrepancias": discrepancias})
+    return salida
+
+
+def _unidades_fds01(registros):
+    """(incluidas, excluidas): unidades de la F-DS-01 que entran al analisis
+    y las que se dejan fuera por repetir a un CP con ficha propia."""
+    unidades = unidades_por_cp(registros, "F-DS-01")
+    return ([u for u in unidades if u["suma"]],
+            [u for u in unidades if not u["suma"]])
 
 
 
@@ -992,11 +1144,16 @@ def _observacion(unidad, tema, detalle, ficha="F-DS-01"):
 
 
 def _seccion_socioeconomica(registros, tema="claro"):
-    unidades = unidades_por_cp(registros, "F-DS-01")
-    if not unidades:
+    unidades, excluidas = _unidades_fds01(registros)
+    if not unidades and not excluidas:
         return None
-    n_fichas = sum(len(u["fichas"]) for u in unidades)
+    n_fichas = sum(len(u["fichas"]) for u in unidades + excluidas)
     series, tablas, control, formato_tablas = [], [], [], {}
+    for u in excluidas:
+        control.append(_observacion(
+            u, "Ámbito repetido (no se suma)",
+            f"No se grafica ni se suma: {u['motivo_excluido']}. Si describe a "
+            "otro centro poblado, corrija el nombre en la ficha."))
 
     for u in unidades:
         if u["tipo"] == "compuesto":
@@ -1185,8 +1342,8 @@ def _seccion_socioeconomica(registros, tema="claro"):
             nota="F-DS-01, numeral 5 (Servicios básicos e infraestructura "
                  "social). Un CP con varias fichas toma el valor más frecuente "
                  "entre ellas (en empate, el de la más reciente); los "
-                 "porcentajes nunca se suman. La fila PROMEDIO "
-                 "es la media simple de los centros poblados con dato."))
+                 "porcentajes nunca se suman. En el libro Excel, la fila "
+                 "PROMEDIO es la media simple de los centros poblados con dato."))
 
     # 4. Fuentes de agua, saneamiento y energia (marcado multiple), contadas
     #    por centro poblado: cada CP suma una sola vez en cada opcion.
@@ -1340,40 +1497,79 @@ def _seccion_socioeconomica(registros, tema="claro"):
             nota="F-DS-01, numerales 3 y 7. Insumo directo de la línea de "
                  "gobernanza y gestión comunitaria del proyecto."))
 
-    # 8. Tenencia de la tierra.
-    tenencias = [_txt(u["form"].get("f1_tenencia")) for u in unidades]
-    filas_ten = _conteo(tenencias, orden=FL.L_TENENCIA)
+    # 8. Tenencia de la tierra: la seccion 4 de la ficha se responde para el
+    #    BLOQUE ("Tenencia de la tierra relacionada al bloque"), de modo que
+    #    se resume con un valor por bloque y nunca por CP ni por ficha.
+    bloques_ten = tenencia_por_bloque(registros)
+    for b in bloques_ten:
+        for d in b["discrepancias"]:
+            control.append(_observacion(
+                b, "Tenencia del bloque: fichas que no coinciden",
+                f"{d['campo']}: se usa {d['usado'] or '(vacío)'} ({d['n_usado']} de "
+                f"{d['n_con_dato']} fichas F-DS-01 del bloque con dato); las demás "
+                f"declaran {', '.join(d['otros'])} (entre paréntesis, N.° de fichas)."))
+    filas_ten = _conteo([_txt(b["form"].get("f1_tenencia")) for b in bloques_ten],
+                        orden=FL.L_TENENCIA)
     if filas_ten:
         series.append(_serie(
-            "f1_tenencia", "Régimen predominante de tenencia de la tierra",
+            "f1_tenencia", "Régimen predominante de tenencia de la tierra en los bloques",
             "barras_h", filas_ten, "clase", "valor", escala="neutra",
-            unidad="CP", eje_x="Centros poblados",
+            unidad="bloques", eje_x="Bloques",
             descripcion="Determina con quién se suscriben los acuerdos de "
-                        "intervención en cada bloque. Cada CP se cuenta una "
-                        "sola vez.",
-            nota="F-DS-01, numeral 4 (Tenencia de la tierra)."))
+                        "intervención. Se responde para el bloque: cada bloque "
+                        "se cuenta una sola vez.",
+            nota="F-DS-01, numeral 4 (Tenencia de la tierra relacionada al "
+                 "bloque). Si el bloque tiene varias fichas F-DS-01, cuenta el "
+                 "régimen más frecuente entre ellas (en empate, el de la más "
+                 "reciente)."))
 
     filas_tit = []
-    for u in unidades:
-        texto = _txt(u["form"].get("f1_pct_tituladas"))
-        pct = _pct_valido(u["form"].get("f1_pct_tituladas"))
+    for b in bloques_ten:
+        texto = _txt(b["form"].get("f1_pct_tituladas"))
+        pct = _pct_valido(b["form"].get("f1_pct_tituladas"))
         if pct is not None:
-            filas_tit.append({"clase": u["etiqueta"], "valor": pct})
+            filas_tit.append({"clase": b["etiqueta"], "valor": pct})
         elif texto:
             control.append(_observacion(
-                u, "Tierras tituladas",
+                b, "Tierras tituladas",
                 f"«{texto}» no es un porcentaje entre 0 y 100; no se grafica."))
     if filas_tit:
         series.append(_serie(
-            "f1_tituladas", "Tierras tituladas por centro poblado (%)",
+            "f1_tituladas", "Tierras tituladas por bloque (%)",
             "barras_h", filas_tit, "clase", "valor", escala="favorable",
-            unidad="%", eje_x="Tierras tituladas (%)", eje_y="Centro poblado",
+            unidad="%", eje_x="Tierras tituladas (%)", eje_y="Bloque",
             maximo=100, decimales=1, totales="promedio",
             descripcion="A mayor porcentaje titulado, menor riesgo de "
                         "observaciones prediales en el tamizaje del bloque.",
-            nota="F-DS-01, numeral 4.1. Un valor por centro poblado (el más "
-                 "frecuente entre sus fichas; en empate, el de la más "
-                 "reciente); los porcentajes nunca se suman."))
+            nota="F-DS-01, numeral 4. Un valor por bloque (el más frecuente "
+                 "entre sus fichas; en empate, el de la más reciente); los "
+                 "porcentajes nunca se suman."))
+
+    filas_lind = _bateria_sino(bloques_ten, [
+        ("f1_superpone", "El bloque se superpone a tierras comunales"),
+        ("f1_conf_linderos", "Conflictos de linderos registrados")],
+        form=lambda b: b["form"])
+    if filas_lind:
+        series.append(_serie(
+            "f1_tenencia_bloque", "Superposición con tierras comunales y conflictos de linderos",
+            "apiladas", filas_lind, "cat", "valor", sub="sub",
+            orden_sub=["Sí", "No", "No aplica"], colores=_colores_sino(tema),
+            unidad="bloques", eje_x="Bloques", escala="sino", totales="filas",
+            etiqueta_total="Bloques que responden", eje_y="Condición del bloque",
+            descripcion="Condiciones prediales del bloque que anticipan "
+                        "observaciones en el tamizaje predial (paso 5).",
+            nota="F-DS-01, numeral 4. Un valor por bloque."))
+    if bloques_ten:
+        tablas.append(("Tenencia por bloque", [{
+            "Bloque": b["bloque"], "Distrito": b["distrito"],
+            "Fichas F-DS-01 del bloque": len(b["fichas"]),
+            "Régimen predominante de tenencia": _txt(b["form"].get("f1_tenencia")),
+            "N.° aprox. de predios individuales": _entero(b["form"].get("f1_n_predios")),
+            "Tierras tituladas (%)": _pct_valido(b["form"].get("f1_pct_tituladas")),
+            "Conflictos de linderos": _sino(b["form"].get("f1_conf_linderos")),
+            "Se superpone a tierras comunales": _sino(b["form"].get("f1_superpone")),
+            "Organismo responsable del registro": _txt(b["form"].get("f1_reg_titulacion")),
+        } for b in bloques_ten]))
 
     # 9. Percepciones ordinales del ambito (un voto por CP).
     filas_perc = []
@@ -1401,7 +1597,10 @@ def _seccion_socioeconomica(registros, tema="claro"):
     return {"id": "F-DS-01", "titulo": "F-DS-01 · Diagnóstico socioeconómico",
             "descripcion": (f"{n_fichas} ficha(s) registrada(s) de {len(unidades)} "
                             f"ámbito(s) ({n_cp} centro(s) poblado(s)); cada CP "
-                            "se cuenta una sola vez."),
+                            "se cuenta una sola vez."
+                            + (f" {len(excluidas)} ámbito(s) que repiten a un CP "
+                               "con ficha propia no se suman (ver Control de "
+                               "calidad)." if excluidas else "")),
             "series": series, "tablas": tablas, "control": control,
             "formato_tablas": formato_tablas, "unidades": unidades}
 
@@ -1806,7 +2005,7 @@ def _seccion_talleres(registros, tema="claro"):
                         "total de asistentes declarado.",
             nota="F-DS-04, numeral 2.1."))
 
-    filas_metod = _conteo(metodologias)
+    filas_metod = _conteo(metodologias, agrupar_otros=False)
     if filas_metod:
         series.append(_serie(
             "f4_metodologias", "Metodologías participativas empleadas",
@@ -2314,7 +2513,7 @@ def _seccion_consentimiento(registros, tema="claro"):
                         "acuerdo de intervención.",
             nota="F-DS-07, numeral 2.1."))
 
-    filas_doc = _conteo(documentos)
+    filas_doc = _conteo(documentos, agrupar_otros=False)
     if filas_doc:
         series.append(_serie(
             "f7_documentos", "Documentación de tenencia disponible",
@@ -2526,7 +2725,7 @@ def _metricas(registros, datos_cp, secciones, catalogo=()):
     Todas las cifras de centros poblados se calculan sobre CP unicos (ver
     unidades_por_cp): un CP con varias fichas, o asociado a varios bloques,
     suma una sola vez."""
-    unidades = unidades_por_cp(registros, "F-DS-01")
+    unidades, _excluidas = _unidades_fds01(registros)
     poblaciones = [_poblacion_unidad(u["form"]) for u in unidades]
     con_pob = [p for p in poblaciones if p is not None]
     poblacion = sum(con_pob)
@@ -2664,6 +2863,8 @@ def _fichas_fds01(registros):
                 "Responsable": _txt(reg.get("evaluador")),
                 "Entrevistado": _txt(reg.get("nombre_entrevistado")),
                 "Ficha de referencia del CP": "Sí" if reg is u["referencia"] else "No",
+                "Se suma en el análisis": "Sí" if u.get("suma", True) else
+                f"No: {u.get('motivo_excluido', '')}",
                 "Familias / viviendas": _entero(f.get("f1_nfam")),
                 "Población total (hab.)": _entero(f.get("f1_pob_t")),
                 "Hombres": _entero(f.get("f1_pob_h")),
@@ -2725,7 +2926,7 @@ def indicadores_bloque(bloque, registros, datos_cp=None, tema="claro"):
     catalogo = [{"nombre": c, "bloques": [codigo] if codigo else [],
                  "poblacion": poblaciones.get(_clave(c), 0)} for c in centros]
 
-    secciones = []
+    secciones, sin_series = [], []
     cobertura = _seccion_cobertura(registros, catalogo, tema)
     if cobertura:
         secciones.append(cobertura)
@@ -2733,6 +2934,8 @@ def indicadores_bloque(bloque, registros, datos_cp=None, tema="claro"):
         seccion = constructor(registros, tema)
         if seccion and seccion["series"]:
             secciones.append(seccion)
+        elif seccion:
+            sin_series.append(seccion)
 
     avisos = []
     faltantes = [f for f in FICHAS_DS if not _por_ficha(registros, f)]
@@ -2742,7 +2945,9 @@ def indicadores_bloque(bloque, registros, datos_cp=None, tema="claro"):
     if not registros:
         avisos.append("El bloque no tiene fichas sociales registradas.")
     avisos += _avisos_consolidacion(registros)
-    control = _seccion_control(registros, secciones)
+    # El control recoge tambien las secciones que no llegaron a graficar
+    # nada (p. ej. solo porcentajes ilegibles): sus observaciones cuentan.
+    control = _seccion_control(registros, secciones + sin_series)
 
     return {
         "alcance": "bloque",
@@ -2800,10 +3005,13 @@ def indicadores_consolidado(registros, etiqueta="", tema="claro",
                     nota="Cabecera de cada ficha registrada y bloque al que "
                          "pertenece."))
         secciones.append(cobertura)
+    sin_series = []
     for constructor in _CONSTRUCTORES:
         seccion = constructor(registros, tema)
         if seccion and seccion["series"]:
             secciones.append(seccion)
+        elif seccion:
+            sin_series.append(seccion)
 
     metricas = _metricas(registros, {}, secciones, catalogo)
     detalle = etiqueta or "ámbito seleccionado"
@@ -2820,7 +3028,7 @@ def indicadores_consolidado(registros, etiqueta="", tema="claro",
         "bloque": {}, "centros_poblados": [cp["nombre"] for cp in catalogo],
         "n_registros": len(registros),
         "metricas": metricas, "secciones": secciones,
-        "control": _seccion_control(registros, secciones),
+        "control": _seccion_control(registros, secciones + sin_series),
         "avisos": avisos,
         "registros": registros, "bloques": bloques,
         "bloques_ambito": ambito,
@@ -3317,7 +3525,8 @@ def _pivote(serie):
     # habitantes): leer "0 %" o "0 hab." donde la ficha no trae el dato es
     # un error. En los conteos, la ausencia si es un cero.
     vacio = (None if _modo_totales(serie) == "promedio"
-             or serie.get("unidad") == "hab." else 0)
+             or serie.get("unidad") == "hab."
+             or isinstance(serie.get("pct_base"), tuple) else 0)
     matriz = [[acumulado.get((c, s), vacio) for s in subclases] for c in categorias]
     return categorias, subclases, matriz
 
@@ -3411,6 +3620,9 @@ def _base_porcentaje(serie):
     base = serie.get("pct_base", "auto")
     if base is None or serie.get("unidad") == "%":
         return None
+    if isinstance(base, tuple) and not any(
+            f.get(serie.get("sub")) == base[1] for f in serie.get("filas") or []):
+        return None             # ningun ambito trae la referencia (convocados)
     if base != "auto":
         return base
     if serie.get("forma") == "mapa_calor":
@@ -3453,17 +3665,22 @@ def _matriz_porcentaje(base, subclases, matriz):
         pct = [[_div(v or 0, gran) for v in f] for f in matriz]
         tot = [_div(c, gran) for c in col_tot]
     elif isinstance(base, tuple):
+        # Solo las filas con referencia (p. ej. talleres con convocados): una
+        # fila sin denominador queda vacia y no entra al total, que asi no
+        # puede superar el 100 % por asistentes sin convocados.
         k = subclases.index(base[1]) if base[1] in subclases else None
-        pct = [[_div(v or 0, f[k] or 0) if k is not None else 0.0 for v in f]
-               for f in matriz]
-        tot = [_div(c, col_tot[k]) if k is not None else 0.0 for c in col_tot]
+        con_ref = [f for f in matriz if k is not None and (f[k] or 0) > 0]
+        pct = [[_div(v or 0, f[k]) if k is not None and (f[k] or 0) > 0 else None
+                for v in f] for f in matriz]
+        ref_tot = sum(f[k] for f in con_ref) if k is not None else 0
+        tot = [_div(sum(f[j] or 0 for f in con_ref), ref_tot) for j in range(n_sub)]
     else:
         pct = [[_div(v or 0, base) for v in f] for f in matriz]
         tot = None          # la suma de un marcado multiple no es un total
     return pct, tot
 
 
-def _formulas_porcentaje(base, subclases, fila_ini, n_cat, fila_tot):
+def _formulas_porcentaje(base, subclases, fila_ini, n_cat, fila_tot, base_ref=None):
     """Formulas de la tabla % que apuntan a la tabla de valores absolutos
     (filas fila_ini..fila_ini+n_cat-1, columnas B..). `fila_tot` es la fila
     TOTAL de esa tabla, o None si no la tiene (entonces la formula suma el
@@ -3475,7 +3692,7 @@ def _formulas_porcentaje(base, subclases, fila_ini, n_cat, fila_tot):
     celdas, total = [], []
     if fila_tot is None:
         return _formulas_porcentaje_sin_total(base, subclases, col, fila_ini,
-                                              fin, n_cat)
+                                              fin, n_cat, base_ref)
     k = (subclases.index(base[1])
          if isinstance(base, tuple) and base[1] in subclases else None)
     for i in range(n_cat):
@@ -3489,9 +3706,10 @@ def _formulas_porcentaje(base, subclases, fila_ini, n_cat, fila_tot):
             elif base == "total":
                 f = f"=IFERROR({c}{r}/SUM($B${fila_ini}:${ult}${fin}),0)"
             elif isinstance(base, tuple):
-                f = (f"=IFERROR({c}{r}/${col[k]}{r},0)" if k is not None else 0)
+                f = (f'=IF(N(${col[k]}{r})>0,{c}{r}/${col[k]}{r},"")'
+                     if k is not None else "")
             else:
-                f = f"=IFERROR({c}{r}/{base},0)"
+                f = f"=IFERROR({c}{r}/{base_ref or base},0)"
             fila.append(f)
         celdas.append(fila)
     for c in col:
@@ -3500,14 +3718,17 @@ def _formulas_porcentaje(base, subclases, fila_ini, n_cat, fila_tot):
         elif base == "columna":
             total.append(f"=IF({c}{fila_tot}>0,1,0)")
         elif isinstance(base, tuple) and k is not None:
-            total.append(f"=IFERROR({c}{fila_tot}/${col[k]}${fila_tot},0)")
+            ref = f"${col[k]}${fila_ini}:${col[k]}${fin}"
+            total.append(f'=IFERROR(SUMIFS({c}{fila_ini}:{c}{fin},{ref},">0")'
+                         f'/SUMIFS({ref},{ref},">0"),0)')
         else:
             total = None
             break
     return celdas, total
 
 
-def _formulas_porcentaje_sin_total(base, subclases, col, fila_ini, fin, n_cat):
+def _formulas_porcentaje_sin_total(base, subclases, col, fila_ini, fin, n_cat,
+                                   base_ref=None):
     """Variante de _formulas_porcentaje para tablas sin fila TOTAL: los
     denominadores se calculan sobre el rango de datos."""
     ult = col[-1]
@@ -3525,9 +3746,12 @@ def _formulas_porcentaje_sin_total(base, subclases, col, fila_ini, fin, n_cat):
             elif base == "total":
                 f = f"=IFERROR({c}{r}/SUM($B${fila_ini}:${ult}${fin}),0)"
             elif isinstance(base, tuple):
-                f = f"=IFERROR({c}{r}/${col[k]}{r},0)" if k is not None else 0
+                f = (f'=IF(N(${col[k]}{r})>0,{c}{r}/${col[k]}{r},"")'
+                     if k is not None else "")
             elif isinstance(base, int):
-                f = f"=IFERROR({c}{r}/{base},0)"
+                # La base es la celda de la tabla de valores, si la hay: al
+                # corregirla se recalculan las dos columnas de %.
+                f = f"=IFERROR({c}{r}/{base_ref or base},0)"
             else:
                 f = 0
             fila.append(f)
@@ -3538,8 +3762,9 @@ def _formulas_porcentaje_sin_total(base, subclases, col, fila_ini, fin, n_cat):
     elif base == "columna":
         total = [f"=IF(SUM({c}{fila_ini}:{c}{fin})>0,1,0)" for c in col]
     elif isinstance(base, tuple) and k is not None:
-        total = [f"=IFERROR(SUM({c}{fila_ini}:{c}{fin})/SUM(${col[k]}${fila_ini}:${col[k]}${fin}),0)"
-                 for c in col]
+        ref = f"${col[k]}${fila_ini}:${col[k]}${fin}"
+        total = [f'=IFERROR(SUMIFS({c}{fila_ini}:{c}{fin},{ref},">0")'
+                 f'/SUMIFS({ref},{ref},">0"),0)' for c in col]
     else:
         total = None
     return celdas, total
@@ -3685,8 +3910,10 @@ def _hoja_seccion(wb, seccion, usados, modo="absoluto"):
             # la serie no lleva total por columnas se calcula en la formula.
             fila_tot = fila_fin if _modo_totales(serie) in ("columnas", "ambos") \
                 else None
+            base_ref = (f"$B${fila_fin}" if _modo_totales(serie) == "base"
+                        and isinstance(base, int) else None)
             celdas, total = _formulas_porcentaje(
-                base, subclases, fila_cab + 1, len(categorias), fila_tot)
+                base, subclases, fila_cab + 1, len(categorias), fila_tot, base_ref)
             if _modo_totales(serie) == "filas":
                 total = False
             _cab, fila_fin = _tabla_porcentaje(
@@ -4017,14 +4244,15 @@ def _pdf_barras_apiladas(pdf, serie, alto_fila=6.2):
     ancho = pdf.w - 24
     ancho_etq = ancho * 0.36
     ancho_barra = ancho - ancho_etq - 16
-    matriz = [[v or 0 for v in fila] for fila in matriz]
     agrupadas = serie.get("forma") == "agrupadas"
     if agrupadas:
         # Dos medidas distintas (agua y energia, convocados y asistentes):
-        # cada una con su barra y su rotulo; sumarlas no tiene sentido.
+        # cada una con su barra y su rotulo; sumarlas no tiene sentido. Una
+        # celda sin dato (None) no se dibuja ni se rotula como 0.
         maximo = serie.get("maximo") or max(
-            (v for f in matriz for v in f), default=0) or 1.0
+            (v for f in matriz for v in f if v is not None), default=0) or 1.0
     else:
+        matriz = [[v or 0 for v in fila] for fila in matriz]
         maximo = max((sum(f) for f in matriz), default=0) or 1.0
 
     for i, categoria in enumerate(filas_visibles):
@@ -4037,6 +4265,8 @@ def _pdf_barras_apiladas(pdf, serie, alto_fila=6.2):
         if agrupadas:
             alto_sub = alto_fila * 0.8 / max(len(valores), 1)
             for j, (valor, tinta) in enumerate(zip(valores, tintas)):
+                if valor is None:
+                    continue
                 ys = y + alto_fila * 0.1 + j * alto_sub
                 largo = ancho_barra * valor / maximo if valor else 0
                 if largo:
