@@ -238,6 +238,17 @@ class Homonimos(unittest.TestCase):
         for fila in cobertura.values():
             self.assertTrue(all(v <= 100 for v in fila.values() if v is not None))
 
+    def test_misma_etiqueta_en_todas_las_secciones(self):
+        """Una entrevista solo en Coyona de Canchaque se rotula igual que en
+        la F-DS-01, aunque en la F-DS-03 no haya homonimo."""
+        regs = _coyona() + [_reg("F-DS-03", {"f3_nombre": "Walter Facundo",
+                                              "f3_cargo": "Teniente Gobernador"},
+                                 "Coyona", bloque="24", distrito="Canchaque")]
+        informe = an.indicadores_consolidado(regs)
+        entrevistas = next(s for s in informe["secciones"] if s["id"] == "F-DS-03")
+        detalle = dict(entrevistas["tablas"])["Entrevistas"]
+        self.assertEqual(detalle[0]["Centro poblado / ámbito"], "Coyona (Canchaque)")
+
     def test_se_contrasta_con_el_inei(self):
         """La ficha del bloque 43 declara 443 hab.; el INEI le da 74."""
         detalles = [o["Detalle"] for o in self.informe["control"]["tablas"][0][1]

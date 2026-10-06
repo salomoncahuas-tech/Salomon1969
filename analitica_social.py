@@ -330,9 +330,10 @@ def _clave_dedup(reg):
     El nombre del responsable no forma parte de la clave: el control de
     guardado obligaba a variarlo ("Stefany Campos..") para registrar una
     segunda ficha, de modo que no sirve para reconocer copias.
-      - F-DS-03: un entrevistado; F-DS-04: un taller; F-DS-07: un titular.
-        La misma persona o el mismo taller registrados dos veces en el bloque
-        son una copia aunque cambie el texto.
+      - F-DS-03: un entrevistado; F-DS-04: un taller (ambos por CP, aunque
+        se hayan cargado en dos bloques que lo comparten); F-DS-07: un
+        titular del bloque. La misma persona o el mismo taller registrados
+        dos veces son una copia aunque cambie el texto.
       - Demas fichas: copia identica (mismo bloque, ambito, entrevistado y
         contenido del formulario). Las fichas distintas de un mismo CP se
         conservan y se consolidan despues, por CP.
@@ -341,10 +342,13 @@ def _clave_dedup(reg):
     form = formulario(reg)
     bloque = _txt(reg.get("bloque_codigo"))
     ambito = _clave(_txt(reg.get("centro_poblado")) or _comunidad(reg))
+    distrito = _clave(_distrito(reg))
+    # La entrevista y el taller no dependen del bloque: cargados en dos
+    # bloques que comparten el CP (Miguel Pampa en 83 y 84) son uno solo.
     if ficha == "F-DS-03" and _clave(form.get("f3_nombre")):
-        return (ficha, bloque, ambito, _clave(form.get("f3_nombre")))
+        return (ficha, distrito, ambito, _clave(form.get("f3_nombre")))
     if ficha == "F-DS-04" and (_txt(form.get("f4_fecha")) or _txt(form.get("f4_lugar"))):
-        return (ficha, bloque, ambito, _txt(form.get("f4_fecha")),
+        return (ficha, distrito, ambito, _txt(form.get("f4_fecha")),
                 _clave(form.get("f4_lugar")))
     if ficha == "F-DS-07" and (_txt(form.get("f7_dni")) or _clave(form.get("f7_nombre"))):
         # DNI y nombre juntos: un DNI mal digitado no debe fundir a dos
@@ -565,6 +569,14 @@ def _agrupar_ambitos(registros):
         else:
             vistas[etiqueta] = 1
     return claves, etiquetas
+
+
+def _etiquetas_por_registro(registros):
+    """{id(registro): etiqueta del CP}, calculada sobre TODAS las fichas del
+    informe: asi un homonimo se rotula igual ("Coyona (Canchaque)") en todas
+    las secciones, aunque en alguna ficha solo figure uno de los dos."""
+    claves, etiquetas = _agrupar_ambitos(registros)
+    return {id(r): etiquetas[claves[i]] for i, r in enumerate(registros)}
 
 
 def _tiene(valor):
@@ -1420,9 +1432,9 @@ def _actores_unicos(registros):
     reciente. Devuelve (actores, n_filas_leidas)."""
     regs = sorted(_por_ficha(registros, "F-DS-02"), key=_orden_reciente,
                   reverse=True)
-    claves, etiquetas = _agrupar_ambitos(regs)
+    etiqueta_de = _etiquetas_por_registro(registros)
     actores, vistos, leidas = [], {}, 0
-    for i, reg in enumerate(regs):
+    for reg in regs:
         for fila in _tabla(formulario(reg), "f2_actores"):
             fila = FA.migrar_fila(fila)
             nombre = _col(fila, FA.COL_NOMBRE)
@@ -1434,12 +1446,12 @@ def _actores_unicos(registros):
             if nombre:
                 clave = ("n", _clave(nombre), _clave(_distrito(reg)))
             else:
-                clave = ("c", _clave(cargo), _clave(tipo), claves[i])
+                clave = ("c", _clave(cargo), _clave(tipo), etiqueta_de[id(reg)])
             if clave in vistos:
                 vistos[clave]["fichas"] += 1
                 continue
             actor = {
-                "ambito": etiquetas[claves[i]], "nombre": nombre, "cargo": cargo,
+                "ambito": etiqueta_de[id(reg)], "nombre": nombre, "cargo": cargo,
                 "tipo": tipo, "bloque": _txt(reg.get("bloque_codigo")),
                 "distrito": _distrito(reg),
                 "influencia": _col(fila, "Influencia"),
@@ -1599,10 +1611,10 @@ def _seccion_entrevistas(registros, tema="claro"):
     regs = _por_ficha(registros, "F-DS-03")
     if not regs:
         return None
-    claves, etiquetas = _agrupar_ambitos(regs)
+    etiqueta_de = _etiquetas_por_registro(registros)
     series, detalle = [], []
     filas_edad, generos, duraciones = [], [], []
-    for i, reg in enumerate(regs):
+    for reg in regs:
         f = formulario(reg)
         genero = {"M": "Hombre", "F": "Mujer"}.get(_txt(f.get("f3_genero")),
                                                    _txt(f.get("f3_genero")))
@@ -1616,7 +1628,7 @@ def _seccion_entrevistas(registros, tema="claro"):
         if duracion:
             duraciones.append(duracion)
         detalle.append({
-            "Centro poblado / ámbito": etiquetas[claves[i]],
+            "Centro poblado / ámbito": etiqueta_de[id(reg)],
             "Distrito": _distrito(reg),
             "Bloque": _txt(reg.get("bloque_codigo")),
             "Fecha": _txt(reg.get("fecha_evaluacion")),
@@ -1695,11 +1707,11 @@ def _seccion_talleres(registros, tema="claro"):
     filas_asist, filas_sexo, filas_etaria, metodologias = [], [], [], []
     acuerdos_total = participantes_total = 0
 
-    claves, etiquetas = _agrupar_ambitos(regs)
+    etiqueta_de = _etiquetas_por_registro(registros)
     vistas = {}
-    for i, reg in enumerate(regs):
+    for reg in regs:
         f = formulario(reg)
-        etiqueta = etiquetas[claves[i]]
+        etiqueta = etiqueta_de[id(reg)]
         fecha = _txt(f.get("f4_fecha")) or _txt(reg.get("fecha_evaluacion"))
         if fecha:
             etiqueta = f"{etiqueta} ({fecha})"
@@ -1741,7 +1753,7 @@ def _seccion_talleres(registros, tema="claro"):
                 if convocados and asistentes is not None else None)
         detalle.append({
             "Taller": etiqueta,
-            "Centro poblado / ámbito": etiquetas[claves[i]],
+            "Centro poblado / ámbito": etiqueta_de[id(reg)],
             "Distrito": _distrito(reg), "Bloque": _txt(reg.get("bloque_codigo")),
             "Fecha del taller": fecha,
             "Lugar": _txt(f.get("f4_lugar")),
@@ -2209,10 +2221,10 @@ def _seccion_consentimiento(registros, tema="claro"):
         return None
     series, detalle = [], []
     superficies, documentos = [], []
-    claves, etiquetas = _agrupar_ambitos(regs)
+    etiqueta_de = _etiquetas_por_registro(registros)
     rotulos = {}
 
-    for i, reg in enumerate(regs):
+    for reg in regs:
         f = formulario(reg)
         superficie = _num(f.get("f7_superficie"))
         if superficie:
@@ -2228,7 +2240,7 @@ def _seccion_consentimiento(registros, tema="claro"):
         informados = sum(1 for clave, _ in _PUNTOS_CPI
                          if _sino(f.get(clave)) == "Sí")
         detalle.append({
-            "Centro poblado / ámbito": etiquetas[claves[i]],
+            "Centro poblado / ámbito": etiqueta_de[id(reg)],
             "Distrito": _distrito(reg), "Bloque": _txt(reg.get("bloque_codigo")),
             "Titular / Representante": _txt(f.get("f7_nombre")),
             "DNI": _txt(f.get("f7_dni")),

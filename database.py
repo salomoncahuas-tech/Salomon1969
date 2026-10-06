@@ -568,9 +568,16 @@ def inicializar_bd():
             END IF;
             DROP INDEX IF EXISTS uq_ds_bloque_ficha_fecha_evaluador;
         EXCEPTION WHEN OTHERS THEN
-            RAISE NOTICE 'No se actualizo el indice de diagnostico_social: %', SQLERRM;
+            RAISE WARNING 'No se actualizo el indice de diagnostico_social: %', SQLERRM;
         END $$
     """)
+    cursor.execute("SELECT 1 FROM pg_indexes "
+                   "WHERE indexname = 'uq_ds_bloque_ficha_fecha_evaluador'")
+    if cursor.fetchone():
+        # Queda en los registros del servidor de la app: con el indice viejo
+        # vuelve a rechazarse la ficha de un segundo CP en el mismo dia.
+        print("AVISO IN Piura: no se pudo reemplazar el indice "
+              "uq_ds_bloque_ficha_fecha_evaluador de diagnostico_social.")
 
     # ── Diagnostico Territorial V5: nuevas columnas (Plantilla DT V5) ──────
     # F-DT-01..05 V5 reemplazan a las 6 fichas previas. Las columnas viejas

@@ -4498,6 +4498,20 @@ def _ds_validar(ficha, form, dg):
     errores, avisos = [], []
     if ficha != "F-DS-01":
         return errores, avisos
+    for clave, etiqueta in (("f1_nfam", "N total de familias / viviendas"),
+                            ("f1_pob_t", "Poblacion total"), ("f1_pob_h", "Pob. hombres"),
+                            ("f1_pob_m", "Pob. mujeres"), ("f1_pob_men18", "Pob. < 18 años"),
+                            ("f1_pob_may65", "Pob. > 65 años"),
+                            ("f1_pob_orig", "Pob. autoidentificada originaria"),
+                            ("f1_mano_obra", "Mano de obra disponible"),
+                            ("f1_juntos", "Beneficiarios JUNTOS"),
+                            ("f1_pension65", "Pension 65"), ("f1_beca18", "Beca 18"),
+                            ("f1_qaliwarma", "Qali Warma"),
+                            ("f1_n_predios", "N aprox. de predios individuales")):
+        texto = str(form.get(clave) or "").strip()
+        if texto and not re.fullmatch(r"\d{1,3}([.,]\d{3})+|\d+", texto.replace(" ", "")):
+            errores.append(f"«{etiqueta}» = «{texto}»: escriba solo el número "
+                           "entero (sin «aprox.», unidades ni texto).")
     for clave, etiqueta in (("f1_agua_cob", "Cobertura agua (%)"),
                             ("f1_energia_cob", "Cobertura energía (%)"),
                             ("f1_pct_tituladas", "% tierras tituladas")):
@@ -4983,7 +4997,10 @@ def pagina_diagnostico_social():
                     num = ficha_sel.split("-")[-1]
                     reg = {
                         "bloque_id": bid, "ficha": ficha_sel,
-                        "ficha_numero": ficha_num, "microcuenca": mc,
+                        # Siempre la microcuenca del bloque: el selector podia
+                        # conservar la de un bloque elegido antes.
+                        "ficha_numero": ficha_num,
+                        "microcuenca": _resolver_microcuenca(bl) or mc,
                         "fecha_evaluacion": fecha_ev.strftime("%Y-%m-%d"),
                         "evaluador": evaluador,
                         "observaciones_generales": observ_gen,
@@ -5059,7 +5076,8 @@ def pagina_diagnostico_social():
                     "Generar Excel consolidado", key="ds_export_prep", type="secondary",
                     help="Genera un unico archivo Excel con una hoja por ficha (F-DS-01..07) "
                          "y hojas adicionales para las tablas (actores, participantes, conflictos, etc.)."):
-                st.session_state["ds_export_bytes"] = exp_diag.exportar_fds_consolidado(todos_ds)
+                st.session_state["ds_export_bytes"] = exp_diag.exportar_fds_consolidado(
+                    todos_ds, bloques_vigentes=set(bm))
                 st.session_state["ds_export_version"] = _cache_version()
             # Un libro generado antes de guardar, editar o eliminar una ficha
             # ya no refleja la base: se descarta y hay que regenerarlo.
@@ -5158,7 +5176,13 @@ def pagina_diagnostico_social():
                 row[6].write(d.get("distrito", "") or "")
                 if row[7].button("Editar", key=f"edit_ds_{d['id']}", type="primary"):
                     det = db.obtener_diagnostico_social_por_id(d["id"])
-                    if det:
+                    if det and det.get("bloque_codigo") not in bm:
+                        # El selector solo ofrece bloques vigentes: editarla
+                        # la moveria al bloque que este seleccionado.
+                        _flash(f"La ficha ID {det['id']} pertenece al bloque "
+                               f"{det.get('bloque_codigo')}, retirado del catálogo "
+                               "vigente: no se edita desde el formulario.", "warning")
+                    elif det:
                         st.session_state["_ds_pending_state"] = _ds_build_edit_pending(det)
                         st.session_state["_ds_pending_edit_id"] = det["id"]
                     st.session_state.pop("ds_confirm_del_id", None)
@@ -5236,7 +5260,9 @@ def pagina_diagnostico_social():
             if resumen_ds:
                 st.dataframe(pd.DataFrame([{
                     "Bloque": r["codigo"],
-                    "Total Fichas": r.get("total_fichas", "") or "",
+                    # 0 y no "": una columna con numeros y textos vacios no se
+                    # puede mostrar (error de conversion de Arrow).
+                    "Total Fichas": int(r.get("total_fichas") or 0),
                     "Fichas Completadas": r.get("fichas_completadas", "") or "",
                 } for r in resumen_ds]), use_container_width=True, hide_index=True)
 

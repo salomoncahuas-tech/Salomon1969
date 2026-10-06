@@ -276,7 +276,7 @@ def _fds_form(reg):
     return val if isinstance(val, dict) else {}
 
 
-def exportar_fds_consolidado(registros):
+def exportar_fds_consolidado(registros, bloques_vigentes=None):
     """registros: lista de dicts (salida de obtener_todos_diagnosticos_sociales()).
     Devuelve bytes del .xlsx consolidado.
 
@@ -285,7 +285,11 @@ def exportar_fds_consolidado(registros):
     poblado consolidado al que se asigna (un mismo CP escrito de dos formas
     o asociado a varios bloques es uno solo), y se agregan las hojas
     "F-DS-01 por CP" (una fila por CP, con los datos que usan los graficos)
-    y "Control de calidad" (fichas de un mismo CP que no coinciden)."""
+    y "Control de calidad" (fichas de un mismo CP que no coinciden).
+
+    `bloques_vigentes`: codigos del catalogo vigente. Las fichas de bloques
+    retirados se conservan en el respaldo, marcadas, pero no entran en las
+    hojas depuradas."""
     import analitica_social as ans
 
     registros = registros or []
@@ -300,6 +304,9 @@ def exportar_fds_consolidado(registros):
         for col, etiqueta in _FDS_CABECERA:
             fila[etiqueta] = r.get(col, "")
         fila["Centro poblado (consolidado)"] = cp_de.get(id(r), "")
+        if bloques_vigentes is not None:
+            fila["Bloque retirado"] = ("Sí" if r.get("bloque_codigo") not in bloques_vigentes
+                                       else "No")
         filas.append(fila)
     hojas.append(("Resumen", pd.DataFrame(filas)))
 
@@ -363,7 +370,9 @@ def exportar_fds_consolidado(registros):
 
     # Vista depurada: una fila por centro poblado, con las mismas cifras de
     # los graficos, y la lista de observaciones para corregir la base.
-    vigentes = ans.deduplicar(registros)
+    vigentes = ans.deduplicar([r for r in registros
+                               if bloques_vigentes is None
+                               or r.get("bloque_codigo") in bloques_vigentes])
     seccion = ans._seccion_socioeconomica(vigentes)
     if seccion:
         demografia = dict(seccion["tablas"]).get("Demografía por centro poblado")
