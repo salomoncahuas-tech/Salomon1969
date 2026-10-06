@@ -14,6 +14,7 @@ import io
 import csv
 import json
 import re
+import unicodedata
 import tempfile
 
 import database as db
@@ -184,10 +185,15 @@ CONDICIONES_CLIMATICAS = [
     "Despejado", "Parcialmente nublado", "Nublado",
     "Lluvia ligera", "Lluvia moderada", "Lluvia intensa", "Neblina",
 ]
+# C1076-Q9593, C1077-Q9580 y C1081-Q9590 son microcuencas de bloques del
+# catalogo (M1B1, 8, 10, 16, 20, 33, 34, 38, 50, 51, 61, 71, 76, 80) que
+# faltaban en la lista: sus fichas quedaban sin microcuenca o con la de otro
+# bloque.
 MICROCUENCAS = [
     "C1075-Q9580","C1076-Q9581","C1076-Q9584","C1076-Q9585","C1076-Q9586",
-    "C1076-Q9587","C1076-Q9588","C1076-Q9589","C1076-Q9592","C1077-Q9566",
-    "C1077-Q9579","C1078-Q9562","C1080-Q9560","C1081-Q9582","C1081-Q9583",
+    "C1076-Q9587","C1076-Q9588","C1076-Q9589","C1076-Q9592","C1076-Q9593",
+    "C1077-Q9566","C1077-Q9579","C1077-Q9580","C1078-Q9562","C1080-Q9560",
+    "C1081-Q9582","C1081-Q9583","C1081-Q9590",
     "C1081-Q9591","C1086-Q9569","C1086-Q9570","C1086-Q9575","C1086-Q9576",
     "C1096-Q9545","C1096-Q9547","C1096-Q9556","C1096-Q9557","C1096-Q9558",
     "C1096-Q9564","C1107-Q9539","C1107-Q9541","C1108-Q9552",
@@ -4000,11 +4006,17 @@ def _render_fds01():
     _SB(f, c2, "¿Comite de RRNN?", DS_SINO, "f1_comite_rrnn")
     _T(f, c3, "Nombre del comite (si existe)", "f1_nombre_comite")
 
-    st.markdown("**4. Tenencia de la Tierra**")
-    _SB(f, st, "4.1 Regimen predominante de tenencia", FL.L_TENENCIA, "f1_tenencia")
+    st.markdown("**4. Tenencia de la Tierra relacionada al Bloque**")
+    # Como en la plantilla V4: la seccion describe al bloque, no al CP. El
+    # analisis toma un valor por bloque (el mas frecuente entre sus fichas).
+    st.caption("Responda para el BLOQUE de intervención, no para el centro "
+               "poblado. Si el bloque tiene varias fichas F-DS-01, todas "
+               "deben declarar la misma tenencia.")
+    _SB(f, st, "4.1 Regimen predominante de tenencia del bloque", FL.L_TENENCIA,
+        "f1_tenencia")
     c1, c2 = st.columns(2)
-    _T(f, c1, "N aprox. de predios individuales", "f1_n_predios")
-    _T(f, c2, "% tierras tituladas", "f1_pct_tituladas")
+    _T(f, c1, "N aprox. de predios individuales en el bloque", "f1_n_predios")
+    _T(f, c2, "% tierras tituladas en el bloque", "f1_pct_tituladas")
     c1, c2 = st.columns(2)
     _SB(f, c1, "¿Conflictos de linderos registrados?", DS_SINO, "f1_conf_linderos")
     _SB(f, c2, "¿Bloque se superpone a tierras comunales?", DS_SINO, "f1_superpone")
@@ -4435,7 +4447,10 @@ def _ds_build_edit_pending(det):
     """Construye {session_key: valor} para precargar un registro (modo edicion)."""
     ficha = det.get("ficha", "")
     pend = {
-        "ds_mc": det.get("microcuenca", "") or "",
+        # La microcuenca es la del bloque: la guardada en fichas antiguas
+        # quedaba pegada de un bloque anterior (ds_mc no se limpiaba).
+        "ds_mc": next((mc for mc in (det.get("bloque_microcuenca"), det.get("microcuenca"))
+                       if mc and mc in MICROCUENCAS), ""),
         "ds_eval": det.get("evaluador", "") or "",
         "ds_fnum": det.get("ficha_numero", "") or "",
         "ds_prov": det.get("provincia", "") or "",
@@ -4452,6 +4467,11 @@ def _ds_build_edit_pending(det):
         "ds_obs": det.get("observaciones_generales", "") or "",
         "ds_ficha_sel": ficha,
     }
+    # Posicionar el selector de bloque en el bloque del registro (como en el
+    # DT): sin esto, al actualizar, la ficha se movia al bloque que estuviera
+    # seleccionado en ese momento.
+    if det.get("bloque_codigo"):
+        pend["ds_bl"] = det["bloque_codigo"]
     if det.get("fecha_evaluacion"):
         try:
             pend["ds_fecha"] = datetime.strptime(det["fecha_evaluacion"], "%Y-%m-%d").date()
@@ -4471,6 +4491,68 @@ def _ds_build_edit_pending(det):
         else:
             pend[k] = v
     return pend
+
+
+def _ds_validar(ficha, form, dg):
+    """(errores, avisos) de una ficha social antes de guardarla.
+
+    Los errores impiden guardar: son los datos que despues no se pueden
+    graficar ni consolidar (un porcentaje que no es porcentaje, una F-DS-01
+    registrada para varios centros poblados a la vez). Los avisos se guardan
+    pero se informan al responsable.
+    """
+    errores, avisos = [], []
+    if ficha != "F-DS-01":
+        return errores, avisos
+    for clave, etiqueta in (("f1_nfam", "N total de familias / viviendas"),
+                            ("f1_pob_t", "Poblacion total"), ("f1_pob_h", "Pob. hombres"),
+                            ("f1_pob_m", "Pob. mujeres"), ("f1_pob_men18", "Pob. < 18 años"),
+                            ("f1_pob_may65", "Pob. > 65 años"),
+                            ("f1_pob_orig", "Pob. autoidentificada originaria"),
+                            ("f1_mano_obra", "Mano de obra disponible"),
+                            ("f1_juntos", "Beneficiarios JUNTOS"),
+                            ("f1_pension65", "Pension 65"), ("f1_beca18", "Beca 18"),
+                            ("f1_qaliwarma", "Qali Warma"),
+                            ("f1_n_predios", "N aprox. de predios individuales")):
+        texto = str(form.get(clave) or "").strip()
+        if texto and not re.fullmatch(r"\d{1,3}([.,]\d{3})+|\d+", texto.replace(" ", "")):
+            errores.append(f"«{etiqueta}» = «{texto}»: escriba solo el número "
+                           "entero (sin «aprox.», unidades ni texto).")
+    for clave, etiqueta in (("f1_agua_cob", "Cobertura agua (%)"),
+                            ("f1_energia_cob", "Cobertura energía (%)"),
+                            ("f1_pct_tituladas", "% tierras tituladas")):
+        texto = str(form.get(clave) or "").strip()
+        # Solo la cifra (con o sin %): el texto acompanante ("cada 15 dias")
+        # es otra medida y se pierde o se confunde con el porcentaje.
+        solo_numero = re.fullmatch(r"\d+(?:[.,]\d+)?\s*%?", texto)
+        if texto and (not solo_numero or ans._pct_valido(texto) is None):
+            errores.append(
+                f"«{etiqueta}» = «{texto}»: escriba solo un número entre 0 y 100 "
+                "(p. ej. 50). La frecuencia o el horario del servicio van en "
+                "Observaciones generales.")
+    centro = str(dg.get("centro_poblado") or "").strip()
+    if len(ans._partes_cp(centro)) > 1:
+        errores.append(
+            "La F-DS-01 describe a un solo centro poblado: elija uno en "
+            "«Centro Poblado / Localidad» en lugar de la lista de todos los "
+            "del bloque, y registre una ficha por cada CP.")
+    total = ans._entero(form.get("f1_pob_t"))
+    hombres, mujeres = ans._entero(form.get("f1_pob_h")), ans._entero(form.get("f1_pob_m"))
+    if total is not None and hombres is not None and mujeres is not None:
+        if hombres + mujeres > total:
+            errores.append(
+                f"Hombres + mujeres ({hombres + mujeres:,.0f}) supera la población "
+                f"total ({total:,.0f}). Corrija las cifras o deje en blanco la "
+                "desagregación por sexo si no se conoce.")
+        elif hombres + mujeres < total:
+            avisos.append(
+                f"hombres + mujeres ({hombres + mujeres:,.0f}) es menor que la "
+                f"población total ({total:,.0f}); la diferencia se mostrará como "
+                "«sin desagregar por sexo».")
+    menores, mayores = ans._entero(form.get("f1_pob_men18")), ans._entero(form.get("f1_pob_may65"))
+    if total is not None and (menores or 0) + (mayores or 0) > total:
+        errores.append("Menores de 18 + mayores de 65 supera la población total.")
+    return errores, avisos
 
 
 def _ds_apply_pending():
@@ -4610,7 +4692,8 @@ def _ds_descargas_analitica(informe, clave):
         help="Porcentaje: cada tabla (y su gráfico) se expresa en %. "
              "Composiciones (barras apiladas): % dentro de cada fila; "
              "conteos simples: % del total de la columna; marcado múltiple: "
-             "% de fichas que reportan la opción. Valores absolutos y "
+             "% de centros poblados con dato (F-DS-01) o de talleres y "
+             "titulares (F-DS-04 y F-DS-07) que reportan la opción. Valores absolutos y "
              "porcentaje: se agrega bajo cada tabla su versión en %, con "
              "fórmulas. Las series que ya están en % (coberturas, tierras "
              "tituladas) o que mezclan unidades se mantienen en valores.")
@@ -4647,6 +4730,36 @@ def _ds_descargas_analitica(informe, clave):
                            key=f"{clave}_dl_pdf", use_container_width=True)
 
 
+def _ds_control_calidad(informe):
+    """Observaciones de calidad de datos: fichas de un mismo CP que no
+    coinciden, poblaciones incoherentes, porcentajes ilegibles y posibles
+    fichas duplicadas. Es la lista de trabajo para depurar la base."""
+    control = informe.get("control") or {}
+    tablas = dict(control.get("tablas") or [])
+    observaciones = tablas.get("Control de calidad") or []
+    fichas = tablas.get("Fichas F-DS-01 por CP") or []
+    if not (observaciones or fichas):
+        return
+    titulo = (f"🔎 Control de calidad de los datos: {len(observaciones)} "
+              "observación(es) para revisar en las fichas")
+    with st.expander(titulo, expanded=False):
+        st.caption(
+            "Cada centro poblado se cuenta una sola vez aunque tenga varias "
+            "fichas (varios informantes, reediciones o el mismo CP en varios "
+            "bloques). Sus datos son el valor más frecuente entre sus fichas "
+            "(en empate, el de la más reciente); nunca se suman fichas de un "
+            "mismo CP ni porcentajes. Corrija o elimine en el Historial las "
+            "fichas observadas para que los gráficos reflejen el dato "
+            "validado.")
+        if observaciones:
+            st.dataframe(pd.DataFrame(observaciones), use_container_width=True,
+                         hide_index=True)
+        if fichas:
+            st.markdown("**Fichas F-DS-01 y centro poblado al que se asignan**")
+            st.dataframe(pd.DataFrame(fichas), use_container_width=True,
+                         hide_index=True)
+
+
 def _ds_render_informe(informe, clave):
     """Informe analitico completo: cifras, descargas y graficos por ficha."""
     if not informe.get("secciones"):
@@ -4659,6 +4772,8 @@ def _ds_render_informe(informe, clave):
     st.markdown("---")
     _ds_descargas_analitica(informe, clave)
     st.markdown("---")
+
+    _ds_control_calidad(informe)
 
     tema = informe.get("tema", "claro")
     titulos = [s["titulo"] for s in informe["secciones"]]
@@ -4706,6 +4821,13 @@ def _tab_graficos_sociales(bm):
                       ["Un bloque", "Consolidado de varios bloques"],
                       horizontal=True, key="ds_graf_ambito")
     todos = _cached_obtener_todos_diagnosticos_sociales(_cache_version())
+    # Los bloques retirados del catalogo vigente (V6) conservan sus fichas en
+    # la base, pero no entran en graficos ni entregables.
+    retiradas = [d for d in todos if d.get("bloque_codigo") not in bm]
+    todos = [d for d in todos if d.get("bloque_codigo") in bm]
+    if retiradas:
+        st.caption(f"{len(retiradas)} ficha(s) de bloques retirados del catálogo "
+                   "vigente no se incluyen en los gráficos.")
     if not todos:
         st.info("Aún no hay fichas sociales registradas.")
         return
@@ -4727,29 +4849,54 @@ def _tab_graficos_sociales(bm):
         return
 
     # ── Consolidado ──
+    # Los filtros usan la provincia, el distrito y la microcuenca del BLOQUE
+    # (valores del catalogo, sin variantes de escritura), y el mismo criterio
+    # define los bloques del ambito: asi la relacion de CP del catalogo INEI
+    # incluye tambien los bloques que aun no tienen fichas.
+    def _del_bloque(d, campo):
+        return (d.get(f"bloque_{campo}") or d.get(campo) or "").strip()
+
+    def _norm_filtro(texto):
+        return re.sub(r"[^a-z0-9]", "", unicodedata.normalize(
+            "NFKD", str(texto or "")).encode("ascii", "ignore").decode().lower())
+
     f1, f2, f3 = st.columns(3)
-    provincias = sorted({d.get("provincia", "") for d in todos if d.get("provincia")})
-    distritos = sorted({d.get("distrito", "") for d in todos if d.get("distrito")})
-    microcuencas = sorted({d.get("microcuenca", "") for d in todos if d.get("microcuenca")})
-    fil_prov = f1.multiselect("Provincia", provincias, key="ds_graf_prov")
-    fil_dist = f2.multiselect("Distrito", distritos, key="ds_graf_dist")
-    fil_micro = f3.multiselect("Microcuenca", microcuencas, key="ds_graf_micro")
+    provincias = sorted({_del_bloque(d, "provincia") for d in todos
+                         if _del_bloque(d, "provincia")})
+    distritos = sorted({_del_bloque(d, "distrito") for d in todos
+                        if _del_bloque(d, "distrito")})
+    microcuencas = sorted({_del_bloque(d, "microcuenca") for d in todos
+                           if _del_bloque(d, "microcuenca")})
+    fil_prov = f1.multiselect("Provincia (del bloque)", provincias, key="ds_graf_prov")
+    fil_dist = f2.multiselect("Distrito (del bloque)", distritos, key="ds_graf_dist")
+    fil_micro = f3.multiselect("Microcuenca (del bloque)", microcuencas,
+                               key="ds_graf_micro")
     filtrados = [
         d for d in todos
-        if (not fil_prov or d.get("provincia") in fil_prov)
-        and (not fil_dist or d.get("distrito") in fil_dist)
-        and (not fil_micro or d.get("microcuenca") in fil_micro)
+        if (not fil_prov or _del_bloque(d, "provincia") in fil_prov)
+        and (not fil_dist or _del_bloque(d, "distrito") in fil_dist)
+        and (not fil_micro or _del_bloque(d, "microcuenca") in fil_micro)
+    ]
+    sel_prov = {_norm_filtro(x) for x in fil_prov}
+    sel_dist = {_norm_filtro(x) for x in fil_dist}
+    sel_micro = {_norm_filtro(x) for x in fil_micro}
+    bloques_ambito = [
+        b[1] for b in BLOQUES_V5
+        if (not sel_prov or _norm_filtro(BLOQUES_128_MAP[b[1]]["provincia"]) in sel_prov)
+        and (not sel_dist or _norm_filtro(BLOQUES_128_MAP[b[1]]["distrito"]) in sel_dist)
+        and (not sel_micro or _norm_filtro(BLOQUES_128_MAP[b[1]]["microcuenca"]) in sel_micro)
     ]
     etiqueta = " / ".join(filter(None, [
         ", ".join(fil_prov), ", ".join(fil_dist), ", ".join(fil_micro)])) \
         or "todo el ámbito"
     st.caption(f"{len(filtrados)} ficha(s) social(es) tras aplicar los filtros "
-               f"({etiqueta}).")
+               f"({etiqueta}); {len(bloques_ambito)} bloque(s) en el ámbito.")
     if not filtrados:
         st.info("Ningún registro cumple los filtros seleccionados.")
         return
     informe = ans.indicadores_consolidado(filtrados, etiqueta=etiqueta,
-                                          tema=_ds_tema())
+                                          tema=_ds_tema(),
+                                          bloques_ambito=bloques_ambito)
     # La clave del estado incluye el filtro: asi un Excel ya generado no se
     # ofrece como descarga cuando el usuario cambia de ambito.
     _ds_render_informe(informe, "ds_graf_cons_" + _clave_filtro(etiqueta))
@@ -4800,7 +4947,7 @@ def pagina_diagnostico_social():
         prev_bl = st.session_state.get("_ds_prev_bl", "")
         if prev_bl and prev_bl != bl and not edit_id:
             for k in ("ds_prov", "ds_dist", "ds_cpob", "ds_ccam", "ds_este", "ds_norte",
-                      "ds_entrev_nombre", "ds_entrev_dni", "ds_entrev_oficio"):
+                      "ds_entrev_nombre", "ds_entrev_dni", "ds_entrev_oficio", "ds_mc"):
                 st.session_state.pop(k, None)
         st.session_state["_ds_prev_bl"] = bl
 
@@ -4832,8 +4979,12 @@ def pagina_diagnostico_social():
 
         btn_label = "Actualizar Diagnostico Social" if edit_id else "Guardar Diagnostico Social"
         if st.button(btn_label, type="primary", key="ds_guardar"):
+            errores_ds, avisos_ds = _ds_validar(ficha_sel, form, dg)
             if not evaluador:
                 st.warning("Ingrese el nombre del responsable.")
+            elif errores_ds:
+                st.error("No se guardó la ficha. Corrija lo siguiente:\n\n"
+                         + "\n".join(f"- {e}" for e in errores_ds))
             else:
                 try:
                     archivos_guardados = []
@@ -4853,7 +5004,10 @@ def pagina_diagnostico_social():
                     num = ficha_sel.split("-")[-1]
                     reg = {
                         "bloque_id": bid, "ficha": ficha_sel,
-                        "ficha_numero": ficha_num, "microcuenca": mc,
+                        # Siempre la microcuenca del bloque: el selector podia
+                        # conservar la de un bloque elegido antes.
+                        "ficha_numero": ficha_num,
+                        "microcuenca": _resolver_microcuenca(bl) or mc,
                         "fecha_evaluacion": fecha_ev.strftime("%Y-%m-%d"),
                         "evaluador": evaluador,
                         "observaciones_generales": observ_gen,
@@ -4871,22 +5025,42 @@ def pagina_diagnostico_social():
                         _flash(f"Ficha {ficha_sel} actualizada correctamente (ID {edit_id}).")
                     else:
                         existentes_ds = db.obtener_diagnosticos_sociales_por_bloque(bid)
+                        # Es la misma ficha solo si coinciden tambien el centro
+                        # poblado y el entrevistado. Sin ellos en la clave, una
+                        # segunda ficha del mismo dia (otro CP u otro
+                        # informante) se rechazaba y obligaba a variar el
+                        # nombre del responsable ("Stefany Campos.."), lo que
+                        # a su vez impedia reconocer las copias en los graficos.
+                        def _n(texto):
+                            return re.sub(r"[^a-z0-9]", "", unicodedata.normalize(
+                                "NFKD", str(texto or "")).encode(
+                                    "ascii", "ignore").decode().lower())
                         dup_ds = [e for e in existentes_ds
                                   if e.get("ficha") == ficha_sel
                                   and e.get("fecha_evaluacion") == fecha_ev.strftime("%Y-%m-%d")
-                                  and e.get("evaluador") == evaluador]
+                                  and _n(e.get("evaluador")) == _n(evaluador)
+                                  and _n(e.get("centro_poblado")) == _n(reg.get("centro_poblado"))
+                                  and _n(e.get("nombre_entrevistado"))
+                                  == _n(reg.get("nombre_entrevistado"))]
                         if dup_ds:
-                            st.markdown('<div class="dup-warning">Ya existe una ficha '
-                                       f'{ficha_sel} para este bloque en '
-                                       f'{fecha_ev.strftime("%Y-%m-%d")} por {evaluador}. '
-                                       f'Use <b>Editar</b> en Historial para modificarla.</div>',
-                                       unsafe_allow_html=True)
+                            # Como mensaje flash: un st.markdown aqui se perdia
+                            # con el st.rerun() de mas abajo y el usuario no
+                            # sabia por que la ficha no se guardaba.
+                            _flash(f"No se guardó: ya existe una ficha {ficha_sel} "
+                                   f"para este bloque en {fecha_ev.strftime('%Y-%m-%d')} "
+                                   f"por {evaluador}, del mismo centro poblado y "
+                                   "entrevistado. Use «Editar» en el Historial para "
+                                   "modificarla.", "warning")
                         else:
                             if "archivos_adjuntos" not in reg:
                                 reg["archivos_adjuntos"] = ""
                             db.insertar_diagnostico_social(reg)
                             _invalidar_cache()
-                            _flash(f"Ficha {ficha_sel} guardada correctamente.")
+                            if avisos_ds:
+                                _flash(f"Ficha {ficha_sel} guardada. Revise: "
+                                       + " ".join(avisos_ds), "warning")
+                            else:
+                                _flash(f"Ficha {ficha_sel} guardada correctamente.")
                     st.rerun()
                 except Exception as e:
                     st.error(f"Error: {e}")
@@ -4909,7 +5083,13 @@ def pagina_diagnostico_social():
                     "Generar Excel consolidado", key="ds_export_prep", type="secondary",
                     help="Genera un unico archivo Excel con una hoja por ficha (F-DS-01..07) "
                          "y hojas adicionales para las tablas (actores, participantes, conflictos, etc.)."):
-                st.session_state["ds_export_bytes"] = exp_diag.exportar_fds_consolidado(todos_ds)
+                st.session_state["ds_export_bytes"] = exp_diag.exportar_fds_consolidado(
+                    todos_ds, bloques_vigentes=set(bm))
+                st.session_state["ds_export_version"] = _cache_version()
+            # Un libro generado antes de guardar, editar o eliminar una ficha
+            # ya no refleja la base: se descarta y hay que regenerarlo.
+            if st.session_state.get("ds_export_version") != _cache_version():
+                st.session_state.pop("ds_export_bytes", None)
             if st.session_state.get("ds_export_bytes"):
                 st.download_button(
                     "⬇️ Descargar todo (Excel)",
@@ -4924,8 +5104,10 @@ def pagina_diagnostico_social():
             st.caption("Genera un PDF por bloque con la relacion de sus centros "
                        "poblados y todas las fichas F-DS-01 a F-DS-07 registradas, "
                        "agrupadas por centro poblado.")
+            # Solo bloques vigentes: un bloque retirado no se ofrece (y al
+            # elegirlo daba "ya no existe en la base de datos").
             cods_ds = sorted({(d.get("bloque_codigo", "") or "") for d in todos_ds
-                              if d.get("bloque_codigo")})
+                              if d.get("bloque_codigo") in bm})
             if not cods_ds:
                 st.info("Aun no hay fichas sociales asociadas a un bloque.")
             else:
@@ -4952,10 +5134,12 @@ def pagina_diagnostico_social():
                             st.session_state["ds_pdf_bytes"] = bytes_pdf
                             st.session_state["ds_pdf_nombre"] = nombre_pdf
                             st.session_state["ds_pdf_bloque"] = bl_ds_pdf
+                            st.session_state["ds_pdf_version"] = _cache_version()
                         except Exception as e:
                             st.error(f"No se pudo generar la ficha PDF: {e}")
                 if (st.session_state.get("ds_pdf_bytes")
-                        and st.session_state.get("ds_pdf_bloque") == bl_ds_pdf):
+                        and st.session_state.get("ds_pdf_bloque") == bl_ds_pdf
+                        and st.session_state.get("ds_pdf_version") == _cache_version()):
                     st.download_button(
                         f"⬇️ Descargar ficha DS del bloque {bl_ds_pdf} (PDF)",
                         data=st.session_state["ds_pdf_bytes"],
@@ -4999,7 +5183,13 @@ def pagina_diagnostico_social():
                 row[6].write(d.get("distrito", "") or "")
                 if row[7].button("Editar", key=f"edit_ds_{d['id']}", type="primary"):
                     det = db.obtener_diagnostico_social_por_id(d["id"])
-                    if det:
+                    if det and det.get("bloque_codigo") not in bm:
+                        # El selector solo ofrece bloques vigentes: editarla
+                        # la moveria al bloque que este seleccionado.
+                        _flash(f"La ficha ID {det['id']} pertenece al bloque "
+                               f"{det.get('bloque_codigo')}, retirado del catálogo "
+                               "vigente: no se edita desde el formulario.", "warning")
+                    elif det:
                         st.session_state["_ds_pending_state"] = _ds_build_edit_pending(det)
                         st.session_state["_ds_pending_edit_id"] = det["id"]
                     st.session_state.pop("ds_confirm_del_id", None)
@@ -5077,7 +5267,9 @@ def pagina_diagnostico_social():
             if resumen_ds:
                 st.dataframe(pd.DataFrame([{
                     "Bloque": r["codigo"],
-                    "Total Fichas": r.get("total_fichas", "") or "",
+                    # 0 y no "": una columna con numeros y textos vacios no se
+                    # puede mostrar (error de conversion de Arrow).
+                    "Total Fichas": int(r.get("total_fichas") or 0),
                     "Fichas Completadas": r.get("fichas_completadas", "") or "",
                 } for r in resumen_ds]), use_container_width=True, hide_index=True)
 

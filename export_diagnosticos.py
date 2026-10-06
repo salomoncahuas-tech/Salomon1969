@@ -237,10 +237,17 @@ _FDS_CABECERA = [
     ("comunidad_campesina", "Comunidad Campesina"),
     ("distrito", "Distrito"),
     ("provincia", "Provincia"),
+    ("bloque_distrito", "Distrito del bloque"),
+    ("bloque_microcuenca", "Microcuenca del bloque"),
+    ("coordenada_este", "Este (UTM 17S)"),
+    ("coordenada_norte", "Norte (UTM 17S)"),
+    ("altitud", "Altitud (msnm)"),
+    ("codigo_ubigeo", "UBIGEO"),
     ("nombre_entrevistado", "Entrevistado"),
     ("dni_entrevistado", "DNI"),
     ("oficio_ocupacion", "Oficio / Ocupacion"),
     ("observaciones_generales", "Observaciones"),
+    ("fecha_registro", "Registrado en el aplicativo"),
 ]
 
 # Slots de tablas (coinciden con streamlit_app._DS_TABLE_SLOTS).
@@ -269,11 +276,26 @@ def _fds_form(reg):
     return val if isinstance(val, dict) else {}
 
 
-def exportar_fds_consolidado(registros):
+def exportar_fds_consolidado(registros, bloques_vigentes=None):
     """registros: lista de dicts (salida de obtener_todos_diagnosticos_sociales()).
-    Devuelve bytes del .xlsx consolidado."""
+    Devuelve bytes del .xlsx consolidado.
+
+    Es una copia de respaldo: conserva TODAS las fichas, una fila por ficha.
+    Para que se puedan conciliar con los graficos, cada fila indica el centro
+    poblado consolidado al que se asigna (un mismo CP escrito de dos formas
+    o asociado a varios bloques es uno solo), y se agregan las hojas
+    "F-DS-01 por CP" (una fila por CP, con los datos que usan los graficos)
+    y "Control de calidad" (fichas de un mismo CP que no coinciden).
+
+    `bloques_vigentes`: codigos del catalogo vigente. Las fichas de bloques
+    retirados se conservan en el respaldo, marcadas, pero no entran en las
+    hojas depuradas."""
+    import analitica_social as ans
+
     registros = registros or []
     hojas = []
+    claves, etiquetas = ans._agrupar_ambitos(registros)
+    cp_de = {id(r): etiquetas[claves[i]] for i, r in enumerate(registros)}
 
     # Hoja resumen: una fila por registro.
     filas = []
@@ -281,6 +303,10 @@ def exportar_fds_consolidado(registros):
         fila = {}
         for col, etiqueta in _FDS_CABECERA:
             fila[etiqueta] = r.get(col, "")
+        fila["Centro poblado (consolidado)"] = cp_de.get(id(r), "")
+        if bloques_vigentes is not None:
+            fila["Bloque retirado"] = ("Sí" if r.get("bloque_codigo") not in bloques_vigentes
+                                       else "No")
         filas.append(fila)
     hojas.append(("Resumen", pd.DataFrame(filas)))
 
@@ -297,6 +323,8 @@ def exportar_fds_consolidado(registros):
                 "Fecha": r.get("fecha_evaluacion", ""),
                 "Responsable": r.get("evaluador", ""),
                 "Centro Poblado": r.get("centro_poblado", ""),
+                "Centro poblado (consolidado)": cp_de.get(id(r), ""),
+                "Distrito": r.get("distrito", ""),
                 "Entrevistado": r.get("nombre_entrevistado", ""),
                 "DNI": r.get("dni_entrevistado", ""),
                 "Oficio / Ocupacion": r.get("oficio_ocupacion", ""),
@@ -306,7 +334,13 @@ def exportar_fds_consolidado(registros):
                     continue
                 if isinstance(v, list):
                     v = "; ".join(str(x) for x in v)
-                fila[_humanizar(k)] = v
+                columna = _humanizar(k)
+                # Un campo del formulario no puede pisar una columna de la
+                # cabecera (f4_fecha se rotulaba "Fecha" y reemplazaba a la
+                # fecha de evaluacion).
+                if columna in fila:
+                    columna = f"{columna} (ficha)"
+                fila[columna] = v
             filas_ficha.append(fila)
         if filas_ficha:
             hojas.append((ficha, pd.DataFrame(filas_ficha)))
@@ -327,11 +361,26 @@ def exportar_fds_consolidado(registros):
                     "ID Diagnostico": r.get("id", ""),
                     "Bloque": r.get("bloque_codigo", ""),
                     "Ficha": r.get("ficha", ""),
+                    "Centro poblado (consolidado)": cp_de.get(id(r), ""),
                 }
                 base.update(it)
                 filas_tabla.append(base)
         if filas_tabla:
             hojas.append((titulo, pd.DataFrame(filas_tabla)))
+
+    # Vista depurada: una fila por centro poblado, con las mismas cifras de
+    # los graficos, y la lista de observaciones para corregir la base.
+    vigentes = ans.deduplicar([r for r in registros
+                               if bloques_vigentes is None
+                               or r.get("bloque_codigo") in bloques_vigentes])
+    seccion = ans._seccion_socioeconomica(vigentes)
+    if seccion:
+        demografia = dict(seccion["tablas"]).get("Demografía por centro poblado")
+        if demografia:
+            hojas.append(("F-DS-01 por CP", pd.DataFrame(demografia)))
+    control = ans._control_calidad(vigentes, [seccion] if seccion else [])
+    if control:
+        hojas.append(("Control de calidad", pd.DataFrame(control)))
 
     return _escribir_libro(hojas)
 
