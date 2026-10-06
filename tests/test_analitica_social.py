@@ -543,12 +543,13 @@ def _tabla_de(ws, titulo):
     for r in range(1, ws.max_row + 1):
         if ws.cell(r, 1).value == titulo:
             cab = r + 1
-            while ws.cell(cab, 1).value not in ("Clase", "Influencia sobre el territorio"):
+            while ws.cell(cab, 1).value not in ("Clase", "Centro poblado",
+                                                "Influencia sobre el territorio"):
                 cab += 1
             filas, fila = [], cab
             while ws.cell(fila, 1).value is not None:
                 filas.append([ws.cell(fila, c).value for c in range(1, 8)])
-                if str(filas[-1][0]).startswith(("TOTAL", "Base:")):
+                if str(filas[-1][0]).startswith(("TOTAL", "Base:", "PROMEDIO")):
                     break
                 fila += 1
             return filas
@@ -573,7 +574,7 @@ class ExcelPorcentaje(unittest.TestCase):
         wb = load_workbook(io.BytesIO(an.generar_excel_social(self.informe)))
         tabla = _tabla_de(_hoja(wb, "F-DS-01"),
                           "A. Población por centro poblado, según sexo")
-        self.assertEqual(tabla[0][:3], ["Clase", "Hombres", "Mujeres"])
+        self.assertEqual(tabla[0][:3], ["Centro poblado", "Hombres", "Mujeres"])
         self.assertEqual(tabla[1][1:3], [740, 710])
 
     def test_composicion_suma_cien_por_ciento_por_fila(self):
@@ -591,13 +592,14 @@ class ExcelPorcentaje(unittest.TestCase):
                     if isinstance(c.value, float)}
         self.assertIn("0.0%", formatos)
 
-    def test_marcado_multiple_se_divide_entre_las_fichas(self):
-        n_fichas = len(an._por_ficha(an.deduplicar(registros_completos()),
-                                     "F-DS-01"))
+    def test_marcado_multiple_se_divide_entre_los_centros_poblados(self):
+        """La base del marcado multiple son los CP con dato, no las fichas."""
+        n_cp = len(an.unidades_por_cp(an.deduplicar(registros_completos())))
         tabla = _tabla_de(_hoja(self.wb["porcentaje"], "F-DS-01"),
                           "D. Fuentes de agua para consumo (centros poblados "
                           "que la reportan)")
-        self.assertEqual(tabla[-1][0], f"Base: {n_fichas} ficha(s)")
+        self.assertEqual(tabla[-1][0],
+                         f"Base: {n_cp} centro(s) poblado(s) con dato")
         for fila in tabla[1:-1]:
             self.assertLessEqual(fila[1], 1.0)
 

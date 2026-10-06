@@ -187,10 +187,20 @@ class FichaInspeccionPDF(FPDF):
         self.ln(1)
 
 
+def _dedup_ds(registros):
+    """Fichas sociales sin sus copias, con el mismo criterio que los graficos
+    (analitica_social.deduplicar): no se descarta la ficha de otro centro
+    poblado o de otro informante solo porque la registro la misma
+    responsable, como hacia _dedup_por_ficha."""
+    import analitica_social as ans
+    return ans.deduplicar(registros)
+
+
 def _dedup_por_ficha(registros):
     """Deduplica registros de diagnostico: conserva solo el primero por
     (ficha, evaluador). `obtener_*_por_bloque` ya devuelve el mas reciente
-    primero, de modo que las reediciones antiguas no se repiten en el PDF."""
+    primero, de modo que las reediciones antiguas no se repiten en el PDF.
+    Solo para el Diagnostico Territorial; las fichas sociales usan _dedup_ds."""
     vistos = set()
     salida = []
     for reg in registros or []:
@@ -926,8 +936,8 @@ def generar_ficha_pdf(bloque_id, inspeccion_id=None):
         for dt in diagnosticos_dt:
             _render_dt_registro(pdf, dt)
 
-    # Diagnostico Social del bloque (deduplicar: solo el mas reciente por ficha)
-    diagnosticos_ds = _dedup_por_ficha(db.obtener_diagnosticos_sociales_por_bloque(bloque_id))
+    # Diagnostico Social del bloque (sin copias de una misma ficha)
+    diagnosticos_ds = _dedup_ds(db.obtener_diagnosticos_sociales_por_bloque(bloque_id))
     if diagnosticos_ds:
         pdf._seccion("4. Diagnostico Social (F-DS-01..F-DS-07)")
         for ds in diagnosticos_ds:
@@ -1236,21 +1246,25 @@ def generar_ficha_ds_bloque_pdf(bloque_id, datos_cp=None):
     if not bloque:
         raise ValueError(f"Bloque con id {bloque_id} no encontrado.")
 
-    diagnosticos = _dedup_por_ficha(db.obtener_diagnosticos_sociales_por_bloque(bloque_id))
+    diagnosticos = _dedup_ds(db.obtener_diagnosticos_sociales_por_bloque(bloque_id))
 
     pdf = _nuevo_pdf()
     _identificacion_bloque(pdf, bloque,
                            "FICHA DE DIAGNOSTICO SOCIAL POR BLOQUE")
 
     # ── Centros poblados del bloque ──────────────────────────────────────
+    import analitica_social as ans
     catalogo_cp = [c for c in (centros_poblados or []) if str(c).strip()]
+    en_catalogo = {ans._clave(c) for c in catalogo_cp}
     registrados_cp = []
     for ds in diagnosticos:
-        cp = (ds.get("centro_poblado", "") or "").strip()
-        if cp and cp not in registrados_cp:
-            registrados_cp.append(cp)
+        # Una ficha registrada para "A / B" nombra a dos CP; el cotejo con el
+        # catalogo no distingue tildes ni mayusculas ("Dótor" = "Dotor").
+        for cp in ans._partes_cp(ds.get("centro_poblado", "")):
+            if cp and ans._clave(cp) not in {ans._clave(r) for r in registrados_cp}:
+                registrados_cp.append(cp)
     solo_en_campo = [cp for cp in registrados_cp
-                     if cp.lower() not in {c.lower() for c in catalogo_cp}]
+                     if ans._clave(cp) not in en_catalogo]
 
     pdf._seccion("2. Centros Poblados del Bloque")
     if catalogo_cp:
@@ -1274,7 +1288,17 @@ def generar_ficha_ds_bloque_pdf(bloque_id, datos_cp=None):
             # bloques 83-87 solo se conoce la poblacion total, y un "0 H / 0 M"
             # se leeria como dato real en vez de dato ausente.
             total_pob = datos_cp.get("poblacion_total", 0)
-            partes_tot = [f"{total_pob:,} hab."]
+            sin_dato = sum(1 for d in demografia if not d.get("poblacion_total"))
+            # Un CP sin dato INEI figura con 0: el total no puede leerse como
+            # completo, y un "0 hab." de un bloque sin datos no es un cero.
+            if not total_pob:
+                partes_tot = ["s/d (el catalogo INEI no trae poblacion para "
+                              "estos centros poblados)"]
+            elif sin_dato:
+                partes_tot = [f"{total_pob:,} hab. (total parcial: {sin_dato} CP "
+                              "sin dato INEI)"]
+            else:
+                partes_tot = [f"{total_pob:,} hab."]
             if datos_cp.get("hombres") or datos_cp.get("mujeres"):
                 partes_tot.append(f"{datos_cp.get('hombres', 0):,} hombres / "
                                   f"{datos_cp.get('mujeres', 0):,} mujeres")

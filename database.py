@@ -489,14 +489,9 @@ def inicializar_bd():
             END IF;
         END $$
     """)
-    cursor.execute("""
-        DO $$ BEGIN
-            IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'uq_ds_bloque_ficha_fecha_evaluador') THEN
-                CREATE UNIQUE INDEX uq_ds_bloque_ficha_fecha_evaluador
-                ON diagnostico_social (bloque_id, ficha, fecha_evaluacion, evaluador);
-            END IF;
-        END $$
-    """)
+    # La unicidad de diagnostico_social se define mas abajo, despues de las
+    # columnas nuevas (uq_ds_bloque_ficha_fecha_eval_cp): el indice anterior
+    # (bloque, ficha, fecha, responsable) no debe volver a crearse.
     cursor.execute("""
         DO $$ BEGIN
             IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'uq_presupuesto_bloque_cat_desc') THEN
@@ -552,6 +547,30 @@ def inicializar_bd():
             EXCEPTION WHEN duplicate_column THEN NULL;
             END $$
         """)
+
+    # ── Migracion: unicidad de la ficha social por CP y entrevistado ──────
+    # El indice anterior (bloque, ficha, fecha, responsable) impedia guardar
+    # en el mismo dia la F-DS-01 de un segundo centro poblado o de un segundo
+    # informante, y obligaba a variar el nombre del responsable
+    # ("Stefany Campos..", "Stefany Campos Abad1") para registrarla; eso a su
+    # vez impedia reconocer las copias en los graficos. El nuevo indice suma
+    # el centro poblado y el entrevistado. Es una clave mas amplia que la
+    # anterior, de modo que los registros existentes la cumplen y la
+    # migracion no puede fallar por datos ya guardados.
+    cursor.execute("""
+        DO $$ BEGIN
+            IF NOT EXISTS (SELECT 1 FROM pg_indexes
+                           WHERE indexname = 'uq_ds_bloque_ficha_fecha_eval_cp') THEN
+                CREATE UNIQUE INDEX uq_ds_bloque_ficha_fecha_eval_cp
+                ON diagnostico_social (bloque_id, ficha, fecha_evaluacion, evaluador,
+                                       (COALESCE(centro_poblado, '')),
+                                       (COALESCE(nombre_entrevistado, '')));
+            END IF;
+            DROP INDEX IF EXISTS uq_ds_bloque_ficha_fecha_evaluador;
+        EXCEPTION WHEN OTHERS THEN
+            RAISE NOTICE 'No se actualizo el indice de diagnostico_social: %', SQLERRM;
+        END $$
+    """)
 
     # ── Diagnostico Territorial V5: nuevas columnas (Plantilla DT V5) ──────
     # F-DT-01..05 V5 reemplazan a las 6 fichas previas. Las columnas viejas
@@ -1931,11 +1950,20 @@ def actualizar_diagnostico_social(diagnostico_id, datos):
     conn.close()
 
 
+# Las columnas del bloque van con alias propio: `ds.*` ya trae `distrito`,
+# `provincia` y `microcuenca` de la ficha, y un `b.distrito` sin alias las
+# pisaba en el dict del cursor (el distrito del bloque reemplazaba al del
+# centro poblado y, al editar, la ficha volvia con el distrito del bloque).
+_COLS_BLOQUE_DS = ("b.codigo AS bloque_codigo, b.distrito AS bloque_distrito, "
+                   "b.provincia AS bloque_provincia, "
+                   "b.microcuenca AS bloque_microcuenca")
+
+
 def obtener_diagnosticos_sociales_por_bloque(bloque_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("""
-        SELECT ds.*, b.codigo AS bloque_codigo
+    cursor.execute(f"""
+        SELECT ds.*, {_COLS_BLOQUE_DS}
         FROM diagnostico_social ds
         JOIN bloques b ON ds.bloque_id = b.id
         WHERE ds.bloque_id=? ORDER BY ds.fecha_evaluacion DESC
@@ -1948,8 +1976,8 @@ def obtener_diagnosticos_sociales_por_bloque(bloque_id):
 def obtener_todos_diagnosticos_sociales():
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("""
-        SELECT ds.*, b.codigo AS bloque_codigo, b.tipo_intervencion, b.distrito
+    cursor.execute(f"""
+        SELECT ds.*, {_COLS_BLOQUE_DS}, b.tipo_intervencion
         FROM diagnostico_social ds
         JOIN bloques b ON ds.bloque_id = b.id
         ORDER BY ds.fecha_evaluacion DESC
@@ -1962,8 +1990,8 @@ def obtener_todos_diagnosticos_sociales():
 def obtener_diagnostico_social_por_id(diagnostico_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("""
-        SELECT ds.*, b.codigo AS bloque_codigo, b.tipo_intervencion, b.distrito
+    cursor.execute(f"""
+        SELECT ds.*, {_COLS_BLOQUE_DS}, b.tipo_intervencion
         FROM diagnostico_social ds
         JOIN bloques b ON ds.bloque_id = b.id
         WHERE ds.id=?
