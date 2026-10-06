@@ -97,3 +97,30 @@ modifica (salvo rellenar `origen` de los envíos ya importados).
 python -m pytest tests/test_liberacion_areas.py tests/test_liberacion_areas_registro.py -q
 LA_TEST_DB="postgresql://…/base_vacia_de_pruebas" python -m pytest tests -q
 ```
+
+---
+
+## Actualización 06-oct-2026 · Los envíos de KoboToolbox no aparecían en la página
+
+### Causa
+
+La página no consultaba KoboToolbox por sí sola: un envío F-LA quedaba solo en Kobo hasta que alguien lo
+importaba a mano en la pestaña **3 · Importar KoboToolbox** (listar → descargar → elegir el formulario del
+aplicativo → escribir el usuario → confirmar). Mientras tanto no aparecía en Historial, matriz predial ni reportes.
+Además, el formulario del aplicativo se elegía aparte del formulario Kobo, y el botón «Confirmar importación»
+quedaba deshabilitado sin explicación clara si faltaba el usuario responsable.
+
+### Corrección
+
+- **Aviso al abrir la página** (si hay `KOBO_TOKEN`): revisa los formularios F-LA de la cuenta (cada 5 minutos por
+  sesión) y muestra «N envío(s) de KoboToolbox aún no importados (F-LA-01: N…)» con el botón **Importar ahora**.
+  Importa con las mismas validaciones y estados (NUEVO / OBSERVADO) y descarga fotos y actas; un adjunto que falla
+  ya no detiene la importación.
+- **Formulario reconocido automáticamente** por el nombre en Kobo («F-LA-01», «F-LA01», «F_LA_01», «FLA 01»…) o, en
+  exportaciones, por sus campos. La importación manual de la pestaña 3 sigue disponible.
+- Los envíos **eliminados en el aplicativo** (bitácora) no se vuelven a traer en la sincronización.
+- F-LA-01 de formularios sin el cálculo `cod_unidad` toma la unidad del campo «unidades».
+
+Archivos: `la_kobo.py` (`form_id_por_nombre`, `form_id_por_campos`, `revisar_envios`, `sincronizar_envios`,
+`guardar_adjuntos`), `la_db.uuids_eliminados`, `la_core.validar_envio`, `pagina.py`,
+`tests/test_liberacion_areas_kobo_sync.py` (6 pruebas). Sin migración de base de datos.

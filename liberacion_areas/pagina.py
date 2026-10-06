@@ -17,6 +17,7 @@ Los registros se consultan, editan, eliminan (con bitácora y restauración) en 
 from __future__ import annotations
 
 import json
+import time
 from datetime import date
 
 import pandas as pd
@@ -34,6 +35,7 @@ ESTILO_ESTADO = {"NUEVO": "background-color:#C6EFCE", "DUPLICADO": "background-c
                  "OBSERVADO": "background-color:#FFEB9C"}
 MIME_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 POR_PAGINA = 15
+REVISION_KOBO_SEG = 300        # la revisión de envíos nuevos en KoboToolbox se repite cada 5 minutos por sesión
 
 
 @st.cache_resource(show_spinner="Preparando tablas de liberación de áreas…")
@@ -85,6 +87,7 @@ def render():
                    "Excel**. Todas pasan por las mismas validaciones (catálogo V6, asistente, UTM 17S, lotes SUS, actas) "
                    "y se consultan, editan o eliminan en **Historial / Edición**.")
         _mostrar_flash(st.container())
+        _aviso_kobo(conn)
         cat = db.catalogo(conn)
         t = st.tabs(["1 · Registro en campo", "2 · Plantillas Excel / Kobo", "3 · Importar KoboToolbox",
                      "4 · Historial / Edición", "5 · Matriz predial", "6 · Avance y semáforo", "7 · Reportes",
@@ -492,12 +495,82 @@ def _tab_plantillas(conn, cat: dict):
         st.caption("Ingrese el usuario responsable (arriba) para confirmar.")
 
 
+# ================================================================== sincronización con KoboToolbox
+def _kobo_configurado():
+    """Cliente Kobo si hay token (secrets o el escrito en esta sesión); None si no está configurado."""
+    try:
+        return kb.cliente()
+    except Exception:  # noqa: BLE001 – sin token: no se revisa
+        return None
+
+
+def _revision_kobo(conn, kobo, forzar: bool = False) -> dict:
+    """Envíos de los formularios F-LA que aún no están en la base. Se guarda en la sesión por 5 minutos."""
+    rev = st.session_state.get("la_kobo_rev")
+    if forzar or not rev or time.time() - rev["t"] > REVISION_KOBO_SEG:
+        kobo.timeout = 30
+        with st.spinner("Revisando envíos nuevos en KoboToolbox…"):
+            try:
+                rev = {"t": time.time(), "formularios": kb.revisar_envios(kobo, conn), "error": ""}
+            except Exception as e:  # noqa: BLE001 – token inválido, sin red, etc.
+                rev = {"t": time.time(), "formularios": [], "error": str(e)}
+        st.session_state["la_kobo_rev"] = rev
+    return rev
+
+
+def _aviso_kobo(conn):
+    """Aviso al abrir la página: los envíos de KoboToolbox no entran solos a la base; aquí se ven y se importan."""
+    kobo = _kobo_configurado()
+    if kobo is not None:
+        _panel_sincronizacion(conn, kobo, _revision_kobo(conn, kobo), "top")
+
+
+def _panel_sincronizacion(conn, kobo, rev: dict, clave: str):
+    resumen = st.session_state.pop(f"la_sync_resumen_{clave}", None)
+    if resumen:
+        st.dataframe(pd.DataFrame(resumen), hide_index=True, width="stretch")
+    if rev["error"]:
+        st.warning(f"No se pudo revisar KoboToolbox: {rev['error']}")
+        return
+    forms = rev["formularios"]
+    for f in forms:
+        if f["error"]:
+            st.warning(f"No se pudieron leer los envíos de «{f['nombre']}»: {f['error']}")
+    pendientes = sum(len(f["pendientes"]) for f in forms)
+    c1, c2 = st.columns([5, 1])
+    if pendientes:
+        detalle = ", ".join(f"{core.FORMULARIOS[f['form_id']]['codigo']}: {len(f['pendientes'])}" for f in forms
+                            if f["pendientes"])
+        c1.warning(f"📥 **{pendientes} envío(s) de KoboToolbox aún no importados** ({detalle}). No aparecen en "
+                   "Historial ni en la matriz predial hasta importarlos. Pulse **Importar ahora**: pasan por las mismas "
+                   "validaciones que la importación manual (los observados se registran con su motivo).")
+        if c2.button("Importar ahora", key=f"la_sync_{clave}", type="primary"):
+            if not _usuario():
+                st.warning("Escriba el **Usuario responsable** (arriba) para importar.")
+                return
+            with st.spinner("Importando envíos y descargando fotos y actas…"):
+                res = kb.sincronizar_envios(kobo, conn, _usuario(), revision=forms)
+            st.session_state.pop("la_kobo_rev", None)
+            st.session_state[f"la_sync_resumen_{clave}"] = res
+            n = sum(r["Importados"] for r in res)
+            _flash(f"Sincronización con KoboToolbox: {n} envío(s) importados. Ya aparecen en «4 · Historial / Edición».",
+                   "success" if n else "warning")
+            st.rerun()
+    elif forms:
+        total = sum(f["en_kobo"] for f in forms)
+        c1.caption(f"✅ KoboToolbox al día: {total} envío(s) en {len(forms)} formulario(s) F-LA, todos importados.")
+    else:
+        c1.caption("No se encontraron formularios F-LA desplegados en la cuenta KoboToolbox (el nombre debe incluir "
+                   "«F-LA-01», «F-LA01»…). Use la importación manual de la pestaña 3.")
+    if not pendientes and c2.button("Revisar de nuevo", key=f"la_rev_{clave}"):
+        st.session_state.pop("la_kobo_rev", None)
+        st.rerun()
+
+
 # ================================================================== 3. importar KoboToolbox
 def _tab_importar(conn):
     st.subheader("Importar envíos de KoboToolbox")
     fuente = st.radio("Fuente", ["API KoboToolbox", "Archivo exportado (XLSX / JSON)"], horizontal=True)
-    form_id = st.selectbox("Formulario", list(core.FORMULARIOS),
-                           format_func=lambda f: f"{core.FORMULARIOS[f]['codigo']} – {core.FORMULARIOS[f]['nombre']}")
     kobo = None
     if fuente.startswith("API"):
         from odk_kobo import CLAVE_TOKEN_SESION, normalizar_token, token_kobo
@@ -520,6 +593,15 @@ def _tab_importar(conn):
         except ValueError as e:
             st.error(str(e))
             return
+        st.markdown("**Todos los formularios F-LA**")
+        st.caption("Busca en la cuenta los formularios F-LA, reconoce a qué formulario corresponde cada uno y muestra los "
+                   "envíos que aún no están en la base.")
+        if st.button("🔄 Buscar envíos nuevos en KoboToolbox", key="la_rev_tab"):
+            _revision_kobo(conn, kobo, forzar=True)
+        if st.session_state.get("la_kobo_rev"):
+            _panel_sincronizacion(conn, kobo, st.session_state["la_kobo_rev"], "tab")
+        st.divider()
+        st.markdown("**Importación manual por formulario**")
         if st.button("Listar formularios F-LA"):
             with st.spinner("Consultando KoboToolbox…"):
                 try:
@@ -534,6 +616,9 @@ def _tab_importar(conn):
             with st.spinner("Descargando todas las páginas de envíos…"):
                 try:
                     st.session_state["la_raw"] = kobo.obtener_envios(uid)
+                    nombre = next((f["nombre"] for f in forms if f["uid"] == uid), "")
+                    st.session_state["la_raw_fid"] = (kb.form_id_por_nombre(nombre)
+                                                      or kb.form_id_por_campos(st.session_state["la_raw"]))
                 except Exception as e:  # noqa: BLE001
                     st.error(f"No se pudieron descargar los envíos: {e}")
     else:
@@ -542,10 +627,19 @@ def _tab_importar(conn):
             st.session_state["la_raw"] = (json.load(arch) if arch.name.endswith(".json") else kb.leer_exportacion_xlsx(arch))
             if isinstance(st.session_state["la_raw"], dict):
                 st.session_state["la_raw"] = st.session_state["la_raw"].get("results", [])
+            st.session_state["la_raw_fid"] = (kb.form_id_por_nombre(arch.name)
+                                              or kb.form_id_por_campos(st.session_state["la_raw"]))
     registros = st.session_state.get("la_raw", [])
     if not registros:
         st.info("Sin envíos cargados.")
         return
+    opciones = list(core.FORMULARIOS)
+    sugerido = st.session_state.get("la_raw_fid")
+    form_id = st.selectbox("Formulario del aplicativo al que corresponden los envíos", opciones,
+                           index=opciones.index(sugerido) if sugerido in opciones else 0, key=f"la_imp_form_{sugerido}",
+                           format_func=lambda f: f"{core.FORMULARIOS[f]['codigo']} – {core.FORMULARIOS[f]['nombre']}")
+    if sugerido:
+        st.caption("Formulario reconocido automáticamente por el nombre o los campos de los envíos.")
 
     cat, geoms = db.catalogo(conn), db.geometrias(conn)
     existentes = db.uuids_existentes(conn)
@@ -569,20 +663,15 @@ def _tab_importar(conn):
     if st.button("✅ Confirmar importación", type="primary", disabled=not _usuario()):
         res = db.importar(conn, resultados, "API" if kobo else "ARCHIVO", form_id, _usuario())
         if fotos and kobo:
-            n = 0
             with st.spinner("Descargando adjuntos…"):
-                for r in resultados:
-                    if r.estado_import == "DUPLICADO":
-                        continue
-                    for a in kb.descargar_adjuntos(kobo, r.datos):
-                        db.guardar_adjunto(conn, r.kobo_uuid, r.cod_predio, a["campo"], a["nombre"], a["mimetype"],
-                                           a["url"], a["contenido"])
-                        n += 1
-            st.info(f"Adjuntos guardados: {n}")
-        st.success(f"Importación N.° {res['import_id']}: {res['insertados']} envíos registrados. Estados LA recalculados.")
+                n, fallos = kb.guardar_adjuntos(kobo, conn, resultados)
+            st.info(f"Adjuntos guardados: {n}" + (f" · no se pudieron descargar: {fallos}" if fallos else ""))
+        st.success(f"Importación N.° {res['import_id']}: {res['insertados']} envíos registrados. Estados LA recalculados. "
+                   "Ya aparecen en «4 · Historial / Edición».")
         st.session_state.pop("la_raw", None)
+        st.session_state.pop("la_kobo_rev", None)
     if not _usuario():
-        st.caption("Ingrese el usuario responsable (arriba) para confirmar.")
+        st.warning("Escriba el **Usuario responsable** (arriba) para habilitar «Confirmar importación».")
 
 
 # ================================================================== 4. historial / edición
@@ -644,7 +733,8 @@ def _tab_historial(conn, cat: dict):
     es_doc = fid == "f_la_05_documentos"
     d = rep.tabla_formulario(conn, fid) if es_doc else db.listar_envios(conn, fid)
     if d.empty:
-        st.info("Sin registros para este formulario.")
+        st.info("Sin registros para este formulario. Los envíos de KoboToolbox se incorporan con **Importar ahora** "
+                "(aviso al inicio de la página) o en la pestaña **3 · Importar KoboToolbox**.")
     else:
         c1, c2, c3, c4 = st.columns(4)
         fu = c1.multiselect("Unidad", sorted(d["cod_unidad"].dropna().astype(str).unique()), key="la_h_u")
