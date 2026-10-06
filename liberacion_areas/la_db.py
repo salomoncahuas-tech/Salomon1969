@@ -167,6 +167,13 @@ def uuids_existentes(conn) -> set[str]:
     return set(d["kobo_uuid"]) if not d.empty else set()
 
 
+def uuids_eliminados(conn) -> set[str]:
+    """Envíos eliminados en el aplicativo y no restaurados: la sincronización con Kobo no los vuelve a traer."""
+    d = df(conn, """SELECT clave FROM la_bitacora WHERE tabla = 'la_envios_raw' AND accion = 'ELIMINAR'
+                    AND NOT restaurado""")
+    return set(d["clave"]) if not d.empty else set()
+
+
 def sus_areas(conn, cat: dict) -> dict:
     """Área vigente por lote SUS: medición de campo más reciente (F-LA-03) o, si no hay, la de gabinete."""
     base = core.sus_areas_desde_catalogo(cat)

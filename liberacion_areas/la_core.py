@@ -193,6 +193,8 @@ def validar_envio(form_id: str, reg: dict, catalogo: dict[str, dict], geoms: dic
     medición de campo). Es mutable: cada lote validado actualiza su área, de modo que la Σ por bloque
     considera también los envíos del mismo lote de importación."""
     uid = kobo_uuid(reg)
+    if form_id == "f_la_01_reunion" and not reg.get("cod_unidad") and reg.get("unidades"):
+        reg["cod_unidad"] = reg["unidades"]          # formularios F-LA-01 sin el cálculo cod_unidad
     r = Resultado(uid, form_id, reg.get("cod_unidad"), reg.get("cod_predio"), datos=reg)
     if not uid:
         r.observar("Envío sin instanceID")
