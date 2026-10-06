@@ -1099,7 +1099,8 @@ class KoBoClient:
         except urllib.error.HTTPError as e:
             cuerpo = e.read().decode("utf-8", errors="replace")[:300]
             if e.code in (401, 403):
-                raise ConnectionError("Token inválido o sin permiso sobre el formulario")
+                raise ConnectionError(f"Token inválido o sin permiso sobre el formulario "
+                                      f"(HTTP {e.code} en {self._host})")
             raise ConnectionError(f"Error HTTP {e.code}: {cuerpo}")
         except urllib.error.URLError as e:
             raise ConnectionError(f"Error de conexión: {e.reason}")

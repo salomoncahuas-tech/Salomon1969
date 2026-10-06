@@ -124,3 +124,17 @@ quedaba deshabilitado sin explicación clara si faltaba el usuario responsable.
 Archivos: `la_kobo.py` (`form_id_por_nombre`, `form_id_por_campos`, `revisar_envios`, `sincronizar_envios`,
 `guardar_adjuntos`), `la_db.uuids_eliminados`, `la_core.validar_envio`, `pagina.py`,
 `tests/test_liberacion_areas_kobo_sync.py` (6 pruebas). Sin migración de base de datos.
+
+### «No se pudo revisar KoboToolbox: Token inválido o sin permiso sobre el formulario»
+
+KoboToolbox respondió HTTP 401/403 al token. Las causas habituales son: la cuenta está en otro servidor (cada token
+vale en UN solo servidor: `kf.kobotoolbox.org`, `eu.kobotoolbox.org` o `kobo.humanitarianresponse.info`) y esta
+página usaba siempre `KOBO_SERVER` o, si faltaba, `kf.kobotoolbox.org`; o bien el `KOBO_TOKEN` de los secrets está
+incompleto o fue regenerado en Kobo.
+
+- Si el token es rechazado, la página **prueba los servidores oficiales** y, si es válido en otro, lo usa en la
+  sesión y muestra la línea `KOBO_SERVER = "…"` que conviene agregar a los secrets.
+- Si no es válido en ninguno, el aviso indica el servidor consultado, de dónde se tomó el token y su huella (longitud
+  y últimos 4 caracteres, sin revelarlo) con los pasos para reemplazarlo.
+- La pestaña 3 tiene un selector **Servidor KoboToolbox**; `KOBO_SERVER` se normaliza (acepta `eu.kobotoolbox.org`,
+  barras finales o una URL copiada del navegador).

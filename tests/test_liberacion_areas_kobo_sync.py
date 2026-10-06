@@ -137,3 +137,38 @@ def test_integracion_sincronizacion():
         assert kb.sincronizar_envios(k, conn, "prueba", revision=rev)[0]["Importados"] == 1
     finally:
         conn.close()
+
+
+# ------------------------------------------------------------------ servidor y token
+def test_normalizar_servidor():
+    casos = {"https://kf.kobotoolbox.org": "https://kf.kobotoolbox.org",
+             "https://kf.kobotoolbox.org/": "https://kf.kobotoolbox.org",
+             "eu.kobotoolbox.org": "https://eu.kobotoolbox.org",
+             " 'https://EU.kobotoolbox.org/#/forms/aXyz/summary' ": "https://eu.kobotoolbox.org",
+             "https://kf.kobotoolbox.org/api/v2/": "https://kf.kobotoolbox.org", "": "", None: ""}
+    for entrada, esperado in casos.items():
+        assert kb.normalizar_servidor(entrada) == esperado, entrada
+
+
+def test_servidor_desde_secrets(monkeypatch):
+    import odk_kobo as ok
+    monkeypatch.setattr(ok, "secreto_kobo", lambda nombre, defecto="": "eu.kobotoolbox.org/" if nombre == "KOBO_SERVER" else defecto)
+    assert kb.servidor_actual() == ("https://eu.kobotoolbox.org", "secrets")
+    assert kb.cliente(token="abc").url_servidor == "https://eu.kobotoolbox.org"
+
+
+def test_buscar_servidor_del_token(monkeypatch):
+    """Un token de eu.kobotoolbox.org rechazado en kf se encuentra en eu; uno inválido en todos → None."""
+    import odk_kobo as ok
+    monkeypatch.setattr(ok.KoBoClient, "test_conexion",
+                        lambda self: (self.url_servidor == "https://eu.kobotoolbox.org" and self.token_api == "tok-eu", ""))
+    assert kb.buscar_servidor("tok-eu", excluir="https://kf.kobotoolbox.org") == "https://eu.kobotoolbox.org"
+    assert kb.buscar_servidor("malo", excluir="https://kf.kobotoolbox.org") is None
+
+
+def test_describir_token_sin_revelarlo():
+    t = "a" * 36 + "b9f2"
+    assert kb.describir_token(t) == "40 caracteres, termina en «…b9f2»"
+    assert "revise que esté completo" in kb.describir_token("abc123")
+    assert kb.describir_token("") == "vacío"
+    assert kb.es_error_token(ConnectionError("Token inválido o sin permiso sobre el formulario (HTTP 401 en kf)"))

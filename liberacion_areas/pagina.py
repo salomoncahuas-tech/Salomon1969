@@ -504,18 +504,51 @@ def _kobo_configurado():
         return None
 
 
+def _revisar(conn, kobo) -> dict:
+    kobo.timeout = 30
+    try:
+        return {"t": time.time(), "formularios": kb.revisar_envios(kobo, conn), "error": "", "nota": ""}
+    except Exception as e:  # noqa: BLE001 – token inválido, sin red, etc.
+        return {"t": time.time(), "formularios": [], "error": str(e), "nota": "", "token": kb.es_error_token(e)}
+
+
 def _revision_kobo(conn, kobo, forzar: bool = False) -> dict:
-    """Envíos de los formularios F-LA que aún no están en la base. Se guarda en la sesión por 5 minutos."""
+    """Envíos de los formularios F-LA que aún no están en la base. Se guarda en la sesión por 5 minutos.
+    Si el servidor rechaza el token, se busca en qué servidor oficial de KoboToolbox es válido (la cuenta puede
+    estar en eu.kobotoolbox.org) y, si lo encuentra, se usa ese servidor en la sesión."""
     rev = st.session_state.get("la_kobo_rev")
     if forzar or not rev or time.time() - rev["t"] > REVISION_KOBO_SEG:
-        kobo.timeout = 30
         with st.spinner("Revisando envíos nuevos en KoboToolbox…"):
-            try:
-                rev = {"t": time.time(), "formularios": kb.revisar_envios(kobo, conn), "error": ""}
-            except Exception as e:  # noqa: BLE001 – token inválido, sin red, etc.
-                rev = {"t": time.time(), "formularios": [], "error": str(e)}
+            rev = _revisar(conn, kobo)
+            if rev.get("token"):
+                otro = kb.buscar_servidor(kobo.token_api, excluir=kobo.url_servidor)
+                if otro:
+                    anterior = kobo.url_servidor
+                    st.session_state[kb.CLAVE_SERVIDOR_SESION] = otro
+                    rev = _revisar(conn, kb.cliente(servidor=otro, token=kobo.token_api))
+                    rev["nota"] = (f"Su token de KoboToolbox pertenece a **{otro}**, no a {anterior}. En esta sesión se usa "
+                                   f"{otro}. Para dejarlo fijo, agregue en Streamlit Cloud → Settings → Secrets la línea "
+                                   f"`KOBO_SERVER = \"{otro}\"` y reinicie la aplicación.")
+                else:
+                    rev["error"] = _mensaje_token(kobo, rev["error"])
         st.session_state["la_kobo_rev"] = rev
     return rev
+
+
+def _mensaje_token(kobo, error: str) -> str:
+    from odk_kobo import token_kobo
+    origen_tok = {"secrets": "los secrets (KOBO_TOKEN)", "sesion": "el escrito en esta sesión"}.get(token_kobo()[1], "—")
+    servidor, origen_sv = kb.servidor_actual()
+    origen_sv = {"secrets": "KOBO_SERVER de los secrets", "sesion": "elegido en la pestaña 3",
+                 "predeterminado": "predeterminado: no hay KOBO_SERVER en los secrets"}[origen_sv]
+    return (f"KoboToolbox rechazó el token: {error}.  \n"
+            f"• Servidor consultado: {servidor} ({origen_sv}).  \n"
+            f"• Token tomado de {origen_tok}: {kb.describir_token(kobo.token_api)}.  \n"
+            "• Tampoco es válido en los otros servidores oficiales (kf, eu, humanitarianresponse).  \n"
+            "**Solución:** en KoboToolbox abra *Account Settings → Security → API Key*, copie la clave completa y "
+            "reemplace `KOBO_TOKEN = \"…\"` en Streamlit Cloud → Settings → Secrets (una línea propia, al inicio del "
+            "cuadro); luego reinicie la aplicación (*Reboot app*). Si su cuenta está en un servidor propio, agregue "
+            "también `KOBO_SERVER = \"https://…\"`.")
 
 
 def _aviso_kobo(conn):
@@ -529,8 +562,14 @@ def _panel_sincronizacion(conn, kobo, rev: dict, clave: str):
     resumen = st.session_state.pop(f"la_sync_resumen_{clave}", None)
     if resumen:
         st.dataframe(pd.DataFrame(resumen), hide_index=True, width="stretch")
+    if rev.get("nota"):
+        st.info(rev["nota"])
     if rev["error"]:
-        st.warning(f"No se pudo revisar KoboToolbox: {rev['error']}")
+        c1, c2 = st.columns([5, 1])
+        c1.warning(rev["error"] if rev.get("token") else f"No se pudo revisar KoboToolbox: {rev['error']}")
+        if c2.button("Revisar de nuevo", key=f"la_rev_err_{clave}"):
+            st.session_state.pop("la_kobo_rev", None)
+            st.rerun()
         return
     forms = rev["formularios"]
     for f in forms:
@@ -567,6 +606,12 @@ def _panel_sincronizacion(conn, kobo, rev: dict, clave: str):
         st.rerun()
 
 
+def _cambiar_servidor(clave: str):
+    st.session_state[kb.CLAVE_SERVIDOR_SESION] = st.session_state[clave]
+    for k in ("la_kobo_rev", "la_forms", "la_raw"):
+        st.session_state.pop(k, None)
+
+
 # ================================================================== 3. importar KoboToolbox
 def _tab_importar(conn):
     st.subheader("Importar envíos de KoboToolbox")
@@ -574,6 +619,12 @@ def _tab_importar(conn):
     kobo = None
     if fuente.startswith("API"):
         from odk_kobo import CLAVE_TOKEN_SESION, normalizar_token, token_kobo
+        sv, _ = kb.servidor_actual()
+        servidores = list(kb.SERVIDORES_KOBO) + ([sv] if sv not in kb.SERVIDORES_KOBO else [])
+        st.selectbox("Servidor KoboToolbox", servidores, index=servidores.index(sv), key=f"la_sv_sel_{sv}",
+                     on_change=_cambiar_servidor, args=(f"la_sv_sel_{sv}",),
+                     help="El servidor donde está su cuenta (kf.kobotoolbox.org o eu.kobotoolbox.org). El token solo es "
+                          "válido en ese servidor. Para dejarlo fijo use KOBO_SERVER en los secrets.")
         token, fuente_token = token_kobo()
         if fuente_token == "secrets":
             st.caption("Token API leído de la configuración segura (secrets).")
@@ -594,12 +645,11 @@ def _tab_importar(conn):
             st.error(str(e))
             return
         st.markdown("**Todos los formularios F-LA**")
-        st.caption("Busca en la cuenta los formularios F-LA, reconoce a qué formulario corresponde cada uno y muestra los "
-                   "envíos que aún no están en la base.")
+        st.caption("Busca en la cuenta los formularios F-LA, reconoce a qué formulario corresponde cada uno y muestra, en "
+                   "el aviso al inicio de la página, los envíos que aún no están en la base (con «Importar ahora»).")
         if st.button("🔄 Buscar envíos nuevos en KoboToolbox", key="la_rev_tab"):
-            _revision_kobo(conn, kobo, forzar=True)
-        if st.session_state.get("la_kobo_rev"):
-            _panel_sincronizacion(conn, kobo, st.session_state["la_kobo_rev"], "tab")
+            st.session_state.pop("la_kobo_rev", None)
+            st.rerun()
         st.divider()
         st.markdown("**Importación manual por formulario**")
         if st.button("Listar formularios F-LA"):

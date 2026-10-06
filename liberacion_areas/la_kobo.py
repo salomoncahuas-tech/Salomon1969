@@ -11,6 +11,37 @@ import pandas as pd
 from . import la_core as core
 
 SERVIDOR_POR_DEFECTO = "https://kf.kobotoolbox.org"
+# Servidores oficiales de KoboToolbox (los mismos que ofrece la página «ODK / KoBoToolbox»).
+# Cada cuenta y su token existen en UNO solo: un token de eu.kobotoolbox.org es inválido en kf.kobotoolbox.org.
+SERVIDORES_KOBO = ("https://kf.kobotoolbox.org", "https://eu.kobotoolbox.org", "https://kobo.humanitarianresponse.info")
+CLAVE_SERVIDOR_SESION = "la_kobo_servidor"
+
+
+def normalizar_servidor(url: str | None) -> str:
+    """'kf.kobotoolbox.org', 'https://kf.kobotoolbox.org/#/forms/aXyz' o '…/api/v2/' → 'https://kf.kobotoolbox.org'."""
+    t = str(url or "").strip().strip('"').strip("'").strip()
+    if not t:
+        return ""
+    if "://" not in t:
+        t = "https://" + t
+    m = re.match(r"^(https?)://([^/#?\s]+)", t, re.I)
+    return f"{m.group(1).lower()}://{m.group(2).lower()}" if m else t
+
+
+def servidor_actual() -> tuple[str, str]:
+    """(servidor, origen): el elegido en esta sesión, el de KOBO_SERVER en los secrets o el predeterminado."""
+    from odk_kobo import secreto_kobo
+    try:
+        import streamlit as st
+        elegido = st.session_state.get(CLAVE_SERVIDOR_SESION)
+    except Exception:  # noqa: BLE001 – fuera de Streamlit
+        elegido = None
+    if elegido:
+        return normalizar_servidor(elegido), "sesion"
+    configurado = secreto_kobo("KOBO_SERVER")
+    if configurado:
+        return normalizar_servidor(configurado), "secrets"
+    return SERVIDOR_POR_DEFECTO, "predeterminado"
 
 
 def cliente(servidor: str | None = None, token: str | None = None):
@@ -18,12 +49,38 @@ def cliente(servidor: str | None = None, token: str | None = None):
 
     El token se busca igual que en la página «ODK / KoBoToolbox»: nivel superior de los
     secrets, sección [kobo] o variable de entorno; si no está, el escrito en esta sesión."""
-    from odk_kobo import KoBoClient, normalizar_token, secreto_kobo, token_kobo
-    servidor = servidor or secreto_kobo("KOBO_SERVER", SERVIDOR_POR_DEFECTO)
+    from odk_kobo import KoBoClient, normalizar_token, token_kobo
+    servidor = normalizar_servidor(servidor) or servidor_actual()[0]
     token = normalizar_token(token) if token else token_kobo()[0]
     if not token:
         raise ValueError("Falta KOBO_TOKEN en los secrets del aplicativo.")
     return KoBoClient(servidor, token)
+
+
+def es_error_token(error) -> bool:
+    return "Token inválido" in str(error)
+
+
+def buscar_servidor(token: str, excluir: str | None = None) -> str | None:
+    """Servidor oficial de KoboToolbox donde el token es válido (None si en ninguno).
+    El token solo se envía a los servidores oficiales de SERVIDORES_KOBO."""
+    from odk_kobo import KoBoClient
+    for sv in SERVIDORES_KOBO:
+        if sv == normalizar_servidor(excluir):
+            continue
+        try:
+            if KoBoClient(sv, token, timeout=20).test_conexion()[0]:
+                return sv
+        except Exception:  # noqa: BLE001
+            continue
+    return None
+
+
+def describir_token(token: str) -> str:
+    """Huella del token para diagnóstico sin revelarlo: longitud y últimos 4 caracteres."""
+    t = str(token or "")
+    aviso = "" if len(t) == 40 else " — los tokens de KoboToolbox tienen 40 caracteres: revise que esté completo"
+    return f"{len(t)} caracteres, termina en «…{t[-4:]}»{aviso}" if t else "vacío"
 
 
 # «F-LA-01», «F-LA01», «F_LA_01», «FLA 01 – Reunión…» → f_la_01_reunion (F-LA-05 no tiene formulario Kobo)
