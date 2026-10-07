@@ -159,13 +159,16 @@ def _arrancar_con_reintento():
     try:
         _inicializar_bd_una_vez()
     except Exception as e:
+        diag = db.diagnosticar_error_conexion(e)
         st.error(
             "**No se pudo conectar a la base de datos.**\n\n"
-            "La base de datos puede estar pausada (esto ocurre en el plan gratuito de Supabase "
-            "cuando no hay actividad por varios días).\n\n"
+            f"**Causa probable:** {diag['causa']}\n\n"
+            f"- Conexión configurada (DATABASE_URL): `{diag['conexion']}`\n"
+            f"- Mensaje del servidor: `{diag['detalle']}`\n\n"
             "**¿Qué hacer?**\n"
-            "1. Entra a [supabase.com](https://supabase.com) y verifica que tu proyecto esté activo (no pausado).\n"
-            "2. Si está pausado, haz clic en **Resume project** y espera 1-2 minutos.\n"
+            "1. Corrija DATABASE_URL en Streamlit Cloud → Settings → Secrets si la causa lo indica.\n"
+            "2. Entra a [supabase.com](https://supabase.com) y verifica que tu proyecto esté activo; si está "
+            "pausado, haz clic en **Resume project** y espera 1-2 minutos.\n"
             "3. Luego presiona el botón de abajo para reintentar."
         )
         if st.button("🔄 Reintentar conexión"):
