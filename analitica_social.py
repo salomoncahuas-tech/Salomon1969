@@ -25,7 +25,6 @@ import io
 import json
 import math
 import re
-import statistics
 from collections import Counter
 from datetime import datetime
 from functools import lru_cache
@@ -758,16 +757,18 @@ def _viviendas_declaradas(formularios):
     """N.° de familias / viviendas de un CP entre sus fichas F-DS-01.
 
     `formularios` va de la mas reciente a la mas antigua. Devuelve
-    (valor, crudo, criterio, n_con_dato), o None si ninguna ficha lo consigna
-    (un cero no es un dato: un CP sin familias no se describe en la ficha).
+    (valor, crudo, criterio, n_con_dato, conteo), o None si ninguna ficha lo
+    consigna. Un cero no es un dato (un CP sin familias no se describe en la
+    ficha); `conteo` es {valor: N.° de fichas} sobre las fichas con dato, la
+    base que comparte el control de calidad.
       - Manda la moda: el valor que declaran mas fichas.
       - Sin un valor mas frecuente (todas distintas, o empate), la mediana de
-        lo declarado. El desempate por la ficha mas reciente dependia del
-        orden de llegada, y una ficha atipica (la que cuenta la comunidad
-        entera en vez del caserio) arrastra a un promedio pero no a la
-        mediana.
-    `crudo` es el texto de la ficha mas reciente que declara el valor usado,
-    o None si la mediana no coincide con ninguna ficha.
+        lo declarado: una ficha atipica (la que cuenta la comunidad entera en
+        vez del caserio) arrastra a un promedio pero no a la mediana. Con dos
+        valores centrales se toma el de la ficha mas reciente, de modo que la
+        cifra siempre es una que alguna ficha declaro: un promedio (22.5
+        familias) no lo declara nadie y no se podria cotejar con las fichas.
+    `crudo` es el texto de la ficha mas reciente que declara el valor usado.
     """
     valores, crudos = [], {}
     for form in formularios:
@@ -791,9 +792,15 @@ def _viviendas_declaradas(formularios):
         else:
             criterio = f"moda ({tope} de {n} fichas)"
     else:
-        valor = float(statistics.median(valores))
-        criterio = f"mediana de {n} fichas (sin un valor más frecuente)"
-    return valor, crudos.get(valor), criterio, n
+        orden = sorted(valores)
+        centrales = {orden[(n - 1) // 2], orden[n // 2]}
+        # `valores` va de la ficha mas reciente a la mas antigua.
+        valor = next(v for v in valores if v in centrales)
+        criterio = (f"mediana de {n} fichas (sin un valor más frecuente"
+                    + ("" if len(centrales) == 1 else
+                       "; de los dos valores centrales, el de la ficha más "
+                       "reciente") + ")")
+    return valor, crudos[valor], criterio, n, dict(conteo)
 
 
 def _completitud(registro):
@@ -876,9 +883,7 @@ def _consolidar_formularios(fichas, referencia=0):
             continue
         declarado = _viviendas_declaradas(formularios) if campo == "f1_nfam" else None
         if declarado:
-            # El texto de una ficha si la cifra fue declarada; la mediana de
-            # dos fichas puede no coincidir con ninguna y queda como numero.
-            base[campo] = declarado[1] if declarado[1] is not None else declarado[0]
+            base[campo] = declarado[1]      # texto de la ficha que lo declara
         elif any(_es_tabla(v) for v in valores):
             base[campo] = _combinar_tabla(campo, formularios, orden)
         elif campo in _OPCIONES_MULTIPLES or any(isinstance(v, (list, tuple))
@@ -950,6 +955,18 @@ def unidades_por_cp(registros, ficha="F-DS-01"):
         if ficha == "F-DS-01" and len(fichas) > 1:
             formularios = [formulario(r) for r in fichas]
             for campo, etiqueta in _CONTROL_FDS01:
+                if campo == "f1_nfam" and viviendas:
+                    # Misma base que el criterio de la cifra usada: "20
+                    # familias" y "20" coinciden y los ceros no son dato.
+                    valor, _crudo, criterio, n_con_dato, conteo = viviendas
+                    if len(conteo) > 1:
+                        discrepancias.append({
+                            "campo": etiqueta, "usado": _fmt_valor(valor),
+                            "n_usado": conteo[valor], "n_con_dato": n_con_dato,
+                            "otros": [f"{_fmt_valor(v)} ({n})"
+                                      for v, n in conteo.items() if v != valor],
+                            "criterio": criterio})
+                    continue
                 distintos = {}
                 for f in formularios:
                     if _tiene(f.get(campo)):
@@ -965,8 +982,7 @@ def unidades_por_cp(registros, ficha="F-DS-01"):
                         "n_con_dato": sum(n for _v, n in distintos.values()),
                         "otros": [f"{_mostrar(campo, v)} ({n})"
                                   for k, (v, n) in distintos.items() if k != usado],
-                        "criterio": (viviendas[2] if campo == "f1_nfam"
-                                     and viviendas else "")})
+                        "criterio": ""})
         bloques = sorted({_txt(r.get("bloque_codigo")) for r in fichas
                           if _txt(r.get("bloque_codigo"))})
         unidades.append({
@@ -975,8 +991,8 @@ def unidades_por_cp(registros, ficha="F-DS-01"):
             "bloques": bloques, "fichas": fichas, "referencia": fichas[ref],
             "form": form, "discrepancias": discrepancias,
             "tipo": _identidad(fichas[0])["tipo"],
-            # (valor, crudo, criterio, n_con_dato) del N.° de familias /
-            # viviendas del CP; solo en la F-DS-01.
+            # (valor, crudo, criterio, n_con_dato, conteo) del N.° de
+            # familias / viviendas del CP; solo en la F-DS-01.
             "viviendas": viviendas,
         })
     unidades.sort(key=lambda u: _clave(u["etiqueta"]))
@@ -1254,7 +1270,10 @@ def _observacion(unidad, tema, detalle, ficha="F-DS-01"):
 
 def _valor_actividad(texto):
     """("pct" | "n", valor) de la casilla "N fam.", o None si no trae cifra.
-    Manda el signo %: "40 %" es un porcentaje y "40", cuarenta familias."""
+
+    Manda el signo %: "40 %" es un porcentaje y "40", cuarenta familias. Una
+    cifra entre 0 y 1 sin signo es una fraccion: la plantilla Excel guarda
+    "40%" como 0.4, y una fraccion de familia no existe."""
     texto = _txt(texto)
     if not texto:
         return None
@@ -1262,6 +1281,8 @@ def _valor_actividad(texto):
     valor = _pct(texto) if es_pct else _entero(texto)
     if valor is None or valor < 0:
         return None
+    if not es_pct and 0 < valor < 1:
+        return ("pct", valor * 100)
     return ("pct" if es_pct else "n", valor)
 
 
@@ -1300,14 +1321,14 @@ def _referencia_actividades(unidad):
         return declarado[0], f"F-DS-01, numeral 2: {declarado[2]}", "ficha"
     inei = _viviendas_inei(unidad)
     if inei:
-        return inei, ("viviendas del catálogo INEI (la ficha no consigna el "
-                      "N.° de familias / viviendas)"), "inei"
+        return inei, "viviendas del catálogo INEI", "inei"
     poblacion = _poblacion_unidad(unidad["form"])
     razon = _hab_por_vivienda(unidad["bloques"])
-    if poblacion and razon:
+    # Una poblacion negativa ("+/- 240" en fichas antiguas) no es un dato.
+    if poblacion and poblacion > 0 and razon:
         return poblacion / razon, (
-            f"estimada: población declarada ({_fmt_valor(poblacion)} hab.) ÷ "
-            f"{razon:.2f} hab. por vivienda (INEI)"), "estimada"
+            f"estimada con la población declarada, {_fmt_valor(poblacion)} "
+            f"hab. ÷ {razon:.2f} hab. por vivienda del INEI"), "estimada"
     return None, "", ""
 
 
@@ -1335,6 +1356,10 @@ def _actividades_cp(unidad):
         if texto and dato is None:
             obs.append(f"«{actividad}»: «{texto}» no es un N.° de familias ni "
                        "un porcentaje; no se grafica.")
+        elif dato and dato[0] == "pct" and "%" not in texto:
+            obs.append(f"«{actividad}»: «{texto}» se lee como "
+                       f"{_fmt_valor(round(dato[1], 1))} % (una fracción de "
+                       "familia no existe); verifique el dato en la ficha.")
         filas.append({"actividad": actividad, "texto": texto, "dato": dato,
                       "destino": _col(fila, "Destino"),
                       "productos": _col(fila, "Productos principales"),
@@ -1344,16 +1369,18 @@ def _actividades_cp(unidad):
     absolutos = [f["dato"][1] for f in filas if f["dato"] and f["dato"][0] == "n"]
     if referencia is None and any(absolutos):
         referencia, origen = max(absolutos), "actividades"
-        criterio = ("mayor N.° de familias declarado entre sus actividades "
-                    "(la ficha no consigna N.° de viviendas ni población)")
+        criterio = ("mayor N.° de familias declarado entre sus actividades, "
+                    "a falta de N.° de viviendas y de población")
     elif referencia is None:
         criterio = ("sin N.° de viviendas ni población: se usan los "
                     "porcentajes declarados")
-    if origen in ("inei", "estimada", "actividades") and any(f["dato"] for f in filas):
+    # Solo cuando se divide algo entre la referencia: con puros porcentajes
+    # la referencia solo pondera al CP en el grafico del ambito.
+    if origen in ("inei", "estimada", "actividades") and any(absolutos):
         obs.append("La ficha no consigna el N.° de familias / viviendas "
-                   "(numeral 2): los porcentajes de las actividades se "
-                   f"calculan sobre {_fmt_valor(round(referencia, 1))} "
-                   f"({criterio}). Complete el dato en la ficha.")
+                   "(numeral 2): las familias de las actividades se expresan "
+                   f"en % de {_fmt_valor(round(referencia, 1))}, {criterio}. "
+                   "Complete el dato en la ficha.")
     for f in filas:
         if not f["dato"]:
             continue
@@ -1412,11 +1439,11 @@ def _actividades_ambito(resultados):
     con_dato = [r for r in resultados if r["con_dato"]]
     if not con_dato:
         return [], 0, 0.0, 0
-    pesos = [r["referencia"] for r in con_dato if r["referencia"]]
+    pesos = [r["referencia"] for r in con_dato if (r["referencia"] or 0) > 0]
     medio = sum(pesos) / len(pesos) if pesos else 1.0
     total, acumulado = 0.0, {}
     for r in con_dato:
-        peso = r["referencia"] or medio
+        peso = r["referencia"] if (r["referencia"] or 0) > 0 else medio
         total += peso
         for clave, pct in r["por_clave"].items():
             acumulado[clave] = acumulado.get(clave, 0.0) + pct * peso
@@ -1450,14 +1477,16 @@ def _seccion_socioeconomica(registros, tema="claro"):
                 "con el código del bloque."))
         for d in u["discrepancias"]:
             if d.get("criterio", "").startswith("mediana"):
-                # Sin un valor mas frecuente no hay "fichas que respaldan" la
-                # cifra usada: se explica el criterio en vez de "0 de N".
+                # Sin un valor mas frecuente, "1 de 3 fichas" no explica por
+                # que se usa esa cifra: se dice el criterio.
                 detalle = (f"{d['campo']}: ningún valor se repite más que otro "
-                           f"entre las fichas con dato; se usa su mediana, "
-                           f"{d['usado']}. "
-                           + ("Las demás fichas" if d["n_usado"] else "Las fichas")
-                           + f" declaran {', '.join(d['otros'])} (entre "
-                           "paréntesis, N.° de fichas).")
+                           f"entre las {d['n_con_dato']} fichas que lo declaran "
+                           f"(los ceros no cuentan); se usa la mediana, {d['usado']}"
+                           + (" (de los dos valores centrales, el de la ficha más "
+                              "reciente)" if "valores centrales" in d["criterio"]
+                              else "")
+                           + f". Las demás fichas declaran {', '.join(d['otros'])} "
+                           "(entre paréntesis, N.° de fichas).")
             else:
                 detalle = (f"{d['campo']}: se usa {d['usado']} ({d['n_usado']} de "
                            f"{d['n_con_dato']} fichas con dato); las demás fichas "
@@ -1708,7 +1737,11 @@ def _seccion_socioeconomica(registros, tema="claro"):
     if filas_act:
         presentes, colores = _apiladas(filas_act, FL.L_DESTINO, rampa=RAMPA_NEUTRA)
         base = (f" (≈ {_fmt_valor(float(round(familias_act)))} familias / "
-                "viviendas de referencia)" if familias_act else "")
+                "viviendas de referencia" if familias_act else "")
+        if n_sin_ref:
+            base += ("; " if base else " (") + (
+                f"{n_sin_ref} CP sin referencia pesan como el CP promedio")
+        base += ")" if base else ""
         series.append(_serie(
             "f1_actividades",
             "Familias por actividad económica y destino de la producción (%)",
@@ -1726,20 +1759,30 @@ def _seccion_socioeconomica(registros, tema="claro"):
                  "vida). Todo se expresa en % de las familias / viviendas de "
                  "cada CP (numeral 2): la moda entre sus fichas o, sin un "
                  "valor más frecuente, la mediana; si ninguna ficha lo "
-                 "consigna, las viviendas del catálogo INEI o una estimación "
-                 "con la población declarada (ver la tabla «Actividades "
+                 "consigna, las viviendas del catálogo INEI, una estimación "
+                 "con la población declarada y los habitantes por vivienda del "
+                 "INEI o, en último caso, el mayor N.° de familias declarado "
+                 "entre sus actividades (ver la tabla «Actividades "
                  "económicas»). Lo anotado como N.° de familias se divide "
                  "entre esa referencia y lo anotado en % se toma tal cual; "
                  "ningún valor supera el 100 % (los recortes se listan en el "
                  "Control de calidad). Cada actividad se toma de una sola "
                  "ficha del CP (la de referencia o, si no la registra, la más "
                  "reciente que lo haga) y el ámbito pondera cada CP por sus "
-                 "familias / viviendas. Una familia puede dedicarse a varias "
+                 "familias / viviendas (el CP que solo declara porcentajes, "
+                 "sin ninguna referencia, pesa como el CP promedio). Una "
+                 "familia puede dedicarse a varias "
                  "actividades: los porcentajes de actividades distintas no se "
                  "suman entre sí."))
     if detalle_act:
         # Sin totales: la misma familia figura en varias actividades.
         tablas.append(("Actividades económicas", detalle_act))
+        formato_tablas["Actividades económicas"] = {"formatos": {
+            "Familias declaradas (N.°)": "#,##0",
+            "Familias declaradas (%)": "0.0",
+            "Familias / viviendas de referencia del CP": "#,##0.0",
+            "Familias del CP en la actividad (%)": "0.0",
+            "Ingreso (S/ / mes)": "#,##0.00"}}
 
     # 6. Programas sociales (suma de los CP, cada uno una sola vez).
     programas = [("f1_juntos", "JUNTOS (familias)"),
@@ -3505,7 +3548,9 @@ def _eje_x(alt, serie, escala, tope=0):
     # traiga decimales: esos van en el tooltip y en la tabla.
     fmt = ",.0f" if serie.get("unidad") == "%" else _formato(serie)
     ejes = {"format": fmt, "labelFontSize": 10, "labelFlush": False}
-    if serie.get("decimales", 0) == 0:
+    if serie.get("unidad") == "%" and serie.get("maximo"):
+        ejes["values"] = list(range(0, int(serie["maximo"]) + 1, 10))
+    elif serie.get("decimales", 0) == 0:
         ejes["tickMinStep"] = 1
         if 0 < tope <= 12:
             ejes["values"] = list(range(0, int(math.ceil(tope)) + 1))
@@ -4128,6 +4173,11 @@ def _grafico_de_serie(ws, serie, fila_cab, categorias, subclases, colores,
                          else serie.get("unidad") or serie.get("eje_x") or "")
     if porcentaje:
         graf.y_axis.number_format = "0%"
+    elif serie.get("maximo"):
+        # Como en el aplicativo y el PDF: una serie en % de un todo se lee
+        # sobre 0-100, no sobre la escala que Excel ajusta a los datos.
+        graf.y_axis.scaling.min = 0
+        graf.y_axis.scaling.max = float(serie["maximo"])
     graf.x_axis.title = ""
     graf.gapWidth = 60
     graf.height = 8.5
@@ -4407,7 +4457,11 @@ def _hoja_resumen(wb, informe, modo="absoluto"):
                     "F-DS-01 a F-DS-07 registradas. Solo se grafica lo "
                     "declarado en campo: los campos sin respuesta no se "
                     "estiman ni se completan por analogía, conforme a la "
-                    "declaración de integridad de datos del proyecto.")
+                    "declaración de integridad de datos del proyecto. Única "
+                    "salvedad: si una ficha no consigna el N.° de familias / "
+                    "viviendas, la base de los % de actividades económicas "
+                    "se toma del catálogo INEI o se estima (ver la nota del "
+                    "gráfico y el Control de calidad).")
     celda.font = Font(name="Arial", size=8, italic=True)
     celda.alignment = Alignment(wrap_text=True, vertical="top")
     ws.merge_cells(start_row=fila, start_column=1, end_row=fila + 2, end_column=6)
@@ -4422,7 +4476,10 @@ def _hoja_tablas(wb, seccion, usados):
       - "calculadas": columnas derivadas como formula, cada una
         (nombre, "suma" | "resta", [columnas]); "resta" es la primera menos
         las demas. Quedan vacias si falta alguno de los datos, para no
-        confundir "sin dato" con cero.
+        confundir "sin dato" con cero;
+      - "formatos": {columna: formato numerico} para toda la columna (sin
+        el, el formato sale del tipo de cada celda y una misma columna
+        mezcla "21.20" con "50").
     """
     formatos = seccion.get("formato_tablas") or {}
     for titulo, filas in seccion.get("tablas", []):
@@ -4442,6 +4499,11 @@ def _hoja_tablas(wb, seccion, usados):
             [[_celda_num(f.get(c)) if isinstance(f.get(c), (int, float))
               else _txt(f.get(c)) for c in cabeceras] for f in filas])
         letra = {c: get_column_letter(i) for i, c in enumerate(todas, start=1)}
+        for columna, formato in (opciones.get("formatos") or {}).items():
+            if columna in cabeceras:
+                j = cabeceras.index(columna) + 1
+                for r in range(fila_cab + 1, fila_fin):
+                    ws.cell(r, j).number_format = formato
         negrita = Font(name="Arial", size=9, bold=True)
         for r in range(fila_cab + 1, fila_fin):
             for j, (nombre, operacion, columnas) in enumerate(calculadas):
@@ -4719,7 +4781,10 @@ def generar_pdf_social(informe):
             pdf.nota(aviso)
     pdf.nota("Anexo generado por el aplicativo IN Piura sobre las fichas "
              "F-DS-01 a F-DS-07 registradas. Solo se grafica lo declarado en "
-             "campo; los campos sin respuesta no se estiman.")
+             "campo; los campos sin respuesta no se estiman, salvo la base de "
+             "los % de actividades económicas cuando la ficha no consigna el "
+             "N.° de familias / viviendas (catálogo INEI o estimación; ver la "
+             "nota del gráfico).")
     return _pdf_bytes(pdf)
 
 
