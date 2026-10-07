@@ -65,6 +65,54 @@ def _connect_with_retry(dsn, **kwargs):
     raise last_err
 
 
+def describir_url(dsn=None):
+    """DATABASE_URL sin la contrasena: usuario@servidor:puerto/base (contrasena: N caracteres)."""
+    import urllib.parse
+    dsn = DATABASE_URL if dsn is None else dsn
+    try:
+        u = urllib.parse.urlsplit(str(dsn).strip())
+        clave = urllib.parse.unquote(u.password or "")
+        return (f"{u.username or '?'}@{u.hostname or '?'}:{u.port or 5432}{u.path or ''} "
+                f"(contraseña: {len(clave)} caracteres)")
+    except ValueError:
+        return "DATABASE_URL con formato no válido"
+
+
+def diagnosticar_error_conexion(error, dsn=None):
+    """Causa probable de un error de conexion a Supabase, en lenguaje simple y sin revelar la contrasena."""
+    dsn = DATABASE_URL if dsn is None else dsn
+    texto = str(error)
+    clave = ""
+    try:
+        import urllib.parse
+        clave = urllib.parse.unquote(urllib.parse.urlsplit(str(dsn)).password or "")
+    except ValueError:
+        pass
+    if clave:
+        texto = texto.replace(clave, "****")
+    t = texto.lower()
+    if "password authentication failed" in t:
+        causa = ("La contraseña escrita en DATABASE_URL no coincide con la de Supabase. Si acaba de cambiarla, "
+                 "reemplácela en DATABASE_URL (entre «:» y «@»), sin espacios ni comillas extra.")
+    elif "circuit breaker" in t or "too many authentication" in t:
+        causa = ("Supabase bloqueó temporalmente las conexiones por varios intentos con contraseña incorrecta. "
+                 "Corrija DATABASE_URL, espere 5 a 10 minutos y reintente.")
+    elif "tenant or user not found" in t:
+        causa = ("El usuario de DATABASE_URL no corresponde al proyecto. Con el pooler de Supabase debe ser "
+                 "«postgres.<código del proyecto>», por ejemplo postgres.maiizkcpepuwlevbxlxw.")
+    elif "could not translate host name" in t or "name or service not known" in t or "nodename nor servname" in t:
+        causa = "El servidor (host) de DATABASE_URL está mal escrito o la URL está incompleta."
+    elif "invalid dsn" in t or "invalid integer value" in t or "invalid port" in t or "missing" in t:
+        causa = ("DATABASE_URL tiene un formato no válido. Suele pasar cuando la contraseña contiene @ : / # ? % "
+                 "o cuando falta alguna parte de la dirección.")
+    elif "timeout" in t or "timed out" in t or "connection refused" in t or "server closed" in t:
+        causa = ("El servidor no respondió: el proyecto de Supabase puede estar pausado (plan gratuito) o "
+                 "reiniciándose. Verifique en supabase.com que esté activo.")
+    else:
+        causa = "Revise DATABASE_URL en los secrets y que el proyecto de Supabase esté activo."
+    return {"causa": causa, "detalle": texto.strip()[:400], "conexion": describir_url(dsn)}
+
+
 # == CAPA DE COMPATIBILIDAD SQLite -> PostgreSQL ===========================
 # Traduce automaticamente:
 #   ? -> %s  |  AUTOINCREMENT -> (nada)  |  GROUP_CONCAT -> STRING_AGG
