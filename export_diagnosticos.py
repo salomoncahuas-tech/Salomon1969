@@ -283,9 +283,11 @@ def exportar_fds_consolidado(registros, bloques_vigentes=None):
     Es una copia de respaldo: conserva TODAS las fichas, una fila por ficha.
     Para que se puedan conciliar con los graficos, cada fila indica el centro
     poblado consolidado al que se asigna (un mismo CP escrito de dos formas
-    o asociado a varios bloques es uno solo), y se agregan las hojas
-    "F-DS-01 por CP" (una fila por CP, con los datos que usan los graficos)
-    y "Control de calidad" (fichas de un mismo CP que no coinciden).
+    o asociado a varios bloques es uno solo) y su distrito, y se agregan las
+    hojas "F-DS-01 por CP" (una fila por CP, con los datos que usan los
+    graficos), "Actividades por CP (%)" (actividades economicas en % de las
+    familias / viviendas de cada CP) y "Control de calidad" (fichas de un
+    mismo CP que no coinciden).
 
     `bloques_vigentes`: codigos del catalogo vigente. Las fichas de bloques
     retirados se conservan en el respaldo, marcadas, pero no entran en las
@@ -362,6 +364,8 @@ def exportar_fds_consolidado(registros, bloques_vigentes=None):
                     "Bloque": r.get("bloque_codigo", ""),
                     "Ficha": r.get("ficha", ""),
                     "Centro poblado (consolidado)": cp_de.get(id(r), ""),
+                    # El de la ficha o, si falta, el del bloque.
+                    "Distrito": ans._distrito(r),
                 }
                 base.update(it)
                 filas_tabla.append(base)
@@ -378,6 +382,11 @@ def exportar_fds_consolidado(registros, bloques_vigentes=None):
         demografia = dict(seccion["tablas"]).get("Demografía por centro poblado")
         if demografia:
             hojas.append(("F-DS-01 por CP", pd.DataFrame(demografia)))
+        # Actividades en % de las familias / viviendas de cada CP: las
+        # mismas cifras del grafico, con distrito y referencia usada.
+        actividades = dict(seccion["tablas"]).get("Actividades económicas")
+        if actividades:
+            hojas.append(("Actividades por CP (%)", pd.DataFrame(actividades)))
     control = ans._control_calidad(vigentes, [seccion] if seccion else [])
     if control:
         hojas.append(("Control de calidad", pd.DataFrame(control)))

@@ -373,12 +373,13 @@ class Informe(unittest.TestCase):
                                      completo["A (Alta)"])
 
     def test_filas_repetidas_se_acumulan_una_sola_vez(self):
-        """Dos centros poblados con la misma actividad dan un tramo, no dos."""
+        """Dos centros poblados con la misma actividad dan un tramo, no dos:
+        90 de 120 familias en cada CP son el 75 % del ambito, no 180."""
         serie = self._serie("f1_actividades")
         df, categorias, subclases = an._datos_grafico(serie)
         self.assertEqual(len(df), len(df.drop_duplicates(["cat", "sub"])))
-        self.assertEqual(
-            df.loc[df["cat"] == "Agricultura de secano", "valor"].iloc[0], 180)
+        self.assertAlmostEqual(
+            df.loc[df["cat"] == "Agricultura de secano", "valor"].iloc[0], 75.0)
 
     def test_eje_de_conteos_usa_marcas_enteras(self):
         """Un eje que llega a 2 no puede rotularse '0 1 1 2'."""

@@ -4699,7 +4699,8 @@ def _ds_descargas_analitica(informe, clave):
              "titulares (F-DS-04 y F-DS-07) que reportan la opción. Valores absolutos y "
              "porcentaje: se agrega bajo cada tabla su versión en %, con "
              "fórmulas. Las series que ya están en % (coberturas, tierras "
-             "tituladas) o que mezclan unidades se mantienen en valores.")
+             "tituladas, actividades económicas) o que mezclan unidades se "
+             "mantienen en valores.")
     if c1.button("Generar Excel con gráficos", key=f"{clave}_gen_xlsx",
                  type="primary", use_container_width=True):
         with st.spinner("Construyendo el libro..."):
