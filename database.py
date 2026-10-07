@@ -65,39 +65,56 @@ def _connect_with_retry(dsn, **kwargs):
     raise last_err
 
 
-def describir_url(dsn=None):
-    """DATABASE_URL sin la contrasena: usuario@servidor:puerto/base (contrasena: N caracteres)."""
+_USUARIO_VALIDO = re.compile(r"^postgres(\.[a-z0-9]{20})?$")
+
+
+def _partes_url(dsn):
+    """(usuario, contrasena, servidor, puerto, base) de DATABASE_URL; None si no se puede leer."""
     import urllib.parse
-    dsn = DATABASE_URL if dsn is None else dsn
     try:
         u = urllib.parse.urlsplit(str(dsn).strip())
-        clave = urllib.parse.unquote(u.password or "")
-        return (f"{u.username or '?'}@{u.hostname or '?'}:{u.port or 5432}{u.path or ''} "
-                f"(contraseña: {len(clave)} caracteres)")
+        return (urllib.parse.unquote(u.username or ""), urllib.parse.unquote(u.password or ""),
+                u.hostname or "", u.port or 5432, u.path or "")
     except ValueError:
+        return None
+
+
+def describir_url(dsn=None):
+    """DATABASE_URL sin datos secretos: usuario@servidor:puerto/base (contrasena: N caracteres).
+    Si el usuario no tiene la forma postgres / postgres.<codigo> (p. ej. la contrasena se pego delante
+    del usuario) no se muestra: podria contener la contrasena."""
+    partes = _partes_url(DATABASE_URL if dsn is None else dsn)
+    if partes is None:
         return "DATABASE_URL con formato no válido"
+    usuario, clave, host, puerto, base = partes
+    if not _USUARIO_VALIDO.match(usuario):
+        usuario = f"[usuario NO válido, {len(usuario)} caracteres: no se muestra]"
+    return f"{usuario}@{host or '?'}:{puerto}{base} (contraseña: {len(clave)} caracteres)"
 
 
 def diagnosticar_error_conexion(error, dsn=None):
     """Causa probable de un error de conexion a Supabase, en lenguaje simple y sin revelar la contrasena."""
     dsn = DATABASE_URL if dsn is None else dsn
     texto = str(error)
-    clave = ""
-    try:
-        import urllib.parse
-        clave = urllib.parse.unquote(urllib.parse.urlsplit(str(dsn)).password or "")
-    except ValueError:
-        pass
-    if clave:
-        texto = texto.replace(clave, "****")
+    partes = _partes_url(dsn)
+    usuario, clave = (partes[0], partes[1]) if partes else ("", "")
+    usuario_valido = bool(_USUARIO_VALIDO.match(usuario))
+    for secreto in (clave, "" if usuario_valido else usuario):
+        if secreto:
+            texto = texto.replace(secreto, "****")
     t = texto.lower()
-    if "password authentication failed" in t:
+    if partes and not usuario_valido:
+        causa = ("El usuario de DATABASE_URL no es válido: debe ser exactamente «postgres.<código del proyecto>» "
+                 "(por ejemplo postgres.maiizkcpepuwlevbxlxw). Suele pasar cuando la contraseña se pega delante "
+                 "del usuario: la contraseña va entre «:» y «@». Formato correcto: "
+                 "postgresql://postgres.<código>:CONTRASEÑA@<servidor>.pooler.supabase.com:6543/postgres")
+    elif "password authentication failed" in t:
         causa = ("La contraseña escrita en DATABASE_URL no coincide con la de Supabase. Si acaba de cambiarla, "
                  "reemplácela en DATABASE_URL (entre «:» y «@»), sin espacios ni comillas extra.")
     elif "circuit breaker" in t or "too many authentication" in t:
         causa = ("Supabase bloqueó temporalmente las conexiones por varios intentos con contraseña incorrecta. "
                  "Corrija DATABASE_URL, espere 5 a 10 minutos y reintente.")
-    elif "tenant or user not found" in t:
+    elif "tenant or user not found" in t or "user not found" in t:
         causa = ("El usuario de DATABASE_URL no corresponde al proyecto. Con el pooler de Supabase debe ser "
                  "«postgres.<código del proyecto>», por ejemplo postgres.maiizkcpepuwlevbxlxw.")
     elif "could not translate host name" in t or "name or service not known" in t or "nodename nor servname" in t:

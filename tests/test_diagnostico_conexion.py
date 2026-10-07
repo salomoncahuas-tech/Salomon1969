@@ -41,3 +41,21 @@ def test_causas():
 def test_contrasena_nunca_en_detalle():
     d = _diag("invalid dsn: postgresql://postgres:Cl4veSecreta99@host")
     assert "Cl4veSecreta99" not in str(d) and "****" in d["detalle"]
+
+
+def test_contrasena_pegada_delante_del_usuario_no_se_muestra():
+    """Caso real: la contraseña nueva quedó delante del usuario y el servidor responde «user not found»."""
+    mala = ("postgresql://NuevaClave12345Xpostgres.maiizkcpepuwlevbxlxw:ViejaClave99@"
+            "aws-0-us-west-2.pooler.supabase.com:6543/postgres")
+    d = db.diagnosticar_error_conexion(Exception(
+        'connection to server at "aws-0-us-west-2.pooler.supabase.com", port 6543 failed: FATAL:  (EAUTHQUERY) '
+        "user not found in the database"), mala)
+    todo = str(d) + db.describir_url(mala)
+    assert "NuevaClave" not in todo and "ViejaClave" not in todo
+    assert "delante del usuario" in d["causa"]
+    assert "usuario NO válido" in d["conexion"]
+
+
+def test_usuario_valido_se_muestra():
+    assert db.describir_url(URL).startswith("postgres.maiizkcpepuwlevbxlxw@")
+    assert db.describir_url("postgresql://postgres:x@db.abc.supabase.co:5432/postgres").startswith("postgres@")
