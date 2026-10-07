@@ -96,6 +96,13 @@ class ValorDeLaCasilla(unittest.TestCase):
         self.assertEqual(an._valor_actividad("aprox. 30 familias"), ("n", 30.0))
         self.assertEqual(an._valor_actividad(25), ("n", 25.0))
 
+    def test_fraccion_de_la_plantilla_excel_es_porcentaje(self):
+        """La plantilla guarda "40%" como 0.4: no son 0.4 familias."""
+        self.assertEqual(an._valor_actividad("0.4"), ("pct", 40.0))
+        self.assertEqual(an._valor_actividad(0.25), ("pct", 25.0))
+        self.assertEqual(an._valor_actividad("1"), ("n", 1.0))
+        self.assertEqual(an._valor_actividad("0"), ("n", 0.0))
+
     def test_sin_cifra_o_negativo_no_es_dato(self):
         for texto in ("", None, "muchas", "-5"):
             self.assertIsNone(an._valor_actividad(texto), texto)
@@ -129,27 +136,64 @@ class ReferenciaDelCP(unittest.TestCase):
         self.assertEqual(valor, 50.0)
         self.assertIn("mediana de 3 fichas", criterio)
 
-    def test_mediana_de_dos_fichas_y_su_observacion(self):
-        """40 y 60 no se repiten: la base es 50 en las actividades, en la
-        demografia del CP y en el control de calidad (sin "0 de 2")."""
+    def test_mediana_de_dos_fichas_es_una_cifra_declarada(self):
+        """40 (antigua) y 60 (reciente) no se repiten: de los dos valores
+        centrales manda la ficha mas reciente. Nunca un promedio (50) que no
+        declara nadie, y la misma cifra en actividades, demografia y control."""
         regs = self._fichas("40", "60")
         u = _unidad(regs)
-        self.assertEqual(an._referencia_actividades(u)[0], 50.0)
-        self.assertEqual(an._entero(u["form"]["f1_nfam"]), 50.0)
+        self.assertEqual(an._referencia_actividades(u)[0], 60.0)
+        self.assertEqual(u["form"]["f1_nfam"], "60")
         seccion = an._seccion_socioeconomica(regs)
         demografia = dict(seccion["tablas"])["Demografía por centro poblado"][0]
-        self.assertEqual(demografia["Familias / viviendas"], 50.0)
+        self.assertEqual(demografia["Familias / viviendas"], 60.0)
         self.assertIn("mediana", demografia["Criterio (familias / viviendas)"])
         texto = next(t for t in _textos_control(seccion)
                      if t.startswith("Familias / viviendas"))
-        self.assertIn("se usa su mediana, 50", texto)
-        self.assertNotIn("0 de 2", texto)
+        self.assertIn("se usa la mediana, 60 (de los dos valores centrales, "
+                      "el de la ficha más reciente)", texto)
+        self.assertIn("declaran 40 (1)", texto)
+
+    def test_mediana_no_inventa_un_conflicto_con_juntos(self):
+        """Antes: 20 y 25 daban 22.5 familias y 'JUNTOS: 23 supera 22.5'."""
+        regs = self._fichas("20", "25", f1_juntos="23")
+        seccion = an._seccion_socioeconomica(regs)
+        self.assertFalse(any(t.startswith("JUNTOS") for t in _textos_control(seccion)))
+
+    def test_mediana_conserva_la_deteccion_de_fichas_duplicadas(self):
+        """La ficha reciente de La Peña registrada como El Pino se detecta."""
+        regs = self._fichas("20", "25") + [
+            _reg({"f1_nfam": "25", "f1_pob_t": "300"}, "El Pino")]
+        avisos = an._control_duplicados_probables(an.unidades_por_cp(regs))
+        self.assertEqual(len(avisos), 2)
+
+    def test_control_cuenta_las_fichas_como_el_criterio(self):
+        """'20 familias' y '20' son la misma cifra: 2 de 3, no 1 de 3."""
+        seccion = an._seccion_socioeconomica(self._fichas("35", "20", "20 familias"))
+        texto = next(t for t in _textos_control(seccion)
+                     if t.startswith("Familias / viviendas"))
+        self.assertIn("se usa 20 (2 de 3 fichas con dato)", texto)
+        self.assertIn("declaran 35 (1)", texto)
+        coinciden = an._seccion_socioeconomica(self._fichas("20", "20 viviendas"))
+        self.assertFalse(any(t.startswith("Familias / viviendas")
+                             for t in _textos_control(coinciden)))
 
     def test_un_cero_no_es_un_dato(self):
         u = _unidad(self._fichas("0", "35"))
         valor, criterio, _origen = an._referencia_actividades(u)
         self.assertEqual(valor, 35.0)
         self.assertIn("única ficha con dato", criterio)
+        seccion = an._seccion_socioeconomica(self._fichas("0", "0", "35"))
+        self.assertFalse(any(t.startswith("Familias / viviendas")
+                             for t in _textos_control(seccion)))
+
+    def test_poblacion_negativa_no_es_referencia(self):
+        """'+/- 240' en una ficha antigua se lee -240: no sirve de base."""
+        regs = [_reg({"f1_pob_t": "+/- 240", "f1_activ": _activ(
+            ("Agricultura de secano", "20", AUTO))}, "Caserio Nuevo", bloque="1")]
+        resultado = an._actividades_cp(_unidad(regs))
+        self.assertEqual(resultado["origen"], "actividades")
+        self.assertEqual(resultado["por_clave"][("Agricultura de secano", AUTO)], 100.0)
 
     def test_la_moda_conserva_el_texto_de_la_ficha(self):
         u = _unidad(self._fichas("1.500", "1500", "900"))
@@ -168,6 +212,13 @@ class ReferenciaDelCP(unittest.TestCase):
         self.assertAlmostEqual(resultado["por_clave"][("Agricultura de secano", AUTO)], 40.0)
         self.assertTrue(any("no consigna el N.° de familias" in t
                             for t in resultado["observaciones"]))
+
+    def test_solo_porcentajes_no_dice_que_se_divide_entre_el_inei(self):
+        regs = [_reg({"f1_activ": _activ(("Agricultura de secano", "40%", AUTO))},
+                     "Mamayaco", bloque="1", distrito="Ayabaca")]
+        resultado = an._actividades_cp(_unidad(regs))
+        self.assertEqual(resultado["origen"], "inei")
+        self.assertEqual(resultado["observaciones"], [])
 
     def test_sin_dato_ni_catalogo_estima_con_la_poblacion(self):
         """Bloque 1: 238 hab. en 95 viviendas INEI (2.51 hab. por vivienda)."""
@@ -240,6 +291,11 @@ class ConversionAPorcentaje(unittest.TestCase):
         r = self._cp(("Ganadería porcina", "10", MIXTO),
                      ("Ganadería porcina", "20", MIXTO))
         self.assertEqual(r["por_clave"][("Ganadería porcina", MIXTO)], 40.0)
+
+    def test_fraccion_se_observa(self):
+        r = self._cp(("Ganadería vacuna", "0.4", MIXTO))
+        self.assertEqual(r["por_clave"][("Ganadería vacuna", MIXTO)], 40.0)
+        self.assertTrue(any("«0.4» se lee como 40 %" in t for t in r["observaciones"]))
 
     def test_texto_sin_cifra_se_observa(self):
         r = self._cp(("Comercio local", "varias", MERCADO))
@@ -351,6 +407,8 @@ class Ambito(unittest.TestCase):
         spec = an.grafico_altair(serie).to_dict()
         self.assertEqual(spec["encoding"]["x"]["scale"]["domain"], [0, 100.0])
         self.assertEqual(spec["encoding"]["x"]["axis"]["format"], ",.0f")
+        self.assertEqual(spec["encoding"]["x"]["axis"]["values"],
+                         list(range(0, 101, 10)))
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -391,12 +449,22 @@ class Salidas(unittest.TestCase):
                 ws.cell(fila, 1).value).startswith("Fuente"):
             self.assertNotEqual(ws.cell(fila, 1).value, "TOTAL")
             fila += 1
+        grafico = next(ch for ch in ws._charts
+                       if "destino de la producción (%)" in str(
+                           ch.title.tx.rich.p[0].r[0].t))
+        self.assertEqual((grafico.y_axis.scaling.min, grafico.y_axis.scaling.max),
+                         (0, 100.0))
         hoja_tabla = next(ws for ws in wb.worksheets
                           if ws.title.startswith("T Actividades"))
-        cab_tabla = [c.value for c in next(
-            fila for fila in hoja_tabla.iter_rows()
-            if fila[0].value == "Centro poblado / ámbito")]
+        fila_cab = next(fila for fila in hoja_tabla.iter_rows()
+                        if fila[0].value == "Centro poblado / ámbito")
+        cab_tabla = [c.value for c in fila_cab]
         self.assertIn("Distrito", cab_tabla)
+        col = cab_tabla.index("Familias del CP en la actividad (%)") + 1
+        formatos = {hoja_tabla.cell(r, col).number_format
+                    for r in range(fila_cab[0].row + 1, hoja_tabla.max_row + 1)
+                    if hoja_tabla.cell(r, col).value is not None}
+        self.assertEqual(formatos, {"0.0"})
 
     def test_excel_de_la_base_de_datos_lleva_distrito(self):
         regs = _reporte_con_errores()
