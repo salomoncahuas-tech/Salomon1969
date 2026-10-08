@@ -4120,7 +4120,7 @@ def _render_fds03():
     _T(f, c2, "DNI", "f3_dni")
     _T(f, c3, "Edad", "f3_edad")
     c1, c2, c3 = st.columns(3)
-    _SB(f, c1, "Genero", ["M", "F"], "f3_genero")
+    _SB(f, c1, "Genero", FL.FDS03_GENERO, "f3_genero")
     _T(f, c2, "Cargo / Rol *", "f3_cargo")
     _T(f, c3, "Institucion / Organizacion", "f3_inst")
     c1, c2, c3 = st.columns(3)
@@ -4189,16 +4189,9 @@ def _render_fds04():
     _T(f, c2, "N adultos mayores (>60)", "f4_am")
     _T(f, c3, "N total asistentes", "f4_tot")
     _TA(f, "Objetivo general del taller *", "f4_obj", height=60)
-    METODOS = ["Exposicion magistral", "Mesas de trabajo / Grupos focales", "Mapa parlante",
-               "Matriz Foda / Vester", "Cartografia participativa", "Lluvia de ideas",
-               "Entrevistas semiestructuradas", "Sociodrama / Dinamicas"]
-    MATERIALES = ["Papelografos", "Plumones / Lapices", "Tarjetas de colores", "Cinta adhesiva",
-                  "Mapas impresos / Ortofotos", "Proyector / Laptop", "Camara fotografica",
-                  "Grabadora de audio", "Refrigerio", "Otros"]
-    _MS(f, st, "2.2 Metodologia empleada", METODOS, "f4_metod")
-    _MS(f, st, "2.3 Materiales utilizados", MATERIALES, "f4_mater")
-    _SB(f, st, "2.4 Idioma de la facilitacion",
-        ["Español", "Quechua", "Bilingue español-quechua", "Otro"], "f4_idioma")
+    _MS(f, st, "2.2 Metodologia empleada", FL.FDS04_METODOS, "f4_metod")
+    _MS(f, st, "2.3 Materiales utilizados", FL.FDS04_MATERIALES, "f4_mater")
+    _SB(f, st, "2.4 Idioma de la facilitacion", FL.FDS04_IDIOMA, "f4_idioma")
 
     _TB(f, "**3. Lista de Participantes**", "f4_part",
         [("Nombres y Apellidos", "text", None), ("DNI", "text", None),
@@ -4241,8 +4234,7 @@ def _render_fds05():
     _SB(f, st, "¿Se diferencia el proyecto IN del contexto minero?", DS_SINONA, "f5_rb5")
     _T(f, st, "Otros conflictos relevantes (Tambogrande, Majaz, otros)", "f5_otros")
     _T(f, st, "Rol de las rondas en conflictos historicos", "f5_rol_rondas")
-    _SB(f, st, "3.1 Nivel de polarizacion actual",
-        ["Muy alto", "Alto", "Medio", "Bajo", "Muy bajo / Inexistente"], "f5_polar")
+    _SB(f, st, "3.1 Nivel de polarizacion actual", FL.FDS05_POLARIZACION, "f5_polar")
 
     _TB(f, "**4. Identificacion de Oportunidades**", "f5_oportunidades",
         [("Oportunidad identificada", "text", None),
@@ -4253,17 +4245,12 @@ def _render_fds05():
         default_n=3)
 
     st.markdown("**5. Sintesis Estrategica**")
-    _SB(f, st, "5.1 Nivel global de conflictividad",
-        ["Muy bajo", "Bajo", "Medio", "Alto", "Muy alto"], "f5_confglob")
-    _SB(f, st, "5.2 Viabilidad social preliminar",
-        ["Alta — viable para intervencion inmediata", "Media — requiere acercamiento reforzado",
-         "Baja — requiere mesa de dialogo previa", "Muy baja — reevaluar inclusion del bloque"], "f5_viab")
+    _SB(f, st, "5.1 Nivel global de conflictividad", FL.FDS05_CONFLICTIVIDAD, "f5_confglob")
+    _SB(f, st, "5.2 Viabilidad social preliminar", FL.FDS05_VIABILIDAD, "f5_viab")
     _T(f, st, "Estrategia de acercamiento recomendada", "f5_estrategia")
     c1, c2 = st.columns(2)
     _SB(f, c1, "¿Se requiere mesa de dialogo especifica?", DS_SINO, "f5_mesa")
-    _SB(f, c2, "5.3 Plazo estimado para aceptacion comunal",
-        ["Inmediato (<1 mes)", "Corto (1-3 meses)", "Medio (3-6 meses)",
-         "Largo (6-12 meses)", "Requiere >12 meses"], "f5_plazo")
+    _SB(f, c2, "5.3 Plazo estimado para aceptacion comunal", FL.FDS05_PLAZO, "f5_plazo")
     return f
 
 
@@ -4319,14 +4306,12 @@ def _render_fds07():
     _T(f, c2, "DNI *", "f7_dni")
     _T(f, c3, "Edad", "f7_edad")
     c1, c2 = st.columns(2)
-    _SB(f, c1, "Genero", ["Hombre", "Mujer", "Otro / Pref. no decir"], "f7_genero")
+    _SB(f, c1, "Genero", FL.FDS07_GENERO, "f7_genero")
     _T(f, c2, "Direccion / Residencia habitual", "f7_residencia")
     c1, c2 = st.columns(2)
     _T(f, c1, "Telefono / Correo de contacto", "f7_contacto")
     _T(f, c2, "Superficie predio en el bloque (ha)", "f7_superficie")
-    DOCS = ["Titulo de propiedad SUNARP", "Constancia de posesion (municipal)", "Titulo COFOPRI",
-            "Certificado catastral", "Resolucion de adjudicacion", "Sin documentacion disponible"]
-    _MS(f, st, "2.2 Documentacion de tenencia disponible", DOCS, "f7_docs")
+    _MS(f, st, "2.2 Documentacion de tenencia disponible", FL.FDS07_DOCS, "f7_docs")
     c1, c2 = st.columns(2)
     _SB(f, c1, "¿Tiene conflictos de linderos?", DS_SINO, "f7_linderos")
     _SB(f, c2, "¿Es residente permanente?", DS_SINO, "f7_residente")
@@ -4558,6 +4543,13 @@ def _ds_validar(ficha, form, dg):
     return errores, avisos
 
 
+# Datos generales que dependen del bloque seleccionado (se re-autocompletan
+# al cambiar de bloque).
+_DS_KEYS_POR_BLOQUE = ("ds_prov", "ds_dist", "ds_cpob", "ds_ccam", "ds_este", "ds_norte",
+                       "ds_alt", "ds_ubigeo", "ds_entrev_nombre", "ds_entrev_dni",
+                       "ds_entrev_oficio", "ds_mc")
+
+
 def _ds_apply_pending():
     """Aplica precarga pendiente (edicion / import) a session_state una vez."""
     pend = st.session_state.pop("_ds_pending_state", None)
@@ -4566,6 +4558,15 @@ def _ds_apply_pending():
     edit_id = st.session_state.pop("_ds_pending_edit_id", None)
     # Limpiar widgets de la ficha anterior para evitar valores residuales
     st.session_state["_ds_nonce"] = _ds_nonce() + 1
+    if pend.get("ds_bl"):
+        # La precarga trae su propio bloque: se descartan los datos generales
+        # del bloque anterior (se auto-completan con los del nuevo) y se marca
+        # el bloque como ya visto, para que el cambio de bloque no borre los
+        # datos generales que trae la precarga (centro poblado, coordenadas,
+        # entrevistado).
+        for k in _DS_KEYS_POR_BLOQUE:
+            st.session_state.pop(k, None)
+        st.session_state["_ds_prev_bl"] = pend["ds_bl"]
     for k, v in pend.items():
         st.session_state[k] = v
     st.session_state["ds_edit_id"] = edit_id
@@ -5313,32 +5314,42 @@ def pagina_diagnostico_social():
             uploaded_excel = None
         if uploaded_excel is not None:
             try:
-                resultados = parsear_excel_ds(uploaded_excel)
-                if not resultados:
-                    st.error("No se detectaron fichas F-DS en el archivo. Verifique el formato.")
-                else:
-                    st.success(f"Se detectaron {len(resultados)} ficha(s) en el archivo.")
-                    for i, res in enumerate(resultados):
-                        ficha_det = res.get("ficha", "")
-                        datos_res = res.get("datos", {})
-                        with st.expander(f"Vista previa: {ficha_det}", expanded=True):
-                            cols_prev = st.columns(4)
-                            cols_prev[0].markdown(f"**Fecha:** {datos_res.get('fecha', '-')}")
-                            cols_prev[1].markdown(f"**Responsable:** {datos_res.get('evaluador', '-')}")
-                            cols_prev[2].markdown(f"**Bloque:** {datos_res.get('codigo_bloque', '-')}")
-                            cols_prev[3].markdown(f"**Distrito:** {datos_res.get('distrito', '-')}")
-                            form_prev = datos_res.get("form", {})
-                            n_campos = sum(1 for v in form_prev.values() if v not in ("", None, []))
-                            st.markdown(f"**Campos detectados:** {n_campos}")
-                        if st.button(f"Autocompletar formulario {ficha_det}", type="primary", key=f"ds_ac_{i}"):
-                            pend = mapear_a_session_state(res, bm)
-                            st.session_state["_ds_pending_state"] = pend
-                            st.session_state["_ds_pending_edit_id"] = None
-                            st.success(f"Formulario {ficha_det} autocompletado. "
-                                       "Vaya a la pestana **Registro** para revisar y guardar.")
-                            st.rerun()
+                resultados = parsear_excel_ds(uploaded_excel.getvalue())
             except Exception as e:
-                st.error(f"Error al leer el archivo Excel: {e}")
+                resultados = None
+                st.error("No se pudo abrir el archivo como plantilla Excel (.xlsx). "
+                         f"Verifique que sea la Plantilla V4 guardada en Excel. Detalle: {e}")
+            if resultados is not None and not resultados:
+                st.warning("El archivo no contiene datos capturados en las fichas F-DS-01 a "
+                           "F-DS-07 (la plantilla esta en blanco). Llene al menos la fecha, "
+                           "el responsable y el codigo de bloque de la ficha, guarde el "
+                           "archivo y vuelva a subirlo.")
+            elif resultados:
+                st.success(f"Se detectaron {len(resultados)} ficha(s) con datos en el archivo.")
+                for i, res in enumerate(resultados):
+                    ficha_det = res.get("ficha", "")
+                    datos_res = res.get("datos", {})
+                    with st.expander(f"Vista previa: {ficha_det}", expanded=True):
+                        cols_prev = st.columns(4)
+                        cols_prev[0].markdown(f"**Fecha:** {datos_res.get('fecha') or '-'}")
+                        cols_prev[1].markdown(f"**Responsable:** {datos_res.get('evaluador') or '-'}")
+                        cols_prev[2].markdown(f"**Bloque:** {datos_res.get('codigo_bloque') or '-'}")
+                        cols_prev[3].markdown(f"**Distrito:** {datos_res.get('distrito') or '-'}")
+                        st.markdown(f"**Campos con datos:** {datos_res.get('n_campos', 0)}")
+                        for av in res.get("avisos", []):
+                            st.warning(av)
+                    if st.button(f"Autocompletar formulario {ficha_det}", type="primary", key=f"ds_ac_{i}"):
+                        pend = mapear_a_session_state(res, bm, FECHA_MIN_PROYECTO, date.today())
+                        st.session_state["_ds_pending_state"] = pend
+                        st.session_state["_ds_pending_edit_id"] = None
+                        msg = (f"Formulario {ficha_det} autocompletado desde el Excel "
+                               f"({datos_res.get('n_campos', 0)} campos con datos). Abra la "
+                               "pestana **Registro** para revisarlo y pulse **Guardar**.")
+                        avisos = res.get("avisos", [])
+                        if avisos:
+                            msg += "\n\nRevise:\n" + "\n".join(f"- {a}" for a in avisos)
+                        _flash(msg, "warning" if avisos else "success")
+                        st.rerun()
 
 
 

@@ -367,3 +367,37 @@ FDS06_TENDENCIA = [
 
 FDS06_INTENSIDAD = ["Alta", "Media", "Baja"]
 
+
+# ── Opciones propias de los formularios (no estan en la hoja _Listas) ──
+# Compartidas por el aplicativo (streamlit_app) y el importador Excel
+# (excel_diagnostico_social), para que ambos usen exactamente el mismo texto.
+FDS03_GENERO = ["M", "F"]
+
+FDS04_METODOS = [
+    "Exposicion magistral", "Mesas de trabajo / Grupos focales", "Mapa parlante",
+    "Matriz Foda / Vester", "Cartografia participativa", "Lluvia de ideas",
+    "Entrevistas semiestructuradas", "Sociodrama / Dinamicas",
+]
+FDS04_MATERIALES = [
+    "Papelografos", "Plumones / Lapices", "Tarjetas de colores", "Cinta adhesiva",
+    "Mapas impresos / Ortofotos", "Proyector / Laptop", "Camara fotografica",
+    "Grabadora de audio", "Refrigerio", "Otros",
+]
+FDS04_IDIOMA = ["Español", "Quechua", "Bilingue español-quechua", "Otro"]
+
+FDS05_POLARIZACION = ["Muy alto", "Alto", "Medio", "Bajo", "Muy bajo / Inexistente"]
+FDS05_CONFLICTIVIDAD = ["Muy bajo", "Bajo", "Medio", "Alto", "Muy alto"]
+FDS05_VIABILIDAD = [
+    "Alta — viable para intervencion inmediata", "Media — requiere acercamiento reforzado",
+    "Baja — requiere mesa de dialogo previa", "Muy baja — reevaluar inclusion del bloque",
+]
+FDS05_PLAZO = [
+    "Inmediato (<1 mes)", "Corto (1-3 meses)", "Medio (3-6 meses)",
+    "Largo (6-12 meses)", "Requiere >12 meses",
+]
+
+FDS07_GENERO = ["Hombre", "Mujer", "Otro / Pref. no decir"]
+FDS07_DOCS = [
+    "Titulo de propiedad SUNARP", "Constancia de posesion (municipal)", "Titulo COFOPRI",
+    "Certificado catastral", "Resolucion de adjudicacion", "Sin documentacion disponible",
+]
