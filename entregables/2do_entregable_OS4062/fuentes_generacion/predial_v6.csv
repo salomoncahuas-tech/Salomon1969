@@ -1,0 +1,118 @@
+lam,bloque,prov,dist,asist,sup,cc,priv,est,sit,npred,nccpp,pob
+SP-001,3,Ayabaca,Frías,AP-1,459.295,459.295,0,0,Comunal,0,5,495
+SP-002,6,Ayabaca,Frías,AP-1,168.411,143.8,0,24.611,Parcialmente comunal,0,3,537
+SP-003,27,Ayabaca,Frías,AP-1,78.154,71.322,0,6.832,Parcialmente comunal,0,2,111
+SP-004,36,Ayabaca,Frías,AP-1,24.843,1.133,0,23.71,Tierras del Estado y/o posesionarios,0,1,280
+SP-005,39,Ayabaca,Frías,AP-1,68.569,68.569,0,0,Comunal,0,1,327
+SP-006,56,Ayabaca,Frías,AP-1,77.666,77.666,0,0,Comunal,0,2,375
+SP-007,M17B5,Ayabaca,Frías,AP-1,74.028,74.028,0,0,Comunal,0,0,
+SP-008,M17B6,Ayabaca,Frías,AP-1,106.538,103.586,0,2.952,Comunal,0,3,589
+SP-009,M17B7,Ayabaca,Frías,AP-1,258.837,167.601,0,91.236,Parcialmente comunal,0,1,107
+SP-010,M17B10,Ayabaca,Frías,AP-1,75.363,0,0,75.363,Tierras del Estado y/o posesionarios,0,0,
+SP-011,21,Huancabamba,Canchaque,AP-5,84.227,0,0,84.227,Tierras del Estado y/o posesionarios,0,1,47
+SP-012,24,Huancabamba,Canchaque,AP-5,90.159,2.067,0,88.092,Tierras del Estado y/o posesionarios,0,1,443
+SP-013,28,Huancabamba,Canchaque,AP-5,52.966,0,14.252,38.714,Parcialmente privada,17,1,66
+SP-014,30,Huancabamba,Canchaque,AP-5,34.874,0,33.133,1.741,Privada,10,2,168
+SP-015,40,Huancabamba,Canchaque,AP-5,28.523,0,15.262,13.261,Parcialmente privada,12,2,58
+SP-016,60,Huancabamba,Canchaque,AP-5,40.132,0,39.963,0.169,Privada,14,1,111
+SP-017,63,Huancabamba,Canchaque,AP-5,50.459,50.459,0,0,Comunal,0,1,87
+SP-018,66,Huancabamba,Canchaque,AP-5,102.335,0,0,102.335,Tierras del Estado y/o posesionarios,0,1,45
+SP-019,79,Huancabamba,Canchaque,AP-5,94.812,94.812,0,0,Comunal,0,2,219
+SP-020,81,Huancabamba,Canchaque,AP-5,8.929,8.929,0,0,Comunal,0,1,80
+SP-021,64,Huancabamba,Huancabamba,AP-5,35.774,0,0,35.774,Tierras del Estado y/o posesionarios,0,1,311
+SP-022,M30B5,Huancabamba,Huancabamba,AP-5,90.903,0,0,90.903,Tierras del Estado y/o posesionarios,0,0,
+SP-023,4,Huancabamba,Huarmaca,AP-5,230.098,0,14.559,215.539,Parcialmente privada,37,2,385
+SP-024,8,Huancabamba,Huarmaca,AP-5,126.952,0,0,126.952,Tierras del Estado y/o posesionarios,0,1,322
+SP-025,10,Huancabamba,Huarmaca,AP-5,150.214,0,0,150.214,Tierras del Estado y/o posesionarios,0,1,146
+SP-026,16,Huancabamba,Huarmaca,AP-5,83.327,0,0,83.327,Tierras del Estado y/o posesionarios,0,1,153
+SP-027,18,Huancabamba,Huarmaca,AP-6,103.617,0,11.017,92.6,Parcialmente privada,7,1,28
+SP-028,19,Huancabamba,Huarmaca,AP-6,82.088,82.088,0,0,Comunal,0,2,132
+SP-029,20,Huancabamba,Huarmaca,AP-5,81.334,0,0,81.334,Tierras del Estado y/o posesionarios,0,1,149
+SP-030,31,Huancabamba,Huarmaca,AP-6,47.581,0,1.069,46.512,Tierras del Estado y/o posesionarios,7,0,
+SP-031,41,Huancabamba,Huarmaca,AP-6,64.923,0,8.077,56.846,Parcialmente privada,10,1,54
+SP-032,51,Huancabamba,Huarmaca,AP-5,22.927,0,19.635,3.292,Parcialmente privada,12,2,348
+SP-033,53,Huancabamba,Huarmaca,AP-6,13.065,0,4.613,8.452,Parcialmente privada,5,1,140
+SP-034,69,Huancabamba,Huarmaca,AP-6,19.425,0,4.006,15.419,Parcialmente privada,3,2,133
+SP-035,70,Huancabamba,Huarmaca,AP-6,22.388,0,4.707,17.681,Parcialmente privada,6,1,140
+SP-036,71,Huancabamba,Huarmaca,AP-5,10.673,0,0,10.673,Tierras del Estado y/o posesionarios,0,1,322
+SP-037,72,Huancabamba,Huarmaca,AP-6,12.398,0,11.894,0.504,Privada,17,1,216
+SP-038,73,Huancabamba,Huarmaca,AP-6,54.29,0,14.551,39.739,Parcialmente privada,15,1,104
+SP-039,76,Huancabamba,Huarmaca,AP-5,19.615,0,11.334,8.281,Parcialmente privada,10,2,388
+SP-040,80,Huancabamba,Huarmaca,AP-5,28.83,0,0.182,28.648,Tierras del Estado y/o posesionarios,2,2,156
+SP-041,M4B3,Huancabamba,Huarmaca,AP-6,234.069,91.505,0,142.564,Parcialmente comunal,0,1,161
+SP-042,M4B4,Huancabamba,Huarmaca,AP-6,289.914,289.625,0,0.289,Comunal,0,2,279
+SP-043,M12B1,Huancabamba,Huarmaca,AP-5,268.393,98.362,0,170.031,Parcialmente comunal,0,2,220
+SP-044,26,Huancabamba,Lalaquiz,PENDIENTE,46.962,0,0.027,46.935,Tierras del Estado y/o posesionarios,1,1,
+SP-045,34,Huancabamba,Lalaquiz,PENDIENTE,28.45,0,0.972,27.478,Tierras del Estado y/o posesionarios,3,2,142
+SP-046,37,Huancabamba,Lalaquiz,PENDIENTE,35.491,0,4.985,30.506,Parcialmente privada,3,1,
+SP-047,38,Huancabamba,Lalaquiz,PENDIENTE,44.201,0,3.654,40.547,Parcialmente privada,39,1,157
+SP-048,50,Huancabamba,Lalaquiz,PENDIENTE,19.266,0,0,19.266,Tierras del Estado y/o posesionarios,0,0,
+SP-049,61,Huancabamba,Lalaquiz,PENDIENTE,26.826,0,0,26.826,Tierras del Estado y/o posesionarios,0,1,14
+SP-050,9,Huancabamba,San Miguel de El Faique,AP-6,109.861,0,15.375,94.486,Parcialmente privada,27,2,248
+SP-051,35,Huancabamba,San Miguel de El Faique,AP-6,30.804,0,24.518,6.286,Parcialmente privada,23,2,198
+SP-052,43,Huancabamba,San Miguel de El Faique,AP-6,23.171,0,21.913,1.258,Parcialmente privada,20,2,296
+SP-053,44,Huancabamba,San Miguel de El Faique,AP-6,28.234,0,0,28.234,Tierras del Estado y/o posesionarios,0,1,74
+SP-054,47,Huancabamba,San Miguel de El Faique,AP-6,13.551,0,1.964,11.587,Parcialmente privada,4,1,132
+SP-055,67,Huancabamba,San Miguel de El Faique,AP-6,13.184,0,0,13.184,Tierras del Estado y/o posesionarios,0,1,
+SP-056,M2B8,Huancabamba,San Miguel de El Faique,AP-6,116.099,0,0,116.099,Tierras del Estado y/o posesionarios,0,2,140
+SP-057,M20B1,Huancabamba,San Miguel de El Faique,AP-6,279.68,0,0,279.68,Tierras del Estado y/o posesionarios,0,1,
+SP-058,M22B1,Huancabamba,San Miguel de El Faique,AP-6,55.17,0,1.531,53.639,Tierras del Estado y/o posesionarios,3,1,23
+SP-059,5,Morropón,Buenos Aires,AP-2,295.726,0,0,295.726,Tierras del Estado y/o posesionarios,0,3,186
+SP-060,M1B1,Morropón,Buenos Aires,AP-2,188.797,0,0,188.797,Tierras del Estado y/o posesionarios,0,1,255
+SP-061,M6B2-1,Morropón,Buenos Aires,AP-2,514.359,0,0,514.359,Tierras del Estado y/o posesionarios,0,0,
+SP-062,M6B2-2,Morropón,Buenos Aires,AP-2,333.011,0,0,333.011,Tierras del Estado y/o posesionarios,0,1,
+SP-063,M6B2-3,Morropón,Buenos Aires,AP-2,160.978,0,0,160.978,Tierras del Estado y/o posesionarios,0,2,
+SP-064,M6B10,Morropón,Buenos Aires,AP-2,249.89,0,0,249.89,Tierras del Estado y/o posesionarios,0,3,218
+SP-065,M18B1,Morropón,Buenos Aires,AP-2,160.36,0,0,160.36,Tierras del Estado y/o posesionarios,0,1,63
+SP-066,57,Morropón,Chalaco,AP-4,25.668,25.668,0,0,Comunal,0,2,376
+SP-067,59,Morropón,Chalaco,AP-4,13.554,13.554,0,0,Comunal,0,1,6
+SP-068,2,Morropón,Chulucanas,AP-1,330.599,0,0,330.599,Tierras del Estado y/o posesionarios,0,1,691
+SP-069,22,Morropón,Chulucanas,AP-1,79.33,0,0,79.33,Tierras del Estado y/o posesionarios,0,1,197
+SP-070,M9B1,Morropón,Chulucanas,AP-1,355.364,355.364,0,0,Comunal,0,1,83
+SP-071,M10B4,Morropón,Chulucanas,AP-1,68.887,0,0,68.887,Tierras del Estado y/o posesionarios,0,1,233
+SP-072,M17B1,Morropón,Chulucanas,AP-1,42.449,0,0,42.449,Tierras del Estado y/o posesionarios,0,1,367
+SP-073,M17B4,Morropón,Chulucanas,AP-1,124.709,69.076,0,55.633,Parcialmente comunal,0,1,360
+SP-074,M27B1,Morropón,Chulucanas,AP-1,448.804,0,0,448.804,Tierras del Estado y/o posesionarios,0,5,679
+SP-075,M19B2,Morropón,Morropón,AP-2,74.372,0,0,74.372,Tierras del Estado y/o posesionarios,0,1,186
+SP-076,M32B3,Morropón,Morropón,AP-2,50.972,0,0,50.972,Tierras del Estado y/o posesionarios,0,1,329
+SP-077,M2B1,Morropón,Salitral,AP-2,81.795,0,0,81.795,Tierras del Estado y/o posesionarios,0,1,148
+SP-078,M2B5,Morropón,Salitral,AP-2,30.909,0,0,30.909,Tierras del Estado y/o posesionarios,0,1,261
+SP-079,M3B1,Morropón,Salitral,AP-2,80.983,80.983,0,0,Comunal,0,1,190
+SP-080,M3B9,Morropón,Salitral,AP-2,294.204,0,0,294.204,Tierras del Estado y/o posesionarios,0,1,198
+SP-081,M7B1,Morropón,Salitral,AP-2,130.425,0,0,130.425,Tierras del Estado y/o posesionarios,0,3,286
+SP-082,M7B2,Morropón,Salitral,AP-2,115.379,0,0,115.379,Tierras del Estado y/o posesionarios,0,1,
+SP-083,M7B3,Morropón,Salitral,AP-2,65.745,0,0,65.745,Tierras del Estado y/o posesionarios,0,2,41
+SP-084,M7B6,Morropón,Salitral,AP-2,91.285,0,0,91.285,Tierras del Estado y/o posesionarios,0,3,235
+SP-085,M18B3,Morropón,Salitral,AP-2,373.807,0,1.952,371.855,Tierras del Estado y/o posesionarios,4,3,252
+SP-086,77,Morropón,San Juan de Bigote,AP-2,17.821,17.821,0,0,Comunal,0,1,188
+SP-087,83,Morropón,San Juan de Bigote,AP-2,24.344,24.344,0,0,Comunal,0,2,
+SP-088,84,Morropón,San Juan de Bigote,AP-2,5.097,5.097,0,0,Comunal,0,2,
+SP-089,85,Morropón,San Juan de Bigote,AP-2,11.906,11.906,0,0,Comunal,0,2,
+SP-090,86,Morropón,San Juan de Bigote,AP-2,30.001,30.001,0,0,Comunal,0,3,
+SP-091,87,Morropón,San Juan de Bigote,AP-2,62.219,62.219,0,0,Comunal,1,3,
+SP-092,M3B3,Morropón,San Juan de Bigote,AP-2,84.825,84.825,0,0,Comunal,0,2,146
+SP-093,M3B5,Morropón,San Juan de Bigote,AP-2,52.743,52.743,0,0,Comunal,0,1,116
+SP-094,M3B6,Morropón,San Juan de Bigote,AP-2,60.352,60.352,0,0,Comunal,0,2,202
+SP-095,M3B7,Morropón,San Juan de Bigote,AP-2,122.946,0,0,122.946,Tierras del Estado y/o posesionarios,0,2,68
+SP-096,M3B8,Morropón,San Juan de Bigote,AP-2,565.584,0,0,565.584,Tierras del Estado y/o posesionarios,0,2,386
+SP-097,M11B3,Morropón,San Juan de Bigote,AP-2,106.027,0,0,106.027,Tierras del Estado y/o posesionarios,0,2,
+SP-098,14,Morropón,Santa Catalina de Mossa,AP-4,92.905,92.905,0,0,Comunal,0,2,38
+SP-099,42,Morropón,Santa Catalina de Mossa,AP-4,80.616,80.616,0,0,Comunal,0,1,131
+SP-100,58,Morropón,Santa Catalina de Mossa,AP-4,11.475,0,0,11.475,Tierras del Estado y/o posesionarios,0,2,329
+SP-101,M36B2,Morropón,Santa Catalina de Mossa,AP-4,28.19,28.19,0,0,Comunal,0,1,131
+SP-102,11,Morropón,Santo Domingo,AP-4,103.948,2.832,0,101.116,Tierras del Estado y/o posesionarios,0,1,53
+SP-103,12,Morropón,Santo Domingo,AP-4,119.538,0,13.769,105.769,Parcialmente privada,16,2,105
+SP-104,13,Morropón,Santo Domingo,AP-4,100.514,100.514,0,0,Comunal,0,1,139
+SP-105,15,Morropón,Santo Domingo,AP-4,86.147,86.147,0,0,Comunal,0,1,130
+SP-106,17,Morropón,Santo Domingo,AP-4,96.079,96.079,0,0,Comunal,0,1,91
+SP-107,23,Morropón,Santo Domingo,AP-4,81.776,81.776,0,0,Comunal,0,2,161
+SP-108,78,Morropón,Santo Domingo,AP-4,35.1,35.1,0,0,Comunal,0,1,114
+SP-109,82,Morropón,Santo Domingo,AP-4,35.661,17.433,0,18.228,Parcialmente comunal,0,1,88
+SP-110,M8B2,Morropón,Santo Domingo,AP-4,35.347,35.347,0,0,Comunal,0,1,192
+SP-111,M19B7,Morropón,Santo Domingo,AP-4,34.171,34.171,0,0,Comunal,0,1,40
+SP-112,49,Morropón,Yamango,AP-3,15.839,15.839,0,0,Comunal,0,1,84
+SP-113,52,Morropón,Yamango,AP-3,11.059,11.059,0,0,Comunal,0,1,43
+SP-114,55,Morropón,Yamango,AP-3,0.859,0.859,0,0,Comunal,0,1,84
+SP-115,M28B2,Morropón,Yamango,AP-3,90.197,90.197,0,0,Comunal,0,2,235
+SP-116,M28B3,Morropón,Yamango,AP-3,58.292,58.292,0,0,Comunal,0,1,74
+SP-117,M28B4,Morropón,Yamango,AP-3,283.428,283.428,0,0,Comunal,0,3,446
