@@ -29,7 +29,7 @@ x.push(tabla([{ w: 3000, bold: true }, { w: 6638 }], ["CAMPO", "DETALLE"], [
   ["Marco técnico", "D.S. N° 013-2010-AG (levantamiento de suelos); D.S. N° 005-2022-MIDAGRI (CUM); Soil Taxonomy (USDA, 13.ª ed.) y WRB/FAO (2022); Guías del Proyecto Infraestructura Natural para la Seguridad Hídrica (Guías 5 y 8); USLE (Factor K de Wischmeier y Smith; Factor R con PISCO v3)"],
   ["Coordinación ANIN", "Especialista en Infraestructura Verde (suscrito) y Especialista en Infraestructura Marrón, Ing. Pedro Talledo Hernández; supervisión del servicio con el Especialista en Intervenciones Vegetativas de Uso Sostenible para los Lotes SUS"],
 ]));
-x.push(fuente("Fuente: TdR del Estudio de Suelos; Plan de Trabajo aprobado; Plan de Trabajo Detallado del Perfil, Actualización N° 02 (16/10/2026)."));
+x.push(fuente("Fuente: TdR del Estudio de Suelos; Plan de Trabajo aprobado; Plan de Trabajo Detallado del Perfil, Actualización N° 01, Versión 2 (16/10/2026)."));
 
 x.push(h1("3. ESTADO DE LOS ENTREGABLES Y DE LAS CONFORMIDADES"));
 x.push(N.cuadro("Hitos contractuales del Estudio de Suelos y su estado al corte del segundo entregable"));
@@ -39,7 +39,7 @@ x.push(tabla([{ w: 1300, align: C }, { w: 2300 }, { w: 1400, align: C }, { w: 28
   ["N° 3 (20 %)", "Resultados de laboratorio e interpretación preliminar; Factor K", "Día 55 – 11/10/2026", "Muestras acopiadas, codificadas, enviadas e ingresadas al laboratorio; resultados no recibidos al corte", "EN PROCESO"],
   ["N° 4 (30 %)", "Informe final: CUM por unidad, Factor K, Matriz de Compatibilidad Suelo–Intervención, estudio agronómico de Lotes SUS y geodatabase integrada", "Día 75 – 31/10/2026", "Pendiente; el Plan de Trabajo Detallado del Perfil reprograma su recepción y revisión al 13/11/2026", "PENDIENTE"],
 ], { size: 16 }));
-x.push(fuente("Fuente: Informe de Avance – Fase de Campo (Cuadros 1 y 22); tablero de avance del Perfil (03/10/2026); Plan de Trabajo Detallado, Actualización N° 02 (líneas E5.1 a E5.4 y hito H7)."));
+x.push(fuente("Fuente: Informe de Avance – Fase de Campo (Cuadros 1 y 22); tablero de avance del Perfil (03/10/2026); Plan de Trabajo Detallado, Actualización N° 01, Versión 2 (líneas E5.1 a E5.4 y hito H7)."));
 x.push(para("El avance ponderado del E5 en el Plan de Trabajo Detallado del Perfil es de 63 % (Entregable N° 1: 100 %; N° 2: 100 %; N° 3: 40 %; N° 4: 0 %). La diferencia entre el término contractual (31/10/2026) y la fecha reprogramada (13/11/2026) debe formalizarse con la adenda o ampliación de plazo que corresponda, pues condiciona la integración del laboratorio al E9 y a las metas del E10."));
 
 x.push(h1("4. SEGUIMIENTO DE LAS ACTIVIDADES DE CAMPO"));
@@ -163,7 +163,7 @@ x.push(para("El contraste de los 34 pares bloque–referencia, que comparten uni
 x.push(h1("7. COORDINACIÓN Y GESTIÓN DEL SEGUIMIENTO"));
 [
   "Revisión conjunta del Informe de Avance con el Especialista en Infraestructura Marrón, para los productos compartidos: infiltración (dimensionamiento de zanjas y terrazas) y erodabilidad (selección de obras físicas que protegen a las plantaciones antes del prendimiento).",
-  "Reporte del estado del E5 en el tablero de avance del Perfil (03/10/2026) y en el Plan de Trabajo Detallado, Actualizaciones N° 01 (11/10/2026) y N° 02 (16/10/2026), con la fecha de recepción del laboratorio y del informe final.",
+  "Reporte del estado del E5 en el tablero de avance del Perfil (03/10/2026) y en el Plan de Trabajo Detallado, Actualización N° 01, versiones 1 (11/10/2026) y 2 (16/10/2026), con la fecha de recepción del laboratorio y del informe final.",
   "Integración de los datos de campo en los tres volúmenes de diagnóstico y en la pestaña «Suelos», como insumo del E9 (Capítulo de Identificación) y del E10 (análisis técnico).",
   "Seguimiento del envío de muestras y de la cadena de custodia para el Entregable N° 3, con verificación de la etiqueta física de cada bolsa contra el registro.",
 ].forEach((t) => x.push(bullet(t)));
@@ -190,7 +190,7 @@ x.push(tabla([{ w: 3500 }, { w: 4138 }, { w: 2000, align: C }], ["MEDIO VERIFICA
   ["Carpeta compartida por la consultora", "Google Drive, carpeta «Levantamiento de suelos_ANIN» (ID 1COyqfGePNgQUa9ioCOFDW_sM5nNu7mRf)", "10/09/2026 en adelante"],
   ["TdR del Estudio de Suelos y contenido mínimo", "Google Drive ID 1VFZfzJdX0_Ow_gfsMoLvKfwIvkoUe8Hr; carpeta «CONTENIDO MINIMO ESTUDIO DE SUELOS»", "27/09/2026"],
   ["Tablero de avance del Perfil (E5 revisado al 100 %)", "Google Drive ID 1wRdIvYH8ni8kbj3XsDKa0cgrgSIdVWn6 («IN Piura Avance al 3 de octubre 2026»)", "03/10/2026"],
-  ["Plan de Trabajo Detallado, Actualización N° 02 (estado del E5)", "Google Drive ID 1QkhMG4cWkPFAyhxOH8qtaWG2YVCCJsGy", "16–17/10/2026"],
+  ["Plan de Trabajo Detallado, Actualización N° 01, Versión 2 (estado del E5)", "Google Drive ID 1QkhMG4cWkPFAyhxOH8qtaWG2YVCCJsGy", "16–17/10/2026"],
   ["Integración por bloque (pestaña «Suelos»)", "Volúmenes I y II, Versión 5 (enlaces en el Anexo 1)", "17/10/2026"],
   ["Matriz de observaciones en formato nativo", "Anexo 4 (Excel), hoja «Obs_Suelos_E2»", "Octubre 2026"],
 ], { size: 15 }));
