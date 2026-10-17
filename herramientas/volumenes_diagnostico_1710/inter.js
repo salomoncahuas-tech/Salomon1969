@@ -1,0 +1,26 @@
+const { chromium } = require('playwright');
+const http = require('http'), fs = require('fs'), path = require('path');
+const root = path.resolve('test'); const P = process.argv[2];
+const srv = http.createServer((q, r) => { const f = path.join(root, decodeURIComponent(q.url.split('?')[0]));
+  fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); r.end(); return; } r.writeHead(200, {'Content-Type': f.endsWith('.png') ? 'image/png' : 'text/html; charset=utf-8'}); r.end(d); }); });
+srv.listen(0, async () => {
+  const port = srv.address().port; const b = await chromium.launch(); const pg = await b.newPage({ viewport: { width: 1360, height: 900 } });
+  const errs = []; pg.on('pageerror', e => errs.push(e.message)); pg.on('console', m => { if (m.type() === 'error' && !/Failed to load|ERR_/.test(m.text())) errs.push(m.text()); });
+  await pg.goto(`http://localhost:${port}/${P}.html`); await pg.waitForTimeout(1200);
+  const r = {};
+  await pg.click('nav.tabs .gbtn[data-g="Estudios básicos"]'); await pg.click('nav.tabs button[data-p="eco"]');
+  const cods = await pg.$$eval('#e6Map path[data-b]', ps => ps.map(p => p.dataset.b));
+  const c2 = cods[1]; await pg.$eval(`#e6Map path[data-b="${c2}"]`, p => p.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+  r.ecoFicha = await pg.$eval('#e6Ficha .e6-fh b', e => e.textContent); r.c2 = c2;
+  await pg.selectOption('#e6Col', 'pi'); r.leg = await pg.$eval('#e6Leg', e => e.textContent);
+  await pg.click('#e6Ficha [data-go="tam"]'); await pg.waitForTimeout(200);
+  r.tamVisible = await pg.$eval('#p-tam', s => !s.hidden); r.tamCard = await pg.$eval('#spCard .e6-fh b', e => e.textContent);
+  r.img = await pg.$eval('#spCard img', i => i.getAttribute('src')).catch(() => 'sin img');
+  await pg.click('#spCard [data-go="fic"]'); await pg.waitForTimeout(600);
+  r.ficVisible = await pg.$eval('#p-fic', s => !s.hidden);
+  r.ficE6 = await pg.$eval('#ficha .e6-fb', d => d.dataset.b).catch(() => 'NO PANEL');
+  await pg.click('nav.tabs .gbtn[data-g="Síntesis"]'); await pg.click('nav.tabs button[data-p="int"]');
+  r.intRows = await pg.$$eval('#e6IntT tbody tr', t => t.length);
+  console.log(P, JSON.stringify(r), 'errors:', errs);
+  await b.close(); srv.close();
+});
