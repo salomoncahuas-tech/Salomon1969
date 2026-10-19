@@ -1,0 +1,251 @@
+<title>Diagnóstico Integral IN Piura V1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/*__CSS__*/
+</style>
+<style>
+/* =====================================================================
+   CAPA INTEGRAL — Diagnóstico Integral IN Piura V1
+   Portada común a los tres volúmenes + pestaña Metrados y costos
+   ===================================================================== */
+:root{
+  --pv-mor:#2E86AB; --pv-hua:#357051; --pv-aya:#B08A1E;
+  --pvh-mor:#7CC4E4; --pvh-hua:#8ED3A9; --pvh-aya:#F2CF6B;
+  --c-ver:#357051; --c-mar:#7A5C3E; --c-ind:#9AAFBD; --c-om:#2E86AB;
+}
+:root:not([data-theme="light"]){ @media (prefers-color-scheme: dark){
+  --pv-mor:#5EAACE; --pv-hua:#5FA57F; --pv-aya:#DDB44F;
+  --c-ver:#5FA57F; --c-mar:#C9A27E; --c-ind:#4E6878; --c-om:#5EAACE;
+}}
+:root[data-theme="dark"]{
+  --pv-mor:#5EAACE; --pv-hua:#5FA57F; --pv-aya:#DDB44F;
+  --c-ver:#5FA57F; --c-mar:#C9A27E; --c-ind:#4E6878; --c-om:#5EAACE;
+}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:30; background:var(--surface)}
+.vols a.cst{border-style:dashed}
+nav.tabs button[data-p="costos"]::before,nav.tabs button[data-p="sup"]::before{content:""; display:inline-block; width:7px; height:7px; border-radius:1px; background:var(--gold); margin-right:7px; vertical-align:1px}
+.pvd{display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px; vertical-align:0}
+.volcards{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px}
+.volcard{background:var(--surface); border:1px solid var(--line); border-radius:3px; overflow:hidden; display:grid; grid-template-rows:auto 1fr auto; min-width:0}
+.volcard .vh{padding:14px 18px 12px; border-bottom:1px solid var(--line); background:var(--surface-2); display:grid; gap:2px}
+.volcard .vh span{font:600 10.5px/1.2 "IBM Plex Mono",monospace; letter-spacing:.11em; text-transform:uppercase; color:var(--ink-3)}
+.volcard .vh h3{font-size:19px; font-weight:700; letter-spacing:-.01em; display:flex; align-items:center; gap:8px}
+.volcard .vb{padding:12px 18px}
+.volcard .vf{padding:10px 18px 14px; border-top:1px solid var(--line)}
+.volcard .vf a{color:var(--anin-2); font-weight:600; text-decoration:none; font-size:13.5px}
+.volcard .vf a:hover{text-decoration:underline}
+.volcard .vf a:focus-visible{outline:2px solid var(--anin-2); outline-offset:2px}
+.c-sel{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:10px 14px; background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:14px 16px; margin:0 0 14px}
+.c-sel .f{display:grid; gap:5px; min-width:0}
+.c-sel label{font:600 10.5px/1.2 "IBM Plex Mono",monospace; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-3)}
+.c-sel select{font:600 13px/1.2 "IBM Plex Mono",monospace; padding:8px 10px; border:1px solid var(--line-2); border-radius:3px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
+.c-sel select:focus-visible,.c-btn:focus-visible{outline:2px solid var(--anin-2); outline-offset:1px}
+.c-sel select.mod{border-color:var(--gold); background:var(--ochre-wash)}
+.c-sel h4{grid-column:1/-1; font:600 11px/1 "IBM Plex Mono",monospace; letter-spacing:.11em; text-transform:uppercase; color:var(--anin-2); margin:2px 0 0; display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+.c-sel h4 small{font:500 11px/1.3 "Source Sans 3",Arial,sans-serif; letter-spacing:0; text-transform:none; color:var(--ink-3)}
+.c-sel.amb{background:var(--anin-wash); border-color:var(--line-2)}
+.c-btn{font:600 12.5px/1 "Source Sans 3",Arial,sans-serif; padding:8px 12px; border:1px solid var(--line-2); border-radius:3px; background:var(--surface); color:var(--anin); cursor:pointer}
+.c-btn:hover{border-color:var(--anin-2)}
+.c-state{display:inline-block; padding:2px 9px; border-radius:999px; font:600 11px/1.6 "Source Sans 3",Arial,sans-serif; letter-spacing:0; text-transform:none}
+.c-state.x{background:var(--moss-wash); color:var(--moss)} .c-state.m{background:var(--ochre-wash); color:var(--ochre)}
+.c-tit{display:flex; flex-wrap:wrap; gap:6px 14px; align-items:baseline; margin:0 0 12px}
+.c-tit h3{font-size:20px; font-weight:700; letter-spacing:-.01em}
+.c-tit span{color:var(--ink-3); font-size:13.5px}
+.ctab td.l{white-space:normal; min-width:220px}
+.ctab tr.sub td{background:var(--sunken); font-weight:700; text-align:left; font:600 11px/1.3 "IBM Plex Mono",monospace; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-2)}
+.ctab tr.tot td{font-weight:700; border-top:2px solid var(--line-2)}
+.ctab tr.big td{font-weight:700; background:var(--anin-wash); color:var(--anin)}
+.ctab td .sw{display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:7px; vertical-align:-1px}
+.cbar{display:flex; height:8px; border-radius:2px; overflow:hidden; background:var(--sunken); min-width:80px}
+.cbar i{display:block; height:100%}
+.two-c{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:18px; align-items:start}
+@media (max-width:900px){ .two-c{grid-template-columns:1fr} }
+#cBlk tbody tr{cursor:pointer}
+#cBlk tbody tr:hover{background:var(--sunken)}
+#iTbl tbody tr:hover{background:var(--sunken)}
+.cmp-sup{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:3px; overflow:hidden; margin:0 0 18px}
+.cmp-sup div{background:var(--surface); padding:10px 14px; display:grid; gap:2px}
+.cmp-sup dt{font:500 10.5px/1.3 "IBM Plex Mono",monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3)}
+.cmp-sup dd{margin:0; font:600 17px/1.2 Archivo,Arial,sans-serif; font-variant-numeric:tabular-nums}
+.cmp-sup dd small{font:500 12px "Source Sans 3",Arial,sans-serif; color:var(--ink-3)}
+.kv3 td:first-child{text-align:left; white-space:normal; min-width:180px}
+.kv3 td small{display:block; color:var(--ink-3); font-size:11.5px; line-height:1.35; margin-top:2px}
+.kv3 td.int{background:var(--moss-wash); font-weight:600}
+.kv3 tbody tr:nth-child(even) td.int{background:var(--moss-wash)}
+.gp td{white-space:normal; text-align:left; vertical-align:top; font-size:13px; min-width:170px}
+.gp td b{color:var(--ink)}
+.flowt td,.flowt th{font-size:12.5px}
+.num{text-align:right}
+.ctab td.num,.ctab th.num,#cBlk td.num,#iTbl td.num,.flowt td.num{text-align:right; white-space:nowrap}
+#cKpi{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+#cEsc{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+main :where(.c-sel,.c-btn,.c-state,.cmp-sup,.volcard,.selrow input){--ink:var(--o-ink);--ink-2:var(--o-ink-2);--ink-3:var(--o-ink-3);--line:var(--o-line);--line-2:var(--o-line-2);--anin:var(--o-anin);--anin-2:var(--o-anin-2);--moss:var(--o-moss);--moss-2:var(--o-moss-2);--brick:var(--o-brick);--ochre:var(--o-ochre);color:var(--ink)}
+.c-tit h3{color:var(--ink)} .c-tit span{color:var(--ink-2)}
+</style>
+
+<header class="hero"><div class="wrap">
+  <div class="hero-gov"><div class="inst"><b>Autoridad Nacional de Infraestructura — ANIN</b><span>Dirección de Intervenciones Multisectoriales y de Emergencia — DIME</span><span>Subdirección de Estudios de Inversión — SESDI</span></div>
+  <nav class="vols" aria-label="Diagnóstico Integral IN Piura">/*__VOLS__*/</nav></div>
+  <div class="hero-body"><div>
+    <p class="eyebrow">Proyecto IN Piura · CUI 2669244 · Diagnóstico integral · Versión 1 · Integra los Volúmenes I, II y III (cortes DT/DS al 17/10/2026) y el Motor de costos paramétrico v1.3 (18/10/2026)</p>
+    <h1>Diagnóstico Integral <em>Cuenca Alta del Río Piura</em></h1>
+    <p class="sub" id="sub"></p>
+    <ul class="hero-lines" aria-label="Estudios integrados"><li><i style="background:var(--st-e1)"></i>E1 Microlocalización</li><li><i style="background:var(--st-soc)"></i>E2 Diagnóstico social</li><li><i style="background:var(--st-geo)"></i>E3 Geología</li><li><i style="background:var(--st-hid)"></i>E4 Hidrología</li><li><i style="background:var(--st-sue)"></i>E5 Suelos</li><li><i style="background:var(--st-veg)"></i>E6 Ecosistemas</li><li><i style="background:var(--gold)"></i>Metrados y costos</li></ul>
+  </div>
+  <figure class="constel"><div id="heroMap"></div><figcaption id="heroMapCap"></figcaption></figure></div>
+</div></header>
+<div class="kstrip"><div class="wrap"><dl class="strip" id="strip"></dl></div></div>
+
+<nav class="tabs" aria-label="Secciones"><div class="wrap grow" id="grow"></div><div class="wrap" role="tablist" id="tabs">
+  <button role="tab" data-g="Síntesis" data-p="pano" aria-selected="true">Panorama integral</button>
+  <button role="tab" data-g="Síntesis" data-p="comp" aria-selected="false">Comparativo provincial</button>
+  <button role="tab" data-g="Territorial" data-p="inv" aria-selected="false">Los 117 bloques</button>
+  <button role="tab" data-g="Costos" data-p="costos" aria-selected="false">Metrados y costos</button>
+  <button role="tab" data-g="Costos" data-p="sup" aria-selected="false">Supuestos del motor</button>
+</div></nav>
+
+<main><div class="wrap">
+
+<!-- PANORAMA INTEGRAL -->
+<section id="p-pano">
+  <div class="sec-h"><h2>Lo que dicen los tres volúmenes leídos juntos</h2><span class="tag">Síntesis integral · 117 bloques</span></div>
+  <p class="lede">El diagnóstico se elaboró en tres volúmenes provinciales con la misma estructura de pestañas, la misma cinta de indicadores y los mismos estudios de la Fase de Identificación. Esta portada los reúne, compara sus cifras con un solo formato y añade el motor de costos para pasar de la tipología de cada bloque a metas físicas y presupuesto.</p>
+  <div class="finds" id="pFinds"></div>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Los tres volúmenes</h2><span class="tag">Cada volumen conserva sus pestañas, fichas y láminas</span></div>
+  <div class="volcards" id="pVols"></div>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Superficie por distrito</h2><span class="tag">15 distritos · ha de bloques V6</span></div>
+  <figure class="chart"><div id="cDistI"></div></figure>
+  <figcaption id="capDistI"></figcaption>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Peligro Integrado por provincia</h2><span class="tag">Superficie según la clase del índice PI medio del bloque</span></div>
+  <figure class="chart"><div id="cPiI"></div></figure>
+  <div class="legend" id="legPiI"></div>
+  <figcaption>Cada bloque se asigna a la clase de su índice PI medio (MCA–AHP; cortes 1.8 · 2.6 · 3.4 · 4.2). La cinta «PI Alto + Muy alto» de cada volumen usa la distribución areal dentro del bloque, por eso sus hectáreas no coinciden con esta lectura por bloque.</figcaption>
+</section>
+
+<!-- COMPARATIVO -->
+<section id="p-comp" hidden>
+  <div class="sec-h"><h2>Cinta de indicadores estándar, lado a lado</h2><span class="tag">Misma estructura en los tres volúmenes</span></div>
+  <p class="lede">Las once cifras que cada volumen muestra bajo su portada. La columna Integral solo suma lo que es sumable con el mismo criterio; donde el criterio difiere entre volúmenes se indica y no se consolida.</p>
+  <div class="tw"><table class="kv3" id="tKpi"></table></div>
+  <p class="foot" id="kpiFoot"></p>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Agregados biofísicos por provincia</h2><span class="tag">Medias ponderadas por superficie · datos por bloque de cada volumen</span></div>
+  <div class="tw"><table id="tAgg"></table></div>
+  <p class="foot">Medias ponderadas por la superficie del bloque. Población INEI sumada por bloque tal como la reporta cada volumen; un centro poblado asociado a dos bloques se cuenta en ambos.</p>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Regímenes territoriales</h2><span class="tag">Tipos de paisaje definidos en cada volumen</span></div>
+  <div class="tw"><table class="gp" id="tReg"></table></div>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Vacíos de integración</h2><span class="tag">Lo que falta para cerrar la Fase de Identificación en los 117 bloques</span></div>
+  <div class="tw"><table class="gp" id="tGapI"></table></div>
+</section>
+
+<!-- INVENTARIO -->
+<section id="p-inv" hidden>
+  <div class="sec-h"><h2>Inventario de los 117 bloques</h2><span class="tag">Ordenable · datos de los volúmenes</span></div>
+  <p class="lede">Una fila por bloque con las variables comunes a los tres volúmenes. La ficha completa de cada bloque (mapas de PI, ecosistemas, situación predial, suelos y diagnóstico social) se abre en su volumen.</p>
+  <div class="selrow"><label for="iProv">Provincia</label><select id="iProv"></select><label for="iDist">Distrito</label><select id="iDist"></select><label for="iPi">Clase PI</label><select id="iPi"></select><label for="iQ">Bloque</label><input id="iQ" type="search" placeholder="Código" style="font:600 13px/1 'IBM Plex Mono',monospace;padding:8px 10px;border:1px solid var(--line-2);border-radius:3px;background:var(--surface);color:var(--ink);width:110px"><span class="cnt" id="iCnt"></span></div>
+  <div class="tw"><table id="iTbl"><thead></thead><tbody></tbody><tfoot></tfoot></table></div>
+  <p class="foot">PI: índice de Peligro Integrado medio del bloque (MCA–AHP). ISL-MM / ISL-EH: susceptibilidad por movimientos en masa y erosión hídrica (E3). Cárcavas: registros de la capa de gabinete; la ausencia de registro no prueba ausencia de cárcavas. Coordenadas del centroide en UTM WGS 84 Zona 17S.</p>
+</section>
+
+<!-- METRADOS Y COSTOS -->
+<section id="p-costos" hidden>
+  <div class="sec-h"><h2>Metrados y costos</h2><span class="tag">Motor de costos paramétrico v1.3 · simulación por ámbito y escenario</span></div>
+  <p class="lede">Elija el ámbito y, si quiere, cambie los supuestos del escenario. Las metas físicas, el presupuesto, la operación y mantenimiento de 15 años y el flujo a precios sociales se recalculan con las mismas fórmulas del libro <span class="mono">Costos_Parametros_IN_Piura_v1.3.xlsx</span>. Con los valores por defecto el resultado es idéntico al del Excel.</p>
+  <div class="warnbox" style="margin:0 0 16px"><b>Superficies del motor de costos.</b> Esta pestaña usa la relación de bloques V6 normalizada del motor (Bloques_V7_Normalizado, corte 09/10/2026) y sus capas MSAVI, PMM y ecosistemas. Esas superficies pueden diferir de las que muestran las demás pestañas y los volúmenes, y se mantienen así hasta la próxima actualización.</div>
+
+  <div class="c-sel amb">
+    <h4>Ámbito de la simulación</h4>
+    <div class="f"><label for="cNivel">Nivel</label><select id="cNivel"></select></div>
+    <div class="f"><label for="cSel">Selección</label><select id="cSel"></select></div>
+  </div>
+  <div class="c-sel" id="cEsc">
+    <h4>Escenario <span class="c-state x" id="cState">Valores del Excel v1.3</span><button class="c-btn" type="button" id="cReset">Restablecer valores del Excel</button></h4>
+  </div>
+
+  <div class="c-tit"><h3 id="cTitle"></h3><span id="cSub"></span></div>
+  <dl class="sx-kpis" id="cKpi"></dl>
+  <dl class="cmp-sup" id="cSup"></dl>
+
+  <div class="sec-h"><h2>Metrados y presupuesto</h2><span class="tag">Precios de mercado 2026 · S/</span></div>
+  <div class="two-c">
+    <div class="tw"><table class="ctab" id="cBud"></table></div>
+    <div>
+      <figure class="chart"><div id="cCompo"></div></figure>
+      <figcaption>Participación de cada partida en el costo directo del ámbito elegido. Verde: infraestructura natural; marrón: obras de conservación de suelos.</figcaption>
+    </div>
+  </div>
+  <p class="foot">CU de mercado set-2026: base ANIN (S10, 10/12/2020) con jornal rural del escenario y factor IPC Lima dic-2020 → set-2026 para materiales, equipos y servicios. Plantones con recalce de 10 %. Flete rural por la metodología Sierra Azul con la distancia media de acarreo de cada bloque. Precios sociales: MO no calificada × 0.42, MO calificada × 0.79 y bienes y servicios ÷ 1.18 (MEF, Anexo 11).</p>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Flujo de costos en 20 años</h2><span class="tag">5 años de ejecución + 15 de operación y mantenimiento</span></div>
+  <figure class="chart"><div id="cFlow"></div></figure>
+  <div class="legend"><span><i style="background:var(--anin)"></i>Inversión</span><span><i style="background:var(--c-om)"></i>Operación y mantenimiento</span><span><i style="background:var(--brick);height:3px;vertical-align:3px"></i>Costo total a precios sociales</span></div>
+  <div class="tw" style="margin-top:14px"><table class="ctab" id="cInd"></table></div>
+  <p class="foot">VAC: valor actual de costos con la tasa social de descuento del escenario. Mientras los beneficios (carbono, erosión evitada, daños evitados) estén por determinar, el VANS y la TIR social figuran como pendientes y se reporta la costo-efectividad, como en la hoja FLUJO.</p>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Operación y mantenimiento</h2><span class="tag">Tarifas ANIN (Anexo 11) actualizadas</span></div>
+  <div class="tw"><table class="ctab" id="cOm"></table></div>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Metas físicas y costo por bloque</h2><span class="tag">Ordenable · clic en la fila simula ese bloque</span></div>
+  <div class="tw"><table id="cBlk"><thead></thead><tbody></tbody><tfoot></tfoot></table></div>
+  <p class="foot">R1: plantación plena (MSAVI DN 1–2). R2: enriquecimiento (DN 3). Zanjas (bosque seco y andino) o terrazas (mosaico agrícola) solo en celdas R1/R2 con peligro por movimientos en masa alto o muy alto (DN 4–5). Tipologías T1–T6 = grupo de ecosistema dominante × degradación (ALTA si ≥ 50 % del bloque está bajo el umbral MSAVI 0.4976).</p>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Flujo anual</h2><span class="tag">S/ corrientes de 2026 · sin descontar</span></div>
+  <div class="tw"><table class="ctab flowt" id="cFlowT"></table></div>
+</section>
+
+<!-- SUPUESTOS -->
+<section id="p-sup" hidden>
+  <div class="sec-h"><h2>Supuestos del motor de costos</h2><span class="tag">Hojas LEEME, PARAMETROS, PAQUETES, CU_COMP y OYM</span></div>
+  <p class="lede">Lo que el motor da por supuesto y de dónde sale cada cifra. Los valores que el Excel marca como supuesto por calibrar con el piloto (bloques 21, 66, 73, 31 y M6B10) se señalan.</p>
+  <div class="finds" id="sLeeme"></div>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Paquetes tecnológicos por tipología</h2><span class="tag">Coeficientes del Excel · número de bloques y costo de la cartera con los valores del Excel</span></div>
+  <div class="tw"><table class="gp" id="sPaq"></table></div>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Costos unitarios compuestos</h2><span class="tag" id="sCuTag"></span></div>
+  <div class="tw"><table class="ctab" id="sCu"></table></div>
+
+  <div class="block-sep"></div>
+  <div class="sec-h"><h2>Parámetros globales</h2><span class="tag">Hoja PARAMETROS</span></div>
+  <div class="tw"><table class="gp" id="sPar"></table></div>
+</section>
+
+</div></main>
+
+<footer><div class="wrap">
+  <div class="fvols"><span>Diagnóstico Integral IN Piura V1</span>/*__FVOLS__*/</div>
+  <div><b>Elaboración:</b> Ing. Héctor Salomón Cahuas Miller — Ingeniero Forestal · ANIN / DIME / SESDI</div>
+  <div><b>Volúmenes integrados:</b> Vol. I — Provincia de Morropón · Vol. II — Provincia de Huancabamba · Vol. III — Provincia de Ayabaca (versión 5 de cada volumen; cortes DT del 21–23/09/2026, DS del 17/10/2026, E6 ecosistemas 10/2026 y situación predial v2 del 11/10/2026). Sus fuentes territoriales, edáficas y sociales se detallan al pie de cada volumen.</div>
+  <div><b>Metrados y costos:</b> Costos_Parametros_IN_Piura_v1.3.xlsx, motor de costos paramétrico del Estudio de Perfil (18/10/2026): relación de bloques V6 normalizada (Bloques_V7_Normalizado.xlsx, 09/10/2026), MSAVI vectorizado V6, peligro por movimientos en masa (DN 1–5), intersección con ecosistemas MINAM, red vial vecinal y trochas MTC · fichas de infraestructura natural ANIN (reforestación, zanjas, terrazas, cárcavas; ANEXOS 05–11) · Fondo Sierra Azul (Chacaya y Marachanca) · IPC Lima BCRP PN01272PM · MEF, Anexo 11 de parámetros de evaluación social (act. 27/03/2024).</div>
+  <div><b>Principio de no invención de datos:</b> los supuestos que el motor marca por calibrar se muestran como tales; los beneficios del análisis costo-beneficio están por determinar y no se estiman.</div>
+  <div>Diagnóstico Integral — Proyecto «Recuperación del servicio de regulación de riesgos naturales y recuperación de ecosistemas degradados en la Cuenca Alta del Río Piura» · CUI 2669244 · Ejecución por Administración Directa · Presupuesto total de la inversión S/ 372,442,809 · UTM WGS 84 Zona 17S · Invierte.pe · Octubre de 2026</div>
+</div></footer>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+const DATA=/*__DATA__*/;
+/*__ENGINE__*/
+</script>
+<script>
+/*__APP__*/
+</script>
