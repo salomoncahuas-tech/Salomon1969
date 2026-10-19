@@ -377,6 +377,7 @@ def _documento_desde_registro(reg: dict) -> dict:
 
 # ------------------------------------------------------------------ XLSForm para KoboToolbox
 _CSV_UNIDADES = "unidades.csv"
+_IDIOMA = "Español (es)"
 _CAMPOS_CATALOGO = ("tipo_unidad", "provincia", "distrito", "bloque_ref", "area_bloque_ha")
 
 
@@ -466,9 +467,12 @@ def xlsform_hojas(form_id: str) -> dict[str, pd.DataFrame]:
     cols_s = ["type", "name", "label", "hint", "required", "relevant", "constraint", "constraint_message", "calculation",
               "choice_filter", "appearance", "default"]
     settings = pd.DataFrame([{"form_title": f"{f.codigo} – {f.nombre}", "form_id": form_id,
-                              "version": datetime.now().strftime("%Y%m%d%H%M"), "default_language": "Español (es)"}])
-    return {"survey": pd.DataFrame(survey).reindex(columns=cols_s).fillna(""),
-            "choices": pd.DataFrame(choices, columns=["list_name", "name", "label"]),
+                              "version": datetime.now().strftime("%Y%m%d%H%M"), "default_language": _IDIOMA}])
+    # Las columnas traducibles llevan el idioma (label::Español (es)); si quedan sin sufijo junto a
+    # default_language, Kobo crea una traducción sin nombre y el editor no abre el formulario.
+    trad = {c: f"{c}::{_IDIOMA}" for c in ("label", "hint", "constraint_message")}
+    return {"survey": pd.DataFrame(survey).reindex(columns=cols_s).fillna("").rename(columns=trad),
+            "choices": pd.DataFrame(choices, columns=["list_name", "name", "label"]).rename(columns=trad),
             "settings": settings}
 
 
