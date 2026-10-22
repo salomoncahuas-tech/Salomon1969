@@ -15,3 +15,4 @@ english_assessment/instance/
 english_assessment/*.db
 english_assessment/english_assessments.db
 english_assessment/.secret_key
+salidas/mapas_pendientes_v6/pendiente_pct_utm17s.tif
