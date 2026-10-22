@@ -9,6 +9,7 @@ clave, fuentes de agua, matriz de causas e indicadores cuantitativos).
 API publica:
     generar_plantilla_dt(fichas, bloques_data) -> bytes
     parsear_excel_dt(file_bytes, ficha=None) -> list[dict]
+    combinar_datos_dt(resultados) -> dict
     mapear_dt_a_session_state(datos_parseados, bloques_map) -> dict
 """
 
@@ -620,6 +621,39 @@ def parsear_excel_dt(file_bytes, ficha=None):
         return resultados
     finally:
         wb.close()
+
+
+# ─── Consolidacion de las fichas de un mismo archivo ──────────────────────
+
+def _vacio(valor):
+    """True si el valor parseado no aporta informacion."""
+    if valor is None:
+        return True
+    if isinstance(valor, (list, tuple, dict)):
+        return len(valor) == 0
+    return str(valor).strip() == ""
+
+
+def combinar_datos_dt(resultados):
+    """Une los `datos` de todas las fichas detectadas en UN solo dict.
+
+    Regla clave: un valor vacio NUNCA pisa a uno ya poblado. Antes se usaba
+    `dict.update()` sin condicion, de modo que los campos de cabecera
+    leidos en F-DT-01 (codigo del bloque, fecha, evaluador, UTM...) eran
+    borrados por las hojas F-DT-02..05, donde esas celdas suelen estar
+    vacias o son formulas `(auto)` sin valor en cache. Ese borrado dejaba
+    el formulario sin bloque vinculado al autocompletar.
+
+    `resultados` es la lista que devuelve `parsear_excel_dt`.
+    """
+    combinado = {}
+    for r in resultados or []:
+        for k, v in (r.get("datos") or {}).items():
+            if _vacio(v):
+                combinado.setdefault(k, v)
+            else:
+                combinado[k] = v
+    return combinado
 
 
 # ─── Mapeo a session_state del aplicativo ─────────────────────────────────
