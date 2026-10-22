@@ -1,0 +1,57 @@
+; ============================================================================
+; CONFIGURACIÓN DEL ENVIADOR DE CORREOS ANIN — Proyecto IN Piura
+; ----------------------------------------------------------------------------
+; 1. Copie este archivo como  config.ini  (en la misma carpeta)
+; 2. Complete los datos marcados con  <<< CAMBIAR >>>
+; 3. Los comentarios de este archivo empiezan con punto y coma  ;
+; ----------------------------------------------------------------------------
+; IMPORTANTE: la contraseña NO se escribe aquí. Ver LEEME.md, paso 3.
+; ============================================================================
+
+[smtp]
+
+; Plataforma del correo institucional. Para saber cuál le corresponde ejecute:
+;     python enviar_correo.py --detectar dime.gob.pe
+;
+;   google     -> smtp.gmail.com:587      (Google Workspace)
+;   microsoft  -> smtp.office365.com:587  (Microsoft 365 / Outlook)
+;   manual     -> servidor propio de la entidad (complete host y puerto abajo)
+perfil = google
+
+; Solo si perfil = manual. Con google o microsoft deje estas líneas comentadas.
+; host = mail.dime.gob.pe
+; puerto = 587
+; cifrado = starttls        ; starttls (puerto 587) o ssl (puerto 465)
+
+; Cuenta institucional completa con la que se autentica el envío.
+usuario = anin_690@dime.gob.pe
+
+; Dirección que verá el destinatario. Normalmente igual a 'usuario'.
+; Solo cámbiela si tiene un alias autorizado en el servidor.
+remitente = anin_690@dime.gob.pe
+
+; Opcional: dirección a la que se responderá si es distinta del remitente.
+; responder_a = anin_690@dime.gob.pe
+
+; --- Contraseña: elija UNA de las dos opciones -----------------------------
+;
+; OPCIÓN A (recomendada) — archivo cifrado con DPAPI de Windows.
+;   Genérelo con:  .\guardar_clave.ps1
+;   Queda atado a su usuario y a este equipo: nadie más puede descifrarlo.
+;   Descomente la línea siguiente:
+; clave_archivo = clave_smtp.txt
+;
+; OPCIÓN B — variable de entorno de Windows.
+;   En CMD:  setx ANIN_SMTP_PASSWORD "su-contraseña-de-aplicación"
+clave_variable_entorno = ANIN_SMTP_PASSWORD
+
+
+[remitente]
+; Datos que aparecen en la firma del correo. <<< CAMBIAR >>>
+
+nombre_visible = ANIN - DIME - SESDI / Proyecto IN Piura
+nombre = Ing. Hector Salomon Cahuas Miller
+cargo = Especialista Forestal
+area = Subdirección de Estudios de Inversión — DIME / ANIN
+telefono = (01) 000-0000 anexo 000
+proyecto = Proyecto IN Piura — CUI 2669244 — Recuperación del servicio de regulación de riesgos naturales y de ecosistemas degradados en la Cuenca Alta del Río Piura

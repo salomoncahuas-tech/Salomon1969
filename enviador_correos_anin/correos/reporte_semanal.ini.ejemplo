@@ -1,0 +1,90 @@
+; ============================================================================
+; CORREO: Reporte semanal de avance — Proyecto IN Piura
+; ----------------------------------------------------------------------------
+; Copie este archivo como  reporte_semanal.ini  y edítelo.
+; Los comentarios empiezan con punto y coma  ;
+;
+; Sintaxis del cuerpo (no necesita saber HTML):
+;     ## Subtítulo            -> subtítulo en verde ANIN
+;     - texto                 -> lista con viñetas
+;     1. texto                -> lista numerada
+;     **negrita**  *cursiva*
+;     línea en blanco         -> separa párrafos
+;
+; Variables disponibles automáticamente:
+;     {{FECHA}} {{FECHA_LARGA}} {{FECHA_ISO}} {{HORA}} {{DIA}} {{DIA_SEMANA}}
+;     {{MES}} {{MES_NUM}} {{ANIO}} {{SEMANA}} {{TRIMESTRE}}
+; Más las que usted defina en la sección [variables] del final.
+;
+; TODAS las líneas del cuerpo deben ir INDENTADAS (con espacios al inicio).
+; ============================================================================
+
+[mensaje]
+
+para = destinatario1@anin.gob.pe, destinatario2@anin.gob.pe
+
+copia = anin_690@dime.gob.pe
+
+; copia_oculta = archivo@dime.gob.pe
+
+asunto = Reporte semanal N° {{SEMANA}} — Avance de verificación de campo, bloques IN Piura
+
+cuerpo =
+    Estimados señores:
+
+    Por medio del presente remito el reporte de avance correspondiente a la
+    **semana {{SEMANA}} del {{ANIO}}**, en el marco de la formulación del
+    estudio de preinversión del Proyecto IN Piura (CUI 2669244).
+
+    ## 1. Avance de verificación de campo
+
+    - Bloques verificados en la semana: **{{BLOQUES_SEMANA}}**
+    - Bloques verificados acumulados: **{{BLOQUES_ACUMULADO}}** de 124
+    - Superficie verificada acumulada: {{HECTAREAS}} ha
+    - Provincias intervenidas: Morropón, Huancabamba y Ayabaca
+
+    ## 2. Actividades ejecutadas
+
+    1. Levantamiento de fichas de diagnóstico territorial (F-DT) en los bloques
+       priorizados de la microcuenca {{MICROCUENCA}}.
+    2. Registro de coordenadas UTM WGS84 Zona 17S de los vértices de bloque.
+    3. Verificación de accesibilidad real y evidencia de movimientos en masa.
+    4. Coordinación con titulares de predios rurales para la aceptación de
+       intervención.
+
+    ## 3. Observaciones y puntos de atención
+
+    {{OBSERVACIONES}}
+
+    ## 4. Actividades programadas para la semana siguiente
+
+    - Continuar el tamizaje predial en los bloques pendientes.
+    - Consolidar la base de datos de centros poblados por microcuenca.
+    - Actualizar el modelamiento del peligro integrado (PMM, EPH y PGI).
+
+    Quedo atento a sus comentarios y observaciones.
+
+    Atentamente,
+
+
+; ----------------------------------------------------------------------------
+; ADJUNTOS (opcional). Rutas absolutas o relativas a este archivo .ini.
+; Límite total: 25 MB. Para archivos más pesados use un enlace en el cuerpo.
+; Borre o comente esta sección si el correo no lleva adjuntos.
+; ----------------------------------------------------------------------------
+[adjuntos]
+; archivo1 = C:\Users\HP\Documents\IN_Piura\Reporte_Semanal_{{SEMANA}}.xlsx
+; archivo2 = C:\Users\HP\Documents\IN_Piura\Fichas_FDT.pdf
+
+
+; ----------------------------------------------------------------------------
+; VARIABLES propias de este correo. Se reemplazan como {{NOMBRE}} en el cuerpo.
+; También puede pasarlas al ejecutar:
+;     python enviar_correo.py correos\reporte_semanal.ini --variable HECTAREAS=1250
+; ----------------------------------------------------------------------------
+[variables]
+BLOQUES_SEMANA = 8
+BLOQUES_ACUMULADO = 62
+HECTAREAS = 7,104
+MICROCUENCA = M5
+OBSERVACIONES = Sin observaciones que reportar en el periodo.
