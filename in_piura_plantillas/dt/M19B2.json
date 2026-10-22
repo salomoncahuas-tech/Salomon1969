@@ -1,0 +1,183 @@
+{
+ "microcuenca_dt": "C1086-Q9570",
+ "evaluador": "Ing. Juan Carlos Domínguez Varas; Ing. Héctor S. Cahuas Miller",
+ "correlativo": "1",
+ "fecha_eval": "2026-05-06",
+ "hora": "10:30 h",
+ "cp_cercano": "Boca Negra",
+ "comunidad": "No consignada",
+ "altitud_gps": "167.2 (GPS de campo, INFERIOR a la cota mínima del polígono según MDE: 203 m) — rango del bloque 203 - 523 (MDE)",
+ "utm_e_dt": 617078,
+ "utm_n_dt": 9426985,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Oeste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Colina media con vegetación nativa arbórea y arbustiva conservada, en el flanco occidental del Cerro Maray",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Registro de campo del 06-05-2026 (código de verificación VER-20260512-C609B73C, condiciones despejadas, avance físico 100%, sin desviaciones al plan): AL PIE DE LA COLINA SE ENCUENTRA EL CENTRO POBLADO BOCA NEGRA Y UNA INSTITUCIÓN EDUCATIVA, CUYOS ALUMNOS Y DOCENTES SE ENCARGAN DE LA CONSERVACIÓN DEL ECOSISTEMA a través de la concientización de la población. Morfología montañosa (25-50%), susceptibilidad media a la escorrentía superficial durante lluvias intensas, MITIGADA SIGNIFICATIVAMENTE POR LA ALTA COBERTURA VEGETAL (95%). Exposición oeste: mayor radiación vespertina y evapotranspiración. NO SE EVIDENCIAN escarpes activos, reptación, deslizamientos antiguos ni remociones activas: ESTABILIDAD GEOTÉCNICA FAVORABLE para implementar medidas de infraestructura natural sin riesgos de falla inducida. LIMITACIÓN DEL LEVANTAMIENTO: la evaluación fue limitada por RESTRICCIONES DE ACCESO derivadas del desconocimiento de las rutas de ingreso; NO SE PUDO ACCEDER AL INTERIOR DEL BLOQUE, por lo que la información biofísica se basa en OBSERVACIÓN DESDE LOS LÍMITES DEL POLÍGONO. GABINETE (DEM): rango altitudinal 203-523 msnm; pendiente promedio 21.71% (la más alta de los cinco bloques del paquete); la ficha F-EE-05 registra una pendiente predominante del 45%. INCONSISTENCIA: LA ALTITUD GPS (167.2 msnm) ES INFERIOR A LA COTA MÍNIMA DEL POLÍGONO (203 msnm), coherente con que el punto se situara AL PIE DE LA LADERA, FUERA DEL BLOQUE. FACTOR LIMITANTE PRINCIPAL: LA ACCESIBILIDAD. MSAVI medio 2024 = 0.4012.",
+ "sellamiento": "No",
+ "compactacion": "No",
+ "raices_expuestas": "No",
+ "nivel_erosion": "Nula",
+ "n_carcavas": 0,
+ "long_carcavas": "No aplica (cero cárcavas)",
+ "pct_carcavas": "No aplica",
+ "erosion_laminar": "No aplica",
+ "patron_carcavas": "No aplica",
+ "socavamiento": "No",
+ "urgencia_control": "Baja",
+ "carcavas": [],
+ "obs_dt02": "No se evidencian cárcavas; el área se encuentra APARENTEMENTE SIN CÁRCAVAS. EL NIVEL GENERAL DE EROSIÓN ES NULO, sin evidencia de sellamiento superficial, costras, compactación por pisoteo, raíces expuestas, cárcavas, surcos, socavamiento de cauce ni erosión laminar. Urgencia de control BAJA, lo que refleja UN ESTADO DE CONSERVACIÓN EXCEPCIONAL. CAUTELA: LA CARACTERIZACIÓN SE REALIZÓ DESDE LOS LÍMITES DEL POLÍGONO, SIN ACCESO AL INTERIOR. LA CALIFICACIÓN DE EROSIÓN NULA DEBE CONFIRMARSE CON UN RECORRIDO INTERNO.",
+ "parcela": "No instalada (observación desde los límites del polígono)",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 21.71,
+ "cob_veg": 95,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "74.372 ha (100% del bloque)",
+ "estado_cons": "Conservado (sin intervención evidente)",
+ "uso_dominante": "Forestal de protección",
+ "cob_dosel": 95,
+ "cob_arbustiva": "100 (superposición de estratos)",
+ "cob_herbacea": 0,
+ "cob_hojarasca": 0,
+ "suelo_desnudo": 0,
+ "h_dominante": 8,
+ "h_max": 13,
+ "dap": 30,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Bosque denso (>70%)",
+ "n_taxones": 4,
+ "especies_clave": [
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "NT — Casi Amenazada"
+  ],
+  [
+   "Neltuma pallida (Algarrobo)",
+   "Clave cultural",
+   "No aplica"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Vachellia macracantha (Faique)",
+   "Indicadora de perturbación",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "El bloque CONSERVA SU COBERTURA ARBÓREA DE MANERA SOBRESALIENTE, correspondiente a un Bes-cm EN ESTADO CONSERVADO (sin intervención evidente), con procesos ecológicos funcionales. La ladera presentaba una tonalidad verde propia de la disponibilidad de agua al final de la temporada de lluvias. BOSQUE MADURO CON INDIVIDUOS DE PORTE SIGNIFICATIVO (altura dominante 8 m, máxima 13 m, DAP 30 cm), EL DE MAYOR TALLA DE LOS CINCO BLOQUES DEL PAQUETE. Las cuatro especies fueron registradas por nombre común, SIN dato de estrato, abundancia, DAP ni altura por individuo. POR COMPLETAR con un levantamiento florístico de al menos 15 especies por estrato. ADVERTENCIA METODOLÓGICA DEL PROPIO ENTREGABLE: EL ESTADO DE CONSERVACIÓN APARENTEMENTE FAVORABLE PODRÍA ATRIBUIRSE, AL MENOS EN PARTE, AL MOMENTO POST LLUVIOSO en que se realizó el trabajo de campo (06 de mayo); durante ese periodo la elevada disponibilidad hídrica favorece especies estacionales que se retraen en época seca. EL MSAVI MEDIO 2024 (0.4012) ES SUSTANTIVAMENTE INFERIOR A LO QUE SUGERIRÍA UNA COBERTURA DEL 95%, y muestra UNA BANDA CONTINUA DE COBERTURA BAJA EN TODO EL FLANCO OCCIDENTAL. SE RECOMIENDA UNA SEGUNDA VISITA EN ÉPOCA SECA QUE ACCEDA AL INTERIOR DEL POLÍGONO ANTES DE DECIDIR LA EXCLUSIÓN DEL BLOQUE.",
+ "causas": [
+  [
+   "Todas las 16 causas evaluadas",
+   "No",
+   "",
+   "AUSENCIA TOTAL de presión antrópica registrada en campo"
+  ]
+ ],
+ "causa_subyacente": "No consignada en el formato de campo",
+ "causas_directas": "El bloque no tiene mucha presión por degradación.",
+ "velocidad": "Estable",
+ "reversibilidad": "No consignada",
+ "urgencia": "Baja",
+ "ind_dist_via": 200,
+ "obs_dt04": "LA MATRIZ DE CAUSAS REPORTA AUSENCIA TOTAL DE LAS 16 CAUSAS EVALUADAS, lo que indica que el bloque no presenta presión antrópica significativa. Velocidad de degradación ESTABLE y urgencia BAJA. Observación de la brigada: «Es un bloque en aparente estado de conservación». La ficha F-EE-05 registra evidencia de degradación: NO, con NIVEL DE DEGRADACIÓN 1 DE 5. VACÍOS: los indicadores 3 (densidad de cárcavas), 4 (invasoras), 5 (carga ganadera) y 6 (frecuencia de quemas) NO fueron valorados; los indicadores 1, 2, 7 y 8 se registraron con valor pero SIN CALIFICACIÓN DE NIVEL. La reversibilidad técnica no fue consignada. OBSERVACIÓN TÉCNICA SESDI: el indicador 2 registra 5% de suelo desnudo mientras F-DT-03 consigna 0%; conciliar. EL BLOQUE PRESENTA LA PENDIENTE PROMEDIO MÁS ALTA DEL PAQUETE (21.71%) Y LA FICHA F-EE-05 REGISTRA UNA PENDIENTE PREDOMINANTE DEL 45%, SOBRE UN CENTRO POBLADO SITUADO AL PIE DE LA LADERA. Aunque no se identificaron peligros en campo, ESTA CONFIGURACIÓN TOPOGRÁFICA JUSTIFICA MANTENER EL BLOQUE BAJO SEGUIMIENTO desde la perspectiva de regulación de riesgos naturales.",
+ "fuentes_agua": [],
+ "recarga": "No",
+ "humedad": "No",
+ "escorrentia": "No",
+ "dist_captacion": "Por verificar",
+ "jass": "Por verificar — JASS de Boca Negra",
+ "modalidad_acceso": "Vehicular + caminata 30-90 min",
+ "via_principal": "Vía vecinal afirmada Morropón – Santa Catalina de Mossa (margen izquierda del río La Gallega)",
+ "tipo_via_final": "Departamental afirmada",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 20,
+ "t_provincial": 90,
+ "senal": "Parcial",
+ "operador": "Claro",
+ "alojamiento": "Sí",
+ "ronda": "No",
+ "contacto_ronda": "No aplica",
+ "obs_dt05": "No se observan quebradas. Según consulta a los pobladores locales, NO SE REGISTRAN FUENTES DE AGUA PERMANENTES, ZONAS DE RECARGA HÍDRICA ACTIVA NI ESCORRENTÍA CONCENTRADA. La ficha F-EE-05 confirma ausencia de cárcavas/surcos y de quebrada o cauce dentro del bloque. ACCESIBILIDAD — FACTOR LIMITANTE PRINCIPAL DEL BLOQUE: vehicular más caminata de 30 a 90 minutos, con transitabilidad MEDIA en seca y BAJA en lluvias. EL ENTREGABLE IDENTIFICA LA ACCESIBILIDAD COMO EL ÚNICO FACTOR QUE CONDICIONA LA DELIMITACIÓN FINAL y recomienda considerar la mejora de los accesos si se requiere intervención. SE DESCONOCEN LAS VÍAS DE INGRESO AL INTERIOR DEL POLÍGONO; se requiere acompañamiento de personal local con conocimiento de los senderos. LA PARTICIPACIÓN ACTIVA DE ALUMNOS Y DOCENTES DE LA I.E. EN LA CONSERVACIÓN CONSTITUYE UN FACTOR FACILITADOR de la gobernanza.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-01",
+   "La altitud GPS (167.2 msnm) es INFERIOR a la cota mínima del polígono según MDE (203 msnm)",
+   "SUSTANTIVA",
+   "El punto de observación se situó al pie de la ladera, FUERA del bloque"
+  ],
+  [
+   "F-DT-01",
+   "No se pudo acceder al interior del bloque por desconocimiento de las rutas de ingreso",
+   "SUSTANTIVA",
+   "Toda la información biofísica procede de observación desde los límites"
+  ],
+  [
+   "F-DT-02",
+   "La calificación de erosión NULA se basa en observación externa",
+   "SUSTANTIVA",
+   "Debe confirmarse con recorrido interno"
+  ],
+  [
+   "F-DT-03",
+   "Cobertura arbustiva 100% y dosel 95% con herbácea, hojarasca y suelo desnudo en 0%",
+   "NO SUSTANTIVA",
+   "Superposición de estratos declarada; verificar"
+  ],
+  [
+   "F-DT-03",
+   "Solo 4 taxones registrados, sin estrato ni abundancia, frente al mínimo de 15",
+   "SUSTANTIVA",
+   "Levantamiento florístico pendiente"
+  ],
+  [
+   "F-DT-03",
+   "EL MSAVI 2024 (0.4012) ES SUSTANTIVAMENTE INFERIOR A LO QUE SUGERIRÍA UNA COBERTURA DEL 95%, con una banda continua de cobertura baja en el flanco occidental",
+   "SUSTANTIVA",
+   "El estado favorable puede deberse al momento POST LLUVIOSO del levantamiento: SE RECOMIENDA SEGUNDA VISITA EN ÉPOCA SECA ANTES DE DECIDIR LA EXCLUSIÓN DEL BLOQUE"
+  ],
+  [
+   "F-DT-03 / F-DT-04",
+   "Suelo desnudo: 0% en F-DT-03 frente a 5% en el indicador N.° 2",
+   "NO SUSTANTIVA",
+   "Conciliar"
+  ],
+  [
+   "F-DT-04",
+   "Indicadores 3 a 6 no valorados; indicadores 1, 2, 7 y 8 sin calificación de nivel; reversibilidad no consignada",
+   "SUSTANTIVA",
+   "Por completar"
+  ],
+  [
+   "F-DT-04",
+   "Pendiente promedio 21.71% (MDE) frente a 45% predominante de la ficha F-EE-05, sobre un centro poblado al pie de la ladera",
+   "SUSTANTIVA",
+   "Mantener el bloque bajo seguimiento por regulación de riesgos naturales"
+  ],
+  [
+   "F-DT-05",
+   "Accesibilidad: se desconocen las vías de ingreso al interior del polígono",
+   "SUSTANTIVA",
+   "ÚNICO FACTOR QUE CONDICIONA LA DELIMITACIÓN FINAL; requiere acompañamiento local"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M19B2_20260907_154235.pdf",
+ "bloque": "M19B2"
+}

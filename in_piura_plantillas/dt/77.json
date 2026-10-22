@@ -1,0 +1,197 @@
+{
+ "microcuenca_dt": "C1081-Q9583",
+ "evaluador": "Juan C. Domínguez / Petrov Arias",
+ "correlativo": "F-DT-01..05/B77/2026",
+ "fecha_eval": "2026-06-03",
+ "hora": "09:31 - 10:12 h",
+ "cp_cercano": "Miguel Pampa",
+ "comunidad": "Por verificar",
+ "altitud_gps": "250 (GPS de campo)",
+ "utm_e_dt": 638729,
+ "utm_n_dt": 9411392,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "15-25% (Fuert. inclinado)",
+ "posicion_fisio": "Pie de ladera",
+ "exposicion": "Oeste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Sistema de laderas convexo-cóncavas tributarias de la quebrada Q9583 (microcuenca C1081); pie de ladera con potrero de pastoreo caprino",
+ "afloramientos": "No",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Acceso por vía vecinal desde el distrito de San Juan de Bigote al CCPP de Miguelpampa; se detuvo la camioneta a 200 m del centro poblado. Se ingresó al bloque por la zona oeste, colindante al talud de la vía. EL PERÍMETRO DEL BLOQUE COINCIDE CON UN CERCO DE GANADO que delimita un área empleada como POTRERO PARA EL PASTOREO DE GANADO CAPRINO. La pendiente del terreno es menor a 30%. El talud de la vía asfaltada presentaba derrumbes por tramos distanciados.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "No",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 5,
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": 2,
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Aislado",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01",
+   "Surco (<30 cm) — 10 m long., 0.3 m prof., 0.7 m ancho",
+   638729,
+   9411392,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "C-02",
+   "Surco (<30 cm) — 20 m long., 0.4 m prof., 1.0 m ancho",
+   638755,
+   9411484,
+   "Semi-activa",
+   "Concentración natural de escorrentía"
+  ]
+ ],
+ "obs_dt02": "Suelos erosionados por el flujo del agua de lluvia que discurre por la ladera sobre suelos degradados por el SOBREPASTOREO DE CAPRINOS. Se evidenciaron surcos en formación con profundidad menor a 30 cm y anchos menores a 0.5 m, y cárcavas semiprofundas de hasta 0.4 m de profundidad, 1 m de ancho y 20 m de largo. El terreno presenta estrías en las laderas producidas por el tránsito de los animales. ADVERTENCIA: la ficha declara 5 cárcavas pero SOLO 2 FUERON INVENTARIADAS con coordenadas; los 3 rasgos restantes no cuentan con georreferencia ni dimensiones.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 10,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "17.82 ha (100% del bloque)",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Pastoreo intensivo",
+ "cob_dosel": 10,
+ "cob_arbustiva": "Por determinar",
+ "cob_herbacea": 90,
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": 0.25,
+ "h_dominante": "Por determinar",
+ "h_max": 6,
+ "dap": "Por determinar",
+ "regeneracion": "Ausente",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Pastizal cultivado",
+ "n_taxones": 5,
+ "especies_clave": [
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Endémica del Perú",
+   "NE — No Evaluado"
+  ],
+  [
+   "Ceiba pentandra (Ceibo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Armatocereus cartwrightianus (Cardos)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Cordia lutea (Overo)",
+   "Indicadora de perturbación",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "EL ÁREA ES UN BOSQUE DEGRADADO CON CAMBIO DE USO DE LA TIERRA: lo que anteriormente fue bosque hoy es una PRADERA DE PASTOS PARA FORRAJE DE GANADO. Se registran árboles remanentes de especies nativas (pasallo, charán y ceibo). Solo 5 taxones registrados frente al mínimo de 15 exigido por la ficha. REGENERACIÓN NATURAL AUSENTE y cobertura vegetal total 10%: el bloque presenta uno de los estados de degradación más severos de la serie.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Muy fuerte",
+   "100% — >10 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "",
+   "1% — >10 años"
+  ]
+ ],
+ "causa_subyacente": "Potrero de cabras que pertenecen a los pobladores de Miguelpampa",
+ "causas_directas": "Sobrepastoreo de ganado caprino. El bloque es un potrero.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Difícilmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 10,
+ "obs_dt04": "El bloque es un ÁREA DEGRADADA A NIVEL DE SUELO Y COBERTURA VEGETAL. SE RECOMIENDA INTERVENIR MEDIANTE MEDIDAS DE RESTAURACIÓN ACTIVA. Indicadores: cobertura vegetal total 10% (Bajo); suelo desnudo 90% (Medio); densidad de cárcavas 3 N.°/ha (Medio); especies invasoras 0% (Bajo); carga ganadera 5 UA/ha (Alto); frecuencia de quemas 1 (Medio); % área con pendiente >50% = 0 (Medio); distancia a vía 10 m (Alto). INCONSISTENCIA INTERNA: la ficha F-DT-03 consigna suelo desnudo 0.25% mientras el indicador N.° 2 de F-DT-04 consigna 90%.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   638762,
+   9411557,
+   "Estacional",
+   "Regular (ligeramente turbia)",
+   0,
+   "Seca por la estación de estiaje"
+  ]
+ ],
+ "recarga": "No",
+ "humedad": "No",
+ "escorrentia": "No",
+ "dist_captacion": 500,
+ "jass": "Sin registro en ficha",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Vía vecinal afirmada San Juan de Bigote - Miguelpampa",
+ "tipo_via_final": "Vecinal afirmada",
+ "transit_seca": "Bajo",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 10,
+ "t_provincial": 40,
+ "senal": "Intermitente",
+ "operador": "Entel",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Presidente de la Ronda Campesina José Luis García Campos (989964582) — postura neutral (F-DS-02)",
+ "obs_dt05": "Diagnóstico social F-DS-02 (07/07/2026, Stefany Campos Abad): el presidente de la Ronda Campesina mantiene una POSTURA NEUTRAL; considera que siempre llegan a ofrecer la ejecución de proyectos y no se cumplen. Según otra autoridad, el presidente de la ronda actualmente tiene fines políticos ya que está en una lista como regidor para las posibles elecciones. ESTE ANTECEDENTE DEBE INCORPORARSE A LA ESTRATEGIA DE GESTIÓN SOCIAL DEL BLOQUE.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-02",
+   "La ficha declara 5 cárcavas pero solo 2 cuentan con coordenadas y dimensiones",
+   "SUSTANTIVA",
+   "Georreferenciar los 3 rasgos restantes"
+  ],
+  [
+   "F-DT-03 / F-DT-04",
+   "Suelo desnudo: F-DT-03 consigna 0.25% mientras el indicador N.° 2 de F-DT-04 consigna 90%",
+   "SUSTANTIVA",
+   "Inconsistencia interna a resolver; el valor 90% es coherente con cobertura vegetal total 10%"
+  ],
+  [
+   "F-DT-03",
+   "Solo 5 taxones registrados frente al mínimo de 15 exigido por la ficha",
+   "SUSTANTIVA",
+   "Inventario florístico incompleto"
+  ],
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (250 msnm)"
+  ],
+  [
+   "F-DS-02",
+   "La ficha social consigna microcuenca C1076-Q9584 (valor heredado de plantilla)",
+   "NO SUSTANTIVA",
+   "Se conserva la microcuenca del catálogo C1081-Q9583"
+  ],
+  [
+   "F-DS-02",
+   "Presidente de la Ronda Campesina con postura neutral y presunto interés político",
+   "SUSTANTIVA",
+   "Incorporar a la estrategia de gestión social del bloque"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_77 (Plan de Ingreso, PDF)",
+ "bloque": "77"
+}

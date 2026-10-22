@@ -1,0 +1,222 @@
+{
+ "microcuenca_dt": "C1086-Q9570",
+ "evaluador": "Ing. P. Talledo Hernández; Ing. J.C. Domínguez Varas",
+ "correlativo": "DT-78-01",
+ "fecha_eval": "2026-06-17",
+ "hora": "11:10 - 12:07 h",
+ "cp_cercano": "Tasajeras",
+ "comunidad": "No aplica (predios de propiedad privada)",
+ "altitud_gps": "2000 (GPS de campo) — rango del bloque 1898 - 2207 (perfil Google Earth)",
+ "utm_e_dt": 619630,
+ "utm_n_dt": 9440043,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Suroeste",
+ "rango_altitudinal": "2000-2500 m (Quechua alta)",
+ "paisaje": "Laderas montañosas de la cuenca alta del río Piura con mosaico de matorral andino húmedo, parches de bosque y zona agrícola",
+ "afloramientos": "No",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Bloque con COBERTURA VEGETAL DENSA (MSAVI 2024 mayoritariamente >0.61). La inestabilidad observada se concentra en los CORTES DE TALUD DE LA VÍA VECINAL PI-799 (raíces expuestas, erosión incipiente). Se observan rodados/bloques aislados cerca del manantial (no afloramientos de roca). Reptación de suelo y deslizamientos antiguos: NO evidenciados en el recorrido; se mencionan únicamente como posibilidad en laderas sobrepastoreadas (verificación pendiente). Altitud del bloque 1 898-2 207 msnm; pendiente media ~43%, máxima ~54% (perfil Google Earth).",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 0,
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Sin registro en ficha",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "Erosión LOCALIZADA en los cortes de talud de la vía vecinal PI-799: raíces expuestas y remoción superficial de suelo arcillo-arenoso rojizo (Foto 02). El perfil de suelo expuesto (Foto 09) muestra horizonte orgánico superficial sobre saprolito; sin afloramiento de roca. NO se registraron cárcavas activas georreferenciadas durante el recorrido (la vegetación densa protege la mayor parte del bloque). Compactación por pisoteo de ganado y exposición radicular asociadas al pastoreo extensivo. Cuantificación de erosión laminar y % de bloque afectado: PENDIENTE de medición con parcelas específicas.",
+ "parcela": "Reconocimiento por transecto (recorrido GPS Garmin 66sr); sin parcela fija establecida",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 43,
+ "cob_veg": 85,
+ "ecosistema": "Matorral Andino húmedo (con mosaico de zona agrícola, según Intersecc_BloquesV4_Ecosistemas)",
+ "sup_ecosistema": "Por determinar",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": "Por determinar",
+ "cob_arbustiva": "Por determinar",
+ "cob_herbacea": "Por determinar",
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": "Por determinar",
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "Por determinar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Juglans neotropica (Nogal)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "EN — En Peligro"
+  ],
+  [
+   "Podocarpus sp. (Romerillo / Diablo fuerte)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "VU — Vulnerable"
+  ],
+  [
+   "Calceolaria sp. (Globitos / Zapatito)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Ficus sp. (Higuerón)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Rubus sp. (Zarzamora de monte)",
+   "Indicadora de perturbación",
+   "LC — Preocupación Menor"
+  ]
+ ],
+ "obs_dt03": "Inventario florístico RÁPIDO por recorrido (15 taxones); las clases de estrato, origen y abundancia son ESTIMACIONES CUALITATIVAS pendientes de confirmación con parcelas (10x10 m) e índices de diversidad. Identificaciones a nivel de género/especie PRELIMINARES (Registro Botánico de Campo Bloque 78, ANIN-DIME-SESDI): se recomienda herborización (Herbario MOL-UNALM o HUT). Se registraron además exóticas plantadas (pino, ciprés, eucalipto), caña Guayaquil y cultivos (maíz, trigo, arveja). VALOR DE CONSERVACIÓN ALTO: presencia de nogal (Juglans neotropica, EN) y romerillo (Podocarpus sp., VU), ambas amenazadas bajo el D.S. 043-2006-AG.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Tala para carbón",
+   "No",
+   "",
+   ""
+  ],
+  [
+   "Tala para madera",
+   "No",
+   "",
+   ""
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "No",
+   "",
+   "Sin evidencia directa"
+  ],
+  [
+   "Especies invasoras",
+   "No",
+   "",
+   "Exóticas plantadas, no naturalizadas"
+  ],
+  [
+   "Erosión natural severa",
+   "No",
+   "",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Presión agropecuaria de subsistencia sobre laderas de fuerte pendiente, sin prácticas de conservación de suelos",
+ "causas_directas": "Cambio de uso del suelo a agricultura de secano en ladera (maíz, trigo, arveja), pastoreo extensivo de vacunos/caprinos y aperturas/cortes de talud de la vía vecinal PI-799, con erosión localizada por exposición de suelos.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 0,
+ "obs_dt04": "LA DEGRADACIÓN ES DE INTENSIDAD MODERADA Y CARÁCTER LOCALIZADO: el bloque conserva alta cobertura vegetal (MSAVI >0.61 dominante) y especies nativas valiosas (nogal, podocarpus, higuerón). Los principales focos son los cultivos en ladera, el pastoreo y los cortes de la vía. Indicadores no cuantificados (suelo desnudo, carga ganadera, % pendiente >50%, frecuencia de quemas) requieren medición de gabinete/campo complementaria.",
+ "fuentes_agua": [
+  [
+   "Manantial / Puquio",
+   618998,
+   9439919,
+   "Permanente",
+   "Buena (clara)",
+   0,
+   "Manantial con captación rústica"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": 0,
+ "jass": "Sin registro en ficha",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Vía vecinal PI-799",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "No registrado en esta visita",
+ "t_provincial": "No registrado en esta visita",
+ "senal": "No registrada en esta visita",
+ "operador": "Sin registro en ficha",
+ "alojamiento": "Sin registro en ficha",
+ "ronda": "No",
+ "contacto_ronda": "No aplica",
+ "obs_dt05": "Acceso por vía vecinal PI-799 (trocha carrozable de tierra), vehicular hasta el borde del bloque y recorrido a pie. Trocha transitable en época seca; condiciones de barro y baja transitabilidad en lluvias. PREDIOS DE PROPIEDAD PRIVADA; coordinación directa con titulares (no se requiere autorización de Ronda). Manantial con captación rústica como única fuente documentada en el recorrido; ZONA DE EVIDENTE RECARGA HÍDRICA (humedad persistente, helechos, musgos). Tiempos de viaje y señal celular: no registrados en esta visita.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (2000 msnm)"
+  ],
+  [
+   "F-DT-03",
+   "Superficie de ecosistema, coberturas por estrato, alturas y DAP sin medición",
+   "NO SUSTANTIVA",
+   "Pendientes de parcelas de muestreo (10x10 m)"
+  ],
+  [
+   "F-DT-03",
+   "Identificaciones botánicas preliminares; se recomienda herborización (MOL-UNALM o HUT)",
+   "NO SUSTANTIVA",
+   "Determinación formal pendiente"
+  ],
+  [
+   "F-DT-04",
+   "Indicadores de suelo desnudo, carga ganadera, % pendiente >50% y frecuencia de quemas no cuantificados",
+   "NO SUSTANTIVA",
+   "Medición complementaria pendiente"
+  ],
+  [
+   "F-DT-01",
+   "Reptación y deslizamientos antiguos: «No» corresponde a no evidenciados en el recorrido, no a ausencia verificada",
+   "NO SUSTANTIVA",
+   "Declarado en la propia ficha"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_78 (Plan de Ingreso, PDF)",
+ "bloque": "78"
+}

@@ -1,0 +1,297 @@
+{
+ "microcuenca_dt": "C1081-Q9591",
+ "evaluador": "Brigada de campo IN Piura – ANIN/DIME-SESDI",
+ "correlativo": "F-DT-01 / M30B5 / 001",
+ "fecha_eval": "2026-08-13",
+ "hora": "13:49 - 14:03 h",
+ "cp_cercano": "Pariamarca Centro",
+ "comunidad": "No consignada",
+ "altitud_gps": "1 938 (GPS de campo, sector accesible del borde norte: 1 937.8 - 1 939.5 msnm). Rango de gabinete (MDE): 1 782 - 2 307 msnm, desnivel 525 m, cota media 2 044.5 msnm",
+ "utm_e_dt": 655188,
+ "utm_n_dt": 9427633,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado) — pendiente promedio de gabinete 21.23° = 38.84%",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Noroeste",
+ "rango_altitudinal": "2000-2500 m (Quechua alta) — clase predominante por cota media; el polígono cruza los 2 000 m: lóbulos norte y noroeste entre 1 782 y 2 000 msnm (Quechua media) y lóbulo sur entre 2 000 y 2 307 msnm",
+ "paisaje": "Laderas de montaña de vertiente occidental con cimas redondeadas y escarpes rocosos en la divisoria; mosaico agropecuario",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "Sí",
+ "deslizamientos": "Sí",
+ "remociones": "Sí",
+ "obs_dt01": "VERIFICACIÓN DE CÓDIGO: los siete registros fotográficos georreferenciados (13-08-2026, 13:53-14:03 h) se ubican entre E 655 060 - 655 228 y N 9 427 609 - 9 427 690, dentro del polígono (centroide oficial E 655 263 / N 9 427 340); rotulado de campo consistente con la base tbl_Bloques; NO se detectan discrepancias de codificación. ÁREA: 90.90 ha (tbl_Bloques V4) / 90.903 ha (Bloques_V5) / 90.922 ha (base CP-Bloques V5); diferencia máxima de 0.02 ha, no significativa; se adopta 90.90 ha. INDICIOS DE INESTABILIDAD: afloramiento rocoso subvertical de aspecto columnar en la cumbre del sector este; escarpes activos y cicatrices de suelo desnudo de color claro en laderas; reptación evidenciada por terracetas de pisoteo continuas; escarpe de deslizamiento antiguo en el sector central. Dimensiones no medidas en campo — POR VERIFICAR con levantamiento topográfico de detalle.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Fuerte (cárcavas incipientes)",
+ "n_carcavas": 2,
+ "long_carcavas": "Por verificar",
+ "pct_carcavas": "Por verificar",
+ "erosion_laminar": 60,
+ "patron_carcavas": "Lineal",
+ "socavamiento": "Sí",
+ "urgencia_control": "Alta",
+ "carcavas": [
+  [
+   "C-01",
+   655142,
+   9427609,
+   "Por verificar",
+   "Por verificar",
+   "Por verificar",
+   "Activa",
+   "Sobrepastoreo"
+  ],
+  [
+   "C-02",
+   655109,
+   9427610,
+   "Por verificar",
+   "Por verificar",
+   "Por verificar",
+   "Activa",
+   "Otro"
+  ]
+ ],
+ "obs_dt02": "El inventario de cárcavas es PARCIAL: corresponde únicamente a los dos rasgos georreferenciados durante el recorrido del borde norte (13-08-2026). El interior y el lóbulo sur del polígono no fueron recorridos. Longitudes, profundidades, anchos y densidad por hectárea quedan POR VERIFICAR y NO han sido estimados. La erosión laminar (60%) es estimación visual sobre cuatro ortofotos de dron: se observa terraceteado de pisoteo continuo (camellones de ganado) cubriendo la mayor parte de la ladera media y alta, indicador directo de reptación superficial y erosión laminar-en surcos por sobrepastoreo; requiere validación por muestreo en parcelas. Se constata socavamiento en el eje de drenaje principal (sur a norte) con escalones de erosión remontante y descalce de márgenes. Cicatrices de deslizamiento superficial distribuidas en los tramos de pendiente >40%, sin obras de estabilización. URGENCIA ALTA: la combinación de pendiente media 38.84%, cobertura arbórea casi nula y carga ganadera sin manejo mantiene activo el proceso erosivo en zona de origen (cabecera de la microcuenca C1081-Q9591).",
+ "parcela": "Observación directa en transecto (sin parcela permanente instalada)",
+ "dim_parcela": "No aplica – recorrido de transecto",
+ "pend_parcela": 38.8,
+ "cob_veg": 85,
+ "ecosistema": "Agroecosistema / Mosaico",
+ "sup_ecosistema": "74.64 ha de Zona agrícola (82.1%) y 16.267 ha de Matorral andino (17.9%) según cartografía MINAM; la superficie consignada corresponde a la unidad dominante",
+ "estado_cons": "Muy alterado / Degradado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 3,
+ "cob_arbustiva": 15,
+ "cob_herbacea": 70,
+ "cob_hojarasca": 2,
+ "suelo_desnudo": 10,
+ "h_dominante": 0.3,
+ "h_max": 6,
+ "dap": "Por verificar",
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Latencia / Estrés hídrico",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 9,
+ "especies_clave": [
+  [
+   "Salix humboldtiana (Sauce)",
+   "Indicadora de buen estado",
+   "NE - No Evaluado",
+   "655152",
+   "9427615",
+   "1 ind. - Foto 04"
+  ],
+  [
+   "Baccharis sp. (Chilca)",
+   "Indicadora de perturbación",
+   "No aplica",
+   "655142",
+   "9427609",
+   "",
+   ""
+  ],
+  [
+   "Eucalyptus globulus (Eucalipto)",
+   "Indicadora de perturbación",
+   "No aplica",
+   "",
+   "",
+   "",
+   ""
+  ]
+ ],
+ "obs_dt03": "CLASIFICACIÓN DEL ECOSISTEMA: la cartografía MINAM asigna 74.636 ha de Zona agrícola (82.1%) y 16.267 ha de Matorral andino (17.9%); conforme al criterio adoptado en bloques análogos (12, 14 y 17), un ámbito con predominio agropecuario y matorral secundario subordinado se clasifica como \"Agroecosistema / Mosaico\". COMPOSICIÓN FLORÍSTICA PARCIAL: 9 entradas frente al mínimo de 15 exigido; las entradas 6 a 9 son morfoespecies observadas en el registro fotográfico y NO han sido determinadas — NO se han asignado nombres científicos por inferencia. MSAVI 2024 promedio del bloque = 0.5564: predominio de las clases 0.3813-0.4976 en el sector central y sur, y 0.4976-0.6139 con parches >0.6139 en quebradas y laderas sombreadas; la clase <0.2650 es marginal. La cobertura arbórea (3%) y la regeneración escasa evidencian que no se observaron plántulas ni brinzales de leñosas nativas en la matriz de pastizal. DAP promedio no medido — POR VERIFICAR mediante parcela de muestreo forestal. Las epífitas (Bromeliaceae) se observaron sobre el arbolado relicto y el talud del manantial, ausentes en la matriz de pastizal, lo que evidencia pérdida de microhábitat.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "80% del bloque — terracetas de pisoteo"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "Tocones cortados"
+  ],
+  [
+   "Tala para carbón",
+   "No",
+   "Nula",
+   "No se observaron hornos"
+  ],
+  [
+   "Tala para madera",
+   "No",
+   "",
+   "Sin evidencia directa"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "No",
+   "",
+   "Manchas oscuras compatibles, sin confirmación"
+  ],
+  [
+   "Quema accidental / Incendio",
+   "No",
+   "",
+   "Sin evidencia observable"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Fuerte",
+   "82% del bloque — cartografía MINAM: 74.6 ha"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Fuerte",
+   "80% del bloque — pastizales cultivados"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5% del bloque — la red vial atraviesa el sector norte"
+  ],
+  [
+   "Minería informal",
+   "No",
+   "Nula",
+   "No observada"
+  ],
+  [
+   "Extracción de áridos (cauces)",
+   "No",
+   "Nula",
+   "No observada"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   "Eucalyptus globulus"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "Cicatrices de deslizamiento"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "Estrés hídrico marcado"
+  ],
+  [
+   "Plagas o enfermedades forestales",
+   "No",
+   "Nula",
+   "No se observaron síntomas"
+  ]
+ ],
+ "causa_subyacente": "Economía ganadera familiar de subsistencia sobre suelos de aptitud forestal y de protección, sin ordenamiento predial",
+ "causas_directas": "(i) Sobrepastoreo vacuno sin manejo de praderas, que mantiene terracetas de pisoteo, compactación y reptación superficial generalizadas; (ii) conversión histórica del matorral andino a pastizal y áreas agrícolas (82% del bloque); (iii) tala selectiva de leñosas para leña y postes, que impide la reconstitución del estrato arbóreo; (iv) concentración de escorrentía en huellas de ganado y caminos, que alimenta el carcavamiento remontante.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 0,
+ "obs_dt04": "Los campos \"Antigüedad (años)\" de la matriz de causas NO fueron levantados en campo y quedan en blanco; su determinación requiere entrevistas a titulares de predios y análisis multitemporal. Los indicadores 5 (carga ganadera), 6 (frecuencia de quemas) y 7 (% de área con pendiente >50%) se consignan POR VERIFICAR: no se dispone de censo pecuario, serie de focos de calor ni procesamiento del MDE; NO han sido estimados. Indicador complementario de gabinete: MSAVI 2024 = 0.5564, valor intermedio consistente con cobertura herbácea continua y estrato leñoso reducido; se recomienda incorporar la tendencia Theil-Sen (TAU) 2016-2024 para calificar la trayectoria de degradación. REVERSIBILIDAD PARCIAL: persisten núcleos de matorral andino (16.27 ha) que actúan como banco genético y fuente de propágulos, viabilizando la restauración asistida si se controla la carga ganadera (clausura temporal y manejo rotativo).",
+ "fuentes_agua": [
+  [
+   "1",
+   "Manantial / Puquio",
+   655109,
+   9427610,
+   "Permanente — calidad buena (clara); afloramiento en cabecera, distancia 0 m"
+  ],
+  [
+   "2",
+   "Quebrada estacional",
+   655060,
+   9427662,
+   "Estacional — calidad no evaluable; eje de drenaje con material, distancia 0 m"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por verificar",
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Vía vecinal Huancabamba – Pariamarca (denominación oficial MTC por confirmar); la vía atraviesa el sector norte",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por verificar",
+ "t_provincial": "Por verificar",
+ "senal": "Sin registro en ficha",
+ "operador": "Sin registro en ficha",
+ "alojamiento": "Sin registro en ficha",
+ "ronda": "Sí",
+ "contacto_ronda": "Por verificar – se recomienda coordinación previa con la Ronda Campesina de Pariamarca Centro",
+ "obs_dt05": "El MANANTIAL georreferenciado en E 655 109 / N 9 427 610 constituye el hallazgo hídrico más relevante: aflora en el frente de un talud de cárcava en retroceso activo, de modo que el propio proceso erosivo compromete el punto de surgencia. Se recomienda su protección prioritaria (cerco de exclusión, estabilización del talud con obras vivas y revegetación de la cabecera). El bloque se localiza en cabecera de la microcuenca C1081-Q9591 (cota 1 782 - 2 307 msnm), en zona de recarga hídrica. Se observan en las ortofotos estructuras rectangulares azules en el pastizal cuya naturaleza (reservorios / bebederos / colmenas) NO fue verificada en campo. DATOS LOGÍSTICOS PENDIENTES, deliberadamente dejados EN BLANCO por no haber sido levantados y no admitir sus listas la opción \"Por verificar\": señal celular, operador dominante y alojamiento rural; igualmente pendientes los tiempos de desplazamiento, la distancia a captación poblacional y los datos de la JASS. Ninguno ha sido estimado.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 7,
+ "estaciones_dentro": 7,
+ "correcciones": [
+  [
+   "F-DT-01",
+   "El rango altitudinal declarado (2000-2500 m) corresponde a la clase predominante por cota media; el polígono cruza los 2 000 m y sus lóbulos norte y noroeste están en piso Quechua media",
+   "NO SUSTANTIVA",
+   "Se declara el criterio de clasificación y el rango real 1 782 - 2 307 msnm"
+  ],
+  [
+   "F-DT-01",
+   "Área con tres valores en las bases (90.90 / 90.903 / 90.922 ha)",
+   "CORREGIDO",
+   "Diferencia máxima 0.02 ha, no significativa; se adopta 90.90 ha"
+  ],
+  [
+   "F-DT-02",
+   "Inventario de cárcavas PARCIAL: sólo dos rasgos del borde norte; sin longitud, profundidad, ancho ni densidad",
+   "SUSTANTIVA",
+   "POR VERIFICAR; no se estiman valores. El interior y el lóbulo sur no fueron recorridos"
+  ],
+  [
+   "F-DT-03",
+   "Composición florística de 9 entradas frente al mínimo de 15; entradas 6 a 9 son morfoespecies no determinadas",
+   "SUSTANTIVA",
+   "No se asignan nombres científicos por inferencia; requiere colecta y herborización"
+  ],
+  [
+   "F-DT-03",
+   "DAP promedio no medido",
+   "SUSTANTIVA",
+   "POR VERIFICAR mediante parcela de muestreo forestal"
+  ],
+  [
+   "F-DT-04",
+   "Antigüedad de las causas no levantada; indicadores 5, 6 y 7 sin valor",
+   "NO SUSTANTIVA",
+   "POR VERIFICAR; no han sido estimados"
+  ],
+  [
+   "F-DT-05",
+   "Señal celular, operador y alojamiento dejados en blanco por no admitir sus listas la opción \"Por verificar\"",
+   "NO SUSTANTIVA",
+   "Se declara el vacío en lugar de estimar"
+  ],
+  [
+   "F-DT-05",
+   "El manantial aflora en el frente de un talud de cárcava en retroceso activo",
+   "SUSTANTIVA",
+   "Se eleva como prioridad de protección: cerco de exclusión, estabilización del talud con obras vivas y revegetación de cabecera"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M30B5_20260907_154413.pdf (6 páginas)",
+ "bloque": "M30B5"
+}

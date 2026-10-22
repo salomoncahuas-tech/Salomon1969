@@ -1,0 +1,129 @@
+{
+ "microcuenca_dt": "C1076-Q9584",
+ "evaluador": "Brigada SESDI – IN Piura",
+ "correlativo": "F-DT-01-B10-2026",
+ "fecha_eval": "2026-08-12",
+ "hora": "12:40 - 14:22 h",
+ "cp_cercano": "La Peña · Peña Grande",
+ "altitud_gps": "Por determinar",
+ "utm_e_dt": 651184,
+ "utm_n_dt": 9382309,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Este",
+ "rango_altitudinal": "1000-1500 m (Quechua baja)",
+ "paisaje": "Laderas tributarias de la quebrada Q9593 entre 912 y 1510 msnm (amplitud 598 m), pendiente promedio 27.39%",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "PRELLENADO DE GABINETE. Reconocimiento del 12-08-2026 por recorrido vehicular con registro fotográfico georreferenciado; la ficha NO fue diligenciada en campo. Cuatro de las cinco estaciones se ubican DENTRO del polígono (249-302 m del borde); la restante a ~570 m al NE.",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": "Por determinar",
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Lineal",
+ "urgencia_control": "Alta",
+ "carcavas": [],
+ "obs_dt02": "FICHA NO LEVANTADA EN CAMPO – INVENTARIO DE CÁRCAVAS NO EJECUTADO. Evidencia: plataforma de corte con suelo desnudo continuo, zanja de drenaje incipiente y acanaladuras sobre la trocha que atraviesa el bloque (E-01); superficies bajo umbral MSAVI concentradas en el sector centro-occidental y el entorno del C.P. Peña Grande.",
+ "parcela": "No instalada",
+ "pend_parcela": 27.39,
+ "cob_veg": "Por determinar",
+ "ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+ "sup_ecosistema": "Por determinar",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Uso mixto",
+ "suelo_desnudo": "Por determinar",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 7,
+ "especies_clave": [
+  [
+   "Cactáceas columnares",
+   "Indicadora de perturbación",
+   "NE"
+  ],
+  [
+   "Vachellia macracantha (faique)",
+   "Indicadora de buen estado",
+   "LC"
+  ]
+ ],
+ "obs_dt03": "REGISTRO FLORÍSTICO INCOMPLETO: 7 taxones frente al mínimo de 15. Ningún binomio confirmado taxonómicamente. No se instalaron parcelas ni se ejecutó colecta botánica.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Fuerte",
+   "CAUSA DOMINANTE"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Ocupación y habilitación vial del interior del bloque sin instrumento de manejo, sobre laderas con aptitud forestal",
+ "causas_directas": "Expansión vial (trocha que atraviesa el bloque) y cambio de uso a agricultura en fuerte pendiente, con erosión asociada a los cortes y a las superficies desnudas del corredor.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": "0 (la trocha atraviesa el bloque)",
+ "obs_dt04": "Indicador de brecha (R.M. 00213-2024-MINAM): 26.96% del bloque (40.50 ha) bajo el umbral MSAVI 2024 de 0.4976. MSAVI medio 0.5465 frente a 0.5477 de la microcuenca C1076-Q9593. Clases obtenidas por planimetría digital (± 2%); requieren confirmación con estadística zonal sobre el ráster.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   "Por determinar",
+   "Por determinar",
+   "Estacional",
+   "No evaluable",
+   "Por determinar",
+   "Red de vaguadas tributarias"
+  ]
+ ],
+ "recarga": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por determinar",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Trocha carrozable de acceso al C.P. Peña Grande (sin código MTC verificado)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "Por determinar",
+ "operador": "Por determinar",
+ "ronda": "Por determinar",
+ "contacto_ronda": "Por determinar",
+ "obs_dt05": "FICHA PARCIAL. El bloque se declara en zona de recarga hídrica por su posición en la cabecera del drenaje de la quebrada Q9593 (zona de origen del PGI). El acceso vehicular llega al interior del bloque: la trocha lo atraviesa.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 5,
+ "estaciones_dentro": 4,
+ "fuente_ficha": "Ficha_DT_10_20260907_154808.pdf",
+ "bloque": "10"
+}

@@ -1,0 +1,216 @@
+{
+ "microcuenca_dt": "C1081-Q9590",
+ "evaluador": "Ing. Héctor S. Cahuas Miller (ANIN-DIME-SESDI)",
+ "correlativo": "F-DT-B50",
+ "fecha_eval": "2026-07-08",
+ "hora": "08:55 - 10:11 h",
+ "cp_cercano": "Ullma (no intercepta CP; ~1.3 km al N)",
+ "comunidad": "Por determinar",
+ "altitud_gps": "Por determinar (perfil GE 1489-1686 msnm, media 1587)",
+ "utm_e_dt": 647020,
+ "utm_n_dt": 9427149,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Noroeste",
+ "rango_altitudinal": "1500-2000 m (Quechua media)",
+ "paisaje": "Ladera de montaña de vertiente oriental con matorral andino denso y relictos arbóreos, disectada por quebrada permanente",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Punto de muestreo declarado = CENTROIDE del bloque. La altitud GPS no fue registrada: POR DETERMINAR. Referencia de gabinete: 1489-1686 msnm, media 1587; pendiente media 34.0% y máxima 59.6% sobre 566 m de recorrido. Escarpes activos y afloramientos observados en taludes de corte de la trocha y márgenes encajonadas de la quebrada; no se observaron remociones en masa activas en la superficie natural.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 3,
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Lineal",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01",
+   "Cauce encajonado con socavamiento",
+   647202,
+   9427237,
+   "Activa",
+   "Socavamiento de cauce"
+  ],
+  [
+   "C-02",
+   "Talud de corte de trocha",
+   647310,
+   9427564,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "C-03",
+   "Surcos en huella de trocha",
+   646833,
+   9426997,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ]
+ ],
+ "obs_dt02": "Inventario de reconocimiento: NO se efectuaron mediciones instrumentales. C-01 corresponde al cauce encajonado de la quebrada que delimita el bloque por el NO, con socavamiento activo de márgenes, raíces expuestas y acumulación de bloques rocosos. La fotografía F-08 fue rotulada en campo como «Bloque 38» y corresponde al mismo cauce límite entre los bloques 38 y 50; se conserva como evidencia complementaria y NO se computa como rasgo del bloque 50.",
+ "parcela": "Recorrido de reconocimiento (sin parcela permanente)",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 85,
+ "ecosistema": "Matorral Andino húmedo",
+ "sup_ecosistema": "Matorral andino 18.4495 ha (95.8%) + Zona agrícola 0.8169 ha (4.2%); total 19.2665 ha",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 30,
+ "cob_arbustiva": 45,
+ "cob_herbacea": 10,
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": 5,
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "Por determinar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Matorral denso",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Bromeliaceae (indet.)",
+   "Indicadora de buen estado",
+   "NE"
+  ],
+  [
+   "Pteridophyta (indet.) – Helechos",
+   "Indicadora de buen estado",
+   "NE"
+  ],
+  [
+   "Melastomataceae (indet.)",
+   "Indicadora de buen estado",
+   "NE"
+  ],
+  [
+   "Inga sp. – Pacae",
+   "Indicadora de buen estado",
+   "NE"
+  ],
+  [
+   "Ficus sp. – Higuerón",
+   "Indicadora de buen estado",
+   "NE"
+  ],
+  [
+   "Passiflora sp.",
+   "Indicadora de buen estado",
+   "NE",
+   647119,
+   9427229
+  ],
+  [
+   "Baccharis sp. – Chilca",
+   "Indicadora de perturbación",
+   "NE"
+  ],
+  [
+   "Grevillea robusta",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Agave americana",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Poaceae – Pastos cultivados",
+   "Indicadora de perturbación",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "La subclase de humedad del matorral («húmedo») es JUICIO EXPERTO a partir del MSAVI 2024 (media 0.6831), del epifitismo y de los cultivos de café y cacao presentes; el catálogo MINAM del proyecto solo consigna «Matorral andino». «Roble», «Palo Blanco» y «Falsa Yuca» no se asignan a género por ambigüedad del nombre local. Ninguna especie con categoría D.S. 043-2006-AG confirmada a la fecha.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Ligera",
+   "4.2"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Presión agropecuaria de subsistencia sobre laderas de fuerte pendiente sin prácticas de conservación de suelos",
+ "causas_directas": "Sobrepastoreo y expansión de pastos cultivados en laderas; conversión puntual a cultivos (plátano, maíz, café, cacao, cítricos); desestabilización de taludes por la trocha carrozable; socavamiento activo del cauce de la quebrada; introducción de especies exóticas (Grevillea robusta, Agave americana).",
+ "velocidad": "Lenta",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 0,
+ "obs_dt04": "Las causas sin observación directa se dejan EN BLANCO por ausencia de evidencia. La única extensión con respaldo documental es la de cambio de uso a agricultura (4.2%, Reporte de Ecosistemas por Bloques). Velocidad, reversibilidad y urgencia son juicio experto sujeto a validación del equipo formulador.",
+ "fuentes_agua": [
+  [
+   "Quebrada permanente",
+   647201,
+   9427237,
+   "Permanente",
+   "Regular (lig. turbia)",
+   0,
+   "Quebrada que delimita el bloque por el NO"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por determinar",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Trocha carrozable de acceso a los bloques 50 y 38 (ingreso en 646833 E, 9426997 N)",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "30",
+ "t_provincial": "Por determinar",
+ "senal": "Parcial",
+ "operador": "Bitel",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Por determinar",
+ "obs_dt05": "El bloque NO intercepta ningún centro poblado del catálogo INEI; el CP más próximo en la microcuenca C1081-Q9590 es Ullma (157 hab.), a ~1.32 km al norte del centroide, asociado al bloque 38. El régimen «Permanente» y la calidad aparente del agua son apreciaciones de una única visita en época seca; requieren confirmación estacional.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 10,
+ "fuente_ficha": "ficha_50_20260709_172946.pdf",
+ "bloque": "50"
+}

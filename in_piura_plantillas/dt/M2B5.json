@@ -1,0 +1,230 @@
+{
+ "microcuenca_dt": "C1076-Q9584",
+ "evaluador": "Ing. Héctor Salomón Cahuas Miller (con Ing. Juan Carlos Domínguez Varas)",
+ "correlativo": "DT-M2B5-001",
+ "fecha_eval": "2026-05-20",
+ "hora": "14:45 h (inspección 15:00 - 15:30 h)",
+ "cp_cercano": "Villa Hornopampa de los Andes",
+ "comunidad": "No aplica formalmente — predios rurales del CP Villa Hornopampa de los Andes; sector colindante con el ACR Bosque Seco Salitral",
+ "altitud_gps": "320 (GPS de campo)",
+ "utm_e_dt": 640325,
+ "utm_n_dt": 9394442,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "8-15% (Mod. inclinado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Norte",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Mosaico de ladera norte de colinas y montañas bajas con cobertura discontinua: parte baja y media dominadas por matorral xerófilo; parte alta con bosque relictual",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "Sí",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Acceso desde la carretera Morropón-Buenos Aires-Salitral, ingresando a la altura del CP Villa Hornopampa de los Andes. Inspección del 20-05-2026 entre las 15:00 y 15:30 h. Pese a pendientes locales moderadas (perfiles Google Earth: 13.0% máx. en sector central; 27.7% máx. en sector occidental), NO se observaron procesos de remoción en masa activos. Las evidencias predominantes corresponden a REPTACIÓN LENTA ASOCIADA AL TRÁNSITO CAPRINO (terracetas de pisoteo) y a afloramientos rocosos diseminados principalmente en cabeceras de microquebradas. LA EXISTENCIA DE BOSQUE RELICTUAL EN LA PARTE ALTA DEL BLOQUE, CONTIGUO AL ACR BOSQUE SECO SALITRAL, CONSTITUYE UN NÚCLEO DE PROPÁGULOS RELEVANTE para la estrategia de restauración pasiva-asistida.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 2,
+ "long_carcavas": 280,
+ "pct_carcavas": "25 - 35% del área basal y media con evidencias de erosión laminar a surcos incipientes",
+ "erosion_laminar": 30,
+ "patron_carcavas": "Lineal",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "CA-01",
+   "Surco (<30 cm) — 110 m, 0.25 m prof., 0.6 m ancho",
+   640325,
+   9394442,
+   "Activa",
+   "Sobrepastoreo"
+  ],
+  [
+   "CA-02",
+   "Cárcava incipiente — 170 m, 0.4 m prof., 0.8 m ancho",
+   640260,
+   9394429,
+   "Semi-activa",
+   "Concentración natural de escorrentía"
+  ]
+ ],
+ "obs_dt02": "LA INTENSIDAD EROSIVA DEL BLOQUE ES NOTABLEMENTE MENOR que la observada en otros bloques del distrito de Salitral. Se atribuye a tres factores: (i) presencia de COBERTURA ARBUSTIVA PIONERA DENSA (Ipomoea carnea, Cordia lutea) que limita la erosión laminar PESE A NO APORTAR VALOR ECOLÓGICO; (ii) cobertura de Bosque Estacionalmente Seco de mayor continuidad en la parte alta, contigua al ACR Bosque Seco Salitral, que ACTÚA COMO FRENO HIDROLÓGICO; y (iii) pendientes moderadas (modales 8-15%, máximas locales 27.7%). MEDIDA PRIORIZADA: prevención y control de surcos incipientes mediante zanjas de infiltración y barreras vivas con especies nativas, evitando el avance del proceso erosivo en cabeceras de microquebradas.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 45,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "≈30.91 ha (ecosistema dominante en ≈100% del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 20,
+ "cob_arbustiva": 35,
+ "cob_herbacea": 15,
+ "cob_hojarasca": 8,
+ "suelo_desnudo": 25,
+ "h_dominante": 3.5,
+ "h_max": 9,
+ "dap": 22,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Daño mecánico",
+ "epifitas": "No",
+ "fenologia": "Latencia / Estrés hídrico",
+ "tipo_cobertura": "Matorral denso",
+ "n_taxones": 13,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG) — 4 ind. en 640 102 · 9 394 382",
+   "EN — En Peligro"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG) — 3 ind. en 640 168 · 9 394 296",
+   "EN — En Peligro"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado — 5 ind. en 640 168 · 9 394 296",
+   "LC — Preocupación Menor"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Indicadora de buen estado — 6 ind. en 640 168 · 9 394 271",
+   "LC — Preocupación Menor"
+  ],
+  [
+   "Ipomoea carnea (Borrachera)",
+   "Indicadora de perturbación — 50 ind. en 640 325 · 9 394 442",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "GRADIENTE DE CONSERVACIÓN MARCADO: la parte alta (>400 msnm), CONTIGUA AL ACR BOSQUE SECO SALITRAL, presenta un Bes-cm con dosel arbóreo más continuo, mientras la parte basal y media exhibe MATORRAL XERÓFILO DEGRADADO DOMINADO POR Ipomoea carnea («borrachera»), ARBUSTO NO PALATABLE QUE COLONIZA ÁREAS CON SOBREPASTOREO CAPRINO. La presencia confirmada de las SEIS ESPECIES CLAVE DEL BES-CM (Charán, Hualtaco, Palo Santo, Pasallo, Faique, Overo) y de cactáceas columnares nativas CONSTITUYE UN BANCO GENÉTICO ADECUADO PARA RESTAURACIÓN. LA COLINDANCIA CON EL ACR BOSQUE SECO SALITRAL —reconocida por D.S. N.° 019-2011-MINAM; Sector Norte: 25 137.36 ha en Salitral— POSICIONA AL BLOQUE COMO ZONA DE AMORTIGUAMIENTO ESTRATÉGICA Y CORREDOR POTENCIAL DE CONECTIVIDAD ECOLÓGICA. ADVERTENCIA DE FORMATO: la tabla florística de la ficha invierte las columnas de nombre común y nombre científico.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "70% — >20 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "40% — >20 años"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Ligera",
+   "10% — >15 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "35% — >20 años"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Ligera",
+   "20% — >50 años (proceso natural)"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "100%"
+  ],
+  [
+   "Otro (proximidad al ACR: presión de borde)",
+   "Sí",
+   "Ligera",
+   "15% — >10 años"
+  ]
+ ],
+ "causa_subyacente": "Dependencia económica de actividades pecuarias (cría caprina) de bajo retorno por parte de pobladores del CP Villa Hornopampa de los Andes",
+ "causas_directas": "(1) Sobrepastoreo caprino extensivo y no rotacional con dominancia derivada de Ipomoea carnea como indicadora; (2) tala selectiva histórica de Charán, Hualtaco y Palo Santo para leña/madera; (3) cambio de uso a pastoreo permanente; (4) sequía prolongada y estrés climático recurrente.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 80,
+ "obs_dt04": "PERFIL DE DEGRADACIÓN INTERMEDIO dentro del distrito de Salitral: indicadores cuantitativos en rango medio (cobertura vegetal 45%, suelo desnudo 25%, baja densidad de cárcavas 0.065 N.°/ha, sin quemas recientes según consulta MODIS), pero con una CAUSA SUBYACENTE PERSISTENTE (sobrepastoreo caprino) y la DOMINANCIA DE Ipomoea carnea sobre el estrato arbustivo. A diferencia de bloques severamente degradados, M2B5 CONSERVA UN NÚCLEO DE BOSQUE ESTACIONALMENTE SECO EN LA PARTE ALTA —ecológicamente conectado al ACR Bosque Seco Salitral—, lo que ABRE LA POSIBILIDAD DE UNA ESTRATEGIA DE RESTAURACIÓN PASIVA-ASISTIDA DE COSTO MODERADO, condicionada a un acuerdo de clausura ganadera con la población local. INCONSISTENCIA: el indicador N.° 4 consigna 0% de especies invasoras y la matriz de causas marca «Especies invasoras: No», pese a que F-DT-03 declara a Ipomoea carnea como ABUNDANTE y dominante del estrato arbustivo (50 individuos registrados). Otros indicadores: carga ganadera 1.8 UA/ha (Medio); % pendiente >50% = 8% (Bajo); distancia a vía 80 m (Alto).",
+ "fuentes_agua": [
+  [
+   "Río",
+   639750,
+   9394800,
+   "Permanente",
+   "Regular (ligeramente turbia)",
+   350,
+   "Río Piura — cauce principal"
+  ],
+  [
+   "Quebrada estacional",
+   640200,
+   9394400,
+   "Efímero",
+   "No evaluable",
+   0,
+   "Quebrada de bajo orden"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "No",
+ "escorrentia": "Sí",
+ "dist_captacion": "≈900 m (captación del CP Villa Hornopampa de los Andes hacia el NE, en zona aluvial del río Piura)",
+ "jass": "Comisión de Usuarios Salitral — Junta de Usuarios Medio y Bajo Piura (sistema aguas abajo, sin afectación al bloque)",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Carretera Morropón-Buenos Aires-Salitral (departamental afirmada) hasta el desvío al CP Villa Hornopampa de los Andes",
+ "tipo_via_final": "Departamental afirmada",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Medio",
+ "t_distrital": 25,
+ "t_provincial": "Sin registro en ficha",
+ "senal": "Parcial",
+ "operador": "Movistar",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Coordinación inicial con dirigentes del CP Villa Hornopampa de los Andes y con la Ronda Campesina de Salitral",
+ "obs_dt05": "Acceso favorable durante todo el año (vía departamental afirmada Morropón-Salitral colinda al norte). LA PRESENCIA DE PASIVOS AMBIENTALES AGUAS ABAJO (INTERMITENCIA DEL RÍO PIURA OBSERVADA EN MAYO) SUBRAYA LA IMPORTANCIA HIDROLÓGICA DEL BLOQUE COMO ZONA DE RECARGA DE LA CUENCA BAJA. Para fases posteriores SE RECOMIENDA COORDINACIÓN FORMAL CON SERFOR-ARFFS PIURA Y CON EL GOBIERNO REGIONAL PIURA (Gerencia Regional de Recursos Naturales) POR LA CONDICIÓN DE COLINDANCIA AL ACR BOSQUE SECO SALITRAL, así como con la JASS local y la Ronda Campesina de Salitral para acordar protocolos de ingreso y vigilancia.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (320 msnm)"
+  ],
+  [
+   "F-DT-02",
+   "El campo «% bloque con cárcavas» contiene un texto descriptivo (25-35%) en lugar de un valor numérico",
+   "NO SUSTANTIVA",
+   "Normalizar el registro"
+  ],
+  [
+   "F-DT-03",
+   "La tabla de composición florística invierte las columnas de nombre común y nombre científico",
+   "NO SUSTANTIVA",
+   "Error de formato de la ficha"
+  ],
+  [
+   "F-DT-04",
+   "El indicador de especies invasoras consigna 0% y la matriz marca «No», pese a que F-DT-03 declara Ipomoea carnea ABUNDANTE y dominante del estrato arbustivo",
+   "SUSTANTIVA",
+   "Inconsistencia interna: Ipomoea carnea es especie nativa pero indicadora de perturbación; precisar el criterio del indicador"
+  ],
+  [
+   "F-DT-01 / F-DT-03",
+   "Colindancia con el ACR Bosque Seco Salitral (D.S. N.° 019-2011-MINAM)",
+   "SUSTANTIVA",
+   "Coordinación obligatoria con SERFOR-ARFFS Piura y GORE Piura; verificar filtro de exclusión por ANP/ACR"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M2B5 (Plan de Ingreso, PDF)",
+ "bloque": "M2B5"
+}

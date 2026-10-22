@@ -1,0 +1,177 @@
+{
+ "microcuenca_dt": "C1081-Q9591",
+ "evaluador": "Ing. Héctor S. Cahuas Miller - ANIN/DIME/SESDI",
+ "fecha_eval": "2026-07-16",
+ "hora": "00:55",
+ "cp_cercano": "La Laguna",
+ "comunidad": "Por verificar",
+ "altitud_gps": "Por verificar",
+ "utm_e_dt": 649472,
+ "utm_n_dt": 9425705,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "50-75% (Escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Sureste",
+ "rango_altitudinal": "1500-2000 m (Quechua media)",
+ "paisaje": "Ladera de montaña de fuerte pendiente con mosaico agroforestal (SAF de café), matorral y relictos de bosque montano",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Bloque clasificado por MINAM como Zona agrícola (100%); en campo es un mosaico agroforestal húmedo con relictos de bosque montano. Sector rotulado con ≈80% de pendiente. Coordenadas de referencia = CENTROIDE del bloque. Altitud GPS, hora de registro y comunidad campesina: por verificar.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 2,
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "patron_carcavas": "Aislado",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "E-01",
+   "Por determinar",
+   650018,
+   9425968,
+   "Activa",
+   "Otro"
+  ],
+  [
+   "E-02",
+   "Por determinar",
+   650032,
+   9425645,
+   "Semi-activa",
+   "Otro"
+  ]
+ ],
+ "obs_dt02": "Erosión localizada en taludes de corte de la trocha y en sector de pendiente extrema ≈80%; rebrotes de molle colonizan el talud. La densa cobertura vegetal (MSAVI 0.673) limita la erosión laminar. Dimensiones instrumentales, N.° y % de cárcavas por levantar.",
+ "cob_veg": 85,
+ "ecosistema": "Agroecosistema / Mosaico",
+ "sup_ecosistema": "46.96 ha (MINAM: Zona agrícola 100%)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "suelo_desnudo": "<10",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Nogal (Juglans sp.)",
+   "Amenazada D.S. 043",
+   "EN — En Peligro"
+  ],
+  [
+   "Cedro de altura (Cedrela sp.)",
+   "Amenazada D.S. 043",
+   "VU — Vulnerable"
+  ],
+  [
+   "Higuerón (Ficus sp.)",
+   "Indicadora de buen estado",
+   "No aplica",
+   649636,
+   9425233
+  ],
+  [
+   "Bromelias epífitas / Helechos",
+   "Indicadora de buen estado",
+   "No aplica"
+  ],
+  [
+   "Molle (Schinus molle)",
+   "Clave cultural",
+   "NE",
+   650032,
+   9425645
+  ]
+ ],
+ "obs_dt03": "La capa MINAM clasifica la totalidad del bloque como Zona agrícola (100%; 46.96 ha). En campo predomina un mosaico agroforestal húmedo (SAF de café bajo sombra), matorral y relictos de bosque montano de vertiente occidental. Nogal, Roble y Cedro de altura se registran como REFERENCIAS (mención/avistamiento no confirmado con colección).",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Presión agropecuaria en propiedad privada sobre laderas de fuerte pendiente, sin prácticas de conservación de suelos",
+ "causas_directas": "Cambio de uso a SAF/agricultura, pastoreo disperso, taludes de corte de vía y especies introducidas, sobre laderas de fuerte pendiente.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_invasoras": "≈10",
+ "ind_dist_via": 0,
+ "obs_dt04": "Factor condicionante crítico: pendiente extrema (hasta ≈80%). Densidad de cárcavas, carga ganadera y frecuencia de quemas por cuantificar. Predomina la propiedad privada con cercos.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   649669,
+   9425248,
+   "",
+   "",
+   null,
+   "Sector húmedo con platanales"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "No",
+ "interferencia_riego": "No",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Trocha carrozable afirmada hasta el C.P. La Laguna (Lalaquiz)",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "30",
+ "t_provincial": "90",
+ "senal": "Parcial",
+ "operador": "Bitel",
+ "obs_dt05": "Zona de origen y recarga de la microcuenca C1081-Q9591. Alta humedad (bromeliáceas epífitas, helechos abundantes, platanales, neblina). El C.P. La Laguna cuenta con energía eléctrica. Manantiales/JASS, distancia a captación y autorización de Ronda Campesina: por verificar.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": null,
+ "fuente_ficha": "ficha_26_20260719_010107.pdf",
+ "bloque": "26"
+}

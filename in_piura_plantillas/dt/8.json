@@ -1,0 +1,193 @@
+{
+ "microcuenca_dt": "C1076-Q9584",
+ "evaluador": "Ing. Pedro Talledo H. e Ing. Héctor S. Cahuas Miller",
+ "correlativo": "DT-B08-2026-01",
+ "fecha_eval": "2026-08-18",
+ "hora": "14:38 - 14:48 h",
+ "cp_cercano": "Pirga (y Chonta de Platanal)",
+ "altitud_gps": "Por determinar",
+ "utm_e_dt": 651673,
+ "utm_n_dt": 9373383,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Este",
+ "rango_altitudinal": "1500-2000 m (Quechua media)",
+ "paisaje": "Sistema de laderas de fuerte inclinación tributarias de la quebrada Q9593, entre 1504 y 1970 msnm",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "Sí",
+ "remociones": "Sí",
+ "obs_dt01": "Reconocimiento por recorrido vehicular sobre la trocha que separa los bloques 8 (norte) y 71 (sur); 11 tomas en 6 posiciones sobre ~800 m. CONTROL GEOMÉTRICO: las 11 tomas se sitúan FUERA del polígono, entre ~20 y ~90 m del límite; la caracterización es representativa del corredor vial, NO del interior. Las coordenadas corresponden al CENTROIDE del catálogo, no a un punto GPS. Indicios: afloramientos de roca metamórfica fracturada, taludes de corte activos de 2-5 m sin banquetas, bloque rocoso métrico desprendido y árbol volteado, cicatriz de deslizamiento antiguo.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": "Sin inventario",
+ "long_carcavas": "Sin inventario",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "Sí",
+ "urgencia_control": "Alta",
+ "carcavas": [],
+ "obs_dt02": "FICHA NO DILIGENCIADA EN CAMPO — sistematización de gabinete sobre registro fotográfico georreferenciado. EL INVENTARIO DE CÁRCAVAS NO FUE EJECUTADO; la ausencia de registros NO equivale a ausencia verificada. Procesos documentados: raíces expuestas y árbol volteado (E-02); surcos y acanaladuras sobre cortes (E-08, E-09); escorrentía concentrada con arrastre de bolonería sin obra de drenaje (E-02); socavamiento del borde de plataforma (E-08).",
+ "parcela": "No instalada",
+ "pend_parcela": 29.85,
+ "cob_veg": "Por determinar",
+ "ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+ "sup_ecosistema": "Por determinar",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Uso mixto",
+ "suelo_desnudo": "Por determinar",
+ "regeneracion": "Por determinar",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Floración",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 14,
+ "especies_clave": [
+  [
+   "Tillandsia spp. (bromeliáceas)",
+   "Indicadora de buen estado",
+   "NE"
+  ],
+  [
+   "Helechos (Pteridophyta)",
+   "Indicadora de buen estado",
+   "NE"
+  ],
+  [
+   "Cactáceas columnares",
+   "Indicadora de perturbación",
+   "NE"
+  ],
+  [
+   "Eucalyptus globulus",
+   "Indicadora de perturbación",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "FICHA NO DILIGENCIADA EN CAMPO. No se instalaron parcelas ni se efectuó colecta botánica o medición dasométrica. 14 taxones frente al mínimo de 15. Fuerte gradiente interno: umbría y quebradas con epifitismo denso frente a aristas con cactáceas y agaves.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Fuerte",
+   "CAUSA DOMINANTE"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Presión de habilitación vial y de frontera agropecuaria sobre laderas de fuerte pendiente",
+ "causas_directas": "Causa dominante: expansión vial — trocha carrozable con cortes frescos, sin drenaje ni revegetación, en el corredor que separa los bloques 8 y 71. Concurrentes: cambio de uso a agricultura (café bajo sombra y plátano), pastoreo extensivo, tala para leña y madera, y erosión natural asociada a los cortes.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": "≈20",
+ "obs_dt04": "La distancia a vía vecinal (≈20 m) se midió sobre el plano temático y es el valor más desfavorable de la escala. La evidencia NO permite cuantificar qué proporción de la superficie bajo umbral MSAVI es atribuible a la vía; exige comparación multitemporal del MSAVI.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   651828,
+   9373159,
+   "",
+   "No evaluable",
+   "≈45",
+   "Vaguada de lecho pedregoso"
+  ],
+  [
+   "Quebrada estacional",
+   652381,
+   9373408,
+   "",
+   "No evaluable",
+   "≈25",
+   "Cruce de la trocha"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por determinar",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Trocha carrozable de acceso al C.P. Pirga (sin código MTC verificado)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "Por determinar",
+ "operador": "Por determinar",
+ "ronda": "Por determinar",
+ "contacto_ronda": "Por determinar",
+ "obs_dt05": "FICHA PARCIAL. El bloque se declara en ZONA DE RECARGA HÍDRICA por su posición en la cabecera del drenaje de la quebrada Q9593 y por la condensación de neblina; el epifitismo denso de bromeliáceas y los helechos son sus indicadores biológicos. Se sitúa en la ZONA DE ORIGEN del peligro generador de inundaciones (PGI).",
+ "estaciones_fotograficas": [
+  [
+   "E-01",
+   651827,
+   9373156
+  ],
+  [
+   "E-02",
+   651828,
+   9373159
+  ],
+  [
+   "E-05",
+   652148,
+   9373246
+  ],
+  [
+   "E-10",
+   652380,
+   9373408
+  ]
+ ],
+ "n_estaciones": 11,
+ "estaciones_dentro": 0,
+ "fuente_ficha": "Ficha_DT_8_20260907_135344.pdf",
+ "bloque": "8"
+}

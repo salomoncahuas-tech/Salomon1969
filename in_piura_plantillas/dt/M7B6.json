@@ -1,0 +1,281 @@
+{
+ "microcuenca_dt": "C1076-Q9581",
+ "evaluador": "Ing. Héctor Salomón Cahuas Miller (con Ing. Juan Carlos Domínguez Varas)",
+ "correlativo": "DT-M7B6-01",
+ "fecha_eval": "2026-05-19",
+ "hora": "10:06 h",
+ "cp_cercano": "Serrán / Nuevo San Juan",
+ "comunidad": "No aplica",
+ "altitud_gps": "250 (GPS de campo)",
+ "utm_e_dt": 635150,
+ "utm_n_dt": 9399300,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "15-25% (Fuert. inclinado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Este",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Laderas de colina y montaña baja con bosque estacionalmente seco degradado; estrato arbustivo-herbáceo dominante",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "Sí",
+ "deslizamientos": "Sí",
+ "remociones": "No",
+ "obs_dt01": "EL BLOQUE COLINDA POR EL FLANCO ORIENTAL CON EL ÁREA URBANA DE SERRÁN Y EL SECTOR NUEVO SAN JUAN. SE OBSERVAN VIVIENDAS CON MUROS DERRUIDOS Y DAÑOS A INFRAESTRUCTURA ASOCIADOS A LA ACTIVACIÓN DE QUEBRADAS Y AVENIDAS DE PRECIPITACIÓN EN TEMPORADA DE LLUVIAS, según refieren los pobladores. Inspección realizada el 19-05-2026. BLOQUE CONTIGUO A M2B1.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 2,
+ "long_carcavas": 195,
+ "pct_carcavas": 8,
+ "erosion_laminar": 25,
+ "patron_carcavas": "Dendrítico",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-M7B6-01",
+   "Cárcava somera — 125 m, 0.8 m prof., 1.6 m ancho",
+   635180,
+   9399400,
+   "Semi-activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "C-M7B6-02",
+   "Cárcava incipiente — 70 m, 0.4 m prof., 0.7 m ancho",
+   635300,
+   9399560,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ]
+ ],
+ "obs_dt02": "Predominan procesos de EROSIÓN LAMINAR Y EN SURCOS en las laderas degradadas, con cárcavas incipientes asociadas a huellas de ganado y a la concentración de escorrentía. SE CONSTATÓ SOCAVAMIENTO INCIPIENTE EN LOS CAUCES DE QUEBRADAS QUE DESCIENDEN HACIA EL PIE DE LADERA POBLADO.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 55,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "80 ha (de 91.29 ha del bloque)",
+ "estado_cons": "Muy alterado / Degradado",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 10,
+ "cob_arbustiva": 35,
+ "cob_herbacea": 40,
+ "cob_hojarasca": 10,
+ "suelo_desnudo": 20,
+ "h_dominante": 1.5,
+ "h_max": 8,
+ "dap": 15,
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Matorral ralo",
+ "n_taxones": 12,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG) — 2 ind. en 635 090 · 9 399 150",
+   "VU — Vulnerable"
+  ],
+  [
+   "Bursera graveolens (Palo Santo)",
+   "Clave cultural — 5 ind. en 635 110 · 9 399 210",
+   "NT — Casi Amenazada"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Indicadora de buen estado — 12 ind. en 635 150 · 9 399 300",
+   "LC — Preocupación Menor"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado — 3 ind. en 635 070 · 9 399 120",
+   "LC — Preocupación Menor"
+  ],
+  [
+   "Ipomoea carnea (Borrachera)",
+   "Indicadora de perturbación — 635 260 · 9 399 520",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "EL ECOSISTEMA Bes-cm SE PRESENTA MUY ALTERADO: EL DOSEL ARBÓREO ORIGINAL PERSISTE SOLO COMO RELICTOS EN LAS COTAS ALTAS INACCESIBLES, dominando un mosaico arbustivo-herbáceo (dosel 10%, herbáceo 40%). LA PRESENCIA ABUNDANTE DE Ipomoea carnea (BORRACHERA) CONFIRMA EL AVANCE DE LA DEGRADACIÓN. Se registra además maíz (Zea mays) de chacra colindante. Altura del estrato dominante 1.5 m: el bloque ha perdido su estructura forestal.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "60% — 20 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "40% — 20 años"
+  ],
+  [
+   "Tala para carbón",
+   "Sí",
+   "Ligera",
+   "15% — 15 años"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "Sí",
+   "Moderada",
+   "25% — 10 años"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Ligera",
+   "10%"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "30%"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Fuerte",
+   "15% — 5 años"
+  ],
+  [
+   "Extracción de áridos (cauces)",
+   "Sí",
+   "Ligera",
+   "5% — Cantera Río Serrán"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Moderada",
+   "20%"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "15%"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "100%"
+  ]
+ ],
+ "causa_subyacente": "Presión socioeconómica de subsistencia (ganadería extensiva y demanda de leña) sumada a la expansión urbana",
+ "causas_directas": "Sobrepastoreo, tala selectiva para leña/carbón, quemas periódicas de pastos, EXPANSIÓN URBANA EN EL PIE DE LADERA y colonización por Ipomoea carnea (borrachera).",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 50,
+ "obs_dt04": "La degradación es de ORIGEN PREDOMINANTEMENTE ANTRÓPICO, acelerada por la estacionalidad climática. LA CERCANÍA A SERRÁN Y LA HABILITACIÓN URBANA INCREMENTAN LA PRESIÓN Y LA EXPOSICIÓN DE LA POBLACIÓN A LA DINÁMICA DE QUEBRADAS Y MOVIMIENTOS EN MASA. Indicadores: cobertura vegetal total 55% (Medio); suelo desnudo 20% (Medio); densidad de cárcavas 0.5 N.°/ha (Bajo); INVASORAS 20% (Medio); carga ganadera 0.8 UA/ha (Medio); FRECUENCIA DE QUEMAS 2 (Medio, por entrevista a pobladores); % área con pendiente >50% = 25% (Medio); distancia a vía 50 m (Alto). ADVERTENCIA: la urgencia de intervención ALTA contrasta con la urgencia de control de erosión MEDIA.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   635300,
+   9399520,
+   "Estacional",
+   "No evaluable",
+   0,
+   "Quebrada que se activa en lluvias y atraviesa el sector poblado"
+  ],
+  [
+   "Río",
+   634650,
+   9399200,
+   "Permanente",
+   "Regular (ligeramente turbia)",
+   300,
+   "Río Serrán (tributario)"
+  ],
+  [
+   "Canal de riego",
+   635950,
+   9399100,
+   "Intermitente",
+   "Regular (ligeramente turbia)",
+   250,
+   "Riego de chacras del valle"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "No",
+ "escorrentia": "Sí",
+ "dist_captacion": 800,
+ "jass": "Sin registro en ficha",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Carretera Morropón-Buenos Aires, desvío a Serrán (capital de Salitral)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 30,
+ "t_provincial": 90,
+ "senal": "Parcial",
+ "operador": "Movistar",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "No aplica",
+ "obs_dt05": "Acceso vehicular hasta el pie de ladera por la trocha de Serrán; el tramo en pendiente requiere caminata. TRANSITABILIDAD LIMITADA EN ÉPOCA DE LLUVIAS POR ACTIVACIÓN DE QUEBRADAS. LA QUEBRADA QUE ATRAVIESA EL SECTOR POBLADO CONSTITUYE EL PRINCIPAL FOCO DE RIESGO HÍDRICO PARA VIVIENDAS E INFRAESTRUCTURA: el bloque es la ZONA DE ORIGEN de un peligro con elementos expuestos urbanos inmediatos (Serrán y Nuevo San Juan).",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (250 msnm)"
+  ],
+  [
+   "F-DT-01",
+   "Viviendas con muros derruidos y daños a infraestructura por activación de quebradas en el flanco oriental (Serrán / Nuevo San Juan)",
+   "SUSTANTIVA",
+   "Elementos expuestos urbanos inmediatos: incorporar al análisis de riesgo y priorizar el control de escorrentía"
+  ],
+  [
+   "F-DT-02 / F-DT-04",
+   "Urgencia de control de erosión MEDIA frente a urgencia de intervención ALTA",
+   "NO SUSTANTIVA",
+   "Resolver en la carga definitiva"
+  ],
+  [
+   "F-DT-03",
+   "Categoría del Hualtaco consignada VU y del Palo Santo NT, frente a CR en la mayoría de los bloques",
+   "SUSTANTIVA",
+   "Homogeneizar criterio de categorización"
+  ],
+  [
+   "F-DT-03",
+   "Solo 12 taxones registrados frente al mínimo de 15 exigido",
+   "NO SUSTANTIVA",
+   "Inventario a completar"
+  ],
+  [
+   "F-DT-04",
+   "Expansión urbana FUERTE (15%, 5 años) sobre el pie de ladera del bloque",
+   "SUSTANTIVA",
+   "Tamizaje predial y coordinación con la municipalidad de Salitral"
+  ],
+  [
+   "F-DT-04",
+   "Extracción de áridos en la cantera Río Serrán colindante",
+   "SUSTANTIVA",
+   "Pasivo ambiental: incorporar al diagnóstico"
+  ],
+  [
+   "F-DT-03",
+   "Altura del estrato dominante 1.5 m y dosel 10%: pérdida de estructura forestal",
+   "SUSTANTIVA",
+   "El bloque requiere restauración activa, no solo pasiva"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M7B6 (Plan de Ingreso, PDF)",
+ "bloque": "M7B6"
+}

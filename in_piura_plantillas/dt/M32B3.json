@@ -1,0 +1,198 @@
+{
+ "microcuenca_dt": "C1086-Q9569",
+ "evaluador": "Ing. Juan Carlos Domínguez Varas; Ing. Héctor S. Cahuas Miller",
+ "correlativo": "2",
+ "fecha_eval": "2026-05-06",
+ "hora": "12:05 h",
+ "cp_cercano": "Maray",
+ "comunidad": "No consignada",
+ "altitud_gps": "215 (tomada de la ficha F-EE-05 del mismo punto y fecha; el campo \"Altitud GPS\" del formato consignaba 50.9720, que corresponde al ÁREA del bloque en hectáreas y no a una altitud). El Segundo Entregable [E2] indica 180 m para el mismo bloque: diferencia de 35 m POR CONCILIAR. Rango de gabinete (DEM): 184 - 438 msnm",
+ "utm_e_dt": 618122,
+ "utm_n_dt": 9426329,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "25-50% (Mod. escarpado) — pendiente promedio de gabinete 18.79% (clase 15-25%); el rango de campo corresponde a los sectores de ladera efectivamente recorridos, con pendiente predominante registrada de 45%",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Sureste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Colina media con vegetación arbórea y arbustiva levemente degradada, en el flanco suroriental del macizo del Cerro Maray",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "Sí",
+ "obs_dt01": "HALLAZGO DE RIESGO: el bloque registra REMOCIÓN EN MASA ACTIVA como proceso puntual en una porción reducida del polígono, con pendiente alta — es el único de los cinco bloques del paquete con un proceso de remoción en masa activo verificado en campo. La ficha F-EE-05 lo consigna como peligro observado. La pendiente del 45% en sectores específicos requiere especial atención en el diseño de medidas de control de erosión, priorizando soluciones basadas en vegetación con especies de raíz profunda y anclaje efectivo. Existe una reducida área de pendiente alta que ha sufrido un DESLIZAMIENTO dejando el suelo expuesto; en algunos tramos existen quebradas por donde desfoga el agua de las laderas formando surcos, pero en un área FUERA del bloque. FACTORES LIMITANTES [E1]: (a) FACTOR ANTRÓPICO — la tala para leña por la población de Maray sugiere delimitar subáreas según el nivel de presión (baja para conservación, media para restauración activa); en caso de mayor presión podrían excluirse. (b) FACTOR EXTERNO TOPOGRÁFICO — pendientes mayores al 45%, en particular las superiores al 70%; se recomienda EXCLUIR del bloque las zonas con pendiente >70% para evitar riesgos operativos. La quebrada estacional inactiva registrada dentro del bloque no constituye limitante; no se reportaron conflictos de tenencia; el acceso vehicular más caminata <30 min no limita. PARÁMETROS GEOESPACIALES: rango 184-438 msnm, pendiente promedio 18.79%, MSAVI medio 2024 = 0.3852, área 50.97 ha, zona Z05, centroide E 618 248 / N 9 426 493.",
+ "sellamiento": "No",
+ "compactacion": "No",
+ "raices_expuestas": "No",
+ "nivel_erosion": "Ligera (laminar)",
+ "n_carcavas": 0,
+ "long_carcavas": "No consignado por inaplicable (cero cárcavas dentro del bloque)",
+ "pct_carcavas": "No consignado por inaplicable",
+ "erosion_laminar": 0,
+ "patron_carcavas": "No consignado por inaplicable",
+ "socavamiento": "No",
+ "urgencia_control": "Baja",
+ "carcavas": [],
+ "obs_dt02": "Se evidenció la formación de surcos al pie de la ladera, en un área FUERA del bloque. DENTRO del bloque, la vegetación cumple una función amortiguadora que impide la formación de surcos o cárcavas, lo que demuestra el valor de la cobertura vegetal existente como INFRAESTRUCTURA NATURAL EN FUNCIONAMIENTO. No obstante, la ficha F-EE-05 del mismo bloque y fecha consigna \"Presencia de cárcavas/surcos: Sí\", en referencia a los surcos observados al pie de la ladera, fuera del polígono: se deja constancia de la aparente contradicción entre formatos, que se resuelve por la ubicación (dentro/fuera del bloque). POR VERIFICAR: caracterización y georreferenciación del área con remoción en masa activa (suelo expuesto), no levantada.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "Sin registro en ficha",
+ "pend_parcela": 30,
+ "cob_veg": 80,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "50.972 ha (100% del bloque)",
+ "estado_cons": "Levemente alterado",
+ "uso_dominante": "Forestal de protección",
+ "cob_dosel": 80,
+ "cob_arbustiva": 15,
+ "cob_herbacea": 20,
+ "cob_hojarasca": 70,
+ "suelo_desnudo": 5,
+ "h_dominante": 7,
+ "h_max": 10,
+ "dap": "25-30 (registrado en campo como RANGO; se consigna literalmente)",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Bosque denso (>70%)",
+ "n_taxones": 5,
+ "especies_clave": [
+  [
+   "Palo santo (Bursera graveolens)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "NT - Casi Amenazada"
+  ],
+  [
+   "Charán (Caesalpinia paipai)",
+   "Indicadora de buen estado",
+   "No aplica"
+  ],
+  [
+   "Algarrobo (Neltuma pallida)",
+   "Clave cultural",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "El bloque se encuentra en estado LEVEMENTE ALTERADO: mantiene su estructura y funcionalidad ecológica, con evidencia de intervención humana mínima. El DAP promedio se registró en campo como un RANGO (25-30 cm) y se consigna literalmente; de requerirse un valor único para la importación, debe definirse en campo. Las cinco especies fueron registradas por nombre común, sin dato de estrato, abundancia, DAP ni altura por individuo; los campos de estrato y abundancia QUEDAN VACÍOS por no haber sido registrados. POR COMPLETAR con un levantamiento de al menos 15 especies por estrato, diferenciando el sector alto oriental del frente bajo occidental. Los nombres científicos se consignan según nomenclatura aceptada vigente: los entregables de campo emplean las combinaciones antiguas Acacia macracantha (= Vachellia macracantha) y Prosopis pallida (= Neltuma pallida); \"Pate\" es el nombre local equivalente a \"pasallo\" (Eriotheca ruizii). Las determinaciones son PRELIMINARES. ADVERTENCIA METODOLÓGICA DEL PROPIO ENTREGABLE [E1]: la inspección se efectuó posterior a una temporada de lluvias y reveló especies herbáceas estacionales que complementan la vegetación leñosa perenne; el MSAVI medio 2024 (0.3852) muestra un gradiente oeste-este marcado, con clases bajas en la mitad occidental y clases altas por encima de la cota 350. SE RECOMIENDA UNA VERIFICACIÓN EN ÉPOCA SECA ANTES DE DECIDIR LA EXCLUSIÓN DEL BLOQUE.",
+ "causas": [
+  [
+   "Tala para leña",
+   "Sí",
+   "(intensidad no consignada; el entregable la califica de baja)",
+   "Extracción de leña por la población de Maray"
+  ],
+  [
+   "Las otras 15 causas evaluadas",
+   "No",
+   "",
+   "Sin evidencia registrada"
+  ]
+ ],
+ "causa_subyacente": "No consignada en el formato. El entregable [E1] la atribuye a la demanda de leña de la población de Maray",
+ "causas_directas": "La población cercana requiere de leña para sus alimentos.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Totalmente reversible",
+ "urgencia": "Baja",
+ "ind_dist_via": 50,
+ "obs_dt04": "\"A pesar de conservar su vegetación, el bloque sufre una presión mínima para leña\". La TALA PARA LEÑA es la única causa de degradación presente de las 16 evaluadas, con intensidad baja. La ficha F-EE-05 registra evidencia de degradación: SÍ, de tipo DEFORESTACIÓN, con nivel 1 de 5. VACÍOS DEL LEVANTAMIENTO: para la causa 2 (tala para leña) no se consignaron intensidad, extensión ni antigüedad; los indicadores 3, 4, 5 y 6 no fueron valorados; los indicadores 1, 2, 7 y 8 fueron registrados con valor pero SIN CALIFICACIÓN DE NIVEL. POR COMPLETAR — la extensión de la tala para leña es el dato crítico para la delimitación de subáreas recomendada por el propio entregable. OBSERVACIÓN TÉCNICA SESDI: el indicador 1 registra 90% de cobertura vegetal total mientras F-DT-03 consigna 80%; conciliar. El análisis MSAVI 2024 muestra que el tercio suroccidental del bloque, entre la cota 200 y la vía vecinal —coincidente con el sector de viviendas dispersas de Maray—, concentra píxeles de la clase ≤0.2650, consistente con la presión de extracción de leña de proximidad y sustento espacial de la recomendación de delimitar subáreas.",
+ "fuentes_agua": [
+  [
+   "1",
+   "Quebrada estacional",
+   "Sin coordenadas UTM consignadas",
+   "",
+   "Estacional — quebrada estacional inactiva al momento de la visita; calidad y distancia sin registro"
+  ]
+ ],
+ "recarga": "No",
+ "humedad": "No",
+ "escorrentia": "No",
+ "dist_captacion": 50,
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Vía vecinal afirmada Morropón – Yamango (margen derecha del río Corrales)",
+ "tipo_via_final": "Departamental afirmada",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 20,
+ "t_provincial": 90,
+ "senal": "Parcial",
+ "operador": "Claro",
+ "alojamiento": "Sí",
+ "ronda": "No",
+ "contacto_ronda": "No aplica",
+ "obs_dt05": "Se observan quebradas estacionales INACTIVAS al momento de la visita, que se activan sólo en temporada de lluvias. No se identificaron zonas de recarga hídrica activa, humedad persistente ni escorrentía concentrada dentro del bloque. Distancia a la captación poblacional más cercana: 50 m — el valor más bajo de los cinco bloques del paquete, lo que exige verificar la naturaleza de esa captación y su relación funcional con el bloque. Se registró una fuente en el inventario (quebrada estacional) SIN coordenadas UTM, calidad aparente ni distancia: POR COMPLETAR con levantamiento georreferenciado; el entregable propone diques de piedra rústicos aguas arriba del bloque, medida cuyo dimensionamiento depende directamente de este inventario. NOTA DE PLANIFICACIÓN: por su contigüidad con M19B2 (~800 m entre centroides) y por haberse evaluado ambos en la jornada del 06-05-2026, las verificaciones pendientes de ambos bloques deben programarse en una misma salida.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-01",
+   "El campo \"Altitud GPS\" consignaba 50.9720, que corresponde al ÁREA del bloque en hectáreas y no a una altitud",
+   "CORREGIDO",
+   "Se consigna en su lugar la altitud de 215 msnm registrada en la ficha F-EE-05 del mismo punto y fecha"
+  ],
+  [
+   "F-DT-01",
+   "El Segundo Entregable [E2] indica altitud GPS de 180 m frente a los 215 m de la F-EE-05",
+   "SUSTANTIVA",
+   "Diferencia de 35 m POR CONCILIAR; se conservan ambos registros sin promediar"
+  ],
+  [
+   "F-DT-01",
+   "Pendiente de campo (25-50%, predominante 45%) frente a la pendiente promedio de gabinete (18.79%, clase 15-25%)",
+   "NO SUSTANTIVA",
+   "Se declara que el rango de campo corresponde a los sectores de ladera efectivamente recorridos"
+  ],
+  [
+   "F-DT-01",
+   "REMOCIÓN EN MASA ACTIVA verificada en campo en una porción reducida del polígono",
+   "SUSTANTIVA",
+   "Se eleva como hallazgo de riesgo; POR VERIFICAR la caracterización y georreferenciación del área afectada"
+  ],
+  [
+   "F-DT-02 / F-EE-05",
+   "La F-DT-02 declara 0 cárcavas mientras la F-EE-05 consigna \"Presencia de cárcavas/surcos: Sí\"",
+   "CORREGIDO",
+   "La contradicción se resuelve por la ubicación: los surcos están al pie de la ladera, FUERA del polígono del bloque"
+  ],
+  [
+   "F-DT-03",
+   "DAP registrado como rango (25-30 cm) en un campo que espera valor único",
+   "NO SUSTANTIVA",
+   "Se consigna literalmente el rango; de requerirse un valor único debe definirse en campo"
+  ],
+  [
+   "F-DT-03",
+   "Sólo 5 especies registradas por nombre común, sin estrato, abundancia, DAP ni altura por individuo",
+   "SUSTANTIVA",
+   "POR COMPLETAR con levantamiento de al menos 15 especies por estrato"
+  ],
+  [
+   "F-DT-03 / F-DT-04",
+   "Cobertura vegetal total: 80% en F-DT-03 frente a 90% en el indicador 1 del F-DT-04",
+   "SUSTANTIVA",
+   "Se conservan ambos valores con indicación de su sección de origen; corresponde conciliar"
+  ],
+  [
+   "F-DT-04",
+   "Para la única causa presente (tala para leña) no se consignaron intensidad, extensión ni antigüedad; indicadores 3-6 sin valorar e indicadores 1, 2, 7 y 8 sin calificación de nivel",
+   "SUSTANTIVA",
+   "POR COMPLETAR; la extensión de la tala para leña es el dato crítico para la delimitación de subáreas"
+  ],
+  [
+   "F-DT-05",
+   "La única fuente inventariada carece de coordenadas UTM, calidad y distancia",
+   "SUSTANTIVA",
+   "POR COMPLETAR con levantamiento georreferenciado; condiciona el dimensionamiento de los diques propuestos"
+  ],
+  [
+   "F-DT-03",
+   "Inspección efectuada posterior a temporada de lluvias, con herbáceas estacionales que pueden sobrestimar la cobertura",
+   "SUSTANTIVA",
+   "El propio entregable recomienda VERIFICACIÓN EN ÉPOCA SECA antes de decidir la exclusión del bloque"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M32B3_20260907_154451.pdf (5 páginas)",
+ "bloque": "M32B3"
+}

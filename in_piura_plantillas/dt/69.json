@@ -1,0 +1,231 @@
+{
+ "microcuenca_dt": "C1076-Q9584 (según ficha — valor por defecto de plantilla; catálogo: C1076-Q9592)",
+ "evaluador": "Ing. Pedro Talledo Hernández",
+ "correlativo": "F-DT-01-B69-2026",
+ "fecha_eval": "2026-08-21",
+ "hora": "11:50 - 12:01 h",
+ "cp_cercano": "Molle y Hualanga Pampa (base logística natural: C.P. Laguna Grande)",
+ "comunidad": "Por verificar (tamizaje predial pendiente)",
+ "altitud_gps": "No registrada — rango del bloque 1931 - 2205 (amplitud 274 m)",
+ "utm_e_dt": 663291,
+ "utm_n_dt": 9392332,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Suroeste",
+ "rango_altitudinal": "2000-2500 m (Quechua alta)",
+ "paisaje": "Ladera de montaña de exposición suroeste, entre 1 931 y 2 205 msnm (amplitud 274 m). Vertiente extensamente degradada",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "Sí",
+ "deslizamientos": "No",
+ "remociones": "Sí",
+ "obs_dt01": "Pendiente promedio zonal 27.95% ≈ 15.62°. Centroide oficial (Bloques V4) 663 291 E · 9 392 332 N; centroide planimétrico 663 263 E · 9 392 365 N (Δ ≈ 43 m). Superficie planimétrica ≈18.036 ha frente a 19.428 ha (−7.2%). ADVERTENCIA: NINGUNA DE LAS OCHO ESTACIONES ROTULADAS «BLOQUE 69» CAYÓ DENTRO DEL POLÍGONO; las distancias van de 72 a 220 m. La caracterización fisiográfica procede de gabinete y del contexto observado en el corredor vial; EL INTERIOR DEL BLOQUE NO FUE VERIFICADO. Escarpes y desprendimientos registrados en los taludes de corte y en la vaguada del norte (E-03, E-08).",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": "Sin inventario",
+ "long_carcavas": "Sin cuantificar",
+ "pct_carcavas": "Sin cuantificar",
+ "erosion_laminar": "80.99 (superficie bajo umbral MSAVI 0.4976: 15.734 ha, estimado de gabinete)",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "Sí",
+ "urgencia_control": "Alta",
+ "carcavas": [],
+ "obs_dt02": "NO SE EJECUTÓ INVENTARIO GEORREFERENCIADO DE CÁRCAVAS. El valor de «erosión laminar observada (%)» consigna el 80.99% de superficie bajo el umbral MSAVI 0.4976 (15.734 ha), ESTIMADO DE GABINETE — no es una medición de erosión laminar. Los procesos descritos provienen de ESTACIONES SITUADAS ENTRE 72 Y 220 m FUERA DEL POLÍGONO: cárcavas incipientes en el pastizal del flanco expuesto (E-02), talud de corte en roca calcárea fracturada (E-03) y derrubios con bloques sueltos sobre la vaguada del norte, sin obra de cruce (E-08). LA CALIFICACIÓN ES INDICATIVA Y REQUIERE VERIFICACIÓN INTERIOR.",
+ "parcela": "No instalada",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 27.95,
+ "cob_veg": "75 - 85 (estimación visual)",
+ "ecosistema": "Matorral Andino semiárido (adscripción PRELIMINAR)",
+ "sup_ecosistema": "Por determinar (intersección con capa nacional MINAM pendiente)",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": "< 5",
+ "cob_arbustiva": "15 - 25",
+ "cob_herbacea": "55 - 70",
+ "cob_hojarasca": "Escasa",
+ "suelo_desnudo": "10 - 20",
+ "h_dominante": "1.5 - 3.0",
+ "h_max": "8 - 12",
+ "dap": "No medido",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Latencia / Estrés hídrico",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 12,
+ "especies_clave": [
+  [
+   "Baccharis spp. (Chilca)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Poaceae — pastos cultivados",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Eucalyptus globulus",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Pinus sp.",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Tillandsia sp. (Bromeliácea epífita)",
+   "Indicadora de buen estado",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "REGISTRO PRELIMINAR SIN PARCELA DE MUESTREO NI COLECTA BOTÁNICA. Las coberturas por estrato son estimaciones visuales sobre el registro fotográfico; no se midió DAP ni altura. DE LOS 12 TAXONES CONSIGNADOS, 6 CARECEN DE GÉNERO y ninguno cuenta con confirmación taxonómica. Especies declaradas por la brigada: eucalipto, chilca, pastos cultivados, poáceas y arbustos nativos de matorral andino. Ninguna especie con categoría de amenaza confirmada bajo el D.S. 043-2006-AG. La adscripción a Matorral Andino semiárido es PRELIMINAR y debe contrastarse con el Mapa Nacional de Ecosistemas del MINAM: los bloques de menor cota de esta misma microcuenca figuran como Bes-cm y LA FRONTERA ALTITUDINAL NO ESTÁ DEFINIDA EN EL PORTAFOLIO.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "50% — >20 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "45% — >20 años"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   "15% — <10 años — CAUSA CODOMINANTE"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Fuerte",
+   "81% — >20 años"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "100%"
+  ],
+  [
+   "Tala para leña",
+   "Nula",
+   "",
+   "Sin evidencia directa"
+  ]
+ ],
+ "causa_subyacente": "Ganadería extensiva sin ordenamiento de carga ni calendario de pastoreo, sobre predios sin acuerdos de conservación",
+ "causas_directas": "Apertura y mantenimiento de vías sobre roca fracturada en el corredor norte, concurrente con pastoreo extensivo y sustitución parcial del matorral por pastizal.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 72,
+ "obs_dt04": "La matriz se sustenta en el registro fotográfico del 21-08-2026 y en la clasificación de los planos MSAVI 2024 y NDVI mediana 2025. MSAVI MEDIO DEL BLOQUE 0.4489 (2.° MÁS BAJO DE 11 DE LA MICROCUENCA C1076-Q9592, cuyo promedio es 0.5435). SUPERFICIE BAJO EL UMBRAL 0.4976: 15.734 ha (80.99%). Los indicadores de carga ganadera, densidad de cárcavas y frecuencia de quemas quedan SIN CUANTIFICAR y constituyen VACÍOS DE INFORMACIÓN DE PRIORIDAD ALTA. Indicador 1 (cobertura vegetal total 19%, MSAVI) CONTRASTA con la estimación visual de F-DT-03 (75-85%): discrepancia a resolver.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   663129,
+   9392553,
+   "Estacional",
+   "No evaluable",
+   72,
+   "Vaguada al norte del bloque"
+  ],
+  [
+   "Otro (tubería de conducción)",
+   663129,
+   9392553,
+   "Permanente",
+   "No evaluable",
+   72,
+   "Tubería de conducción"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "POR VERIFICAR",
+ "jass": "POR VERIFICAR",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Trocha carrozable de la red vecinal (acceso desde el C.P. Laguna Grande)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "POR VERIFICAR",
+ "t_provincial": "POR VERIFICAR",
+ "senal": "Parcial",
+ "operador": "Otro",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "POR VERIFICAR",
+ "obs_dt05": "FICHA INCOMPLETA. NO se levantaron fuentes de agua con GPS, JASS, captación poblacional, tiempos de viaje, operador celular ni contacto de la Ronda Campesina. Las dos entradas del inventario se derivan del registro fotográfico y no de una medición de campo. El bloque se sitúa en ZONA DE RECARGA HÍDRICA DE CABECERA y en la ZONA DE ORIGEN del peligro generador de inundaciones. Se registra escorrentía concentrada canalizada por las trochas y las vaguadas. EL C.P. LAGUNA GRANDE ES LA BASE LOGÍSTICA NATURAL DEL SECTOR; nótese que el catálogo «CP´s y Bloques V5» asocia a este bloque los centros poblados de Molle y Hualanga Pampa (DISCREPANCIA D-03).",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 8,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Ficha DT",
+   "La ficha consigna microcuenca C1076-Q9584; el catálogo maestro asigna al bloque 69 la microcuenca C1076-Q9592",
+   "SUSTANTIVA",
+   "Valor por defecto de la plantilla; se conserva el del catálogo"
+  ],
+  [
+   "F-DT-01",
+   "NINGUNA de las 8 estaciones rotuladas «Bloque 69» cayó dentro del polígono (72 a 220 m de distancia)",
+   "SUSTANTIVA",
+   "El interior del bloque no fue verificado"
+  ],
+  [
+   "F-DT-01",
+   "Superficie planimétrica 18.036 ha frente a 19.428 ha del catálogo (−7.2%); centroide con Δ ≈ 43 m",
+   "SUSTANTIVA",
+   "Conciliar geometría del polígono"
+  ],
+  [
+   "F-DT-02",
+   "Inventario georreferenciado de cárcavas no ejecutado; el valor de «erosión laminar» consigna en realidad la superficie bajo umbral MSAVI",
+   "SUSTANTIVA",
+   "No confundir superficie bajo umbral MSAVI con erosión laminar medida"
+  ],
+  [
+   "F-DT-03",
+   "6 de los 12 taxones carecen de género; ninguno con confirmación taxonómica",
+   "SUSTANTIVA",
+   "Colecta y determinación botánica pendientes"
+  ],
+  [
+   "F-DT-03",
+   "Adscripción a Matorral Andino semiárido preliminar; bloques de menor cota de la misma microcuenca figuran como Bes-cm",
+   "SUSTANTIVA",
+   "La frontera altitudinal no está definida en el portafolio"
+  ],
+  [
+   "F-DT-03 / F-DT-04",
+   "Cobertura vegetal total: estimación visual 75-85% frente al indicador MSAVI de 19%",
+   "SUSTANTIVA",
+   "Discrepancia a resolver"
+  ],
+  [
+   "F-DT-04",
+   "Carga ganadera, densidad de cárcavas y frecuencia de quemas sin cuantificar",
+   "SUSTANTIVA",
+   "Vacíos de información de prioridad alta"
+  ],
+  [
+   "F-DT-05",
+   "D-03: el catálogo «CP´s y Bloques V5» asocia Molle y Hualanga Pampa, pero la base logística natural es el C.P. Laguna Grande",
+   "NO SUSTANTIVA",
+   "Conciliar asociación CP-bloque"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_69_20260907_154942.pdf",
+ "bloque": "69"
+}

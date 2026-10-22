@@ -1,0 +1,210 @@
+{
+ "microcuenca_dt": "C1081-Q9591",
+ "evaluador": "Ing. Héctor Salomón Cahuas Miller — Especialista en Infraestructura Verde, ANIN/DIME-SESDI",
+ "correlativo": "F-DT-01..05/B60/2026",
+ "fecha_eval": "2026-08-13",
+ "hora": "13:02 - 13:06 h",
+ "cp_cercano": "Flor de Café (Canchaque; 111 hab., 41 viviendas, INEI) — a 1.06 km al NNO del punto de verificación",
+ "comunidad": "Por verificar en gabinete social (F-DS-01)",
+ "altitud_gps": "1675 (GPS Garmin GPSMAP 66sr); rango real estimado 1660 - 2120",
+ "utm_e_dt": 653616,
+ "utm_n_dt": 9426278,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "50-75% (Escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Oeste",
+ "rango_altitudinal": "1500-2000 m (Quechua media)",
+ "paisaje": "Ladera de montaña de exposición oeste, disectada por quebradas de régimen estacional, con mosaico de matorral denso y parcelas agroforestales",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "Sí",
+ "deslizamientos": "Sí",
+ "remociones": "Sí",
+ "obs_dt01": "VERIFICACIÓN DE CAMPO 13-08-2026 con dron DJI Phantom 4 Pro V2 (vuelo fotogramétrico y video oblicuo/cenital) y GPS Garmin GPSMAP 66sr. Puntos GPS del recorrido: 653 616/9 426 278 (1 668.9 msnm); 653 619/9 426 255 (1 678.7); 653 589/9 426 303 (1 675.0); 653 587/9 426 301 (1 674.3); 653 602/9 426 294 (1 670.9). TODOS los puntos se ubican sobre la trocha carrozable que corre al oeste del bloque, entre 15 y 30 m de su límite occidental; el interior se cubrió con vuelo de dron. PENDIENTE: estimada en gabinete sobre curvas de nivel (equidistancia 50 m) por método de Wentworth: 63.9% ≈ 32.6° (transectos E-O directos: 61.5%). ALTITUD: rango real del bloque estimado en 1 660-2 120 msnm (desnivel ≈450 m); atraviesa las clases 1500-2000 y 2000-2500; se consigna la clase dominante. INDICIOS DE REMOCIÓN EN MASA: escarpes activos en taludes de corte de la trocha y cabecera de quebrada; bloques rocosos métricos desprendidos sobre la plataforma vial; cauce con acumulación de bloques angulosos frescos (flujo de detritos reciente); terracetas y sendas de ganado (reptación).",
+ "sellamiento": "Sin registro en ficha",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sin registro en ficha",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": "0 = no inventariadas",
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Sin registro en ficha",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "NO se ejecutó inventario georreferenciado de cárcavas: el recorrido se realizó sobre la vía de acceso y el interior se cubrió con vuelo de dron, cuyo producto fotogramétrico (ortomosaico y MDS) será el insumo para el inventario de cárcavas y del sector de infraestructura marrón. El conteo se consigna en 0 = «NO INVENTARIADAS», no como ausencia verificada. EVIDENCIA OBSERVADA: compactación y terracetas por pisoteo de ganado en ladera media; erosión laminar y en surcos incipientes en áreas de suelo desnudo entre matorral; socavamiento activo del cauce de la quebrada que limita el bloque por el norte, con arrastre y depósito de bloques angulosos (653 619/9 426 255); erosión acelerada en taludes de corte de la trocha, con desprendimiento de bloques sobre la plataforma.",
+ "parcela": "Sin parcela instalada — recorrido perimetral y fotointerpretación de dron",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 63.9,
+ "cob_veg": 85,
+ "ecosistema": "Matorral Andino subhúmedo (preliminar; reconciliar con el Mapa Nacional de Ecosistemas)",
+ "sup_ecosistema": "40.13 ha (100% del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 25,
+ "cob_arbustiva": 45,
+ "cob_herbacea": 25,
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": 5,
+ "h_dominante": 3,
+ "h_max": 18,
+ "dap": "Por determinar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí — presencia moderada de musgos, líquenes y helechos sobre taludes, rocas y ramas bajas",
+ "fenologia": "Floración",
+ "tipo_cobertura": "Matorral denso",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Ricinus communis (Higuerilla)",
+   "Indicadora de perturbación",
+   "NE — No Evaluado"
+  ],
+  [
+   "Baccharis latifolia (Chilca)",
+   "Indicadora de perturbación",
+   "NE — No Evaluado"
+  ],
+  [
+   "Salix humboldtiana (Sauce)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Guadua angustifolia (Caña guayaquil)",
+   "Clave cultural",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "Composición florística (15 taxones) levantada por observación directa desde el eje vial y fotointerpretación del vuelo de dron; NO se instaló parcela de muestreo, por lo que no se reportan DAP ni densidades. Determinación preliminar a nivel de nombre común; requiere confirmación taxonómica con colecta botánica (especialmente «falsa yuca», binomio por determinar). Coberturas por estrato y abundancia son estimaciones visuales rápidas. La cobertura vegetal total (85%) es CONSISTENTE con el MSAVI 2024: 84.6% de la superficie con MSAVI > 0.6139 y 14.7% entre 0.4976 y 0.6139; solo 0.7% por debajo del umbral 0.4976 y NINGUNA superficie en la clase crítica (≤0.2650). Especies introducidas/invasoras registradas: Eucalyptus globulus, Grevillea robusta, Ricinus communis (invasora), Agave americana, más cultivos (plátano, café, caña de azúcar).",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "20%"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "25%"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   "5%"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Fuerte",
+   "10%"
+  ]
+ ],
+ "causa_subyacente": "Ocupación productiva de ladera de fuerte pendiente sin prácticas de conservación de suelos",
+ "causas_directas": "(i) Presión vial: la trocha carrozable colindante genera taludes inestables, desprendimientos y facilita el acceso extractivo; (ii) avance del mosaico agrícola (plátano, café, caña) sobre fondos de quebrada y rellanos; (iii) pastoreo extensivo con terracetas y compactación en ladera media; (iv) erosión natural severa asociada al socavamiento del cauce de la quebrada en un relieve de pendiente media 63.9% (32.6°).",
+ "velocidad": "Lenta",
+ "reversibilidad": "Totalmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 20,
+ "obs_dt04": "CONVENCIÓN: la columna «Nivel» se consigna como NIVEL DE DEGRADACIÓN (Alto = condición desfavorable). Las causas sin registro se dejan en blanco porque no se observó evidencia directa; ello NO equivale a ausencia confirmada y debe cerrarse con el diagnóstico social (F-DS-01/F-DS-03) y la campaña complementaria. Indicadores no consignados: densidad de cárcavas y % de área con pendiente >50% (dependientes del procesamiento del MDS del vuelo de dron); carga ganadera (dependiente del diagnóstico social). EL BLOQUE PRESENTA EL MEJOR ESTADO DE COBERTURA DE SU SERIE: ninguna superficie en clase MSAVI crítica; la degradación es incipiente y localizada en la franja vial, los fondos de quebrada y los sectores de pastoreo.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   653619,
+   9426255,
+   "Estacional",
+   "No evaluable",
+   0,
+   "Cauce que limita el bloque por el norte"
+  ],
+  [
+   "Quebrada estacional",
+   653602,
+   9426294,
+   "Estacional",
+   "No evaluable",
+   0,
+   "Cauce secundario tributario"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Sin registro en ficha",
+ "jass": "Sin registro en ficha",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Trocha carrozable Canchaque – Flor de Café / Pariamarca (código de ruta por verificar con MTC)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Sin registro en ficha",
+ "t_provincial": "Sin registro en ficha",
+ "senal": "Sin registro en ficha",
+ "operador": "Sin registro en ficha",
+ "alojamiento": "Sin registro en ficha",
+ "ronda": "Sin registro en ficha (campo obligatorio: cerrar con el equipo social antes de la carga definitiva)",
+ "contacto_ronda": "Sin registro en ficha",
+ "obs_dt05": "ACCESO: la trocha carrozable llega hasta el límite occidental del bloque (15-30 m); el ingreso al interior requiere caminata en pendiente escarpada. Se verificó acceso con camioneta 4x4 hasta 653 602/9 426 294 (1 670.9 msnm). En época de lluvias la transitabilidad se reduce por escorrentía concentrada en los cruces de quebrada y por desprendimiento de bloques desde los taludes de corte. HIDROLOGÍA: el bloque se ubica en la CABECERA de la microcuenca C1081-Q9591 y funciona como ZONA DE GENERACIÓN DE ESCORRENTÍA (peligro generador de inundaciones, PGI) hacia el eje Canchaque; se observaron zonas de humedad persistente (musgos, helechos) en la ladera de exposición oeste.",
+ "estaciones_fotograficas": [
+  [
+   "F-01",
+   653616,
+   9426278
+  ],
+  [
+   "F-02",
+   653619,
+   9426255
+  ],
+  [
+   "F-03",
+   653589,
+   9426303
+  ],
+  [
+   "F-04",
+   653587,
+   9426301
+  ],
+  [
+   "F-05",
+   653602,
+   9426294
+  ]
+ ],
+ "n_estaciones": 5,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-01",
+   "Rango altitudinal real del bloque (≈1660-2120 msnm) atraviesa dos clases altitudinales; la ficha consigna solo la clase dominante 1500-2000 m",
+   "NO SUSTANTIVA",
+   "Declarado en la propia ficha"
+  ],
+  [
+   "F-DT-02",
+   "N.° de cárcavas = 0 significa NO INVENTARIADAS, no ausencia verificada",
+   "SUSTANTIVA",
+   "No usar el valor 0 para calcular densidad por hectárea; pendiente del procesamiento del MDS del vuelo de dron"
+  ],
+  [
+   "F-DT-03",
+   "Tipo de ecosistema MINAM «Matorral Andino subhúmedo» es preliminar",
+   "NO SUSTANTIVA",
+   "Reconciliar con la capa oficial del Mapa Nacional de Ecosistemas"
+  ],
+  [
+   "F-DT-05",
+   "Requerimiento de autorización de Ronda Campesina sin dato — campo obligatorio",
+   "SUSTANTIVA",
+   "Cerrar con el equipo social antes de la carga definitiva al aplicativo"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_60_20260907_151435.pdf",
+ "bloque": "60"
+}

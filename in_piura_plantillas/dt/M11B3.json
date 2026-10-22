@@ -1,0 +1,231 @@
+{
+ "microcuenca_dt": "C1081-Q9583",
+ "evaluador": "Ing. Juan Carlos Domínguez Varas",
+ "correlativo": "M11B3-01",
+ "fecha_eval": "2026-05-07",
+ "hora": "12:00 h",
+ "cp_cercano": "CP La Quemazón / CP La Pareja / CP Alto San José",
+ "comunidad": "Por verificar in situ",
+ "altitud_gps": "257 (GPS de campo)",
+ "utm_e_dt": 642079,
+ "utm_n_dt": 9413823,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "15-25% (Fuert. inclinado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Norte",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Bloque irregular alargado orientado noreste-suroeste, en ladera norte de cerro montañoso que domina el valle del río Bigote",
+ "afloramientos": "Sí",
+ "escarpes": "No (no observado a distancia)",
+ "reptacion": "No (no observado a distancia)",
+ "deslizamientos": "No (no observado a distancia)",
+ "remociones": "No (no observado a distancia)",
+ "obs_dt01": "VERIFICACIÓN PARCIAL — OBSERVACIÓN A DISTANCIA DESDE LA RIBERA OPUESTA DEL RÍO BIGOTE (07/05/2026). ACCESO TERRESTRE DIRECTO INTERRUMPIDO POR CRECIDA DEL RÍO BIGOTE (caudal sobre nivel de vadeo seguro). HALLAZGOS VISUALES: COBERTURA FORESTAL DENSA Y CONTINUA, DOSEL ARBÓREO CERRADO, LÍNEA DE CUMBRE ÍNTEGRA, SIN PARCHES VISIBLES DE SUELO DESNUDO NI EVIDENCIAS MACROSCÓPICAS DE DEGRADACIÓN RECIENTE. Los indicios de remoción en masa registrados como «No» CORRESPONDEN A NO OBSERVACIÓN A DISTANCIA y requieren verificación in situ. Se recomienda reprogramar la verificación por modalidad alternativa (cabecera de microcuenca, cruce en época seca agosto-octubre 2026, o sobrevuelo RPA). MSAVI PROMEDIO ZONAL DEL BLOQUE: 0.396 (EL MÁS ALTO ENTRE LOS BLOQUES INSPECCIONADOS DEL CORREDOR).",
+ "sellamiento": "Sin registro en ficha",
+ "compactacion": "Sin registro en ficha",
+ "raices_expuestas": "Sin registro en ficha",
+ "nivel_erosion": "Ligera (laminar)",
+ "n_carcavas": 0,
+ "long_carcavas": 0,
+ "pct_carcavas": 0,
+ "erosion_laminar": 5,
+ "patron_carcavas": "Aislado",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "La caracterización de procesos erosivos corresponde a OBSERVACIÓN VISUAL A DISTANCIA desde la ribera opuesta del río Bigote. NO SE REALIZÓ INVENTARIO DE CÁRCAVAS IN SITU por restricción de acceso. Los valores reflejan la lectura conjunta del MSAVI promedio (0.396, el más alto del corredor) y la observación visual de cobertura forestal densa y continua. SE DETECTÓ DINÁMICA FLUVIAL ACTIVA EN EL BORDE SUR-ORIENTAL (cauce del río Bigote con sedimentos recientes y flujo activo) QUE SUGIERE SOCAVAMIENTO DE MARGEN RELEVANTE PARA FUTURAS INTERVENCIONES DE PROTECCIÓN DE MÁRGENES. REQUIERE VERIFICACIÓN IN SITU.",
+ "parcela": "Observación a distancia (sin parcela)",
+ "dim_parcela": "No aplica (verificación parcial)",
+ "pend_parcela": "Por verificar",
+ "cob_veg": 75,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "106.03 ha (100% del bloque)",
+ "estado_cons": "Levemente alterado",
+ "uso_dominante": "Forestal de protección",
+ "cob_dosel": 65,
+ "cob_arbustiva": 20,
+ "cob_herbacea": 10,
+ "cob_hojarasca": "Por verificar",
+ "suelo_desnudo": 5,
+ "h_dominante": "Por verificar",
+ "h_max": "Por verificar",
+ "dap": "Por verificar",
+ "regeneracion": "Sin registro en ficha",
+ "sanitario": "Sano",
+ "epifitas": "Por verificar in situ",
+ "fenologia": "Caducifolio (hojas caídas)",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 0,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango",
+   "Especie probable para enriquecimiento (referencial, NO observada)",
+   "Por verificar"
+  ],
+  [
+   "Bursera graveolens",
+   "Especie probable para enriquecimiento (referencial, NO observada)",
+   "Por verificar"
+  ],
+  [
+   "Caesalpinia spinosa",
+   "Especie probable para enriquecimiento (referencial, NO observada)",
+   "Por verificar"
+  ],
+  [
+   "Capparis scabrida",
+   "Especie probable para enriquecimiento (referencial, NO observada)",
+   "Por verificar"
+  ],
+  [
+   "Prosopis pallida",
+   "Especie probable para enriquecimiento (referencial, NO observada)",
+   "Por verificar"
+  ]
+ ],
+ "obs_dt03": "Caracterización ecológica por OBSERVACIÓN VISUAL A DISTANCIA. HALLAZGOS: cobertura forestal densa y continua, ESTRUCTURA VERTICAL MULTIESTRATO CON ÁRBOLES EMERGENTES SOBRE DOSEL CERRADO, sugiriendo BOSQUE SECO MADURO O EN ESTADO AVANZADO DE REGENERACIÓN NATURAL. Coloración general verde intenso con tonalidades verde-amarillentas en la parte baja (transición seca de mayo). NO SE REALIZÓ INVENTARIO FLORÍSTICO NI MEDICIÓN DE DAP/ALTURA. LA RECLASIFICACIÓN PRELIMINAR DEL ESTADO DE CONSERVACIÓN (de «degradación moderada-significativa» del modelamiento de gabinete a «CONSERVACIÓN APARENTEMENTE FAVORABLE») ES PRELIMINAR Y REQUIERE CONFIRMACIÓN IN SITU. Las cinco especies listadas son PROBABLES PARA ENRIQUECIMIENTO (referenciales), NO OBSERVADAS EN CAMPO.",
+ "causas": [
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Ligera",
+   "10% — pendiente máxima 36.4%"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "100%"
+  ],
+  [
+   "Otro (dinámica fluvial del río Bigote)",
+   "Sí",
+   "Moderada",
+   "5%"
+  ],
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "No",
+   "Nula",
+   "No observado a distancia"
+  ],
+  [
+   "Tala para leña / carbón / madera",
+   "No",
+   "Nula",
+   "No observado; línea de cumbre íntegra"
+  ],
+  [
+   "Cambio de uso a agricultura / pastoreo",
+   "No",
+   "Nula",
+   "No observado dentro del polígono"
+  ]
+ ],
+ "causa_subyacente": "Sequía prolongada / cambio climático como motor subyacente regional. Presión antrópica histórica baja en el polígono",
+ "causas_directas": "(1) Erosión natural severa en parches localizados (MSAVI ≤0.265 en zona central-sur y borde con cauce); (2) DINÁMICA FLUVIAL ACTIVA DEL RÍO BIGOTE EN BORDE SUR-ORIENTAL CON SOCAVAMIENTO DE MARGEN; (3) susceptibilidad inherente a movimientos en masa superficiales por pendiente máxima 36.4%. NO SE IDENTIFICARON CAUSAS ANTRÓPICAS DIRECTAS (tala, quema, cambio de uso) a la resolución de la observación a distancia.",
+ "velocidad": "Estable",
+ "reversibilidad": "Totalmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 500,
+ "obs_dt04": "Caracterización basada en VERIFICACIÓN PARCIAL. BLOQUE RECLASIFICADO PRELIMINARMENTE DE «DEGRADACIÓN MODERADA A SIGNIFICATIVA» (modelamiento de gabinete) A «CONSERVACIÓN APARENTEMENTE FAVORABLE» (verificación visual de campo). POTENCIAL DE RECUPERACIÓN / CONSOLIDACIÓN: ALTO. LA INTERVENCIÓN SE ORIENTA A PROTECCIÓN, ENRIQUECIMIENTO PUNTUAL Y CONSOLIDACIÓN DE NÚCLEOS EXISTENTES, NO A RESTAURACIÓN MASIVA. Reclasificación PRELIMINAR: requiere confirmación in situ. Indicadores: cobertura vegetal total 75% (Alto); suelo desnudo 5% CALIFICADO «Alto» (incompatible con el umbral <10% = bueno); densidad de cárcavas 0 (Bajo); invasoras y carga ganadera SIN DATO; quemas 0 (Bajo); % área con pendiente >50% = 5% (Bajo); distancia a vía 500 m (Medio).",
+ "fuentes_agua": [
+  [
+   "Río",
+   642300,
+   9413400,
+   "Permanente",
+   "Mala (turbia)",
+   0,
+   "Río Bigote, borde sur-oriental"
+  ],
+  [
+   "Quebrada estacional",
+   641900,
+   9413900,
+   "Estacional",
+   "No evaluable",
+   0,
+   "Microquebradas de bajo orden"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por verificar",
+ "jass": "Sin registro en ficha",
+ "modalidad_acceso": "INACCESIBLE EN LLUVIAS",
+ "via_principal": "Trocha desde Salitral / San Juan de Bigote hasta CP La Pareja - La Quemazón (CRUCE DEL RÍO BIGOTE REQUERIDO)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por verificar",
+ "t_provincial": "Por verificar",
+ "senal": "Sin registro en ficha",
+ "operador": "Sin registro en ficha",
+ "alojamiento": "Sí",
+ "ronda": "Por verificar",
+ "contacto_ronda": "Por verificar (coordinar con la Tenencia de Gobernación de los CP La Quemazón / La Pareja / Alto San José)",
+ "obs_dt05": "EL ACCESO TERRESTRE DIRECTO AL POLÍGONO ESTÁ CONDICIONADO AL RÉGIMEN HIDROLÓGICO DEL RÍO BIGOTE. La ruta convencional vía CP La Quemazón / La Pareja EXIGE CRUCE DEL CAUCE, imposibilitado por crecida estacional. Consulta a pobladores del CP La Pareja confirmó que EL CRUCE SOLO ES VIABLE ENTRE AGOSTO Y NOVIEMBRE. MODALIDADES ALTERNATIVAS RECOMENDADAS: (A) acceso por cabecera de microcuenca desde los caseríos Barrios Bajo Morropón / Palo Negro (caminata 2-4 h); (B) reprogramación para agosto-octubre 2026 con vadeo seguro; (C) sobrevuelo fotogramétrico con dron RPA categoría I. ESTRATEGIA RECOMENDADA: combinar A+C en mayo-julio 2026 y B en agosto-octubre 2026. LA RESOLUCIÓN DEL ACCESO OPERATIVO ES INSUMO CRÍTICO PARA TODAS LAS FASES POSTERIORES DEL PROYECTO EN ESTE BLOQUE.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (257 msnm)"
+  ],
+  [
+   "F-DT-01",
+   "VERIFICACIÓN PARCIAL: observación a distancia desde la ribera opuesta del río Bigote; acceso interrumpido por crecida",
+   "SUSTANTIVA",
+   "Los registros «No» de escarpes, reptación, deslizamientos y remociones significan NO OBSERVADO, no ausencia verificada"
+  ],
+  [
+   "F-DT-02",
+   "Inventario de cárcavas no realizado in situ",
+   "SUSTANTIVA",
+   "Verificación pendiente"
+  ],
+  [
+   "F-DT-03",
+   "Sin inventario florístico: las 5 especies listadas son referenciales para enriquecimiento, NO observadas",
+   "SUSTANTIVA",
+   "Inventario pendiente en su totalidad"
+  ],
+  [
+   "F-DT-03 / F-DT-04",
+   "RECLASIFICACIÓN PRELIMINAR del estado de conservación: de «degradación moderada-significativa» (gabinete) a «conservación aparentemente favorable» (campo)",
+   "SUSTANTIVA",
+   "Requiere confirmación in situ; podría cambiar el enfoque de restauración masiva a protección y enriquecimiento puntual"
+  ],
+  [
+   "F-DT-04",
+   "Suelo desnudo 5% calificado «Alto», incompatible con el umbral de la propia ficha (<10% = bueno)",
+   "NO SUSTANTIVA",
+   "Recalificar"
+  ],
+  [
+   "F-DT-04",
+   "Especies invasoras y carga ganadera sin dato",
+   "NO SUSTANTIVA",
+   "Por verificar in situ"
+  ],
+  [
+   "F-DT-05",
+   "Acceso terrestre condicionado al régimen hidrológico del río Bigote; solo viable entre agosto y noviembre",
+   "SUSTANTIVA",
+   "LA RESOLUCIÓN DEL ACCESO OPERATIVO ES INSUMO CRÍTICO PARA TODAS LAS FASES POSTERIORES"
+  ],
+  [
+   "F-DT-02 / F-DT-04",
+   "Socavamiento de margen activo del río Bigote en el borde sur-oriental",
+   "SUSTANTIVA",
+   "Relevante para el diseño de obras de protección de márgenes (infraestructura gris complementaria)"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M11B3 (Plan de Ingreso, PDF)",
+ "bloque": "M11B3"
+}

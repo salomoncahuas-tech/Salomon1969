@@ -1,0 +1,246 @@
+{
+ "microcuenca_dt": "C1076-Q9584 (según ficha — valor por defecto de plantilla; catálogo: C1076-Q9592)",
+ "evaluador": "Ing. Héctor Salomón Cahuas Miller",
+ "correlativo": "DT-73-2026",
+ "fecha_eval": "2026-08-01",
+ "hora": "09:20 - 10:05 h",
+ "cp_cercano": "Chococa",
+ "comunidad": "Por verificar con el equipo de diagnóstico social",
+ "altitud_gps": "2075 (GPS) — rango MDE 1845 - 2305 (amplitud 460 m)",
+ "utm_e_dt": 658547,
+ "utm_n_dt": 9395594,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Sur",
+ "rango_altitudinal": "2000-2500 m (Quechua alta)",
+ "paisaje": "Ladera de montaña de exposición sur, coronada por cresta con afloramientos rocosos y escarpes subverticales",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "Sí",
+ "deslizamientos": "Sí",
+ "remociones": "No",
+ "obs_dt01": "Verificación mediante VUELO DE RPAS (dron) el 01-08-2026. Rango altitudinal 1 845-2 305 msnm (amplitud 460 m): el polígono CABALGA LAS CLASES 1500-2000 m y 2000-2500 m; se consigna la clase dominante en superficie. Pendiente promedio zonal (MDE) 36.34%, LA SEGUNDA MÁS ALTA de los once bloques de la microcuenca C1076-Q9592. Coordenada consignada = CENTROIDE del bloque (catálogo Bloques V5); el punto GPS del operador de dron queda por relevar. REMOCIONES EN MASA ACTIVAS: no se observaron cicatrices frescas durante el vuelo, pero sí escarpes rocosos en cresta, terracetas de reptación y bolonería desprendida en ladera media; el registro «No» corresponde a eventos activos en el momento de la inspección y NO DESCARTA ACTIVIDAD ESTACIONAL.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": "0 = no inventariadas",
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": 0,
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Aislado",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "INVENTARIO DE CÁRCAVAS NO EJECUTADO EN ESTA VERIFICACIÓN: 0 cárcavas registradas NO EQUIVALE A AUSENCIA. El reconocimiento fue aéreo (RPAS) y no se dispone aún del ortomosaico ni del MDS derivados del vuelo del 01-08-2026, insumos necesarios para el inventario georreferenciado y para el cálculo del porcentaje de área con pendiente >50%. Procesos erosivos en orden de relevancia: (i) erosión laminar y en surcos incipientes en el pastizal seco de ladera media, con bolonería y afloramientos expuestos; (ii) reptación superficial evidenciada por terracetas y sendas de ganado paralelas a las curvas de nivel; (iii) socavamiento y encajonamiento de los cauces estacionales del flanco oriental y del fondo de quebrada; (iv) erosión acelerada en taludes de corte de la trocha carrozable de acceso al caserío.",
+ "parcela": "Observación aérea RPAS — sin parcela instalada",
+ "dim_parcela": "No aplica (sin parcela)",
+ "pend_parcela": 36.34,
+ "cob_veg": 78,
+ "ecosistema": "Matorral Andino subhúmedo",
+ "sup_ecosistema": "54.29 ha (100% del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 25,
+ "cob_arbustiva": 35,
+ "cob_herbacea": 18,
+ "cob_hojarasca": 8,
+ "suelo_desnudo": 14,
+ "h_dominante": 3.5,
+ "h_max": 22,
+ "dap": "Por determinar (sin medición dasométrica)",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 11,
+ "especies_clave": [
+  [
+   "Guadua angustifolia (Caña guayaquil)",
+   "Indicadora de buen estado",
+   "No aplica"
+  ],
+  [
+   "Ficus sp. (Higuerón)",
+   "Indicadora de buen estado",
+   "No aplica"
+  ],
+  [
+   "Vachellia macracantha (Faique)",
+   "Clave cultural",
+   "No aplica"
+  ],
+  [
+   "Armatocereus sp. (Cactácea columnar)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Eucalyptus globulus",
+   "Indicadora de perturbación",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "Registro florístico PRELIMINAR obtenido por fotointerpretación del vuelo de RPAS y observación directa desde el eje de acceso; los binomios requieren confirmación taxonómica mediante colecta botánica. LAS COORDENADAS DE LAS ESPECIES CLAVE CORRESPONDEN AL CENTROIDE DEL BLOQUE y no a la ubicación individual de cada especie. Ninguna especie figura en categoría de amenaza del D.S. 043-2006-AG; Ficus sp. y Armatocereus sp. quedan sujetos a determinación específica. CINCO DE LAS ONCE ESPECIES CORRESPONDEN A CULTIVOS O PASTOS CULTIVADOS, superficie que debe excluirse del área efectiva de intervención en el tamizaje predial. Las alturas se estiman por fotogrametría y NO sustituyen medición dasométrica.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "35% — >15 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   "5% — >15 años"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "20% — >15 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "25% — >15 años"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "4% — 5 a 10 años"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "15% — >15 años"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "100% — >15 años"
+  ]
+ ],
+ "causa_subyacente": "Ocupación productiva permanente de una ladera montañosa de fuerte pendiente sin prácticas de conservación de suelo",
+ "causas_directas": "Sobrepastoreo caprino y vacuno sobre ladera de fuerte pendiente (causa dominante, 35% del bloque), conversión de matorral a pastos cultivados y a agricultura de secano en rellanos y fondos de quebrada, y erosión natural severa asociada a la litología con afloramientos y a la pendiente de 36.34%.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 0,
+ "obs_dt04": "Las causas no consignadas (tala para carbón, tala para madera, quemas, minería informal, extracción de áridos, especies invasoras, plagas forestales) se dejan en blanco por no haberse observado evidencia directa en el vuelo; ello NO EQUIVALE A AUSENCIA CONFIRMADA y su cierre corresponde al diagnóstico social (F-DS-01 y F-DS-03) en el centro poblado Chococa. CONTRASTE DE ÍNDICES: el MSAVI 2024 medio del bloque es 0.5550 y sitúa el 60.4% de la superficie en la clase 0.4976-0.6139 (cobertura moderada), mientras el NDVI mediana 2025 asigna el 88.3% a «vegetación alta»; la divergencia es metodológicamente esperable —el NDVI sobreestima la cobertura efectiva sobre suelos claros y en estación de rebrote— y SE ADOPTA EL MSAVI COMO LECTURA PREFERENTE para la clasificación del estado de degradación.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   658900,
+   9395400,
+   "Estacional",
+   "No evaluable",
+   0,
+   "Cauce encajonado del fondo"
+  ],
+  [
+   "Quebrada estacional",
+   658050,
+   9395450,
+   "Estacional",
+   "No evaluable",
+   0,
+   "Vaguada del flanco occidental"
+  ],
+  [
+   "Canal de riego",
+   658400,
+   9395300,
+   "Permanente",
+   "No evaluable",
+   0,
+   "Acequia de conducción"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por verificar con el equipo de diagnóstico social (CCPP Chococa)",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Trocha carrozable de acceso al caserío Chococa (código de ruta por verificar con el MTC)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "Parcial",
+ "operador": "Por determinar",
+ "alojamiento": "Por determinar",
+ "ronda": "Sí",
+ "contacto_ronda": "Por identificar nominalmente durante la aplicación de F-DS-03 en Chococa",
+ "obs_dt05": "El bloque se ubica en la CABECERA de la microcuenca C1076-Q9592 y opera como ZONA DE ORIGEN del peligro generador de inundaciones (PGI). Se confirmó humedad persistente en vaguadas y fondos de quebrada —evidenciada por la presencia de caña guayaquil (Guadua angustifolia), especie indicadora de freático somero— y escorrentía concentrada en los cauces estacionales. LAS COORDENADAS DE LAS FUENTES SON ESTIMACIONES PLANIMÉTRICAS sobre la cartografía georreferenciada y deben relevarse con GPS en la siguiente visita. SE IDENTIFICÓ AL MENOS UNA ACEQUIA DE CONDUCCIÓN en curva de nivel que abastece pastos cultivados, por lo que EL DISEÑO DE ZANJAS DE INFILTRACIÓN DEBE VERIFICAR PREVIAMENTE LA NO INTERFERENCIA con ese sistema (interferencia con riego: SÍ). Se recomienda una segunda visita en época de lluvias (enero-marzo).",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Ficha DT",
+   "La ficha consigna microcuenca C1076-Q9584; el catálogo maestro asigna al bloque 73 la microcuenca C1076-Q9592",
+   "SUSTANTIVA",
+   "Valor por defecto de la plantilla; se conserva el del catálogo"
+  ],
+  [
+   "F-DT-01",
+   "Rango altitudinal 1845-2305 msnm cabalga dos clases altitudinales",
+   "NO SUSTANTIVA",
+   "Se consigna la clase dominante en superficie"
+  ],
+  [
+   "F-DT-01",
+   "Coordenada = centroide del bloque; el punto GPS del operador de dron queda por relevar",
+   "NO SUSTANTIVA",
+   "Declarado en la propia ficha"
+  ],
+  [
+   "F-DT-01",
+   "«Remociones en masa activas = No» corresponde al momento de la inspección y no descarta actividad estacional",
+   "NO SUSTANTIVA",
+   "Declarado en la propia ficha"
+  ],
+  [
+   "F-DT-02",
+   "0 cárcavas registradas sin inventario ejecutado",
+   "SUSTANTIVA",
+   "Pendiente de ortomosaico y MDS del vuelo del 01-08-2026"
+  ],
+  [
+   "F-DT-03",
+   "Coordenadas de las especies clave = centroide del bloque, no ubicación individual",
+   "NO SUSTANTIVA",
+   "Declarado en la propia ficha"
+  ],
+  [
+   "F-DT-03",
+   "5 de las 11 especies registradas son cultivos o pastos cultivados",
+   "SUSTANTIVA",
+   "Excluir esa superficie del área efectiva en el tamizaje predial"
+  ],
+  [
+   "F-DT-04",
+   "Divergencia MSAVI 2024 (60.4% en clase moderada) vs. NDVI 2025 (88.3% vegetación alta)",
+   "SUSTANTIVA",
+   "Se adopta el MSAVI como lectura preferente"
+  ],
+  [
+   "F-DT-05",
+   "Interferencia con riego SÍ: acequia de conducción en curva de nivel dentro del bloque",
+   "SUSTANTIVA",
+   "El diseño de zanjas de infiltración debe verificar la no interferencia"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_73_20260907_152751.pdf",
+ "bloque": "73"
+}

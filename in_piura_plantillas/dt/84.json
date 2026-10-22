@@ -1,0 +1,231 @@
+{
+ "microcuenca_dt": "C1081-Q9583",
+ "evaluador": "Ing. Héctor Salomón Cahuas Miller — SESDI",
+ "correlativo": "F-DT-B84-01",
+ "fecha_eval": "2026-08-14",
+ "hora": "10:36 h",
+ "cp_cercano": "Miguel Pampa (Miguelpampa)",
+ "comunidad": "POR VERIFICAR — no consignada",
+ "altitud_gps": "SIN CONSIGNAR — transecto referencial Google Earth: mín. 232 · media 241 · máx. 253 msnm",
+ "utm_e_dt": 640174,
+ "utm_n_dt": 9410693,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "8-15% (Mod. inclinado)",
+ "posicion_fisio": "Ladera baja",
+ "exposicion": "Oeste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Lomada baja y alargada en dirección N-S, encajada entre el cauce del valle y la vía asfaltada al norte y el macizo al sur",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "Sí",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "BLOQUE NO REGISTRADO EN LOS CATÁLOGOS «Bloques V4» NI «Bloques V5»; procede del REPORTE_BLOQUES_V6 y de la capa «Bloques extras». Registro añadido a la hoja auxiliar exclusivamente para habilitar los VLOOKUP (D-02). CENTROIDE POR RESTITUCIÓN CARTOGRÁFICA (±30 m). ALTITUD GPS SIN CONSIGNAR: la cota EXIF de los fotogramas corresponde a LA AERONAVE y no al terreno (≈230-270 msnm). Rango altitudinal y pendiente REFERENCIALES, derivados de un transecto de 214 m en Google Earth (mín. 232 · media 241 · máx. 253 msnm; pendiente media 9.8%, máxima 37.5%); NO equivalen a estadística zonal del DEM, no disponible para este bloque.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Fuerte (cárcavas incipientes)",
+ "n_carcavas": "No inventariadas",
+ "long_carcavas": "Sin consignar (sin mediciones)",
+ "pct_carcavas": "Sin consignar (sin mediciones)",
+ "erosion_laminar": 85,
+ "patron_carcavas": "Sin consignar (sin mediciones)",
+ "socavamiento": "Sin consignar (sin mediciones)",
+ "urgencia_control": "Crítica",
+ "carcavas": [],
+ "obs_dt02": "Calificación derivada de FOTOINTERPRETACIÓN DE ORTOFOTOS RPA del 14-08-2026, no de medición directa. Se sustenta en: PAVIMENTO DE PIEDRAS Y BOLONERÍA CONTINUOS; RED RETICULADA EXTRAORDINARIAMENTE DENSA DE HUELLAS DE GANADO que cubre la práctica totalidad de la superficie; cauces interiores con incisión y arrastre de clastos que DESCARGAN DIRECTAMENTE SOBRE LA VÍA ASFALTADA; raíces expuestas y pedestales en la base de los individuos aislados. El inventario georreferenciado de cárcavas NO fue ejecutado: número total, longitud, porcentaje afectado, patrón dominante y socavamiento de cauce se dejan EN BLANCO. LA AUSENCIA DE REGISTRO NO EQUIVALE A AUSENCIA DEL PROCESO.",
+ "parcela": "No instalada — fotointerpretación de ortofoto RPA",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 9.8,
+ "cob_veg": 11,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm) — asignación POR VERIFICAR",
+ "sup_ecosistema": "5.099 ha (100% del bloque)",
+ "estado_cons": "Muy alterado / Degradado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 6,
+ "cob_arbustiva": 3,
+ "cob_herbacea": 2,
+ "cob_hojarasca": 12,
+ "suelo_desnudo": 77,
+ "h_dominante": "Sin consignar (sin mediciones)",
+ "h_max": "Sin consignar (sin mediciones)",
+ "dap": "Sin consignar (sin mediciones)",
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sin consignar (sin mediciones)",
+ "epifitas": "No",
+ "fenologia": "Sin registro en ficha",
+ "tipo_cobertura": "Matorral ralo",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Colicodendron scabridum (Sapote)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Neltuma pallida (Algarrobo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "VU — Vulnerable"
+  ],
+  [
+   "Vachellia macracantha (Faique)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "NT — Casi Amenazada"
+  ],
+  [
+   "Ceiba trischistandra (Ceibo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Ipomoea carnea (Borrachera)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "LAS QUINCE ESPECIES CONSIGNADAS SE REPLICAN DE LOS BLOQUES 85, 86 y 87 POR INDICACIÓN DE LA SUBDIRECCIÓN; NO PROCEDEN DE UN MUESTREO POR PARCELA EJECUTADO EN EL BLOQUE 84. No se registran abundancia relativa, DAP ni altura. Determinaciones PRELIMINARES sujetas a colecta y determinación botánica. Los porcentajes de estructura son ESTIMACIONES POR FOTOINTERPRETACIÓN de ortofoto. Altura del estrato dominante, altura máxima, DAP promedio y estado sanitario del dosel SIN CONSIGNAR. Asignación Bes-cm POR VERIFICAR contra el Mapa Nacional de Ecosistemas (MINAM). ESTADO CRÍTICO: cobertura vegetal total 11% y suelo desnudo 77%.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Muy fuerte",
+   "90%"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Ligera",
+   "10%"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   "15%"
+  ]
+ ],
+ "causa_subyacente": "Ausencia de régimen de manejo del pastoreo comunal, agravada por la ocupación efectiva del bloque y de su contorno",
+ "causas_directas": "Sobrepastoreo caprino-vacuno de larga data sobre una lomada de escasa capacidad de retención hídrica, combinado con la presión directa del corredor vial asfaltado, las viviendas dispersas y los corrales que ocupan el borde del polígono. La red de terracetas cubre prácticamente la totalidad de la superficie.",
+ "velocidad": "SIN CONSIGNAR — no se dispone de la serie Theil-Sen (TAU) ni de MSAVI multianual para el bloque",
+ "reversibilidad": "Difícilmente reversible",
+ "urgencia": "Crítica",
+ "ind_dist_via": 0,
+ "obs_dt04": "VELOCIDAD DE DEGRADACIÓN SIN CONSIGNAR: no se dispone de la serie Theil-Sen (TAU) ni de MSAVI multianual. MSAVI 2024 DEL BLOQUE = 0.2516, UN 49% POR DEBAJO DE LA MEDIA DEL UNIVERSO DE 129 BLOQUES (0.4909): SE SITÚA ENTRE LOS VALORES MÁS BAJOS DEL PROYECTO. Segmentación de la lámina NDVI mediana 2025: tierra desnuda 21.0%, vegetación ligera 77.7%, vegetación mediana 1.3%, VEGETACIÓN ALTA 0.0%. Las causas no consignadas NO fueron objeto de verificación; su no consignación no equivale a ausencia. Indicadores: cobertura vegetal total 11% (Alto); suelo desnudo 77% (Alto); distancia a vía 0 m (Alto); indicadores 3 a 7 POR VERIFICAR.",
+ "fuentes_agua": [
+  [
+   "Río",
+   640140,
+   9410947,
+   "Permanente",
+   "No evaluable",
+   "Por determinar",
+   "Cauce principal que limita el bloque por el norte"
+  ],
+  [
+   "Quebrada estacional",
+   640174,
+   9410693,
+   "Estacional",
+   "POR VERIFICAR",
+   "Por determinar",
+   "Cauce interior con incisión"
+  ],
+  [
+   "Quebrada estacional",
+   640361,
+   9410542,
+   "Estacional",
+   "POR VERIFICAR",
+   "Por determinar",
+   "Cauce del flanco suroriental"
+  ]
+ ],
+ "recarga": "No",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "POR VERIFICAR",
+ "jass": "POR VERIFICAR",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Vía ASFALTADA de acceso al sector Miguel Pampa (San Juan de Bigote) — código MTC POR VERIFICAR",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Sin consignar (sin mediciones)",
+ "t_distrital": "Sin consignar (sin mediciones)",
+ "t_provincial": "Sin consignar (sin mediciones)",
+ "senal": "Sin consignar (sin mediciones)",
+ "operador": "Sin consignar (sin mediciones)",
+ "alojamiento": "Sin consignar (sin mediciones)",
+ "ronda": "POR VERIFICAR",
+ "contacto_ronda": "POR VERIFICAR",
+ "obs_dt05": "INVENTARIO NO LEVANTADO EN CAMPO; coordenadas correspondientes al CENTRO DEL FOTOGRAMA. Régimen, calidad, caudal y distancias POR VERIFICAR. HALLAZGO FAVORABLE: los fotogramas DJI_0343 y DJI_0344, adquiridos el 14 de agosto (PLENA ESTACIÓN SECA), muestran AGUA SUPERFICIAL CORRIENTE y faja ribereña continua en el cauce que limita el bloque por el norte; ello condiciona favorablemente la viabilidad de un VIVERO DE PROXIMIDAD y el riego de establecimiento. HALLAZGO CRÍTICO: los fotogramas DJI_0347, DJI_0354 y DJI_0377 muestran VIVIENDAS, CORRALES, CERCOS DE PIEDRA Y TERRAZAS DE CULTIVO en el borde —Y POSIBLEMENTE DENTRO— DEL POLÍGONO: ASUNTO ELEVADO A LA SUBDIRECCIÓN PARA REDELIMITACIÓN Y TAMIZAJE PREDIAL PREVIOS AL EXPEDIENTE DE LIBERACIÓN DE ÁREAS. La vía es ASFALTADA con badenes de concreto.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-01",
+   "D-02: bloque NO registrado en «Bloques V4» ni «Bloques V5»; procede del REPORTE_BLOQUES_V6 y de «Bloques extras»",
+   "SUSTANTIVA",
+   "Regularizar en el catálogo maestro"
+  ],
+  [
+   "F-DT-01",
+   "Centroide por restitución cartográfica (±30 m); altitud GPS sin consignar (la cota EXIF es de la aeronave)",
+   "SUSTANTIVA",
+   "Georreferencia y altitud por levantar"
+  ],
+  [
+   "F-DT-01",
+   "Rango altitudinal y pendiente referenciales de transecto Google Earth; sin estadística zonal del DEM",
+   "SUSTANTIVA",
+   "Calcular estadística zonal del MDE"
+  ],
+  [
+   "F-DT-02",
+   "Inventario georreferenciado de cárcavas no ejecutado pese a calificar la erosión como Fuerte y la urgencia como Crítica",
+   "SUSTANTIVA",
+   "Levantamiento prioritario"
+  ],
+  [
+   "F-DT-03",
+   "Las 15 especies se REPLICAN de los bloques 85, 86 y 87; no hay muestreo propio del bloque 84",
+   "SUSTANTIVA",
+   "No constituye inventario del bloque"
+  ],
+  [
+   "F-DT-04",
+   "Velocidad de degradación sin consignar (falta serie TAU y MSAVI multianual)",
+   "SUSTANTIVA",
+   "Procesar serie temporal"
+  ],
+  [
+   "F-DT-05",
+   "Viviendas, corrales, cercos de piedra y terrazas de cultivo en el borde y posiblemente DENTRO del polígono",
+   "SUSTANTIVA",
+   "Elevado a la Subdirección: redelimitación y tamizaje predial previos al Expediente de Liberación de Áreas"
+  ],
+  [
+   "F-DT-05",
+   "Coordenadas de las fuentes = centro del fotograma, no punto exacto de la fuente",
+   "NO SUSTANTIVA",
+   "Relevar con GPS"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_84_20260907_154653.pdf",
+ "bloque": "84"
+}

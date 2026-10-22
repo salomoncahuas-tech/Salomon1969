@@ -1,0 +1,198 @@
+{
+ "microcuenca_dt": "C1096-Q9564",
+ "evaluador": "Ing. Héctor Salomón Cahuas Miller (ANIN / DIME – SESDI)",
+ "correlativo": "F-DT-01 / B39-2026",
+ "fecha_eval": "2026-06-24",
+ "hora": "11:49 h (24-06) · 15:39-16:42 h (04-09)",
+ "cp_cercano": "La Cría",
+ "comunidad": "Por verificar (consultar Dirección Regional Agraria Piura)",
+ "altitud_gps": "No registrada",
+ "utm_e_dt": 619274,
+ "utm_n_dt": 9449187,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "15-25% (Fuert. inclinado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Norte",
+ "rango_altitudinal": "1500-2000 m (Quechua media)",
+ "paisaje": "Macizo de colina-montaña de la margen occidental del valle de La Cría, en cabecera de la microcuenca C1096-Q9564",
+ "afloramientos": "Sí",
+ "escarpes": "En blanco (no observable desde estación externa)",
+ "reptacion": "En blanco",
+ "deslizamientos": "En blanco",
+ "remociones": "En blanco",
+ "obs_dt01": "MODALIDAD DE VERIFICACIÓN EXTERNA. NINGUNA de las 14 estaciones fotográficas se localiza dentro del polígono: 13 tomas se concentran en el C.P. La Cría, entre 419 y 458 m al este del límite y a 780-817 m del centroide; la restante a 729 m al NNO. La completitud del levantamiento interno es NULA (0%). Escarpes activos, reptación, deslizamientos y remociones se dejan EN BLANCO —no «No»— porque no son observables desde estaciones externas y un «No» afirmaría una ausencia verificada que este levantamiento no sostiene. Superficie planimétrica medida ≈67.56 ha (−1.5% frente al catálogo).",
+ "nivel_erosion": "Ligera (laminar)",
+ "n_carcavas": "No inventariado",
+ "long_carcavas": "No inventariado",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "urgencia_control": "Baja",
+ "carcavas": [
+  [
+   "E-01",
+   "Cárcava somera (externa al polígono)",
+   619281,
+   9449192,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "E-02",
+   "Cárcava somera (externa al polígono)",
+   619265,
+   9449198,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ]
+ ],
+ "obs_dt02": "No se ejecutó inventario georreferenciado de cárcavas DENTRO del polígono: el levantamiento fue externo. Consignar «0» habría significado ausencia verificada; se consigna «No inventariado». Las filas E-01 y E-02 registran rasgos del ENTORNO INMEDIATO (C.P. La Cría, 420-455 m al este) y NO computan en los indicadores del bloque. La calificación «Ligera (laminar)» es preliminar y se sustenta en sensores remotos: 83.0% de la superficie con MSAVI 2024 >0.6139 y 94.0% en «vegetación alta» del NDVI 2025.",
+ "parcela": "No instalada – levantamiento externo",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 22.51,
+ "cob_veg": 90,
+ "ecosistema": "Matorral Andino subhúmedo",
+ "sup_ecosistema": "68.57 ha",
+ "estado_cons": "Levemente alterado",
+ "uso_dominante": "Forestal protección",
+ "cob_dosel": 70,
+ "cob_arbustiva": 20,
+ "cob_herbacea": 15,
+ "cob_hojarasca": "Por verificar",
+ "suelo_desnudo": 3,
+ "h_dominante": "Por verificar",
+ "h_max": "Por verificar",
+ "dap": "Por verificar",
+ "regeneracion": "En blanco (no observable desde estación externa)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Bosque denso (>70%)",
+ "n_taxones": 19,
+ "especies_clave": [
+  [
+   "Lanche (Myrcianthes rhopaloides)",
+   "—",
+   "NE"
+  ],
+  [
+   "Arrayán (Myrcianthes sp.)",
+   "Indicadora de buen estado",
+   "NE"
+  ],
+  [
+   "Roble andino (Roupala sp.)",
+   "Indicadora de buen estado",
+   "NE"
+  ],
+  [
+   "Higuerón (Ficus sp.)",
+   "Indicadora de buen estado",
+   "NE"
+  ],
+  [
+   "Sauco (Sambucus peruviana)",
+   "Clave cultural",
+   "NE"
+  ],
+  [
+   "Tara (Caesalpinia spinosa)",
+   "Clave cultural",
+   "NE"
+  ],
+  [
+   "Chirimoyo silvestre (Annona sp.)",
+   "Indicadora de buen estado",
+   "NE"
+  ],
+  [
+   "Matico (Piper aduncum)",
+   "Clave cultural",
+   "NE"
+  ],
+  [
+   "Chilca (Baccharis latifolia)",
+   "Indicadora de perturbación",
+   "NE"
+  ],
+  [
+   "Tabaco silvestre (Nicotiana sp.)",
+   "Indicadora de perturbación",
+   "NE"
+  ]
+ ],
+ "obs_dt03": "LISTA FLORÍSTICA PRELIMINAR — 19 taxones (15 nativos + 4 forestales introducidos). La columna ABUNDANCIA se deja deliberadamente EN BLANCO: no se instalaron parcelas ni transectos, por lo que no existe muestreo que la sustente. Los nombres científicos de mosquero, roble, chin chin, chilca, lanche y tabaco silvestre son atribuciones genéricas referenciales a partir del nombre local. El eucalipto, pino, ciprés y grevilea se registraron en el entorno inmediato; su presencia DENTRO del polígono queda por verificar.",
+ "causas": [
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Ligera",
+   "17"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Otro (forestación con exóticas)",
+   "Sí",
+   "Ligera",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Expansión de la frontera agropecuaria familiar desde el C.P. La Cría hacia la cabecera de microcuenca",
+ "causas_directas": "Presión agropecuaria de BORDE: parcelas de maíz en ladera y pastos cultivados que ascienden desde el C.P. La Cría hacia el flanco oriental y el tercio norte del macizo, acompañadas de rodales de forestales exóticas. El núcleo del bloque conserva dosel continuo (83.0% con MSAVI >0.6139).",
+ "velocidad": "Lenta",
+ "reversibilidad": "Totalmente reversible",
+ "urgencia": "Baja",
+ "ind_dist_via": 225,
+ "obs_dt04": "El Bloque 39 es, en términos de cobertura, uno de los MEJOR CONSERVADOS del catálogo: su MSAVI 2024 de 0.7016 lo ubica en el 5.º lugar entre los 127 bloques inventariados y es el más alto de su microcuenca. El diagnóstico es de PRESIÓN DE BORDE y no de deterioro consumado: la intervención pertinente es de CONSERVACIÓN Y ENRIQUECIMIENTO —clausura, acuerdos de conservación, control del avance agrícola en la franja de contacto— y no de restauración intensiva. Las casillas en blanco NO equivalen a «No».",
+ "fuentes_agua": [
+  [
+   "Otro (caja de captación)",
+   619278,
+   9449154,
+   "",
+   "No evaluable",
+   419,
+   "Captación poblacional en servicio"
+  ],
+  [
+   "Otro",
+   "",
+   "",
+   "",
+   "",
+   0,
+   "Curso de agua que delimita el bloque"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "419",
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Trocha carrozable de acceso al C.P. La Cría, con empalme a la red vial del distrito de Frías",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Por determinar",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "Por determinar",
+ "operador": "Por determinar",
+ "ronda": "Por determinar",
+ "obs_dt05": "La calificación «Sí» de zona de recarga se sustenta en la posición del bloque en cabecera de la microcuenca C1096-Q9564, en la continuidad del dosel y en la existencia de una CAPTACIÓN POBLACIONAL EN SERVICIO a 419 m aguas abajo del límite oriental. La humedad persistente se sustenta en la neblina registrada en pleno estiaje. La escorrentía concentrada se evidencia en los dos rasgos erosivos activos del C.P. La Cría, ambos externos al polígono.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 14,
+ "estaciones_dentro": 0,
+ "fuente_ficha": "Ficha_DT_39_20260907_154735.pdf",
+ "bloque": "39"
+}

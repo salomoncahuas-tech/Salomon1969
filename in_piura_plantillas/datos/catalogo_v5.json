@@ -1,0 +1,1292 @@
+{
+ "M9B1": {
+  "microcuenca": "C1096-Q9545",
+  "area_ha": 355.36,
+  "provincia": "Morropon",
+  "distrito": "Chulucanas",
+  "zona": "Z01",
+  "este": 595552,
+  "norte": 9451222,
+  "msavi": 0.314312
+ },
+ "M10B4": {
+  "microcuenca": "C1096-Q9547",
+  "area_ha": 68.89,
+  "provincia": "Morropon",
+  "distrito": "Chulucanas",
+  "zona": "Z01",
+  "este": 596773,
+  "norte": 9448273,
+  "msavi": 0.313301
+ },
+ "25": {
+  "microcuenca": "C1096-Q9547",
+  "area_ha": 53.48,
+  "provincia": "Morropon",
+  "distrito": "Chulucanas",
+  "zona": "Z01",
+  "este": 596578,
+  "norte": 9442453,
+  "msavi": 0.256543
+ },
+ "32": {
+  "microcuenca": "C1096-Q9556",
+  "area_ha": 35.83,
+  "provincia": "Morropon",
+  "distrito": "Chulucanas",
+  "zona": "Z01",
+  "este": 599927,
+  "norte": 9442604,
+  "msavi": 0.371619
+ },
+ "22": {
+  "microcuenca": "C1096-Q9556",
+  "area_ha": 79.33,
+  "provincia": "Morropon",
+  "distrito": "Chulucanas",
+  "zona": "Z01",
+  "este": 601122,
+  "norte": 9443651,
+  "msavi": 0.42317
+ },
+ "M17B1": {
+  "microcuenca": "C1096-Q9556",
+  "area_ha": 42.45,
+  "provincia": "Morropon",
+  "distrito": "Chulucanas",
+  "zona": "Z01",
+  "este": 600644,
+  "norte": 9440436,
+  "msavi": 0.332263
+ },
+ "2": {
+  "microcuenca": "C1096-Q9558",
+  "area_ha": 330.6,
+  "provincia": "Morropon",
+  "distrito": "Chulucanas",
+  "zona": "Z01",
+  "este": 603653,
+  "norte": 9439351,
+  "msavi": 0.358601
+ },
+ "M17B4": {
+  "microcuenca": "C1096-Q9556",
+  "area_ha": 124.71,
+  "provincia": "Morropon",
+  "distrito": "Chulucanas",
+  "zona": "Z01",
+  "este": 604926,
+  "norte": 9444327,
+  "msavi": 0.423543
+ },
+ "M27B1": {
+  "microcuenca": "C1096-Q9557",
+  "area_ha": 448.8,
+  "provincia": "Morropon",
+  "distrito": "Chulucanas",
+  "zona": "Z01",
+  "este": 593246,
+  "norte": 9430139,
+  "msavi": 0.363228
+ },
+ "3": {
+  "microcuenca": "C1096-Q9545",
+  "area_ha": 459.29,
+  "provincia": "Ayabaca",
+  "distrito": "Frias",
+  "zona": "Z02",
+  "este": 606816,
+  "norte": 9458469,
+  "msavi": 0.567707
+ },
+ "6": {
+  "microcuenca": "C1096-Q9547",
+  "area_ha": 168.41,
+  "provincia": "Ayabaca",
+  "distrito": "Frias",
+  "zona": "Z02",
+  "este": 605636,
+  "norte": 9455269,
+  "msavi": 0.538144
+ },
+ "36": {
+  "microcuenca": "C1096-Q9547",
+  "area_ha": 24.84,
+  "provincia": "Ayabaca",
+  "distrito": "Frias",
+  "zona": "Z02",
+  "este": 606468,
+  "norte": 9454689,
+  "msavi": 0.539458
+ },
+ "M17B7": {
+  "microcuenca": "C1096-Q9556",
+  "area_ha": 258.84,
+  "provincia": "Ayabaca",
+  "distrito": "Frias",
+  "zona": "Z02",
+  "este": 608472,
+  "norte": 9448056,
+  "msavi": 0.508715
+ },
+ "M17B6": {
+  "microcuenca": "C1096-Q9556",
+  "area_ha": 106.54,
+  "provincia": "Ayabaca",
+  "distrito": "Frias",
+  "zona": "Z02",
+  "este": 607036,
+  "norte": 9446211,
+  "msavi": 0.446441
+ },
+ "M17B10": {
+  "microcuenca": "C1096-Q9556",
+  "area_ha": 75.36,
+  "provincia": "Ayabaca",
+  "distrito": "Frias",
+  "zona": "Z02",
+  "este": 606173,
+  "norte": 9447361,
+  "msavi": 0.472466
+ },
+ "M17B5": {
+  "microcuenca": "C1096-Q9556",
+  "area_ha": 74.03,
+  "provincia": "Ayabaca",
+  "distrito": "Frias",
+  "zona": "Z02",
+  "este": 608800,
+  "norte": 9445585,
+  "msavi": 0.54817
+ },
+ "27": {
+  "microcuenca": "C1096-Q9556",
+  "area_ha": 78.15,
+  "provincia": "Ayabaca",
+  "distrito": "Frias",
+  "zona": "Z02",
+  "este": 613302,
+  "norte": 9450231,
+  "msavi": 0.53228
+ },
+ "39": {
+  "microcuenca": "C1096-Q9564",
+  "area_ha": 68.57,
+  "provincia": "Ayabaca",
+  "distrito": "Frias",
+  "zona": "Z02",
+  "este": 618523,
+  "norte": 9448918,
+  "msavi": 0.701601
+ },
+ "56": {
+  "microcuenca": "C1096-Q9564",
+  "area_ha": 77.67,
+  "provincia": "Ayabaca",
+  "distrito": "Frias",
+  "zona": "Z02",
+  "este": 631723,
+  "norte": 9439702,
+  "msavi": 0.677658
+ },
+ "12": {
+  "microcuenca": "C1086-Q9570",
+  "area_ha": 119.54,
+  "provincia": "Morropon",
+  "distrito": "Santo Domingo",
+  "zona": "Z03",
+  "este": 625419,
+  "norte": 9444932,
+  "msavi": 0.706689
+ },
+ "82": {
+  "microcuenca": "C1086-Q9570",
+  "area_ha": 35.66,
+  "provincia": "Morropon",
+  "distrito": "Santo Domingo",
+  "zona": "Z03",
+  "este": 621452,
+  "norte": 9443855,
+  "msavi": 0.62835
+ },
+ "13": {
+  "microcuenca": "C1096-Q9564",
+  "area_ha": 100.51,
+  "provincia": "Morropon",
+  "distrito": "Santo Domingo",
+  "zona": "Z03",
+  "este": 620263,
+  "norte": 9442343,
+  "msavi": 0.671094
+ },
+ "78": {
+  "microcuenca": "C1086-Q9570",
+  "area_ha": 35.1,
+  "provincia": "Morropon",
+  "distrito": "Santo Domingo",
+  "zona": "Z03",
+  "este": 619630,
+  "norte": 9440043,
+  "msavi": 0.707402
+ },
+ "11": {
+  "microcuenca": "C1086-Q9570",
+  "area_ha": 103.95,
+  "provincia": "Morropon",
+  "distrito": "Santo Domingo",
+  "zona": "Z03",
+  "este": 620759,
+  "norte": 9439988,
+  "msavi": 0.604743
+ },
+ "23": {
+  "microcuenca": "C1086-Q9570",
+  "area_ha": 81.78,
+  "provincia": "Morropon",
+  "distrito": "Santo Domingo",
+  "zona": "Z03",
+  "este": 619939,
+  "norte": 9438544,
+  "msavi": 0.573141
+ },
+ "15": {
+  "microcuenca": "C1086-Q9570",
+  "area_ha": 86.15,
+  "provincia": "Morropon",
+  "distrito": "Santo Domingo",
+  "zona": "Z03",
+  "este": 620200,
+  "norte": 9437862,
+  "msavi": 0.560518
+ },
+ "M19B7": {
+  "microcuenca": "C1086-Q9570",
+  "area_ha": 34.17,
+  "provincia": "Morropon",
+  "distrito": "Santo Domingo",
+  "zona": "Z03",
+  "este": 620770,
+  "norte": 9436562,
+  "msavi": 0.591921
+ },
+ "17": {
+  "microcuenca": "C1086-Q9570",
+  "area_ha": 96.08,
+  "provincia": "Morropon",
+  "distrito": "Santo Domingo",
+  "zona": "Z03",
+  "este": 618661,
+  "norte": 9438267,
+  "msavi": 0.647895
+ },
+ "M8B2": {
+  "microcuenca": "C1096-Q9558",
+  "area_ha": 35.35,
+  "provincia": "Morropon",
+  "distrito": "Santo Domingo",
+  "zona": "Z03",
+  "este": 617596,
+  "norte": 9436227,
+  "msavi": 0.530453
+ },
+ "57": {
+  "microcuenca": "C1086-Q9576",
+  "area_ha": 25.67,
+  "provincia": "Morropon",
+  "distrito": "Chalaco",
+  "zona": "Z04",
+  "este": 631195,
+  "norte": 9441777,
+  "msavi": 0.603055
+ },
+ "59": {
+  "microcuenca": "C1086-Q9570",
+  "area_ha": 13.55,
+  "provincia": "Morropon",
+  "distrito": "Chalaco",
+  "zona": "Z04",
+  "este": 631195,
+  "norte": 9441777,
+  "msavi": 0.614739
+ },
+ "M36B2": {
+  "microcuenca": "C1086-Q9576",
+  "area_ha": 28.19,
+  "provincia": "Morropon",
+  "distrito": "Santa Catalina de Mossa",
+  "zona": "Z04",
+  "este": 626438,
+  "norte": 9435060,
+  "msavi": 0.597433
+ },
+ "42": {
+  "microcuenca": "C1086-Q9570",
+  "area_ha": 80.62,
+  "provincia": "Morropon",
+  "distrito": "Santa Catalina de Mossa",
+  "zona": "Z04",
+  "este": 625152,
+  "norte": 9435011,
+  "msavi": 0.634841
+ },
+ "14": {
+  "microcuenca": "C1086-Q9570",
+  "area_ha": 92.9,
+  "provincia": "Morropon",
+  "distrito": "Santa Catalina de Mossa",
+  "zona": "Z04",
+  "este": 624397,
+  "norte": 9437085,
+  "msavi": 0.51974
+ },
+ "58": {
+  "microcuenca": "C1086-Q9569",
+  "area_ha": 11.47,
+  "provincia": "Morropon",
+  "distrito": "Santa Catalina de Mossa",
+  "zona": "Z04",
+  "este": 619094,
+  "norte": 9426406,
+  "msavi": 0.420325
+ },
+ "M19B2": {
+  "microcuenca": "C1086-Q9570",
+  "area_ha": 74.37,
+  "provincia": "Morropon",
+  "distrito": "Morropon",
+  "zona": "Z05",
+  "este": 617715,
+  "norte": 9427284,
+  "msavi": 0.401185
+ },
+ "M32B3": {
+  "microcuenca": "C1086-Q9569",
+  "area_ha": 50.97,
+  "provincia": "Morropon",
+  "distrito": "Morropon",
+  "zona": "Z05",
+  "este": 618248,
+  "norte": 9426493,
+  "msavi": 0.385213
+ },
+ "M6B10": {
+  "microcuenca": "C1077-Q9566",
+  "area_ha": 249.89,
+  "provincia": "Morropon",
+  "distrito": "Buenos Aires",
+  "zona": "Z06",
+  "este": 618299,
+  "norte": 9423119,
+  "msavi": 0.30989
+ },
+ "M6B2-3": {
+  "microcuenca": "C1077-Q9566",
+  "area_ha": 160.98,
+  "provincia": "Morropon",
+  "distrito": "Buenos Aires",
+  "zona": "Z06",
+  "este": 611305,
+  "norte": 9419274,
+  "msavi": 0.406259
+ },
+ "M6B2-2": {
+  "microcuenca": "C1077-Q9566",
+  "area_ha": 333.01,
+  "provincia": "Morropon",
+  "distrito": "Buenos Aires",
+  "zona": "Z06",
+  "este": 611196,
+  "norte": 9416725,
+  "msavi": 0.302636
+ },
+ "M6B2-1": {
+  "microcuenca": "C1077-Q9566",
+  "area_ha": 514.36,
+  "provincia": "Morropon",
+  "distrito": "Buenos Aires",
+  "zona": "Z06",
+  "este": 612864,
+  "norte": 9413345,
+  "msavi": 0.3381
+ },
+ "5": {
+  "microcuenca": "C1077-Q9566",
+  "area_ha": 295.73,
+  "provincia": "Morropon",
+  "distrito": "Buenos Aires",
+  "zona": "Z06",
+  "este": 617860,
+  "norte": 9413182,
+  "msavi": 0.3394
+ },
+ "M1B1": {
+  "microcuenca": "C1077-Q9580",
+  "area_ha": 188.8,
+  "provincia": "Morropon",
+  "distrito": "Buenos Aires",
+  "zona": "Z06",
+  "este": 617695,
+  "norte": 9409136,
+  "msavi": 0.319305
+ },
+ "M18B1": {
+  "microcuenca": "C1077-Q9579",
+  "area_ha": 160.36,
+  "provincia": "Morropon",
+  "distrito": "Buenos Aires",
+  "zona": "Z06",
+  "este": 621058,
+  "norte": 9410427,
+  "msavi": 0.334299
+ },
+ "M3B9": {
+  "microcuenca": "C1081-Q9582",
+  "area_ha": 294.2,
+  "provincia": "Morropon",
+  "distrito": "Salitral",
+  "zona": "Z07",
+  "este": 629338,
+  "norte": 9413305,
+  "msavi": 0.321386
+ },
+ "M3B1": {
+  "microcuenca": "C1081-Q9582",
+  "area_ha": 80.98,
+  "provincia": "Morropon",
+  "distrito": "Salitral",
+  "zona": "Z07",
+  "este": 630685,
+  "norte": 9410800,
+  "msavi": 0.323882
+ },
+ "M7B1": {
+  "microcuenca": "C1076-Q9581",
+  "area_ha": 130.43,
+  "provincia": "Morropon",
+  "distrito": "Salitral",
+  "zona": "Z07",
+  "este": 629006,
+  "norte": 9407536,
+  "msavi": 0.313647
+ },
+ "M7B2": {
+  "microcuenca": "C1076-Q9581",
+  "area_ha": 115.38,
+  "provincia": "Morropon",
+  "distrito": "Salitral",
+  "zona": "Z07",
+  "este": 631438,
+  "norte": 9403547,
+  "msavi": 0.287689
+ },
+ "M7B3": {
+  "microcuenca": "C1076-Q9581",
+  "area_ha": 65.74,
+  "provincia": "Morropon",
+  "distrito": "Salitral",
+  "zona": "Z07",
+  "este": 633232,
+  "norte": 9401227,
+  "msavi": 0.298017
+ },
+ "M7B6": {
+  "microcuenca": "C1076-Q9581",
+  "area_ha": 91.29,
+  "provincia": "Morropon",
+  "distrito": "Salitral",
+  "zona": "Z07",
+  "este": 635110,
+  "norte": 9399092,
+  "msavi": 0.287833
+ },
+ "M2B1": {
+  "microcuenca": "C1076-Q9584",
+  "area_ha": 81.79,
+  "provincia": "Morropon",
+  "distrito": "Salitral",
+  "zona": "Z07",
+  "este": 635876,
+  "norte": 9397941,
+  "msavi": 0.29836
+ },
+ "7": {
+  "microcuenca": "C1076-Q9584",
+  "area_ha": 173.43,
+  "provincia": "Morropon",
+  "distrito": "Salitral",
+  "zona": "Z07",
+  "este": 639728,
+  "norte": 9396836,
+  "msavi": 0.375288
+ },
+ "M2B5": {
+  "microcuenca": "C1076-Q9584",
+  "area_ha": 30.91,
+  "provincia": "Morropon",
+  "distrito": "Salitral",
+  "zona": "Z07",
+  "este": 639987,
+  "norte": 9394392,
+  "msavi": 0.304733
+ },
+ "1": {
+  "microcuenca": "C1076-Q9584",
+  "area_ha": 1370.96,
+  "provincia": "Morropon",
+  "distrito": "Salitral",
+  "zona": "Z07",
+  "este": 645575,
+  "norte": 9393500,
+  "msavi": 0.454493
+ },
+ "M18B3": {
+  "microcuenca": "C1077-Q9579",
+  "area_ha": 373.81,
+  "provincia": "Morropon",
+  "distrito": "Salitral",
+  "zona": "Z07",
+  "este": 625311,
+  "norte": 9412195,
+  "msavi": 0.369424
+ },
+ "M18B5": {
+  "microcuenca": "C1077-Q9579",
+  "area_ha": 197.35,
+  "provincia": "Morropon",
+  "distrito": "Salitral",
+  "zona": "Z07",
+  "este": 621551,
+  "norte": 9412989,
+  "msavi": 0.356522
+ },
+ "M3B7": {
+  "microcuenca": "C1081-Q9582",
+  "area_ha": 122.95,
+  "provincia": "Morropon",
+  "distrito": "San Juan de Bigote",
+  "zona": "Z08",
+  "este": 638309,
+  "norte": 9415217,
+  "msavi": 0.370678
+ },
+ "M3B6": {
+  "microcuenca": "C1081-Q9582",
+  "area_ha": 60.35,
+  "provincia": "Morropon",
+  "distrito": "San Juan de Bigote",
+  "zona": "Z08",
+  "este": 637918,
+  "norte": 9412134,
+  "msavi": 0.342535
+ },
+ "77": {
+  "microcuenca": "C1081-Q9583",
+  "area_ha": 17.82,
+  "provincia": "Morropon",
+  "distrito": "San Juan de Bigote",
+  "zona": "Z08",
+  "este": 638648,
+  "norte": 9411370,
+  "msavi": 0.272488
+ },
+ "M3B5": {
+  "microcuenca": "C1081-Q9582",
+  "area_ha": 52.74,
+  "provincia": "Morropon",
+  "distrito": "San Juan de Bigote",
+  "zona": "Z08",
+  "este": 635887,
+  "norte": 9411738,
+  "msavi": 0.283016
+ },
+ "M3B3": {
+  "microcuenca": "C1081-Q9582",
+  "area_ha": 84.82,
+  "provincia": "Morropon",
+  "distrito": "San Juan de Bigote",
+  "zona": "Z08",
+  "este": 633015,
+  "norte": 9411483,
+  "msavi": 0.298483
+ },
+ "M3B8": {
+  "microcuenca": "C1081-Q9582",
+  "area_ha": 565.58,
+  "provincia": "Morropon",
+  "distrito": "San Juan de Bigote",
+  "zona": "Z08",
+  "este": 632119,
+  "norte": 9415141,
+  "msavi": 0.293351
+ },
+ "M11B3": {
+  "microcuenca": "C1081-Q9583",
+  "area_ha": 106.03,
+  "provincia": "Morropon",
+  "distrito": "San Juan de Bigote",
+  "zona": "Z08",
+  "este": 642079,
+  "norte": 9413823,
+  "msavi": 0.395609
+ },
+ "55": {
+  "microcuenca": "C1086-Q9575",
+  "area_ha": 0.86,
+  "provincia": "Morropon",
+  "distrito": "Yamango",
+  "zona": "Z09",
+  "este": 642690,
+  "norte": 9438409,
+  "msavi": 0.630032
+ },
+ "49": {
+  "microcuenca": "C1086-Q9575",
+  "area_ha": 15.84,
+  "provincia": "Morropon",
+  "distrito": "Yamango",
+  "zona": "Z09",
+  "este": 642334,
+  "norte": 9438263,
+  "msavi": 0.686036
+ },
+ "52": {
+  "microcuenca": "C1086-Q9575",
+  "area_ha": 11.06,
+  "provincia": "Morropon",
+  "distrito": "Yamango",
+  "zona": "Z09",
+  "este": 641522,
+  "norte": 9438064,
+  "msavi": 0.66855
+ },
+ "48": {
+  "microcuenca": "C1086-Q9575",
+  "area_ha": 5.75,
+  "provincia": "Morropon",
+  "distrito": "Yamango",
+  "zona": "Z09",
+  "este": 639496,
+  "norte": 9433679,
+  "msavi": 0.697809
+ },
+ "46": {
+  "microcuenca": "C1086-Q9575",
+  "area_ha": 18.87,
+  "provincia": "Morropon",
+  "distrito": "Yamango",
+  "zona": "Z09",
+  "este": 638751,
+  "norte": 9433236,
+  "msavi": 0.724382
+ },
+ "M28B2": {
+  "microcuenca": "C1086-Q9575",
+  "area_ha": 90.2,
+  "provincia": "Morropon",
+  "distrito": "Yamango",
+  "zona": "Z09",
+  "este": 636249,
+  "norte": 9425665,
+  "msavi": 0.475342
+ },
+ "M28B3": {
+  "microcuenca": "C1086-Q9575",
+  "area_ha": 58.29,
+  "provincia": "Morropon",
+  "distrito": "Yamango",
+  "zona": "Z09",
+  "este": 634061,
+  "norte": 9426778,
+  "msavi": 0.507529
+ },
+ "M28B4": {
+  "microcuenca": "C1086-Q9575",
+  "area_ha": 283.43,
+  "provincia": "Morropon",
+  "distrito": "Yamango",
+  "zona": "Z09",
+  "este": 626078,
+  "norte": 9427110,
+  "msavi": 0.42751
+ },
+ "33": {
+  "microcuenca": "C1081-Q9590",
+  "area_ha": 29.68,
+  "provincia": "Huancabamba",
+  "distrito": "Lalaquiz",
+  "zona": "Z10",
+  "este": 646466,
+  "norte": 9431126,
+  "msavi": 0.71923
+ },
+ "38": {
+  "microcuenca": "C1081-Q9590",
+  "area_ha": 44.2,
+  "provincia": "Huancabamba",
+  "distrito": "Lalaquiz",
+  "zona": "Z10",
+  "este": 647123,
+  "norte": 9427602,
+  "msavi": 0.672487
+ },
+ "50": {
+  "microcuenca": "C1081-Q9590",
+  "area_ha": 19.27,
+  "provincia": "Huancabamba",
+  "distrito": "Lalaquiz",
+  "zona": "Z10",
+  "este": 647350,
+  "norte": 9427252,
+  "msavi": 0.68307
+ },
+ "34": {
+  "microcuenca": "C1081-Q9590",
+  "area_ha": 28.45,
+  "provincia": "Huancabamba",
+  "distrito": "Lalaquiz",
+  "zona": "Z10",
+  "este": 646483,
+  "norte": 9426305,
+  "msavi": 0.648975
+ },
+ "61": {
+  "microcuenca": "C1081-Q9590",
+  "area_ha": 26.83,
+  "provincia": "Huancabamba",
+  "distrito": "Lalaquiz",
+  "zona": "Z10",
+  "este": 646236,
+  "norte": 9425052,
+  "msavi": 0.611186
+ },
+ "37": {
+  "microcuenca": "C1081-Q9591",
+  "area_ha": 35.49,
+  "provincia": "Huancabamba",
+  "distrito": "Lalaquiz",
+  "zona": "Z10",
+  "este": 649081,
+  "norte": 9424506,
+  "msavi": 0.658846
+ },
+ "26": {
+  "microcuenca": "C1081-Q9591",
+  "area_ha": 46.96,
+  "provincia": "Huancabamba",
+  "distrito": "Lalaquiz",
+  "zona": "Z10",
+  "este": 649472,
+  "norte": 9425705,
+  "msavi": 0.673303
+ },
+ "64": {
+  "microcuenca": "C1081-Q9591",
+  "area_ha": 35.77,
+  "provincia": "Huancabamba",
+  "distrito": "Huancabamba",
+  "zona": "Z11",
+  "este": 657819,
+  "norte": 9428541,
+  "msavi": 0.525448
+ },
+ "M30B5": {
+  "microcuenca": "C1081-Q9591",
+  "area_ha": 90.9,
+  "provincia": "Huancabamba",
+  "distrito": "Huancabamba",
+  "zona": "Z11",
+  "este": 655263,
+  "norte": 9427340,
+  "msavi": 0.5564
+ },
+ "60": {
+  "microcuenca": "C1081-Q9591",
+  "area_ha": 40.13,
+  "provincia": "Huancabamba",
+  "distrito": "Canchaque",
+  "zona": "Z11",
+  "este": 653850,
+  "norte": 9426236,
+  "msavi": 0.67447
+ },
+ "40": {
+  "microcuenca": "C1081-Q9591",
+  "area_ha": 28.52,
+  "provincia": "Huancabamba",
+  "distrito": "Canchaque",
+  "zona": "Z11",
+  "este": 654137,
+  "norte": 9424425,
+  "msavi": 0.640099
+ },
+ "30": {
+  "microcuenca": "C1081-Q9591",
+  "area_ha": 34.87,
+  "provincia": "Huancabamba",
+  "distrito": "Canchaque",
+  "zona": "Z11",
+  "este": 652758,
+  "norte": 9424380,
+  "msavi": 0.663804
+ },
+ "28": {
+  "microcuenca": "C1081-Q9591",
+  "area_ha": 52.97,
+  "provincia": "Huancabamba",
+  "distrito": "Canchaque",
+  "zona": "Z11",
+  "este": 654188,
+  "norte": 9422849,
+  "msavi": 0.639425
+ },
+ "21": {
+  "microcuenca": "C1081-Q9591",
+  "area_ha": 84.23,
+  "provincia": "Huancabamba",
+  "distrito": "Canchaque",
+  "zona": "Z11",
+  "este": 654604,
+  "norte": 9417736,
+  "msavi": 0.620078
+ },
+ "66": {
+  "microcuenca": "C1081-Q9591",
+  "area_ha": 102.34,
+  "provincia": "Huancabamba",
+  "distrito": "Canchaque",
+  "zona": "Z11",
+  "este": 652566,
+  "norte": 9417311,
+  "msavi": 0.640254
+ },
+ "24": {
+  "microcuenca": "C1081-Q9583",
+  "area_ha": 90.16,
+  "provincia": "Huancabamba",
+  "distrito": "Canchaque",
+  "zona": "Z11",
+  "este": 652191,
+  "norte": 9414358,
+  "msavi": 0.674839
+ },
+ "63": {
+  "microcuenca": "C1081-Q9583",
+  "area_ha": 50.46,
+  "provincia": "Huancabamba",
+  "distrito": "Canchaque",
+  "zona": "Z11",
+  "este": 655059,
+  "norte": 9413845,
+  "msavi": 0.603582
+ },
+ "79": {
+  "microcuenca": "C1076-Q9587",
+  "area_ha": 94.81,
+  "provincia": "Huancabamba",
+  "distrito": "Canchaque",
+  "zona": "Z11",
+  "este": 650305,
+  "norte": 9402785,
+  "msavi": 0.547879
+ },
+ "81": {
+  "microcuenca": "C1076-Q9585",
+  "area_ha": 8.93,
+  "provincia": "Huancabamba",
+  "distrito": "Canchaque",
+  "zona": "Z11",
+  "este": 641538,
+  "norte": 9401360,
+  "msavi": 0.274714
+ },
+ "M22B1": {
+  "microcuenca": "C1076-Q9586",
+  "area_ha": 55.17,
+  "provincia": "Huancabamba",
+  "distrito": "San Miguel de El Faique",
+  "zona": "Z12",
+  "este": 664082,
+  "norte": 9404172,
+  "msavi": 0.594025
+ },
+ "44": {
+  "microcuenca": "C1076-Q9586",
+  "area_ha": 28.23,
+  "provincia": "Huancabamba",
+  "distrito": "San Miguel de El Faique",
+  "zona": "Z12",
+  "este": 663637,
+  "norte": 9400618,
+  "msavi": 0.511324
+ },
+ "47": {
+  "microcuenca": "C1076-Q9586",
+  "area_ha": 13.55,
+  "provincia": "Huancabamba",
+  "distrito": "San Miguel de El Faique",
+  "zona": "Z12",
+  "este": 659649,
+  "norte": 9401436,
+  "msavi": 0.593628
+ },
+ "75": {
+  "microcuenca": "C1076-Q9587",
+  "area_ha": 15.18,
+  "provincia": "Huancabamba",
+  "distrito": "San Miguel de El Faique",
+  "zona": "Z12",
+  "este": 657722,
+  "norte": 9401669,
+  "msavi": 0.630888
+ },
+ "9": {
+  "microcuenca": "C1076-Q9586",
+  "area_ha": 109.86,
+  "provincia": "Huancabamba",
+  "distrito": "San Miguel de El Faique",
+  "zona": "Z12",
+  "este": 656578,
+  "norte": 9397762,
+  "msavi": 0.574527
+ },
+ "43": {
+  "microcuenca": "C1076-Q9586",
+  "area_ha": 23.17,
+  "provincia": "Huancabamba",
+  "distrito": "San Miguel de El Faique",
+  "zona": "Z12",
+  "este": 656489,
+  "norte": 9395403,
+  "msavi": 0.551525
+ },
+ "35": {
+  "microcuenca": "C1076-Q9586",
+  "area_ha": 30.8,
+  "provincia": "Huancabamba",
+  "distrito": "San Miguel de El Faique",
+  "zona": "Z12",
+  "este": 654607,
+  "norte": 9395038,
+  "msavi": 0.624477
+ },
+ "67": {
+  "microcuenca": "C1076-Q9586",
+  "area_ha": 13.18,
+  "provincia": "Huancabamba",
+  "distrito": "San Miguel de El Faique",
+  "zona": "Z12",
+  "este": 654207,
+  "norte": 9394210,
+  "msavi": 0.605293
+ },
+ "M20B1": {
+  "microcuenca": "C1076-Q9585",
+  "area_ha": 279.68,
+  "provincia": "Huancabamba",
+  "distrito": "San Miguel de El Faique",
+  "zona": "Z12",
+  "este": 641196,
+  "norte": 9398710,
+  "msavi": 0.355329
+ },
+ "M2B8": {
+  "microcuenca": "C1076-Q9584",
+  "area_ha": 116.1,
+  "provincia": "Huancabamba",
+  "distrito": "San Miguel de El Faique",
+  "zona": "Z12",
+  "este": 639059,
+  "norte": 9398295,
+  "msavi": 0.375171
+ },
+ "29": {
+  "microcuenca": "C1076-Q9592",
+  "area_ha": 40.1,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z13",
+  "este": 662123,
+  "norte": 9397575,
+  "msavi": 0.548192
+ },
+ "68": {
+  "microcuenca": "C1076-Q9592",
+  "area_ha": 21.29,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z13",
+  "este": 664225,
+  "norte": 9396339,
+  "msavi": 0.482981
+ },
+ "53": {
+  "microcuenca": "C1076-Q9592",
+  "area_ha": 13.06,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z13",
+  "este": 666537,
+  "norte": 9395918,
+  "msavi": 0.596277
+ },
+ "70": {
+  "microcuenca": "C1076-Q9592",
+  "area_ha": 22.39,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z13",
+  "este": 666781,
+  "norte": 9395573,
+  "msavi": 0.622295
+ },
+ "31": {
+  "microcuenca": "C1076-Q9592",
+  "area_ha": 47.58,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z13",
+  "este": 663334,
+  "norte": 9392820,
+  "msavi": 0.435805
+ },
+ "69": {
+  "microcuenca": "C1076-Q9592",
+  "area_ha": 19.43,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z13",
+  "este": 663291,
+  "norte": 9392332,
+  "msavi": 0.448926
+ },
+ "72": {
+  "microcuenca": "C1076-Q9592",
+  "area_ha": 12.4,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z13",
+  "este": 662236,
+  "norte": 9391211,
+  "msavi": 0.518477
+ },
+ "41": {
+  "microcuenca": "C1076-Q9592",
+  "area_ha": 64.92,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z13",
+  "este": 660525,
+  "norte": 9394327,
+  "msavi": 0.592669
+ },
+ "73": {
+  "microcuenca": "C1076-Q9592",
+  "area_ha": 54.29,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z13",
+  "este": 658547,
+  "norte": 9395594,
+  "msavi": 0.554974
+ },
+ "18": {
+  "microcuenca": "C1076-Q9592",
+  "area_ha": 103.62,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z13",
+  "este": 656445,
+  "norte": 9393180,
+  "msavi": 0.640219
+ },
+ "74": {
+  "microcuenca": "C1076-Q9588",
+  "area_ha": 29.23,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z13",
+  "este": 652449,
+  "norte": 9389179,
+  "msavi": 0.356463
+ },
+ "M12B1": {
+  "microcuenca": "C1076-Q9588",
+  "area_ha": 268.39,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z13",
+  "este": 644546,
+  "norte": 9389106,
+  "msavi": 0.34753
+ },
+ "19": {
+  "microcuenca": "C1076-Q9592",
+  "area_ha": 82.09,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z13",
+  "este": 665942,
+  "norte": 9391144,
+  "msavi": 0.537184
+ },
+ "M4B4": {
+  "microcuenca": "C1076-Q9589",
+  "area_ha": 289.91,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z14",
+  "este": 642775,
+  "norte": 9388574,
+  "msavi": 0.319788
+ },
+ "M4B3": {
+  "microcuenca": "C1076-Q9589",
+  "area_ha": 234.07,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z14",
+  "este": 643474,
+  "norte": 9385620,
+  "msavi": 0.322153
+ },
+ "10": {
+  "microcuenca": "C1076-Q9593",
+  "area_ha": 150.21,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z14",
+  "este": 650830,
+  "norte": 9382303,
+  "msavi": 0.546492
+ },
+ "16": {
+  "microcuenca": "C1076-Q9593",
+  "area_ha": 83.33,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z14",
+  "este": 652939,
+  "norte": 9382105,
+  "msavi": 0.628423
+ },
+ "4": {
+  "microcuenca": "C1076-Q9588",
+  "area_ha": 230.1,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z14",
+  "este": 656549,
+  "norte": 9382009,
+  "msavi": 0.660111
+ },
+ "51": {
+  "microcuenca": "C1076-Q9593",
+  "area_ha": 22.93,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z14",
+  "este": 656291,
+  "norte": 9379096,
+  "msavi": 0.523788
+ },
+ "76": {
+  "microcuenca": "C1076-Q9593",
+  "area_ha": 19.62,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z14",
+  "este": 657922,
+  "norte": 9377477,
+  "msavi": 0.492462
+ },
+ "80": {
+  "microcuenca": "C1076-Q9593",
+  "area_ha": 28.83,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z14",
+  "este": 657160,
+  "norte": 9373050,
+  "msavi": 0.593069
+ },
+ "71": {
+  "microcuenca": "C1076-Q9593",
+  "area_ha": 10.67,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z14",
+  "este": 652104,
+  "norte": 9373045,
+  "msavi": 0.557066
+ },
+ "8": {
+  "microcuenca": "C1076-Q9593",
+  "area_ha": 126.95,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z14",
+  "este": 651673,
+  "norte": 9373383,
+  "msavi": 0.554802
+ },
+ "20": {
+  "microcuenca": "C1076-Q9593",
+  "area_ha": 81.33,
+  "provincia": "Huancabamba",
+  "distrito": "Huarmaca",
+  "zona": "Z14",
+  "este": 649847,
+  "norte": 9376260,
+  "msavi": 0.48513
+ },
+ "83": {
+  "microcuenca": "C1081-Q9583",
+  "area_ha": 24.344,
+  "provincia": "Morropon",
+  "distrito": "San Juan de Bigote",
+  "zona": "Z08",
+  "este": 639720,
+  "norte": 9410622,
+  "msavi": 0.30545594
+ },
+ "84": {
+  "microcuenca": "C1081-Q9583",
+  "area_ha": 5.097,
+  "provincia": "Morropon",
+  "distrito": "San Juan de Bigote",
+  "zona": "Z08",
+  "este": 640237,
+  "norte": 9410714,
+  "msavi": 0.251595558
+ },
+ "85": {
+  "microcuenca": "C1081-Q9583",
+  "area_ha": 11.906,
+  "provincia": "Morropon",
+  "distrito": "San Juan de Bigote",
+  "zona": "Z08",
+  "este": 642200,
+  "norte": 9411072,
+  "msavi": 0.228928157
+ },
+ "86": {
+  "microcuenca": "C1081-Q9583",
+  "area_ha": 30.001,
+  "provincia": "Morropon",
+  "distrito": "San Juan de Bigote",
+  "zona": "Z08",
+  "este": 642415,
+  "norte": 9410216,
+  "msavi": 0.273471802
+ },
+ "87": {
+  "microcuenca": "C1081-Q9583",
+  "area_ha": 62.219,
+  "provincia": "Morropon",
+  "distrito": "San Juan de Bigote",
+  "zona": "Z08",
+  "este": 642882,
+  "norte": 9411123,
+  "msavi": 0.248717766
+ }
+}

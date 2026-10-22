@@ -1,0 +1,198 @@
+{
+ "microcuenca_dt": "C1076-Q9587",
+ "evaluador": "Ing. Juan Domínguez",
+ "correlativo": "F-DT-01-79",
+ "fecha_eval": "2026-07-20",
+ "hora": "Sin registro en ficha",
+ "cp_cercano": "Almirante Miguel Grau (también Huabal)",
+ "comunidad": "Por verificar",
+ "altitud_gps": "898 (cota media de gabinete, sin registro GPS de campo) — rango MDE 681 - 1114 (amplitud 433 m)",
+ "utm_e_dt": 650305,
+ "utm_n_dt": 9402785,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "15-25% (Fuert. inclinado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Suroeste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Sistema de laderas convexo-cóncavas de colina media sobre la margen izquierda del río Pusmalca",
+ "afloramientos": "Sin registro en ficha",
+ "escarpes": "Sin registro en ficha",
+ "reptacion": "Sin registro en ficha",
+ "deslizamientos": "Sin registro en ficha",
+ "remociones": "Sin registro en ficha",
+ "obs_dt01": "Coordenadas correspondientes al CENTROIDE del polígono (Bloques V4/V5); no a un punto de muestreo GPS de campo. Altitud consignada: COTA MEDIA DE GABINETE 898 msnm (sin registro GPS de campo). Rango altitudinal según MDE: 681-1 114 msnm (amplitud 433 m); pendiente promedio 17.59%. Centros poblados asociados: Almirante Miguel Grau y Huabal. Acceso: vía nacional asfaltada Piura – Canchaque, margen izquierda del río Pusmalca.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sin registro en ficha",
+ "nivel_erosion": "Sin registro en ficha",
+ "n_carcavas": "0 = no inventariadas",
+ "long_carcavas": 0,
+ "pct_carcavas": 0,
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Aislado",
+ "socavamiento": "Sin registro en ficha",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "LA DESCRIPCIÓN FÍSICA Y DE PROCESOS EROSIVOS DEL BLOQUE 79 NO FUE TRANSCRITA en la versión resumida del Segundo Entregable (acápite 4.1.3.1.1 incompleto). La caracterización procede EXCLUSIVAMENTE DE GABINETE (MDE, MSAVI 2024, NDVI 2025 y cartografía temática) y debe completarse con el formato de campo original del ANEXO 01. INVENTARIO DE CÁRCAVAS NO EJECUTADO: 0 cárcavas registradas NO equivale a ausencia verificada. El % del bloque afectado y la erosión laminar quedan por determinar mediante ortomosaico y MDS.",
+ "parcela": "No consignada",
+ "dim_parcela": "Por determinar",
+ "pend_parcela": 17.59,
+ "cob_veg": "Por determinar",
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "Por determinar",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": "Por determinar",
+ "cob_arbustiva": "Por determinar",
+ "cob_herbacea": "Por determinar",
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": "Por determinar",
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "Por determinar",
+ "regeneracion": "Por determinar",
+ "sanitario": "Sin registro en ficha",
+ "epifitas": "Por verificar",
+ "fenologia": "Caducifolio (hojas caídas)",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 10,
+ "especies_clave": [
+  [
+   "Ceiba pentandra (Ceibo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Endémica del Perú",
+   "NE — No Evaluado"
+  ],
+  [
+   "Juglans neotropica (Nogal)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "EN — En Peligro (por confirmar)"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Inga spp. (Guaba / Pacae)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "SIN REGISTRO FLORÍSTICO TRANSCRITO PARA EL BLOQUE (10 entradas, varias sin nombre científico ni familia). Por su piso altitudinal (681-1 114 msnm) y tipo de ecosistema corresponde a bosque estacionalmente seco, cuyo elenco típico en el ámbito del proyecto incluye hualtaco (Loxopterygium huasango), sapote (Capparis scabrida) y cardos (Armatocereus cartwrightianus); su verificación queda supeditada a COLECTA BOTÁNICA. Coberturas por estrato, alturas y DAP NO medidos instrumentalmente. No se confirmaron especies amenazadas del D.S. 043-2006-AG. LA SUPERFICIE OCUPADA POR CULTIVOS (café, cítricos, maíz, pastos) DEBE EXCLUIRSE DEL ÁREA EFECTIVA EN EL TAMIZAJE PREDIAL.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "20%"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "15%"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "20%"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5%"
+  ],
+  [
+   "Tala para leña",
+   "Por verificar",
+   "",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Ocupación productiva de laderas de fuerte pendiente sin prácticas de conservación de suelos, favorecida por la accesibilidad",
+ "causas_directas": "Cambio de uso a pastoreo (Moderada); sobrepastoreo caprino/vacuno (Moderada); cambio de uso a agricultura (Moderada); tala para leña (por verificar); expansión urbana/vial (Ligera).",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 0,
+ "obs_dt04": "Indicadores 1 (cobertura vegetal total 70.36%) y 2 (suelo desnudo 0%) se derivan de la CLASIFICACIÓN MSAVI 2024 POR CONTEO DE PÍXELES sobre el plano temático (por confirmar con estadística zonal). Los indicadores 3 a 7 NO fueron cuantificados y se rotulan «Por determinar»: no fueron estimados ni inferidos. Las causas marcadas «Por verificar» requieren confirmación en la siguiente visita.",
+ "fuentes_agua": [
+  [
+   "Río",
+   "Por determinar",
+   "Por determinar",
+   "Permanente",
+   "Buena (clara)",
+   "0 (colindante)",
+   "Río Pusmalca"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sin registro en ficha",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "PE-02B Piura – Canchaque",
+ "tipo_via_final": "Nacional asfaltada",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "Por verificar",
+ "operador": "Por verificar",
+ "alojamiento": "Por verificar",
+ "ronda": "Sí",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "Acceso por vía nacional asfaltada Piura – Canchaque, margen izquierda del río Pusmalca. COORDENADAS DE LAS FUENTES DE AGUA NO LEVANTADAS CON GPS: se identificaron por recorrido y lectura cartográfica. El bloque se ubica en la ZONA DE ORIGEN del peligro generador de inundaciones (PGI), no en la zona de impacto. La existencia de JASS, captación poblacional, señal celular, tiempos de viaje y alojamiento rural queda POR VERIFICAR.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-02",
+   "La descripción física y de procesos erosivos NO fue transcrita en el Segundo Entregable (acápite 4.1.3.1.1 incompleto)",
+   "SUSTANTIVA",
+   "Completar con el formato de campo original del ANEXO 01"
+  ],
+  [
+   "F-DT-01",
+   "Coordenadas = centroide del polígono; altitud = cota media de gabinete, sin registro GPS de campo",
+   "NO SUSTANTIVA",
+   "Declarado en la propia ficha"
+  ],
+  [
+   "F-DT-02",
+   "0 cárcavas registradas sin inventario georreferenciado",
+   "SUSTANTIVA",
+   "No equivale a ausencia verificada"
+  ],
+  [
+   "F-DT-03",
+   "Sin registro florístico transcrito; 10 entradas, varias sin nombre científico ni familia",
+   "SUSTANTIVA",
+   "Colecta botánica pendiente"
+  ],
+  [
+   "F-DT-03",
+   "Cobertura vegetal total, superficie de ecosistema, coberturas por estrato, alturas y DAP sin medición",
+   "SUSTANTIVA",
+   "Levantamiento pendiente"
+  ],
+  [
+   "F-DT-04",
+   "Indicadores 3 a 7 sin cuantificar",
+   "NO SUSTANTIVA",
+   "No fueron estimados ni inferidos"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_79_20260907_152921.pdf",
+ "bloque": "79"
+}

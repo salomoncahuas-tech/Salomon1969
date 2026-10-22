@@ -1,0 +1,183 @@
+{
+ "microcuenca_dt": "C1076-Q9584 (según ficha — valor por defecto de plantilla; catálogo: C1076-Q9589)",
+ "evaluador": "Ing. Juan Domínguez",
+ "correlativo": "01",
+ "fecha_eval": "2026-08-10",
+ "hora": "11:46 h",
+ "cp_cercano": "Hualcas I y II (Hualcas Alto)",
+ "comunidad": "No consignada",
+ "altitud_gps": "340 (GPS de campo) — la narrativa declara ≈300 msnm",
+ "utm_e_dt": 643261,
+ "utm_n_dt": 9389812,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera baja",
+ "exposicion": "Norte",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Sistema de laderas convexo-cóncavas tributarias de la quebrada Q9588 (microcuenca C1076)",
+ "afloramientos": "No",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "El bloque se ubica en una ladera de colina alta, con pendiente menor a 60%; el terreno se inclina más conforme se asciende. Altitud ≈300 msnm. Presenta AFLORAMIENTO ROCOSO, abundantes rocas semienterradas y piedras medianas a grandes dispersas (pese a que el campo de lista consigna «No»). Zonas con cobertura vegetal remanente. LA LADERA ES EMPLEADA PARA PASTOREO EXTENSIVO DE GANADO CAPRINO del centro poblado próximo. LEÑA APILADA en viviendas próximas. El suelo presenta erosión eólica; estrías y surcos por tránsito de ganado; caminos de herradura dentro del bloque y áreas de suelo desprovistas de vegetación. NOTA (D-01): el punto de muestreo (643 261 E · 9 389 812 N) se sitúa a ≈1.3 km al norte del centroide catastral, SOBRE EL BORDE SEPTENTRIONAL DEL POLÍGONO, Y ES COMPARTIDO CON LA FICHA DE M4B3.",
+ "sellamiento": "Sin registro en ficha",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sin registro en ficha",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 0,
+ "long_carcavas": 0,
+ "pct_carcavas": 0,
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Sin registro en ficha",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "Nivel general de erosión moderado, DOMINADO POR EROSIÓN EÓLICA, con estrías y surcos de tránsito de ganado y áreas de suelo desprovistas de vegetación expuestas a la lluvia. No se identifican cárcavas desarrolladas. Compactación por pisoteo; abundantes rocas semienterradas y piedras medianas a grandes. SIN FICHA F-DT-02 FIRMADA EN EL ANEXO 01; el inventario georreferenciado de cárcavas queda PENDIENTE.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 65,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "150 ha (de 289.91 ha del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 65,
+ "cob_arbustiva": 15,
+ "cob_herbacea": 10,
+ "cob_hojarasca": 5,
+ "suelo_desnudo": 10,
+ "h_dominante": 9,
+ "h_max": 12,
+ "dap": 30,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 7,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "No aplica (categoría no consignada)"
+  ],
+  [
+   "Colicodendron scabridum (Sapote)",
+   "Indicadora de buen estado",
+   "No aplica"
+  ],
+  [
+   "Ceiba trichistandra (Ceibo)",
+   "Indicadora de buen estado — DOMINANTE",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "Bosque seco CON ZONAS EMPOBRECIDAS Y CLAROS PRÓXIMOS A LA VÍA AFIRMADA. Altura promedio de los individuos arbóreos menor a 10 m y DAP menores a 30 cm. LA PARTE ALTA DEL BLOQUE CONSERVA LA VEGETACIÓN. La eliminación de la vegetación provoca claros con empobrecimiento de la cobertura. Arbustos dispersos, principalmente overo. Vegetación nativa, mayoría en época de defoliación. ADVERTENCIA (D-02): VALORES ESTRUCTURALES IDÉNTICOS A LOS DE M4B3 Y MUY PRÓXIMOS A LOS DE M12B1, REGISTRADOS A LA MISMA HORA — ESTIMACIÓN VISUAL GLOBAL NO DIFERENCIADA POR BLOQUE. Solo 7 taxones registrados frente al mínimo de 15.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "70% — 30 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "30% — 30 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "70% — 30 años"
+  ]
+ ],
+ "causa_subyacente": "No consignada en la ficha",
+ "causas_directas": "La degradación leve del ecosistema se debe principalmente a las actividades de pastoreo de ganado caprino y a la extracción de leña para uso doméstico.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Totalmente reversible",
+ "urgencia": "Baja",
+ "ind_dist_via": 100,
+ "obs_dt04": "RECOMENDACIÓN DE CAMPO: redelimitar el bloque priorizando las áreas próximas a los centros poblados y desestimando las áreas donde el ecosistema se encuentra conservado. Hay presencia de CASAS MUY PRÓXIMAS AL BLOQUE. Indicadores: cobertura vegetal total 70% (Alto); suelo desnudo 5% (Bajo); densidad de cárcavas 1 N.°/ha (Bajo) — INCOMPATIBLE con el inventario de 0 cárcavas; especies invasoras 0% (Bajo); carga ganadera 3 UA/ha (Medio); frecuencia de quemas 1 (Medio); % área con pendiente >50% = 35% CALIFICADO «BAJO» (incompatible con el umbral); distancia a vía 100 m (Alto). Los 8 indicadores son IDÉNTICOS a los de M4B3 y M12B1.",
+ "fuentes_agua": [],
+ "recarga": "Sí",
+ "humedad": "Sin registro en ficha",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por completar",
+ "jass": "Por completar",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Vía asfaltada Serrán – Hualcas, margen derecha del río Huarmaca",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Sin registro en ficha",
+ "transit_lluviosa": "Sin registro en ficha",
+ "t_distrital": "Por completar",
+ "t_provincial": "Por completar",
+ "senal": "Por completar",
+ "operador": "Sin registro en ficha",
+ "alojamiento": "Sin registro en ficha",
+ "ronda": "Por completar",
+ "contacto_ronda": "Por completar",
+ "obs_dt05": "Acceso por vía asfaltada (Serrán – Hualcas) en la margen derecha del río Huarmaca; LOS CENTROS POBLADOS HUALCAS I Y II SE SITÚAN AL PIE DEL POLÍGONO, EN SU VÉRTICE NOROCCIDENTAL. Desplazamiento interior a pie por caminos de herradura. POR COMPLETAR: inventario de fuentes de agua, JASS y captación poblacional, tiempos de viaje, señal celular y autorización de Ronda Campesina — SIN FICHA F-DT-05 EN EL ANEXO 01.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Ficha DT",
+   "La ficha consigna microcuenca C1076-Q9584; el catálogo maestro asigna a M4B4 la microcuenca C1076-Q9589",
+   "SUSTANTIVA",
+   "Valor por defecto de la plantilla; se conserva el del catálogo"
+  ],
+  [
+   "F-DT-01",
+   "D-01: el punto de muestreo está a ≈1.3 km al norte del centroide, sobre el borde septentrional, y es COMPARTIDO con la ficha de M4B3",
+   "SUSTANTIVA",
+   "Una sola estación sirvió a tres bloques distintos"
+  ],
+  [
+   "F-DT-01",
+   "Afloramientos rocosos consignados «No» pese a que la narrativa describe afloramiento rocoso y rocas semienterradas",
+   "NO SUSTANTIVA",
+   "Inconsistencia interna a corregir"
+  ],
+  [
+   "F-DT-02",
+   "Sin ficha F-DT-02 firmada en el ANEXO 01; inventario de cárcavas pendiente",
+   "SUSTANTIVA",
+   "Levantamiento pendiente"
+  ],
+  [
+   "F-DT-03",
+   "D-02: valores estructurales idénticos a M4B3 y muy próximos a M12B1, a la misma hora — estimación visual global no diferenciada",
+   "SUSTANTIVA",
+   "Los datos NO son específicos de este bloque"
+  ],
+  [
+   "F-DT-03",
+   "Solo 7 taxones registrados frente al mínimo de 15 exigido",
+   "SUSTANTIVA",
+   "Inventario florístico incompleto"
+  ],
+  [
+   "F-DT-04",
+   "Densidad de cárcavas 1 N.°/ha frente a inventario de 0 cárcavas; % pendiente >50% = 35% calificado «Bajo»",
+   "SUSTANTIVA",
+   "Inconsistencias internas a resolver"
+  ],
+  [
+   "F-DT-05",
+   "Sin ficha F-DT-05 en el ANEXO 01",
+   "SUSTANTIVA",
+   "Inventario hídrico y accesibilidad por completar"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M4B4_20260907_153458.pdf",
+ "bloque": "M4B4"
+}

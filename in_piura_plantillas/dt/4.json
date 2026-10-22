@@ -1,0 +1,243 @@
+{
+ "microcuenca_dt": "C1076-Q9584",
+ "evaluador": "Ing. Pedro Talledo Hernández",
+ "correlativo": "DT-B4-001",
+ "fecha_eval": "2026-08-20",
+ "hora": "09:23 - 10:50 h",
+ "cp_cercano": "San Antonio de Succhirca / La Rinconada",
+ "altitud_gps": "Quebrada 1378 msnm - divisoria 2318 msnm",
+ "utm_e_dt": 656704,
+ "utm_n_dt": 9382756,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Noroeste",
+ "rango_altitudinal": "2000-2500 m (Quechua alta)",
+ "paisaje": "Vertiente de fuerte energía de relieve que asciende desde el fondo de quebrada (1378 msnm) hasta la divisoria del macizo (2318 msnm)",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Ficha NO diligenciada en campo; prellenado de gabinete a partir del registro fotográfico georreferenciado del 20-08-2026 (12 tomas, 10 con sello UTM), planos MSAVI 2024 y NDVI 2025, Google Earth y catálogos V4/V5/V6. El punto de muestreo (656704 E / 9382756 N) es la estación E-03, 69 m al norte del límite: NINGUNA estación se localiza dentro del bloque. El registro «No» en reptación, deslizamientos y remociones NO equivale a ausencia verificada. Pendiente promedio MDE: 35.01% (la mayor de la microcuenca C1076-Q9588).",
+ "sellamiento": "No",
+ "compactacion": "No",
+ "raices_expuestas": "No",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 0,
+ "long_carcavas": "No determinada",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "—",
+   "Surco (<30 cm)",
+   656445,
+   9382836,
+   "Semi-activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "—",
+   "Surco (<30 cm)",
+   656516,
+   9382809,
+   "Semi-activa",
+   "Caminos / huellas de ganado"
+  ]
+ ],
+ "obs_dt02": "INVENTARIO GEORREFERENCIADO NO EJECUTADO. Las dos filas NO son cárcavas inventariadas: son rasgos erosivos lineales de los taludes de corte y la plataforma de la trocha, sin medición instrumental. El tercio superior del polígono (>1900 msnm), donde MSAVI y NDVI concentran la pérdida de cobertura, NO fue recorrido. «Moderada (surcos)» es representativa del sector bajo verificado, NO del bloque completo. Sustrato coluvial y saprolítico pardo-rojizo, de baja cohesión y alta erodibilidad.",
+ "parcela": "No instalada (observación libre desde estaciones exteriores)",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 35.01,
+ "cob_veg": 91,
+ "ecosistema": "Agroecosistema / Mosaico",
+ "sup_ecosistema": "230.10 ha declaradas como Zona agrícola (100% del bloque)",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": "Por determinar",
+ "cob_arbustiva": "Por determinar",
+ "cob_herbacea": "Por determinar",
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": "Por determinar",
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "Por determinar",
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 10,
+ "especies_clave": [
+  [
+   "Eucalyptus globulus / Grevillea robusta",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Guadua angustifolia (bambú)",
+   "Clave cultural",
+   "No aplica"
+  ],
+  [
+   "Baccharis latifolia (chilca)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Agave americana (penca)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Cactáceas columnares",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Coffea arabica / Musa x paradisiaca",
+   "Indicadora de perturbación",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "Registro florístico PRELIMINAR e INCOMPLETO: 10 taxones frente al mínimo de 15. HALLAZGO SUSTANTIVO: 5 de los 10 taxones son introducidos o cultivos. La cobertura vegetal (91%) NO procede de medición de campo: se deriva del NDVI 2025 (veg. alta+mediana = 98.99%) contrastado con MSAVI 2024 (clases sobre 0.4976 = 91.12%); se adopta el valor conservador.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Fuerte",
+   "CAUSA DOMINANTE"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Estructura de tenencia y de subsistencia familiar del sector San Antonio de Succhirca - La Rinconada",
+ "causas_directas": "Expansión de la frontera agrícola sobre laderas de fuerte pendiente (causa dominante): (i) sustitución del ecosistema natural por mosaico agroforestal estable en fondo de valle y ladera baja; (ii) avance de parcelas y pastizal sobre laderas descubiertas del tercio superior (>1900 msnm), donde se concentran las 20.43 ha bajo umbral MSAVI. Se suman plantación exótica de eucalipto y grevílea y la presión de la trocha y el tendido eléctrico.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_suelo_desnudo_ndvi": 0.05,
+ "ind_pend50": "Por determinar",
+ "ind_dist_via": 0,
+ "obs_dt04": "Matriz PARCIAL. Siete de las dieciséis causas «Por determinar»: quema, incendio, invasoras, sequía y plagas NO fueron descartadas. ADVERTENCIA DE LECTURA: el Bloque 4 presenta el MSAVI medio más alto de su microcuenca (0.6601) y 87.89% en clase Vegetación alta del NDVI 2025; esa cobertura NO acredita ecosistema conservado sino un mosaico agroforestal que sustituye al ecosistema natural. La lectura espectral y la ecológica divergen: ese es el hallazgo central.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   656485,
+   9382766,
+   "Intermitente",
+   "No evaluable",
+   66,
+   "Cauce de fondo plano"
+  ],
+  [
+   "Quebrada estacional",
+   656704,
+   9382756,
+   "Intermitente",
+   "No evaluable",
+   69,
+   "Quebrada encajonada"
+  ],
+  [
+   "Otro (reservorio elevado)",
+   657460,
+   9382956,
+   "Permanente",
+   "No evaluable",
+   789,
+   "Reservorio elevado"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "No",
+ "dist_captacion": "Por determinar",
+ "interferencia_riego": "No",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Trocha carrozable de acceso a San Antonio de Succhirca, desde la red vial de Huarmaca",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "Por determinar",
+ "operador": "Por determinar",
+ "ronda": "Por determinar",
+ "contacto_ronda": "Por determinar",
+ "obs_dt05": "HALLAZGO HIDROLÓGICO: lámina de agua en el cauce de E-06 el 20 de agosto (plena estación seca) sugiere régimen más persistente que el estacional en el fondo de valle. El bloque se sitúa en POSICIÓN DE CABECERA: su borde meridional coincide con la divisoria del macizo (2318 msnm) y todo su drenaje alimenta la microcuenca C1076-Q9588.",
+ "estaciones_fotograficas": [
+  [
+   "E-02",
+   657482,
+   9383238
+  ],
+  [
+   "E-03",
+   656704,
+   9382756
+  ],
+  [
+   "E-05",
+   656513,
+   9382803
+  ],
+  [
+   "E-06",
+   656485,
+   9382766
+  ],
+  [
+   "E-07",
+   656445,
+   9382836
+  ],
+  [
+   "E-09",
+   656516,
+   9382809
+  ]
+ ],
+ "n_estaciones": 12,
+ "estaciones_dentro": 0,
+ "fuente_ficha": "Ficha_DT_4_20260907_135238.pdf",
+ "bloque": "4"
+}

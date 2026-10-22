@@ -1,0 +1,156 @@
+{
+ "microcuenca_dt": "C1076-Q9592",
+ "evaluador": "Ing. Héctor Salomón Cahuas Miller",
+ "correlativo": "B18-F01",
+ "fecha_eval": "2026-07-21",
+ "hora": "16:21",
+ "cp_cercano": "Caserío Piedra Blanca (Huarmaca)",
+ "comunidad": "Por verificar",
+ "altitud_gps": "Por verificar (perfil GE 1223-1606 msnm, media ≈1420)",
+ "utm_e_dt": 656204,
+ "utm_n_dt": null,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Noreste",
+ "rango_altitudinal": "1000-1500 m (Quechua baja)",
+ "paisaje": "Laderas de colina-montaña de fuerte pendiente disectadas por quebradas tributarias de la microcuenca C1076-Q9592",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "remociones": "No",
+ "obs_dt01": "Terrenos de propiedad privada. El recorrido (21-07-2026) se concentró en el corredor de acceso sur, sobre la trocha departamental 108. Perfil de elevación: cotas 1223-1606 msnm (media ≈1420, pendiente media 33%, máxima 54%); el bloque asciende hacia las cimas al piso Quechua media. Altitud GPS instrumental no registrada: por verificar.",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 3,
+ "long_carcavas": "Por verificar",
+ "pct_carcavas": "Por verificar",
+ "patron_carcavas": "Aislado",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01",
+   "Cárcava incipiente (30-50 cm)",
+   657109,
+   9392675,
+   "Activa",
+   "Otro"
+  ],
+  [
+   "C-02",
+   "Cárcava somera (0.5-2 m)",
+   657110,
+   9392674,
+   "Semi-activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "C-03",
+   "Cárcava incipiente (30-50 cm)",
+   657109,
+   9392443,
+   "Semi-activa",
+   "Concentración natural de escorrentía"
+  ]
+ ],
+ "obs_dt02": "Dimensiones instrumentales de cárcavas por verificar. La erosión se concentra en los taludes de corte de la trocha departamental 108 (material residual rojizo) y en la quebrada tributaria, donde se observan estructuras de concreto (badén/alcantarilla) y un talud con malla raschel de mitigación y raíces expuestas.",
+ "parcela": "Observación directa en recorrido (sin parcela permanente)",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 85,
+ "cob_veg": 85,
+ "ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+ "sup_ecosistema": "Bes-cm 94.3 ha + Zona agrícola 9.32 ha",
+ "estado_cons": "Levemente alterado",
+ "uso_dominante": "Forestal protección",
+ "cob_dosel": 45,
+ "cob_herbacea": 15,
+ "suelo_desnudo": 10,
+ "h_max": "Por verificar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 11,
+ "especies_clave": [
+  [
+   "Guayacán (Handroanthus sp.)",
+   "Amenazada D.S. 043",
+   ""
+  ],
+  [
+   "Pasallo (Eriotheca ruizii)",
+   "Indicadora de buen estado",
+   ""
+  ],
+  [
+   "Angolo (Anadenanthera colubrina)",
+   "Amenazada D.S. 043",
+   ""
+  ],
+  [
+   "Faique (Vachellia macracantha)",
+   "Indicadora de perturbación",
+   "LC"
+  ],
+  [
+   "Chirimoya silvestre (Annona cherimola)",
+   "Clave cultural",
+   ""
+  ]
+ ],
+ "obs_dt03": "Lista florística PRELIMINAR, tomada por ANALOGÍA con el vecino Bloque 43 (San Miguel de El Faique) y el Bloque 42, mismo ecosistema (Bes-cm) y microcuenca C1076; sujeta a colecta y determinación botánica formal para el Bloque 18. Coberturas: estimación ocular apoyada en MSAVI 2024 (media 0.640, vigor alto).",
+ "causas": [
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Fuerte",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Presión antrópica sobre laderas de fuerte pendiente asociada al corredor vial y a la agricultura de subsistencia",
+ "causas_directas": "Expansión vial: taludes de corte de la trocha departamental 108 con material residual rojizo y surcos; cambio de uso a agricultura en fondos de quebrada; erosión hídrica localizada en taludes y márgenes de la quebrada tributaria.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": "Por verificar",
+ "obs_dt04": "El bloque conserva mayoritariamente bosque estacionalmente seco (MSAVI 2024 = 0.640, vigor alto); la degradación es localizada en el corredor vial.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   657110,
+   9392674,
+   "",
+   "No evaluable",
+   0,
+   "Quebrada tributaria"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por verificar",
+ "jass": "Por verificar",
+ "interferencia_riego": "No",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Vía departamental 108 (afirmada), acceso desde Huarmaca",
+ "tipo_via_final": "Departamental afirmada",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por verificar",
+ "t_provincial": "Por verificar",
+ "senal": "Por verificar",
+ "operador": "Por verificar",
+ "ronda": "Por verificar",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "Terrenos de propiedad privada. La trocha departamental 108 atraviesa el corredor sur del bloque; se observaron estructuras de concreto de drenaje vial en el cruce de la quebrada. Verificación con garúa/neblina (época seca).",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 10,
+ "fuente_ficha": "ficha_18_20260725_021552.pdf",
+ "bloque": "18"
+}

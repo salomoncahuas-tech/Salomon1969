@@ -1,0 +1,241 @@
+{
+ "microcuenca_dt": "C1096-Q9556",
+ "evaluador": "Por verificar",
+ "correlativo": "Por verificar",
+ "fecha_eval": "2026-07-02",
+ "hora": "16:02 - 16:21 h",
+ "cp_cercano": "C.P. Papelillo",
+ "comunidad": "Por verificar",
+ "altitud_gps": "184 - 259 (rango del transecto)",
+ "utm_e_dt": 600020,
+ "utm_n_dt": 9440272,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "8-15% (Mod. inclinado)",
+ "posicion_fisio": "Ladera baja",
+ "exposicion": "Sureste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Colinas bajas de bosque estacionalmente seco sobre la margen derecha del río Piura, sector C.P. Papelillo",
+ "afloramientos": "Sí (de origen antrópico: cortes de talud)",
+ "escarpes": "Sí (de origen antrópico)",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "Sí (caída de rocas activa)",
+ "obs_dt01": "ALCANCE DEL LEVANTAMIENTO: verificación del 02/07/2026. SE RECORRIÓ LA FAJA DE LA TROCHA CARROZABLE (APROX. 25% DEL BLOQUE); EL INTERIOR NO FUE RECORRIDO A PIE. 12 puntos GPS y 12 registros fotográficos (Garmin 66sr). Rango de los puntos: 600 020-601 042 E · 9 440 272-9 440 961 N. FISIOGRAFÍA: perfil sobre transecto de 622 m: desnivel +91.2 / −17.1 m; pendiente media 14.6% y máxima 34.5%; altitudes 184-259 msnm. VALORES VÁLIDOS PARA EL SECTOR BAJO; EL SECTOR ALTO NO FUE TRANSECTADO. INDICIOS DE REMOCIÓN EN MASA: LOS AFLORAMIENTOS Y ESCARPES REGISTRADOS SON DE ORIGEN ANTRÓPICO (cortes de talud de 2-3 m, localmente >3 m, en material coluvial suelto con bolonería embebida). SE REGISTRÓ CAÍDA DE ROCAS ACTIVA: bolonería desprendida acumulada sobre la plataforma vial (600 587 · 9 440 722). DISCREPANCIA A RESOLVER: el catálogo maestro asigna 42.45 ha y centroide 600 644 · 9 440 436; LA FICHA DE CAMPO PREVIA CONSIGNABA 30.348 ha. Prevalece el valor del catálogo. PENDIENTE: brigada/responsable, N.° de ficha, altitud GPS del punto de muestreo, comunidad campesina y tenencia predial.",
+ "sellamiento": "No evaluado en campo",
+ "compactacion": "No",
+ "raices_expuestas": "No evaluadas en campo",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 0,
+ "long_carcavas": 0,
+ "pct_carcavas": 0,
+ "erosion_laminar": "Por verificar",
+ "patron_carcavas": "No aplica (0 cárcavas registradas)",
+ "socavamiento": "No",
+ "urgencia_control": "Alta",
+ "carcavas": [],
+ "obs_dt02": "SUELO: los cortes de talud de la obra vial exponen un perfil de GRAVAS Y BOLONERÍA EMBEBIDAS EN MATRIZ ARENO-LIMOSA, SIN HORIZONTE ORGÁNICO APRECIABLE. Textura aparente franco arenosa, profundidad efectiva superficial (25-50 cm), pedregosidad moderada, material parental de depósitos coluvio-aluviales sobre roca sedimentaria. TODAS SON ESTIMACIONES VISUALES: requieren calicata y análisis de laboratorio. PROCESOS REGISTRADOS: (1) EROSIÓN ANTRÓPICA POR CORTES DE TALUD — GRADO SEVERO — ≈1.1 km LINEALES DE TALUD EXPUESTO, sin tratamiento ni revegetación, con material suelto al pie; (2) erosión en surcos — moderado — surcos verticales incipientes (<0.2 m) en la cara de los taludes; (3) erosión hídrica laminar — ligero — generalizada en laderas con cobertura <60%; (4) caída de rocas — ligero — puntual sobre la plataforma vial. INVENTARIO DE CÁRCAVAS: no se identificaron cárcavas ni surcos de magnitud significativa en la faja recorrida; el inventario georreferenciado SE DEJA EN BLANCO DE FORMA DELIBERADA. URGENCIA «ALTA» JUSTIFICADA POR 1.1 km DE TALUD DE CORTE ACTIVO, SIN REVEGETACIÓN NI OBRAS DE DRENAJE, EN MATERIAL NO CONSOLIDADO Y EN VÍSPERAS DE LA TEMPORADA DE LLUVIAS.",
+ "parcela": "No instalada (recorrido de reconocimiento)",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 14.6,
+ "cob_veg": "40 - 60",
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "Por verificar",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Forestal de protección (sujeto a la clasificación oficial de CUM)",
+ "cob_dosel": "Por verificar",
+ "cob_arbustiva": "Por verificar",
+ "cob_herbacea": "Por verificar",
+ "cob_hojarasca": "Por verificar",
+ "suelo_desnudo": "Por verificar",
+ "h_dominante": "3 - 7",
+ "h_max": "Por verificar",
+ "dap": "Por verificar",
+ "regeneracion": "Regular (10-50 pl./100m²) — por equivalencia cualitativa, NO cuantificada",
+ "sanitario": "Daño mecánico",
+ "epifitas": "No evaluada",
+ "fenologia": "Latencia / Estrés hídrico",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 6,
+ "especies_clave": [
+  [
+   "Neoraimondia sp. / Armatocereus sp. (Cactáceas columnares)",
+   "Indicadora de buen estado — 600 602 · 9 440 720",
+   "No aplica"
+  ],
+  [
+   "Vachellia macracantha (Faique)",
+   "Amenazada (D.S. 043-2006-AG) — 600 601 · 9 440 729",
+   "NT — Casi Amenazada"
+  ],
+  [
+   "Colicodendron scabridum (Sapote)",
+   "Indicadora de buen estado",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "LA PARCELA DE MUESTREO NO FUE INSTALADA: recorrido de reconocimiento sobre la faja de la trocha carrozable (≈25% del bloque). El listado florístico (6 taxones) es PRELIMINAR y NO constituye inventario cuantitativo; los nombres científicos se asignaron POR CORRESPONDENCIA CON EL NOMBRE COMÚN REGIONAL y requieren colecta botánica. ESTRUCTURA: dos a tres estratos — arbóreo disperso (faique, algarrobo, sapote) de 3-7 m; arbustivo denso continuo (overo y asociadas); herbáceo estacional en receso. LAS CACTÁCEAS COLUMNARES ACTÚAN COMO EMERGENTES. La cobertura es más densa y continua en las laderas altas orientadas al este, y más abierta en el borde vial. ESTADO SANITARIO «DAÑO MECÁNICO» por la presencia de TOCONES DE TALA SELECTIVA y de CACTÁCEAS COLUMNARES MUTILADAS. MSAVI (Sentinel-2, 2024) = 0.332, consistente con un bosque seco de cobertura media en estiaje.",
+ "causas": [
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "Tocones de tala selectiva"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Fuerte",
+   "4-6% — <1 año (obra en ejecución)"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Fuerte",
+   "100%"
+  ],
+  [
+   "Otro (vivienda rural dispersa)",
+   "Sí",
+   "Ligera",
+   "Puntual"
+  ],
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sin dato",
+   "",
+   "No se observó ganado, pero el ramoneo del sotobosque sugiere presión"
+  ]
+ ],
+ "causa_subyacente": "Ejecución de una obra vial sin medidas de manejo ambiental ni revegetación de taludes, sobre un ecosistema de bosque seco",
+ "causas_directas": "(1) MOVIMIENTO DE TIERRAS POR OBRA VIAL EN EJECUCIÓN DENTRO DEL POLÍGONO (CAUSA DOMINANTE Y ACTIVA); (2) tala selectiva para leña y mutilación de cactáceas columnares; (3) déficit hídrico estructural del bosque seco, agravado por la variabilidad climática; (4) presión puntual de vivienda rural dispersa en el borde oeste. El sobrepastoreo caprino se presume pero NO fue verificado.",
+ "velocidad": "Rápida",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 0,
+ "obs_dt04": "MATRIZ DE PELIGROS (AdR-CCC) del levantamiento del 02/07/2026: 1. MOVIMIENTOS EN MASA (deslizamientos) — NIVEL MEDIO (condicionante: talud de corte >3 m sin banqueta en material coluvial suelto; desencadenante: precipitación intensa FEN). 2. CAÍDA DE ROCAS — NIVEL MEDIO (bolonería expuesta en la cara del talud; evidencia de desprendimiento sobre la plataforma). 3. EROSIÓN EN CÁRCAVAS — NIVEL BAJO. 4. EROSIÓN HÍDRICA LAMINAR — NIVEL MEDIO. 5. FLUJO DE DETRITOS / HUAICO — NIVEL BAJO. 6. SEQUÍA — NIVEL ALTO (régimen de bosque seco y déficit hídrico proyectado SSP5-8.5; fuente por confirmar contra el modelo MPI-ESM1-2HR del proyecto). LA CELDA «DISTANCIA A VÍA VECINAL = 0 m» REFLEJA QUE LA TROCHA CARROZABLE ATRAVIESA EL POLÍGONO: MÁXIMA PRESIÓN DE ACCESO. Las celdas de presencia en blanco corresponden a causas NO VERIFICADAS: NO deben interpretarse como ausencia. Los valores «Por verificar» NO han sido estimados. 6 de los 8 indicadores cuantitativos quedan por verificar.",
+ "fuentes_agua": [
+  [
+   "Río",
+   "Por verificar",
+   "Por verificar",
+   "Permanente",
+   "No evaluable",
+   "≈600",
+   "Río Piura. Cauce ancho"
+  ],
+  [
+   "Quebrada estacional",
+   "Por verificar",
+   "Por verificar",
+   "Efímero",
+   "No evaluable",
+   "0 (interno)",
+   "Cauces efímeros de bajo orden"
+  ]
+ ],
+ "recarga": "No (condición no evaluada)",
+ "humedad": "No",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por verificar",
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Carretera Chulucanas - Frías; desvío a trocha carrozable en construcción/mejoramiento hasta la progresiva 1+020",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por verificar",
+ "t_provincial": "Por verificar",
+ "senal": "Intermitente",
+ "operador": "Bitel",
+ "alojamiento": "No",
+ "ronda": "Por verificar",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "HALLAZGO CRÍTICO: OBRA VIAL EN EJECUCIÓN DENTRO DEL POLÍGONO DEL BLOQUE (hito de progresiva 1+020; tramo 600 602 - 601 042 E). DEBE VERIFICARSE LA SUPERPOSICIÓN CON EL DERECHO DE VÍA, LA TITULARIDAD DE LA OBRA Y SU COMPATIBILIDAD CON LA INTERVENCIÓN PROPUESTA ANTES DE CONSOLIDAR EL BLOQUE. La trocha constituye una ventaja logística para la implementación de las MRR-CCC, PERO INTRODUCE UNA FUENTE DE DEGRADACIÓN ACTIVA que debe incorporarse al tamizaje. PRIORIDAD PRELIMINAR: MEDIA-ALTA, condicionada a la resolución de la superposición con la obra vial. COMPLETITUD DEL LEVANTAMIENTO: PARCIAL, ≈25% (faja vial). HIDROLOGÍA: no se identificaron manantiales ni captaciones dentro del bloque. Se observó escorrentía concentrada sobre la cara de los taludes de corte. LOS CAMPOS «POR VERIFICAR» NO DEBEN COMPLETARSE CON ESTIMACIONES: requieren una segunda salida de campo o el contraste con el catálogo maestro y el tamizaje predial.",
+ "estaciones_fotograficas": [
+  [
+   "P-01",
+   600020,
+   9440272
+  ],
+  [
+   "P-caída de rocas",
+   600587,
+   9440722
+  ],
+  [
+   "P-surcos",
+   600547,
+   9440698
+  ],
+  [
+   "P-laminar",
+   600601,
+   9440729
+  ],
+  [
+   "P-final",
+   601042,
+   9440961
+  ]
+ ],
+ "n_estaciones": 12,
+ "estaciones_dentro": "Por determinar (faja vial)",
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por el rango del transecto 184-259 msnm"
+  ],
+  [
+   "F-DT-01",
+   "DISCREPANCIA DE ÁREA: catálogo maestro 42.45 ha frente a 30.348 ha de la ficha de campo previa",
+   "SUSTANTIVA",
+   "Prevalece el catálogo; verificar el origen del dato de 30.348 ha antes de consolidar el entregable"
+  ],
+  [
+   "F-DT-01",
+   "Completitud del levantamiento ≈25% (faja de la trocha); el interior no fue recorrido a pie",
+   "SUSTANTIVA",
+   "Segunda salida de campo requerida"
+  ],
+  [
+   "F-DT-01",
+   "Brigada/responsable, N.° de ficha, altitud GPS del punto de muestreo, comunidad campesina y tenencia predial sin consignar",
+   "SUSTANTIVA",
+   "Por completar"
+  ],
+  [
+   "F-DT-02",
+   "Sellamiento/costra y raíces expuestas no evaluados; inventario de cárcavas deliberadamente en blanco",
+   "NO SUSTANTIVA",
+   "Declarado en la propia ficha"
+  ],
+  [
+   "F-DT-03",
+   "Listado florístico preliminar (6 taxones) con nombres científicos asignados por correspondencia con el nombre común",
+   "SUSTANTIVA",
+   "Requiere colecta botánica"
+  ],
+  [
+   "F-DT-03",
+   "Coberturas por estrato, altura máxima, DAP y superficie de ecosistema sin medir",
+   "SUSTANTIVA",
+   "Por verificar"
+  ],
+  [
+   "F-DT-04",
+   "6 de los 8 indicadores cuantitativos por verificar; celdas de presencia en blanco no equivalen a ausencia",
+   "SUSTANTIVA",
+   "Cuantificación pendiente"
+  ],
+  [
+   "F-DT-05",
+   "HALLAZGO CRÍTICO: obra vial en ejecución DENTRO del polígono (progresiva 1+020)",
+   "SUSTANTIVA",
+   "Verificar superposición con el derecho de vía, titularidad y compatibilidad ANTES de consolidar el bloque"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M17B1 (Plan de Ingreso, PDF)",
+ "bloque": "M17B1"
+}

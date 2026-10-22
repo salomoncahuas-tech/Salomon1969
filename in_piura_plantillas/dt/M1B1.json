@@ -1,0 +1,252 @@
+{
+ "microcuenca_dt": "C1077-Q9580",
+ "evaluador": "Brigada — Ing. Héctor Salomón Cahuas Miller / Ing. Juan Carlos Domínguez Varas",
+ "correlativo": "DT-M1B1-001",
+ "fecha_eval": "2026-05-22",
+ "hora": "07:07 h",
+ "cp_cercano": "Río Seco",
+ "comunidad": "No aplica formalmente — predios rurales individuales y sectores asociados al CP Río Seco",
+ "altitud_gps": "340 (GPS de campo) — recorrido entre ≈235 y ≈360 msnm",
+ "utm_e_dt": 618460,
+ "utm_n_dt": 9410690,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Este",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Flanco oriental del Cerro Tinajones: laderas de colina alta a montaña baja con afloramientos rocosos, cubiertas por matorral xerófilo",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "El ingreso se realizó el 22-05-2026 desde la carretera Morropón-Buenos Aires, con punto de partida al pie del bloque (CP Río Seco), donde SE CONSTATÓ UN MURO DE CONTENCIÓN Y DESVÍO DE CAUCE de quebrada estacional que protege al CP de las avenidas en temporada de lluvias. El recorrido cubrió el sector basal y medio del flanco NE (cotas ≈235 a ≈360 msnm); EL SECTOR ALTO Y ROCOSO (refugio relictual de especies del ecosistema) NO FUE RECORRIDO por pendiente y tiempo. Si bien no se observaron remociones en masa activas ni escarpes extensos, LOS AFLORAMIENTOS ROCOSOS EN PENDIENTES FUERTES CONFIGURAN SUSCEPTIBILIDAD A CAÍDA DE ROCAS; el peligro dominante del bloque es LA GENERACIÓN DE ESCORRENTÍA CONCENTRADA hacia la Quebrada de Río Seco (zona de origen de inundaciones aguas abajo).",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 1,
+ "long_carcavas": 380,
+ "pct_carcavas": 5,
+ "erosion_laminar": 15,
+ "patron_carcavas": "Dendrítico",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01",
+   "Cárcava somera (0.5-2 m) — 380 m long., 1.0 m prof., 1.5 m ancho",
+   618300,
+   9410540,
+   "Semi-activa",
+   "Concentración natural de escorrentía"
+  ]
+ ],
+ "obs_dt02": "Predomina la erosión hídrica laminar y en surcos sobre laderas con suelo parcialmente expuesto; el carcavamiento es incipiente y se concentra a lo largo de las líneas de drenaje que descienden hacia la Quebrada de Río Seco. Se registró SOCAVAMIENTO DEL CAUCE de la quebrada en su tramo bajo, motivo de la obra de protección (muro de contención) del CP Río Seco. La densidad de cárcavas es baja, pero la concentración de escorrentía y el sobrepastoreo aceleran los procesos erosivos. Urgencia de control MEDIA, con prioridad en obras de control de escorrentía en cabecera (zanjas de infiltración, terrazas de formación lenta y barreras vivas).",
+ "parcela": "P-01",
+ "dim_parcela": "50 × 20 m",
+ "pend_parcela": 30,
+ "cob_veg": 60,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "185 ha (de 188.80 ha del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 25,
+ "cob_arbustiva": 35,
+ "cob_herbacea": 30,
+ "cob_hojarasca": 10,
+ "suelo_desnudo": 20,
+ "h_dominante": 4,
+ "h_max": 8,
+ "dap": 18,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 13,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG) — 3 ind. en 618 470 · 9 410 760",
+   "EN — En Peligro"
+  ],
+  [
+   "Bursera graveolens (Palo Santo)",
+   "Amenazada (D.S. 043-2006-AG) — 8 ind. en 618 499 · 9 410 777",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Capparis scabrida (Sapote)",
+   "Amenazada (D.S. 043-2006-AG) — 5 ind. en 618 463 · 9 410 709",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Indicadora de buen estado — 12 ind. en 618 530 · 9 410 746",
+   "No aplica"
+  ],
+  [
+   "Armatocereus cartwrightianus",
+   "Endémica del norte — 6 ind. en 618 438 · 9 410 652",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "El bloque corresponde al ecosistema Bosque estacionalmente seco de colina y montaña (Bes-cm). Estado MEDIANAMENTE ALTERADO: las especies representativas (Charán, Palo Santo, Hualtaco) PERSISTEN PRINCIPALMENTE COMO RELICTOS EN LAS PARTES ALTAS E INACCESIBLES, mientras que las cotas bajas y medias presentan matorral xerófilo abierto con EXPANSIÓN DE Ipomoea carnea (NO PALATABLE POR EL GANADO) y cobertura herbácea estacional. SE CONFIRMAN TRES ESPECIES ARBÓREAS CATEGORIZADAS EN PELIGRO CRÍTICO (CR) POR EL D.S. 043-2006-AG: Hualtaco, Palo Santo y Sapote. La fenología corresponde al inicio de la estación seca (vegetativa con caducifolia parcial). Listado florístico PRELIMINAR; nombres científicos sujetos a verificación con colecta botánica. PARCELA P-01 INSTALADA (50 × 20 m) — uno de los pocos bloques con parcela de muestreo formal.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "60% — 20 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "35% — 20 años"
+  ],
+  [
+   "Tala para carbón",
+   "Sí",
+   "Ligera",
+   "10% — 15 años"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Ligera",
+   "10% — 20 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera",
+   "20% — 15 años"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5% — 10 años"
+  ],
+  [
+   "Extracción de áridos (cauces)",
+   "Sí",
+   "Ligera",
+   "5% — 10 años"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Moderada",
+   "30% — 10 años"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "25%"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "100%"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "No",
+   "Nula",
+   "Sin rastros recientes"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "No",
+   "Nula",
+   "Agricultura confinada al valle"
+  ]
+ ],
+ "causa_subyacente": "Dependencia económica de la población rural respecto de los recursos del bosque seco (leña, pastoreo) sumada a la presión climática",
+ "causas_directas": "Sobrepastoreo caprino, tala selectiva para leña/carbón, expansión de Ipomoea carnea y erosión hídrica en laderas rocosas.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 200,
+ "obs_dt04": "Las causas directas son MAYORITARIAMENTE ANTRÓPICAS (sobrepastoreo y tala selectiva), potenciadas por la presión climática. La cobertura vegetal total (≈60%) y el suelo desnudo (≈20%) sitúan al bloque en condición intermedia, coherente con los valores bajos de MSAVI 2024 (predominio de la clase 0.265-0.381). Degradación de velocidad moderada y PARCIALMENTE REVERSIBLE mediante infraestructura natural (revegetación con especies nativas, clausura temporal, manejo de pastizales) acompañada de gobernanza comunitaria. URGENCIA ALTA dada la función del bloque como ZONA DE ORIGEN DE ESCORRENTÍA QUE AFECTA AL CP RÍO SECO. Indicadores: cobertura 60% (Medio); suelo desnudo 20% (Medio); densidad de cárcavas 0.5 N.°/ha (Bajo); especies invasoras 30% (ALTO); carga ganadera 0.5 UA/ha (Medio); quemas 1 (Bajo); % pendiente >50% = 25% (Medio); distancia a vía 200 m (Medio).",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   618620,
+   9410820,
+   "Estacional",
+   "No evaluable",
+   0,
+   "Quebrada de Río Seco"
+  ],
+  [
+   "Río",
+   619050,
+   9411000,
+   "Permanente",
+   "Regular (ligeramente turbia)",
+   350,
+   "Cauce de Río Seco al norte"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "No",
+ "escorrentia": "Sí",
+ "dist_captacion": 600,
+ "jass": "Por verificar (abastecimiento del CP Río Seco)",
+ "modalidad_acceso": "Vehicular + caminata 30-90 min",
+ "via_principal": "Vía Morropón-Buenos Aires; desvío y trocha al CP Río Seco; ascenso por camino de herradura",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 30,
+ "t_provincial": 90,
+ "senal": "Parcial",
+ "operador": "Bitel",
+ "alojamiento": "No",
+ "ronda": "No",
+ "contacto_ronda": "No aplica",
+ "obs_dt05": "El bloque NO contiene fuentes de agua permanentes; las fuentes son estacionales y asociadas a la QUEBRADA DE RÍO SECO, que en temporada de lluvias GENERA AVENIDAS HACIA EL CP RÍO SECO (motivo de la obra de protección observada). El bloque cumple función de ZONA DE RECARGA E INFILTRACIÓN en laderas, por lo que las medidas de infraestructura natural en cabecera tendrían EFECTO DIRECTO sobre la regulación hídrica y el control de escorrentía. Acceso vehicular hasta el CP Río Seco y luego a pie (camino de herradura), con transitabilidad alta en seca y limitada en lluvias.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (340 msnm)"
+  ],
+  [
+   "F-DT-01",
+   "El sector alto y rocoso del bloque —refugio relictual de las especies del ecosistema— NO fue recorrido",
+   "SUSTANTIVA",
+   "La caracterización del sector alto queda pendiente"
+  ],
+  [
+   "F-DT-03",
+   "Listado florístico preliminar; nombres científicos sujetos a colecta botánica",
+   "NO SUSTANTIVA",
+   "Determinación formal pendiente"
+  ],
+  [
+   "F-DT-03",
+   "Tres especies en Peligro Crítico (D.S. 043-2006-AG) georreferenciadas dentro del bloque",
+   "SUSTANTIVA",
+   "Alto valor de conservación: incorporar al diseño de MRR-CCC y al plan de manejo"
+  ],
+  [
+   "F-DT-04",
+   "Especies invasoras al 30% del área (Ipomoea carnea, no palatable): nivel ALTO",
+   "SUSTANTIVA",
+   "Requiere medida específica de control en el diseño de la revegetación"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M1B1 (Plan de Ingreso, PDF)",
+ "bloque": "M1B1"
+}

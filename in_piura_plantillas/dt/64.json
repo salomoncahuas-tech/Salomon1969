@@ -1,0 +1,187 @@
+{
+ "microcuenca_dt": "C1081-Q9591",
+ "evaluador": "Ing. Juan Domínguez",
+ "correlativo": "F-DT-01/B64",
+ "fecha_eval": "2026-08-11",
+ "hora": "11:54 h",
+ "cp_cercano": "Pariamarca centro",
+ "comunidad": "No consignada",
+ "altitud_gps": "2669 (GPS de campo) / 2412 - 2651 (MDE) — ficha declara además «3000 msnm aprox.»",
+ "utm_e_dt": 657816,
+ "utm_n_dt": 9428952,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera alta",
+ "exposicion": "Sur",
+ "rango_altitudinal": "2500-3000 m (Suni)",
+ "paisaje": "Sistema de laderas convexo-cóncavas tributarias de la quebrada Q9591 (microcuenca C1081)",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "Sí",
+ "remociones": "Sí",
+ "obs_dt01": "Ladera de montaña alta con pendiente general inferior al 60%, que se incrementa al ascender. Afloramientos rocosos con piedras pequeñas a medianas dispersas. La ladera es empleada para siembra de maíz y papa; en el área cercana existen rodales de plantaciones de Pinus patula. El suelo presenta erosión eólica. Dominancia de pajonal y especies achaparradas. Se desarrollan actividades de pastoreo de ganado vacuno y existe un cerco de alambre. En áreas próximas hay rodales remanentes de Polylepis y evidencia de deslizamientos. NOTA DE GABINETE (SESDI): la ficha consigna «altitud de 3 000 msnm aprox.» y una altitud GPS de 2 669 msnm, mientras el MDE sitúa el bloque entre 2 412 y 2 651 msnm y la descripción del paisaje entre 2 400 y 2 600 msnm. EL PUNTO DE MUESTREO (657 816 E / 9 428 952 N) SE LOCALIZA 146 m AL NORTE DEL LÍMITE DEL POLÍGONO y a 411 m del centroide catastral: la caracterización de campo debe considerarse de ENTORNO INMEDIATO y no de interior del bloque (D-01).",
+ "sellamiento": "Sin registro en ficha",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sin registro en ficha",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": "0 = no inventariadas",
+ "long_carcavas": 0,
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Sin registro en ficha",
+ "socavamiento": "Sin registro en ficha",
+ "urgencia_control": "Alta",
+ "carcavas": [],
+ "obs_dt02": "FICHA F-DT-02 NO LEVANTADA EN CAMPO. El ANEXO de fichas del bloque contiene únicamente los formatos F-DT-01, F-DT-03 y F-DT-04. Los valores consignados se derivan de las observaciones textuales de F-DT-01 y de los indicadores cuantitativos de F-DT-04, y tienen CARÁCTER PRELIMINAR. INVENTARIO GEORREFERENCIADO DE CÁRCAVAS NO EJECUTADO: 0 cárcavas registradas NO equivale a ausencia verificada. La densidad de cárcavas declarada en F-DT-04 es de 0 N.°/ha, lo que resulta INCOMPATIBLE con un inventario vacío y debe resolverse en campo. El % del bloque afectado y la erosión laminar quedan supeditados al ortomosaico y al MDS.",
+ "parcela": "No consignada",
+ "dim_parcela": "No consignadas",
+ "pend_parcela": 28.18,
+ "cob_veg": 17.5,
+ "ecosistema": "Matorral Andino subhúmedo",
+ "sup_ecosistema": "5 ha de ecosistema remanente (de 35.77 ha del bloque)",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Agricultura de secano",
+ "cob_dosel": 5,
+ "cob_arbustiva": 2.5,
+ "cob_herbacea": 10,
+ "cob_hojarasca": 0,
+ "suelo_desnudo": 5,
+ "h_dominante": 4,
+ "h_max": 5,
+ "dap": 20,
+ "regeneracion": "Ausente",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Cultivo anual",
+ "n_taxones": 4,
+ "especies_clave": [
+  [
+   "Polylepis sp. (por confirmar)",
+   "Indicadora de buen estado / alto valor de conservación",
+   "NE — determinación pendiente"
+  ],
+  [
+   "Escallonia sp. (Chachacomo, por confirmar)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Roble (por determinar)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Pinus patula (Pino)",
+   "Introducida — plantación",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "La cobertura vegetal corresponde a una ZONA AGRÍCOLA RODEADA por rodales remanentes de bosque de Polylepis. La cobertura ha sido fragmentada en áreas para pastoreo y agricultura. Altura promedio de los individuos arbóreos menor a 4 m y DAP promedio 20 cm. En los alrededores la población ha instalado rodales de pino y eucalipto de hasta 8 m y DAP 25 cm, no aprovechados por ahora. NOTA DE GABINETE (SESDI): REGISTRO FLORÍSTICO DE 3 ESPECIES NATIVAS frente al mínimo de 15 exigido por la ficha; sin nombre científico ni familia confirmados en campo y SECCIÓN DE ESPECIES CLAVE EN BLANCO, pese a que el género Polylepis concentra especies de alto valor de conservación en la vertiente occidental norte. Los nombres científicos incorporados son preliminares de gabinete y requieren colecta y determinación botánica formal (D-02, D-03).",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "30% — 30 años"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "50% — 30 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "30% — 30 años"
+  ]
+ ],
+ "causa_subyacente": "Por determinar (no consignado en campo)",
+ "causas_directas": "El ecosistema ha perdido cobertura vegetal como consecuencia del cambio de uso de suelo, que ha dado paso a parcelas destinadas al cultivo de papa y pastos para forraje, así como a áreas de pastoreo para ganado vacuno.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 100,
+ "obs_dt04": "Indicadores declarados: cobertura vegetal total 5% (Bajo); suelo desnudo 5% (Medio); densidad de cárcavas 0 N.°/ha (Bajo); especies invasoras 0% (Bajo); carga ganadera 2 UA/ha (Medio); frecuencia de quemas 1 (Medio); % área con pendiente >50% = 30% (Alto); distancia a vía 100 m (Medio). RECOMENDACIÓN DE CAMPO: redelimitar el bloque priorizando las áreas próximas al centro poblado y desestimando las áreas donde el ecosistema se encuentra conservado. Hay presencia de casas muy próximas al bloque. NOTA DE GABINETE (SESDI): la urgencia declarada en campo es «Media», pese a que la misma ficha F-DT-01 registra REMOCIONES EN MASA ACTIVAS y a que el MSAVI 2024 sitúa el 41.71% de la superficie del bloque por debajo del umbral 0.4976. SE PROPONE A LA SUBDIRECCIÓN ELEVAR LA URGENCIA A ALTA (D-04).",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   "Por determinar",
+   "Por determinar",
+   "Estacional",
+   "No evaluable",
+   "Por determinar",
+   "Quebrada Q9591, colectora"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sin registro en ficha",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por determinar",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Vía afirmada Los Ranchos – Huancabamba",
+ "tipo_via_final": "Vecinal afirmada",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "Por determinar",
+ "operador": "Otro",
+ "alojamiento": "Por determinar",
+ "ronda": "Sí",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "FICHA F-DT-05 NO LEVANTADA EN CAMPO. Los datos de acceso proceden de la narrativa del entregable de campo; el inventario de fuentes NO cuenta con coordenadas GPS ni con medición de caudal o distancia. El bloque se ubica en la ZONA DE ORIGEN del peligro generador de inundaciones (PGI), no en la zona de impacto: la intervención actúa sobre la generación de escorrentía aguas arriba y no sobre la llanura de inundación. Quedan por determinar JASS y captación poblacional, distancia a fuentes de uso doméstico, señal celular, tiempos de viaje y alojamiento rural.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-01",
+   "D-01: el punto de muestreo (657 816 E / 9 428 952 N) se localiza 146 m al NORTE del límite del polígono y a 411 m del centroide",
+   "SUSTANTIVA",
+   "La caracterización de campo corresponde al entorno inmediato, no al interior del bloque"
+  ],
+  [
+   "F-DT-01",
+   "Altitud: ficha «3 000 msnm aprox.» vs. GPS 2 669 msnm vs. MDE 2 412-2 651 msnm",
+   "SUSTANTIVA",
+   "Tres valores incompatibles; se conserva el rango del MDE para el cálculo de piso altitudinal"
+  ],
+  [
+   "F-DT-02",
+   "FICHA NO LEVANTADA EN CAMPO; valores derivados de F-DT-01 y F-DT-04",
+   "SUSTANTIVA",
+   "Levantamiento de suelo y procesos erosivos pendiente"
+  ],
+  [
+   "F-DT-02 / F-DT-04",
+   "Densidad de cárcavas declarada 0 N.°/ha con inventario vacío",
+   "SUSTANTIVA",
+   "Incompatibilidad a resolver en campo"
+  ],
+  [
+   "F-DT-03",
+   "D-02 / D-03: registro florístico de 3 especies nativas frente al mínimo de 15 exigido; especies clave en blanco",
+   "SUSTANTIVA",
+   "Colecta y determinación botánica formal pendientes, en particular del género Polylepis"
+  ],
+  [
+   "F-DT-04",
+   "D-04: urgencia declarada «Media» pese a remociones en masa activas y 41.71% de la superficie bajo el umbral MSAVI 0.4976",
+   "SUSTANTIVA",
+   "Se propone elevar la urgencia a ALTA"
+  ],
+  [
+   "F-DT-05",
+   "FICHA NO LEVANTADA EN CAMPO; datos de acceso tomados de la narrativa del entregable",
+   "SUSTANTIVA",
+   "Recursos hídricos y accesibilidad pendientes de levantamiento"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_64_20260907_151549.pdf",
+ "bloque": "64"
+}

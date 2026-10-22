@@ -1,0 +1,248 @@
+{
+ "microcuenca_dt": "C1081-Q9582",
+ "evaluador": "Ing. Héctor Salomón Cahuas Miller",
+ "correlativo": "DT-M3B1-001",
+ "fecha_eval": "2026-05-15",
+ "hora": "09:25 h",
+ "cp_cercano": "Piedra Blanca",
+ "comunidad": "No aplica formalmente — predios rurales individuales y sectores comunales no titulados",
+ "altitud_gps": "200 (GPS de campo) — punto de ingreso en cota 183 msnm; recorrido 180 a ≈350 msnm",
+ "utm_e_dt": 630720,
+ "utm_n_dt": 9410650,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Noroeste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Colinas medias a montañas bajas con cobertura de bosque estacionalmente seco degradado, intercaladas con sectores de matorral ralo",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "Sí",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "El acceso se realizó por la vía vecinal Buenos Aires-Salitral desde el centro poblado Piedra Blanca. El punto de ingreso se ubica al pie de la ladera norte del bloque (cota 183 msnm). Durante el recorrido se cubrió EL SECTOR BASAL Y MEDIO (cota 180 a ≈350 msnm); EL SECTOR ALTO DEL BLOQUE (cota >400 msnm) NO FUE RECORRIDO por restricciones de tiempo y pendiente, Y CONSTITUYE REFUGIO RELICTUAL DE ESPECIES DEL ECOSISTEMA (Charán, Hualtaco, Pasallo en mayor talla). SE RECOMIENDA UNA SEGUNDA JORNADA DE CAMPO PARA CUBRIR LA MITAD ALTA DEL POLÍGONO.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 2,
+ "long_carcavas": 340,
+ "pct_carcavas": "40 - 60% del área basal con evidencias de erosión laminar moderada a fuerte",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "Sí",
+ "urgencia_control": "Alta",
+ "carcavas": [
+  [
+   "CA-01",
+   "Surco (<30 cm) — 120 m, 0.3 m prof., 0.8 m ancho",
+   630750,
+   9410600,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "CA-02",
+   "Cárcava somera (0.5-2 m) — 220 m, 1.5 m prof., 0.6 m ancho",
+   631200,
+   9410900,
+   "Inactiva",
+   "Concentración natural de escorrentía"
+  ]
+ ],
+ "obs_dt02": "Erosión laminar moderada a fuerte en el 40-60% del área basal, con surcos por huellas de ganado y una cárcava somera inactiva de 220 m en la quebrada interna. Se registra SOCAVAMIENTO DE CAUCE. Urgencia de control ALTA. Las observaciones de la ficha F-DT-02 no fueron consignadas en el documento de origen.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 35,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "≈80.98 ha (área total del bloque)",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Sin registro en ficha",
+ "cob_dosel": 15,
+ "cob_arbustiva": 20,
+ "cob_herbacea": 8,
+ "cob_hojarasca": 5,
+ "suelo_desnudo": 52,
+ "h_dominante": 4,
+ "h_max": 7,
+ "dap": 18,
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sin registro en ficha",
+ "epifitas": "Ausente",
+ "fenologia": "Caducifolio (hojas caídas)",
+ "tipo_cobertura": "Matorral ralo",
+ "n_taxones": 9,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "EN — En Peligro (por confirmar)"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Prosopis pallida (Algarrobo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "VU — Vulnerable (por confirmar)"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico (por confirmar)"
+  ],
+  [
+   "Capparis scabrida (Sapote)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico (por confirmar)"
+  ]
+ ],
+ "obs_dt03": "SUELO DESNUDO 52% y COBERTURA VEGETAL TOTAL 35%: el bloque presenta uno de los estados más degradados del sector. Regeneración natural ESCASA y epífitas AUSENTES. La tabla florística (9 taxones frente al mínimo de 15) NO CONSIGNA FAMILIA NI ORIGEN para ninguna especie, y no se registró la sección de especies clave con georreferencia. La ficha F-DT-03 no consigna cobertura vegetal total ni uso dominante del suelo en sus campos propios (el 35% procede del indicador N.° 1 de F-DT-04).",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "80% — >20 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "50% — >20 años"
+  ],
+  [
+   "Tala para carbón",
+   "Sí",
+   "Ligera",
+   "15% — >10 años"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Ligera",
+   "10% — >15 años"
+  ],
+  [
+   "Quema accidental / Incendio",
+   "Sí",
+   "Ligera",
+   "5% — >5 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "30% — >20 años"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "35% — >50 años (proceso natural)"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Fuerte",
+   "100%"
+  ]
+ ],
+ "causa_subyacente": "Dependencia económica de actividades ganaderas y extractivas de bajo retorno por parte de la población rural circundante",
+ "causas_directas": "(1) Sobrepastoreo caprino extensivo y no rotacional; (2) tala selectiva histórica para leña y madera; (3) erosión hídrica concentrada en cabeceras de microquebradas; (4) PÉRDIDA PROGRESIVA DE COBERTURA VEGETAL (TENDENCIA MSAVI 2014-2024 NEGATIVA).",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": "Sin registro en ficha",
+ "obs_dt04": "Indicadores: cobertura vegetal total 35%; suelo desnudo 52%; densidad de cárcavas 1.2 N.°/ha; especies invasoras 2%; carga ganadera 2.5 UA/ha; frecuencia de quemas 0 (consulta MODIS); % área con pendiente >50% = 40% (DEM ALOS PALSAR 12.5 m); distancia a vía vecinal SIN VALOR. LA COLUMNA «NIVEL» NO FUE DILIGENCIADA PARA NINGUNO DE LOS 8 INDICADORES. La tendencia MSAVI 2014-2024 NEGATIVA es el sustento de la causa «pérdida progresiva de cobertura vegetal»: dato de valor para el análisis de degradación (TAU).",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   631200,
+   9410900,
+   "Estacional",
+   "No evaluable",
+   "Por determinar",
+   "Quebrada interna del bloque"
+  ],
+  [
+   "Río",
+   630500,
+   9411400,
+   "Permanente",
+   "Regular (ligeramente turbia)",
+   "Por determinar",
+   "Cauce principal del río Piura"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "No",
+ "escorrentia": "Sí",
+ "dist_captacion": "≈600 m (captación del CP Piedra Blanca al norte)",
+ "jass": "JASS Piedra Blanca — captación de pozo en zona aluvial del río Piura",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Vía vecinal Buenos Aires-Salitral desde el C.P. Piedra Blanca (punto de ingreso vehicular en cota 183 msnm)",
+ "tipo_via_final": "Sin registro en ficha",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 15,
+ "t_provincial": 45,
+ "senal": "Parcial",
+ "operador": "Movistar",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "Zona de recarga hídrica con escorrentía concentrada y sin humedad persistente. La captación del CP Piedra Blanca (JASS Piedra Blanca, pozo en zona aluvial del río Piura) se ubica a ≈600 m al norte del bloque. Las observaciones de la ficha F-DT-05 no fueron consignadas en el documento de origen.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (200 msnm)"
+  ],
+  [
+   "F-DT-01",
+   "El sector alto del bloque (>400 msnm), refugio relictual de las especies del ecosistema, NO fue recorrido",
+   "SUSTANTIVA",
+   "Se recomienda una segunda jornada de campo para cubrir la mitad alta del polígono"
+  ],
+  [
+   "F-DT-02",
+   "El campo «% bloque con cárcavas» contiene un texto descriptivo en lugar de un valor numérico",
+   "NO SUSTANTIVA",
+   "Normalizar el registro"
+  ],
+  [
+   "F-DT-03",
+   "La tabla florística (9 taxones frente al mínimo de 15) no consigna familia ni origen; sin sección de especies clave georreferenciada",
+   "SUSTANTIVA",
+   "Inventario incompleto"
+  ],
+  [
+   "F-DT-04",
+   "La columna «Nivel» no fue diligenciada para ninguno de los 8 indicadores cuantitativos",
+   "NO SUSTANTIVA",
+   "Completar calificación"
+  ],
+  [
+   "F-DT-04",
+   "Distancia a vía vecinal sin valor",
+   "NO SUSTANTIVA",
+   "Medición pendiente"
+  ],
+  [
+   "F-DT-02 / F-DT-05",
+   "Las secciones de observaciones de F-DT-02 y F-DT-05 no fueron consignadas en el documento",
+   "NO SUSTANTIVA",
+   "Completar en la carga definitiva"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M3B1 (Plan de Ingreso, PDF)",
+ "bloque": "M3B1"
+}

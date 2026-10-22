@@ -1,0 +1,282 @@
+{
+ "microcuenca_dt": "C1077-Q9566",
+ "evaluador": "Ing. Héctor S. Cahuas Miller",
+ "correlativo": "DT-M6B2-2-001",
+ "fecha_eval": "2026-05-18",
+ "hora": "10:11 h",
+ "cp_cercano": "Buenos Aires (capital distrital) / Caseríos Pueblo Nuevo, Chihuahua y Pedregal (CP 272 Buenos Aires)",
+ "comunidad": "No aplica formalmente — TIERRAS ESTATALES ADMINISTRADAS POR EL GOBIERNO REGIONAL DE PIURA",
+ "altitud_gps": "285 (GPS de campo) — rango del bloque 211 a 800+ msnm (desnivel ≈590 m)",
+ "utm_e_dt": 612190,
+ "utm_n_dt": 9417090,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "15-25% (Fuert. inclinado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Este a Noreste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Bosque estacionalmente seco de colina y montaña en mosaico con matorral xerófilo abierto; presencia conspicua de cactáceas columnares",
+ "afloramientos": "Sí",
+ "escarpes": "No (microescarpes potenciales en cabeceras >400 msnm no verificados)",
+ "reptacion": "Sí",
+ "deslizamientos": "No (sin cicatrices nítidas en el tramo recorrido)",
+ "remociones": "No",
+ "obs_dt01": "Acceso desde la capital de Buenos Aires por trocha al sector Pueblo Nuevo-Chihuahua-Pedregal. ZONIFICACIÓN ALTITUDINAL: (i) pie de ladera y abanico aluvial-coluvial (211-300 msnm), CON LA MAYOR PRESIÓN ANTRÓPICA por pastoreo y tala, suelo expuesto y matorral degradado; (ii) ladera media (300-500 msnm), pendiente 14-25%, dosel arbóreo discontinuo con relictos; (iii) ladera alta y cabecera de quebrada (>500 msnm), pendiente >25%, CON RELICTOS DEL BOSQUE EN MEJOR ESTADO (parches verde-amarillos en MSAVI 2024). Condición climática: nublada, ≈24 °C, sin precipitación. SE REQUIERE VISITA COMPLEMENTARIA AL SECTOR >400 msnm para verificación de escarpes activos y mapeo de cabeceras de cárcavas. Pendiente 14-17% media en transectas y 25-29% máxima en cabeceras. Exposición predominante E-NE con sub-exposiciones N y SE. DEPÓSITO DE BLOQUES MÉTRICOS EN EL LECHO DE LA QUEBRADA DE BORDE (612 179 · 9 416 517) EVIDENCIA FLUJOS DE DETRITOS HISTÓRICOS.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 3,
+ "long_carcavas": 390,
+ "pct_carcavas": "≈2% del bloque (focalizada en cabeceras de quebradas internas y franja basal)",
+ "erosion_laminar": 35,
+ "patron_carcavas": "Mixto",
+ "socavamiento": "Sí",
+ "urgencia_control": "Alta",
+ "carcavas": [
+  [
+   "CA-01",
+   "Cárcava somera — 60 m, 1.2 m prof., 8 m ancho",
+   612262,
+   9417144,
+   "Inactiva",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "CA-02",
+   "Cárcava profunda — 250 m, 2.5 m prof., 12 m ancho",
+   612179,
+   9416517,
+   "Semi-activa",
+   "Concentración natural de escorrentía (flujo de detritos histórico)"
+  ],
+  [
+   "CA-03",
+   "Surco (<30 cm) — 80 m, 0.15 m prof., 0.4 m ancho",
+   612143,
+   9417117,
+   "Activa",
+   "Sobrepastoreo"
+  ]
+ ],
+ "obs_dt02": "SUSCEPTIBILIDAD ESTRUCTURAL A PROCESOS DE REMOCIÓN EN MASA TIPO FLUJO DE DETRITOS (HUAICOS), evidenciada por el potente DEPÓSITO DE BLOQUES MÉTRICOS angulosos a subredondeados en el lecho de la quebrada que bordea el polígono (CA-02). Este depósito constituye evidencia de EVENTOS PLUVIOMÉTRICOS EXTREMOS (probablemente FEN 1983, 1998 y 2017) y representa la MAGNITUD POTENCIAL DE EVENTOS FUTUROS. LA INTERFASE ENTRE LA SALIDA DE LA QUEBRADA Y EL ASENTAMIENTO DE BUENOS AIRES (a ≈1 km aguas abajo) CONFIGURA UN ESCENARIO DE RIESGO ELEVADO PARA LA POBLACIÓN RURAL, dado que el bloque corresponde a la ZONA DE ORIGEN del peligro (cabecera de microcuenca) y la mitigación mediante recuperación ecosistémica tendrá EFECTO CASCADA en la reducción del pico de escorrentía y del transporte de sedimentos hacia el valle.",
+ "parcela": "P-01 (sector basal, cota 285 msnm, próxima al ingreso)",
+ "dim_parcela": "20 × 50 m (1 000 m² = 0.10 ha)",
+ "pend_parcela": "14 - 17 (máxima local 29)",
+ "cob_veg": 60,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "≈333.01 ha (99% del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Pastoreo extensivo (mixto caprino + vacuno) con extracción selectiva de leña y madera; tierras estatales (GORE Piura)",
+ "cob_dosel": 25,
+ "cob_arbustiva": 30,
+ "cob_herbacea": 15,
+ "cob_hojarasca": 10,
+ "suelo_desnudo": 25,
+ "h_dominante": 4,
+ "h_max": 8.5,
+ "dap": 22,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Caducifolio (hojas caídas)",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Indicadora de buen estado — 5 ind. en 612 176 · 9 417 095",
+   "VU — Vulnerable"
+  ],
+  [
+   "Bursera graveolens (Palo Santo)",
+   "Clave cultural — 3 ind. en 612 200 · 9 417 100",
+   "NT — Casi Amenazada"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Endémica del norte — 8 ind. en 612 142 · 9 417 116",
+   "LC — Preocupación Menor"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Indicadora de buen estado — >25 ind. en 614 278 · 9 418 258",
+   "LC — Preocupación Menor"
+  ],
+  [
+   "Prosopis pallida (Algarrobo)",
+   "Clave cultural — 6 ind. en 611 988 · 9 417 065",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Armatocereus cartwrightianus",
+   "Indicadora de perturbación — >10 ind. en 612 121 · 9 417 115",
+   "LC — Preocupación Menor"
+  ]
+ ],
+ "obs_dt03": "El bloque corresponde íntegramente al Bes-cm según el Mapa Nacional de Ecosistemas del MINAM (2019). ESTADO DE CONSERVACIÓN HETEROGÉNEO SEGÚN GRADIENTE ALTITUDINAL: la franja basal y media (211-500 msnm) muestra degradación moderada por pastoreo extensivo, tala selectiva y erosión hídrica superficial, mientras la franja alta (>500 msnm, NO RECORRIDA) preserva relictos arbóreos en mejor estado. LA COBERTURA VEGETAL TOTAL (60%) UBICA AL ECOSISTEMA EN CONDICIÓN REGULAR según los umbrales del Anexo 2 AdR-CCC (60-80% regular; >80% bueno; <60% malo), COHERENTE CON LA ASIGNACIÓN DE ESTE BLOQUE AL PROCESO DE RESTAURACIÓN (no a proyectos de protección). Las especies más representativas son NATIVAS Y PROPIAS DEL PISO ECOLÓGICO, confirmando la viabilidad de un programa de RECUPERACIÓN ASISTIDA CON ESPECIES DEL PROPIO ECOSISTEMA. Detalle de campo: basal (211-300 msnm) <40% cobertura; medio (300-500) 50-70%; cabeceras (>500) 60-80%. PARCELA P-01 INSTALADA (20 × 50 m).",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "80% — >20 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "50% — >20 años"
+  ],
+  [
+   "Tala para carbón",
+   "Sí",
+   "Ligera",
+   "15% — >10 años"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Ligera",
+   "10% — >15 años"
+  ],
+  [
+   "Quema accidental / Incendio",
+   "Sí",
+   "Ligera",
+   "5% — >5 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Fuerte",
+   "70% — >20 años"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "35% — >50 años"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Fuerte",
+   "100% — tendencia"
+  ],
+  [
+   "Otro (fragmentación del hábitat)",
+   "Sí",
+   "Moderada",
+   "20% — >10 años"
+  ]
+ ],
+ "causa_subyacente": "Estructura económica local de subsistencia con baja diversificación productiva y dependencia histórica del pastoreo",
+ "causas_directas": "(1) Sobrepastoreo extensivo mixto (caprino-vacuno) no rotacional, causa directa principal del 70-80% del bloque; (2) tala selectiva histórica de especies nativas para leña, carbón y madera, con afectación moderada a especies clave como el Hualtaco; (3) erosión hídrica concentrada en cabeceras de quebradas y franja basal, con depósito geomorfológico de huaicos antiguos como evidencia de la magnitud potencial de eventos extremos; (4) PÉRDIDA PROGRESIVA DE COBERTURA VEGETAL EVIDENCIADA POR MSAVI 2014-2024 (tendencia a degradación detectada).",
+ "velocidad": "Lenta",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 250,
+ "obs_dt04": "PATRÓN DE DEGRADACIÓN CARACTERÍSTICO DE LOS BOSQUES SECOS DEL PIEDEMONTE OCCIDENTAL DE PIURA: sobrepastoreo extensivo crónico como factor antrópico dominante, en sinergia con la tala selectiva y la presión climática creciente. LA CONDICIÓN DE TIERRAS ESTATALES SIN TITULARIDAD CONSOLIDADA CONSTITUYE, PARADÓJICAMENTE, TANTO UNA OPORTUNIDAD (no requiere negociación predial individual) COMO UN RIESGO (déficit de gobernanza territorial que facilita el aprovechamiento extractivo no regulado). EL PROYECTO DEBERÁ ARTICULAR SU INTERVENCIÓN CON EL GORE PIURA como entidad administradora y con los caseríos Pueblo Nuevo, Chihuahua y Pedregal del CP 272 Buenos Aires, como población usuaria histórica del recurso. Indicadores: cobertura 60% (Medio); suelo desnudo 25% (Medio); densidad de cárcavas 0.9 N.°/ha (Bajo); invasoras 2% (Bajo); CARGA GANADERA 2 UA/ha, EXCESIVA PARA BES-CM (Alto); quemas 0 (Bajo, consulta MODIS); % pendiente >50% = 28% (Alto); distancia a vía 250 m (Alto).",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   612262,
+   9417144,
+   "Estacional",
+   "No evaluable",
+   0,
+   "Quebrada de cantos rodados que atraviesa el bloque W-E"
+  ],
+  [
+   "Quebrada estacional",
+   612179,
+   9416517,
+   "Estacional",
+   "No evaluable",
+   0,
+   "Quebrada con potente depósito de bloques métricos (huaico histórico)"
+  ],
+  [
+   "Río",
+   613500,
+   9418500,
+   "Permanente",
+   "No evaluable",
+   "≈1500",
+   "Río Yapatera — cauce principal colindante NE"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "No",
+ "escorrentia": "Sí",
+ "dist_captacion": "≈1200 m (captación rústica del CP Buenos Aires / Caserío Pueblo Nuevo al NE, fuera del polígono)",
+ "jass": "Por verificar: JASS Buenos Aires y/o Comisión de Usuarios local; sistema de riego del valle aluvial — Comisión de Usuarios Yapatera (Junta de Usuarios del Alto Piura)",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Trocha vecinal afirmada Buenos Aires - Pueblo Nuevo - Chihuahua - Pedregal (acceso por el flanco NE)",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "20 - 30 min en vehículo + 15-20 min a pie",
+ "t_provincial": "≤90 min desde Chulucanas",
+ "senal": "Intermitente",
+ "operador": "Claro",
+ "alojamiento": "Sí",
+ "ronda": "Sí",
+ "contacto_ronda": "Por confirmar en visita de coordinación social previa (coordinar con la Gerencia de Desarrollo de la MD Buenos Aires)",
+ "obs_dt05": "EXCELENTE ACCESIBILIDAD LOGÍSTICA por proximidad al CP capital distrital Buenos Aires y a la vía nacional PE-1NL: ES UNO DE LOS BLOQUES OPERATIVAMENTE MÁS VIABLES DEL CLUSTER MORROPÓN. Desplazamiento desde Chulucanas ≤90 minutos; trocha transitable la mayor parte del año. Restricción principal: transitabilidad en temporada de lluvias (dic-mar), compensable programando jornadas intensivas en temporada seca (abr-nov). NO EXISTEN FUENTES DE AGUA SUPERFICIAL ACTIVAS DENTRO DEL POLÍGONO DURANTE EL ESTIAJE, LO CUAL TIENE IMPLICANCIAS DIRECTAS PARA EL DISEÑO DEL PROGRAMA DE REVEGETACIÓN: DEBERÁ CONSIDERARSE EL ESTABLECIMIENTO DE MICRORESERVORIOS O COSECHA DE AGUA DE LLUVIA PARA EL RIEGO DE ESTABLECIMIENTO DURANTE EL PRIMER AÑO. La condición de tierras estatales demanda un PROTOCOLO DE COORDINACIÓN SOCIAL CON LA TRÍADA GORE PIURA – MD BUENOS AIRES – RONDAS CAMPESINAS LOCALES antes del despliegue operativo.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (285 msnm)"
+  ],
+  [
+   "F-DT-01",
+   "El sector >400 msnm no fue recorrido: escarpes activos y cabeceras de cárcavas sin verificar",
+   "SUSTANTIVA",
+   "Visita complementaria requerida"
+  ],
+  [
+   "F-DT-03",
+   "Categoría del Hualtaco consignada VU y del Palo Santo NT, frente a CR en la mayoría de los bloques; Algarrobo consignado CR",
+   "SUSTANTIVA",
+   "Homogeneizar criterio de categorización en todo el portafolio"
+  ],
+  [
+   "F-DT-03",
+   "La especie clave Charán se georreferencia en 614 278 · 9 418 258, a ≈2.4 km del punto de muestreo",
+   "NO SUSTANTIVA",
+   "Verificar coordenada"
+  ],
+  [
+   "F-DT-02",
+   "CA-02 (cárcava profunda de 250 m, 2.5 m y 12 m de ancho) es en realidad un cauce de quebrada con depósito de huaico",
+   "NO SUSTANTIVA",
+   "Declarado en la propia ficha; reclasificar como rasgo geomorfológico"
+  ],
+  [
+   "F-DT-04",
+   "Carga ganadera 2 UA/ha, excesiva para el ecosistema Bes-cm",
+   "SUSTANTIVA",
+   "Condiciona el diseño de la clausura y del manejo de pastizales"
+  ],
+  [
+   "F-DT-01 / F-DT-04",
+   "Tierras estatales administradas por el GORE Piura sin titularidad consolidada",
+   "SUSTANTIVA",
+   "Oportunidad (sin negociación predial individual) y riesgo (déficit de gobernanza): articular con GORE Piura y MD Buenos Aires"
+  ],
+  [
+   "F-DT-02",
+   "El bloque es zona de ORIGEN de un peligro por flujo de detritos que amenaza al CP Buenos Aires a ≈1 km aguas abajo",
+   "SUSTANTIVA",
+   "Elemento expuesto crítico: incorporar al análisis de riesgo y priorizar las MRR-CCC de control de escorrentía"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M6B2-2 (Plan de Ingreso, PDF)",
+ "bloque": "M6B2-2"
+}

@@ -1,0 +1,309 @@
+{
+ "microcuenca_dt": "C1096-Q9556",
+ "evaluador": "Pedro Talledo Hernández (juego 1) / Ing. Juan Carlos Domínguez Varas y Ped. Talledo (juego 2)",
+ "correlativo": "DT-M17B5-01",
+ "fecha_eval": "2026-08-26 (juego 1) / 2026-07-14 (juego 2) — reconocimiento de campo 14-07-2026",
+ "hora": "11:58 - 12:18 h",
+ "cp_cercano": "El Guabo (enclave EXCLUIDO del polígono)",
+ "comunidad": "Por verificar — no declarada por la brigada en campo",
+ "altitud_gps": "NO REGISTRADA. Valor 900 msnm INTERPOLADO de curvas de nivel (±25 m), no lectura GPS. Rango del bloque 794 - 1317 (MDE)",
+ "utm_e_dt": 608549,
+ "utm_n_dt": 9445684,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Oeste",
+ "rango_altitudinal": "1000-1500 m (Quechua baja) — TRANSICIONAL: 40-45% del polígono bajo 1000 msnm (Yunga)",
+ "paisaje": "Ladera de montaña de fuerte disección labrada sobre intrusivo granodiorítico, con abundantes bolones graníticos",
+ "afloramientos": "Sí",
+ "escarpes": "No (no observado)",
+ "reptacion": "No (no observado)",
+ "deslizamientos": "En blanco — requiere análisis de MDE de alta resolución",
+ "remociones": "No (no observado)",
+ "obs_dt01": "ALCANCE: reconocimiento del 14-07-2026 sobre el sector OCCIDENTAL, en 4 estaciones (P-01 608 558/9 445 670; P-02 608 549/9 445 684; P-03 608 513/9 445 816; P-04 608 425/9 445 881). Extensión del recorrido 249 m; estaciones entre 293 y 514 m del centroide. P-03 y P-04 corresponden al ENCLAVE DEL CASERÍO EL GUABO, EXCLUIDO DEL POLÍGONO. LA COBERTURA FÍSICA EFECTIVA SE ESTIMA INFERIOR AL 10% DE LAS 74.03 ha. LOS SECTORES CENTRAL, NORTE Y SURESTE NO FUERON RECORRIDOS. ALTITUD GPS NO REGISTRADA (el valor 900 msnm es interpolado de curvas, ±25 m). RANGO ALTITUDINAL: 794-1 317 msnm (amplitud 523 m) — EL BLOQUE CABALGA DOS PISOS ALTITUDINALES; ≈40-45% se sitúa bajo 1 000 msnm. PENDIENTE promedio 27.42% (MDE); perfil W-E de 1 451 m: 753/957/1 197 msnm, pendiente media 29.9% y máxima 54.0%. AFLORAMIENTOS: bloques graníticos redondeados de 1-3 m, desconfinados y parcialmente enterrados. LOS «NO» DE ESCARPES, REPTACIÓN Y REMOCIONES SIGNIFICAN AUSENCIA DE EVIDENCIA EN EL SECTOR RECORRIDO, NO DESCARTE PARA EL CONJUNTO. ATENCIÓN: el juego 1 consigna UTM Este 645 575 (valor por defecto de plantilla).",
+ "sellamiento": "Sí (juego 1) / No (juego 2) — DISCREPANCIA ENTRE JUEGOS",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": "2 (juego 1) / 1 (juego 2) — DISCREPANCIA ENTRE JUEGOS",
+ "long_carcavas": "17 m (solo S-01, juego 2)",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01 / S-01",
+   "Surco (<30 cm) — 17 m (juego 2)",
+   608558,
+   9445670,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "C-02",
+   "Cárcava incipiente (solo juego 1)",
+   608549,
+   9445684,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ]
+ ],
+ "obs_dt02": "BASE DE OBSERVACIÓN: estaciones P-01 y P-02 (sector occidental). NINGÚN PARÁMETRO PROVIENE DE CALICATA, MUESTREO EDÁFICO NI MEDICIÓN INSTRUMENTAL. La caracterización textural, la profundidad efectiva, la materia orgánica y la clasificación taxonómica quedan POR DETERMINAR. SELLAMIENTO: superficie compactada de tonalidad pardo-amarillenta en el entorno de las viviendas y el sendero. COMPACTACIÓN: confirmada por HATO CAPRINO (≈8 cabezas, incluidos cabritos) en P-03 y deyecciones sobre el sendero en P-01. RAÍCES EXPUESTAS: raíces someras descalzadas en los taludes del sendero y en la base de los bloques graníticos. INVENTARIO: DOS INCISIONES LINEALES ACTIVAS labradas sobre el trazo del SENDERO PECUARIO, en material areno-limoso de alteración granítica (grus). SUS DIMENSIONES NO FUERON MEDIDAS por falta de instrumental. Longitud total, % de bloque afectado y erosión laminar NO se consignan. URGENCIA «Media»: procesos incipientes y localizados sobre corredores de tránsito, pero sobre MATERIAL ALTAMENTE ERODABLE y ladera de 27.4% promedio (54% máxima), condición que exige CONTROL TEMPRANO.",
+ "parcela": "No se instaló parcela — registro por observación directa en recorrido de borde",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 27.42,
+ "cob_veg": "75 - 80 (gabinete NDVI/MSAVI)",
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm) — posible mosaico con BMVO sobre ~1100 msnm",
+ "sup_ecosistema": "74.03 ha (100% del bloque)",
+ "estado_cons": "Levemente alterado",
+ "uso_dominante": "Uso mixto / Pastoreo extensivo",
+ "cob_dosel": 70,
+ "cob_arbustiva": "Por determinar",
+ "cob_herbacea": "Por determinar",
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": "2 - 5",
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "NO MEDIDO — no se ejecutó muestreo dasométrico",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí (por analogía con M17B6; no confirmado in situ)",
+ "fenologia": "Vegetativo — dosel PLENAMENTE FOLIADO en plena estación seca por aporte de garúa",
+ "tipo_cobertura": "Bosque denso (>70%)",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Colicodendron scabridum (Sapote)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Neltuma pallida (Algarrobo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "VU — Vulnerable"
+  ],
+  [
+   "Vachellia macracantha (Faique)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "NT — Casi Amenazada"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Endémica del Perú",
+   "NE — No Evaluado"
+  ],
+  [
+   "Ceiba trischistandra (Ceibo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Erythrina edulis (Pajuro)",
+   "Clave cultural",
+   "NE — No Evaluado"
+  ],
+  [
+   "Tillandsia sp. (Salvajina / Achupalla)",
+   "Indicadora de buen estado",
+   "No aplica"
+  ],
+  [
+   "Ipomoea carnea (Borrachera)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "TRANSFERENCIA FLORÍSTICA — HIPÓTESIS DE TRABAJO. EL LISTADO DE LAS 15 ESPECIES NO PROCEDE DE UN INVENTARIO EJECUTADO DENTRO DE M17B5. SE TRANSFIERE DEL BLOQUE M17B6, registrado por la misma brigada el mismo día, sobre la base de: (i) contigüidad geográfica (centroides separados 1 758 m); (ii) misma microcuenca C1096-Q9556 y mismo distrito de Frías; (iii) identidad del tipo de ecosistema (Bes-cm); (iv) solapamiento del rango altitudinal y de la clase de pendiente. LA TRANSFERENCIA ES UNA HIPÓTESIS SUJETA A RATIFICACIÓN por el Biól. Abel Aucasime Orihuela mediante colecta e inventario en parcelas dentro de M17B5. ADVERTENCIA: el techo altitudinal de M17B5 (1 317 msnm) SUPERA EN 268 m al de M17B6, por lo que es previsible la incorporación de ELEMENTOS DE TRANSICIÓN HACIA BOSQUE MONTANO en el sector oriental, NO REPRESENTADOS EN ESTE LISTADO. ÚNICAS DETERMINACIONES CON RESPALDO FOTOGRÁFICO DIRECTO: individuos leñosos con floración amarilla y hoja compuesta bipinnada, atribuibles preliminarmente a Caesalpinia paipai; y dosel leñoso continuo en las laderas de fondo. NINGUNA ESPECIE FUE DETERMINADA IN SITU POR ESPECIALISTA BOTÁNICO. ABUNDANCIAS heredadas de M17B6. COBERTURAS: estimaciones por fotointerpretación NDVI 2025 y MSAVI 2024. EL MSAVI 2024 MEDIO DEL BLOQUE ES 0.5482, EL MÁS ALTO DE LOS SEIS BLOQUES DE LA MICROCUENCA C1096-Q9556; el NDVI 2025 clasifica prácticamente todo el polígono en vegetación mediana y alta, SIN PÍXELES DE TIERRA DESNUDA.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada a Fuerte",
+   "15%"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   "5%"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Ligera a Moderada",
+   "10%"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Ligera",
+   "Chacras dispersas"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5% — caserío El Guabo enclavado"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Otro (huellas de ganado y trochas)",
+   "Sí",
+   "Moderada",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Dependencia de la economía familiar de subsistencia del caserío El Guabo respecto del pastoreo caprino libre, sin ordenamiento predial",
+ "causas_directas": "(1) Sobrepastoreo caprino extensivo, concentrado en la franja perimetral al enclave El Guabo, con compactación y sellamiento superficial; (2) tránsito pecuario y vial sobre senderos, generador de incisiones erosivas lineales activas; (3) extracción de leña de subsistencia, de intensidad ligera y radio limitado al entorno del caserío. NINGUNA DE LAS TRES CAUSAS PRODUCE, A LA FECHA, PÉRDIDA DE LA MATRIZ LEÑOSA: LA DEGRADACIÓN ES SUPERFICIAL Y PERIMETRAL, NO ESTRUCTURAL.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Totalmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 0,
+ "obs_dt04": "CONVENCIÓN: la columna «Nivel» expresa el NIVEL DE DEGRADACIÓN implicado por cada indicador (Alto = más degradado), no la magnitud del valor. LOS INDICADORES 3 A 7 NO SE CONSIGNAN: su cuantificación exige recorrido interior completo, censo pecuario y estadística zonal sobre MDE. El indicador 8 (distancia a vía = 0 m) responde a que el polígono COLINDA DIRECTAMENTE CON LA TROCHA DE ACCESO AL CASERÍO EL GUABO, ENCLAVE EXCLUIDO Y RODEADO POR EL BLOQUE: accesibilidad máxima y, por tanto, máxima presión antrópica potencial. Las extensiones (%) son ESTIMACIONES VISUALES del sector occidental extrapoladas con criterio conservador. La ANTIGÜEDAD se deja íntegramente en blanco. LECTURA DE CONJUNTO: la degradación NO es generalizada sino PERIMETRAL Y DE BAJA INTENSIDAD, concentrada en la franja occidental de contacto con El Guabo y con la red de trochas; el cuerpo central y oriental presenta cobertura continua de densidad media a alta. ESTA HETEROGENEIDAD INTERNA OBLIGA A UNA ZONIFICACIÓN DIFERENCIADA DE LAS MRR-CCC Y NO A UN TRATAMIENTO UNIFORME DE RESTAURACIÓN ACTIVA. OBSERVACIÓN SUSTANTIVA (D-05): la combinación de MSAVI 0.5482 (el más alto de la microcuenca), NDVI sin píxeles de tierra desnuda y estado «levemente alterado» PLANTEA SI M17B5 CALIFICA COMO ECOSISTEMA DEGRADADO EN EL SENTIDO DE LA R.M. N.° 00213-2024-MINAM. Se eleva a la Subdirección.",
+ "fuentes_agua": [
+  [
+   "Otro (línea de conducción)",
+   608513,
+   9445816,
+   "Por determinar",
+   "No evaluable",
+   0,
+   "Manguera de polietileno tendida en el caserío El Guabo: acredita una captación de ladera aguas arriba"
+  ]
+ ],
+ "recarga": "Sí (calificación PRELIMINAR; requiere confirmación hidrogeológica)",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por verificar — corresponde a la brigada de diagnóstico social",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Trocha carrozable de acceso al caserío El Guabo, derivada del eje vial Chulucanas – Frías (código de vía POR VERIFICAR)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": 50,
+ "t_provincial": 120,
+ "senal": "Por verificar",
+ "operador": "Por verificar",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Por determinar — coordinación con la Ronda Campesina de El Guabo pendiente de gestión",
+ "obs_dt05": "INVENTARIO DE FUENTES PRÁCTICAMENTE EN BLANCO. No se georreferenció ni caracterizó ninguna fuente natural. SE DOCUMENTA EVIDENCIA INDIRECTA DE CAPTACIÓN: MANGUERA DE CONDUCCIÓN DE POLIETILENO tendida sobre el terreno en el caserío El Guabo, QUE ACREDITA LA EXISTENCIA DE UNA CAPTACIÓN DE LADERA AGUAS ARRIBA. Su tipo, coordenadas, régimen, caudal y calidad quedan POR DETERMINAR. ZONA DE RECARGA «Sí»: calificación PRELIMINAR por (i) posición de ladera media-alta en cabecera de quebradas; (ii) dosel leñoso continuo que favorece intercepción e infiltración; (iii) INFLUENCIA DOCUMENTADA DE NEBLINA DE ADVECCIÓN. HUMEDAD PERSISTENTE «Sí»: neblina de advección envolviendo las laderas al mediodía y DOSEL PLENAMENTE FOLIADO EN PLENA ESTACIÓN SECA — indicador de aporte hídrico atmosférico sostenido. La red de drenaje cartografiada muestra una quebrada en la escotadura entre ambos lóbulos del bloque y otra por el flanco norte; NINGUNA FUE RECORRIDA. ACCESIBILIDAD: el caserío El Guabo, enclave interior excluido, es accesible por trocha; desde él el bloque se alcanza a pie en <30 min por senderos pecuarios. LA AUTORIZACIÓN DE LA RONDA CAMPESINA DE EL GUABO ES CONDICIÓN PREVIA PARA CUALQUIER TRAVESÍA INTERIOR O LEVANTAMIENTO PREDIAL.",
+ "estaciones_fotograficas": [
+  [
+   "P-01",
+   608558,
+   9445670
+  ],
+  [
+   "P-02",
+   608549,
+   9445684
+  ],
+  [
+   "P-03",
+   608513,
+   9445816
+  ],
+  [
+   "P-04",
+   608425,
+   9445881
+  ]
+ ],
+ "n_estaciones": 4,
+ "estaciones_dentro": 2,
+ "correcciones": [
+  [
+   "Ficha DT",
+   "EL PDF CONTIENE DOS JUEGOS DE FICHAS F-DT PARA EL MISMO BLOQUE (26-08-2026 y 14-07-2026) con valores divergentes",
+   "SUSTANTIVA",
+   "Consolidar en una sola versión oficial antes del entregable"
+  ],
+  [
+   "F-DT-02",
+   "Sellamiento: «Sí» en el juego 1 y «No» en el juego 2; N.° de cárcavas: 2 vs. 1",
+   "SUSTANTIVA",
+   "Discrepancia entre juegos a resolver"
+  ],
+  [
+   "F-DT-01",
+   "Cobertura física del levantamiento <10% de las 74.03 ha; sectores central, norte y sureste no recorridos",
+   "SUSTANTIVA",
+   "Toda calificación aplica solo al sector occidental"
+  ],
+  [
+   "F-DT-01",
+   "Altitud GPS no registrada; el valor 900 msnm es interpolado de curvas de nivel (±25 m)",
+   "SUSTANTIVA",
+   "No es lectura GPS"
+  ],
+  [
+   "F-DT-01",
+   "El bloque cabalga dos pisos altitudinales (794-1 317 msnm); ≈40-45% bajo 1 000 msnm",
+   "NO SUSTANTIVA",
+   "Se consigna la clase de mayor superficie"
+  ],
+  [
+   "Ficha DT (juego 1)",
+   "UTM Este 645 575 = valor por defecto de la plantilla",
+   "SUSTANTIVA",
+   "Georreferencia por reponer"
+  ],
+  [
+   "F-DT-02",
+   "Dimensiones de las incisiones no medidas por falta de instrumental",
+   "SUSTANTIVA",
+   "Levantamiento pendiente"
+  ],
+  [
+   "F-DT-03",
+   "LISTADO FLORÍSTICO TRANSFERIDO DEL BLOQUE M17B6; no procede de inventario en M17B5",
+   "SUSTANTIVA",
+   "Hipótesis de trabajo sujeta a ratificación; previsibles elementos de transición a bosque montano no representados"
+  ],
+  [
+   "F-DT-03",
+   "Epífitas «Sí» consignado por analogía con M17B6, no por observación directa",
+   "NO SUSTANTIVA",
+   "Por verificar"
+  ],
+  [
+   "F-DT-04",
+   "Indicadores 3 a 7 sin consignar; extensiones estimadas visualmente y antigüedad en blanco",
+   "SUSTANTIVA",
+   "Cuantificación pendiente"
+  ],
+  [
+   "F-DT-04",
+   "D-05: MSAVI 0.5482 (el más alto de la microcuenca), NDVI sin tierra desnuda y estado «levemente alterado»",
+   "SUSTANTIVA",
+   "ELEVADO A LA SUBDIRECCIÓN: verificar si califica como ecosistema degradado bajo la R.M. 00213-2024-MINAM"
+  ],
+  [
+   "F-DT-04",
+   "Heterogeneidad interna: degradación perimetral occidental frente a cuerpo central y oriental conservado",
+   "SUSTANTIVA",
+   "Obliga a ZONIFICACIÓN DIFERENCIADA de las MRR-CCC, no a tratamiento uniforme"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M17B5_20260907_153811.pdf (dos juegos de fichas)",
+ "bloque": "M17B5"
+}

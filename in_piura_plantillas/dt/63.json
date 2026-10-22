@@ -1,0 +1,201 @@
+{
+ "microcuenca_dt": "C1081-Q9583",
+ "evaluador": "Ing. Juan Domínguez y Blgo. Abel Aucasime",
+ "correlativo": "F-DT-01-63",
+ "fecha_eval": "2026-07-21",
+ "hora": "Sin registro en ficha",
+ "cp_cercano": "Shuturumbe",
+ "comunidad": "Por verificar",
+ "altitud_gps": "1520 (GPS de campo); rango MDE 1508 - 2080 (amplitud 572 m)",
+ "utm_e_dt": 655059,
+ "utm_n_dt": 9413845,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Oeste",
+ "rango_altitudinal": "1500-2000 m (Quechua media)",
+ "paisaje": "Sistema de laderas convexo-cóncavas tributarias de la quebrada Q9583, con paisaje de montaña dominado por matorral",
+ "afloramientos": "No",
+ "escarpes": "Sí",
+ "reptacion": "Sí",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Coordenadas correspondientes al CENTROIDE del polígono (Bloques V4/V5), no a un punto de muestreo GPS de campo. Altitud GPS de campo 1 520 msnm. Rango altitudinal del bloque según MDE: 1 508-2 080 msnm (amplitud 572 m); pendiente promedio 35.50%. Centro poblado asociado: Shuturumbe. Acceso: vía afirmada Canchaque – Coyona, margen izquierda de una quebrada s/n.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sin registro en ficha",
+ "nivel_erosion": "Fuerte (cárcavas incipientes)",
+ "n_carcavas": "0 = no inventariadas",
+ "long_carcavas": 0,
+ "pct_carcavas": 0,
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Aislado",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "Nivel general de erosión moderado a severo, con erosión hídrica y por sobrepastoreo. Se observan estrías y surcos en la ladera formados por el tránsito habitual del ganado vacuno, así como zonas escarpadas. No se identifican cárcavas desarrolladas dentro del bloque. El suelo presenta compactación por pisoteo y piedras de tamaño mediano a grande dispersas. INVENTARIO DE CÁRCAVAS NO EJECUTADO: el registro consigna la ausencia de cárcavas desarrolladas, pero NO se levantó inventario georreferenciado; 0 cárcavas registradas NO equivale a ausencia verificada. El % del bloque afectado y la erosión laminar quedan por determinar mediante ortomosaico y MDS.",
+ "parcela": "No consignada",
+ "dim_parcela": "Por determinar",
+ "pend_parcela": 35.5,
+ "cob_veg": "Por determinar",
+ "ecosistema": "Matorral Andino subhúmedo (declarado en campo: Matorral andino, Ma)",
+ "sup_ecosistema": "Por determinar",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": "Por determinar",
+ "cob_arbustiva": "Por determinar",
+ "cob_herbacea": "Por determinar",
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": "Por determinar",
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "Por determinar",
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Por verificar",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Matorral ralo",
+ "n_taxones": 10,
+ "especies_clave": [
+  [
+   "Ceiba pentandra (Ceibo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Endémica del Perú",
+   "NE — No Evaluado"
+  ],
+  [
+   "Juglans neotropica (Nogal)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "VU — Vulnerable (por confirmar)"
+  ],
+  [
+   "Inga spp. (Guaba / Pacae)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "El entregable de campo consigna cultivos de café, pastos y otros productos agrícolas SIN detallar el elenco florístico del matorral andino. EL INVENTARIO DE 15 ESPECIES EXIGIDO POR LA FICHA F-DT-03 QUEDA PENDIENTE de colecta e identificación botánica (se registraron 10 entradas, incluidas especies cultivadas). Coberturas por estrato, alturas y DAP NO medidos instrumentalmente. No se confirmaron especies amenazadas del D.S. 043-2006-AG. LA SUPERFICIE OCUPADA POR CULTIVOS DEBE EXCLUIRSE DEL ÁREA EFECTIVA EN EL TAMIZAJE PREDIAL.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "40%"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "25%"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "20%"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5%"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "10%"
+  ]
+ ],
+ "causa_subyacente": "Ocupación productiva de laderas de fuerte pendiente sin prácticas de conservación de suelos, favorecida por la accesibilidad",
+ "causas_directas": "Sobrepastoreo caprino/vacuno (Fuerte); cambio de uso a agricultura (Moderada); cambio de uso a pastoreo (Moderada); erosión natural severa (Moderada); expansión urbana/vial (Ligera).",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 0,
+ "obs_dt04": "Indicadores 1 (cobertura vegetal total 97.16%) y 2 (suelo desnudo 0%) se derivan de la CLASIFICACIÓN MSAVI 2024 POR CONTEO DE PÍXELES sobre el plano temático del bloque (por confirmar con estadística zonal). Los indicadores 3 a 7 NO fueron cuantificados y se rotulan «Por determinar»: no fueron estimados ni inferidos. ADVERTENCIA DE CONSISTENCIA: la cobertura MSAVI de 97.16% contrasta con el estado de conservación declarado «Alterado (intervención marcada)» y con el tipo de cobertura «Matorral ralo».",
+ "fuentes_agua": [
+  [
+   "Quebrada permanente",
+   "Por determinar",
+   "Por determinar",
+   "Permanente",
+   "Buena (clara)",
+   "0 (colindante)",
+   "Quebrada activa colindante"
+  ],
+  [
+   "Quebrada estacional",
+   "Por determinar",
+   "Por determinar",
+   "Estacional",
+   "No evaluable",
+   "0 (colindante)",
+   "Drenajes tributarios"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sin registro en ficha",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Vía afirmada Canchaque – Coyona, margen izquierda de una quebrada s/n",
+ "tipo_via_final": "Vecinal afirmada",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "Por verificar",
+ "operador": "Por verificar",
+ "alojamiento": "Por verificar",
+ "ronda": "Sí",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "Acceso por vía afirmada Canchaque – Coyona, margen izquierda de una quebrada s/n. COORDENADAS DE LAS FUENTES DE AGUA NO LEVANTADAS CON GPS: se identificaron por recorrido y lectura cartográfica. El bloque se ubica en la ZONA DE ORIGEN del peligro generador de inundaciones (PGI), no en la zona de impacto. JASS, captación poblacional, señal celular, tiempos de viaje y alojamiento rural por verificar.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-02",
+   "N.° de cárcavas = 0 sin inventario georreferenciado; no equivale a ausencia verificada",
+   "SUSTANTIVA",
+   "Declarado en la propia ficha; levantar con ortomosaico y MDS"
+  ],
+  [
+   "F-DT-03",
+   "Registro florístico de 10 entradas (incluidas especies cultivadas) frente a las 15 especies exigidas por la ficha",
+   "SUSTANTIVA",
+   "Colecta e identificación botánica pendientes"
+  ],
+  [
+   "F-DT-03 / F-DT-04",
+   "Cobertura MSAVI 97.16% frente a estado de conservación «Alterado» y cobertura dominante «Matorral ralo»",
+   "SUSTANTIVA",
+   "Contraste a resolver: el MSAVI alto puede corresponder a cultivos (café, pastos) y no a ecosistema natural conservado"
+  ],
+  [
+   "F-DT-03",
+   "Cobertura vegetal total, superficie de ecosistema, coberturas por estrato, alturas y DAP sin medición",
+   "NO SUSTANTIVA",
+   "Pendientes de levantamiento instrumental"
+  ],
+  [
+   "F-DT-01",
+   "Punto de registro = centroide del polígono, no punto GPS de campo",
+   "NO SUSTANTIVA",
+   "Declarado en la propia ficha"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_63_20260907_151515.pdf",
+ "bloque": "63"
+}

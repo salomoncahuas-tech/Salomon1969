@@ -1,0 +1,200 @@
+{
+ "microcuenca_dt": "C1076-Q9584 (según ficha — valor por defecto de plantilla; catálogo: C1096-Q9545)",
+ "evaluador": "Juan Domínguez",
+ "correlativo": "Sin registro en ficha",
+ "fecha_eval": "2026-07-03",
+ "hora": "09:55 h",
+ "cp_cercano": "La Peña",
+ "comunidad": "María Ángela Alvarado de Zeta (según ficha DT); el F-DS-02 declara que NO pertenecen a ninguna comunidad campesina",
+ "altitud_gps": "254 (GPS de campo) — altitud media del bloque ≈250 msnm",
+ "utm_e_dt": 645575,
+ "utm_n_dt": 9393500,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "15-25% (Fuert. inclinado)",
+ "posicion_fisio": "Ladera baja",
+ "exposicion": "Noreste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Sistema de laderas convexo-cóncavas tributarias de la quebrada Q9545 (microcuenca C1096)",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "El bloque está conformado por un conjunto de LADERAS DE COLINA BAJA, con pendientes inferiores al 30% y altitud media ≈250 msnm. Debido a su extensión (355.36 ha) y a la accidentada topografía, el área presenta DIVERSAS QUEBRADAS QUE CANALIZAN EL AGUA DE LLUVIA HACIA EL SECTOR DEL CCPP: el flujo atraviesa la vía afirmada mediante BADENES, continúa por parcelas de cultivo y desemboca en la quebrada principal (colector). En las zonas de pendiente se observan piedras de tamaño pequeño a mediano. NO SE DETECTARON SURCOS SIGNIFICATIVOS NI CÁRCAVAS en formación evidente. En el interior se evidenció EROSIÓN LAMINAR Y EÓLICA causada por el pastoreo de ganado vacuno y caprino. Se evidenciaron CAMINOS DE HERRADURA marcados dejados por el tránsito de personas y ganado, que contribuyen a la erosión. ATENCIÓN: el UTM del punto de registro (645 575 · 9 393 500) es el valor por defecto de la plantilla; el centroide de catálogo es 595 552 · 9 451 220 (≈70 km de diferencia).",
+ "sellamiento": "Sin registro en ficha",
+ "compactacion": "Sin registro en ficha",
+ "raices_expuestas": "Sin registro en ficha",
+ "nivel_erosion": "FICHA F-DT-02 SIN CONTENIDO. Evidencia narrativa de F-DT-01: erosión laminar y eólica por pastoreo",
+ "n_carcavas": "No inventariadas (F-DT-02 sin contenido)",
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Por determinar",
+ "socavamiento": "Por determinar",
+ "urgencia_control": "Por determinar",
+ "carcavas": [],
+ "obs_dt02": "LA FICHA F-DT-02 APARECE SIN CONTENIDO en el documento de origen. Toda la información de procesos erosivos disponible proviene de la narrativa de F-DT-01: erosión laminar y eólica causada por el pastoreo de ganado vacuno y caprino, y caminos de herradura que contribuyen a la erosión. No se detectaron surcos significativos ni cárcavas en formación evidente. El inventario georreferenciado queda PENDIENTE en su totalidad.",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 90,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "320 ha (de 355.36 ha del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 90,
+ "cob_arbustiva": 15,
+ "cob_herbacea": 10,
+ "cob_hojarasca": 5,
+ "suelo_desnudo": 10,
+ "h_dominante": 7,
+ "h_max": 10,
+ "dap": 30,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 9,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico (por confirmar)"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico (por confirmar)"
+  ],
+  [
+   "Prosopis pallida (Algarrobo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "VU — Vulnerable (por confirmar)"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Cordia lutea (Overo)",
+   "Indicadora de perturbación",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "La cobertura vegetal presenta ALTERACIONES ATRIBUIBLES A LA EXTRACCIÓN SELECTIVA DE INDIVIDUOS DE PORTE ARBÓREO. El bloque se mantiene en ESTADO SEMICONSERVADO, con ejemplares arbóreos dispersos intercalados con áreas de especies nativas de porte arbustivo y cactus aislados. SE OBSERVARON RELICTOS DE BOSQUE con mayor abundancia de especies nativas arbóreas. Donde se conserva la vegetación, las alturas promedio no superan los 6 m y las clases diamétricas no exceden los 30 cm de DAP. Abundante vegetación arbustiva y cardos dispersos en el área próxima a la vía afirmada y al CCPP. LA TABLA FLORÍSTICA (9 taxones) NO CONSIGNA NOMBRE CIENTÍFICO NI FAMILIA para ninguna especie. INCONSISTENCIA: cobertura de dosel 90% incompatible con el tipo de cobertura dominante «Bosque ralo (30-70%)»; la narrativa declara alturas <6 m frente a los 7 m del estrato dominante consignado.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "60% — 30 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "30% — 30 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "60% — 30 años"
+  ]
+ ],
+ "causa_subyacente": "No consignada en la ficha",
+ "causas_directas": "La degradación leve del ecosistema se debe principalmente a las actividades de pastoreo de ganado vacuno y extracción de leña para uso doméstico.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 180,
+ "obs_dt04": "RECOMENDACIÓN DE CAMPO: REDELIMITAR EL BLOQUE priorizando las áreas próximas al CCPP y DESESTIMANDO LAS ÁREAS DE LA PARTE ALTA DE LA COLINA, DONDE EL ECOSISTEMA SE ENCUENTRA CONSERVADO. Indicadores: cobertura vegetal total 90% (Alto); suelo desnudo 5% (Bajo); densidad de cárcavas 1 N.°/ha (Bajo) — INCOMPATIBLE con la ausencia de inventario y con la declaración de que no se detectaron cárcavas; especies invasoras 0% (Bajo); carga ganadera 3 UA/ha (Medio); frecuencia de quemas 1 (Medio); % área con pendiente >50% = 10% (Bajo); distancia a vía 180 m (Alto). NOTA: suelo desnudo 5% en el indicador frente a 10% en F-DT-03.",
+ "fuentes_agua": [],
+ "recarga": "Sin registro en ficha",
+ "humedad": "Sin registro en ficha",
+ "escorrentia": "Sin registro en ficha",
+ "dist_captacion": "Sin registro en ficha",
+ "jass": "JASS / Sistema local del C.P. La Peña — cobertura 100% (F-DS-01)",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Sin registro en ficha",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Medio",
+ "t_distrital": 20,
+ "t_provincial": 40,
+ "senal": "Parcial",
+ "operador": "Bitel",
+ "alojamiento": "No",
+ "ronda": "Sin registro en ficha",
+ "contacto_ronda": "Sin registro en ficha",
+ "obs_dt05": "EL INVENTARIO DE FUENTES DE AGUA ESTÁ VACÍO y no se consignaron zona de recarga, humedad persistente, escorrentía concentrada ni distancia a captación, pese a que F-DT-01 describe DIVERSAS QUEBRADAS QUE CANALIZAN EL AGUA DE LLUVIA HACIA EL CCPP a través de badenes. DIAGNÓSTICO SOCIAL (F-DS-01 y F-DS-02, C.P. La Peña, 09/07/2026): 36 familias, 83 hab. según censo 2017 (la encuestada estima 200); primaria completa; TASA DE MIGRACIÓN ALTA hacia Piura, Lima, Chulucanas y selva; organización comunal: Comunidad Campesina reconocida con título, presidente Wilmer Flores Quiroga; JASS con cobertura 100%; saneamiento por pozo séptico; energía en red pública al 70%; NO HAY ESTABLECIMIENTO DE SALUD (15 min); I.E. inicial + primaria. CONTRADICCIÓN ENTRE FICHAS SOCIALES: F-DS-01 declara «Comunidad Campesina reconocida (con título)» mientras F-DS-02 declara que «no pertenece a ninguna comunidad campesina» y que los terrenos son haciendas o terrenos agrícolas titulados.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Ficha DT",
+   "La ficha consigna microcuenca C1076-Q9584; el catálogo maestro asigna a M9B1 la microcuenca C1096-Q9545",
+   "SUSTANTIVA",
+   "Valor por defecto de la plantilla; se conserva el del catálogo"
+  ],
+  [
+   "Ficha DT",
+   "UTM del punto de registro (645 575 · 9 393 500) = valor por defecto; el centroide de catálogo es 595 552 · 9 451 220 (≈70 km)",
+   "SUSTANTIVA",
+   "Georreferencia por reponer"
+  ],
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (254 msnm)"
+  ],
+  [
+   "F-DT-02",
+   "Sección SIN CONTENIDO en el documento de origen",
+   "SUSTANTIVA",
+   "Levantamiento de suelo y procesos erosivos pendiente en su totalidad"
+  ],
+  [
+   "F-DT-03",
+   "La tabla florística (9 taxones) no consigna nombre científico ni familia",
+   "SUSTANTIVA",
+   "Determinación botánica pendiente"
+  ],
+  [
+   "F-DT-03",
+   "Cobertura de dosel 90% incompatible con el tipo de cobertura «Bosque ralo (30-70%)»; alturas narrativas <6 m frente a 7 m consignados",
+   "SUSTANTIVA",
+   "Inconsistencias internas a resolver"
+  ],
+  [
+   "F-DT-04",
+   "Densidad de cárcavas 1 N.°/ha pese a declararse que no se detectaron cárcavas y a no existir inventario",
+   "SUSTANTIVA",
+   "Inconsistencia interna a resolver"
+  ],
+  [
+   "F-DT-03 / F-DT-04",
+   "Suelo desnudo: 10% en F-DT-03 frente a 5% en el indicador N.° 2",
+   "NO SUSTANTIVA",
+   "Conciliar"
+  ],
+  [
+   "F-DT-05",
+   "Inventario de fuentes vacío pese a describirse diversas quebradas que canalizan agua hacia el CCPP",
+   "SUSTANTIVA",
+   "Levantamiento pendiente"
+  ],
+  [
+   "F-DS-01 / F-DS-02",
+   "Contradicción: F-DS-01 declara Comunidad Campesina reconocida con título; F-DS-02 declara que no pertenecen a ninguna comunidad campesina",
+   "SUSTANTIVA",
+   "Condiciona el tamizaje predial y la estrategia de gobernanza: resolver antes del Expediente de Liberación de Áreas"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M9B1 (Plan de Ingreso, PDF)",
+ "bloque": "M9B1"
+}

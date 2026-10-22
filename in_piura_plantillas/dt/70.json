@@ -1,0 +1,205 @@
+{
+ "microcuenca_dt": "C1076-Q9592",
+ "evaluador": "Por determinar (prellenado de gabinete SESDI)",
+ "correlativo": "F-DT-01/70/2026",
+ "fecha_eval": "2026-09-05 (gabinete) — reconocimiento de campo 19-08-2026",
+ "hora": "09:20 - 10:05 h",
+ "cp_cercano": "Zururán",
+ "comunidad": "Por verificar — no se consultó registro de comunidades campesinas en campo",
+ "altitud_gps": "No registrada — rango MDE 2326 - 2536 (amplitud 210 m)",
+ "utm_e_dt": 645575,
+ "utm_n_dt": 9393500,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "15-25% (Fuert. inclinado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Sur",
+ "rango_altitudinal": "2000-2500 m (Quechua alta)",
+ "paisaje": "Ladera de montaña de exposición sur, cubierta por pastizal y matorral bajo, coronada por línea de cumbre con arbolado",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "Sí",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "PRELLENADO DE GABINETE. NINGUNA FICHA F-DT FUE DILIGENCIADA EN CAMPO el 19-08-2026; el reconocimiento consistió en recorrido con registro fotográfico georreferenciado. Pendiente promedio zonal (MDE) 23.20% ≈ 13.05°; rango altitudinal 2 326-2 536 msnm (amplitud 210 m). Escarpes activos: no observados; los taludes de corte del camino se localizan FUERA del polígono. Reptación: SÍ — terracillas de pisoteo de ganado paralelas a la curva de nivel (estación E-04), indicio de reptación superficial asociada a sobrepastoreo. Afloramientos rocosos verificados en el talud de la vía (E-05). ATENCIÓN: el registro consigna UTM Este 645 575 (valor por defecto de la plantilla), distinto del centroide de catálogo 666 781 E · 9 395 570 N.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "No",
+ "nivel_erosion": "Ligera (laminar)",
+ "n_carcavas": "Por determinar",
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "INVENTARIO DE CÁRCAVAS NO EJECUTADO. No se levantaron cárcavas georreferenciadas, longitudes ni densidades; los campos quedan «Por determinar» y son responsabilidad del analista de infraestructura marrón. LA AUSENCIA DE REGISTROS NO EQUIVALE A AUSENCIA VERIFICADA. Compactación por pisoteo: SÍ, evidenciada por las terracillas de ganado de la estación E-04. El nivel de erosión ligero es coherente con la cobertura herbácea continua y con el 4.72% de superficie bajo el umbral MSAVI.",
+ "parcela": "No instalada (prellenado de gabinete)",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 23.2,
+ "cob_veg": 85,
+ "ecosistema": "Matorral Andino subhúmedo (adscripción preliminar)",
+ "sup_ecosistema": "22.39 ha (100% del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": "Por determinar",
+ "cob_arbustiva": "Por determinar",
+ "cob_herbacea": "Por determinar",
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": 5,
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "Por determinar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Latencia / Estrés hídrico",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Tecoma stans (Huaranhuay / cholán)",
+   "Indicadora de perturbación",
+   "NE — No Evaluado"
+  ],
+  [
+   "Baccharis spp. (Chilca)",
+   "Indicadora de perturbación",
+   "NE — No Evaluado"
+  ],
+  [
+   "Agave americana",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Eucalyptus globulus",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Poaceae (pastos cultivados)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Melastomataceae (indet.)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "LISTA PRELIMINAR. Los binomios proceden de nombres comunes remitidos por la brigada y de fotointerpretación de las estaciones georreferenciadas; NINGUNO está confirmado taxonómicamente y NO hubo colecta botánica ni medición dasométrica. Se completan los 15 registros exigidos, pero 5 ENTRADAS CARECEN DE GÉNERO. Ninguna especie con categoría de amenaza confirmada bajo el D.S. 043-2006-AG. La adscripción al Matorral Andino es PRELIMINAR y debe verificarse por intersección con la capa nacional de ecosistemas del MINAM.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "70% — 20 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "60% — 20 años"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5%"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Ligera",
+   "5%"
+  ],
+  [
+   "Tala para leña",
+   "Nula",
+   "",
+   "Sin evidencia directa"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "Nula",
+   "",
+   "Sin cicatrices de quema"
+  ]
+ ],
+ "causa_subyacente": "Presión ganadera sin ordenamiento de carga ni clausura, sobre una unidad de cabecera de microcuenca",
+ "causas_directas": "Sobrepastoreo con reptación superficial asociada (terracillas de pisoteo) y sustitución del matorral por pastizal en la vertiente sur.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Totalmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 0,
+ "obs_dt04": "Matriz consignada POR GABINETE a partir del registro fotográfico georreferenciado del 19-08-2026 y de la cartografía temática. LAS DIEZ CAUSAS NO CONSIGNADAS QUEDAN SIN VERIFICAR: la ausencia de marca no significa ausencia de la causa. Antigüedades y extensiones son estimaciones no instrumentales. Indicadores: cobertura vegetal total 85% y suelo desnudo 5% (fotointerpretación); distancia a vía 0 m — la vía discurre sobre el propio límite del bloque (Alto). Indicadores 3 a 7 «Por determinar».",
+ "fuentes_agua": [],
+ "recarga": "Sí",
+ "humedad": "No",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por determinar",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Trocha carrozable Zururán – bloques 53/70 (red vial del plano temático)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "Por determinar",
+ "operador": "Por determinar",
+ "alojamiento": "Por determinar",
+ "ronda": "Por determinar",
+ "contacto_ronda": "Por determinar",
+ "obs_dt05": "FICHA PARCIAL. NO se ejecutó inventario de fuentes de agua con GPS, ni se levantaron datos de JASS, captación poblacional, señal celular, tiempos de viaje, alojamiento ni Ronda Campesina. El bloque 70 se declara en ZONA DE RECARGA HÍDRICA por su posición de cabecera (2 235-2 540 msnm) sobre el drenaje de la quebrada Q9592: se sitúa en la ZONA DE ORIGEN del peligro generador de inundaciones. La escorrentía concentrada se verifica sobre el sendero y los taludes de corte del camino. Las condiciones de acceso son favorables: la vía discurre sobre el propio límite del bloque.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Fichas F-DT-01 a F-DT-05",
+   "NINGUNA ficha fue diligenciada en campo el 19-08-2026: todo el contenido es prellenado de gabinete a partir de fotografías georreferenciadas y cartografía temática",
+   "SUSTANTIVA",
+   "Levantamiento de campo pendiente en su totalidad"
+  ],
+  [
+   "Ficha DT",
+   "UTM Este 645 575 corresponde al valor por defecto de la plantilla; el centroide de catálogo es 666 781 E · 9 395 570 N",
+   "SUSTANTIVA",
+   "Georreferencia por reponer"
+  ],
+  [
+   "F-DT-02",
+   "Inventario de cárcavas no ejecutado",
+   "SUSTANTIVA",
+   "La ausencia de registros no equivale a ausencia verificada"
+  ],
+  [
+   "F-DT-03",
+   "5 de los 15 registros florísticos carecen de género; ningún binomio confirmado taxonómicamente",
+   "SUSTANTIVA",
+   "Colecta y determinación botánica pendientes"
+  ],
+  [
+   "F-DT-03",
+   "Adscripción a Matorral Andino subhúmedo preliminar",
+   "NO SUSTANTIVA",
+   "Verificar por intersección con la capa nacional de ecosistemas del MINAM"
+  ],
+  [
+   "F-DT-04",
+   "Diez causas no consignadas quedan SIN VERIFICAR",
+   "SUSTANTIVA",
+   "No interpretar como ausencia"
+  ],
+  [
+   "F-DT-05",
+   "Inventario de fuentes de agua vacío; JASS, captación, señal, tiempos, alojamiento y Ronda no levantados",
+   "SUSTANTIVA",
+   "Pendientes de la siguiente salida"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_70_20260907_154537.pdf",
+ "bloque": "70"
+}

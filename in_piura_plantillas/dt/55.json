@@ -1,0 +1,244 @@
+{
+ "microcuenca_dt": "C1086-Q9575",
+ "evaluador": "Ing. Héctor S. Cahuas Miller (ANIN-DIME-SESDI), con Ing. Juan Carlos Domínguez Varas y Biól. Abel Aucasime Orihuela",
+ "correlativo": "F-DT-B55-2026-01",
+ "fecha_eval": "2026-05-26",
+ "hora": "11:14 a.m. - 12:30 p.m.",
+ "cp_cercano": "Huacas",
+ "comunidad": "No aplica (predios de propiedad privada)",
+ "altitud_gps": "3080",
+ "utm_e_dt": 642690,
+ "utm_n_dt": 9438400,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Noreste",
+ "rango_altitudinal": "3000-3500 m (Puna baja)",
+ "paisaje": "Hondonada o anfiteatro cóncavo en ladera media de montaña (≈3050-3110 msnm), con matriz herbáceo-graminoide",
+ "afloramientos": "No",
+ "escarpes": "No",
+ "reptacion": "Sí",
+ "deslizamientos": "Sí",
+ "remociones": "No",
+ "obs_dt01": "Acceso por carretera PI-124 desde Yamango, empalmando con trocha carrozable; ingreso final a pie (~40 min) desde 643951 E / 9438198 N. La MORFOLOGÍA EN HONDONADA/ANFITEATRO CÓNCAVO sugiere un proceso de remoción en masa RELICTO (antiguo), hoy estabilizado por cobertura vegetal. En el corte de talud de la trocha se observan suelos residuales (saprolíticos) y raíces expuestas, susceptibles a desprendimientos en época lluviosa.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Ligera (laminar)",
+ "n_carcavas": 1,
+ "long_carcavas": "15 m",
+ "pct_carcavas": "2",
+ "erosion_laminar": "10",
+ "patron_carcavas": "Aislado",
+ "socavamiento": "No",
+ "urgencia_control": "Baja",
+ "carcavas": [
+  [
+   "C-01",
+   "Surco (<30 cm)",
+   641610,
+   9437872,
+   "Activa",
+   "Caminos / huellas de ganado",
+   7.5,
+   0.25,
+   0.6
+  ],
+  [
+   "C-02",
+   "Cárcava incipiente (30-50 cm)",
+   641586,
+   9437832,
+   "Semi-activa",
+   "Sobrepastoreo",
+   14,
+   0.45,
+   1.1
+  ],
+  [
+   "C-03",
+   "Cárcava somera (0.5-2 m)",
+   641360,
+   9437903,
+   "Activa",
+   "Concentración natural de escorrentía",
+   8,
+   1.2,
+   1.8
+  ]
+ ],
+ "obs_dt02": "La buena cobertura herbáceo-graminoide limita la erosión laminar a niveles ligeros. Los procesos más visibles se concentran en el corte de talud de la trocha (suelos residuales saprolíticos, raíces expuestas, desprendimientos menores) y en los bordes de la quebrada Huacas. No se observaron cárcavas profundas ni socavamiento activo dentro del bloque. NOTA: el inventario de cárcavas transcrito coincide literalmente con el del Bloque 52 (mismo cluster), pese a declararse N.°=1 en la cabecera: requiere reconciliación.",
+ "pend_parcela": 25,
+ "cob_veg": 80,
+ "ecosistema": "Agroecosistema / Mosaico",
+ "sup_ecosistema": "0.86 ha",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 15,
+ "cob_arbustiva": 10,
+ "cob_herbacea": 60,
+ "cob_hojarasca": 5,
+ "suelo_desnudo": 20,
+ "h_dominante": 0.4,
+ "h_max": 15,
+ "dap": 30,
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 14,
+ "especies_clave": [
+  [
+   "Polylepis racemosa (Queñual)",
+   "Amenazada D.S. 043",
+   "VU — Vulnerable",
+   641675,
+   9437943
+  ],
+  [
+   "Juglans neotropica (Nogal)",
+   "Amenazada D.S. 043",
+   "EN — En Peligro",
+   641675,
+   9437943
+  ],
+  [
+   "Cedrela montana (Cedro)",
+   "Amenazada D.S. 043",
+   "VU — Vulnerable",
+   641675,
+   9437943
+  ],
+  [
+   "Podocarpus oleifolius (Romerillo)",
+   "Amenazada D.S. 043",
+   "NT — Casi Amenazado",
+   641675,
+   9437943
+  ],
+  [
+   "Alnus acuminata (Aliso)",
+   "Indicadora de buen estado",
+   "LC",
+   641618,
+   9437881
+  ]
+ ],
+ "obs_dt03": "Ecosistema MINAM: Zona agrícola (agroecosistema/mosaico). Pese a su clasificación agrícola, CONSERVA RELICTOS DE BOSQUE MONTANO NATIVO en las cabeceras inaccesibles (bosque húmedo-Montano Tropical en transición a páramo/jalca, ≈3080 msnm). Coexisten nativas valiosas (aliso, nogal, queñua, lanche) con exóticas plantadas (Pinus radiata) y pastos invasores (kikuyo). Lista preliminar fundamentada en estudios de la zona (cuenca La Gallega, bosque relicto Mijal-Ñoma, bosque de Cuyas).",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Muy fuerte",
+   "80"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "30"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Ligera",
+   "15"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "Sí",
+   "Moderada",
+   "25"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Ligera",
+   "8"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "",
+   "85"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Moderada",
+   "25"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "10"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "100"
+  ]
+ ],
+ "causa_subyacente": "Economía ganadera de subsistencia en predios privados sin manejo silvopastoril, sumada a la debilidad de la gobernanza del territorio",
+ "causas_directas": "Sobrepastoreo vacuno extensivo, quemas periódicas para renovación de pastos, conversión histórica del bosque montano a pastizal y presencia de especies introducidas/invasoras (kikuyo, pino).",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dens_carcavas": 0.27,
+ "ind_invasoras": 30,
+ "ind_carga_ganadera": 2.5,
+ "ind_quemas_5a": 3,
+ "ind_pend50": "20",
+ "ind_dist_via": 50,
+ "obs_dt04": "El MSAVI 2024 muestra valores predominantemente medios-altos (>0.49) dentro del polígono, con parches inferiores (0.38-0.49) en el sector noroeste, lo que confirma que la degradación responde principalmente al USO (pastoreo/quema) más que a una pérdida total de cobertura. NOTA: la matriz de causas e indicadores coincide literalmente con la del Bloque 52 (mismo cluster B52-B49-B55): requiere verificación específica para el Bloque 55.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   641450,
+   9438050,
+   "Estacional (lluvias)",
+   "No evaluable",
+   50,
+   "Drenaje natural Q9575"
+  ],
+  [
+   "Manantial / Puquio",
+   641680,
+   9437950,
+   "Permanente",
+   "Buena (clara)",
+   0,
+   "Manantial pequeño"
+  ]
+ ],
+ "recarga": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "600",
+ "interferencia_riego": "No",
+ "modalidad_acceso": "Vehicular + caminata 30-90 min",
+ "via_principal": "Carretera PI-124 (Yamango) + trocha carrozable a C.P. Huacas",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "120",
+ "t_provincial": "240",
+ "senal": "Intermitente",
+ "operador": "Movistar",
+ "alojamiento": "No",
+ "ronda": "Sí",
+ "contacto_ronda": "Ronda Campesina del C.P. Huacas (coordinación previa con dirigente local)",
+ "obs_dt05": "El acceso final al bloque es a pie (≈40 min). Predios de propiedad privada dedicados a pastoreo y ganadería. La HONDONADA CÓNCAVA constituye una zona de infiltración/recarga local que alimenta la quebrada Huacas.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 14,
+ "fuente_ficha": "ficha_55_20260621_002236.pdf",
+ "bloque": "55"
+}

@@ -1,0 +1,136 @@
+{
+ "microcuenca_dt": "C1081-Q9591",
+ "evaluador": "Ing. Héctor S. Cahuas Miller",
+ "fecha_eval": "2026-07-16",
+ "hora": "13:35 - 15:21 h",
+ "cp_cercano": "El Papayo",
+ "altitud_gps": "Por verificar (perfil GE ≈1191-1431 msnm)",
+ "utm_e_dt": 645575,
+ "utm_n_dt": 9393500,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Por verificar",
+ "rango_altitudinal": "1000-1500 m (Quechua baja)",
+ "paisaje": "Laderas de colina-montaña de la vertiente occidental con matorral andino en regeneración y parcelas agrícolas",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "Por verificar",
+ "deslizamientos": "Por verificar",
+ "remociones": "No",
+ "obs_dt01": "Verificación de reconocimiento (16/07/2026). Las coordenadas del punto consignado corresponden a un punto representativo del recorrido; el bloque se caracterizó por transecto con múltiples waypoints. Centroide del bloque: 649081 E · 9424506 N. Altitud GPS no registrada en los rótulos; el perfil Google Earth indica un rango ≈1191-1431 msnm. Exposición dominante, reptación y deslizamientos antiguos: por verificar.",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 2,
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "patron_carcavas": "Aislado",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "E-01",
+   "Por determinar",
+   649395,
+   9424549,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "E-02",
+   "Por determinar",
+   649354,
+   9424357,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ]
+ ],
+ "obs_dt02": "Los rasgos E-01 y E-02 corresponden a taludes de corte de la trocha/plataforma de vivienda y a sendas; sus dimensiones instrumentales, la longitud total, el % de bloque afectado y la densidad por hectárea quedan pendientes de levantamiento por el especialista de Infraestructura Marrón.",
+ "cob_veg": 80,
+ "ecosistema": "Matorral Andino subhúmedo",
+ "sup_ecosistema": "Matorral andino 21.29 ha (60%) + Zona agrícola 14.20 ha (40%); total 35.49 ha",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "suelo_desnudo": 15,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Matorral denso",
+ "n_taxones": 13,
+ "especies_clave": [
+  [
+   "Juglans sp. (Nogal)",
+   "Amenazada D.S. 043",
+   ""
+  ],
+  [
+   "Cedrela sp. (Cedro de altura)",
+   "Amenazada D.S. 043",
+   ""
+  ],
+  [
+   "Piper sp. (Matico)",
+   "Clave cultural",
+   "NE",
+   649453,
+   9424486
+  ]
+ ],
+ "obs_dt03": "El ecosistema base se rotula genéricamente «Matorral andino»; se registra como SUBHÚMEDO por la presencia de helechos y bromeliáceas epífitas (indicadores de humedad) y café. Nombres científicos a nivel de especie y «Roble» (nombre común ambiguo): por determinación botánica formal. Coberturas por estrato, alturas y DAP: no medidos en campo.",
+ "causas": [
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "40"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   "25"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Presión antrópica sostenida sobre laderas de fuerte pendiente, sin prácticas de conservación de suelos, asociada al caserío y a la trocha",
+ "causas_directas": "Ocupación de laderas y taludes de corte por el caserío El Papayo; expansión y mantenimiento de la trocha carrozable; cambio de uso a parcelas agrícolas y frutales; presencia de especies exóticas (grevilea, casuarina, agave).",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 0,
+ "obs_dt04": "Sobrepastoreo, tala/leña, quemas, carga ganadera, densidad de cárcavas y frecuencia de quemas: NO EVALUADOS / por verificar. Los indicadores no medidos se dejan en blanco conforme al principio de no fabricación de datos.",
+ "fuentes_agua": [
+  [
+   "Quebrada permanente",
+   649413,
+   9424887,
+   "Permanente",
+   "Regular (lig. turbia)",
+   0,
+   "Quebrada tributaria"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Trocha carrozable de acceso al caserío El Papayo",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Por verificar",
+ "t_distrital": "30",
+ "t_provincial": "120",
+ "senal": "Por verificar",
+ "operador": "Bitel",
+ "alojamiento": "No",
+ "obs_dt05": "Distancia y datos de la captación poblacional/JASS, interferencia con obras de riego, transitabilidad en época lluviosa, señal celular, alojamiento y autorización de la Ronda Campesina: por verificar. El bloque se ubica en zona de origen y recarga de la microcuenca C1081-Q9591.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": null,
+ "fuente_ficha": "ficha_37_20260719_041027.pdf",
+ "bloque": "37"
+}

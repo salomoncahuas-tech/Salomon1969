@@ -1,0 +1,276 @@
+{
+ "microcuenca_dt": "C1081-Q9583",
+ "evaluador": "Brigada de campo IN Piura — levantamiento fotogramétrico RPA; nominación POR CONFIRMAR según parte diario",
+ "correlativo": "F-DT-01-B86-2026",
+ "fecha_eval": "2026-08-14",
+ "hora": "11:58 h",
+ "cp_cercano": "Nueva Esperanza (C.P. Nueva Esperanza); Dotor al norte",
+ "comunidad": "En blanco (no consignada)",
+ "altitud_gps": "EN BLANCO — transecto Google Earth 245 · 287 · 314 msnm; el EXIF (393 msnm) es la cota de la aeronave",
+ "utm_e_dt": 645575,
+ "utm_n_dt": 9393500,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "15-25% (Fuert. inclinado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Oeste (exposición mixta: el bloque abarca ambos flancos de la lomada)",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Lomada alargada en dirección NNE-SSO, de aproximadamente 1 150 m de longitud, que separa el fondo de valle",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "Sí",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "ALCANCE DE LA EVIDENCIA. EL BLOQUE 86 NO CUENTA CON FICHAS F-DT-01 A F-DT-05 LEVANTADAS EN CAMPO. La información procede de: (i) levantamiento fotogramétrico con RPA del 14-08-2026, 13 fotogramas cenitales georreferenciados por EXIF sobre el ámbito de los bloques 85-87; (ii) cartografía NDVI mediana 2025 y MSAVI 2024; (iii) imagen Google Earth / Airbus del 09-11-2023 y perfil de elevación sobre transecto oeste-este de 607 m. BLOQUE FUERA DEL CATÁLOGO MAESTRO: no figura en «Bloques V4» ni en Bloques V5; solo en el REPORTE_BLOQUES_V6 y en «Bloques extras». Centroide por restitución cartográfica (E 642 380 / N 9 410 190, ±25 m). PENDIENTE Y ALTITUD: el transecto de 607 m registra cotas de 245 – 287 – 314 msnm, pendiente media 17.8% en el ascenso y −15.0% en el descenso, con máximas de 30.5% y −34.2%. POR VERIFICAR con estadística zonal del DEM. EXPOSICIÓN MIXTA: se consigna «Oeste» por ser el flanco de mayor superficie y el que enfrenta al centro poblado; el análisis de aspecto del DEM deberá confirmarlo. ATENCIÓN: el UTM del punto de registro (645 575 · 9 393 500) es el valor por defecto de la plantilla.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": "No inventariadas",
+ "long_carcavas": "En blanco (sin mediciones)",
+ "pct_carcavas": "En blanco (sin mediciones)",
+ "erosion_laminar": 55,
+ "patron_carcavas": "En blanco (sin mediciones)",
+ "socavamiento": "En blanco (sin mediciones)",
+ "urgencia_control": "Alta",
+ "carcavas": [],
+ "obs_dt02": "SUSTENTO DE LA CALIFICACIÓN: fotointerpretación de la ortofoto RPA del 14-08-2026. Evidencias: (i) huellas de ganado paralelas a la curva de nivel en los tercios medio y alto de la lomada, CON DENSIDAD MENOR QUE EN EL BLOQUE 85; (ii) parches de suelo desnudo de contorno neto en el flanco occidental, coincidentes con la clase «Tierra desnuda» del NDVI 2025; (iii) pedregosidad superficial y afloramientos rocosos alineados en el sector meridional; (iv) CONSERVACIÓN DE UNA FRANJA RIBEREÑA CONTINUA EN EL FLANCO ORIENTAL, que actúa como control de la erosión remontante. EROSIÓN LAMINAR 55%: estimada por fotointerpretación. El bloque 86 presenta condiciones SENSIBLEMENTE MEJORES que los bloques 85 y 87 contiguos: 22.1% de «Tierra desnuda» frente al 59.5% del bloque 85. INVENTARIO DE CÁRCAVAS NO EJECUTADO. PRIORIDAD DE VERIFICACIÓN: (a) recorrido del cauce del flanco oriental para descartar socavamiento de márgenes; (b) transectos en el flanco occidental sobre los parches de suelo desnudo; (c) calicata en el tercio medio de la ladera.",
+ "parcela": "No instalada — fotointerpretación de ortofoto RPA",
+ "dim_parcela": "En blanco (sin mediciones)",
+ "pend_parcela": 17.8,
+ "cob_veg": 24,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm) — asignación POR VERIFICAR",
+ "sup_ecosistema": "30.01 ha (100% del bloque)",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 12,
+ "cob_arbustiva": 7,
+ "cob_herbacea": 5,
+ "cob_hojarasca": 26,
+ "suelo_desnudo": 50,
+ "h_dominante": "En blanco (sin mediciones)",
+ "h_max": "En blanco (sin mediciones)",
+ "dap": "En blanco (sin mediciones)",
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "En blanco (sin mediciones)",
+ "epifitas": "No",
+ "fenologia": "Caducifolio (hojas caídas)",
+ "tipo_cobertura": "Matorral ralo",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Colicodendron scabridum (Sapote)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Bursera graveolens (Palo santo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Neltuma pallida (Algarrobo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "VU — Vulnerable"
+  ],
+  [
+   "Vachellia macracantha (Faique)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "NT — Casi Amenazada"
+  ],
+  [
+   "Ceiba trischistandra (Ceibo)",
+   "Indicadora de buen estado",
+   "Sin categoría verificada"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado",
+   "Sin categoría verificada"
+  ],
+  [
+   "Ipomoea carnea (Borrachera)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "ESTADO RELATIVO. Con un MSAVI 2024 de 0.2735 el bloque 86 se sitúa entre los más bajos del proyecto (media 0.4909), PERO ES EL MEJOR CONSERVADO DEL CONGLOMERADO 83-87. La clasificación NDVI mediana 2025 arroja: Tierra desnuda 22.1%, Vegetación ligera 68.2%, Vegetación mediana 8.7%, Vegetación alta 1.0%. LOS NÚCLEOS DE VEGETACIÓN MEDIANA Y ALTA SE CONCENTRAN EN EL FLANCO ORIENTAL, asociados a la quebrada, y CONSTITUYEN EL PRINCIPAL ACTIVO ECOLÓGICO DEL CONJUNTO: DEBEN TRATARSE COMO ÁREA DE CONSERVACIÓN Y FUENTE DE PROPÁGULOS, NO COMO ÁREA A INTERVENIR. ORIGEN DE LA LISTA FLORÍSTICA: las 15 especies corresponden a la relación de especies representativas comunicada por la Subdirección para el ámbito de los bloques 85-87 (microcuenca C1081-Q9583). NO PROCEDEN DE UN MUESTREO POR PARCELA: no se consignan abundancia relativa, DAP ni altura, por carecer de transectos. Determinaciones PRELIMINARES sujetas a colecta y determinación botánica formal. El estrato indicado corresponde al HÁBITO TÍPICO de cada especie en bosque estacionalmente seco, no al estrato en que fue efectivamente registrada. CATEGORÍAS DE AMENAZA: se consignan únicamente las cinco con precedente establecido en el proyecto; Ceibo, Pasallo, Charán y Frijolillo quedan SIN CATEGORÍA. COORDENADAS DE ESPECIES CLAVE EN BLANCO: no se georreferenció ningún individuo. COBERTURAS: estimaciones por fotointerpretación de ortofoto RPA de agosto 2026 y de la clasificación NDVI 2025; no son mediciones de campo. CAUTELA ESTACIONAL MSAVI: el Bes-cm es caducifolio y las escenas Sentinel-2 fuera de la estación húmeda (enero-abril) subestiman la cobertura leñosa real; sin embargo la ortofoto RPA del 14-08-2026 corrobora de forma independiente una cobertura leñosa muy baja, por lo que los valores NO se consideran un artefacto estacional. CLASIFICACIÓN DEL ECOSISTEMA: asignación Bes-cm POR VERIFICAR mediante intersección con el Mapa Nacional de Ecosistemas del MINAM; el contacto con el Bes de llanura del valle del río Bigote es próximo. ",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Fuerte",
+   "85%"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Ligera",
+   "5%"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5%"
+  ]
+ ],
+ "causa_subyacente": "Ausencia de régimen de manejo del pastoreo comunal combinada con la presión de expansión de las áreas irrigadas",
+ "causas_directas": "Sobrepastoreo extensivo sobre la lomada, con presión adicional de la frontera agrícola bajo riego que asciende desde el fondo de valle de Nueva Esperanza por el flanco occidental y meridional.",
+ "velocidad": "EN BLANCO — no se dispone de serie Theil-Sen (TAU) ni de MSAVI multianual",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 300,
+ "obs_dt04": "VELOCIDAD DE DEGRADACIÓN EN BLANCO: no se dispone de la serie temporal Theil-Sen (TAU) ni de MSAVI multianual. INDICADORES SIN VALOR: densidad de cárcavas, especies invasoras, carga ganadera, frecuencia de quemas y % de área con pendiente >50%. DISTANCIA A VÍA VECINAL: el valor de 300 m procede de restitución cartográfica sobre el mapa NDVI 2025 y es APROXIMADO; existe además una trocha carrozable de acceso más próxima, no medida. CAUSAS NO EVALUADAS: talas, quemas, minería informal, extracción de áridos, especies invasoras, plagas forestales. CONGLOMERADO DE BLOQUES DEGRADADOS: los bloques 83 a 87 (San Juan de Bigote, microcuenca C1081-Q9583) presentan los MSAVI más bajos del proyecto: 0.3055, 0.2516, 0.2289, 0.2735 y 0.2487. SE RECOMIENDA TRATARLOS COMO UNA UNIDAD DE MANEJO CONTINUA y no como bloques aislados.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   642519,
+   9410439,
+   "POR VERIFICAR",
+   "POR VERIFICAR",
+   0,
+   "Cauce que limita el bloque"
+  ],
+  [
+   "Quebrada estacional",
+   642478,
+   9410660,
+   "POR VERIFICAR",
+   "POR VERIFICAR",
+   0,
+   "Continuación del mismo cauce"
+  ],
+  [
+   "Canal de riego",
+   642184,
+   9410274,
+   "POR VERIFICAR",
+   "POR VERIFICAR",
+   "Por determinar",
+   "Canal de conducción"
+  ],
+  [
+   "Río",
+   642014,
+   9410696,
+   "POR VERIFICAR",
+   "POR VERIFICAR",
+   "Por determinar",
+   "Curso principal"
+  ]
+ ],
+ "recarga": "No",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "En blanco (sin mediciones)",
+ "jass": "En blanco (sin mediciones)",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Vía afirmada de acceso a Dotor (San Juan de Bigote) — código MTC POR VERIFICAR",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "En blanco (sin mediciones)",
+ "t_distrital": "En blanco (sin mediciones)",
+ "t_provincial": "En blanco (sin mediciones)",
+ "senal": "En blanco (sin mediciones)",
+ "operador": "En blanco (sin mediciones)",
+ "alojamiento": "En blanco (sin mediciones)",
+ "ronda": "En blanco (sin mediciones)",
+ "contacto_ronda": "En blanco (sin mediciones)",
+ "obs_dt05": "RECURSOS HÍDRICOS: el inventario NO fue levantado en campo; las cuatro entradas proceden de la interpretación de la ortofoto RPA del 14-08-2026 y sus COORDENADAS CORRESPONDEN AL CENTRO DEL FOTOGRAMA, no al punto de la fuente. HALLAZGO RELEVANTE: LA PRESENCIA DE AGUA SUPERFICIAL EN EL CAUCE ORIENTAL DURANTE EL ESTIAJE DE AGOSTO es un dato de valor para el diseño de las MRR-CCC (viveros, riego de establecimiento de plantones) y para el balance hídrico del bloque. Requiere confirmación prioritaria. ZONAS DE HUMEDAD PERSISTENTE «Sí» por la franja ribereña de vegetación permanentemente verde asociada al cauce oriental. INTERFERENCIA CON RIEGO «Sí» por la contigüidad del canal de conducción con el límite occidental del polígono; CUALQUIER OBRA DE INFRAESTRUCTURA VERDE EN ESE BORDE DEBERÁ COORDINARSE CON LA ORGANIZACIÓN DE USUARIOS.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 13,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-01",
+   "Ninguna ficha F-DT fue levantada en campo: la información procede de levantamiento fotogramétrico RPA (14-08-2026), cartografía NDVI/MSAVI e imagen Google Earth",
+   "SUSTANTIVA",
+   "Levantamiento de campo pendiente"
+  ],
+  [
+   "F-DT-01",
+   "La ficha declara que el bloque no figura en «Bloques V4» ni «Bloques V5»; solo en REPORTE_BLOQUES_V6 y en la capa «Bloques extras». Centroide por restitución cartográfica (±25 m)",
+   "SUSTANTIVA",
+   "Regularizar en el catálogo maestro; el catálogo V5 empleado en esta plantilla sí lo contiene"
+  ],
+  [
+   "F-DT-01",
+   "Altitud GPS en blanco: el EXIF registra la cota de la aeronave (393 msnm), no la del terreno",
+   "SUSTANTIVA",
+   "Medición GPS a nivel de suelo pendiente"
+  ],
+  [
+   "F-DT-01",
+   "Pendiente derivada de un único transecto de Google Earth",
+   "SUSTANTIVA",
+   "Verificar mediante estadística zonal del DEM"
+  ],
+  [
+   "F-DT-02",
+   "Inventario georreferenciado de cárcavas NO ejecutado",
+   "SUSTANTIVA",
+   "La ausencia de registro no equivale a ausencia del proceso"
+  ],
+  [
+   "F-DT-03",
+   "Lista florística comunicada por la Subdirección para el ámbito 85-87; no procede de muestreo por parcela del bloque",
+   "SUSTANTIVA",
+   "Colecta y determinación botánica formal pendientes"
+  ],
+  [
+   "F-DT-04",
+   "Velocidad de degradación en blanco: no se dispone de serie Theil-Sen (TAU) ni de MSAVI multianual",
+   "SUSTANTIVA",
+   "Procesar serie temporal"
+  ],
+  [
+   "F-DT-04",
+   "Indicadores 3 a 7 sin valor (densidad de cárcavas, invasoras, carga ganadera, quemas, % pendiente >50%)",
+   "SUSTANTIVA",
+   "Levantamiento y estadística zonal pendientes"
+  ],
+  [
+   "F-DT-05",
+   "Inventario hídrico no levantado en campo; coordenadas = centro del fotograma",
+   "NO SUSTANTIVA",
+   "Relevar con GPS"
+  ],
+  [
+   "Ficha DT",
+   "UTM del punto de registro (645 575 · 9 393 500) = valor por defecto de la plantilla; centroide de catálogo 642 415 · 9 410 216",
+   "SUSTANTIVA",
+   "Georreferencia por reponer"
+  ],
+  [
+   "F-DT-01",
+   "Exposición consignada «Oeste» pese a que el bloque abarca ambos flancos de la lomada",
+   "NO SUSTANTIVA",
+   "Confirmar con análisis de aspecto del DEM"
+  ],
+  [
+   "F-DT-04",
+   "Distancia a vía vecinal (300 m) por restitución cartográfica; existe una trocha más próxima no medida",
+   "NO SUSTANTIVA",
+   "Medición pendiente"
+  ],
+  [
+   "F-DT-05",
+   "Interferencia con riego: canal de conducción contiguo al límite occidental",
+   "SUSTANTIVA",
+   "Coordinar con la organización de usuarios antes de cualquier obra en ese borde"
+  ],
+  [
+   "F-DT-03",
+   "Los núcleos de vegetación mediana y alta del flanco oriental son el principal activo ecológico del conglomerado",
+   "SUSTANTIVA",
+   "Tratar como área de conservación y fuente de propágulos, no como área a intervenir"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_86_20260907_155021.pdf",
+ "bloque": "86"
+}

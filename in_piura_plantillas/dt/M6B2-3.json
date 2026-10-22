@@ -1,0 +1,222 @@
+{
+ "microcuenca_dt": "C1077-Q9566",
+ "evaluador": "Ing. Héctor Salomón Cahuas Miller",
+ "correlativo": "F-DT/M6B2-3/2026",
+ "fecha_eval": "2026-05-18",
+ "hora": "14:30 h",
+ "cp_cercano": "Caserío Pedregal",
+ "comunidad": "Sin registro en ficha",
+ "altitud_gps": "340 (GPS de campo)",
+ "utm_e_dt": 611500,
+ "utm_n_dt": 9419250,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "15-25% (Fuert. inclinado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Noreste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Colinas y vertientes montañosas con disección moderada a fuerte; sustrato intrusivo-volcánico (Batolito de la Costa)",
+ "afloramientos": "Sí",
+ "escarpes": "Por verificar (indicios no concluyentes)",
+ "reptacion": "Por verificar (indicios no concluyentes)",
+ "deslizamientos": "Por verificar",
+ "remociones": "Sí",
+ "obs_dt01": "ACCESO AL BLOQUE DIFICULTOSO desde la capital distrital de Buenos Aires; ruta viable identificada por el Caserío Pedregal (NE), ATRAVESANDO PREDIOS CERCADOS CON AUTORIZACIÓN PREVIA DE TITULARES. LA PARTE ALTA (relictos de bosque seco mejor conservado, >450 msnm) NO FUE ACCESIBLE por pendiente >40% y ausencia de senderos. CONSISTENCIA: microcuenca y área se autocompletan desde Bloques V4 (C1077-Q9566; 160.98 ha); EL DATO PRELIMINAR DE CAMPO REGISTRABA «M6» Y 214.6 ha. Coordenadas = punto de muestreo (611 500 E · 9 419 250 N); centroide maestro 611 305 E · 9 419 274 N. POR VERIFICAR: escarpes activos, reptación de suelo (indicios no concluyentes) y evidencia de deslizamientos antiguos.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "No",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 0,
+ "long_carcavas": 0,
+ "pct_carcavas": 0,
+ "erosion_laminar": "Por verificar",
+ "patron_carcavas": "Sin registro en ficha",
+ "socavamiento": "Por verificar",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "NO SE REGISTRARON CÁRCAVAS EN EL RECORRIDO ACCESIBLE. Se observan MICROSURCOS Y EROSIÓN LAMINAR MODERADA en pendientes >25%, SEVERA EN EL SECTOR NE (MSAVI < 0.27). Pedregosidad superficial 25-45%; PAVIMENTO DE PIEDRAS EN EL SECTOR NE EROSIONADO; compactación baja-media por pisoteo caprino en zonas bajas. POR VERIFICAR: % de erosión laminar, presencia de socavamiento en la quebrada central y costra/sellamiento superficial.",
+ "parcela": "Recorrido de reconocimiento (sin parcela formal)",
+ "dim_parcela": "No aplica (evaluación por recorrido)",
+ "pend_parcela": "22 - 23",
+ "cob_veg": "55 - 85",
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "160.98 ha (100% del bloque, por dominancia)",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": "10 - 25",
+ "cob_arbustiva": "35 - 55",
+ "cob_herbacea": "20 - 40",
+ "cob_hojarasca": "15 - 30",
+ "suelo_desnudo": "15 - 30",
+ "h_dominante": "4 - 8",
+ "h_max": "10 - 12",
+ "dap": "8 - 18",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sin registro en ficha",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 12,
+ "especies_clave": [
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR — En Peligro Crítico"
+  ],
+  [
+   "Prosopis pallida (Algarrobo)",
+   "Clave cultural",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "INVENTARIO FLORÍSTICO PRELIMINAR (12 especies), PENDIENTE DE COLECTA BOTÁNICA Y CONFIRMACIÓN DE HERBARIO. ECOSISTEMA EN MOSAICO: matorral xerofítico (zona baja-media) + RELICTO DE BOSQUE SECO DE MONTAÑA (parte alta, mejor conservado, NO ACCESIBLE en esta visita). Especie clave amenazada: Hualtaco (Loxopterygium huasango), CR. MSAVI 2024 dominante 0.38-0.50 (degradación leve-moderada); SECTOR NE < 0.27 (CRÍTICO). No se establecieron parcelas formales. DAP/altura por especie y coordenadas de individuos clave: POR VERIFICAR. La superficie del ecosistema se asume igual al área total del bloque por dominancia del Bes-cm. LA MAYORÍA DE LOS PARÁMETROS ESTRUCTURALES SE EXPRESAN COMO RANGOS Y NO COMO VALORES PUNTUALES.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Fuerte",
+   "Sector NE"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Fuerte",
+   "Déficit hídrico estructural"
+  ],
+  [
+   "Especies invasoras",
+   "No",
+   "",
+   "No se detectaron"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "No",
+   "",
+   "Sin quemas en el polígono"
+  ]
+ ],
+ "causa_subyacente": "Presión de pastoreo extensivo sin manejo sobre un bosque seco frágil, agravada por la estacionalidad climática",
+ "causas_directas": "Sobrepastoreo caprino extensivo, extracción esporádica de leña, EROSIÓN HÍDRICA SEVERA (SECTOR NE) y estrés hídrico estructural (estacionalidad / eventos FEN).",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": "Por verificar",
+ "obs_dt04": "Causas directas dominantes: sobrepastoreo caprino, extracción de leña, erosión hídrica severa (NE) y estrés hídrico estructural (CC/FEN). No se detectaron invasoras, quemas recientes ni minería/extracción de áridos en el polígono. LA URGENCIA SE CLASIFICA COMO MEDIA A NIVEL DE BLOQUE; EL SECTOR NE CRÍTICO Y LA ALTA CONECTIVIDAD DE RIESGO HACIA EL VALLE PODRÍAN ELEVARLA A ALTA una vez confirmado el acceso predial. Indicadores: cobertura vegetal total 55-85% (calificada «Bajo», INCOMPATIBLE con el umbral >60% = bueno); suelo desnudo 15-30% (Medio); densidad de cárcavas 0 (Bajo); invasoras 0% (Bajo); CARGA GANADERA SIN VALOR; quemas 0 (Bajo); % pendiente >50% = 0-5% (Bajo); distancia a vía POR VERIFICAR. Las extensiones (%) y antigüedades de las causas NO se cuantificaron.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   611200,
+   9419600,
+   "Intermitente",
+   "No evaluable",
+   "Por determinar",
+   "Cauce central del bloque"
+  ],
+  [
+   "Quebrada estacional",
+   611600,
+   9419750,
+   "Intermitente",
+   "No evaluable",
+   "Por determinar",
+   "Drenaje secundario en el sector NE"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "No",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por verificar",
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Ingreso por Caserío Pedregal (NE); caminos de herradura y trochas locales. Código de vía por verificar",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por verificar",
+ "t_provincial": "Por verificar",
+ "senal": "Por verificar",
+ "operador": "Por verificar",
+ "alojamiento": "Por verificar",
+ "ronda": "Por verificar (en campo se confirmó autorización PREDIAL, no de ronda)",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "DOS DRENAJES ESTACIONALES (quebrada central y drenaje secundario NE), SECOS al momento de la visita; LA QUEBRADA CENTRAL DRENA SO→NE HACIA EL CASERÍO PEDREGAL Y LA PLANICIE AGRÍCOLA DEL VALLE DE BUENOS AIRES-MORROPÓN (CONECTIVIDAD DE RIESGO ALTA). Acceso vehicular hasta el Caserío Pedregal y caminata al bloque; PREDIOS PRIVADOS CERCADOS QUE REQUIEREN AUTORIZACIÓN DE TITULARES; parte alta inaccesible a pie (>40%). POR VERIFICAR: zona de recarga, manantiales/puquios en parte alta, distancia a captación poblacional y nombre de JASS, tiempos desde capital distrital/provincial, señal y operador celular, alojamiento rural, y la presencia/autorización de Ronda Campesina.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (340 msnm)"
+  ],
+  [
+   "F-DT-01",
+   "El dato preliminar de campo registraba «M6» y 214.6 ha frente a C1077-Q9566 y 160.98 ha del catálogo",
+   "NO SUSTANTIVA",
+   "Se conserva el valor del catálogo; declarado en la propia ficha"
+  ],
+  [
+   "F-DT-01",
+   "La parte alta (>450 msnm), con los relictos de bosque mejor conservados, NO fue accesible",
+   "SUSTANTIVA",
+   "Caracterización del sector alto pendiente"
+  ],
+  [
+   "F-DT-01",
+   "Escarpes activos, reptación y deslizamientos antiguos con indicios no concluyentes",
+   "SUSTANTIVA",
+   "Verificación pendiente"
+  ],
+  [
+   "F-DT-03",
+   "Inventario florístico preliminar (12 especies) sin colecta ni confirmación de herbario",
+   "SUSTANTIVA",
+   "Determinación botánica pendiente"
+  ],
+  [
+   "F-DT-03",
+   "La mayoría de parámetros estructurales se expresan como rangos y no como valores puntuales",
+   "NO SUSTANTIVA",
+   "Normalizar el registro"
+  ],
+  [
+   "F-DT-04",
+   "Cobertura vegetal total 55-85% calificada «Bajo», incompatible con el umbral de la propia ficha",
+   "SUSTANTIVA",
+   "Recalificar"
+  ],
+  [
+   "F-DT-04",
+   "Carga ganadera y distancia a vía vecinal sin valor; extensiones y antigüedades de las causas sin cuantificar",
+   "SUSTANTIVA",
+   "Cuantificación pendiente"
+  ],
+  [
+   "F-DT-05",
+   "Predios privados cercados que requieren autorización de titulares para el ingreso",
+   "SUSTANTIVA",
+   "Gestión predial previa indispensable"
+  ],
+  [
+   "F-DT-05",
+   "La quebrada central drena hacia el Caserío Pedregal y la planicie agrícola: conectividad de riesgo ALTA",
+   "SUSTANTIVA",
+   "Elemento expuesto: incorporar al análisis de riesgo"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M6B2-3 (Plan de Ingreso, PDF)",
+ "bloque": "M6B2-3"
+}

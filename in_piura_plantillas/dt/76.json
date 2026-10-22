@@ -1,0 +1,278 @@
+{
+ "microcuenca_dt": "C1076-Q9584 (según ficha — valor por defecto de plantilla; catálogo: C1076-Q9593)",
+ "evaluador": "Pedro Talledo Hernández",
+ "correlativo": "F-DT-01 / B-76 / 2026",
+ "fecha_eval": "2026-08-19",
+ "hora": "14:20 - 14:29 h",
+ "cp_cercano": "Sahuate Hualanga · Hualanga",
+ "comunidad": "Por verificar",
+ "altitud_gps": "No registrada — cota media MDE; rango 1647 - 1838",
+ "utm_e_dt": 657922,
+ "utm_n_dt": 9377480,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Noroeste",
+ "rango_altitudinal": "1500-2000 m (Quechua media)",
+ "paisaje": "Ladera de montaña de exposición NO que desciende desde la divisoria de 1 838 msnm (SE) hasta 1 647 msnm (N)",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "Sí",
+ "obs_dt01": "VERIFICACIÓN DE CAMPO DEL 19-08-2026 — recorrido vehicular por la trocha Hualanga-Sahuate con registro fotográfico georreferenciado; 10 tomas en 4 posiciones. LA FICHA NO FUE DILIGENCIADA EN CAMPO: los valores son PRELLENADO DE GABINETE a partir de estadística zonal sobre el MDE, catálogos maestros y clasificación de los planos temáticos MSAVI 2024 y NDVI mediana 2025. CONTROL GEOMÉTRICO: LAS 10 ESTACIONES SE LOCALIZAN FUERA DEL POLÍGONO, entre ~45 y ~169 m de su límite occidental y septentrional; EL INTERIOR DEL BLOQUE NO FUE VERIFICADO. Las coordenadas del punto de muestreo corresponden al CENTROIDE del polígono, no a un punto GPS de campo. La altitud consignada es la cota media del MDE (rango 1 647-1 838 msnm); NO se registró altitud GPS. Indicios: afloramientos de roca meteorizada y saprolito, taludes de corte activos de 2-5 m y colapso del borde de plataforma observados en el CORREDOR VIAL PERIMETRAL (E-04 a E-09); su ocurrencia dentro del polígono NO ha sido verificada. Pendiente promedio del bloque (MDE) = 26.25%; exposición dominante deducida de la disposición de las curvas de nivel.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Fuerte (cárcavas incipientes) — describe el BORDE OCCIDENTAL y el corredor vial",
+ "n_carcavas": 2,
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "Sí",
+ "urgencia_control": "Alta",
+ "carcavas": [
+  [
+   "C-01",
+   "Cárcava somera (0.5-2 m)",
+   657703,
+   9377569,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "C-02",
+   "Cárcava incipiente",
+   657554,
+   9377128,
+   "Activa",
+   "Cambio de uso del suelo"
+  ]
+ ],
+ "obs_dt02": "FICHA NO LEVANTADA EN CAMPO. EL INVENTARIO GEORREFERENCIADO DE CÁRCAVAS NO FUE EJECUTADO: los dos registros proceden de fotointerpretación de las estaciones del 19-08-2026 y SE UBICAN FUERA DEL POLÍGONO (a ~45 m y ~169 m de su límite); sus dimensiones NO fueron medidas. EVIDENCIA FOTOGRÁFICA: (a) vaguada/cárcava somera de fondo pedregoso con taludes desnudos de coluvión y saprolito, sin obra de cruce ni control (E-04, E-05); (b) escarpe de colapso de 0.4-0.8 m en el borde de una parcela recién desbrozada, con material removido y restos de roza (E-08, E-09); (c) taludes de corte de 2-5 m sin banquetas ni revegetación a lo largo de la trocha, con acanaladuras, surcos incipientes y socavamiento del borde exterior de plataforma (E-06, E-07, E-10); (d) suelo desnudo continuo y terracillas de pisoteo de ganado caprino en el interfluvio de E-04. EL NIVEL DE EROSIÓN DESCRIBE EL BORDE, NO EL CONJUNTO DEL BLOQUE.",
+ "parcela": "No instalada (prellenado de gabinete)",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 26.25,
+ "cob_veg": "Por determinar",
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm) — por continuidad con bloques vecinos",
+ "sup_ecosistema": "Por determinar",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": "Por determinar",
+ "cob_arbustiva": "Por determinar",
+ "cob_herbacea": "Por determinar",
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": "Por determinar",
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "Por determinar",
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Caducifolio (hojas caídas)",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 11,
+ "especies_clave": [
+  [
+   "Vachellia macracantha (Faique)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Baccharis spp. (Chilca)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Agave americana",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Eucalyptus globulus",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Poaceae (pastizal natural)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "FICHA NO LEVANTADA EN CAMPO — prellenado de gabinete por fotointerpretación de las 10 estaciones y especies declaradas por el evaluador. LISTA FLORÍSTICA PRELIMINAR E INCOMPLETA: 11 taxones frente al mínimo de 15 exigido (FALTAN 4). Ningún binomio confirmado taxonómicamente; tres entradas carecen de determinación genérica. NO se instalaron parcelas, NO hubo colecta botánica y NO se midieron coberturas por estrato, alturas ni DAP: todos esos campos quedan «Por determinar» y NO FUERON INFERIDOS. Cuatro de los once taxones son introducidos y tres corresponden a cultivos, lo que confirma el carácter de MOSAICO AGRO-FORESTAL del borde. AUSENCIA DE EPÍFITAS: a diferencia de los bloques 8 y 16 de la misma microcuenca, no se observó epifitismo de bromeliáceas, coherente con un régimen de menor condensación de neblina.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "Por determinar"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   "Por determinar"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Fuerte",
+   "<5 años — CAUSA DOMINANTE"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "Por determinar"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Fuerte",
+   "<2 años — CAUSA CODOMINANTE"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   "Por determinar"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "<2 años"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "Por determinar"
+  ],
+  [
+   "Tala para madera",
+   "No",
+   "Nula",
+   "No observada"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "No",
+   "Nula",
+   "No se observaron áreas quemadas"
+  ]
+ ],
+ "causa_subyacente": "Economía familiar de subsistencia en ladera —maíz en secano y ganadería caprina extensiva— sin alternativas productivas",
+ "causas_directas": "(1) Cambio de uso a agricultura: habilitación de parcelas de maíz en secano sobre ladera de 25-50%, con desbroce reciente en el borde occidental — causa dominante. (2) Expansión vial: trocha carrozable Hualanga-Sahuate con cortes frescos, sin drenaje ni tratamiento de taludes ni de excedentes — causa codominante y de mayor urgencia temporal. (3) Sobrepastoreo caprino sobre suelo desnudo con terracillas de pisoteo. (4) Erosión concentrada asociada a (1) y (2). (5) Extracción de leña y especies introducidas, ambas de intensidad ligera.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 45,
+ "obs_dt04": "FICHA NO LEVANTADA EN CAMPO — matriz construida en gabinete por fotointerpretación de las 10 estaciones, TODAS FUERA DEL POLÍGONO (~45 a ~169 m). Las causas descritas corresponden al BORDE OCCIDENTAL y al corredor vial; su extensión al interior del bloque NO ha sido verificada. Las causas sin registro (carbón, incendio, minería informal, áridos, plagas, otro) NO equivalen a ausencia verificada. INDICADOR CLAVE: EL 54.64% DEL BLOQUE (10.717 ha) SE SITÚA BAJO EL UMBRAL MSAVI DE 0.4976, superficie de referencia para el indicador de brecha de la R.M. N.° 00213-2024-MINAM. La atribución causal es sólida para la franja perimetral occidental pero NO AUTORIZA A IMPUTAR a la vía y a la agricultura la totalidad de las 10.717 ha bajo umbral: se requiere comparación multitemporal del MSAVI anterior y posterior a la apertura de la trocha. Los 7 primeros indicadores cuantitativos quedan «Por determinar».",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   657703,
+   9377569,
+   "Estacional",
+   "No evaluable",
+   "≈45",
+   "Vaguada de fondo pedregoso, sin obra de cruce"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "No",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por determinar",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Trocha carrozable Hualanga – Sahuate Hualanga (sin código MTC verificado)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "Por determinar",
+ "operador": "Por determinar",
+ "alojamiento": "Por determinar",
+ "ronda": "Por determinar",
+ "contacto_ronda": "Por determinar",
+ "obs_dt05": "FICHA PARCIAL — no levantada en campo. NO se ejecutó inventario de manantiales con GPS, NO se identificó JASS ni captación poblacional, NO se midieron tiempos de viaje, NO se verificó señal celular ni alojamiento rural y NO se estableció contacto con la Ronda Campesina; todos esos campos quedan «Por determinar» y NO FUERON INFERIDOS. El único elemento hídrico registrado es la vaguada estacional intersectada por la trocha (E-04/E-05), SIN OBRA DE CRUCE: deficiencia técnica del trazo y foco de erosión concentrada. El bloque se declara EN ZONA DE RECARGA HÍDRICA por su posición de ladera media-alta en cabecera del drenaje de la quebrada Q9593 (zona de ORIGEN del PGI), NO por medición directa. ACCESIBILIDAD: la trocha bordea el límite occidental y septentrional y permite acceso 4x4 hasta su borde. LA VÍA NO FIGURA EN LAS CAPAS DE RED VIAL DEL PROYECTO Y DEBE INCORPORARSE A LOS FILTROS DE EXCLUSIÓN Y BUFFERS.",
+ "estaciones_fotograficas": [
+  [
+   "E-01",
+   657704,
+   9377627
+  ],
+  [
+   "E-02",
+   657727,
+   9377637
+  ],
+  [
+   "E-06",
+   657551,
+   9377519
+  ],
+  [
+   "E-08",
+   657554,
+   9377128
+  ]
+ ],
+ "n_estaciones": 10,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Ficha DT",
+   "La ficha consigna microcuenca C1076-Q9584; el catálogo maestro asigna al bloque 76 la microcuenca C1076-Q9593",
+   "SUSTANTIVA",
+   "Valor por defecto de la plantilla; se conserva el del catálogo"
+  ],
+  [
+   "Fichas F-DT-01 a F-DT-05",
+   "NO DILIGENCIADAS EN CAMPO: prellenado de gabinete",
+   "SUSTANTIVA",
+   "Levantamiento de campo pendiente"
+  ],
+  [
+   "F-DT-01",
+   "Las 10 estaciones se localizan FUERA del polígono (~45 a ~169 m); el interior no fue verificado",
+   "SUSTANTIVA",
+   "La caracterización describe el borde occidental y el corredor vial"
+  ],
+  [
+   "F-DT-02",
+   "Las 2 cárcavas inventariadas se ubican fuera del polígono y sus dimensiones no fueron medidas",
+   "SUSTANTIVA",
+   "Inventario interior pendiente"
+  ],
+  [
+   "F-DT-03",
+   "Lista florística de 11 taxones frente al mínimo de 15; coberturas, alturas y DAP sin medición",
+   "SUSTANTIVA",
+   "Colecta botánica y medición dasométrica pendientes"
+  ],
+  [
+   "F-DT-04",
+   "54.64% del bloque (10.717 ha) bajo umbral MSAVI 0.4976, pero la causalidad solo está acreditada en la franja perimetral",
+   "SUSTANTIVA",
+   "Requiere comparación multitemporal del MSAVI"
+  ],
+  [
+   "F-DT-04",
+   "7 de los 8 indicadores cuantitativos «Por determinar»",
+   "SUSTANTIVA",
+   "Cuantificación pendiente"
+  ],
+  [
+   "F-DT-05",
+   "La trocha Hualanga-Sahuate no figura en las capas de red vial del proyecto",
+   "SUSTANTIVA",
+   "Incorporar a los filtros de exclusión y buffers"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_76_20260907_152833.pdf",
+ "bloque": "76"
+}

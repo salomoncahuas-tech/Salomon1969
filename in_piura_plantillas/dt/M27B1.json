@@ -1,0 +1,313 @@
+{
+ "microcuenca_dt": "C1096-Q9557",
+ "evaluador": "Ing. Héctor S. Cahuas Miller (ANIN/DIME-SESDI)",
+ "correlativo": "Por determinar",
+ "fecha_eval": "2026-07-02",
+ "hora": "09:43 - 11:57 h (rango del registro fotográfico)",
+ "cp_cercano": "Vicús Santa Rosa (133 hab.); entorno: Vicús La Merced, Vicús Linderos, Huasimal",
+ "comunidad": "Por determinar",
+ "altitud_gps": "Por determinar (la aplicación de campo no registró msnm). Perfil de Google Earth sobre el recorrido de 1 km: 111 - 385 msnm, desnivel 274 m, pendiente media 27.0%, máxima 47.2%",
+ "utm_e_dt": 593952,
+ "utm_n_dt": 9428843,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Este",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Colina aislada de bosque estacionalmente seco con matorral denso y árboles emergentes dispersos (palo santo, hualtaco)",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Recorrido de reconocimiento por el flanco oriental del bloque (02/07/2026). Punto de muestreo 593 952 E / 9 428 843 N (foto panorámica 10:01 h, azimut 293° NW); centroide del catálogo Bloques_V5: 593 246 E / 9 430 139 N. Forma del terreno, posición fisiográfica y exposición clasificadas por JUICIO EXPERTO a partir de imagen satelital, perfil de elevación y azimut fotográfico; requieren confirmación con DEM. Afloramientos rocosos y pedregosidad superficial abundantes. Coordenadas validadas en UTM WGS84 17S (E 593 560-594 279; N 9 428 765-9 430 798). HALLAZGO ADICIONAL (12:03 h): ladrilleras artesanales colindantes al sector norte — batería de hornos de adobe/ladrillo (593 766 E / 9 431 513 N), horno con cámara de combustión (593 777 E / 9 431 490 N) y acopio de ladrillo cocido con TROZAS DE MADERA CORTADA como combustible (593 841 E / 9 431 490 N); su ubicación dentro o fuera del polígono queda POR VERIFICAR con el shapefile oficial.",
+ "sellamiento": "No",
+ "compactacion": "No",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Ligera (laminar)",
+ "n_carcavas": 0,
+ "long_carcavas": 0,
+ "pct_carcavas": 0,
+ "erosion_laminar": 15,
+ "patron_carcavas": "No aplica (cero cárcavas)",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "No se registraron cárcavas ni surcos activos durante el recorrido (N° = 0); longitud total, % de bloque afectado y patrón de cárcavas quedan en cero / no aplican. La erosión predominante es LAMINAR LIGERA, atenuada por la hojarasca del bosque seco caducifolio. SOCAVAMIENTO DE CAUCE: SÍ — quebrada estacional con lecho pedregoso y arrastre de material grueso (594 053 E / 9 428 772 N, 11:24 h). La erosión laminar (15%) es ESTIMACIÓN OCULAR. La compactación por pisoteo se marca \"No\" por ausencia de ganado durante la visita; la presión caprina del sector queda POR VERIFICAR. Dimensiones instrumentales pendientes del especialista de Infraestructura Marrón.",
+ "parcela": "Por determinar",
+ "dim_parcela": "Por determinar",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 70,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "443.83 ha de Bes-cm (Reporte de Ecosistemas por Bloques - MINAM); el bloque suma 448.80 ha, con 4.97 ha de Zona agrícola (Agri, 1.1%)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 20,
+ "cob_arbustiva": 55,
+ "cob_herbacea": 25,
+ "cob_hojarasca": 40,
+ "suelo_desnudo": 15,
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "Por determinar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano (con daño foliar por insectos y hemiparásita \"suelda con suelda\"; afectación fitosanitaria POR VERIFICAR)",
+ "epifitas": "Sí",
+ "fenologia": "Caducifolio (hojas caídas)",
+ "tipo_cobertura": "Matorral denso",
+ "n_taxones": 12,
+ "especies_clave": [
+  [
+   "Hualtaco (Loxopterygium huasango)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR - En Peligro Crítico",
+   "593669",
+   "9428929",
+   "F-01"
+  ],
+  [
+   "Palo Santo (Bursera graveolens)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR - En Peligro Crítico",
+   "593669",
+   "9428926",
+   "F-07"
+  ],
+  [
+   "Sapote (Colicodendron scabridum)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "CR - En Peligro Crítico",
+   "593836",
+   "9428846",
+   "F-06"
+  ],
+  [
+   "Algarrobo (Prosopis pallida)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "VU - Vulnerable",
+   "",
+   "",
+   ""
+  ],
+  [
+   "Faique (Vachellia macracantha)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "NT - Casi Amenazada",
+   "",
+   "",
+   ""
+  ],
+  [
+   "Overo (Cordia lutea)",
+   "Indicadora de buen estado",
+   "NE - No Evaluado",
+   "",
+   "",
+   ""
+  ],
+  [
+   "Suelda con suelda (Psittacanthus sp.)",
+   "Indicadora de perturbación",
+   "NE - No Evaluado",
+   "594074",
+   "9428782",
+   "F-03"
+  ],
+  [
+   "Bromelias epífitas (Bromeliaceae indet.)",
+   "Indicadora de buen estado",
+   "NE - No Evaluado",
+   "",
+   "",
+   ""
+  ]
+ ],
+ "obs_dt03": "No se instalaron parcelas permanentes ni se efectuaron mediciones instrumentales: DAP, alturas de estrato y altura máxima quedan POR DETERMINAR. Las coberturas (%) son ESTIMACIONES OCULARES de época seca, apoyadas en MSAVI 2024 = 0.363 (Sentinel-2 10 m, catálogo Bloques_V5). Lista florística PRELIMINAR de 12 registros (no alcanza el mínimo de 15 por tratarse de un reconocimiento); nombres científicos y categorías sujetos a colecta y determinación botánica formal. PRESIÓN EXTRACTIVA SOBRE EL ESTRATO LEÑOSO: las ladrilleras artesanales verificadas en el entorno inmediato acopian trozas de madera como combustible; esta demanda recae sobre especies del Bes-cm categorizadas En Peligro Crítico por el D.S. 043-2006-AG (hualtaco, palo santo, sapote). Volumen extraído, procedencia y especies aprovechadas quedan POR VERIFICAR.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Ligera",
+   "Sendas y ramoneo"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Fuerte",
+   "Tocones de corte"
+  ],
+  [
+   "Tala para carbón",
+   "No",
+   "",
+   "Sin evidencia directa"
+  ],
+  [
+   "Tala para madera",
+   "No",
+   "",
+   "Sin evidencia directa"
+  ],
+  [
+   "Quema (renovación de pastos)",
+   "No",
+   "",
+   "Sin evidencia"
+  ],
+  [
+   "Quema accidental / Incendio",
+   "No",
+   "",
+   "Sin evidencia de incendios"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Ligera",
+   "Zona agrícola: 4.97 ha (1%)"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "No",
+   "",
+   "Sin evidencia de conversión"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "Vías PE-1N y PI-108"
+  ],
+  [
+   "Minería informal",
+   "No",
+   "",
+   "Sin evidencia"
+  ],
+  [
+   "Extracción de áridos (cauces)",
+   "No",
+   "",
+   "Sin evidencia"
+  ],
+  [
+   "Especies invasoras",
+   "No",
+   "",
+   "No se observaron"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Ligera",
+   "Escorrentía concentrada"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "Estrés hídrico estacional"
+  ],
+  [
+   "Plagas o enfermedades forestales",
+   "Sí",
+   "Ligera",
+   "Daño foliar por insectos"
+  ],
+  [
+   "Otro",
+   "Sí",
+   "Fuerte",
+   "LADRILLERAS ARTESANALES colindantes con acopio de trozas como combustible"
+  ]
+ ],
+ "causa_subyacente": "Existencia de una demanda comercial sostenida de biomasa leñosa por parte de las ladrilleras artesanales instaladas en el entorno del bloque",
+ "causas_directas": "(1) Tala de especies leñosas para leña, impulsada por la demanda de las LADRILLERAS ARTESANALES colindantes (trozas acopiadas verificadas) y complementada por autoconsumo local (tocones verificados); (2) pastoreo caprino extensivo sobre el estrato arbustivo; (3) estrés hídrico estacional / cambio climático; (4) presión por expansión vial y proximidad de CC.PP. colindantes; (5) erosión natural por escorrentía concentrada en quebradas; (6) afectación fitosanitaria (hemiparasitismo y daño foliar por insectos).",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 0,
+ "obs_dt04": "Extensión (% del bloque) y antigüedad (años) de las causas quedan POR DETERMINAR: no se levantaron en el reconocimiento y NO SE ESTIMAN para no fabricar datos. Los indicadores 5 (carga ganadera), 6 (frecuencia de quemas) y 7 (% de área con pendiente >50%) quedan POR DETERMINAR y deben cuantificarse en gabinete (DEM) y con información comunal. Las presencias marcadas \"No\" corresponden a ausencia de evidencia en el área recorrida, no a ausencia comprobada en las 448.80 ha. ACTUALIZACIÓN: la verificación de ladrilleras artesanales con trozas acopiadas eleva la causa \"Tala para leña\" de Moderada a FUERTE y la urgencia de intervención de Media a ALTA (juicio experto), por tratarse de extracción comercial y no de subsistencia. N° de hornos, consumo anual de leña, especies aprovechadas, formalización y ubicación respecto del polígono quedan POR VERIFICAR.",
+ "fuentes_agua": [
+  [
+   "1",
+   "Quebrada estacional",
+   594053,
+   9428772,
+   "Estacional (lluvias) — calidad no evaluable (cauce seco); dentro del bloque, distancia 0 m"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "No",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por determinar",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "PE-1N (Panamericana Norte, asfaltada) y PI-108; desvío por trocha carrozable hacia los CC.PP. de Vicús",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Medio",
+ "t_distrital": 30,
+ "t_provincial": "Sin registro en ficha",
+ "senal": "Parcial",
+ "operador": "Bitel",
+ "alojamiento": "No",
+ "ronda": "No",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "Se registró una (1) fuente de agua: quebrada estacional dentro del bloque (594 053 E / 9 428 772 N). El régimen estacional y la ausencia de manantiales son observaciones de época seca; requieren verificación en época húmeda. Tiempo desde la capital provincial, así como otros datos no levantados, se dejan en blanco (no se estiman). El bloque presenta CERCO DE PROPIEDAD PRIVADA en su lindero norte (594 279 E / 9 430 798 N): la aceptación de los titulares prediales queda POR VERIFICAR (Paso 6 del AdR-CCC territorial). El bloque es zona de origen y recarga de la microcuenca C1096-Q9557. La trocha carrozable del sector norte es utilizada por las ladrilleras para el transporte de ladrillo y leña, lo que facilita el acceso pero incrementa la presión extractiva.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-01",
+   "Altitud GPS no registrada por la aplicación de campo",
+   "SUSTANTIVA",
+   "Se deja POR DETERMINAR; el perfil 111-385 msnm proviene de Google Earth y se declara como tal"
+  ],
+  [
+   "F-DT-01",
+   "Forma del terreno, posición fisiográfica y exposición clasificadas por juicio experto sobre imagen satelital y azimut fotográfico",
+   "NO SUSTANTIVA",
+   "Se declara la fuente; requiere confirmación con DEM"
+  ],
+  [
+   "F-DT-01 / F-DT-05",
+   "Ladrilleras artesanales con acopio de trozas de madera detectadas en el sector norte; su ubicación dentro o fuera del polígono no está determinada",
+   "SUSTANTIVA",
+   "Se registran como colindantes/perimetrales; POR VERIFICAR con el shapefile oficial"
+  ],
+  [
+   "F-DT-03",
+   "Lista florística preliminar de 12 registros frente al mínimo de 15 del formato",
+   "NO SUSTANTIVA",
+   "Se declara como reconocimiento preliminar"
+  ],
+  [
+   "F-DT-03",
+   "DAP, altura dominante y altura máxima no medidos (sin parcela instalada)",
+   "SUSTANTIVA",
+   "POR DETERMINAR; requiere levantamiento en parcela"
+  ],
+  [
+   "F-DT-04",
+   "Extensión y antigüedad de las 16 causas no levantadas",
+   "NO SUSTANTIVA",
+   "POR DETERMINAR; no se estiman por principio de no fabricación"
+  ],
+  [
+   "F-DT-04",
+   "Indicadores 5, 6 y 7 (carga ganadera, frecuencia de quemas, % pendiente >50%) sin valor",
+   "NO SUSTANTIVA",
+   "POR DETERMINAR en gabinete (DEM) y con información comunal"
+  ],
+  [
+   "F-DT-05",
+   "Cerco de propiedad privada en el lindero norte",
+   "SUSTANTIVA",
+   "La aceptación de los titulares prediales queda POR VERIFICAR (Paso 6 del AdR-CCC territorial)"
+  ]
+ ],
+ "fuente_ficha": "Ficha DT M27B1 (Plantilla V5, 02/07/2026)",
+ "bloque": "M27B1"
+}

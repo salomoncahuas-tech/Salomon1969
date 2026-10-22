@@ -1,0 +1,259 @@
+{
+ "microcuenca_dt": "C1076-Q9593",
+ "evaluador": "Por verificar",
+ "correlativo": "F-DT-01/B80",
+ "fecha_eval": "2026-08-19",
+ "hora": "11:40 - 11:46 h",
+ "cp_cercano": "Yumbe · Cruz Roja",
+ "comunidad": "Por verificar",
+ "altitud_gps": "No registrada en el sello fotográfico — rango del bloque 2180 - 2491",
+ "utm_e_dt": 657095,
+ "utm_n_dt": 9373326,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Norte",
+ "rango_altitudinal": "2000-2500 m (Quechua alta)",
+ "paisaje": "Ladera montañosa de exposición norte que desciende desde la divisoria del macizo (2 491 msnm) hasta el fondo de quebrada",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "Sí",
+ "remociones": "Sí",
+ "obs_dt01": "LAS ONCE TOMAS FOTOGRÁFICAS DEL 19-08-2026 SE LOCALIZAN FUERA DEL POLÍGONO, entre 22.7 y 150.7 m de su límite (media 62 m), medidas por transformada de distancia sobre el polígono extraído del plano MSAVI y georreferenciado por su grilla UTM (tolerancia ±10-15 m). Superficie reconstruida sobre plano 29.360 ha frente a 28.830 ha del catálogo (+1.8%); centroide medido 657 156 E / 9 373 038 N frente al de catálogo 657 160 E / 9 373 050 N (Δ ≈ 13 m). Extensión E-O ≈ 867 m; N-S ≈ 573 m. Escarpes activos y remoción en masa ACREDITADOS FOTOGRÁFICAMENTE en el sector noroccidental (E-01 a E-03) y en los taludes de corte de la trocha (E-04 a E-11). Altitud GPS no registrada en el sello fotográfico.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Severa (cárcavas activas) — síntesis: Fuerte (cárcavas incipientes)",
+ "n_carcavas": 1,
+ "long_carcavas": "Por medir",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "Sí",
+ "urgencia_control": "Alta",
+ "carcavas": [
+  [
+   "C-01",
+   "Cárcava profunda (>2 m)",
+   656968,
+   9373395,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ]
+ ],
+ "obs_dt02": "El único registro (C-01) se digitaliza a partir de las fotografías E-01 y E-02: canal de evacuación encajonado con material grueso suelto, BANCOS SOCAVADOS DE 2 A 4 m y AGUA ENCHARCADA EN PLENA ÉPOCA SECA, encabezado aguas arriba por una CICATRIZ DE DESLIZAMIENTO sobre depósito coluvial. Longitud, profundidad y ancho medio pendientes de medición instrumental. La causa se consigna como concentración natural de escorrentía; DEBE VERIFICARSE LA CONTRIBUCIÓN DE LA PLATAFORMA DE LA TROCHA situada aguas arriba. Se documentan además taludes de corte recientes sin banquetas, cunetas ni revegetación (E-04, E-08, E-09, E-10) y superficies de plataforma removidas y compactadas de INFILTRACIÓN PRÁCTICAMENTE NULA (E-11).",
+ "parcela": "No instalada",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 32.9,
+ "cob_veg": "Por determinar",
+ "ecosistema": "Matorral Andino subhúmedo (lectura de campo; confrontar con REPORTE_ECOSISTEMAS_BLOQUES_V5)",
+ "sup_ecosistema": "Por determinar",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": "En blanco (no verificado)",
+ "cob_arbustiva": "En blanco (no verificado)",
+ "cob_herbacea": "En blanco (no verificado)",
+ "cob_hojarasca": "En blanco (no verificado)",
+ "suelo_desnudo": "En blanco (no verificado)",
+ "h_dominante": "En blanco (no verificado)",
+ "h_max": "En blanco (no verificado)",
+ "dap": "En blanco (no verificado)",
+ "regeneracion": "En blanco (no verificado)",
+ "sanitario": "Sano",
+ "epifitas": "En blanco (no verificado)",
+ "fenologia": "Floración",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 10,
+ "especies_clave": [
+  [
+   "Pinus sp. / Eucalyptus globulus",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Baccharis latifolia (Chilca)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Guadua angustifolia (Caña guayaquil)",
+   "Clave cultural",
+   "No aplica"
+  ],
+  [
+   "Agave americana (Penca)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "FICHA NO DILIGENCIADA EN CAMPO. Lista florística PRELIMINAR E INCOMPLETA: 10 registros frente al mínimo de 15 exigido; FALTAN 5. Binomios no confirmados taxonómicamente; sin colecta botánica ni parcela de muestreo instalada. Coberturas por estrato, alturas, DAP, regeneración natural y epífitas NO fueron medidas y se dejan EN BLANCO POR APLICACIÓN DEL PRINCIPIO DE NO FABRICACIÓN DE DATOS. HALLAZGO SUSTANTIVO: SEIS DE LOS DIEZ TAXONES SON INTRODUCIDOS O CULTIVOS (pino, eucalipto, ciprés, agave, pastos cultivados y maíz), de modo que la fracción efectivamente natural del inventario es MINORITARIA; la superficie de cultivos y pastos cultivados debe excluirse del área efectiva en el tamizaje predial. La adscripción a Matorral Andino subhúmedo procede de la lectura de campo y del rango altitudinal (2 180-2 491 msnm) y debe confrontarse con el REPORTE_ECOSISTEMAS_BLOQUES_V5, dado que los bloques vecinos de la microcuenca C1076-Q9593 figuran catalogados como Bes-cm.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "Por determinar"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   "Por determinar"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Moderada",
+   "Plantaciones de pino"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "Por determinar"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "Por determinar"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Fuerte",
+   "<2 años — CAUSA DOMINANTE"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Fuerte",
+   "<2 años"
+  ],
+  [
+   "Tala para carbón",
+   "No",
+   "Nula",
+   "Sin hornos ni evidencia"
+  ]
+ ],
+ "causa_subyacente": "Sustitución del ecosistema natural por un mosaico agro-silvo-pastoril de especies introducidas, acelerada por la reciente apertura vial",
+ "causas_directas": "Apertura reciente de trocha carrozable sobre el límite norte con taludes de corte sin tratamiento; remoción en masa activa y erosión concentrada en el sector noroccidental; sustitución de la cobertura natural por plantaciones forestales exóticas en cresta y tercio superior; conversión a pastizal cultivado y parcelas de maíz en el tercio medio e inferior.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 12,
+ "obs_dt04": "MATRIZ PARCIAL. Quema, minería informal, extracción de áridos, especies invasoras, sequía prolongada y plagas forestales NO FUERON DESCARTADAS: no fueron observadas ni verificadas en el recorrido. La extensión (% del bloque afectado) NO se estimó para ninguna causa por falta de recorrido interior. SIETE DE LOS OCHO INDICADORES CUANTITATIVOS QUEDAN POR DETERMINAR; el único con valor —distancia a vía vecinal, ≈12 m— se obtuvo por medición sobre el plano MSAVI georreferenciado y califica NIVEL ALTO de presión.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   656960,
+   9373371,
+   "Intermitente",
+   "No evaluable",
+   "≈25",
+   "Canal encajonado con agua encharcada en agosto"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Trocha carrozable Yumbe – Cruz Roja (denominación por confirmar)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "En blanco (no verificado)",
+ "operador": "En blanco (no verificado)",
+ "alojamiento": "En blanco (no verificado)",
+ "ronda": "En blanco (no verificado)",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "FICHA NO DILIGENCIADA EN CAMPO. Se registra UNA SOLA FUENTE, digitalizada desde las fotografías E-01 y E-02; no se levantaron manantiales, captaciones ni infraestructura de riego con GPS. BLOQUE EN POSICIÓN DE CABECERA: divisoria del macizo a 2 491 msnm y drenaje propio hacia la quebrada tributaria de la Q9593, lo que lo sitúa en la ZONA DE ORIGEN del peligro generador de inundaciones (PGI). LA PRESENCIA DE AGUA ENCHARCADA EN AGOSTO SUGIERE UN RÉGIMEN MÁS PERSISTENTE QUE EL ESTACIONAL y debe verificarse. Los campos con lista controlada (interferencia con riego, señal celular, operador, alojamiento y Ronda Campesina) se dejan EN BLANCO por no haber sido verificados, en aplicación del principio de no fabricación de datos.",
+ "estaciones_fotograficas": [
+  [
+   "E-02",
+   656960,
+   9373369
+  ],
+  [
+   "E-04",
+   657092,
+   9373324
+  ],
+  [
+   "E-05",
+   657095,
+   9373326
+  ],
+  [
+   "E-08",
+   657714,
+   9373163
+  ]
+ ],
+ "n_estaciones": 11,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-01",
+   "Las 11 tomas fotográficas se localizan FUERA del polígono (22.7 a 150.7 m, media 62 m)",
+   "SUSTANTIVA",
+   "La caracterización corresponde al entorno inmediato, no al interior"
+  ],
+  [
+   "F-DT-01",
+   "Superficie reconstruida sobre plano 29.360 ha frente a 28.830 ha del catálogo (+1.8%); centroide con Δ ≈ 13 m",
+   "NO SUSTANTIVA",
+   "Dentro de la tolerancia de digitalización declarada (±10-15 m)"
+  ],
+  [
+   "F-DT-02",
+   "Nivel general de erosión «Severa» frente a síntesis «Fuerte»: dos calificaciones distintas en la misma ficha",
+   "NO SUSTANTIVA",
+   "Resolver en la carga definitiva"
+  ],
+  [
+   "F-DT-02",
+   "Causa de C-01 consignada como concentración natural; debe verificarse la contribución de la plataforma de la trocha aguas arriba",
+   "SUSTANTIVA",
+   "Verificación pendiente"
+  ],
+  [
+   "F-DT-03",
+   "Lista florística de 10 registros frente al mínimo de 15; 6 de 10 taxones son introducidos o cultivos",
+   "SUSTANTIVA",
+   "Colecta botánica pendiente; excluir cultivos del área efectiva"
+  ],
+  [
+   "F-DT-03",
+   "Adscripción a Matorral Andino subhúmedo frente a Bes-cm en bloques vecinos de la misma microcuenca",
+   "SUSTANTIVA",
+   "Confrontar con REPORTE_ECOSISTEMAS_BLOQUES_V5"
+  ],
+  [
+   "F-DT-04",
+   "7 de los 8 indicadores cuantitativos sin valor",
+   "SUSTANTIVA",
+   "Cuantificación pendiente"
+  ],
+  [
+   "F-DT-05",
+   "Agua encharcada en agosto sugiere régimen más persistente que el estacional declarado",
+   "NO SUSTANTIVA",
+   "Verificar régimen hídrico"
+  ],
+  [
+   "Ficha DT",
+   "Evaluador no consignado",
+   "NO SUSTANTIVA",
+   "Por verificar"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_80_20260907_152958.pdf",
+ "bloque": "80"
+}

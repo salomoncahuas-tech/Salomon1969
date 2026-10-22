@@ -1,0 +1,233 @@
+{
+ "microcuenca_dt": "C1076-Q9584 (según ficha — valor por defecto de plantilla; catálogo: C1081-Q9591)",
+ "evaluador": "Héctor Cahuas — brigada: Albert Flores Mendoza (operador de dron)",
+ "correlativo": "DT-66-01",
+ "fecha_eval": "2026-08-10",
+ "hora": "Vuelo RPAS — hora por confirmar con EXIF",
+ "cp_cercano": "Huamala",
+ "comunidad": "Por verificar",
+ "altitud_gps": "≈1470 (cota media MDE); rango 1171 - 1769 (MDE)",
+ "utm_e_dt": 652566,
+ "utm_n_dt": 9417311,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Norte",
+ "rango_altitudinal": "1000-1500 m (Quechua baja) — transicional a 1500-2000 m",
+ "paisaje": "Ladera de montaña de exposición dominante norte que desciende desde la divisoria meridional (1 769 msnm)",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "Sí",
+ "deslizamientos": "Sí",
+ "remociones": "Sí",
+ "obs_dt01": "VERIFICACIÓN EJECUTADA MEDIANTE VUELO DE DRON (RPAS) con tomas oblicuas y cenitales; NO hubo recorrido pedestre ni levantamiento GPS de puntos, por lo que las coordenadas consignadas corresponden al CENTROIDE del polígono (Bloques V4/V5). Superficie oficial 102.34 ha: EL BLOQUE MÁS EXTENSO de la microcuenca C1081-Q9591. Rango altitudinal 1 171-1 769 msnm (MDE), amplitud 598 m: el polígono cabalga las clases 1000-1500 m y 1500-2000 m; se consigna la primera por cota media (1 470 msnm) y se deja constancia del carácter transicional. Pendiente promedio zonal 31.55% ≈ 17.5° (clase 25-50%), muy por debajo del umbral de exclusión de 75%. Indicios verificados en las tomas: farallones y afloramientos en la divisoria, escarpe activo con suelo desnudo y material suelto en ladera de pastizal del sector centro-norte, terracetas y sendas de ganado (reptación) y socavamiento en el cauce principal. PMM PRELIMINAR: MEDIO-ALTO.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": "0 registradas — inventario NO ejecutado",
+ "long_carcavas": "No ejecutado",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Sin registro en ficha",
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "El inventario georreferenciado de cárcavas NO fue ejecutado: la modalidad de verificación fue vuelo de dron sin recorrido pedestre ni medición instrumental. CERO CÁRCAVAS REGISTRADAS NO EQUIVALE A AUSENCIA DE CÁRCAVAS; el inventario queda supeditado al ortomosaico y al MDS del propio vuelo, a cargo del analista de infraestructura marrón. Procesos observados en orden de relevancia: (i) escarpe de deslizamiento activo con suelo desnudo y material suelto en ladera de pastizal, con ganado vacuno pastando sobre la cicatriz; (ii) socavamiento y profundización del cauce de la quebrada principal; (iii) compactación y terraceteo por pisoteo en laderas de pastoreo; (iv) erosión laminar y en surcos en parcelas de cultivo en pendiente; (v) taludes de corte sin tratamiento en la trocha carrozable del sector norte.",
+ "parcela": "No aplica — lectura aérea (sin parcela instalada)",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 31.55,
+ "cob_veg": 92,
+ "ecosistema": "Matorral Andino subhúmedo",
+ "sup_ecosistema": "Por verificar (Reporte de Ecosistemas por Bloques V5)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 20,
+ "cob_arbustiva": "Por determinar",
+ "cob_herbacea": 40,
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": 5,
+ "h_dominante": "Por determinar",
+ "h_max": 20,
+ "dap": "Por determinar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Matorral denso",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Ficus sp. (Higuerón)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Inga feuillei (Pacae)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Guadua angustifolia (Caña guayaquil)",
+   "Clave cultural",
+   "NE — No Evaluado"
+  ],
+  [
+   "Baccharis latifolia (Chilca)",
+   "Indicadora de perturbación",
+   "NE — No Evaluado"
+  ],
+  [
+   "Agave americana",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Vachellia macracantha (Faique)",
+   "Indicadora de perturbación",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "COMPOSICIÓN FLORÍSTICA PRELIMINAR levantada por lectura aérea (RPAS) y POR ANALOGÍA CON EL BLOQUE 21, colindante y de la misma microcuenca C1081-Q9591. NO hubo colecta botánica ni determinación taxonómica formal. NO se confirmaron especies amenazadas del D.S. 043-2006-AG. Coberturas y alturas son estimaciones visuales apoyadas en MSAVI 2024 y NDVI mediana 2025. GABINETE: MSAVI medio 2024 = 0.6403 (vigor alto, 5.º de 10 bloques de la microcuenca, por encima del promedio local de 0.6292); el 95.93% de la superficie supera 0.4976 y solo 0.04 ha (0.04%) cae en la clase crítica (≤0.2650). El NDVI mediana 2025 asigna «Vegetación alta» al 94.11% del polígono. LA DEGRADACIÓN ES LOCALIZADA —lóbulo occidental y entorno del caserío—, NO GENERALIZADA.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "30% — >10 años"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "25% — >20 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Fuerte",
+   "30% — >20 años"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5%"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Ligera",
+   "5%"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "10%"
+  ]
+ ],
+ "causa_subyacente": "Ocupación productiva de laderas de fuerte pendiente sin prácticas de conservación de suelos, favorecida por la accesibilidad",
+ "causas_directas": "Cambio de uso a pastoreo y sobrepastoreo vacuno (causa dominante), cambio de uso a agricultura en ladera sin prácticas de conservación de suelos, erosión natural severa asociada a la geodinámica del macizo y presión vial-poblacional del caserío Huamala.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dist_via": 0,
+ "obs_dt04": "Las causas sin evidencia directa en las tomas aéreas se dejan SIN marcar y rotuladas «por verificar»: la ausencia de marca NO equivale a ausencia del proceso (filas 2-6, talas y quemas). Las extensiones (%) son estimaciones visuales y suman más del 100% porque las causas se superponen espacialmente. EL INDICADOR DE BRECHA DE LA R.M. 00213-2024-MINAM DEBE CALCULARSE SOBRE LA SUPERFICIE EFECTIVAMENTE DEGRADADA y no sobre las 102.34 ha del bloque.",
+ "fuentes_agua": [
+  [
+   "Quebrada permanente",
+   "Por verificar",
+   "Por verificar",
+   "Permanente",
+   "No evaluable",
+   0,
+   "Cauce principal del flanco"
+  ],
+  [
+   "Quebrada estacional",
+   "Por verificar",
+   "Por verificar",
+   "Estacional",
+   "No evaluable",
+   0,
+   "Tributarios que disectan la ladera"
+  ],
+  [
+   "Río",
+   "Por verificar",
+   "Por verificar",
+   "Permanente",
+   "No evaluable",
+   "≈500",
+   "Río de fondo de valle"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por verificar",
+ "jass": "Por verificar — se observa un reservorio de concreto en construcción junto al caserío Huamala",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Trocha carrozable Canchaque – Huamala (colindante al límite norte)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por verificar",
+ "t_provincial": "Por verificar",
+ "senal": "No registrada (verificación aérea)",
+ "operador": "No registrado (verificación aérea)",
+ "alojamiento": "No registrado (verificación aérea)",
+ "ronda": "Sí",
+ "contacto_ronda": "Por verificar (Ronda Campesina de Huamala)",
+ "obs_dt05": "INVENTARIO HÍDRICO LEVANTADO POR LECTURA AÉREA: coordenadas, caudales y distancias de las fuentes quedan por verificar con GPS en visita pedestre. El bloque se sitúa en la ZONA DE ORIGEN del peligro generador de inundaciones (PGI) y no en la zona de impacto: la escorrentía y el sedimento generados en estas laderas se transfieren al río de fondo de valle y, aguas abajo, a la cuenca media y baja del río Piura. Señal celular, operador, tiempos de viaje y alojamiento rural no fueron registrados por tratarse de una verificación aérea.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Ficha DT",
+   "La ficha consigna microcuenca C1076-Q9584; el catálogo maestro asigna al bloque 66 la microcuenca C1081-Q9591",
+   "SUSTANTIVA",
+   "Valor por defecto de la plantilla; se conserva el del catálogo"
+  ],
+  [
+   "F-DT-01",
+   "Verificación exclusivamente aérea (RPAS): coordenadas = centroide del polígono, no punto GPS de campo",
+   "NO SUSTANTIVA",
+   "Declarado en la propia ficha"
+  ],
+  [
+   "F-DT-01",
+   "Rango altitudinal 1171-1769 msnm cabalga dos clases altitudinales",
+   "NO SUSTANTIVA",
+   "Se consigna la clase de la cota media y se deja constancia del carácter transicional"
+  ],
+  [
+   "F-DT-02",
+   "0 cárcavas registradas con inventario NO ejecutado",
+   "SUSTANTIVA",
+   "No equivale a ausencia; pendiente de ortomosaico y MDS del propio vuelo"
+  ],
+  [
+   "F-DT-03",
+   "Composición florística transferida POR ANALOGÍA con el Bloque 21",
+   "SUSTANTIVA",
+   "No constituye levantamiento propio; requiere colecta y determinación botánica"
+  ],
+  [
+   "F-DT-03",
+   "Superficie de ecosistema por verificar contra el Reporte de Ecosistemas por Bloques V5",
+   "NO SUSTANTIVA",
+   "Pendiente de conciliación"
+  ],
+  [
+   "F-DT-04",
+   "Indicador de brecha (R.M. 00213-2024-MINAM) no debe calcularse sobre las 102.34 ha del bloque",
+   "SUSTANTIVA",
+   "Calcular sobre la superficie efectivamente degradada"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_66_20260907_151830.pdf",
+ "bloque": "66"
+}

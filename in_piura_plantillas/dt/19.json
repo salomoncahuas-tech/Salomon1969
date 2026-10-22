@@ -1,0 +1,209 @@
+{
+ "microcuenca_dt": "C1076-Q9584",
+ "evaluador": "Ing. Héctor Cahuas Miller",
+ "correlativo": "F-DT-19-2026",
+ "fecha_eval": "2026-08-12",
+ "hora": "10:13 - 10:20 h",
+ "cp_cercano": "Nuevo Progreso",
+ "comunidad": "Por verificar en la fase social",
+ "altitud_gps": "2049 - 2057 (estaciones GPS)",
+ "utm_e_dt": 664973,
+ "utm_n_dt": 9390797,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Noroeste",
+ "rango_altitudinal": "2000-2500 m (Quechua alta)",
+ "paisaje": "Ladera montañosa de exposición noroeste sobre la margen derecha del valle del río Huancabamba. Mosaico de parcelas",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "Sí",
+ "obs_dt01": "El recorrido cubrió la franja de pie de ladera, entre 2049 y 2057 msnm, accesible desde la trocha del CP Nuevo Progreso (11 estaciones fotográficas georreferenciadas). El sector medio y alto del polígono (hasta ~2500 msnm) no fue recorrido. Los escarpes activos y las remociones en masa corresponden a desprendimientos y derrumbes en taludes de corte de la trocha, con material suelto sobre la plataforma; afectan directamente la vía y las viviendas al pie del talud.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 3,
+ "long_carcavas": "60 m",
+ "pct_carcavas": "<1",
+ "erosion_laminar": "15",
+ "patron_carcavas": "Aislado",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [
+  [
+   "C-01",
+   "Cárcava incipiente (30-50 cm)",
+   665040,
+   9390735,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "C-02",
+   "Surco (<30 cm)",
+   665030,
+   9390737,
+   "Activa",
+   "Caminos / huellas de ganado"
+  ],
+  [
+   "C-03",
+   "Surco (<30 cm)",
+   664983,
+   9390801,
+   "Semi-activa",
+   "Surcos de labranza en pendiente"
+  ]
+ ],
+ "obs_dt02": "El proceso morfodinámico dominante no es el carcavamiento sino la INESTABILIDAD DE TALUDES de corte de la trocha: desprendimientos de suelo y gravas con acumulación sobre la plataforma vial, en cortes verticales de 3 a 6 m sobre depósitos coluviales y roca meteorizada, sin vegetación de protección ni obras de sostenimiento. Los muros de piedra de la andenería rústica actúan como barreras parciales de retención de sedimentos.",
+ "parcela": "Recorrido de observación (no se instaló parcela permanente)",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 35,
+ "cob_veg": 85,
+ "ecosistema": "Agroecosistema / Mosaico",
+ "sup_ecosistema": "82.09 ha",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": 25,
+ "cob_arbustiva": 20,
+ "cob_herbacea": 40,
+ "cob_hojarasca": 10,
+ "suelo_desnudo": 15,
+ "h_dominante": 8,
+ "h_max": 18,
+ "dap": 22,
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 7,
+ "especies_clave": [
+  [
+   "Cenchrus clandestinus (kikuyo)",
+   "Indicadora de perturbación",
+   "",
+   664973,
+   9390797
+  ],
+  [
+   "Baccharis latifolia (chilca)",
+   "Indicadora de perturbación",
+   "",
+   664983,
+   9390801
+  ],
+  [
+   "Eucalyptus globulus",
+   "Indicadora de perturbación",
+   "",
+   665034,
+   9390736
+  ]
+ ],
+ "obs_dt03": "HALLAZGO DIAGNÓSTICO PRINCIPAL: de las siete especies registradas, SEIS son introducidas y una es nativa (chilca). El estrato arbóreo está constituido íntegramente por plantaciones exóticas (eucalipto, pino, ciprés) y el herbáceo por pastizal de kikuyo y cultivos anuales de secano. No se registraron especies leñosas nativas del matorral andino subhúmedo ni del bosque relicto montano, que corresponderían a la vegetación potencial del piso 2000-2500 msnm.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "25"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   "5"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Ligera",
+   "10"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Fuerte",
+   "35"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "25"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   "5"
+  ],
+  [
+   "Especies invasoras",
+   "Sí",
+   "Fuerte",
+   "40"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "10"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "100"
+  ]
+ ],
+ "causa_subyacente": "Economía familiar de subsistencia basada en agricultura de secano y ganadería en ladera, sin ordenamiento del uso",
+ "causas_directas": "(1) Cambio de uso a agricultura de secano en ladera (trigo, papa) y a pastizal cultivado de kikuyo; (2) sustitución de la vegetación leñosa nativa por plantaciones forestales exóticas (eucalipto, pino, ciprés); (3) apertura de trocha carrozable con cortes de talud sin sostenimiento y expansión del centro poblado sobre el pie de ladera.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dens_carcavas": 0.04,
+ "ind_invasoras": 40,
+ "ind_carga_ganadera": 0.8,
+ "ind_quemas_5a": 0,
+ "ind_pend50": "30",
+ "ind_dist_via": 0,
+ "obs_dt04": "La degradación del Bloque 19 no se expresa como pérdida de cobertura vegetal —los índices espectrales muestran vigor medio a alto— sino como SUSTITUCIÓN DE COMPOSICIÓN Y PÉRDIDA DE FUNCIONALIDAD ECOSISTÉMICA. Relevante para el indicador de brecha (R.M. 00213-2024-MINAM): un valor alto de NDVI no debe interpretarse como ausencia de degradación. Urgencia ALTA por remociones en masa activas que afectan la vía y viviendas, avance de la frontera agrícola y ausencia casi total de regeneración natural de especies nativas.",
+ "fuentes_agua": [
+  [
+   "Otro (caja de reunión / válvula)",
+   664978,
+   9390787,
+   "Permanente",
+   "No evaluable",
+   0,
+   "Infraestructura del sistema de agua potable"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "No",
+ "escorrentia": "Sí",
+ "dist_captacion": "~50",
+ "interferencia_riego": "No",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "PE-3N (Nacional afirmada) → desvío a trocha carrozable Nuevo Progreso",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por confirmar",
+ "t_provincial": "Por confirmar",
+ "senal": "Parcial",
+ "operador": "Por confirmar",
+ "alojamiento": "Sí",
+ "ronda": "Sí",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "El bloque cumple función de zona de origen de escorrentía sobre la margen derecha del valle del río Huancabamba. La proximidad inmediata de la infraestructura de agua potable del CP Nuevo Progreso al límite del bloque refuerza el argumento de servicio ecosistémico de regulación hídrica y debe considerarse en el diseño de las MRR-CCC y en los acuerdos de gobernanza (potencial MERESE).",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 11,
+ "fuente_ficha": "Ficha_DT_19_20260907_135746.pdf",
+ "bloque": "19"
+}

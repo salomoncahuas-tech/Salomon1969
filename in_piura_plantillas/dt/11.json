@@ -1,0 +1,156 @@
+{
+ "microcuenca_dt": "C1086-Q9570",
+ "evaluador": "Ing. Héctor S. Cahuas Miller / P. Talledo H. / J.C. Domínguez V.",
+ "correlativo": "01",
+ "fecha_eval": "2026-06-11",
+ "hora": "10:05",
+ "cp_cercano": "Taylin de Tuñalí",
+ "comunidad": "Predios de propiedad privada (por verificar comunidad)",
+ "altitud_gps": "1328",
+ "utm_e_dt": 645575,
+ "utm_n_dt": 9393500,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Sureste",
+ "rango_altitudinal": "1500-2000 m (Quechua media)",
+ "paisaje": "Ladera de montaña con mosaico agropecuario (maíz, trigo, arveja y pastos), parches de matorral andino y remanentes de bosque",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Verificación del 11/06/2026 con track GPS Garmin 66sr; ingreso por vía vecinal PI-799. El sector verificado corresponde al margen este/sureste (cota ≈1328 msnm); el sector norte y de mayor altitud (hasta ≈2150 msnm) quedó caracterizado por teledetección y pendiente de acceso a pie/dron. Escarpes activos = taludes de corte de la trocha. Reptación posible en laderas de pastoreo, por confirmar.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "No",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 0,
+ "socavamiento": "Sí",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "Inventario métrico georreferenciado de cárcavas pendiente (GPS submétrico), a cargo del Especialista en IM. Predomina erosión hídrica laminar y en surcos sobre laderas de cultivo y pastoreo. Socavamiento de cauce evidenciado en quebradas con acumulación de bloques rocosos (621116/9439798 y 621204/9440026) y en taludes de la trocha PI-799.",
+ "parcela": "Inspección rápida",
+ "cob_veg": 70,
+ "ecosistema": "Agroecosistema / Mosaico",
+ "sup_ecosistema": "Por determinar",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Uso mixto",
+ "suelo_desnudo": 10,
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 15,
+ "especies_clave": [
+  [
+   "Nogal (Juglans neotropica)",
+   "Amenazada D.S. 043",
+   "EN — En Peligro"
+  ],
+  [
+   "Romerillo (Podocarpus sp.)",
+   "Amenazada D.S. 043",
+   ""
+  ],
+  [
+   "Higuerón (Ficus sp.)",
+   "Indicadora de buen estado",
+   ""
+  ],
+  [
+   "Bromeliáceas (epífitas)",
+   "Indicadora de buen estado",
+   ""
+  ]
+ ],
+ "obs_dt03": "Cobertura y estructura: estimación ocular de gabinete apoyada en MSAVI 2024 (predominio de clases de mayor vigor). Lista florística PRELIMINAR. Las especies nativas de mayor valor (Nogal, Romerillo, Lauráceas) se concentran en el sector alto e inaccesible del bloque.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Fuerte",
+   ""
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Presión agropecuaria sobre laderas de fuerte pendiente sin prácticas de conservación de suelos.",
+ "causas_directas": "Cambio de uso a agricultura (maíz, trigo, arveja) y pastoreo en laderas de fuerte pendiente; apertura de trocha vecinal PI-799 con desestabilización de taludes; erosión hídrica y socavamiento en quebradas.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_pend50": "40",
+ "ind_dist_via": 0,
+ "obs_dt04": "La degradación se concentra en la frontera agropecuaria y a lo largo de la trocha PI-799 (taludes de corte). El interior del bloque conserva cobertura vegetal vigorosa (MSAVI alto), por lo que el proceso es lento y localizado.",
+ "fuentes_agua": [
+  [
+   "Quebrada estacional",
+   621116,
+   9439798,
+   "Estacional (lluvias)",
+   "No evaluable",
+   0,
+   "Quebrada con lecho rocoso"
+  ],
+  [
+   "Quebrada estacional",
+   621204,
+   9440026,
+   "Estacional (lluvias)",
+   "No evaluable",
+   0,
+   "Quebrada con vegetación"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "Por determinar",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Vía vecinal PI-799 (trocha carrozable)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "Por determinar",
+ "operador": "Por determinar",
+ "ronda": "Sí",
+ "contacto_ronda": "Por determinar",
+ "obs_dt05": "Bloque en cabecera/zona de recarga de la microcuenca C1086-Q9570; quebradas estacionales con lecho rocoso dentro del bloque y a lo largo de la trocha PI-799. Predios de propiedad privada (pastoreo, ganadería y cultivos).",
+ "estaciones_fotograficas": [],
+ "n_estaciones": null,
+ "fuente_ficha": "ficha_11_20260624_002159.pdf",
+ "bloque": "11"
+}

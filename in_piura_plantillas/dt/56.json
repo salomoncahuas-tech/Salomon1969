@@ -1,0 +1,203 @@
+{
+ "microcuenca_dt": "C1096-Q9564",
+ "evaluador": "Héctor Cahuas y Juan Domínguez — SESDI/DIME/ANIN",
+ "correlativo": "F-DT-01..05/B56/2026",
+ "fecha_eval": "2026-06-24",
+ "hora": "09:41 - 10:05 h",
+ "cp_cercano": "Putagas (620 357 E · 9 451 508 N; 300 hab.) — referida en ficha; también Banda de la Cruz (75 hab.)",
+ "comunidad": "Por verificar",
+ "altitud_gps": "2374 - 2746 (perfil de acceso) / 2342 - 2770 (MDE)",
+ "utm_e_dt": 645575,
+ "utm_n_dt": 9393500,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Noreste",
+ "rango_altitudinal": "2500-3000 m (Suni)",
+ "paisaje": "Mosaico de ladera de montaña: bosque relicto montano en las partes altas del cerro tutelar y zona agrícola/pastizal en la parte baja",
+ "afloramientos": "No evaluado (sin acceso interno)",
+ "escarpes": "Sí",
+ "reptacion": "No evaluado (sin acceso interno)",
+ "deslizamientos": "No evaluado (sin acceso interno)",
+ "remociones": "No observadas desde el exterior; por verificar en el interior",
+ "obs_dt01": "CARACTERIZACIÓN EXTERNA/PERIMETRAL desde el entorno del C.P. Putagas; NO se accedió al interior del bloque el 24/06/2026 (mal estado de la trocha y fuerte pendiente). Escarpes activos en taludes de corte de la trocha de aproximación. Antecedente referido: reubicación de un centro poblado por deslizamientos en temporada de lluvias (CP y fecha por precisar). ATENCIÓN: la ficha consigna UTM del punto de muestreo 645 575 E · 9 393 500 N, valor por defecto de la plantilla, incompatible con el centroide de catálogo (631 723 E · 9 439 702 N). El texto de la ficha declara además un centroide 621 613 E · 9 452 884 N (Centroides_V5), que tampoco coincide con el catálogo maestro: TRES georreferencias divergentes por conciliar. Pendiente media del acceso 32.5% (máx. 61.7%); rango altitudinal del acceso 2374-2746 msnm. MSAVI 2024 = 0.678 (vigor alto).",
+ "sellamiento": "Por determinar",
+ "compactacion": "Por determinar",
+ "raices_expuestas": "Por determinar",
+ "nivel_erosion": "Severa (cárcavas activas) — franja de aproximación",
+ "n_carcavas": 4,
+ "long_carcavas": "Por determinar",
+ "pct_carcavas": "Por determinar",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Por determinar",
+ "socavamiento": "Por determinar",
+ "urgencia_control": "Por determinar",
+ "carcavas": [
+  [
+   "E-01",
+   "Por determinar",
+   620598,
+   9451513,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "E-02",
+   "Surco (<30 cm)",
+   620593,
+   9451503,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "E-03",
+   "Por determinar",
+   620600,
+   9451512,
+   "Activa",
+   "Otro (talud de corte de vía)"
+  ],
+  [
+   "E-04",
+   "Surco (<30 cm)",
+   620588,
+   9451502,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ]
+ ],
+ "obs_dt02": "Inventario levantado en la FRANJA DE APROXIMACIÓN (trocha carrozable y entorno del C.P. Putagas), NO en el interior del bloque. Los cuatro rasgos se ubican en torno a 620 590-620 600 E · 9 451 500-9 451 515 N, a más de 15 km del centroide de catálogo del bloque: NO deben tratarse como inventario interno. Dimensiones instrumentales, longitud total, % de bloque afectado y densidad por hectárea PENDIENTES. Nivel de erosión interno por verificar (susceptibilidad estimada moderada a alta).",
+ "parcela": "No instalada — caracterización referencial de gabinete (sin acceso al interior)",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 27.27,
+ "cob_veg": "Por determinar",
+ "ecosistema": "Bosque Relicto Montano de Vertiente Occidental (BMVO)",
+ "sup_ecosistema": "77.67 ha totales — Br-mvoc 41.85 ha (53.9%); Zona agrícola 35.82 ha (46.1%)",
+ "estado_cons": "Levemente alterado",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": "Por determinar",
+ "cob_arbustiva": "Por determinar",
+ "cob_herbacea": "Por determinar",
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": "Por determinar",
+ "h_dominante": "Por determinar",
+ "h_max": "Por determinar",
+ "dap": "Por determinar",
+ "regeneracion": "Por determinar",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Por determinar",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 5,
+ "especies_clave": [
+  [
+   "Cinchona sp. (Cascarilla)",
+   "Clave cultural",
+   "NE — No Evaluado"
+  ],
+  [
+   "Podocarpus sp. (Romerillo)",
+   "Amenazada (D.S. 043-2006-AG)",
+   "VU — Vulnerable"
+  ],
+  [
+   "Ceroxylon sp. (Palma de cera)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Weinmannia sp. / Ficus sp.",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ],
+  [
+   "Bromeliáceas / Orquídeas (epífitas)",
+   "Indicadora de buen estado",
+   "NE — No Evaluado"
+  ]
+ ],
+ "obs_dt03": "Caracterización ecológica REFERENCIAL DE GABINETE (Reporte de Ecosistemas por Bloques_V5 - MINAM, MSAVI 2024 Sentinel-2 y observación externa). NO se instaló parcela de muestreo ni se levantó composición florística propia. Listado referencial del bosque montano: Lauraceae (Persea/Ocotea/Nectandra), Cunoniaceae (Weinmannia), Podocarpaceae (Podocarpus), Cecropiaceae, Myrtaceae (Myrcianthes), Moraceae (Ficus), Rubiaceae (Cinchona), Bignoniaceae (Tabebuia), Arecaceae (Ceroxylon), helechos arborescentes (Nephelea); estrato arbustivo (Miconia, Munnozia, Baccharis, Senna, Colignonia, Gaiadendron, Oreopanax); epífitas y lianas. Determinación a nivel de especie y categorías de conservación pendientes de colección botánica formal.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "",
+   ""
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "46%"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   ""
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Presión agropecuaria sobre laderas de fuerte pendiente y desestabilización asociada a la trocha de acceso",
+ "causas_directas": "Cambio de uso a zona agrícola (parcelas de maíz, 46.1% del bloque); sobrepastoreo en laderas; expansión vial con taludes de corte inestables; erosión hídrica concentrada (cárcavas y surcos) en la franja vial. Antecedente de movimientos en masa: reubicación de un centro poblado por deslizamientos en temporada de lluvias (referido).",
+ "velocidad": "Moderada",
+ "reversibilidad": "Por determinar",
+ "urgencia": "Por determinar",
+ "ind_dist_via": "Por determinar",
+ "obs_dt04": "Matriz levantada por observación externa/perimetral y gabinete; las causas no marcadas NO constituyen ausencia verificada. Indicadores cuantitativos (densidad de cárcavas, carga ganadera, frecuencia de quemas, % de área con pendiente >50%) PENDIENTES. Indicadores documentados: MSAVI 2024 = 0.678 (Alto); bosque montano relicto 41.85 ha / 53.9% (Alto); superficie agrícola/pastizal 35.82 ha / 46.1% (Medio); pendiente media del acceso 32.5%, máx. 61.7% (Alto). PELIGRO INTEGRADO PRELIMINAR MEDIO-ALTO (PMM Medio-Alto, EPH Medio-Alto, PGI Medio).",
+ "fuentes_agua": [],
+ "recarga": "Sí",
+ "humedad": "Sí",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por verificar",
+ "jass": "Por verificar",
+ "modalidad_acceso": "Vehicular + caminata 30-90 min",
+ "via_principal": "Frías → C.P. Putagas (trocha carrozable) → ascenso por ladera ≈1 km",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Bajo",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por verificar",
+ "t_provincial": "Por verificar",
+ "senal": "Por verificar",
+ "operador": "Por verificar",
+ "alojamiento": "Por verificar",
+ "ronda": "Por verificar",
+ "contacto_ronda": "Por verificar",
+ "obs_dt05": "Bloque en zona de origen y recarga de la microcuenca C1096-Q9564. Condiciones de bosque montano de neblina (epífitas, helechos, MSAVI alto) indican régimen de humedad favorable a la regulación hídrica. Referencia de la Catarata Putagas (SO del bloque) confirma cursos de agua. NO se identificaron desde el exterior manantiales ni captaciones internas. Acceso al interior NO logrado el 24/06/2026 (trocha en mal estado + fuerte pendiente).",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "F-DT-01",
+   "UTM del punto de muestreo 645 575 E · 9 393 500 N corresponde al valor por defecto de la plantilla; incompatible con el centroide de catálogo (631 723 E · 9 439 702 N)",
+   "SUSTANTIVA",
+   "Se conserva el registro de la ficha y se declara la inconsistencia; georreferencia por reponer en campo"
+  ],
+  [
+   "F-DT-01",
+   "La ficha declara centroide 621 613 E · 9 452 884 N (Centroides_V5), distinto del catálogo maestro Bloques_V5 (631 723 E · 9 439 702 N)",
+   "SUSTANTIVA",
+   "Conciliar catálogo de centroides antes del expediente"
+  ],
+  [
+   "F-DT-02",
+   "Los 4 rasgos erosivos se ubican en la franja de aproximación (≈620 590 E · 9 451 505 N), fuera del polígono del bloque",
+   "SUSTANTIVA",
+   "Se reportan como inventario perimetral, no interno"
+  ],
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "NO SUSTANTIVA",
+   "Se sustituye por el rango del MDE 2342-2770 msnm"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_56 (Plan de Ingreso, PDF)",
+ "bloque": "56"
+}

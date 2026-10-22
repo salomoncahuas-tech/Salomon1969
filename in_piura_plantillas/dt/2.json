@@ -1,0 +1,182 @@
+{
+ "microcuenca_dt": "C1096-Q9558",
+ "evaluador": "Ing. Héctor S. Cahuas Miller (ANIN/DIME-SESDI)",
+ "correlativo": "F-DT-01-B2",
+ "fecha_eval": "2026-07-02",
+ "hora": "15:13 - 15:40 h",
+ "cp_cercano": "Balcones de Talandracas (691 hab.; 602137 E / 9437858 N)",
+ "altitud_gps": "Por determinar (perfil GE 131-325 msnm, media 219)",
+ "utm_e_dt": 602909,
+ "utm_n_dt": 9438249,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "15-25% (Fuert. inclinado)",
+ "posicion_fisio": "Ladera baja",
+ "exposicion": "Suroeste",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Piedemonte y laderas de colina-montaña del bosque estacionalmente seco, con cimas cónicas y quebradas secas",
+ "afloramientos": "No",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Verificación de campo 02/07/2026, sector sur/acceso. Altitud GPS no registrada. Forma del terreno, pendiente, posición fisiográfica y exposición son JUICIO EXPERTO sobre el sector recorrido: requieren confirmación con MDE para el polígono completo.",
+ "sellamiento": "No",
+ "compactacion": "Sí",
+ "raices_expuestas": "No",
+ "nivel_erosion": "Ligera (laminar)",
+ "n_carcavas": 0,
+ "long_carcavas": "0",
+ "pct_carcavas": "0",
+ "erosion_laminar": "20",
+ "patron_carcavas": "No aplica (0 cárcavas)",
+ "socavamiento": "No",
+ "urgencia_control": "Media",
+ "carcavas": [],
+ "obs_dt02": "No se registraron cárcavas ni surcos incipientes en el sector visitado; el inventario queda vacío por ausencia de rasgos observados, no por falta de levantamiento. Erosión laminar con pavimento de erosión asociada a compactación por pisoteo. Estimación ocular sujeta a revisión.",
+ "parcela": "Sector sur (recorrido de reconocimiento, sin parcela permanente)",
+ "dim_parcela": "Por determinar",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 70,
+ "ecosistema": "Bosque Estacionalmente Seco Colina/Montaña (Bes-cm)",
+ "sup_ecosistema": "330.599 ha (100% del bloque)",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Pastoreo extensivo",
+ "cob_dosel": 15,
+ "cob_arbustiva": 45,
+ "cob_herbacea": 10,
+ "cob_hojarasca": "Por determinar",
+ "suelo_desnudo": 25,
+ "h_dominante": 3,
+ "h_max": 8,
+ "dap": "Por determinar",
+ "regeneracion": "Regular (10-50 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "Sí",
+ "fenologia": "Latencia / Estrés hídrico",
+ "tipo_cobertura": "Bosque ralo (30-70%)",
+ "n_taxones": 10,
+ "especies_clave": [
+  [
+   "Hualtaco (Loxopterygium huasango)",
+   "Amenazada D.S. 043",
+   ""
+  ],
+  [
+   "Palo santo (Bursera graveolens)",
+   "Clave cultural",
+   ""
+  ],
+  [
+   "Sapote (Colicodendron scabridum)",
+   "Indicadora de buen estado",
+   ""
+  ],
+  [
+   "Overo (Cordia lutea)",
+   "Indicadora de perturbación",
+   ""
+  ],
+  [
+   "Cactácea columnar",
+   "Indicadora de perturbación",
+   ""
+  ],
+  [
+   "Algarrobo (Prosopis pallida)",
+   "Clave cultural",
+   ""
+  ]
+ ],
+ "obs_dt03": "Lista florística PRELIMINAR (10 especies); NO alcanza el mínimo de 15 exigido por el formato. Coberturas son estimación ocular apoyada en MSAVI 2024 (0.3586). Ecosistema MINAM: Bes-cm 330.598909 ha = 100% del bloque.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "40"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Ligera",
+   ""
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "40"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Moderada",
+   "10"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Ligera",
+   "10"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Presión socioeconómica de subsistencia y avance de la frontera predial/vial en el piedemonte inmediato a los CC.PP.",
+ "causas_directas": "(1) Pastoreo extensivo y sobrepastoreo caprino/vacuno sobre potreros cercados; (2) expansión vial y ocupación predial; (3) extracción puntual de leña; (4) erosión laminar asociada a la pérdida de cobertura; (5) estrés hídrico estacional agravado por variabilidad climática.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Media",
+ "ind_dens_carcavas": 0,
+ "ind_invasoras": 0,
+ "ind_pend50": "Por determinar",
+ "ind_dist_via": 0,
+ "obs_dt04": "ADVERTENCIA PREDIAL: linderos de propiedad privada, cercos de alambre de púa y movimiento de tierras para ocupación en el sector sur del bloque.",
+ "fuentes_agua": [
+  [
+   "Río",
+   603900,
+   9439300,
+   "No evaluable",
+   "",
+   null,
+   "Curso principal de cauce"
+  ],
+  [
+   "Quebrada estacional",
+   603300,
+   9439600,
+   "Estacional",
+   "",
+   null,
+   "Quebrada tributaria seca"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "No",
+ "escorrentia": "No",
+ "dist_captacion": "Por determinar",
+ "jass": "Por determinar",
+ "interferencia_riego": "No",
+ "modalidad_acceso": "Vehicular + caminata <30 min",
+ "via_principal": "Vía asfaltada Chulucanas - Pueblo Nuevo de Talandracas",
+ "tipo_via_final": "Camino de herradura",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Medio",
+ "t_distrital": "20",
+ "t_provincial": "20",
+ "senal": "Parcial",
+ "operador": "Bitel",
+ "alojamiento": "No",
+ "ronda": "No",
+ "contacto_ronda": "Por determinar",
+ "obs_dt05": "Las dos fuentes registradas se derivan de fotointerpretación satelital: coordenadas APROXIMADAS, régimen y distancia POR VERIFICAR en campo. Bloque en zona de origen y recarga de la microcuenca C1096-Q9558.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": null,
+ "fuente_ficha": "ficha_2_20260709_050535.pdf",
+ "bloque": "2"
+}

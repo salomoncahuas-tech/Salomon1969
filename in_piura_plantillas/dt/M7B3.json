@@ -1,0 +1,274 @@
+{
+ "microcuenca_dt": "C1076-Q9581",
+ "evaluador": "Ing. Héctor Salomón Cahuas Miller",
+ "correlativo": "F-DT-M7B3-001",
+ "fecha_eval": "2026-05-14",
+ "hora": "10:24 h",
+ "cp_cercano": "Palo Blanco Centro (Caserío Palo Blanco de Salitral)",
+ "comunidad": "No aplica — TIERRAS DEL ESTADO BAJO ADMINISTRACIÓN DEL GORE PIURA",
+ "altitud_gps": "204 (GPS de campo) — gradiente del bloque 200-700 msnm",
+ "utm_e_dt": 633171,
+ "utm_n_dt": 9402000,
+ "forma_terreno": "Colinoso",
+ "rango_pendiente": "No consignado en el campo de lista (30-40% del área con pendiente >50%)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Este",
+ "rango_altitudinal": "<1000 m (Yunga)",
+ "paisaje": "Ladera montañosa de bosque estacionalmente seco de colina y montaña con gradiente altitudinal 200-700 msnm",
+ "afloramientos": "Sí",
+ "escarpes": "No",
+ "reptacion": "No",
+ "deslizamientos": "No",
+ "remociones": "No",
+ "obs_dt01": "Verificación del 14-15/05/2026 con acompañamiento del Sr. Luis Alberto Porras (Teniente Gobernador del CP Palo Blanco Centro), Ing. Florencio Loardo e Ing. Ángela Cruz Solórzano. AVANCE FÍSICO ≈30% DEL BLOQUE (sector bajo y medio-bajo). CUMBRES NO ALCANZADAS — requieren visita complementaria con acémila o RPA. HALLAZGO CRÍTICO: LA ESPECIE PALO BLANCO SE IDENTIFICA COMO ESPECIE CULTURAL EMBLEMÁTICA EN ESTADO CRÍTICO DE CONSERVACIÓN LOCAL DEBIDO A TALA SELECTIVA INTENSIVA HISTÓRICA. EL TOPÓNIMO DEL CENTRO POBLADO CONFIRMA EL VALOR HISTÓRICO DE LA ESPECIE.",
+ "sellamiento": "Sí",
+ "compactacion": "Sí",
+ "raices_expuestas": "Sí",
+ "nivel_erosion": "Moderada (surcos)",
+ "n_carcavas": 2,
+ "long_carcavas": 55,
+ "pct_carcavas": "5 - 10",
+ "erosion_laminar": 20,
+ "patron_carcavas": "Lineal",
+ "socavamiento": "Sí",
+ "urgencia_control": "Alta",
+ "carcavas": [
+  [
+   "M7B3-S01",
+   "Surco (<30 cm) — 25 m, 0.15 m prof., 0.2 m ancho",
+   633100,
+   9401980,
+   "Activa",
+   "Concentración natural de escorrentía"
+  ],
+  [
+   "M7B3-S02",
+   "Surco (<30 cm) — 30 m, 0.2 m prof., 0.25 m ancho",
+   633150,
+   9401950,
+   "Activa",
+   "Sobrepastoreo"
+  ]
+ ],
+ "obs_dt02": "Erosión hídrica laminar moderada en pie de ladera y base del cerro. Surcos incipientes asociados a sobrepastoreo y escorrentía concentrada en sectores con suelo desnudo. EL RÍO PIURA (frontera oriental) Y LA PE-02A SON ACTIVOS A PROTEGER. PENDIENTE COMPLETAR EL INVENTARIO EN EL SECTOR MEDIO-ALTO del bloque en visita complementaria (solo se cubrió ≈30% del área).",
+ "parcela": "Sin registro en ficha",
+ "dim_parcela": "No aplica",
+ "pend_parcela": "Por determinar",
+ "cob_veg": 70,
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm)",
+ "sup_ecosistema": "Por determinar",
+ "estado_cons": "Medianamente alterado",
+ "uso_dominante": "Forestal de protección",
+ "cob_dosel": 15,
+ "cob_arbustiva": 35,
+ "cob_herbacea": 30,
+ "cob_hojarasca": 10,
+ "suelo_desnudo": 25,
+ "h_dominante": 3,
+ "h_max": 12,
+ "dap": 18,
+ "regeneracion": "Escasa (<10 pl./100m²)",
+ "sanitario": "Sano",
+ "epifitas": "No",
+ "fenologia": "Vegetativo",
+ "tipo_cobertura": "Matorral ralo",
+ "n_taxones": 10,
+ "especies_clave": [
+  [
+   "Palo Blanco (en determinación)",
+   "ESPECIE CULTURAL EMBLEMÁTICA — endémica del Perú — 3 ind. en 633 568 · 9 401 457",
+   "NE — No Evaluado"
+  ],
+  [
+   "Loxopterygium huasango (Hualtaco)",
+   "Amenazada (D.S. 043-2006-AG) — 4 ind. en 633 195 · 9 401 965",
+   "EN — En Peligro"
+  ],
+  [
+   "Caesalpinia paipai (Charán)",
+   "Indicadora de buen estado — abundante en 633 164 · 9 402 010",
+   "LC — Preocupación Menor"
+  ],
+  [
+   "Eriotheca ruizii (Pasallo)",
+   "Indicadora de buen estado — ≈10 ind. en 633 171 · 9 402 000",
+   "LC — Preocupación Menor"
+  ],
+  [
+   "Armatocereus cartwrightianus (Cardón)",
+   "Endémica — abundante en 633 094 · 9 401 958",
+   "NE — No Evaluado"
+  ],
+  [
+   "Neltuma pallida (Algarrobo)",
+   "Clave cultural — común en 633 171 · 9 402 000",
+   "LC — Preocupación Menor"
+  ]
+ ],
+ "obs_dt03": "Inventario de 10 taxones con RANGOS DE DAP Y ALTURA POR ESPECIE (uno de los registros florísticos más detallados del portafolio). EL PALO BLANCO SE MANTIENE «POR DETERMINAR» (probable Celtis sp. u otra) Y SOLO SE REGISTRAN 3 INDIVIDUOS (abundancia Rara, <1%): SU DETERMINACIÓN BOTÁNICA Y LA EVALUACIÓN DE SU POBLACIÓN REMANENTE SON ACCIONES DE CIERRE PRIORITARIAS por su valor cultural. Regeneración natural ESCASA. Se registran 10 taxones frente al mínimo de 15 exigido.",
+ "causas": [
+  [
+   "Sobrepastoreo (caprino/vacuno)",
+   "Sí",
+   "Moderada",
+   "60% — >30 años"
+  ],
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "50% — >30 años"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Fuerte",
+   "50% — >50 años"
+  ],
+  [
+   "Cambio de uso a pastoreo",
+   "Sí",
+   "Moderada",
+   "30% — >30 años"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Ligera",
+   "5% — >30 años"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "25-35%"
+  ],
+  [
+   "Sequía prolongada / CC",
+   "Sí",
+   "Moderada",
+   "100%"
+  ],
+  [
+   "Otro (presión por borde vial)",
+   "Sí",
+   "Ligera",
+   ""
+  ]
+ ],
+ "causa_subyacente": "Demanda histórica de madera/leña + acceso facilitado por la PE-02A + ausencia de mecanismos formales de gobernanza",
+ "causas_directas": "(1) TALA SELECTIVA INTENSIVA HISTÓRICA (Palo Blanco, Hualtaco); (2) sobrepastoreo extensivo caprino/vacuno; (3) erosión hídrica en pendientes >25%.",
+ "velocidad": "Lenta",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 0,
+ "obs_dt04": "EL MOTOR CULTURAL-ECONÓMICO (USO HISTÓRICO DEL PALO BLANCO) REPRESENTA SIMULTÁNEAMENTE LA PRINCIPAL CAUSA DE DEGRADACIÓN Y LA PRINCIPAL OPORTUNIDAD DE ARTICULACIÓN SOCIAL. LA ESTRATEGIA DE INTERVENCIÓN DEBE CONVERTIR EL PALO BLANCO EN EJE DEL COMPONENTE DE GOBERNANZA COMUNITARIA DEL BLOQUE. Indicadores: cobertura vegetal total 70% (Alto); suelo desnudo 25% (Medio); densidad de cárcavas POR DETERMINAR; invasoras <5% (Bajo); carga ganadera POR DETERMINAR; frecuencia de quemas POR DETERMINAR; % área con pendiente >50% = 30-40% (Alto); distancia a vía 0 m (Alto).",
+ "fuentes_agua": [
+  [
+   "Río",
+   633400,
+   9401500,
+   "Permanente",
+   "Regular (ligeramente turbia)",
+   "0 - 300",
+   "Río Piura — cauce principal"
+  ],
+  [
+   "Quebrada estacional",
+   633050,
+   9402100,
+   "Estacional",
+   "No evaluable",
+   "Interna",
+   "Quebrada tributaria interna"
+  ],
+  [
+   "Quebrada estacional",
+   633300,
+   9401200,
+   "Estacional",
+   "No evaluable",
+   "Interna",
+   "Quebrada tributaria interna"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "No",
+ "escorrentia": "Sí",
+ "dist_captacion": "Por determinar",
+ "jass": "JASS / Sistema local del CP Palo Blanco — cobertura 100% (F-DS-01); Presidente de junta: Genaro Manchay",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "PE-02A (departamental asfaltada)",
+ "tipo_via_final": "Departamental asfaltada",
+ "transit_seca": "Alto",
+ "transit_lluviosa": "Medio",
+ "t_distrital": 15,
+ "t_provincial": 90,
+ "senal": "Parcial",
+ "operador": "Movistar (F-DS-01)",
+ "alojamiento": "Sí",
+ "ronda": "Sí",
+ "contacto_ronda": "Sr. Luis Alberto Porras — Teniente Gobernador del CP Palo Blanco Centro (acompañó la verificación)",
+ "obs_dt05": "ACCESO MUY FAVORABLE desde la PE-02A asfaltada. Tiempos cortos desde Salitral (≈15 min) y razonables desde Chulucanas (≈1.5 h). El sector bajo es accesible vehicularmente hasta el borde y caminata corta para ingreso. SECTORES MEDIO-ALTO Y CUMBRES REQUIEREN ACÉMILA O RPA EN VISITA COMPLEMENTARIA. DIAGNÓSTICO SOCIAL (F-DS-01, C.P. Palo Blanco, 29/05/2026): comunidad campesina Andanjo; primaria completa; TASA DE MIGRACIÓN ALTA hacia Chulucanas/Morropón; JASS con cobertura 100%; SIN SANEAMIENTO (campo abierto); energía en red pública 100%; NO HAY ESTABLECIMIENTO DE SALUD (10 min); I.E. inicial + primaria. LA POBLACIÓN MUESTRA INTERÉS EN QUE SE EJECUTE EL PROYECTO Y SOLICITA SEGUIR INVOLUCRADA.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 0,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Plan de Ingreso",
+   "Altitud = 0 msnm (captura por defecto del aplicativo)",
+   "CORREGIDO",
+   "Se reemplaza por la altitud GPS de campo (204 msnm)"
+  ],
+  [
+   "F-DT-01",
+   "Avance físico de la verificación ≈30% del bloque; cumbres no alcanzadas",
+   "SUSTANTIVA",
+   "Visita complementaria con acémila o RPA requerida"
+  ],
+  [
+   "F-DT-01",
+   "Rango de pendiente no consignado en el campo de lista",
+   "NO SUSTANTIVA",
+   "Completar con la clase correspondiente"
+  ],
+  [
+   "F-DT-03",
+   "Superficie de ecosistema sin valor",
+   "NO SUSTANTIVA",
+   "Completar por intersección con la capa MINAM"
+  ],
+  [
+   "F-DT-03",
+   "El PALO BLANCO, especie cultural emblemática, permanece «Por determinar» y con solo 3 individuos registrados",
+   "SUSTANTIVA",
+   "Determinación botánica y evaluación poblacional: acciones de cierre PRIORITARIAS"
+  ],
+  [
+   "F-DT-03",
+   "Solo 10 taxones registrados frente al mínimo de 15 exigido",
+   "NO SUSTANTIVA",
+   "Inventario a completar en la visita complementaria"
+  ],
+  [
+   "F-DT-04",
+   "Densidad de cárcavas, carga ganadera y frecuencia de quemas por determinar",
+   "NO SUSTANTIVA",
+   "Cuantificación pendiente"
+  ],
+  [
+   "F-DT-04",
+   "La tala para madera se califica FUERTE con >50 años de antigüedad y 50% de extensión",
+   "SUSTANTIVA",
+   "Motor histórico de la degradación: eje del componente de gobernanza"
+  ],
+  [
+   "F-DS-01",
+   "La ficha social consigna microcuenca C1076-Q9584 (valor heredado de plantilla)",
+   "NO SUSTANTIVA",
+   "Se conserva la microcuenca del catálogo C1076-Q9581"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_M7B3 (Plan de Ingreso, PDF)",
+ "bloque": "M7B3"
+}

@@ -1,0 +1,213 @@
+{
+ "microcuenca_dt": "C1076-Q9593",
+ "evaluador": "Ing. P. Talledo H. / Ing. H. S. Cahuas M.",
+ "correlativo": "F-DT-01-B71-2026",
+ "fecha_eval": "2026-08-18",
+ "hora": "14:37 - 14:45 h",
+ "cp_cercano": "Pirga",
+ "comunidad": "Por verificar",
+ "altitud_gps": "No registrada — rango MDE 1478 - 1609",
+ "utm_e_dt": 651794,
+ "utm_n_dt": 9373040,
+ "forma_terreno": "Montañoso",
+ "rango_pendiente": "25-50% (Mod. escarpado)",
+ "posicion_fisio": "Ladera media",
+ "exposicion": "Sureste",
+ "rango_altitudinal": "1500-2000 m (Quechua media)",
+ "paisaje": "Ladera única de exposición SE tributaria de la quebrada Q9593, entre las cotas 1 478 y 1 609 msnm",
+ "afloramientos": "Sí",
+ "escarpes": "Sí",
+ "reptacion": "No verificado (celda en blanco)",
+ "deslizamientos": "Sí",
+ "remociones": "Sí",
+ "obs_dt01": "FICHA NO DILIGENCIADA EN CAMPO — prellenado de gabinete (SESDI) a partir de 9 fotografías georreferenciadas del 18-08-2026, estadística zonal sobre MDE y planos temáticos MSAVI 2024 / NDVI mediana 2025. CONTROL GEOMÉTRICO: LAS 9 ESTACIONES SE LOCALIZAN FUERA DEL POLÍGONO, entre 15.8 y 42.9 m de sus límites norte y oriental, sobre la trocha carrozable. EL INTERIOR DEL BLOQUE —donde se concentra la degradación— NO FUE VERIFICADO. Escarpes activos y afloramientos: taludes de corte de la trocha (E-03, E-04, E-09) y gran corte de movimiento de tierras en E-08. Remociones en masa activas: material suelto y superficie removida en plataforma y taludes sin tratamiento. Reptación de suelo: no observada; ausencia NO verificada instrumentalmente. Altitud GPS no registrada. El rango altitudinal 1 478-1 609 msnm procede del MDE, no de medición instrumental.",
+ "sellamiento": "No verificado (celda en blanco)",
+ "compactacion": "No verificado (celda en blanco)",
+ "raices_expuestas": "No verificado (celda en blanco)",
+ "nivel_erosion": "Moderada (surcos) — describe el BORDE del bloque",
+ "n_carcavas": "Sin inventario",
+ "long_carcavas": "Sin inventario",
+ "pct_carcavas": "Sin inventario",
+ "erosion_laminar": "Por determinar",
+ "patron_carcavas": "Lineal",
+ "socavamiento": "No verificado (celda en blanco)",
+ "urgencia_control": "Alta",
+ "carcavas": [],
+ "obs_dt02": "INVENTARIO GEORREFERENCIADO DE CÁRCAVAS NO EJECUTADO. La ausencia de registros no equivale a ausencia verificada. Procesos documentados fotográficamente, TODOS SOBRE EL CORREDOR VIAL PERIMETRAL: (i) taludes de corte en coluvión pardo-rojizo sin banquetas ni revegetación (E-03, E-09); (ii) plataforma con superficie removida y surcos incipientes (E-04); (iii) superficie totalmente desnuda y compactada por tránsito en el entorno de las viviendas (E-06); (iv) gran corte de movimiento de tierras en la ladera frontal, con material suelto expuesto (E-08). LA CALIFICACIÓN DESCRIBE EL BORDE DEL BLOQUE. El núcleo interior de cobertura rala (2.82 ha bajo umbral MSAVI) NO fue recorrido y su estado erosivo permanece sin verificar.",
+ "parcela": "Sin parcela instalada",
+ "dim_parcela": "No aplica",
+ "pend_parcela": 29.45,
+ "cob_veg": "No verificado (celda en blanco)",
+ "ecosistema": "Bosque Estacionalmente Seco de Colina y Montaña (Bes-cm) — adscripción por continuidad con el Bloque 8",
+ "sup_ecosistema": "Por determinar (sin intersección con capa MINAM)",
+ "estado_cons": "Alterado (intervención marcada)",
+ "uso_dominante": "Uso mixto",
+ "cob_dosel": "No verificado (celda en blanco)",
+ "cob_arbustiva": "No verificado (celda en blanco)",
+ "cob_herbacea": "No verificado (celda en blanco)",
+ "cob_hojarasca": "No verificado (celda en blanco)",
+ "suelo_desnudo": "No verificado (celda en blanco)",
+ "h_dominante": "No verificado (celda en blanco)",
+ "h_max": "No verificado (celda en blanco)",
+ "dap": "No verificado (celda en blanco)",
+ "regeneracion": "No verificado (celda en blanco)",
+ "sanitario": "Sano",
+ "epifitas": "No verificado (celda en blanco)",
+ "fenologia": "Floración",
+ "tipo_cobertura": "Mixto / Mosaico",
+ "n_taxones": 11,
+ "especies_clave": [
+  [
+   "Armatocereus sp. (Cactácea columnar)",
+   "Indicadora de perturbación",
+   "NE — No Evaluado"
+  ],
+  [
+   "Baccharis latifolia (Chilca)",
+   "Indicadora de perturbación",
+   "No aplica"
+  ],
+  [
+   "Flor de agua (sin binomio)",
+   "Indicadora de buen estado",
+   "NE — determinación prioritaria"
+  ],
+  [
+   "Inga feuillei (Pacae o guaba)",
+   "Clave cultural",
+   "No aplica"
+  ],
+  [
+   "Eucalyptus globulus",
+   "Indicadora de perturbación",
+   "No aplica"
+  ]
+ ],
+ "obs_dt03": "LISTA FLORÍSTICA PRELIMINAR E INCOMPLETA — 11 REGISTROS FRENTE AL MÍNIMO DE 15 EXIGIDO: FALTAN 4. Los nombres comunes proceden del reconocimiento del 18-08-2026; los binomios son atribuciones preliminares por fotointerpretación y correspondencia regional, NINGUNO confirmado taxonómicamente. No hubo colecta botánica. «Flor de agua» se conserva como nombre local sin binomio: su determinación es ACCIÓN DE CIERRE PRIORITARIA por tratarse de un elemento abundante del dosel bajo en floración. MAÍZ, PLÁTANO Y CAFÉ SON CULTIVOS: su superficie debe excluirse del área efectiva de intervención en el tamizaje predial. NO MEDIDOS: coberturas por estrato, hojarasca, suelo desnudo, alturas, DAP, cobertura vegetal total, regeneración natural y epífitas. La adscripción a Bes-cm se mantiene por continuidad con el Bloque 8 contiguo; entre 1 478 y 1 609 msnm y bajo neblina persistente la fisonomía corresponde a una TRANSICIÓN HACIA MATORRAL ANDINO SUBHÚMEDO.",
+ "causas": [
+  [
+   "Tala para leña",
+   "Sí",
+   "Moderada",
+   "Por determinar"
+  ],
+  [
+   "Tala para madera",
+   "Sí",
+   "Ligera",
+   "Por determinar"
+  ],
+  [
+   "Cambio de uso a agricultura",
+   "Sí",
+   "Moderada",
+   "Por determinar"
+  ],
+  [
+   "Expansión urbana / vial",
+   "Sí",
+   "Fuerte",
+   "<2 años — CAUSA DOMINANTE"
+  ],
+  [
+   "Erosión natural severa",
+   "Sí",
+   "Moderada",
+   "<2 años"
+  ]
+ ],
+ "causa_subyacente": "Presión de un centro poblado consolidado (C.P. Pirga) asentado sobre el límite del bloque",
+ "causas_directas": "Expansión vial y ocupación del borde (dominante); cambio de uso a agricultura; tala para leña; erosión asociada a los cortes de la trocha.",
+ "velocidad": "Moderada",
+ "reversibilidad": "Parcialmente reversible",
+ "urgencia": "Alta",
+ "ind_dist_via": 16,
+ "obs_dt04": "MATRIZ PARCIAL. Solo se consignan las causas con evidencia fotográfica directa del 18-08-2026. Las filas en blanco (sobrepastoreo, tala para carbón, quemas, minería, áridos, especies invasoras, sequía, plagas) NO FUERON DESCARTADAS. EXTENSIÓN (% del bloque) no estimada para ninguna causa. La evidencia sostiene que la vía y la ocupación del borde son el factor activo en la franja perimetral, PERO NO PERMITE ATRIBUIRLES EL NÚCLEO INTERIOR DE 2.82 ha BAJO UMBRAL MSAVI, que se localiza en el centro del polígono sobre la curva 1 500-1 550 y responde a un patrón agropecuario previo no documentado. La discriminación exige comparación multitemporal del índice. Indicadores 1 a 7 «Por determinar»; indicador 8 (distancia a vía) ≈16 m, nivel Alto.",
+ "fuentes_agua": [
+  [
+   "Reservorio / Represa",
+   652382,
+   9373255,
+   "Permanente",
+   "No evaluable",
+   "≈40",
+   "Caja de concreto con tubería (E-07)"
+  ],
+  [
+   "Quebrada estacional",
+   651828,
+   9373159,
+   "Estacional",
+   "No evaluable",
+   "≈39",
+   "Vaguada de lecho pedregoso"
+  ]
+ ],
+ "recarga": "Sí",
+ "humedad": "No verificado (celda en blanco)",
+ "escorrentia": "Sí",
+ "dist_captacion": "≈40 m (caja de concreto de E-07, por confirmar)",
+ "jass": "Por determinar",
+ "modalidad_acceso": "Vehicular 4x4 hasta el bloque",
+ "via_principal": "Trocha carrozable de acceso al C.P. Pirga (sin código MTC verificado)",
+ "tipo_via_final": "Trocha carrozable",
+ "transit_seca": "Medio",
+ "transit_lluviosa": "Bajo",
+ "t_distrital": "Por determinar",
+ "t_provincial": "Por determinar",
+ "senal": "Por determinar",
+ "operador": "Por determinar",
+ "alojamiento": "Por determinar",
+ "ronda": "Por determinar",
+ "contacto_ronda": "Por determinar",
+ "obs_dt05": "FICHA PARCIAL. El bloque se declara EN ZONA DE RECARGA HÍDRICA por su posición en la cabecera del drenaje de la quebrada Q9593 y por la condensación de neblina registrada en la totalidad de las estaciones; se sitúa en la ZONA DE ORIGEN del peligro generador de inundaciones (PGI). NO LEVANTADOS: inventario de manantiales con GPS, zonas de humedad persistente, JASS responsable, captación poblacional formal, interferencia con obras de riego, tiempos de viaje, señal celular y operador, alojamiento rural y contacto de Ronda Campesina. HALLAZGO RELEVANTE: la infraestructura de agua del borde oriental (E-07) es un ELEMENTO EXPUESTO NO INVENTARIADO, situado a menos de 50 m de un talud de corte reciente. Su confirmación e incorporación al registro de elementos expuestos es acción de cierre de PRIORIDAD ALTA.",
+ "estaciones_fotograficas": [],
+ "n_estaciones": 9,
+ "estaciones_dentro": 0,
+ "correcciones": [
+  [
+   "Fichas F-DT",
+   "NO DILIGENCIADAS EN CAMPO: prellenado de gabinete a partir de 9 fotografías georreferenciadas, MDE y planos temáticos",
+   "SUSTANTIVA",
+   "Levantamiento de campo pendiente"
+  ],
+  [
+   "F-DT-01",
+   "Las 9 estaciones fotográficas se localizan FUERA del polígono (15.8 a 42.9 m de los límites N y E); el interior no fue verificado",
+   "SUSTANTIVA",
+   "La caracterización describe el borde, no el núcleo del bloque"
+  ],
+  [
+   "F-DT-02",
+   "Inventario georreferenciado de cárcavas no ejecutado; sellamiento, compactación, raíces expuestas y socavamiento en blanco",
+   "SUSTANTIVA",
+   "No observados ni descartados"
+  ],
+  [
+   "F-DT-03",
+   "Lista florística de 11 registros frente al mínimo de 15; ningún binomio confirmado",
+   "SUSTANTIVA",
+   "Determinación de «Flor de agua» es acción de cierre prioritaria"
+  ],
+  [
+   "F-DT-03",
+   "Adscripción a Bes-cm por continuidad con el Bloque 8; la fisonomía observada sugiere transición a matorral andino subhúmedo",
+   "SUSTANTIVA",
+   "Verificar con la capa nacional de ecosistemas del MINAM"
+  ],
+  [
+   "F-DT-04",
+   "El núcleo interior de 2.82 ha bajo umbral MSAVI no es atribuible a las causas documentadas en el perímetro",
+   "SUSTANTIVA",
+   "Requiere comparación multitemporal del índice"
+  ],
+  [
+   "F-DT-05",
+   "Infraestructura de agua del borde oriental (E-07) no inventariada como elemento expuesto, a <50 m de un talud de corte reciente",
+   "SUSTANTIVA",
+   "Incorporar al registro de elementos expuestos — prioridad ALTA"
+  ]
+ ],
+ "fuente_ficha": "Ficha_DT_71_20260907_151908.pdf",
+ "bloque": "71"
+}
