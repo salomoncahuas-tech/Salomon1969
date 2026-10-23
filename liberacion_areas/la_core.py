@@ -265,6 +265,9 @@ def validar_envio(form_id: str, reg: dict, catalogo: dict[str, dict], geoms: dic
             r.observar("Sucesión no declarada: requiere firma de todos los herederos → derivar a Especialista Legal")
         if reg.get("tipo_titularidad") == "sin_titular":
             r.observar("Sin titular identificado / en conflicto → Especialista Legal")
+        if reg.get("tipo_titularidad") == "ocupante":
+            r.observar("Ocupante sin titularidad ni posesión acreditada: identificar al titular / posesionario del predio "
+                       "→ Especialista Legal")
     return r
 
 

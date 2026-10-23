@@ -284,3 +284,61 @@ def test_integracion_edicion_eliminacion():
     db.inicializar_la(conn, base.CSV)
     assert db.df(conn, "SELECT count(*) n FROM la_envios_raw")["n"][0] == antes
     conn.close()
+
+
+# ------------------------------------------------------------------ condición OCUPANTE y registro continuo
+def test_ocupante_f_la_02():
+    """OCUPANTE: pide los datos de persona natural, queda en el XLSForm y se observa para el Especialista Legal."""
+    cat = _cat()
+    assert ("ocupante", "Ocupante") in lc.OPCIONES["tipo_titularidad"]
+    f = lc.FORMULARIOS["f_la_02_titular"]
+    campo = {c.nombre: c for c in f.campos}
+    for nombre in ("tit_nombres", "tit_apellidos", "tit_dni", "tit_celular", "tit_estado_civil"):
+        assert lc.es_relevante(campo[nombre], {"tipo_titularidad": "ocupante"}), nombre
+    assert not lc.es_relevante(campo["cc_nombre"], {"tipo_titularidad": "ocupante"})
+    reg, avisos = lc.construir_registro("f_la_02_titular", {
+        "hoy": "2026-10-23", "asistente": "AP-1", "unidad": "27", "n_predio": 5, "consentimiento": "si",
+        "tipo_titularidad": "Ocupante", "tit_nombres": "PEDRO (FICTICIO)", "tit_apellidos": "PRUEBA",
+        "tit_dni": "00000555", "aceptacion": "favorable"}, cat, kobo_uuid=lc.nuevo_uuid())
+    assert not avisos and reg["tipo_titularidad"] == "ocupante" and reg["cod_predio"] == "27-P05"
+    r = core.validar_envio("f_la_02_titular", reg, cat, base.GEOMS, set())
+    assert r.estado_import == "OBSERVADO" and any("Ocupante" in m for m in r.motivos)
+    h = lp.xlsform_hojas("f_la_02_titular")
+    ch = h["choices"]
+    assert ((ch["list_name"] == "tipo_titularidad") & (ch["name"] == "ocupante")).any()
+    s = h["survey"].set_index("name")
+    assert "${tipo_titularidad}='ocupante'" in s.loc["tit_dni", "relevant"]
+
+
+def test_xlsform_nota_fin_registro_continuo():
+    """Cada XLSForm termina en una nota que indica que el formulario vuelve en blanco al inicio después de «Enviar»."""
+    for fid, f in lc.FORMULARIOS.items():
+        if not f.kobo:
+            continue
+        s = lp.xlsform_hojas(fid)["survey"]
+        ultima = s.iloc[-1]
+        assert ultima["name"] == "nota_fin" and ultima["type"] == "note", fid
+    s = lp.xlsform_hojas("f_la_02_titular")["survey"].set_index("name")
+    assert "siguiente prediante" in s.loc["nota_fin", "label::Español (es)"]
+
+
+def test_enlaces_llenado_envios_multiples():
+    """Solo se ofrecen los enlaces de envíos múltiples (vuelven al inicio), nunca el de envío único."""
+    class KoboEnlaces:
+        def listar_formularios(self):
+            return [{"uid": "aLA02", "nombre": "F-LA-02 – Ficha predial", "desplegado": True},
+                    {"uid": "aLA03", "nombre": "F-LA-03 – Inspección", "desplegado": False},
+                    {"uid": "aP6", "nombre": "Paso 6", "desplegado": True}]
+
+        def _get_json(self, endpoint, params=None):
+            assert endpoint == "assets/aLA02/"
+            return {"deployment__links": {"offline_url": "https://ee.kobotoolbox.org/x/abc",
+                                          "url": "https://ee.kobotoolbox.org/abc",
+                                          "single_url": "https://ee.kobotoolbox.org/single/abc"}}
+
+    from liberacion_areas import la_kobo as kb
+    filas = kb.enlaces_formularios_la(KoboEnlaces())
+    assert [f["form_id"] for f in filas] == ["f_la_02_titular"]
+    enlaces = filas[0]["enlaces"]
+    assert list(enlaces.values()) == ["https://ee.kobotoolbox.org/x/abc", "https://ee.kobotoolbox.org/abc"]
+    assert not any("/single/" in u for u in enlaces.values())

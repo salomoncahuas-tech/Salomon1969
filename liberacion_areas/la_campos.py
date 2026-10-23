@@ -43,7 +43,8 @@ OPCIONES: dict[str, list[tuple[str, str]]] = {
     "aceptacion": _op(("favorable", "Favorable"), ("condicionada", "Condicionada"), ("rechazo", "Rechazo"),
                       ("sin_definir", "Sin definir")),
     "tipo_titularidad": _op(("comunal", "Comunidad campesina"), ("privado", "Privado (con título)"),
-                            ("posesionario", "Posesionario"), ("sucesion", "Sucesión"), ("estatal", "Estatal"),
+                            ("posesionario", "Posesionario"), ("ocupante", "Ocupante"), ("sucesion", "Sucesión"),
+                            ("estatal", "Estatal"),
                             ("sin_titular", "Sin titular / en conflicto")),
     "sucesion_estado": _op(("declarada", "Sucesión declarada"), ("en_tramite", "En trámite"),
                            ("sin_tramite", "Sin trámite")),
@@ -148,6 +149,9 @@ _UNIDAD = [C("unidad", "Unidad (bloque / lote SUS / vivero)", "unidad", requerid
 _PREDIO = [C("n_predio", "N.° de predio dentro de la unidad", "int", requerido=True, minimo=0, maximo=99,
              ayuda="Genera el código {UNIDAD}-P{nn}. Use 0 solo en actas comunales A-03 que abarcan toda la unidad.")]
 
+# Titularidades de persona natural: se registran nombres, DNI, celular y estado civil
+_PERSONA_NATURAL = ["privado", "posesionario", "ocupante", "sucesion"]
+
 FORMULARIOS: dict[str, Formulario] = {}
 
 FORMULARIOS["f_la_01_reunion"] = Formulario(
@@ -176,11 +180,11 @@ FORMULARIOS["f_la_02_titular"] = Formulario(
         C("consentimiento", "Consentimiento para el uso de datos personales (Ley 29733)", "select_one", "si_no", requerido=True),
         C("tipo_titularidad", "Tipo de titularidad", "select_one", "tipo_titularidad", requerido=True),
         C("sucesion_estado", "Estado de la sucesión", "select_one", "sucesion_estado", relevante={"tipo_titularidad": ["sucesion"]}),
-        C("tit_nombres", "Nombres del titular", "text", relevante={"tipo_titularidad": ["privado", "posesionario", "sucesion"]}),
-        C("tit_apellidos", "Apellidos del titular", "text", relevante={"tipo_titularidad": ["privado", "posesionario", "sucesion"]}),
-        C("tit_dni", "DNI del titular (8 dígitos)", "text", relevante={"tipo_titularidad": ["privado", "posesionario", "sucesion"]}),
-        C("tit_celular", "Celular del titular", "text", relevante={"tipo_titularidad": ["privado", "posesionario", "sucesion"]}),
-        C("tit_estado_civil", "Estado civil", "select_one", "estado_civil", relevante={"tipo_titularidad": ["privado", "posesionario", "sucesion"]}),
+        C("tit_nombres", "Nombres del titular", "text", relevante={"tipo_titularidad": _PERSONA_NATURAL}),
+        C("tit_apellidos", "Apellidos del titular", "text", relevante={"tipo_titularidad": _PERSONA_NATURAL}),
+        C("tit_dni", "DNI del titular (8 dígitos)", "text", relevante={"tipo_titularidad": _PERSONA_NATURAL}),
+        C("tit_celular", "Celular del titular", "text", relevante={"tipo_titularidad": _PERSONA_NATURAL}),
+        C("tit_estado_civil", "Estado civil", "select_one", "estado_civil", relevante={"tipo_titularidad": _PERSONA_NATURAL}),
         C("cony_nombre", "Nombre del cónyuge / conviviente", "text", relevante={"tit_estado_civil": ["casado", "conviviente"]}),
         C("cony_dni", "DNI del cónyuge", "text", relevante={"tit_estado_civil": ["casado", "conviviente"]}),
         C("cc_nombre", "Comunidad campesina", "text", relevante={"tipo_titularidad": ["comunal"]}),
