@@ -48,6 +48,8 @@ def _columnas_campos(campos: list[lc.Campo]) -> list[dict]:
         if c.relevante:
             cond = "Solo si " + " y ".join(f"{k} = {' / '.join(v)}" for k, v in c.relevante.items())
         nota = " · ".join(x for x in (c.ayuda, cond) if x)
+        if c.tipo == "foto":                    # las fotos se toman en KoboToolbox o se suben en el aplicativo
+            continue
         if c.tipo == "utm":
             for suf, et, rng in (("este", "Este (m)", (core.E_MIN, core.E_MAX)), ("norte", "Norte (m)", (core.N_MIN, core.N_MAX)),
                                  ("alt", "Altitud (m)", None), ("prec", "Precisión GPS (m)", (0, 1000))):
@@ -225,6 +227,8 @@ def _hoja_instrucciones(wb, asistente: str | None):
         ("• Coordenadas en UTM WGS84 Zona 17S: Este entre 450,000 y 750,000 m; Norte entre 9,300,000 y 9,600,000 m.", False),
         ("• El código de predio se forma solo: {UNIDAD}-P{nn} (p. ej. 27-P01). En actas A-03 comunales use N.° de predio 0.", False),
         ("• Selección múltiple (documentos, interferencias, checklist): escriba SI en cada opción que aplique.", False),
+        ("• Las fotos del predio (F-LA-03) no van en esta plantilla: se toman en KoboToolbox o se suben en el aplicativo "
+         "(«Historial / Edición» › Editar).", False),
         ("• No cambie los nombres de las hojas ni las filas 6 y 7 (etiquetas y claves).", False),
         ("", False),
         ("Al importar", True),
@@ -386,7 +390,11 @@ _CAMPOS_CATALOGO = ("tipo_unidad", "provincia", "distrito", "bloque_ref", "area_
 # «envío único» (/single/…) termina en la página de agradecimiento y obliga a recargar.
 _NOTA_FIN = {None: "Fin del registro. Pulse «Enviar»: el formulario queda en blanco y vuelve al inicio para el siguiente registro.",
              "f_la_02_titular": "Fin de la ficha del prediante. Pulse «Enviar»: el formulario queda en blanco y vuelve al "
-                                "inicio para registrar al siguiente prediante, sin recargar la página."}
+                                "inicio para registrar al siguiente prediante, sin recargar la página.",
+             "f_la_03_inspeccion": "Fin de la inspección del predio. Pulse «Enviar»: el formulario queda en blanco y vuelve "
+                                   "al inicio para inspeccionar el siguiente predio, sin recargar la página."}
+# Las fotos se reducen en el celular (lado mayor ≤ 1280 px) para que el envío pese poco con señal débil
+FOTO_MAX_PX = 1280
 _AYUDA_FIN = ("Use el enlace «En línea-Fuera de línea (envíos múltiples)» de KoboToolbox o KoboCollect. "
               "El enlace de «envío único» no vuelve al inicio.")
 
@@ -399,7 +407,7 @@ def _relevante_xls(rel: dict | None) -> str:
 
 def _fila_xls(c: lc.Campo, relevante_extra: str = "") -> dict:
     tipo = {"text": "text", "textarea": "text", "int": "integer", "decimal": "decimal", "date": "date",
-            "utm": "geopoint"}.get(c.tipo)
+            "utm": "geopoint", "foto": "image"}.get(c.tipo)
     fila = {"type": tipo, "name": c.nombre, "label": c.etiqueta, "hint": c.ayuda,
             "required": "yes" if c.requerido else "", "relevant": _relevante_xls(c.relevante) or relevante_extra}
     if c.tipo == "textarea":
@@ -418,6 +426,9 @@ def _fila_xls(c: lc.Campo, relevante_extra: str = "") -> dict:
         fila["appearance"] = "autocomplete"
     elif c.tipo == "utm":
         fila["hint"] = (c.ayuda + " " if c.ayuda else "") + "Precisión ≤ 10 m."
+    elif c.tipo == "foto":
+        fila["hint"] = "Tome la foto con la cámara del celular (o elija una imagen)."
+        fila["parameters"] = f"max-pixels={FOTO_MAX_PX}"
     if c.nombre.endswith("_dni"):
         fila["constraint"] = "regex(., '^[0-9]{8}$')"
         fila["constraint_message"] = "El DNI tiene 8 dígitos"
@@ -477,7 +488,7 @@ def xlsform_hojas(form_id: str) -> dict[str, pd.DataFrame]:
                    "hint": _AYUDA_FIN})
     choices = [{"list_name": ln, "name": cod, "label": et} for ln in sorted(listas_usadas) for cod, et in lc.OPCIONES[ln]]
     cols_s = ["type", "name", "label", "hint", "required", "relevant", "constraint", "constraint_message", "calculation",
-              "choice_filter", "appearance", "default"]
+              "choice_filter", "appearance", "default", "parameters"]
     settings = pd.DataFrame([{"form_title": f"{f.codigo} – {f.nombre}", "form_id": form_id,
                               "version": datetime.now().strftime("%Y%m%d%H%M"), "default_language": _IDIOMA}])
     # Las columnas traducibles llevan el idioma (label::Español (es)); si quedan sin sufijo junto a

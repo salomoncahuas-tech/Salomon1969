@@ -342,3 +342,63 @@ def test_enlaces_llenado_envios_multiples():
     enlaces = filas[0]["enlaces"]
     assert list(enlaces.values()) == ["https://ee.kobotoolbox.org/x/abc", "https://ee.kobotoolbox.org/abc"]
     assert not any("/single/" in u for u in enlaces.values())
+
+
+# ------------------------------------------------------------------ F-LA-03: fotos y descripción del predio
+_FOTOS = ["foto_1", "foto_2", "foto_3", "foto_4"]
+
+
+def test_f_la_03_fotos_y_descripcion():
+    """F-LA-03 tiene 4 fotos (image de Kobo, reducidas en el celular) y el recuadro «Descripción del predio»."""
+    f = lc.FORMULARIOS["f_la_03_inspeccion"]
+    campo = {c.nombre: c for c in f.campos}
+    assert [n for n in campo if campo[n].tipo == "foto"] == _FOTOS
+    assert campo["descripcion_predio"].tipo == "textarea"
+    s = lp.xlsform_hojas("f_la_03_inspeccion")["survey"].set_index("name")
+    for n in _FOTOS:
+        assert s.loc[n, "type"] == "image" and s.loc[n, "parameters"] == f"max-pixels={lp.FOTO_MAX_PX}"
+    assert s.loc["descripcion_predio", "type"] == "text" and s.loc["descripcion_predio", "appearance"] == "multiline"
+    assert "siguiente predio" in s.loc["nota_fin", "label::Español (es)"]
+    # la plantilla Excel no lleva columnas de fotos (se toman en Kobo o se suben en el aplicativo)
+    claves = {c["clave"] for c in lp._columnas_campos(f.campos)}
+    assert "descripcion_predio" in claves and not claves & set(_FOTOS)
+
+
+def test_f_la_03_registro_conserva_fotos_al_editar():
+    """El nombre de la foto queda en el envío; editar sin subir otra foto conserva la registrada."""
+    cat = _cat()
+    val = {"hoy": "2026-10-23", "asistente": "AP-1", "unidad": "27", "n_predio": 1, "fecha_insp": "2026-10-23",
+           "punto_interior_este": E0 + 400, "punto_interior_norte": N0 + 400, "conclusion_campo": "sin_restriccion",
+           "descripcion_predio": "Ladera con matorral y cárcava activa", "foto_1": "27-P01_foto_1_1.jpg", "foto_2": None}
+    reg, avisos = lc.construir_registro("f_la_03_inspeccion", val, cat, kobo_uuid=lc.nuevo_uuid())
+    assert not avisos and reg["foto_1"] == "27-P01_foto_1_1.jpg" and "foto_2" not in reg
+    assert reg["descripcion_predio"].startswith("Ladera")
+    v2, reps = lc.registro_a_valores("f_la_03_inspeccion", reg)
+    v2.update({"foto_1": None, "descripcion_predio": "Corregida"})
+    nuevo, _ = lc.construir_registro("f_la_03_inspeccion", v2, cat, reps, base=reg)
+    assert nuevo["foto_1"] == "27-P01_foto_1_1.jpg" and nuevo["descripcion_predio"] == "Corregida"
+    r = core.validar_envio("f_la_03_inspeccion", reg, cat, base.GEOMS, set())
+    assert r.estado_import == "NUEVO", r.motivos
+
+
+def test_integracion_f_la_03_fotos():
+    url = os.environ.get("LA_TEST_DB")
+    if not url:
+        return
+    base.test_integracion_postgres()
+    from liberacion_areas import la_db as db
+    conn = db.conectar(url)
+    cat = db.catalogo(conn)
+    reg, _ = lc.construir_registro("f_la_03_inspeccion", {
+        "hoy": "2026-10-23", "asistente": "AP-1", "unidad": "27", "n_predio": 6, "fecha_insp": "2026-10-23",
+        "punto_interior_este": E0 + 400, "punto_interior_norte": N0 + 400, "conclusion_campo": "sin_restriccion",
+        "descripcion_predio": "Pastizal degradado", "foto_1": "27-P06_foto_1_1.jpg"}, cat, kobo_uuid=lc.nuevo_uuid())
+    r = core.validar_envio("f_la_03_inspeccion", reg, cat, db.geometrias(conn), db.uuids_existentes(conn))
+    db.importar(conn, [r], "APP", "f_la_03_inspeccion", "pytest")
+    db.reemplazar_adjunto(conn, r.kobo_uuid, r.cod_predio, "foto_1", "27-P06_foto_1_1.jpg", "image/jpeg", b"\xff\xd8a")
+    db.reemplazar_adjunto(conn, r.kobo_uuid, r.cod_predio, "foto_1", "27-P06_foto_1_1.jpg", "image/jpeg", b"\xff\xd8bb")
+    adj = db.adjuntos_envio(conn, r.kobo_uuid)
+    assert len(adj) == 1 and bytes(adj["contenido"][0]) == b"\xff\xd8bb"
+    d = db.df(conn, "SELECT descripcion_predio FROM la_inspecciones WHERE kobo_uuid = %s", (r.kobo_uuid,))
+    assert d["descripcion_predio"][0] == "Pastizal degradado"
+    conn.close()

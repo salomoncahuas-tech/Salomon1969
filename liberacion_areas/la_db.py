@@ -110,6 +110,19 @@ def guardar_adjunto(conn, kobo_uuid, cod_predio, campo, nombre, mimetype, url, c
     conn.commit()
 
 
+def reemplazar_adjunto(conn, kobo_uuid, cod_predio, campo, nombre, mimetype, contenido: bytes):
+    """Foto subida en el aplicativo: reemplaza la del mismo campo del envío (al editar se puede cambiar una foto)."""
+    with conn.cursor() as cur:
+        cur.execute("DELETE FROM la_adjuntos WHERE kobo_uuid = %s AND campo = %s", (kobo_uuid, campo))
+        cur.execute("""INSERT INTO la_adjuntos (kobo_uuid, cod_predio, campo, nombre_archivo, mimetype, url_original,
+                       contenido, tamano_bytes) VALUES (%s,%s,%s,%s,%s,NULL,%s,%s)
+                       ON CONFLICT (kobo_uuid, nombre_archivo) DO UPDATE SET campo = EXCLUDED.campo,
+                       cod_predio = EXCLUDED.cod_predio, mimetype = EXCLUDED.mimetype, contenido = EXCLUDED.contenido,
+                       tamano_bytes = EXCLUDED.tamano_bytes""",
+                    (kobo_uuid, cod_predio, campo, nombre, mimetype, psycopg2.Binary(contenido), len(contenido)))
+    conn.commit()
+
+
 def df(conn, sql: str, params=None) -> pd.DataFrame:
     with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         cur.execute(sql, params)
@@ -250,12 +263,12 @@ def _insertar_formulario(cur, form_id: str, r: core.Resultado, actualizar_titula
                      d.get("tipo_titularidad"), d.get("docs_exhibidos"), d.get("aceptacion"), d.get("estado_la_propuesto")))
     elif form_id == "f_la_03_inspeccion":
         _asegurar_predio(cur, d)
-        cur.execute("""INSERT INTO la_inspecciones VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+        cur.execute("""INSERT INTO la_inspecciones VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                        ON CONFLICT DO NOTHING""",
                     (u, d.get("fecha_insp") or fecha, d.get("asistente"), d.get("cod_unidad"), d.get("cod_predio"),
                      d.get("este"), d.get("norte"), d.get("precision_m"), d.get("validacion_espacial"), d.get("distancia_m"),
                      d.get("puntos_fuera"), d.get("interferencias"), d.get("conclusion_campo"), d.get("area_sus_ha"),
-                     d.get("posicion_sus_calc"), d.get("distancia_bloque_m"), d.get("geom_wkt")))
+                     d.get("posicion_sus_calc"), d.get("distancia_bloque_m"), d.get("geom_wkt"), d.get("descripcion_predio")))
     elif form_id == "f_la_04_actas":
         if (d.get("n_predio") not in (0, "0")):
             _asegurar_predio(cur, d)
