@@ -162,8 +162,26 @@ incompleto o fue regenerado en Kobo.
   (`deployment__links`) los enlaces de envíos múltiples de cada formulario F-LA desplegado.
 - **Aplicativo** (pestaña **1 · Registro en campo**): el botón **Guardar y registrar otro** guarda, vuelve al inicio de
   la página y deja el formulario en blanco. Con «Conservar fecha, asistente y unidad…» (marcado por defecto) repite
-  esos datos y propone el N.° de predio siguiente. El botón **Nuevo registro (limpiar)** vacía el formulario.
+  esos datos y propone el N.° de predio siguiente. El botón **Limpiar formulario** lo vacía.
 
 Archivos: `la_campos.py`, `la_core.py`, `la_plantillas.py`, `la_kobo.py` (`enlaces_llenado`,
 `enlaces_formularios_la`), `pagina.py`, `tests/test_liberacion_areas_registro.py` (3 pruebas nuevas). Sin migración
 de base de datos.
+
+## Actualización 23-oct-2026 (2) · F-LA-03: 4 fotos, descripción del predio y registro continuo
+
+- **Fotos** `foto_1` … `foto_4` (Vista general · Cobertura vegetal / uso actual · Linderos, hitos o accesos ·
+  Interferencias o detalle). En KoboToolbox son preguntas `image` con `max-pixels=1280`: se toman con la cámara del
+  celular y se reducen antes de enviarse. Al importar, las fotos se guardan en `la_adjuntos` (como siempre) y se ven
+  en **Historial / Edición › Detalle**.
+- En el aplicativo (**1 · Registro en campo**) cada foto se sube con un botón que en el celular abre la cámara o la
+  galería; se guarda como JPEG de lado mayor ≤ 1280 px con el nombre `{cod_predio}_foto_n_1.jpg`. Al editar, una foto
+  nueva reemplaza la del mismo campo (`la_db.reemplazar_adjunto`); si no se sube otra, se conserva la registrada.
+  La plantilla Excel no lleva fotos.
+- **Descripción del predio** (`descripcion_predio`, recuadro de texto multilínea): se guarda en el envío, en la columna
+  nueva `la_inspecciones.descripcion_predio` (migración aditiva `ADD COLUMN IF NOT EXISTS`) y sale en el expediente
+  PDF de la unidad y en las exportaciones.
+- **Registro continuo**: nota final propia del F-LA-03 («…vuelve al inicio para inspeccionar el siguiente predio») y,
+  en el aplicativo, «Guardar y registrar otro» conserva también la fecha de inspección.
+- En KoboToolbox: **Reemplazar formulario** con el nuevo XLSForm F-LA-03 y **Volver a desplegar** (los envíos
+  anteriores se conservan; solo se agregan campos).

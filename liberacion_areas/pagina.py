@@ -16,7 +16,9 @@ Los registros se consultan, editan, eliminan (con bitácora y restauración) en 
 """
 from __future__ import annotations
 
+import io
 import json
+import re
 import time
 from datetime import date
 
@@ -137,9 +139,13 @@ def _cargar_edicion(fid: str, valores: dict, reps: dict[str, list[dict]], edit: 
     """Precarga los widgets del formulario (modo edición) en el siguiente rerun."""
     st.session_state["la_nonce"] = _nonce() + 1
     st.session_state["la_form_sel"] = fid
-    st.session_state["la_edit"] = edit
     f = lc.FORMULARIOS[fid]
+    # las fotos no se precargan (st.file_uploader no admite valor inicial): se muestra la ya registrada
+    st.session_state["la_edit"] = {**edit, "fotos": {c.nombre: valores.get(c.nombre) for c in f.campos
+                                                     if c.tipo == "foto" and valores.get(c.nombre)}}
     for c in f.campos:
+        if c.tipo == "foto":
+            continue
         if c.tipo == "utm":
             for suf in lc.UTM_SUFIJOS:
                 st.session_state[_k(fid, f"{c.nombre}_{suf}")] = core._num(valores.get(f"{c.nombre}_{suf}"))
@@ -175,7 +181,8 @@ def _cancelar_edicion():
 
 
 # Campos que se conservan de un registro al siguiente (registro continuo de varios prediantes)
-CONSERVAR_SIGUIENTE = ("hoy", "asistente", "unidad", "registrado_por")
+CONSERVAR_SIGUIENTE = ("hoy", "asistente", "unidad", "fecha_insp", "registrado_por")
+FOTO_TIPOS = ["jpg", "jpeg", "png"]
 
 
 def _preparar_siguiente(fid: str, valores: dict):
@@ -238,6 +245,15 @@ def _widget(c: lc.Campo, fid: str, col, cat: dict, valores: dict):
     if c.tipo == "select_multiple":
         codigos = [x for x, _ in lc.OPCIONES[c.lista]] + [x for x in (actual or []) if x not in dict(lc.OPCIONES[c.lista])]
         return col.multiselect(etiqueta, codigos, key=key, help=ayuda, format_func=lambda x: lc.etiqueta_opcion(c.lista, x))
+    if c.tipo == "foto":
+        previa = ((st.session_state.get("la_edit") or {}).get("fotos") or {}).get(c.nombre)
+        arch = col.file_uploader(etiqueta, type=FOTO_TIPOS, key=key,
+                                 help="En el celular puede tomar la foto con la cámara o elegirla de la galería.")
+        if arch is not None:
+            col.image(arch, width="stretch")
+        elif previa:
+            col.caption(f"Foto registrada: {previa} (suba otra solo para reemplazarla)")
+        return arch
     if c.tipo in ("unidad", "unidades"):
         asis = valores.get("asistente")
         codigos = sorted(u for u, r in cat.items() if not asis or asis == "ESP" or r.get("asistente") == asis)
@@ -252,7 +268,8 @@ def _widget(c: lc.Campo, fid: str, col, cat: dict, valores: dict):
 
 
 def _widget_utm(c: lc.Campo, fid: str) -> dict:
-    st.markdown(f"**{c.etiqueta}{' *' if c.requerido else ''}** · UTM WGS84 Zona 17S")
+    obligatorio = " \\*" if c.requerido else ""        # \* : asterisco literal en Markdown
+    st.markdown(f"**{c.etiqueta}**{obligatorio} · UTM WGS84 Zona 17S")
     cols = st.columns(4)
     out = {}
     for col, (suf, et, fmt) in zip(cols, [("este", "Este (m)", "%.2f"), ("norte", "Norte (m)", "%.2f"),
@@ -318,7 +335,7 @@ def _tab_registro(conn, cat: dict):
     c1, c2 = st.columns([3, 1])
     fid = c1.selectbox("Formulario", list(lc.FORMULARIOS), key="la_form_sel", format_func=_form_label,
                        disabled=bool(edit))
-    if not edit and c2.button("🧹 Nuevo registro (limpiar)", key="la_limpiar",
+    if not edit and c2.button("🧹 Limpiar formulario", key="la_limpiar",
                               help="Deja el formulario en blanco para registrar otro prediante, sin recargar la página."):
         _cancelar_edicion()
         st.rerun()
@@ -328,11 +345,21 @@ def _tab_registro(conn, cat: dict):
     valores: dict = {}
     cols = st.columns(3)
     i = 0
+    cols_foto = None
     for c in f.campos:
         tipo_u = cat.get(valores.get("unidad") or "", {}).get("tipo_unidad")
         contexto = {**valores, "tipo_unidad": tipo_u}
         if not lc.es_relevante(c, contexto):
             continue
+        if c.tipo == "foto":
+            if cols_foto is None:
+                st.markdown("**Fotografías del predio** (hasta 4 · en el celular se abre la cámara)")
+                cols_foto, j = st.columns(4), 0
+            valores[c.nombre] = _widget(c, fid, cols_foto[j % 4], cat, valores)
+            j += 1
+            continue
+        if cols_foto is not None:                       # los campos siguientes a las fotos van en una fila nueva
+            cols, i, cols_foto = st.columns(3), 0, None
         if c.tipo == "utm":
             valores.update(_widget_utm(c, fid))
             cols = st.columns(3)
@@ -383,8 +410,46 @@ def _valores_limpios(valores: dict) -> dict:
     return out
 
 
+def _slug(t) -> str:
+    return re.sub(r"[^A-Za-z0-9_-]", "_", str(t or ""))
+
+
+def _foto_jpeg(arch) -> tuple[bytes, str]:
+    """Foto subida → JPEG con el lado mayor ≤ FOTO_MAX_PX (como la versión reducida de Kobo) y orientación corregida."""
+    datos = arch.getvalue()
+    try:
+        from PIL import Image, ImageOps
+        im = ImageOps.exif_transpose(Image.open(io.BytesIO(datos))).convert("RGB")
+        im.thumbnail((lp.FOTO_MAX_PX, lp.FOTO_MAX_PX))
+        buf = io.BytesIO()
+        im.save(buf, "JPEG", quality=82, optimize=True)
+        return buf.getvalue(), "image/jpeg"
+    except Exception:  # noqa: BLE001 – imagen que PIL no lee: se guarda tal cual
+        return datos, getattr(arch, "type", None) or "image/jpeg"
+
+
+def _separar_fotos(fid: str, valores: dict) -> tuple[dict, dict]:
+    """Saca las fotos subidas de los valores: cada campo foto queda con el nombre del archivo
+    {cod_predio}_{campo}_1.jpg (mismo formato que los adjuntos de Kobo) y su contenido va aparte."""
+    fotos = {}
+    base = _slug(lc.cod_predio(valores.get("unidad"), valores.get("n_predio")) or valores.get("unidad") or "SIN_COD")
+    for c in lc.FORMULARIOS[fid].campos:
+        if c.tipo != "foto":
+            continue
+        arch = valores.get(c.nombre)
+        if arch is None or not hasattr(arch, "getvalue"):
+            valores[c.nombre] = None
+            continue
+        contenido, mime = _foto_jpeg(arch)
+        nombre = f"{base}_{_slug(c.nombre)}_1.{'jpg' if mime == 'image/jpeg' else (mime.split('/')[-1] or 'jpg')}"
+        valores[c.nombre] = nombre
+        fotos[c.nombre] = (nombre, mime, contenido)
+    return valores, fotos
+
+
 def _guardar(conn, cat: dict, fid: str, valores: dict, reps: dict, edit: dict | None):
-    capturados = valores                       # con fechas como date, para precargar el siguiente registro
+    capturados = dict(valores)                 # con fechas como date, para precargar el siguiente registro
+    valores, fotos = _separar_fotos(fid, dict(valores))
     valores = _valores_limpios(valores)
     if fid == "f_la_05_documentos":
         reg, avisos = lc.construir_registro(fid, valores, cat)
@@ -432,8 +497,10 @@ def _guardar(conn, cat: dict, fid: str, valores: dict, reps: dict, edit: dict | 
     else:
         db.importar(conn, [r], "APP", fid, _usuario())
         accion = "registrado"
+    for campo, (nombre, mime, contenido) in fotos.items():
+        db.reemplazar_adjunto(conn, uid, r.cod_predio, campo, nombre, mime, contenido)
     msg = f"{lc.FORMULARIOS[fid].codigo} {accion}" + (f" · predio {r.cod_predio}" if r.cod_predio else "") + \
-          f" · estado de importación: {r.estado_import}."
+          f" · estado de importación: {r.estado_import}." + (f" · {len(fotos)} foto(s) guardada(s)." if fotos else "")
     if r.motivos:
         msg += " Motivos: " + " | ".join(r.motivos)
     if not edit:

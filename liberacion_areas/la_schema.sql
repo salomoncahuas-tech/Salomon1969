@@ -205,6 +205,7 @@ ALTER TABLE la_adjuntos    ENABLE ROW LEVEL SECURITY;
 -- 10b. Registro en el aplicativo / plantilla Excel, edición y eliminación con trazabilidad (versión 2026-10)
 --     Solo columnas y tablas nuevas. Nada se borra al migrar.
 ALTER TABLE la_envios_raw ADD COLUMN IF NOT EXISTS origen TEXT;          -- KOBO / APP / PLANTILLA
+ALTER TABLE la_inspecciones ADD COLUMN IF NOT EXISTS descripcion_predio TEXT;   -- F-LA-03 (oct-2026)
 ALTER TABLE la_envios_raw ADD COLUMN IF NOT EXISTS editado TIMESTAMPTZ;
 ALTER TABLE la_envios_raw ADD COLUMN IF NOT EXISTS editado_por TEXT;
 ALTER TABLE la_documentos ADD COLUMN IF NOT EXISTS editado TIMESTAMPTZ;

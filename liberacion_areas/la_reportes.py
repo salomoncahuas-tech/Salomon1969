@@ -257,8 +257,9 @@ def pdf_expediente_unidad(conn, codigo: str) -> bytes:
     pdf.seccion("4. Inspecciones in situ (F-LA-03) – UTM WGS84 17S")
     pdf.tabla(insp, [("cod_predio", "Predio", 22), ("fecha", "Fecha", 20), ("este", "Este (m)", 22), ("norte", "Norte (m)", 24),
                      ("precision_m", "Prec. (m)", 14), ("validacion_espacial", "Validación", 28), ("distancia_m", "Dist. (m)", 14),
-                     ("interferencias", "Interferencias", 45), ("conclusion_campo", "Conclusión", 28),
-                     ("area_sus_ha", "SUS (ha)", 14), ("posicion_sus_calc", "Posición SUS", 22)])
+                     ("interferencias", "Interferencias", 32), ("conclusion_campo", "Conclusión", 22),
+                     ("area_sus_ha", "SUS (ha)", 14), ("posicion_sus_calc", "Posición SUS", 18),
+                     ("descripcion_predio", "Descripción del predio", 43)])
     pdf.seccion("5. Actas (F-LA-04)")
     pdf.tabla(actas, [("cod_doc", "Código", 28), ("tipo_acta", "Tipo", 12), ("fecha", "Fecha", 20), ("cod_predio", "Predio", 22),
                       ("area_comprometida_ha", "Área (ha)", 16), ("n_firmantes", "Firm.", 10), ("fedatario_tipo", "Fedatario", 24),

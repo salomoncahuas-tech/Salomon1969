@@ -110,7 +110,7 @@ class Campo:
     nombre: str                       # nombre XML (el mismo de Kobo)
     etiqueta: str
     tipo: str                         # text, textarea, int, decimal, date, select_one, select_multiple, unidad,
-    #                                   unidades, utm (punto), grupo (título)
+    #                                   unidades, utm (punto), foto (imagen), grupo (título)
     lista: str | None = None          # clave de OPCIONES
     requerido: bool = False
     ayuda: str = ""
@@ -218,6 +218,13 @@ FORMULARIOS["f_la_03_inspeccion"] = Formulario(
         C("interferencias", "Interferencias", "select_multiple", "interferencias"),
         C("interf_detalle", "Detalle de interferencias", "textarea"),
         C("uso_observado", "Uso observado", "select_one", "uso_actual"),
+        C("descripcion_predio", "Descripción del predio", "textarea",
+          ayuda="Cobertura vegetal, pendiente, accesos, linderos, signos de degradación o de movimientos en masa, "
+                "uso actual y otras observaciones de la inspección."),
+        C("foto_1", "Foto 1 – Vista general del predio", "foto"),
+        C("foto_2", "Foto 2 – Cobertura vegetal / uso actual", "foto"),
+        C("foto_3", "Foto 3 – Linderos, hitos o accesos", "foto"),
+        C("foto_4", "Foto 4 – Interferencias o detalle relevante", "foto"),
         C("conclusion_campo", "Conclusión de campo", "select_one", "conclusion_campo", requerido=True),
     ],
     repeats=[
@@ -433,6 +440,12 @@ def construir_registro(form_id: str, valores: dict, catalogo: dict[str, dict], r
                 avisos.append(f"{c.etiqueta}: Este {e} / Norte {n} fuera del rango UTM 17S del ámbito "
                               f"(E {core.E_MIN:,}–{core.E_MAX:,}; N {core.N_MIN:,}–{core.N_MAX:,})")
             reg[c.nombre] = utm_a_geopoint(e, n, valores.get(f"{c.nombre}_alt"), valores.get(f"{c.nombre}_prec"))
+            continue
+        if c.tipo == "foto":
+            # nombre del archivo (el contenido va a la_adjuntos); sin foto nueva se conserva la ya registrada
+            v = valores.get(c.nombre)
+            if isinstance(v, str) and v.strip():
+                reg[c.nombre] = v.strip()
             continue
         if c.nombre not in valores:
             continue
