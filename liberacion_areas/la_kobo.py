@@ -117,6 +117,38 @@ def formularios_la(kobo) -> list[dict]:
     return [f for f in todos if form_id_por_nombre(f.get("nombre"))] or todos
 
 
+# ------------------------------------------------------------------ enlaces de llenado (Enketo)
+# Claves de deployment__links del asset (API v2). Los enlaces de envíos múltiples dejan el formulario en blanco y
+# vuelven al inicio después de «Enviar»; el de envío único (single_url, /single/…) termina en la página de
+# agradecimiento y obliga a recargar para registrar otro prediante.
+ENLACES_LLENADO = (("offline_url", "En línea-Fuera de línea (envíos múltiples)"),
+                   ("url", "En línea (envíos múltiples)"))
+
+
+def enlaces_llenado(kobo, uid: str) -> dict[str, str]:
+    """{etiqueta: url} de los enlaces web de envíos múltiples de un formulario desplegado ({} si no está desplegado)."""
+    import urllib.parse
+    a = kobo._get_json(f"assets/{urllib.parse.quote(uid, safe='')}/")
+    links = a.get("deployment__links") or {}
+    return {et: links[k] for k, et in ENLACES_LLENADO if links.get(k)}
+
+
+def enlaces_formularios_la(kobo) -> list[dict]:
+    """Enlaces de registro continuo de cada formulario F-LA desplegado. Un formulario que falla no detiene el resto."""
+    out = []
+    for f in kobo.listar_formularios():
+        fid = form_id_por_nombre(f.get("nombre"))
+        if not fid or not f.get("desplegado"):
+            continue
+        fila = {"form_id": fid, "nombre": f.get("nombre"), "enlaces": {}, "error": ""}
+        try:
+            fila["enlaces"] = enlaces_llenado(kobo, f["uid"])
+        except Exception as e:  # noqa: BLE001 – se informa por formulario
+            fila["error"] = str(e)
+        out.append(fila)
+    return sorted(out, key=lambda x: (x["form_id"], str(x["nombre"])))
+
+
 # ------------------------------------------------------------------ sincronización de envíos
 def revisar_envios(kobo, conn) -> list[dict]:
     """Por cada formulario F-LA de la cuenta: envíos en KoboToolbox y cuáles faltan importar.

@@ -174,6 +174,40 @@ def _cancelar_edicion():
     st.session_state["la_nonce"] = _nonce() + 1
 
 
+# Campos que se conservan de un registro al siguiente (registro continuo de varios prediantes)
+CONSERVAR_SIGUIENTE = ("hoy", "asistente", "unidad", "registrado_por")
+
+
+def _preparar_siguiente(fid: str, valores: dict):
+    """Formulario en blanco para el siguiente registro, de vuelta al inicio de la página. Si está marcado «Conservar…»,
+    repite la fecha, el asistente y la unidad del registro guardado y propone el N.° de predio siguiente."""
+    _cancelar_edicion()
+    st.session_state["la_ir_inicio"] = True
+    if not st.session_state.get("la_conservar", True):
+        return
+    for nombre in CONSERVAR_SIGUIENTE:
+        if valores.get(nombre) not in (None, ""):
+            st.session_state[_k(fid, nombre)] = valores[nombre]
+    n = core._num(valores.get("n_predio"))
+    if any(c.nombre == "n_predio" for c in lc.FORMULARIOS[fid].campos) and n is not None and 0 < n < 99:
+        st.session_state[_k(fid, "n_predio")] = int(n) + 1
+
+
+def _ir_al_inicio():
+    """Desplaza la página al inicio (donde aparece el mensaje del registro guardado y el formulario en blanco)."""
+    if not st.session_state.pop("la_ir_inicio", False):
+        return
+    js = ("<script>const d = window.parent.document;"
+          "['section.main', '[data-testid=\"stMain\"]', '[data-testid=\"stAppViewContainer\"]']"
+          ".forEach(s => { const e = d.querySelector(s); if (e) e.scrollTo({top: 0, behavior: 'smooth'}); });"
+          "window.parent.scrollTo({top: 0, behavior: 'smooth'});</script>")
+    if hasattr(st, "iframe"):                  # components.html queda en desuso en Streamlit reciente
+        st.iframe(js, height=1)
+    else:
+        import streamlit.components.v1 as components
+        components.html(js, height=0)
+
+
 def _widget(c: lc.Campo, fid: str, col, cat: dict, valores: dict):
     key = _k(fid, c.nombre)
     etiqueta = c.etiqueta + (" *" if c.requerido else "")
@@ -280,8 +314,14 @@ def _tab_registro(conn, cat: dict):
         if st.button("Cancelar edición (nuevo registro)", key="la_cancel_edit"):
             _cancelar_edicion()
             st.rerun()
-    fid = st.selectbox("Formulario", list(lc.FORMULARIOS), key="la_form_sel", format_func=_form_label,
+    _ir_al_inicio()
+    c1, c2 = st.columns([3, 1])
+    fid = c1.selectbox("Formulario", list(lc.FORMULARIOS), key="la_form_sel", format_func=_form_label,
                        disabled=bool(edit))
+    if not edit and c2.button("🧹 Nuevo registro (limpiar)", key="la_limpiar",
+                              help="Deja el formulario en blanco para registrar otro prediante, sin recargar la página."):
+        _cancelar_edicion()
+        st.rerun()
     f = lc.FORMULARIOS[fid]
     if f.kobo:
         st.caption("Mismos campos que el formulario KoboToolbox y la plantilla Excel. Coordenadas en UTM WGS84 17S.")
@@ -322,7 +362,11 @@ def _tab_registro(conn, cat: dict):
         st.markdown(f"**{rp.etiqueta}** (agregue filas con ➕)")
         reps[rp.nombre] = _editor_repeat(rp, fid)
 
-    etiqueta = "💾 Actualizar registro" if edit else "💾 Guardar registro"
+    etiqueta = "💾 Actualizar registro" if edit else "💾 Guardar y registrar otro"
+    if not edit:
+        st.checkbox("Conservar fecha, asistente y unidad para el siguiente registro (N.° de predio + 1)",
+                    value=True, key="la_conservar",
+                    help="Después de guardar, el formulario vuelve en blanco al inicio para el siguiente prediante.")
     if st.button(etiqueta, type="primary", key="la_guardar"):
         if not _usuario():
             st.warning("Ingrese el usuario responsable (arriba).")
@@ -340,6 +384,7 @@ def _valores_limpios(valores: dict) -> dict:
 
 
 def _guardar(conn, cat: dict, fid: str, valores: dict, reps: dict, edit: dict | None):
+    capturados = valores                       # con fechas como date, para precargar el siguiente registro
     valores = _valores_limpios(valores)
     if fid == "f_la_05_documentos":
         reg, avisos = lc.construir_registro(fid, valores, cat)
@@ -356,8 +401,12 @@ def _guardar(conn, cat: dict, fid: str, valores: dict, reps: dict, edit: dict | 
             if previo:
                 st.warning(f"Ese documento ya está registrado ({previo}). Use Historial / Edición para modificarlo.")
                 return
-            _flash(f"Documento registrado con código {db.registrar_documento(conn, datos)}.")
-        _cancelar_edicion()
+            _flash(f"Documento registrado con código {db.registrar_documento(conn, datos)}. "
+                   "Formulario listo para el siguiente registro.")
+        if edit:
+            _cancelar_edicion()
+        else:
+            _preparar_siguiente(fid, capturados)
         st.rerun()
         return
 
@@ -387,8 +436,13 @@ def _guardar(conn, cat: dict, fid: str, valores: dict, reps: dict, edit: dict | 
           f" · estado de importación: {r.estado_import}."
     if r.motivos:
         msg += " Motivos: " + " | ".join(r.motivos)
+    if not edit:
+        msg += " · Formulario listo para el siguiente " + ("prediante." if fid == "f_la_02_titular" else "registro.")
     _flash(msg, "warning" if r.estado_import == "OBSERVADO" else "success")
-    _cancelar_edicion()
+    if edit:
+        _cancelar_edicion()
+    else:
+        _preparar_siguiente(fid, capturados)
     st.rerun()
 
 
@@ -613,6 +667,32 @@ def _cambiar_servidor(clave: str):
 
 
 # ================================================================== 3. importar KoboToolbox
+def _enlaces_llenado(kobo):
+    st.markdown("**Enlaces de llenado – registro continuo de prediantes**")
+    st.caption("Con estos enlaces, después de «Enviar» el formulario queda en blanco y vuelve al inicio para el siguiente "
+               "prediante, sin recargar la página. No use el enlace «En línea (envío único)» (/single/…): termina en la "
+               "página de agradecimiento. En KoboCollect: «Guardar y salir» › «Llenar formulario».")
+    if st.button("🔗 Obtener enlaces de envíos múltiples", key="la_enlaces"):
+        with st.spinner("Consultando KoboToolbox…"):
+            try:
+                st.session_state["la_enlaces_kobo"] = kb.enlaces_formularios_la(kobo)
+            except Exception as e:  # noqa: BLE001 – token inválido, sin red, etc.
+                st.error(f"No se pudo consultar KoboToolbox: {e}")
+    filas = st.session_state.get("la_enlaces_kobo")
+    if filas is None:
+        return
+    if not filas:
+        st.info("No hay formularios F-LA desplegados en la cuenta KoboToolbox.")
+    for f in filas:
+        codigo = core.FORMULARIOS[f["form_id"]]["codigo"]
+        if f["error"]:
+            st.warning(f"{codigo} · {f['nombre']}: {f['error']}")
+        elif not f["enlaces"]:
+            st.warning(f"{codigo} · {f['nombre']}: sin enlaces web (despliegue el formulario en KoboToolbox).")
+        else:
+            st.markdown(f"**{codigo}** · {f['nombre']}  \n" + "  \n".join(f"{et}: {url}" for et, url in f["enlaces"].items()))
+
+
 def _tab_importar(conn):
     st.subheader("Importar envíos de KoboToolbox")
     fuente = st.radio("Fuente", ["API KoboToolbox", "Archivo exportado (XLSX / JSON)"], horizontal=True)
@@ -650,6 +730,8 @@ def _tab_importar(conn):
         if st.button("🔄 Buscar envíos nuevos en KoboToolbox", key="la_rev_tab"):
             st.session_state.pop("la_kobo_rev", None)
             st.rerun()
+        st.divider()
+        _enlaces_llenado(kobo)
         st.divider()
         st.markdown("**Importación manual por formulario**")
         if st.button("Listar formularios F-LA"):

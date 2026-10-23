@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS la_envios_raw (
 -- 3. Titulares (código único T0000; un titular puede tener varios predios)
 CREATE TABLE IF NOT EXISTS la_titulares (
     cod_titular      TEXT PRIMARY KEY,                -- T0001
-    tipo_titularidad TEXT NOT NULL,                   -- comunal/privado/posesionario/sucesion/estatal/sin_titular
+    tipo_titularidad TEXT NOT NULL,                   -- comunal/privado/posesionario/ocupante/sucesion/estatal/sin_titular
     nombre           TEXT NOT NULL,                   -- persona o comunidad / entidad
     dni_ruc          TEXT UNIQUE,                     -- DNI (8) o RUC (11); dato reservado
     celular          TEXT,                            -- dato reservado

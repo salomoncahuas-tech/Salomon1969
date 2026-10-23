@@ -381,6 +381,16 @@ _IDIOMA = "Español (es)"
 _CAMPOS_CATALOGO = ("tipo_unidad", "provincia", "distrito", "bloque_ref", "area_bloque_ha")
 
 
+# Nota final de cada XLSForm. El formulario vuelve en blanco al inicio después de «Enviar» solo con los enlaces de
+# envíos múltiples de Enketo (/x/… o el enlace en línea de envíos múltiples) o en KoboCollect; el enlace de
+# «envío único» (/single/…) termina en la página de agradecimiento y obliga a recargar.
+_NOTA_FIN = {None: "Fin del registro. Pulse «Enviar»: el formulario queda en blanco y vuelve al inicio para el siguiente registro.",
+             "f_la_02_titular": "Fin de la ficha del prediante. Pulse «Enviar»: el formulario queda en blanco y vuelve al "
+                                "inicio para registrar al siguiente prediante, sin recargar la página."}
+_AYUDA_FIN = ("Use el enlace «En línea-Fuera de línea (envíos múltiples)» de KoboToolbox o KoboCollect. "
+              "El enlace de «envío único» no vuelve al inicio.")
+
+
 def _relevante_xls(rel: dict | None) -> str:
     if not rel:
         return ""
@@ -463,6 +473,8 @@ def xlsform_hojas(form_id: str) -> dict[str, pd.DataFrame]:
             if c.lista:
                 listas_usadas.add(c.lista)
         survey.append({"type": "end_repeat", "name": rp.nombre})
+    survey.append({"type": "note", "name": "nota_fin", "label": _NOTA_FIN.get(form_id, _NOTA_FIN[None]),
+                   "hint": _AYUDA_FIN})
     choices = [{"list_name": ln, "name": cod, "label": et} for ln in sorted(listas_usadas) for cod, et in lc.OPCIONES[ln]]
     cols_s = ["type", "name", "label", "hint", "required", "relevant", "constraint", "constraint_message", "calculation",
               "choice_filter", "appearance", "default"]
@@ -507,6 +519,13 @@ def paquete_kobo(catalogo: dict[str, dict]) -> bytes:
             "1. En KoboToolbox: Nuevo › Cargar XLSForm › elija cada archivo F-LA-0x_*.xlsx.\n"
             "2. En cada formulario: Configuración › Multimedia › cargue unidades.csv (el mismo para todos).\n"
             "3. Despliegue el formulario. El nombre debe contener 'F-LA' para que el aplicativo lo liste.\n"
+            "   Si el formulario ya estaba desplegado, use «Reemplazar formulario» y vuelva a desplegarlo: se conservan\n"
+            "   los envíos porque los nombres de campo no cambian.\n"
+            "3b. Registro continuo (varios prediantes seguidos sin recargar la página): en «Formulario › Recolectar datos»\n"
+            "   copie el enlace «En línea-Fuera de línea (envíos múltiples)» (https://ee.kobotoolbox.org/x/…). Después de\n"
+            "   «Enviar» el formulario queda en blanco y vuelve al inicio. NO use «En línea (envío único)» (/single/…),\n"
+            "   que termina en la página de agradecimiento. En KoboCollect: «Guardar y salir» › «Llenar formulario».\n"
+            "   El aplicativo muestra estos enlaces en «Importar KoboToolbox › Enlaces de llenado».\n"
             "4. En el aplicativo: Liberación de Áreas › Importar KoboToolbox › API › Listar formularios F-LA.\n\n"
             "Los nombres de campo son los mismos de la plantilla Excel y del registro en el aplicativo;\n"
             "las tres vías pasan por las mismas validaciones. F-LA-05 (búsqueda documental) se registra en el\n"

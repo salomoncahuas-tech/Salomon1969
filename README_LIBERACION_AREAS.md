@@ -138,3 +138,32 @@ incompleto o fue regenerado en Kobo.
   y últimos 4 caracteres, sin revelarlo) con los pasos para reemplazarlo.
 - La pestaña 3 tiene un selector **Servidor KoboToolbox**; `KOBO_SERVER` se normaliza (acepta `eu.kobotoolbox.org`,
   barras finales o una URL copiada del navegador).
+
+## Actualización 23-oct-2026 · Condición OCUPANTE y registro continuo de prediantes
+
+### Nueva condición de prediante «OCUPANTE» (F-LA-02)
+
+- `tipo_titularidad` incorpora **Ocupante** (código `ocupante`) entre Posesionario y Sucesión. Al ser persona natural,
+  pide los mismos datos que privado / posesionario / sucesión (nombres, apellidos, DNI, celular, estado civil y
+  cónyuge). Se refleja en las tres vías: XLSForm Kobo, digitación en el aplicativo y plantilla Excel.
+- La ficha de un ocupante queda **OBSERVADA** con el motivo «Ocupante sin titularidad ni posesión acreditada:
+  identificar al titular / posesionario del predio → Especialista Legal» (el ocupante no puede ceder el uso del predio
+  por sí solo). El titular se registra igual en `la_titulares` (deduplicado por DNI).
+- En KoboToolbox: **Reemplazar formulario** con el nuevo XLSForm F-LA-02 y volver a desplegar. Los envíos anteriores
+  se conservan porque ningún nombre de campo cambia.
+
+### Registro continuo (varios prediantes seguidos, sin recargar la página)
+
+- **KoboToolbox**: cada XLSForm termina en la nota `nota_fin` («Pulse Enviar: el formulario queda en blanco y vuelve
+  al inicio…»). El regreso al inicio depende del enlace que se use: los enlaces de **envíos múltiples** de Enketo
+  (`https://ee.kobotoolbox.org/x/…` «En línea-Fuera de línea» o el enlace en línea de envíos múltiples) dejan el
+  formulario en blanco tras cada envío; el enlace de **envío único** (`/single/…`) termina en la página de
+  agradecimiento y obliga a recargar. La pestaña **3 · Importar KoboToolbox › Enlaces de llenado** obtiene por API
+  (`deployment__links`) los enlaces de envíos múltiples de cada formulario F-LA desplegado.
+- **Aplicativo** (pestaña **1 · Registro en campo**): el botón **Guardar y registrar otro** guarda, vuelve al inicio de
+  la página y deja el formulario en blanco. Con «Conservar fecha, asistente y unidad…» (marcado por defecto) repite
+  esos datos y propone el N.° de predio siguiente. El botón **Nuevo registro (limpiar)** vacía el formulario.
+
+Archivos: `la_campos.py`, `la_core.py`, `la_plantillas.py`, `la_kobo.py` (`enlaces_llenado`,
+`enlaces_formularios_la`), `pagina.py`, `tests/test_liberacion_areas_registro.py` (3 pruebas nuevas). Sin migración
+de base de datos.
