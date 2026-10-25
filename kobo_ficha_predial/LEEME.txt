@@ -1,0 +1,19 @@
+FICHA TÉCNICA PREDIAL COMPLETA – XLSForm para KoboToolbox
+Proyecto IN Piura (CUI 2669244) · ANIN – DIME – SESDI
+
+Archivos
+  FP_Ficha_Predial_Completa_KOBO.xlsx   formulario (XLSForm)
+  unidades.csv                       catálogo V6 de unidades con asistente (el mismo de los formularios F-LA)
+
+Cómo cargarlo en kobotoolbox.org
+  1. Nuevo › Cargar un XLSForm › elija FP_Ficha_Predial_Completa_KOBO.xlsx › Crear proyecto.
+  2. En el proyecto: Configuración › Multimedia › cargue unidades.csv (sin él la lista de unidades sale vacía).
+  3. Desplegar. Para llenar: Formulario › Recolectar datos › «En línea-Fuera de línea (envíos múltiples)» o KoboCollect.
+  4. Si cambian las asignaciones de asistentes, reemplace solo unidades.csv en Multimedia y vuelva a desplegar.
+
+Notas
+  - Las coordenadas del GPS se guardan en lat/lon (formato de Kobo); el aplicativo las convierte a UTM WGS84 17S.
+    Si se digita UTM, Este debe estar entre 450,000 y 750,000 m y Norte entre 9,300,000 y 9,600,000 m.
+  - El título no contiene «F-LA»: la sincronización automática del aplicativo NO importa estos envíos como F-LA-02/03.
+    Descárguelos desde Kobo (Descargas › XLS) o, si se requiere, se puede habilitar su importación en el aplicativo.
+  - Se regenera con: python -m liberacion_areas.la_xlsform_ficha
