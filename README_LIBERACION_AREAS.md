@@ -185,3 +185,23 @@ de base de datos.
   en el aplicativo, «Guardar y registrar otro» conserva también la fecha de inspección.
 - En KoboToolbox: **Reemplazar formulario** con el nuevo XLSForm F-LA-03 y **Volver a desplegar** (los envíos
   anteriores se conservan; solo se agregan campos).
+
+## Actualización 25-oct-2026 · Ficha técnica predial imprimible (Excel)
+
+`Ficha_Predial_IN_Piura_F-LA.xlsx` adapta la «Ficha técnica predial» de campo al proyecto y a los formularios
+KoboToolbox **F-LA-02** (ficha predial y socio-territorial) y **F-LA-03** (inspección in situ y croquis). Se regenera con
+`python -m liberacion_areas.la_ficha_predial` (sale del catálogo V6 y de `la_campos.OPCIONES`, sin datos digitados a mano).
+
+- **Hojas:** `FICHA PREDIAL` (A4 vertical, 4 páginas), `INSTRUCCIONES` (leyenda, asistentes y correspondencia
+  celda ↔ campo Kobo), `CATALOGO_V6` (177 unidades con asistente; control 117 bloques = 12,270.235 ha) y `LISTAS`.
+- **Listas desplegables:** asistente predial (AP-1 … AP-6, ESP) → código de la unidad filtrado por asistente (ESP ve
+  todas, incluidas las 13 «por asignar»); provincia → distrito del predio (15 distritos); tipo de personería (natural /
+  jurídica); condición jurídica, estado civil, uso actual del suelo (con «Otro»), ocupación, aceptación, estado LA,
+  conclusión de campo, documentos e interferencias con las mismas etiquetas de Kobo; además pendiente, erosión,
+  cobertura, colindantes, afectaciones e intervención prevista.
+- **Validaciones:** UTM 17S (Este 450,000–750,000 m; Norte 9,300,000–9,600,000 m), DNI 8 dígitos, RUC 11, celular 9,
+  fechas y N.° de predio 0–99.
+- **Automáticos:** nombre del asistente, tipo / ubicación / área de la unidad, código de predio `{UNIDAD}-P{nn}`,
+  m², % del predio y avisos ⚠ (unidad no asignada al asistente, distrito distinto al del catálogo, personería
+  incoherente, ocupante → ficha OBSERVADA, área dentro de la unidad mayor que el área matriz).
+- Pruebas: `python -m pytest tests/test_ficha_predial.py -q` (4/4).
