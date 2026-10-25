@@ -205,3 +205,17 @@ KoboToolbox **F-LA-02** (ficha predial y socio-territorial) y **F-LA-03** (inspe
   m², % del predio y avisos ⚠ (unidad no asignada al asistente, distrito distinto al del catálogo, personería
   incoherente, ocupante → ficha OBSERVADA, área dentro de la unidad mayor que el área matriz).
 - Pruebas: `python -m pytest tests/test_ficha_predial.py -q` (4/4).
+
+### XLSForm KoboToolbox de la ficha predial completa
+
+`kobo_ficha_predial/` contiene la versión para KoboToolbox de la ficha (`FP_Ficha_Predial_Completa_KOBO.xlsx`), el
+mismo `unidades.csv` de los formularios F-LA y un `LEEME.txt`. Se regenera con `python -m liberacion_areas.la_xlsform_ficha`.
+
+- Carga: Nuevo › Cargar un XLSForm › Configuración › Multimedia › `unidades.csv` › Desplegar.
+- Unidad filtrada por asistente (`select_one_from_file` + `choice_filter`), provincia → distrito en cascada para el
+  predio y el domicilio, personería restringida por la condición del prediante, DNI / RUC / celular / T0000 con
+  `regex`, punto interior por GPS o UTM 17S digitado (con rango), área dentro de la unidad ≤ área matriz, repeats de
+  afectaciones (OC-nn) y de puntos de control, croquis dibujado, 4 fotos y firma del prediante.
+- Los datos que ya existen en F-LA-02 / F-LA-03 conservan nombre de campo y códigos de opción.
+- El título no contiene «F-LA», así que la sincronización del aplicativo no importa estos envíos como F-LA-02/03.
+- Pruebas: `python -m pytest tests/test_xlsform_ficha.py -q` (conversión con pyxform, nombres únicos, listas, cascadas).
