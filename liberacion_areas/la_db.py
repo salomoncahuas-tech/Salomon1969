@@ -323,6 +323,9 @@ def _registrar_titular(cur, d: dict, actualizar: bool = False) -> str | None:
         nombre, doc, rep, rep_dni = d.get("est_entidad_otra") or d.get("est_entidad"), None, d.get("est_contacto"), None
     elif t == "sin_titular":
         return None
+    elif d.get("personeria") == "juridica" and d.get("cc_nombre"):      # ficha FP: empresa / asociación privada
+        nombre, doc = d.get("cc_nombre"), d.get("cc_ruc")
+        rep, rep_dni = d.get("cc_presidente"), d.get("cc_presidente_dni")
     else:
         nombre = f"{d.get('tit_nombres', '')} {d.get('tit_apellidos', '')}".strip()
         doc, rep, rep_dni = d.get("tit_dni"), None, None

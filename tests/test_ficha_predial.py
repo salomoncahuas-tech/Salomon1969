@@ -34,7 +34,8 @@ def _celda_kobo(wb, campo):
 
 def test_hojas_y_catalogo(tmp_path):
     wb = _libro(tmp_path)
-    assert wb.sheetnames == ["FICHA PREDIAL", "INSTRUCCIONES", "CATALOGO_V6", "LISTAS"]
+    assert wb.sheetnames == ["FICHA PREDIAL", "INSTRUCCIONES", "CATALOGO_V6", "LISTAS", "_MAPA"]
+    assert wb["_MAPA"].sheet_state == "hidden"
     cat = fp.cargar_catalogo()
     tipos = Counter(u["tipo"] for u in cat)
     assert tipos["Bloque"] == 117 and tipos["Lote SUS"] == 60

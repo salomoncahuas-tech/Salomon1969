@@ -219,3 +219,32 @@ mismo `unidades.csv` de los formularios F-LA y un `LEEME.txt`. Se regenera con `
 - Los datos que ya existen en F-LA-02 / F-LA-03 conservan nombre de campo y códigos de opción.
 - El título no contiene «F-LA», así que la sincronización del aplicativo no importa estos envíos como F-LA-02/03.
 - Pruebas: `python -m pytest tests/test_xlsform_ficha.py -q` (conversión con pyxform, nombres únicos, listas, cascadas).
+
+## Actualización 26-oct-2026 · Ficha técnica predial (FP) sincronizada con el aplicativo y KoboToolbox
+
+La ficha técnica predial existe en tres formas que comparten los nombres de campo del XLSForm FP y quedan sincronizadas:
+
+| Vía | Cómo entra / sale del aplicativo |
+|---|---|
+| Formulario Kobo **«FP – Ficha técnica predial completa · IN Piura»** (kf.kobotoolbox.org, UID `aCyBhgqeCTZ3UKzmBW8tx2`) | Se reconoce por el título o el UID (más `KOBO_FP_UID` en los secrets, opcional). El aviso «envíos de KoboToolbox aún no importados» y **Importar ahora** lo incluyen; también la importación manual (pestaña 3) y las exportaciones XLSX/JSON. |
+| Ficha Excel llenada (`Ficha_Predial_IN_Piura_F-LA.xlsx`) | Pestaña **2 · Plantillas Excel / Kobo › Ficha técnica predial completa**: se suben una o varias fichas; vista previa NUEVO / DUPLICADO / OBSERVADO y confirmación (origen PLANTILLA). |
+| Ficha Excel generada desde el aplicativo | **4 · Historial / Edición › Detalle** de un F-LA-02 o F-LA-03 › «Generar ficha técnica predial (Excel)»: une el F-LA-02 y el F-LA-03 del predio (de cualquier vía) con sus fotos y el croquis. |
+
+- Cada ficha FP entra como **dos envíos**: F-LA-02 (`{uuid}-F02`) y F-LA-03 (`{uuid}-F03`), con `core.validar_envio` y
+  `la_db.importar`, sin lógica paralela. Así alimenta la matriz predial, el semáforo, los reportes y los expedientes. La
+  firma del prediante se adjunta al F-LA-02 y las fotos y el croquis al F-LA-03. Los datos propios de la ficha
+  (colindancias, afectaciones, domicilio, personería, pendiente, erosión…) se conservan en el registro y se muestran en
+  el detalle, sin DNI, RUC, celular ni correo.
+- Si se elimina en el aplicativo una de las dos partes, la sincronización no la vuelve a traer. Re-importar la misma
+  ficha Excel, o una ficha generada por el aplicativo, da DUPLICADO.
+- Persona jurídica privada (empresa o asociación): el titular se registra con su razón social y RUC.
+- La ficha Excel lleva la hoja oculta `_MAPA` (campo → celda). Las fichas sin esa hoja se leen con el diseño vigente
+  (`FP-2026.10`). Ahora todas las filas tienen altura fija: las etiquetas largas ya no se cortan en Excel y las fotos
+  quedan dentro de su marco también en LibreOffice.
+- El XLSForm FP agrega, para lotes SUS, la posición declarada y el polígono del lote (geoshape), como el F-LA-03. En Kobo:
+  **Reemplazar formulario** con el nuevo `kobo_ficha_predial/FP_Ficha_Predial_Completa_KOBO.xlsx` y **Volver a
+  desplegar**. Los envíos anteriores se conservan, porque solo se agregan campos.
+
+Archivos: `liberacion_areas/la_fp.py` (nuevo), `la_kobo.py`, `la_db.py`, `la_ficha_predial.py`, `la_xlsform_ficha.py`,
+`pagina.py`. Pruebas: `tests/test_la_fp.py` (8, con cliente Kobo simulado e integración PostgreSQL). Suite completa con
+`LA_TEST_DB`: 341 pruebas superadas. Sin migración de base de datos.

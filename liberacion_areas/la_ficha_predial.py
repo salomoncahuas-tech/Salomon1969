@@ -20,9 +20,9 @@ Uso:
 from __future__ import annotations
 
 import csv
+import math
 import re
 import sys
-from datetime import date
 from pathlib import Path
 
 from openpyxl import Workbook
@@ -132,6 +132,34 @@ def cargar_catalogo(ruta: Path = CATALOGO_CSV) -> list[dict]:
     return salida
 
 
+def catalogo_desde_unidades(unidades: dict[str, dict] | list[dict]) -> list[dict]:
+    """Catálogo del aplicativo (la_unidades / unidades.csv: provincia y distrito en slug) → formato de la ficha."""
+    filas = unidades.values() if isinstance(unidades, dict) else unidades
+    salida = []
+    for r in filas:
+        cod = str(r.get("codigo") or r.get("name") or "").strip()
+        if not cod or r.get("tipo_unidad") == "vivero":
+            continue
+        area = r.get("area_ha")
+        salida.append({
+            "codigo": cod,
+            "tipo": TIPO_UNIDAD.get(r.get("tipo_unidad"), r.get("tipo_unidad")),
+            "provincia": PROVINCIAS.get(r.get("provincia"), str(r.get("provincia") or "").title()),
+            "distrito": DISTRITOS.get(r.get("distrito"), str(r.get("distrito") or "").replace("_", " ").title()),
+            "area_ha": float(area) if area not in (None, "") else None,
+            "bloque_ref": str(r.get("bloque_ref") or ""),
+            "posicion_sus": str(r.get("posicion_sus") or ""),
+            "asistente": str(r.get("asistente") or "").strip(),
+            "asistente_nombre": str(r.get("asistente_nombre") or "").strip(),
+        })
+    salida.sort(key=lambda u: _orden_natural(u["codigo"]))
+    return salida
+
+
+def _slug_lado(lado: str) -> str:
+    return lado.lower()
+
+
 def _nombre_rango(prefijo: str, clave: str) -> str:
     return prefijo + re.sub(r"[^A-Za-z0-9]", "_", clave.replace("ó", "o"))
 
@@ -183,9 +211,12 @@ class _Ficha:
         dv.add(celda)
 
     def _entrada(self, r, c1, c2, kind, *, lista=None, f1=None, fmt=None, h=None, estilo="stop", error=None,
-                 ayuda=None, formula=None):
-        """Celda de entrada (o fórmula) con su validación; devuelve su referencia."""
+                 ayuda=None, formula=None, clave=None):
+        """Celda de entrada (o fórmula) con su validación; devuelve su referencia.
+        `clave` = nombre del campo Kobo (XLSForm FP) que se lee / escribe en esa celda (hoja _MAPA)."""
         ref = f"{get_column_letter(c1)}{r}"
+        if clave:
+            self.celdas[clave] = ref
         fill = {"lista": LISTA, "calc": CALC}.get(kind)
         font = Font(name=ARIAL, size=9, italic=kind == "calc", color="1F3B2A" if kind == "calc" else "000000")
         self._rango(r, c1, r, c2, formula, fill=fill, font=font, fmt=fmt,
@@ -252,6 +283,11 @@ class _Ficha:
         self._rango(r, c1, r, c2, texto, fill=ETIQ, font=Font(name=ARIAL, size=8, bold=True),
                     align=Alignment(vertical="center", horizontal="center" if centrado else "left", wrap_text=True,
                                     indent=0 if centrado else 1))
+        # altura explícita según el largo de la etiqueta: Excel no ajusta solo las celdas combinadas (la etiqueta se
+        # cortaría) y LibreOffice sí lo hace, lo que desplaza las fotos insertadas
+        lineas = math.ceil(len(str(texto)) / ((c2 - c1 + 1) * 5.0 - (0 if centrado else 2)))
+        actual = self.ws.row_dimensions[r].height or 15
+        self.ws.row_dimensions[r].height = max(actual, 11 * lineas + 4)
 
     def campo(self, texto, kind="libre", *, clave=None, kobo=None, mitad=None, h=None, alto=None, **kw):
         """Fila de un dato. `mitad` = 0 (izquierda) o 1 (derecha) para dos datos por fila; None = fila completa."""
@@ -260,9 +296,7 @@ class _Ficha:
         else:
             e0, e1, v0, v1 = (MITAD_ETQ, MITAD_VAL)[mitad]
         self.etiqueta(self.r, e0, e1, texto)
-        ref = self._entrada(self.r, v0, v1, kind, h=h, **kw)
-        if clave:
-            self.celdas[clave] = ref
+        ref = self._entrada(self.r, v0, v1, kind, h=h, clave=clave, **kw)
         self._kobo(self.r, kobo, texto, ref, {"libre": "Texto", "lista": "Lista desplegable", "calc": "Automático",
                                               "entero": "Número entero", "decimal": "Número", "fecha": "Fecha",
                                               "dni": "DNI (8 dígitos)", "ruc": "RUC (11 dígitos)",
@@ -439,14 +473,14 @@ def _hoja_ficha(wb, asistentes):
         dict(texto="UBICACIÓN SEGÚN CATÁLOGO V6", kind="calc"),
         dict(texto="ÁREA DE LA UNIDAD (ha)", kind="calc", fmt="#,##0.000", h="right"))
     n_pred, cod_pred = f.fila_doble(
-        dict(texto="N° DE PREDIO EN LA UNIDAD", kind="entero", f1=(0, 99), kobo="n_predio", h="center",
+        dict(texto="N° DE PREDIO EN LA UNIDAD", kind="entero", f1=(0, 99), kobo="n_predio", clave="n_predio", h="center",
              ayuda="Correlativo del predio dentro de la unidad (1–99). Use 0 solo en actas comunales A-03."),
         dict(texto="CÓDIGO DE PREDIO", kind="calc", kobo="cod_predio (calculado)"))
-    f.fila_doble(dict(texto="FECHA DE INSPECCIÓN", kind="fecha", kobo="fecha_insp (F-LA-03)", h="center"),
-                 dict(texto="FECHA DE REGISTRO", kind="fecha", kobo="hoy", h="center"))
+    f.fila_doble(dict(texto="FECHA DE INSPECCIÓN", kind="fecha", kobo="fecha_insp (F-LA-03)", clave="fecha_insp", h="center"),
+                 dict(texto="FECHA DE REGISTRO", kind="fecha", kobo="hoy", clave="hoy", h="center"))
     _, control = f.fila_doble(
         dict(texto="CONSENTIMIENTO USO DE DATOS PERSONALES (LEY 29733)", kind="lista", lista="L_si_no",
-             kobo="consentimiento", h="center"),
+             kobo="consentimiento", clave="consentimiento", h="center"),
         dict(texto="CONTROL DE ASIGNACIÓN", kind="calc"))
     ws[nombre_asis] = (f'=IF({asis}="","",IF({asis}="ESP","Especialista (ESP)",'
                        f'IFERROR(INDEX(CAT_ASIS_NOM,MATCH({asis},CAT_ASIS,0)),"")))')
@@ -466,15 +500,16 @@ def _hoja_ficha(wb, asistentes):
 
     # ---------- 1. predio matriz (titularidad registral)
     f.seccion_titulo("  1. CONTROL E IDENTIFICACIÓN DEL PREDIO MATRIZ (TITULARIDAD REGISTRAL)")
-    f.fila_doble(dict(texto="SITUACIÓN REGISTRAL", kind="lista", lista="L_sit_registral"),
-                 dict(texto="PARTIDA ELECTRÓNICA / N° TÍTULO", kind="texto", kobo="doc_partida"))
-    f.fila_doble(dict(texto="TIPO DE PERSONERÍA (TITULAR REGISTRAL)", kind="lista", lista="L_personeria", h="center"),
-                 dict(texto="OFICINA REGISTRAL", kind="texto"))
-    f.campo("TITULAR REGISTRAL (NOMBRE / RAZÓN SOCIAL)", "texto")
+    f.fila_doble(dict(texto="SITUACIÓN REGISTRAL", kind="lista", lista="L_sit_registral", clave="sit_registral"),
+                 dict(texto="PARTIDA ELECTRÓNICA / N° TÍTULO", kind="texto", kobo="doc_partida", clave="doc_partida"))
+    f.fila_doble(dict(texto="TIPO DE PERSONERÍA (TITULAR REGISTRAL)", kind="lista", lista="L_personeria", h="center",
+                      clave="reg_personeria"),
+                 dict(texto="OFICINA REGISTRAL", kind="texto", clave="oficina_registral"))
+    f.campo("TITULAR REGISTRAL (NOMBRE / RAZÓN SOCIAL)", "texto", clave="reg_titular")
     r = f.r
     f.etiqueta(r, 2, 6, "DOCUMENTOS EXHIBIDOS (hasta 3)")
-    for c1, c2 in TERCIOS:
-        f._entrada(r, c1, c2, "lista", lista="L_docs_exhibidos")
+    for k, (c1, c2) in enumerate(TERCIOS, 1):
+        f._entrada(r, c1, c2, "lista", lista="L_docs_exhibidos", clave=f"docs_exhibidos_{k}")
     f._kobo(r, "docs_exhibidos (selección múltiple)", "Documentos exhibidos", f"G{r}:Y{r}", "Lista desplegable")
     f.r += 1
     f.espacio()
@@ -483,11 +518,11 @@ def _hoja_ficha(wb, asistentes):
     f.seccion_titulo("  2. IDENTIFICACIÓN DEL PREDIANTE Y TENENCIA")
     cond, pers = f.fila_doble(
         dict(texto="CONDICIÓN JURÍDICA DEL PREDIANTE", kind="lista", lista="L_tipo_titularidad",
-             kobo="tipo_titularidad", clave="condicion"),
+             kobo="tipo_titularidad", clave="tipo_titularidad"),
         dict(texto="TIPO DE PERSONERÍA", kind="lista", lista="L_personeria", h="center", clave="personeria"))
     _, alerta = f.fila_doble(
         dict(texto="ESTADO DE LA SUCESIÓN (si aplica)", kind="lista", lista="L_sucesion_estado",
-             kobo="sucesion_estado"),
+             kobo="sucesion_estado", clave="sucesion_estado"),
         dict(texto="ALERTA / COHERENCIA", kind="calc"))
     ws[alerta] = (f'=IF({cond}="","",IF({cond}="{lc.etiqueta_opcion("tipo_titularidad", "ocupante")}",'
                   f'"⚠ Ocupante: ficha OBSERVADA – identificar titular o posesionario (Esp. Legal)",'
@@ -496,22 +531,24 @@ def _hoja_ficha(wb, asistentes):
                   f'IF(AND(ISNUMBER(MATCH({cond},L_cond_juridica,0)),{pers}<>"Jurídica"),"⚠ Corresponde persona jurídica",'
                   f'"✔ Coherente")))))')
     f.subtitulo("   2.1 PERSONA NATURAL (privado, posesionario, ocupante, sucesión)")
-    f.fila_doble(dict(texto="NOMBRES", kind="texto", kobo="tit_nombres", clave="nombres"),
-                 dict(texto="APELLIDOS", kind="texto", kobo="tit_apellidos", clave="apellidos"))
-    f.fila_doble(dict(texto="DNI", kind="dni", kobo="tit_dni", h="center", ayuda="8 dígitos, sin puntos ni espacios."),
-                 dict(texto="CELULAR", kind="celular", kobo="tit_celular", h="center", ayuda="9 dígitos, empieza con 9."))
-    f.fila_doble(dict(texto="ESTADO CIVIL", kind="lista", lista="L_estado_civil", kobo="tit_estado_civil"),
-                 dict(texto="CORREO ELECTRÓNICO (opcional)", kind="texto"))
-    f.fila_doble(dict(texto="CÓNYUGE / CONVIVIENTE", kind="texto", kobo="cony_nombre"),
-                 dict(texto="DNI DEL CÓNYUGE", kind="dni", kobo="cony_dni", h="center"))
+    f.fila_doble(dict(texto="NOMBRES", kind="texto", kobo="tit_nombres", clave="tit_nombres"),
+                 dict(texto="APELLIDOS", kind="texto", kobo="tit_apellidos", clave="tit_apellidos"))
+    f.fila_doble(dict(texto="DNI", kind="dni", kobo="tit_dni", clave="tit_dni", h="center", ayuda="8 dígitos, sin puntos ni espacios."),
+                 dict(texto="CELULAR", kind="celular", kobo="tit_celular", clave="tit_celular", h="center", ayuda="9 dígitos, empieza con 9."))
+    f.fila_doble(dict(texto="ESTADO CIVIL", kind="lista", lista="L_estado_civil", kobo="tit_estado_civil",
+                      clave="tit_estado_civil"),
+                 dict(texto="CORREO ELECTRÓNICO (opcional)", kind="texto", clave="tit_correo"))
+    f.fila_doble(dict(texto="CÓNYUGE / CONVIVIENTE", kind="texto", kobo="cony_nombre", clave="cony_nombre"),
+                 dict(texto="DNI DEL CÓNYUGE", kind="dni", kobo="cony_dni", clave="cony_dni", h="center"))
     f.subtitulo("   2.2 PERSONA JURÍDICA (comunidad campesina, entidad estatal, empresa o asociación)")
-    f.campo("COMUNIDAD / ENTIDAD / RAZÓN SOCIAL", "texto", kobo="cc_nombre / est_entidad", clave="razon")
-    f.fila_doble(dict(texto="RUC", kind="ruc", kobo="cc_ruc", h="center"),
-                 dict(texto="PARTIDA REGISTRAL (SUNARP)", kind="texto", kobo="cc_partida"))
-    f.fila_doble(dict(texto="REPRESENTANTE / PRESIDENTE COMUNAL", kind="texto", kobo="cc_presidente / est_contacto"),
-                 dict(texto="CARGO", kind="lista", lista="L_cargo_rep"))
-    f.fila_doble(dict(texto="DNI DEL REPRESENTANTE", kind="dni", kobo="cc_presidente_dni", h="center"),
-                 dict(texto="CELULAR DEL REPRESENTANTE", kind="celular", kobo="cc_presidente_cel", h="center"))
+    f.campo("COMUNIDAD / ENTIDAD / RAZÓN SOCIAL", "texto", kobo="cc_nombre / est_entidad", clave="cc_nombre")
+    f.fila_doble(dict(texto="RUC", kind="ruc", kobo="cc_ruc", clave="cc_ruc", h="center"),
+                 dict(texto="PARTIDA REGISTRAL (SUNARP)", kind="texto", kobo="cc_partida", clave="cc_partida"))
+    f.fila_doble(dict(texto="REPRESENTANTE / PRESIDENTE COMUNAL", kind="texto", kobo="cc_presidente / est_contacto",
+                      clave="cc_presidente"),
+                 dict(texto="CARGO", kind="lista", lista="L_cargo_rep", clave="rep_cargo"))
+    f.fila_doble(dict(texto="DNI DEL REPRESENTANTE", kind="dni", kobo="cc_presidente_dni", clave="cc_presidente_dni", h="center"),
+                 dict(texto="CELULAR DEL REPRESENTANTE", kind="celular", kobo="cc_presidente_cel", clave="cc_presidente_cel", h="center"))
     f.subtitulo("   2.3 DOMICILIO DEL PREDIANTE")
     r = f.r
     for (c1, c2), t in zip(((2, 11), (12, 16), (17, 21), (22, 25)), ("DIRECCIÓN", "DISTRITO", "PROVINCIA",
@@ -520,10 +557,10 @@ def _hoja_ficha(wb, asistentes):
     f.r += 1
     r = f.r
     aviso = "El valor no está en la lista. ¿Desea mantenerlo? (válido para domicilios fuera del ámbito)"
-    f._entrada(r, 2, 11, "texto")
-    f._entrada(r, 12, 16, "lista", lista="L_distrito_15", estilo="warning", error=aviso)
-    f._entrada(r, 17, 21, "lista", lista="L_prov_domicilio", estilo="warning", error=aviso)
-    f._entrada(r, 22, 25, "lista", lista="L_dep_domicilio", estilo="warning", error=aviso)
+    f._entrada(r, 2, 11, "texto", clave="dom_direccion")
+    f._entrada(r, 12, 16, "lista", lista="L_distrito_15", estilo="warning", error=aviso, clave="dom_distrito")
+    f._entrada(r, 17, 21, "lista", lista="L_prov_domicilio", estilo="warning", error=aviso, clave="dom_provincia")
+    f._entrada(r, 22, 25, "lista", lista="L_dep_domicilio", estilo="warning", error=aviso, clave="dom_departamento")
     f._kobo(r, None, "Domicilio (dirección, distrito, provincia, departamento)", f"B{r}:Y{r}", "Texto / lista abierta")
     f.alto(24)
     f.r += 1
@@ -532,30 +569,31 @@ def _hoja_ficha(wb, asistentes):
     # ---------- 3. descripción general del predio
     corte_1 = f.r
     f.seccion_titulo("  3. DESCRIPCIÓN GENERAL DEL PREDIO INTERVENIDO")
-    f.campo("NOMBRE DEL PREDIO", "texto", kobo="predio_nombre")
-    f.fila_doble(dict(texto="CENTRO POBLADO / SECTOR", kind="texto"),
-                 dict(texto="COMUNIDAD CAMPESINA (si aplica)", kind="texto"))
-    f.campo("REFERENCIA DE ACCESO", "texto", alto=26)
-    f.fila_doble(dict(texto="TIPO DE ACCESO", kind="lista", lista="L_acceso_tipo"),
-                 dict(texto="TIEMPO DESDE EL C.P. (min)", kind="entero", f1=(0, 600), h="center"))
+    f.campo("NOMBRE DEL PREDIO", "texto", kobo="predio_nombre", clave="predio_nombre")
+    f.fila_doble(dict(texto="CENTRO POBLADO / SECTOR", kind="texto", clave="centro_poblado"),
+                 dict(texto="COMUNIDAD CAMPESINA (si aplica)", kind="texto", clave="comunidad"))
+    f.campo("REFERENCIA DE ACCESO", "texto", alto=26, clave="ref_acceso")
+    f.fila_doble(dict(texto="TIPO DE ACCESO", kind="lista", lista="L_acceso_tipo", clave="acceso_tipo"),
+                 dict(texto="TIEMPO DESDE EL C.P. (min)", kind="entero", f1=(0, 600), h="center",
+                      clave="tiempo_acceso_min"))
     f.campo("SISTEMA DE COORDENADAS", "calc", formula="UTM WGS84 – Zona 17 Sur (EPSG:32717) · punto interior del predio")
-    f.fila_doble(dict(texto="ESTE UTM (m)", kind="decimal", f1=(ESTE_MIN, ESTE_MAX), kobo="punto_interior (Este)",
+    f.fila_doble(dict(texto="ESTE UTM (m)", kind="decimal", f1=(ESTE_MIN, ESTE_MAX), kobo="punto_interior (Este)", clave="utm_este",
                       fmt="#,##0.0", h="right", error=f"Este UTM 17S entre {ESTE_MIN:,} y {ESTE_MAX:,} m.",
                       ayuda="Coordenada Este en UTM 17S (no lat/lon)."),
-                 dict(texto="NORTE UTM (m)", kind="decimal", f1=(NORTE_MIN, NORTE_MAX), kobo="punto_interior (Norte)",
+                 dict(texto="NORTE UTM (m)", kind="decimal", f1=(NORTE_MIN, NORTE_MAX), kobo="punto_interior (Norte)", clave="utm_norte",
                       fmt="#,##0.0", h="right", error=f"Norte UTM 17S entre {NORTE_MIN:,} y {NORTE_MAX:,} m.",
                       ayuda="Coordenada Norte en UTM 17S (no lat/lon)."))
-    f.fila_doble(dict(texto="ALTITUD (m s.n.m.)", kind="decimal", f1=(0, 4500), kobo="punto_interior (alt)",
+    f.fila_doble(dict(texto="ALTITUD (m s.n.m.)", kind="decimal", f1=(0, 4500), kobo="punto_interior (alt)", clave="utm_altitud",
                       fmt="#,##0", h="right"),
-                 dict(texto="PRECISIÓN GPS (m)", kind="decimal", f1=(0, 100), kobo="punto_interior (prec)",
+                 dict(texto="PRECISIÓN GPS (m)", kind="decimal", f1=(0, 100), kobo="punto_interior (prec)", clave="utm_precision",
                       fmt="0.0", h="right"))
     dep, prov = f.fila_doble(
-        dict(texto="DEPARTAMENTO", kind="lista", lista="L_departamento", h="center"),
-        dict(texto="PROVINCIA", kind="lista", lista="L_provincia", h="center",
+        dict(texto="DEPARTAMENTO", kind="lista", lista="L_departamento", h="center", clave="predio_departamento"),
+        dict(texto="PROVINCIA", kind="lista", lista="L_provincia", h="center", clave="predio_provincia",
              ayuda="Ayabaca, Huancabamba o Morropón (ámbito del proyecto)."))
     ws[dep] = "Piura"
     dist, verif = f.fila_doble(
-        dict(texto="DISTRITO", kind="lista", h="center", f1=f'INDIRECT("D_"&SUBSTITUTE({prov},"ó","o"))',
+        dict(texto="DISTRITO", kind="lista", h="center", clave="predio_distrito", f1=f'INDIRECT("D_"&SUBSTITUTE({prov},"ó","o"))',
              error="Elija primero la PROVINCIA; el distrito debe pertenecer a ella (15 distritos del ámbito).",
              ayuda="Lista dependiente de la provincia elegida."),
         dict(texto="VERIFICACIÓN CON CATÁLOGO V6", kind="calc"))
@@ -565,25 +603,31 @@ def _hoja_ficha(wb, asistentes):
 
     # ---------- 4. predio matriz
     f.seccion_titulo("  4. DESCRIPCIÓN DEL PREDIO MATRIZ")
-    f.fila_doble(dict(texto="USO ACTUAL DEL SUELO", kind="lista", lista="L_uso_actual", kobo="uso_actual / uso_observado"),
-                 dict(texto="ESPECIFIQUE SI ES «OTRO»", kind="texto"))
-    f.fila_doble(dict(texto="OCUPACIÓN OBSERVADA", kind="lista", lista="L_ocupacion", kobo="ocupacion"),
-                 dict(texto="DETALLE DE LA OCUPACIÓN", kind="texto"))
-    f.fila_doble(dict(texto="EDIFICACIONES / CULTIVOS", kind="lista", lista="L_edificaciones"),
-                 dict(texto="DETALLE / ESPECIFIQUE «OTRO»", kind="texto"))
-    f.fila_doble(dict(texto="TOPOGRAFÍA / PENDIENTE", kind="lista", lista="L_pendiente",
+    f.fila_doble(dict(texto="USO ACTUAL DEL SUELO", kind="lista", lista="L_uso_actual", kobo="uso_actual / uso_observado",
+                      clave="uso_actual"),
+                 dict(texto="ESPECIFIQUE SI ES «OTRO»", kind="texto", clave="uso_otro"))
+    f.fila_doble(dict(texto="OCUPACIÓN OBSERVADA", kind="lista", lista="L_ocupacion", kobo="ocupacion",
+                      clave="ocupacion"),
+                 dict(texto="DETALLE DE LA OCUPACIÓN", kind="texto", clave="ocupacion_det"))
+    f.fila_doble(dict(texto="EDIFICACIONES / CULTIVOS", kind="lista", lista="L_edificaciones",
+                      clave="edificaciones"),
+                 dict(texto="DETALLE / ESPECIFIQUE «OTRO»", kind="texto", clave="edif_det"))
+    f.fila_doble(dict(texto="TOPOGRAFÍA / PENDIENTE", kind="lista", lista="L_pendiente", clave="pendiente_clase",
                       ayuda="Criterio de idoneidad del proyecto: pendiente máxima 75 %."),
-                 dict(texto="EROSIÓN OBSERVADA", kind="lista", lista="L_erosion"))
-    f.fila_doble(dict(texto="ESTADO DE LA COBERTURA VEGETAL", kind="lista", lista="L_cobertura"),
-                 dict(texto="EVIDENCIA DE MOVIMIENTOS EN MASA", kind="lista", lista="L_si_no", h="center"))
-    f.campo("OTROS / DESCRIPCIÓN DEL PREDIO", "texto", kobo="descripcion_predio (F-LA-03)", alto=40,
+                 dict(texto="EROSIÓN OBSERVADA", kind="lista", lista="L_erosion", clave="erosion"))
+    f.fila_doble(dict(texto="ESTADO DE LA COBERTURA VEGETAL", kind="lista", lista="L_cobertura",
+                      clave="cobertura"),
+                 dict(texto="EVIDENCIA DE MOVIMIENTOS EN MASA", kind="lista", lista="L_si_no", h="center",
+                      clave="mov_masa"))
+    f.campo("OTROS / DESCRIPCIÓN DEL PREDIO", "texto", kobo="descripcion_predio (F-LA-03)", alto=40, clave="descripcion_predio",
             ayuda="Cobertura, pendiente, accesos, linderos, signos de degradación o de movimientos en masa.")
     f.subtitulo("   4.1 DATOS TÉCNICOS")
     _, area_decl = f.fila_doble(
-        dict(texto="TIPO DE PREDIO", kind="lista", lista="L_tipo_predio"),
-        dict(texto="ÁREA MATRIZ DEL PREDIO (ha)", kind="decimal", f1=(0, 100000), kobo="predio_area_decl_ha",
+        dict(texto="TIPO DE PREDIO", kind="lista", lista="L_tipo_predio", clave="tipo_predio"),
+        dict(texto="ÁREA MATRIZ DEL PREDIO (ha)", kind="decimal", f1=(0, 100000), kobo="predio_area_decl_ha", clave="predio_area_decl_ha",
              fmt="#,##0.0000", h="right"))
-    _, m2 = f.fila_doble(dict(texto="PERÍMETRO (m)", kind="decimal", f1=(0, 1000000), fmt="#,##0.00", h="right"),
+    _, m2 = f.fila_doble(dict(texto="PERÍMETRO (m)", kind="decimal", f1=(0, 1000000), fmt="#,##0.00", h="right",
+                              clave="perimetro_m"),
                          dict(texto="ÁREA MATRIZ DEL PREDIO (m²)", kind="calc", fmt="#,##0.00", h="right"))
     ws[m2] = f'=IF({area_decl}="","",{area_decl}*10000)'
     f.subtitulo("   4.2 COLINDANCIAS")
@@ -595,12 +639,13 @@ def _hoja_ficha(wb, asistentes):
     for lado in ("NORTE", "ESTE", "SUR", "OESTE"):
         r = f.r
         f.etiqueta(r, 2, 5, lado)
-        f._entrada(r, 6, 18, "texto")
-        f._entrada(r, 19, 25, "lista", lista="L_tipo_colindante")
+        f._entrada(r, 6, 18, "texto", clave=f"col_{_slug_lado(lado)}")
+        f._entrada(r, 19, 25, "lista", lista="L_tipo_colindante", clave=f"col_{_slug_lado(lado)}_tipo")
         f._kobo(r, None, f"Colindancia {lado.lower()}", f"F{r}:Y{r}", "Texto / lista")
         f.alto(20)
         f.r += 1
-    f.campo("CONFLICTOS DE LINDEROS / OBSERVACIONES", "texto", kobo="conflicto_linderos_det", alto=30)
+    f.campo("CONFLICTOS DE LINDEROS / OBSERVACIONES", "texto", kobo="conflicto_linderos_det", alto=30,
+            clave="conflicto_linderos_det")
     f.espacio()
     corte_2 = f.r
 
@@ -609,7 +654,7 @@ def _hoja_ficha(wb, asistentes):
     f.subtitulo("   5.1 DATOS TÉCNICOS")
     area_int, m2i = f.fila_doble(
         dict(texto="ÁREA DEL PREDIO DENTRO DE LA UNIDAD (ha)", kind="decimal", f1=(0, 100000),
-             kobo="predio_area_unidad_ha", fmt="#,##0.0000", h="right"),
+             kobo="predio_area_unidad_ha", clave="predio_area_unidad_ha", fmt="#,##0.0000", h="right"),
         dict(texto="ÁREA DENTRO DE LA UNIDAD (m²)", kind="calc", fmt="#,##0.00", h="right"))
     ws[m2i] = f'=IF({area_int}="","",{area_int}*10000)'
     pct, chk = f.fila_doble(dict(texto="% DEL PREDIO MATRIZ", kind="calc", fmt="0.0%", h="right"),
@@ -620,15 +665,15 @@ def _hoja_ficha(wb, asistentes):
     f.subtitulo("   5.2 CARACTERÍSTICAS")
     r = f.r
     f.etiqueta(r, 2, 6, "INTERFERENCIAS (hasta 3)")
-    for c1, c2 in TERCIOS:
-        f._entrada(r, c1, c2, "lista", lista="L_interferencias")
+    for k, (c1, c2) in enumerate(TERCIOS, 1):
+        f._entrada(r, c1, c2, "lista", lista="L_interferencias", clave=f"interferencias_{k}")
     f._kobo(r, "interferencias (selección múltiple)", "Interferencias", f"G{r}:Y{r}", "Lista desplegable")
     f.r += 1
-    f.campo("DETALLE DE INTERFERENCIAS", "texto", kobo="interf_detalle", alto=30)
+    f.campo("DETALLE DE INTERFERENCIAS", "texto", kobo="interf_detalle", alto=30, clave="interf_detalle")
     r = f.r
     f.etiqueta(r, 2, 6, "INTERVENCIÓN PREVISTA (referencial)")
-    f._entrada(r, 7, 15, "lista", lista="L_intervencion")
-    f._entrada(r, 16, 25, "lista", lista="L_intervencion")
+    f._entrada(r, 7, 15, "lista", lista="L_intervencion", clave="intervencion_prevista_1")
+    f._entrada(r, 16, 25, "lista", lista="L_intervencion", clave="intervencion_prevista_2")
     f._kobo(r, None, "Intervención prevista", f"G{r}:Y{r}", "Lista desplegable")
     f.alto(24)
     f.r += 1
@@ -644,13 +689,13 @@ def _hoja_ficha(wb, asistentes):
         r = f.r
         f._rango(r, 2, r, 3, f"OC-{k:02d}", fill=ETIQ, font=Font(name=ARIAL, size=8, bold=True),
                  align=Alignment(horizontal="center", vertical="center"))
-        f._entrada(r, 4, 8, "texto")
-        f._entrada(r, 9, 10, "decimal", f1=(0, 1000000), fmt="#,##0.00", h="right")
-        f._entrada(r, 11, 12, "lista", lista="L_und_medida", h="center")
-        f._entrada(r, 13, 15, "lista", lista="L_material")
-        f._entrada(r, 16, 18, "lista", lista="L_conservacion")
-        f._entrada(r, 19, 21, "lista", lista="L_construccion")
-        f._entrada(r, 22, 25, "texto")
+        f._entrada(r, 4, 8, "texto", clave=f"af_descripcion_{k}")
+        f._entrada(r, 9, 10, "decimal", f1=(0, 1000000), fmt="#,##0.00", h="right", clave=f"af_metrado_{k}")
+        f._entrada(r, 11, 12, "lista", lista="L_und_medida", h="center", clave=f"af_und_{k}")
+        f._entrada(r, 13, 15, "lista", lista="L_material", clave=f"af_material_{k}")
+        f._entrada(r, 16, 18, "lista", lista="L_conservacion", clave=f"af_conservacion_{k}")
+        f._entrada(r, 19, 21, "lista", lista="L_construccion", clave=f"af_construccion_{k}")
+        f._entrada(r, 22, 25, "texto", clave=f"af_ubicacion_{k}")
         f.alto(20)
         f.r += 1
     f._kobo(f.r - 5, None, "Afectaciones OC-01 … OC-05", f"B{f.r - 5}:Y{f.r - 1}", "Tabla")
@@ -659,20 +704,22 @@ def _hoja_ficha(wb, asistentes):
     # ---------- 6. resultado
     f.seccion_titulo("  6. DISPONIBILIDAD Y CONDICIÓN DE LIBERACIÓN")
     f.fila_doble(dict(texto="ACEPTACIÓN DEL TITULAR / PREDIANTE", kind="lista", lista="L_aceptacion",
-                      kobo="aceptacion"),
-                 dict(texto="MODALIDAD DE DISPONIBILIDAD", kind="lista", lista="L_modalidad"))
+                      kobo="aceptacion", clave="aceptacion"),
+                 dict(texto="MODALIDAD DE DISPONIBILIDAD", kind="lista", lista="L_modalidad", clave="modalidad"))
     f.fila_doble(dict(texto="CONCLUSIÓN DE CAMPO", kind="lista", lista="L_conclusion_campo",
-                      kobo="conclusion_campo (F-LA-03)"),
+                      kobo="conclusion_campo (F-LA-03)", clave="conclusion_campo"),
                  dict(texto="ESTADO LA PROPUESTO", kind="lista", lista="L_estado_la", kobo="estado_la_propuesto",
+                      clave="estado_la_propuesto", h="center"))
+    f.fila_doble(dict(texto="ACTA PREVISTA", kind="lista", lista="L_tipo_acta", clave="tipo_acta_prevista"),
+                 dict(texto="CÓDIGO DE TITULAR PREVIO (T0000)", kind="texto", kobo="cod_titular_prev", clave="cod_titular_prev",
                       h="center"))
-    f.fila_doble(dict(texto="ACTA PREVISTA", kind="lista", lista="L_tipo_acta"),
-                 dict(texto="CÓDIGO DE TITULAR PREVIO (T0000)", kind="texto", kobo="cod_titular_prev", h="center"))
-    f.campo("OBSERVACIONES / ALERTAS SOCIALES", "texto", alto=36)
+    f.campo("OBSERVACIONES / ALERTAS SOCIALES", "texto", alto=36, clave="alertas")
     f.espacio()
 
     # ---------- 7. croquis y puntos
     f.seccion_titulo("  7. CROQUIS DEL PREDIO Y PUNTOS DE CONTROL (UTM WGS84 Zona 17S)")
     r = f.r
+    f.celdas["croquis"] = f"B{r}"
     f._rango(r, C0, r + 13, C1, "Croquis: indicar el norte, linderos, colindantes, accesos, vértices numerados e "
                                 "interferencias.", font=Font(name=ARIAL, size=7, italic=True, color=GRIS),
              align=Alignment(vertical="top", horizontal="left", wrap_text=True))
@@ -687,13 +734,13 @@ def _hoja_ficha(wb, asistentes):
         r = f.r
         f._rango(r, 2, r, 3, k, fill=ETIQ, font=Font(name=ARIAL, size=8, bold=True),
                  align=Alignment(horizontal="center", vertical="center"))
-        f._entrada(r, 4, 8, "lista", lista="L_pt_tipo")
+        f._entrada(r, 4, 8, "lista", lista="L_pt_tipo", clave=f"pt_tipo_{k}")
         f._entrada(r, 9, 13, "decimal", f1=(ESTE_MIN, ESTE_MAX), fmt="#,##0.0", h="right",
-                   error=f"Este UTM 17S entre {ESTE_MIN:,} y {ESTE_MAX:,} m.")
+                   error=f"Este UTM 17S entre {ESTE_MIN:,} y {ESTE_MAX:,} m.", clave=f"pt_este_{k}")
         f._entrada(r, 14, 18, "decimal", f1=(NORTE_MIN, NORTE_MAX), fmt="#,##0.0", h="right",
-                   error=f"Norte UTM 17S entre {NORTE_MIN:,} y {NORTE_MAX:,} m.")
-        f._entrada(r, 19, 21, "decimal", f1=(0, 4500), fmt="#,##0", h="right")
-        f._entrada(r, 22, 25, "texto")
+                   error=f"Norte UTM 17S entre {NORTE_MIN:,} y {NORTE_MAX:,} m.", clave=f"pt_norte_{k}")
+        f._entrada(r, 19, 21, "decimal", f1=(0, 4500), fmt="#,##0", h="right", clave=f"pt_alt_{k}")
+        f._entrada(r, 22, 25, "texto", clave=f"pt_obs_{k}")
         f.r += 1
     f._kobo(f.r - 8, "r_puntos: pt_gps, pt_tipo", "Puntos de control / vértices", f"B{f.r - 8}:Y{f.r - 1}", "Tabla")
     f.espacio()
@@ -706,12 +753,13 @@ def _hoja_ficha(wb, asistentes):
     for par in (fotos[:2], fotos[2:]):
         r = f.r
         for (campo, leyenda), (c1, c2) in zip(par, ((2, 13), (14, 25))):
+            f.celdas[campo] = f"{get_column_letter(c1)}{r}"
             f._rango(r, c1, r + 11, c2, "Insertar fotografía", font=Font(name=ARIAL, size=7, italic=True, color=GRIS),
                      align=Alignment(horizontal="center", vertical="center"))
             f._rango(r + 12, c1, r + 12, c2, leyenda, fill=ETIQ, font=Font(name=ARIAL, size=8, bold=True),
                      align=Alignment(horizontal="center", vertical="center"))
             f._rango(r + 13, c1, r + 13, c1 + 3, "Archivo / N°:", fill=ETIQ, font=Font(name=ARIAL, size=7, bold=True))
-            f._entrada(r + 13, c1 + 4, c2, "texto")
+            f._entrada(r + 13, c1 + 4, c2, "texto", clave=f"{campo}_archivo")
             f._kobo(r + 12 if c1 == 2 else r + 13, campo, leyenda, f"{get_column_letter(c1)}{r}", "Imagen")
         f.r += 14
         f.espacio(6)
@@ -727,8 +775,8 @@ def _hoja_ficha(wb, asistentes):
         f._rango(r + 1, c1, r + 5, c2, None)
     ws.row_dimensions[r].height = 24
     n = r + 6
-    nombres = (f'=IF({f.celdas["nombres"]}<>"",{f.celdas["nombres"]}&" "&{f.celdas["apellidos"]},'
-               f'IF({f.celdas["razon"]}<>"",{f.celdas["razon"]},"Nombre:"))',
+    nombres = (f'=IF({f.celdas["tit_nombres"]}<>"",{f.celdas["tit_nombres"]}&" "&{f.celdas["tit_apellidos"]},'
+               f'IF({f.celdas["cc_nombre"]}<>"",{f.celdas["cc_nombre"]},"Nombre:"))',
                f'=IF({nombre_asis}<>"",{nombre_asis},"Nombre:")', "Nombre:")
     roles = ("Huella digital (si no firma)", f'=IF({asis}="","Asistente predial","Asistente predial "&{asis})', "Especialista Legal / Técnico – SESDI")
     for (c1, c2, _), nm, rol in zip(cajas, nombres, roles):
@@ -736,14 +784,17 @@ def _hoja_ficha(wb, asistentes):
         f._rango(n + 1, c1, n + 1, c2, rol, font=Font(name=ARIAL, size=7), align=Alignment(horizontal="center"))
     f.r = n + 2
     f.espacio(6)
-    f.fila_doble(dict(texto="FECHA DE ELABORACIÓN", kind="fecha", h="center"),
-                 dict(texto="LUGAR", kind="texto"))
+    f.fila_doble(dict(texto="FECHA DE ELABORACIÓN", kind="fecha", h="center", clave="fecha_elaboracion"),
+                 dict(texto="LUGAR", kind="texto", clave="lugar"))
     f._rango(f.r, C0, f.r, C1, "Los datos personales se registran con el consentimiento del titular y se tratan "
                                "conforme a la Ley N.° 29733, Ley de Protección de Datos Personales. Uso exclusivo del "
                                "proceso de liberación de áreas del Proyecto IN Piura.",
              font=Font(name=ARIAL, size=6, italic=True, color=GRIS), borde=False)
     f.alto(18)
     ultima = f.r
+    for fila in range(1, ultima + 1):          # todas las filas con altura fija (posiciones iguales en Excel y LibreOffice)
+        if ws.row_dimensions[fila].height is None:
+            ws.row_dimensions[fila].height = 15
 
     # ---------- formato condicional: alertas en ámbar, conformes en verde
     calc_refs = [control, alerta, verif, chk, tipo_u]
@@ -805,6 +856,9 @@ def _hoja_instrucciones(wb, ficha: _Ficha, asistentes):
         "residir fuera del ámbito del proyecto.",
         "8. Para imprimir: la hoja FICHA PREDIAL está configurada en A4 vertical (4 páginas). La columna «Campo Kobo» "
         "queda fuera del área de impresión.",
+        "9. Sincronización con el aplicativo: una vez llenada, importe esta ficha en Liberación de Áreas › «2 · Plantillas "
+        "Excel / Kobo» › Ficha técnica predial completa. Entra como F-LA-02 + F-LA-03, igual que un envío del formulario "
+        "Kobo «FP – Ficha técnica predial completa». No cambie el nombre de las hojas ni borre la hoja oculta _MAPA.",
     ]
     r = 6
     for p in pasos:
@@ -873,8 +927,20 @@ def _hoja_instrucciones(wb, ficha: _Ficha, asistentes):
     ws.sheet_properties.tabColor = "1B4F72"
 
 
-def generar_ficha_predial(destino: Path = DESTINO, ruta_catalogo: Path = CATALOGO_CSV) -> Path:
-    catalogo = cargar_catalogo(ruta_catalogo)
+HOJA_MAPA = "_MAPA"
+
+
+def _hoja_mapa(wb, ficha: _Ficha):
+    """Hoja oculta campo Kobo (XLSForm FP) → celda: permite leer la ficha llenada aunque cambie su diseño."""
+    ws = wb.create_sheet(HOJA_MAPA)
+    ws.append(["campo", "celda", "version"])
+    for campo, celda in ficha.celdas.items():
+        ws.append([campo, celda, VERSION])
+    ws.sheet_state = "hidden"
+
+
+def construir_libro(catalogo: list[dict]) -> tuple[Workbook, _Ficha]:
+    """Libro completo de la ficha (FICHA PREDIAL, INSTRUCCIONES, CATALOGO_V6, LISTAS, _MAPA) para un catálogo."""
     nombres = {u["asistente"]: u["asistente_nombre"] for u in catalogo}
     asistentes = [(c, nombres.get(c, e)) for c, e in lc.OPCIONES["asistente"]]   # AP-1 … AP-6, ESP (como en Kobo)
     wb = Workbook()
@@ -882,10 +948,35 @@ def generar_ficha_predial(destino: Path = DESTINO, ruta_catalogo: Path = CATALOG
     _hoja_instrucciones(wb, ficha, asistentes)
     _hoja_catalogo(wb, catalogo)
     _hoja_listas(wb, catalogo, asistentes)
+    _hoja_mapa(wb, ficha)
     wb.calculation = CalcProperties(fullCalcOnLoad=True)
     wb.active = 0
     wb.properties.title = "Ficha Técnica Predial – Proyecto IN Piura"
     wb.properties.creator = "ANIN – DIME – SESDI"
+    return wb, ficha
+
+
+def mapa_celdas() -> dict[str, str]:
+    """Campo → celda de la versión vigente de la ficha (no depende del catálogo)."""
+    global _MAPA_CACHE
+    if _MAPA_CACHE is None:
+        _MAPA_CACHE = dict(_hoja_ficha(Workbook(), [(c, e) for c, e in lc.OPCIONES["asistente"]]).celdas)
+    return dict(_MAPA_CACHE)
+
+
+_MAPA_CACHE: dict[str, str] | None = None
+
+
+def ficha_bytes(catalogo: list[dict]) -> bytes:
+    import io
+    wb, _ = construir_libro(catalogo)
+    buf = io.BytesIO()
+    wb.save(buf)
+    return buf.getvalue()
+
+
+def generar_ficha_predial(destino: Path = DESTINO, ruta_catalogo: Path = CATALOGO_CSV) -> Path:
+    wb, _ = construir_libro(cargar_catalogo(ruta_catalogo))
     destino = Path(destino)
     wb.save(destino)
     return destino

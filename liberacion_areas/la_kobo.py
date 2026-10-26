@@ -92,13 +92,29 @@ _CAMPOS_CLAVE = {"f_la_01_reunion": {"tipo_evento", "fecha_evento", "unidades"},
                  "f_la_02_titular": {"consentimiento", "estado_la_propuesto", "tit_nombres"},
                  "f_la_03_inspeccion": {"punto_interior", "fecha_insp"},
                  "f_la_04_actas": {"tipo_acta", "checklist", "fecha_acta"},
-                 "f_la_06_vivero": {"cod_vivero", "gps_centro"}}
+                 "f_la_06_vivero": {"cod_vivero", "gps_centro"},
+                 # ficha técnica predial completa (F-LA-02 + F-LA-03): campos que solo tiene la ficha
+                 "fp_ficha_predial": {"personeria", "predio_provincia", "metodo_coord", "col_norte", "dom_direccion",
+                                      "tipo_predio"}}
 
 
 def form_id_por_nombre(nombre: str | None) -> str | None:
     """Formulario del aplicativo que corresponde al nombre del formulario en KoboToolbox."""
     m = _PATRON_FLA.search(str(nombre or "").upper())
     return _FORM_POR_NUMERO.get(m.group(1)) if m else None
+
+
+def form_id_kobo(nombre: str | None, uid: str | None = None) -> str | None:
+    """Como form_id_por_nombre, reconociendo además la ficha técnica predial completa (FP) por título o UID."""
+    from . import la_fp as fp
+    if fp.es_formulario_fp(nombre, uid):
+        return fp.FORM_ID
+    return form_id_por_nombre(nombre)
+
+
+def codigo_formulario(form_id: str) -> str:
+    from . import la_fp as fp
+    return fp.CODIGO if form_id == fp.FORM_ID else core.FORMULARIOS[form_id]["codigo"]
 
 
 def form_id_por_campos(registros: list[dict]) -> str | None:
@@ -114,7 +130,7 @@ def form_id_por_campos(registros: list[dict]) -> str | None:
 def formularios_la(kobo) -> list[dict]:
     """Formularios desplegados cuyo nombre corresponde a la serie F-LA (si no hay ninguno, todos)."""
     todos = kobo.listar_formularios()
-    return [f for f in todos if form_id_por_nombre(f.get("nombre"))] or todos
+    return [f for f in todos if form_id_kobo(f.get("nombre"), f.get("uid"))] or todos
 
 
 # ------------------------------------------------------------------ enlaces de llenado (Enketo)
@@ -137,7 +153,7 @@ def enlaces_formularios_la(kobo) -> list[dict]:
     """Enlaces de registro continuo de cada formulario F-LA desplegado. Un formulario que falla no detiene el resto."""
     out = []
     for f in kobo.listar_formularios():
-        fid = form_id_por_nombre(f.get("nombre"))
+        fid = form_id_kobo(f.get("nombre"), f.get("uid"))
         if not fid or not f.get("desplegado"):
             continue
         fila = {"form_id": fid, "nombre": f.get("nombre"), "enlaces": {}, "error": ""}
@@ -154,10 +170,11 @@ def revisar_envios(kobo, conn) -> list[dict]:
     """Por cada formulario F-LA de la cuenta: envíos en KoboToolbox y cuáles faltan importar.
     No escribe en la base. Los envíos eliminados en el aplicativo (bitácora) no cuentan como pendientes."""
     from . import la_db as db
+    from . import la_fp as fp
     ya = db.uuids_existentes(conn) | db.uuids_eliminados(conn)
     out = []
     for f in kobo.listar_formularios():
-        fid = form_id_por_nombre(f.get("nombre"))
+        fid = form_id_kobo(f.get("nombre"), f.get("uid"))
         if not fid or not (f.get("desplegado") or f.get("envios")):
             continue
         fila = {"uid": f["uid"], "nombre": f.get("nombre"), "form_id": fid, "en_kobo": 0, "pendientes": [], "error": ""}
@@ -168,7 +185,11 @@ def revisar_envios(kobo, conn) -> list[dict]:
             out.append(fila)
             continue
         fila["en_kobo"] = len(registros)
-        fila["pendientes"] = [r for r in registros if (core.kobo_uuid(core.aplanar(r)) or "") not in ya]
+        if fid == fp.FORM_ID:              # una ficha FP está pendiente si falta su F-LA-02 o su F-LA-03
+            fila["pendientes"] = [r for r in registros
+                                  if not set(fp.uuids_partes(core.kobo_uuid(core.aplanar(r)))) <= ya]
+        else:
+            fila["pendientes"] = [r for r in registros if (core.kobo_uuid(core.aplanar(r)) or "") not in ya]
         out.append(fila)
     return out
 
@@ -199,16 +220,24 @@ def sincronizar_envios(kobo, conn, usuario: str, revision: list[dict] | None = N
     """Importa los envíos pendientes de todos los formularios F-LA (mismas validaciones que la importación manual).
     Devuelve un resumen por formulario."""
     from . import la_db as db
+    from . import la_fp as fp
     resumen = []
     for f in (revision if revision is not None else revisar_envios(kobo, conn)):
-        fila = {"Formulario Kobo": f["nombre"], "Formulario": core.FORMULARIOS[f["form_id"]]["codigo"],
+        fila = {"Formulario Kobo": f["nombre"], "Formulario": codigo_formulario(f["form_id"]),
                 "En Kobo": f["en_kobo"], "Importados": 0, "Observados": 0, "Adjuntos": 0, "Detalle": f["error"]}
         if f["pendientes"] and not f["error"]:
             try:
                 cat, geoms = db.catalogo(conn), db.geometrias(conn)
-                res = [core.validar_envio(f["form_id"], core.aplanar(r), cat, geoms, db.uuids_existentes(conn),
-                                          db.sus_areas(conn, cat)) for r in f["pendientes"]]
-                n = db.importar(conn, res, "API", f["form_id"], usuario)["insertados"]
+                if f["form_id"] == fp.FORM_ID:     # cada ficha FP → F-LA-02 + F-LA-03 (sin las partes eliminadas)
+                    ya, sus = db.uuids_existentes(conn), db.sus_areas(conn, cat)
+                    omitir = ya | db.uuids_eliminados(conn)
+                    res = [x for r in f["pendientes"]
+                           for x in fp.validar(core.aplanar(r), cat, geoms, ya, sus, omitir=omitir)]
+                    n = fp.importar(conn, res, "API", usuario)
+                else:
+                    res = [core.validar_envio(f["form_id"], core.aplanar(r), cat, geoms, db.uuids_existentes(conn),
+                                              db.sus_areas(conn, cat)) for r in f["pendientes"]]
+                    n = db.importar(conn, res, "API", f["form_id"], usuario)["insertados"]
                 fila["Importados"] = n
                 fila["Observados"] = sum(r.estado_import == "OBSERVADO" for r in res)
                 if fotos:
