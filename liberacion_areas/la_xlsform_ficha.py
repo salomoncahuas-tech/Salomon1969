@@ -55,7 +55,7 @@ def _o(var: str, valores) -> str:
 # ------------------------------------------------------------------ listas (choices)
 def _choices() -> list[dict]:
     filas: list[dict] = []
-    for ln in ("asistente", "si_no", "tipo_titularidad", "sucesion_estado", "estado_civil", "docs_exhibidos",
+    for ln in ("asistente", "si_no", "posicion_sus", "tipo_titularidad", "sucesion_estado", "estado_civil", "docs_exhibidos",
                "uso_actual", "ocupacion", "acceso_tipo", "interferencias", "aceptacion", "modalidad",
                "conclusion_campo", "estado_la", "tipo_acta", "pt_tipo"):
         filas += [{"list_name": ln, "name": c, "label": e} for c, e in lc.OPCIONES[ln]]
@@ -209,6 +209,11 @@ def _survey() -> list[dict]:
       choice_filter="provincia=${predio_provincia}")
     q("note", "aviso_distrito", "⚠ Según el catálogo V6 la unidad ${unidad} está en el distrito ${distrito}: verifique.",
       relevant="${predio_distrito} != '' and ${distrito} != '' and ${predio_distrito} != ${distrito}")
+    # lote SUS: mismo polígono y posición que F-LA-03 (el aplicativo valida ≥ 1 ha, Σ ≤ 10 % del bloque, ≤ 50 m)
+    q("select_one posicion_sus", "posicion_sus_campo", "Posición del lote SUS declarada en campo",
+      relevant="${tipo_unidad}='lote_sus'")
+    q("geoshape", "poligono_sus", "Lote SUS – polígono", relevant="${tipo_unidad}='lote_sus'", required="yes",
+      hint="Recorra el perímetro del lote SUS; mínimo 1 ha, ≤ 10 % del bloque, dentro o a ≤ 50 m.")
     fin("g_predio")
 
     # ---- 4. predio matriz
@@ -331,7 +336,8 @@ def hojas() -> dict[str, tuple[list[str], list[dict]]]:
             "settings": (list(settings[0]), settings)}
 
 
-def generar_xlsform(destino: Path) -> Path:
+def generar_xlsform(destino) -> Path | None:
+    """Escribe el XLSForm en `destino` (ruta o archivo abierto / BytesIO)."""
     wb = Workbook()
     wb.remove(wb.active)
     for nombre, (cols, filas) in hojas().items():
@@ -348,9 +354,10 @@ def generar_xlsform(destino: Path) -> Path:
     for L, w in (("A", 34), ("B", 24), ("C", 60), ("D", 40), ("F", 30), ("G", 40), ("H", 36), ("I", 40), ("J", 32)):
         wb["survey"].column_dimensions[L].width = w
     wb["choices"].column_dimensions["C"].width = 44
-    destino = Path(destino)
+    if isinstance(destino, (str, Path)):
+        destino = Path(destino)
     wb.save(destino)
-    return destino
+    return destino if isinstance(destino, Path) else None
 
 
 LEEME = f"""FICHA TÉCNICA PREDIAL COMPLETA – XLSForm para KoboToolbox
@@ -369,10 +376,26 @@ Cómo cargarlo en kobotoolbox.org
 Notas
   - Las coordenadas del GPS se guardan en lat/lon (formato de Kobo); el aplicativo las convierte a UTM WGS84 17S.
     Si se digita UTM, Este debe estar entre {fp.ESTE_MIN:,} y {fp.ESTE_MAX:,} m y Norte entre {fp.NORTE_MIN:,} y {fp.NORTE_MAX:,} m.
-  - El título no contiene «F-LA»: la sincronización automática del aplicativo NO importa estos envíos como F-LA-02/03.
-    Descárguelos desde Kobo (Descargas › XLS) o, si se requiere, se puede habilitar su importación en el aplicativo.
+  - Sincronización con el aplicativo (Liberación de Áreas): el aplicativo reconoce este formulario por su título
+    («Ficha técnica predial») y cada envío entra como F-LA-02 (titular) + F-LA-03 (inspección), con las mismas
+    validaciones; los datos propios de la ficha (colindancias, afectaciones, domicilio…) se conservan en el registro.
+    El aviso «envíos de KoboToolbox aún no importados» de la página incluye este formulario.
+  - Lotes SUS: el formulario pide el polígono del lote (geoshape) como el F-LA-03.
   - Se regenera con: python -m liberacion_areas.la_xlsform_ficha
 """
+
+
+def paquete_zip(unidades_csv: bytes) -> bytes:
+    """ZIP con el XLSForm, el unidades.csv indicado (catálogo vigente del aplicativo) y el LEEME."""
+    import io
+    import zipfile
+    buf, xls = io.BytesIO(), io.BytesIO()
+    generar_xlsform(xls)
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr(ARCHIVO, xls.getvalue())
+        z.writestr(CSV_UNIDADES, unidades_csv)
+        z.writestr("LEEME.txt", LEEME.encode("utf-8"))
+    return buf.getvalue()
 
 
 def generar_paquete(carpeta: Path = DESTINO) -> Path:

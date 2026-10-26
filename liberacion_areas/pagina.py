@@ -12,6 +12,7 @@ Tres vías de registro equivalentes (mismos campos, mismas validaciones, mismas 
   1. KoboToolbox (API o exportación)   → pestaña «Importar KoboToolbox»
   2. Digitación en el aplicativo       → pestaña «Registro en campo»
   3. Plantilla Excel ANIN              → pestaña «Plantillas Excel / Kobo»
+La Ficha Técnica Predial completa (FP: formulario Kobo y ficha Excel imprimible) entra como F-LA-02 + F-LA-03.
 Los registros se consultan, editan, eliminan (con bitácora y restauración) en «Historial / Edición».
 """
 from __future__ import annotations
@@ -29,9 +30,12 @@ from . import la_campos as lc
 from . import la_core as core
 from . import la_db as db
 from . import la_export as ex
+from . import la_ficha_predial as fpx
+from . import la_fp as fpm
 from . import la_kobo as kb
 from . import la_plantillas as lp
 from . import la_reportes as rep
+from . import la_xlsform_ficha as xf
 
 ESTILO_ESTADO = {"NUEVO": "background-color:#C6EFCE", "DUPLICADO": "background-color:#D9D9D9",
                  "OBSERVADO": "background-color:#FFEB9C"}
@@ -546,6 +550,9 @@ def _tab_plantillas(conn, cat: dict):
                        file_name="unidades.csv", mime="text/csv")
 
     st.markdown("---")
+    _seccion_ficha_predial(conn, cat)
+
+    st.markdown("---")
     st.markdown("**3. Importar plantilla Excel llenada**")
     arch = st.file_uploader("Plantilla de Liberación de Áreas (.xlsx, máx. 25 MB)", type=["xlsx"], key="la_pl_up")
     if arch is None:
@@ -611,6 +618,67 @@ def _tab_plantillas(conn, cat: dict):
                 db.registrar_documento(conn, d["datos"])
                 nd += 1
         _flash(f"Plantilla importada: {total} registros de formularios y {nd} documentos F-LA-05. Estados LA recalculados.")
+        st.rerun()
+    if not _usuario():
+        st.caption("Ingrese el usuario responsable (arriba) para confirmar.")
+
+
+def _seccion_ficha_predial(conn, cat: dict):
+    """Ficha Técnica Predial completa: ficha Excel imprimible, formulario Kobo FP e importación de fichas llenadas."""
+    st.markdown("**Ficha técnica predial completa (FP) – Excel imprimible y formulario KoboToolbox**")
+    st.caption("La misma ficha en dos formatos sincronizados con el aplicativo: el formulario Kobo «FP – Ficha técnica "
+               "predial completa» (se importa con el aviso de envíos pendientes, arriba) y la ficha Excel imprimible. "
+               "Cada ficha entra como **F-LA-02** (titular) + **F-LA-03** (inspección) con las mismas validaciones; "
+               "colindancias, afectaciones, domicilio y personería quedan en el registro.")
+    unidades = fpx.catalogo_desde_unidades(cat)
+    c1, c2, c3 = st.columns(3)
+    if c1.button("Generar ficha Excel en blanco", key="la_fp_gen"):
+        st.session_state["la_fp_xlsx"] = fpx.ficha_bytes(unidades)
+    if st.session_state.get("la_fp_xlsx"):
+        c1.download_button("⬇️ Ficha_Predial_IN_Piura_F-LA.xlsx", st.session_state["la_fp_xlsx"], key="la_fp_dl",
+                           file_name="Ficha_Predial_IN_Piura_F-LA.xlsx", mime=MIME_XLSX)
+    if c2.button("Generar formulario Kobo FP", key="la_fp_kobo"):
+        st.session_state["la_fp_zip"] = xf.paquete_zip(lp.unidades_csv(cat))
+    if st.session_state.get("la_fp_zip"):
+        c2.download_button("⬇️ XLSForm FP + unidades.csv (ZIP)", st.session_state["la_fp_zip"], key="la_fp_zdl",
+                           file_name=f"Kobo_Ficha_Predial_FP_{date.today():%Y%m%d}.zip", mime="application/zip")
+    c3.caption(f"Formulario Kobo vinculado: título «{xf.TITULO}» (UID {', '.join(sorted(fpm.uids_fp()))}). "
+               "Si cambia el catálogo, reemplace unidades.csv en Kobo › Configuración › Multimedia y vuelva a desplegar.")
+
+    archivos = st.file_uploader("Importar fichas Excel llenadas (.xlsx, una ficha por archivo, máx. 25 MB c/u)",
+                                type=["xlsx"], accept_multiple_files=True, key="la_fp_up")
+    if not archivos:
+        return
+    geoms, existentes, sus = db.geometrias(conn), db.uuids_existentes(conn), db.sus_areas(conn, cat)
+    resultados, filas = [], []
+    for arch in archivos:
+        if arch.size > 25 * 1024 * 1024:
+            st.error(f"{arch.name}: excede 25 MB.")
+            continue
+        try:
+            leido = fpm.leer_ficha_excel(arch, arch.name)
+        except Exception as e:  # noqa: BLE001
+            st.error(f"{arch.name}: no se pudo leer la ficha ({e}).")
+            continue
+        for r in fpm.validar(leido["registro"], cat, geoms, existentes, sus):
+            if r.estado_import != "DUPLICADO":
+                for a in leido["avisos"]:
+                    if a not in r.motivos:
+                        r.observar(a)
+            resultados.append(r)
+            filas.append({"archivo": arch.name, "formulario": kb.codigo_formulario(r.form_id),
+                          "estado_import": r.estado_import, "motivo": " | ".join(r.motivos), "unidad": r.cod_unidad,
+                          "predio": r.cod_predio, "asistente": r.datos.get("asistente")})
+    if not filas:
+        return
+    vista = pd.DataFrame(filas)
+    st.dataframe(vista.style.map(lambda v: ESTILO_ESTADO.get(v, ""), subset=["estado_import"]), width="stretch",
+                 hide_index=True)
+    por_cargar = int(vista.estado_import.isin(["NUEVO", "OBSERVADO"]).sum())
+    if st.button(f"✅ Confirmar importación de fichas ({por_cargar} registros)", type="primary", key="la_fp_conf",
+                 disabled=not _usuario() or por_cargar == 0):
+        n = fpm.importar(conn, resultados, "PLANTILLA", _usuario())
+        _flash(f"Fichas prediales importadas: {n} registros (F-LA-02 + F-LA-03). Estados LA recalculados.")
         st.rerun()
     if not _usuario():
         st.caption("Ingrese el usuario responsable (arriba) para confirmar.")
@@ -699,7 +767,7 @@ def _panel_sincronizacion(conn, kobo, rev: dict, clave: str):
     pendientes = sum(len(f["pendientes"]) for f in forms)
     c1, c2 = st.columns([5, 1])
     if pendientes:
-        detalle = ", ".join(f"{core.FORMULARIOS[f['form_id']]['codigo']}: {len(f['pendientes'])}" for f in forms
+        detalle = ", ".join(f"{kb.codigo_formulario(f['form_id'])}: {len(f['pendientes'])}" for f in forms
                             if f["pendientes"])
         c1.warning(f"📥 **{pendientes} envío(s) de KoboToolbox aún no importados** ({detalle}). No aparecen en "
                    "Historial ni en la matriz predial hasta importarlos. Pulse **Importar ahora**: pasan por las mismas "
@@ -751,7 +819,7 @@ def _enlaces_llenado(kobo):
     if not filas:
         st.info("No hay formularios F-LA desplegados en la cuenta KoboToolbox.")
     for f in filas:
-        codigo = core.FORMULARIOS[f["form_id"]]["codigo"]
+        codigo = kb.codigo_formulario(f["form_id"])
         if f["error"]:
             st.warning(f"{codigo} · {f['nombre']}: {f['error']}")
         elif not f["enlaces"]:
@@ -816,7 +884,7 @@ def _tab_importar(conn):
                 try:
                     st.session_state["la_raw"] = kobo.obtener_envios(uid)
                     nombre = next((f["nombre"] for f in forms if f["uid"] == uid), "")
-                    st.session_state["la_raw_fid"] = (kb.form_id_por_nombre(nombre)
+                    st.session_state["la_raw_fid"] = (kb.form_id_kobo(nombre, uid)
                                                       or kb.form_id_por_campos(st.session_state["la_raw"]))
                 except Exception as e:  # noqa: BLE001
                     st.error(f"No se pudieron descargar los envíos: {e}")
@@ -826,25 +894,29 @@ def _tab_importar(conn):
             st.session_state["la_raw"] = (json.load(arch) if arch.name.endswith(".json") else kb.leer_exportacion_xlsx(arch))
             if isinstance(st.session_state["la_raw"], dict):
                 st.session_state["la_raw"] = st.session_state["la_raw"].get("results", [])
-            st.session_state["la_raw_fid"] = (kb.form_id_por_nombre(arch.name)
+            st.session_state["la_raw_fid"] = (kb.form_id_kobo(arch.name)
                                               or kb.form_id_por_campos(st.session_state["la_raw"]))
     registros = st.session_state.get("la_raw", [])
     if not registros:
         st.info("Sin envíos cargados.")
         return
-    opciones = list(core.FORMULARIOS)
+    opciones = list(core.FORMULARIOS) + [fpm.FORM_ID]
     sugerido = st.session_state.get("la_raw_fid")
     form_id = st.selectbox("Formulario del aplicativo al que corresponden los envíos", opciones,
                            index=opciones.index(sugerido) if sugerido in opciones else 0, key=f"la_imp_form_{sugerido}",
-                           format_func=lambda f: f"{core.FORMULARIOS[f]['codigo']} – {core.FORMULARIOS[f]['nombre']}")
+                           format_func=lambda f: (f"{fpm.CODIGO} – {fpm.NOMBRE}" if f == fpm.FORM_ID else
+                                                  f"{core.FORMULARIOS[f]['codigo']} – {core.FORMULARIOS[f]['nombre']}"))
     if sugerido:
         st.caption("Formulario reconocido automáticamente por el nombre o los campos de los envíos.")
 
     cat, geoms = db.catalogo(conn), db.geometrias(conn)
     existentes = db.uuids_existentes(conn)
     sus = db.sus_areas(conn, cat)
-    resultados = [core.validar_envio(form_id, core.aplanar(r), cat, geoms, existentes, sus) for r in registros]
-    vista = pd.DataFrame([{"estado_import": r.estado_import, "motivo": " | ".join(r.motivos), "kobo_uuid": r.kobo_uuid,
+    if form_id == fpm.FORM_ID:          # cada ficha FP → F-LA-02 + F-LA-03
+        resultados = [x for r in registros for x in fpm.validar(core.aplanar(r), cat, geoms, existentes, sus)]
+    else:
+        resultados = [core.validar_envio(form_id, core.aplanar(r), cat, geoms, existentes, sus) for r in registros]
+    vista = pd.DataFrame([{"formulario": kb.codigo_formulario(r.form_id), "estado_import": r.estado_import, "motivo": " | ".join(r.motivos), "kobo_uuid": r.kobo_uuid,
                            "asistente": r.datos.get("asistente"), "unidad": r.cod_unidad, "predio": r.cod_predio,
                            "fecha": r.datos.get("hoy"), "este": r.datos.get("este"), "norte": r.datos.get("norte"),
                            "validación espacial": r.datos.get("validacion_espacial"),
@@ -860,12 +932,17 @@ def _tab_importar(conn):
     fotos = st.checkbox("Descargar fotos y páginas de actas (versión mediana, se guardan en la base)", value=True,
                         disabled=kobo is None)
     if st.button("✅ Confirmar importación", type="primary", disabled=not _usuario()):
-        res = db.importar(conn, resultados, "API" if kobo else "ARCHIVO", form_id, _usuario())
+        fuente = "API" if kobo else "ARCHIVO"
+        if form_id == fpm.FORM_ID:
+            insertados, ref = fpm.importar(conn, resultados, fuente, _usuario()), "FP (F-LA-02 + F-LA-03)"
+        else:
+            res = db.importar(conn, resultados, fuente, form_id, _usuario())
+            insertados, ref = res["insertados"], f"N.° {res['import_id']}"
         if fotos and kobo:
             with st.spinner("Descargando adjuntos…"):
                 n, fallos = kb.guardar_adjuntos(kobo, conn, resultados)
             st.info(f"Adjuntos guardados: {n}" + (f" · no se pudieron descargar: {fallos}" if fallos else ""))
-        st.success(f"Importación N.° {res['import_id']}: {res['insertados']} envíos registrados. Estados LA recalculados. "
+        st.success(f"Importación {ref}: {insertados} envíos registrados. Estados LA recalculados. "
                    "Ya aparecen en «4 · Historial / Edición».")
         st.session_state.pop("la_raw", None)
         st.session_state.pop("la_kobo_rev", None)
@@ -1080,6 +1157,25 @@ def _detalle(conn, fid: str, v: pd.DataFrame, es_doc: bool):
                     cols[i % 4].image(bytes(a["contenido"]), caption=a["nombre_archivo"])
                 elif a["url_original"]:
                     cols[i % 4].markdown(f"[{a['nombre_archivo']}]({a['url_original']})")
+        if fid in fpm.PARTES:
+            extra = fpm.datos_adicionales(env["payload"])
+            if not extra.empty:
+                with st.expander("Datos de la ficha técnica predial (colindancias, domicilio, personería…)"):
+                    st.dataframe(extra, hide_index=True, width="stretch")
+                    af = fpm.tabla_afectaciones(env["payload"])
+                    if not af.empty:
+                        st.markdown("**Afectaciones**")
+                        st.dataframe(af, hide_index=True, width="stretch")
+            if env.get("cod_predio"):
+                if st.button("📄 Generar ficha técnica predial (Excel)", key=f"la_fp_ficha_{env['kobo_uuid']}"):
+                    st.session_state["la_fp_ficha"] = (env["cod_predio"], fpm.ficha_predio_bytes(conn, env["cod_predio"]))
+                lista = st.session_state.get("la_fp_ficha")
+                if lista and lista[0] == env["cod_predio"]:
+                    st.download_button(f"⬇️ Ficha_Predial_{lista[0]}.xlsx", lista[1], mime=MIME_XLSX,
+                                       file_name=f"Ficha_Predial_{lista[0]}_{date.today():%Y%m%d}.xlsx",
+                                       key=f"la_fp_ficha_dl_{env['kobo_uuid']}")
+                st.caption("Une el F-LA-02 y el F-LA-03 del predio (Kobo, aplicativo o ficha Excel) con sus fotos, "
+                           "en el formato ANIN imprimible.")
         st.caption(f"Origen {env.get('origen')} · registrado {env.get('creado')}"
                    + (f" · editado {env.get('editado')} por {env.get('editado_por')}" if env.get("editado") else ""))
         clave = env["kobo_uuid"]

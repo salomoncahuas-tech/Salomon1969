@@ -14,6 +14,9 @@ Cómo cargarlo en kobotoolbox.org
 Notas
   - Las coordenadas del GPS se guardan en lat/lon (formato de Kobo); el aplicativo las convierte a UTM WGS84 17S.
     Si se digita UTM, Este debe estar entre 450,000 y 750,000 m y Norte entre 9,300,000 y 9,600,000 m.
-  - El título no contiene «F-LA»: la sincronización automática del aplicativo NO importa estos envíos como F-LA-02/03.
-    Descárguelos desde Kobo (Descargas › XLS) o, si se requiere, se puede habilitar su importación en el aplicativo.
+  - Sincronización con el aplicativo (Liberación de Áreas): el aplicativo reconoce este formulario por su título
+    («Ficha técnica predial») y cada envío entra como F-LA-02 (titular) + F-LA-03 (inspección), con las mismas
+    validaciones; los datos propios de la ficha (colindancias, afectaciones, domicilio…) se conservan en el registro.
+    El aviso «envíos de KoboToolbox aún no importados» de la página incluye este formulario.
+  - Lotes SUS: el formulario pide el polígono del lote (geoshape) como el F-LA-03.
   - Se regenera con: python -m liberacion_areas.la_xlsform_ficha
