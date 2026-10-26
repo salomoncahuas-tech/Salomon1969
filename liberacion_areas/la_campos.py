@@ -299,6 +299,13 @@ FORMULARIOS["f_la_06_vivero"] = Formulario(
     ])
 
 FORMS_ENVIO = [f for f in FORMULARIOS if f in core.FORMULARIOS]   # los que pasan por validar_envio / importar
+# Formularios compuestos que se digitan en el aplicativo pero se registran como otros (p. ej. la ficha técnica predial
+# completa → F-LA-02 + F-LA-03, en la_fp). No entran en la plantilla Excel ni en el paquete Kobo F-LA.
+FORMULARIOS_EXTRA: dict[str, "Formulario"] = {}
+
+
+def formulario(form_id: str) -> "Formulario":
+    return FORMULARIOS.get(form_id) or FORMULARIOS_EXTRA[form_id]
 UTM_SUFIJOS = ("este", "norte", "alt", "prec")
 
 
@@ -422,7 +429,7 @@ def construir_registro(form_id: str, valores: dict, catalogo: dict[str, dict], r
     {campo}_prec. `base` es el payload previo (edición): se conservan sus campos no editados (adjuntos, metadatos).
     Devuelve (registro, avisos). Los avisos son de captura (campos obligatorios, rangos UTM); las reglas de
     negocio las aplica core.validar_envio."""
-    f = FORMULARIOS[form_id]
+    f = formulario(form_id)
     avisos: list[str] = []
     reg: dict = {k: v for k, v in (base or {}).items()}
     for c in f.campos:
@@ -536,7 +543,7 @@ def construir_registro(form_id: str, valores: dict, catalogo: dict[str, dict], r
 
 def registro_a_valores(form_id: str, payload: dict) -> tuple[dict, dict[str, list[dict]]]:
     """Inverso de construir_registro (para editar un envío ya guardado, sea de Kobo, app o plantilla)."""
-    f = FORMULARIOS[form_id]
+    f = formulario(form_id)
     val: dict = {}
     for c in f.campos:
         v = payload.get(c.nombre)

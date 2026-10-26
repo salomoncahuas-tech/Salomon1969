@@ -71,7 +71,7 @@ def _usuario() -> str:
 
 
 def _form_label(fid: str) -> str:
-    f = lc.FORMULARIOS[fid]
+    f = lc.formulario(fid)
     return f"{f.codigo} – {f.nombre}"
 
 
@@ -143,7 +143,7 @@ def _cargar_edicion(fid: str, valores: dict, reps: dict[str, list[dict]], edit: 
     """Precarga los widgets del formulario (modo edición) en el siguiente rerun."""
     st.session_state["la_nonce"] = _nonce() + 1
     st.session_state["la_form_sel"] = fid
-    f = lc.FORMULARIOS[fid]
+    f = lc.formulario(fid)
     # las fotos no se precargan (st.file_uploader no admite valor inicial): se muestra la ya registrada
     st.session_state["la_edit"] = {**edit, "fotos": {c.nombre: valores.get(c.nombre) for c in f.campos
                                                      if c.tipo == "foto" and valores.get(c.nombre)}}
@@ -200,7 +200,7 @@ def _preparar_siguiente(fid: str, valores: dict):
         if valores.get(nombre) not in (None, ""):
             st.session_state[_k(fid, nombre)] = valores[nombre]
     n = core._num(valores.get("n_predio"))
-    if any(c.nombre == "n_predio" for c in lc.FORMULARIOS[fid].campos) and n is not None and 0 < n < 99:
+    if any(c.nombre == "n_predio" for c in lc.formulario(fid).campos) and n is not None and 0 < n < 99:
         st.session_state[_k(fid, "n_predio")] = int(n) + 1
 
 
@@ -306,6 +306,9 @@ def _editor_repeat(rp: lc.Repeat, fid: str) -> list[dict]:
         elif c.tipo == "int":
             cols.append(c.nombre)
             cfg[c.nombre] = st.column_config.NumberColumn(c.etiqueta, step=1)
+        elif c.tipo == "decimal":
+            cols.append(c.nombre)
+            cfg[c.nombre] = st.column_config.NumberColumn(c.etiqueta, format="%.2f", min_value=0)
         else:
             cols.append(c.nombre)
             cfg[c.nombre] = st.column_config.TextColumn(c.etiqueta)
@@ -315,7 +318,7 @@ def _editor_repeat(rp: lc.Repeat, fid: str) -> list[dict]:
         if c.tipo == "select_one" and c.nombre in datos:
             datos[c.nombre] = datos[c.nombre].map(lambda v, c=c: lc.codigo_opcion(c.lista, v))
     numericas = [f"{c.nombre}_{x}" for c in rp.campos if c.tipo == "utm" for x in ("este", "norte")] + \
-        [c.nombre for c in rp.campos if c.tipo == "int"]
+        [c.nombre for c in rp.campos if c.tipo in ("int", "decimal")]
     for col in numericas:
         datos[col] = pd.to_numeric(datos[col], errors="coerce")
     ed = st.data_editor(datos, num_rows="dynamic", hide_index=True, width="stretch", column_config=cfg,
@@ -337,14 +340,18 @@ def _tab_registro(conn, cat: dict):
             st.rerun()
     _ir_al_inicio()
     c1, c2 = st.columns([3, 1])
-    fid = c1.selectbox("Formulario", list(lc.FORMULARIOS), key="la_form_sel", format_func=_form_label,
+    fid = c1.selectbox("Formulario", list(lc.FORMULARIOS) + [fpm.FORM_ID], key="la_form_sel", format_func=_form_label,
                        disabled=bool(edit))
     if not edit and c2.button("🧹 Limpiar formulario", key="la_limpiar",
                               help="Deja el formulario en blanco para registrar otro prediante, sin recargar la página."):
         _cancelar_edicion()
         st.rerun()
-    f = lc.FORMULARIOS[fid]
-    if f.kobo:
+    f = lc.formulario(fid)
+    if fid == fpm.FORM_ID:
+        st.caption("Mismos campos que el formulario Kobo «FP – Ficha técnica predial completa» y la ficha Excel "
+                   "imprimible. Al guardar se registra como **F-LA-02** (titular) + **F-LA-03** (inspección), con las "
+                   "mismas validaciones. Coordenadas en UTM WGS84 17S.")
+    elif f.kobo:
         st.caption("Mismos campos que el formulario KoboToolbox y la plantilla Excel. Coordenadas en UTM WGS84 17S.")
     valores: dict = {}
     cols = st.columns(3)
@@ -437,7 +444,7 @@ def _separar_fotos(fid: str, valores: dict) -> tuple[dict, dict]:
     {cod_predio}_{campo}_1.jpg (mismo formato que los adjuntos de Kobo) y su contenido va aparte."""
     fotos = {}
     base = _slug(lc.cod_predio(valores.get("unidad"), valores.get("n_predio")) or valores.get("unidad") or "SIN_COD")
-    for c in lc.FORMULARIOS[fid].campos:
+    for c in lc.formulario(fid).campos:
         if c.tipo != "foto":
             continue
         arch = valores.get(c.nombre)
@@ -479,6 +486,9 @@ def _guardar(conn, cat: dict, fid: str, valores: dict, reps: dict, edit: dict | 
         st.rerun()
         return
 
+    if fid == fpm.FORM_ID:
+        _guardar_fp(conn, cat, valores, reps, fotos, capturados)
+        return
     uid = edit["clave"] if edit else lc.nuevo_uuid("app")
     base = None
     if edit:
@@ -514,6 +524,36 @@ def _guardar(conn, cat: dict, fid: str, valores: dict, reps: dict, edit: dict | 
         _cancelar_edicion()
     else:
         _preparar_siguiente(fid, capturados)
+    st.rerun()
+
+
+def _guardar_fp(conn, cat: dict, valores: dict, reps: dict, fotos: dict, capturados: dict):
+    """Ficha técnica predial digitada en el aplicativo → F-LA-02 + F-LA-03 (fpm.validar / fpm.importar)."""
+    uid = lc.nuevo_uuid("app-fp")
+    reg, avisos = lc.construir_registro(fpm.FORM_ID, valores, cat, reps, kobo_uuid=uid)
+    faltan = [a for a in avisos if a.startswith("Falta")]
+    if faltan:
+        st.error("No se guardó: " + "; ".join(faltan))
+        return
+    res = fpm.validar(reg, cat, db.geometrias(conn), db.uuids_existentes(conn), db.sus_areas(conn, cat))
+    for r in res:
+        for a in avisos:
+            if a not in r.motivos:
+                r.observar(a)
+    fpm.importar(conn, res, "APP", _usuario())
+    insp = fpm.uuid_parte(uid, "f_la_03_inspeccion")
+    cod = next((r.cod_predio for r in res if r.cod_predio), None)
+    for campo, (nombre, mime, contenido) in fotos.items():
+        db.reemplazar_adjunto(conn, insp, cod, campo, nombre, mime, contenido)
+    observados = [r for r in res if r.estado_import == "OBSERVADO"]
+    msg = (f"Ficha técnica predial registrada · predio {cod} · F-LA-02 + F-LA-03"
+           + (f" · {len(fotos)} foto(s) guardada(s)" if fotos else "") + ".")
+    motivos = [m for r in res for m in r.motivos]
+    if motivos:
+        msg += " Motivos: " + " | ".join(dict.fromkeys(motivos))
+    msg += " · Formulario listo para el siguiente predio."
+    _flash(msg, "warning" if observados else "success")
+    _preparar_siguiente(fpm.FORM_ID, capturados)
     st.rerun()
 
 
