@@ -248,3 +248,16 @@ La ficha técnica predial existe en tres formas que comparten los nombres de cam
 Archivos: `liberacion_areas/la_fp.py` (nuevo), `la_kobo.py`, `la_db.py`, `la_ficha_predial.py`, `la_xlsform_ficha.py`,
 `pagina.py`. Pruebas: `tests/test_la_fp.py` (8, con cliente Kobo simulado e integración PostgreSQL). Suite completa con
 `LA_TEST_DB`: 341 pruebas superadas. Sin migración de base de datos.
+
+### Ficha FP también en «1 · Registro en campo» (26-oct-2026)
+
+- El selector **Formulario** de la pestaña 1 incluye **FP – Ficha técnica predial completa**, con los mismos campos que
+  el formulario Kobo FP y la ficha Excel. Las secciones del prediante solo aparecen si hay consentimiento (Ley 29733).
+  Incluye tablas de afectaciones, puntos de control y vértices del lote SUS, y 4 fotos más el croquis.
+- **Guardar y registrar otro** registra la ficha como **F-LA-02 + F-LA-03** (`app-fp-…-F02` / `-F03`, origen APP) con
+  `fpm.validar` / `fpm.importar`. Las fotos y el croquis se guardan en el F-LA-03. Las correcciones se hacen después sobre
+  el F-LA-02 o el F-LA-03 en «Historial / Edición».
+- Validación nueva en las tres vías: el distrito del predio debe pertenecer a la provincia elegida (si no, queda
+  OBSERVADO). Si difiere del distrito de la unidad en el catálogo V6, solo se avisa.
+- `la_campos.FORMULARIOS_EXTRA` / `la_campos.formulario()`: formularios que se digitan en el aplicativo pero no entran
+  en la plantilla Excel F-LA ni en el paquete Kobo F-LA.

@@ -250,3 +250,46 @@ def test_integracion_sincronizacion_fp():
     origenes = db.df(conn, "SELECT origen FROM la_envios_raw WHERE cod_predio='27-P07'")
     assert set(origenes.origen) == {"PLANTILLA"}
     conn.close()
+
+
+# ------------------------------------------------------------------ digitación en el aplicativo (Registro en campo)
+def _valores_app(**extra) -> dict:
+    v = {"hoy": "2026-10-26", "asistente": "AP-1", "unidad": "27", "n_predio": 8, "fecha_insp": "2026-10-26",
+         "consentimiento": "si", "tipo_titularidad": "posesionario", "personeria": "natural",
+         "tit_nombres": "LUISA (FICTICIA)", "tit_apellidos": "PRUEBA APP", "tit_dni": "00000888",
+         "punto_interior_este": E1 + 20, "punto_interior_norte": N1 + 20, "punto_interior_prec": 3,
+         "predio_provincia": "ayabaca", "predio_distrito": "frias", "uso_actual": "pastizal",
+         "edificaciones": ["corral_cobertizo"], "col_sur": "CAMINO", "col_sur_tipo": "camino_trocha",
+         "aceptacion": "favorable", "conclusion_campo": "sin_restriccion"}
+    v.update(extra)
+    return v
+
+
+def test_formulario_app_registra_f_la_02_y_03():
+    from liberacion_areas import la_campos as lc
+    assert lc.formulario(fp.FORM_ID) is fp.FORMULARIO and fp.FORM_ID not in lc.FORMULARIOS
+    reps = {"r_afectaciones": [{"af_descripcion": "POZO", "af_metrado": 1, "af_und": "und"}],
+            "r_puntos": [{"pt_gps_este": E1 + 60, "pt_gps_norte": N1 + 60, "pt_tipo": "hito"}]}
+    reg, avisos = lc.construir_registro(fp.FORM_ID, _valores_app(), base.catalogo(), reps, kobo_uuid="app-fp-1")
+    assert not [a for a in avisos if a.startswith("Falta")], avisos
+    assert reg["cod_predio"] == "27-P08" and reg["edificaciones"] == "corral_cobertizo"
+    res = fp.validar(reg, base.catalogo(), base.GEOMS, set())
+    assert [core.kobo_uuid(r.datos) for r in res] == ["app-fp-1-F02", "app-fp-1-F03"]
+    assert [r.estado_import for r in res] == ["NUEVO", "NUEVO"], [r.motivos for r in res]
+    assert res[1].datos["validacion_espacial"] == "DENTRO" and res[1].datos["r_afectaciones"][0]["af_und"] == "und"
+    # obligatorios de la ficha
+    _, avisos = lc.construir_registro(fp.FORM_ID, _valores_app(personeria=None, aceptacion=None), base.catalogo())
+    assert "Falta Tipo de personería" in avisos and "Falta Aceptación del titular / prediante" in avisos
+
+
+def test_distrito_fuera_de_la_provincia():
+    from liberacion_areas import la_campos as lc
+    reg, _ = lc.construir_registro(fp.FORM_ID, _valores_app(predio_provincia="morropon", predio_distrito="frias"),
+                                   base.catalogo(), kobo_uuid="app-fp-2")
+    r = fp.validar(reg, base.catalogo(), base.GEOMS, set())[1]
+    assert r.estado_import == "OBSERVADO" and any("no pertenece a la provincia" in m for m in r.motivos)
+    reg, _ = lc.construir_registro(fp.FORM_ID, _valores_app(predio_provincia="huancabamba", predio_distrito="huarmaca"),
+                                   base.catalogo(), kobo_uuid="app-fp-3")
+    r = fp.validar(reg, base.catalogo(), base.GEOMS, set())[1]
+    assert r.estado_import == "NUEVO" and any(m.startswith("Aviso: la unidad 27 figura en el distrito Frías")
+                                              for m in r.motivos)

@@ -118,8 +118,23 @@ def validar(reg: dict, catalogo: dict, geoms: dict, existentes: set[str], sus_ar
                 d[k] = cat[k]
         r = core.validar_envio(fid, d, catalogo, geoms, existentes, sus_areas)
         r.form_id = fid
+        if fid == "f_la_03_inspeccion" and r.estado_import != "DUPLICADO":
+            _validar_ubicacion(r, d, cat)
         out.append(r)
     return out
+
+
+def _validar_ubicacion(r: core.Resultado, d: dict, cat: dict):
+    """Distrito del predio: debe pertenecer a la provincia elegida (en Excel y en la digitación la lista no se filtra
+    por provincia); si difiere del distrito de la unidad en el catálogo V6 solo se avisa (un bloque puede abarcar
+    dos distritos)."""
+    prov, dist = d.get("predio_provincia"), d.get("predio_distrito")
+    if prov and dist and _PROVINCIA_DE.get(dist) not in (None, prov):
+        r.observar(f"Distrito del predio «{etiqueta('predio_distrito', dist)}» no pertenece a la provincia "
+                   f"«{etiqueta('predio_provincia', prov)}»")
+    if dist and cat.get("distrito") and dist != cat.get("distrito"):
+        r.motivos.append(f"Aviso: la unidad {d.get('cod_unidad')} figura en el distrito "
+                         f"{etiqueta('predio_distrito', cat.get('distrito'))} (catálogo V6)")
 
 
 def importar(conn, resultados: list[core.Resultado], fuente: str, usuario: str) -> int:
@@ -148,6 +163,7 @@ def _listas() -> tuple[dict[str, str], dict[str, dict[str, str]]]:
 
 
 _CAMPO_LISTA, _OPCIONES = _listas()
+_PROVINCIA_DE = {c["name"]: c.get("provincia") for c in xf.hojas()["choices"][1] if c["list_name"] == "distrito"}
 # Celdas de la ficha que repiten un campo (selección múltiple o tablas) → campo base del XLSForm
 _BASE = {**{f"docs_exhibidos_{k}": "docs_exhibidos" for k in (1, 2, 3)},
          **{f"interferencias_{k}": "interferencias" for k in (1, 2, 3)},
@@ -500,3 +516,156 @@ def tabla_afectaciones(payload: dict) -> pd.DataFrame:
                       "construcción": etiqueta("af_construccion", a.get("af_construccion")),
                       "ubicación": a.get("af_ubicacion")})
     return pd.DataFrame(filas).fillna("")
+
+
+# ------------------------------------------------------------------ digitación en el aplicativo («1 · Registro en campo»)
+def _registrar_opciones() -> dict[str, str]:
+    """Listas propias de la ficha en lc.OPCIONES con prefijo fp_ (mismas opciones y códigos que el XLSForm FP)."""
+    nombres = {}
+    for lista in ("personeria", "sit_registral", "cargo_rep", "tipo_predio", "edificaciones", "pendiente", "erosion",
+                  "cobertura", "tipo_colindante", "und_medida", "material", "conservacion", "construccion",
+                  "intervencion", "departamento", "dep_domicilio", "prov_domicilio", "provincia", "distrito"):
+        clave = f"fp_{lista}"
+        lc.OPCIONES[clave] = list(_OPCIONES[lista].items())
+        nombres[lista] = clave
+    return nombres
+
+
+_L = _registrar_opciones()
+_SI = {"consentimiento": ["si"]}
+
+
+def _formulario_app() -> lc.Formulario:
+    C, R = lc.Campo, lc.Repeat
+    nat = {**_SI, "personeria": ["natural"]}
+    jur = {**_SI, "personeria": ["juridica"]}
+    campos = [
+        C("hoy", "Fecha de registro", "date", requerido=True),
+        C("asistente", "Asistente predial", "select_one", "asistente", requerido=True,
+          ayuda="La lista de unidades muestra solo las asignadas al asistente (ESP ve todas)."),
+        C("unidad", "Código de la unidad (bloque / lote SUS)", "unidad", requerido=True),
+        C("n_predio", "N.° de predio dentro de la unidad", "int", requerido=True, minimo=1, maximo=99,
+          ayuda="Genera el código {UNIDAD}-P{nn}."),
+        C("fecha_insp", "Fecha de inspección", "date", requerido=True),
+        C("consentimiento", "Consentimiento para el uso de datos personales (Ley 29733)", "select_one", "si_no",
+          requerido=True),
+        # 1. predio matriz (titularidad registral)
+        C("sit_registral", "Situación registral", "select_one", _L["sit_registral"]),
+        C("doc_partida", "Partida electrónica / N.° de título", "text"),
+        C("oficina_registral", "Oficina registral", "text"),
+        C("reg_personeria", "Personería del titular registral", "select_one", _L["personeria"]),
+        C("reg_titular", "Titular registral (nombre / razón social)", "text", relevante=_SI),
+        C("docs_exhibidos", "Documentos exhibidos", "select_multiple", "docs_exhibidos"),
+        # 2. prediante
+        C("tipo_titularidad", "Condición jurídica del prediante", "select_one", "tipo_titularidad", requerido=True,
+          relevante=_SI),
+        C("sucesion_estado", "Estado de la sucesión", "select_one", "sucesion_estado",
+          relevante={**_SI, "tipo_titularidad": ["sucesion"]}),
+        C("personeria", "Tipo de personería", "select_one", _L["personeria"], requerido=True, relevante=_SI,
+          ayuda="Posesionario, ocupante y sucesión: persona natural. Comunidad y Estado: persona jurídica."),
+        C("tit_nombres", "Nombres", "text", requerido=True, relevante=nat),
+        C("tit_apellidos", "Apellidos", "text", requerido=True, relevante=nat),
+        C("tit_dni", "DNI (8 dígitos)", "text", relevante=nat),
+        C("tit_celular", "Celular (9 dígitos)", "text", relevante=nat),
+        C("tit_estado_civil", "Estado civil", "select_one", "estado_civil", relevante=nat),
+        C("tit_correo", "Correo electrónico (opcional)", "text", relevante=nat),
+        C("cony_nombre", "Nombre del cónyuge / conviviente", "text",
+          relevante={**nat, "tit_estado_civil": ["casado", "conviviente"]}),
+        C("cony_dni", "DNI del cónyuge", "text", relevante={**nat, "tit_estado_civil": ["casado", "conviviente"]}),
+        C("cc_nombre", "Comunidad / entidad / razón social", "text", requerido=True, relevante=jur),
+        C("cc_ruc", "RUC (11 dígitos)", "text", relevante=jur),
+        C("cc_partida", "Partida registral (SUNARP)", "text", relevante=jur),
+        C("cc_presidente", "Representante / presidente comunal", "text", relevante=jur),
+        C("rep_cargo", "Cargo del representante", "select_one", _L["cargo_rep"], relevante=jur),
+        C("cc_presidente_dni", "DNI del representante", "text", relevante=jur),
+        C("cc_presidente_cel", "Celular del representante", "text", relevante=jur),
+        C("dom_direccion", "Domicilio – dirección", "text", relevante=_SI),
+        C("dom_departamento", "Domicilio – departamento", "select_one", _L["dep_domicilio"], relevante=_SI),
+        C("dom_provincia", "Domicilio – provincia", "select_one", _L["prov_domicilio"],
+          relevante={**_SI, "dom_departamento": ["piura"]}),
+        C("dom_distrito", "Domicilio – distrito", "select_one", _L["distrito"],
+          relevante={**_SI, "dom_provincia": list(PROVINCIAS_AMBITO)}),
+        C("dom_lugar_otro", "Domicilio – provincia / distrito fuera del ámbito", "text", relevante=_SI),
+        # 3. descripción general
+        C("predio_nombre", "Nombre del predio", "text"),
+        C("centro_poblado", "Centro poblado / sector", "text"),
+        C("comunidad", "Comunidad campesina (si aplica)", "text"),
+        C("acceso_tipo", "Tipo de acceso", "select_one", "acceso_tipo"),
+        C("tiempo_acceso_min", "Tiempo desde el centro poblado (min)", "int", minimo=0, maximo=600),
+        C("ref_acceso", "Referencia de acceso", "textarea"),
+        C("punto_interior", "Punto interior del predio", "utm", requerido=True),
+        C("predio_provincia", "Provincia del predio", "select_one", _L["provincia"], requerido=True),
+        C("predio_distrito", "Distrito del predio", "select_one", _L["distrito"], requerido=True,
+          ayuda="Debe pertenecer a la provincia elegida (15 distritos del ámbito)."),
+        C("posicion_sus_campo", "Posición del lote SUS declarada en campo", "select_one", "posicion_sus",
+          relevante={"tipo_unidad": ["lote_sus"]}),
+        # 4. predio matriz
+        C("uso_actual", "Uso actual del suelo", "select_one", "uso_actual"),
+        C("uso_otro", "Especifique el otro uso", "text", relevante={"uso_actual": ["otro"]}),
+        C("ocupacion", "Ocupación observada", "select_one", "ocupacion"),
+        C("ocupacion_det", "Detalle de la ocupación", "text"),
+        C("edificaciones", "Edificaciones / cultivos", "select_multiple", _L["edificaciones"]),
+        C("edif_det", "Detalle / especifique «Otro»", "text"),
+        C("pendiente_clase", "Topografía / pendiente", "select_one", _L["pendiente"],
+          ayuda="Criterio de idoneidad del proyecto: pendiente máxima 75 %."),
+        C("erosion", "Erosión observada", "select_multiple", _L["erosion"]),
+        C("cobertura", "Estado de la cobertura vegetal", "select_one", _L["cobertura"]),
+        C("mov_masa", "Evidencia de movimientos en masa", "select_one", "si_no"),
+        C("tipo_predio", "Tipo de predio", "select_one", _L["tipo_predio"]),
+        C("predio_area_decl_ha", "Área matriz del predio (ha)", "decimal", minimo=0),
+        C("perimetro_m", "Perímetro (m)", "decimal", minimo=0),
+        C("descripcion_predio", "Otros / descripción del predio", "textarea",
+          ayuda="Cobertura, pendiente, accesos, linderos, signos de degradación o de movimientos en masa."),
+        *[c for lado in ("norte", "este", "sur", "oeste") for c in (
+            C(f"col_{lado}", f"Colindante {lado.upper()}", "text"),
+            C(f"col_{lado}_tipo", f"Tipo de colindante {lado.upper()}", "select_one", _L["tipo_colindante"]))],
+        C("conflicto_linderos_det", "Conflictos de linderos / observaciones", "textarea"),
+        # 5. área a intervenir
+        C("predio_area_unidad_ha", "Área del predio dentro de la unidad (ha)", "decimal", minimo=0),
+        C("interferencias", "Interferencias", "select_multiple", "interferencias"),
+        C("intervencion_prevista", "Intervención prevista (referencial)", "select_multiple", _L["intervencion"]),
+        C("interf_detalle", "Detalle de interferencias", "textarea"),
+        # 6. liberación
+        C("aceptacion", "Aceptación del titular / prediante", "select_one", "aceptacion", requerido=True),
+        C("modalidad", "Modalidad de disponibilidad", "select_one", "modalidad"),
+        C("conclusion_campo", "Conclusión de campo", "select_one", "conclusion_campo", requerido=True),
+        C("estado_la_propuesto", "Estado LA propuesto", "select_one", "estado_la"),
+        C("tipo_acta_prevista", "Acta prevista", "select_one", "tipo_acta"),
+        C("cod_titular_prev", "Código de titular ya registrado (T0000), si existe", "text"),
+        C("alertas", "Observaciones / alertas sociales", "textarea"),
+        # 8. fotos
+        C("foto_1", "Foto 1 – Vista general del predio", "foto"),
+        C("foto_2", "Foto 2 – Cobertura vegetal / uso actual", "foto"),
+        C("foto_3", "Foto 3 – Linderos, hitos o accesos", "foto"),
+        C("foto_4", "Foto 4 – Interferencias o detalle relevante", "foto"),
+        C("croquis", "Croquis del predio (foto del dibujo)", "foto"),
+    ]
+    repeats = [
+        R("r_afectaciones", "Afectaciones (obras y bienes existentes en el área)",
+          [C("af_descripcion", "Descripción / uso", "text", requerido=True), C("af_metrado", "Metrado", "decimal"),
+           C("af_und", "Und.", "select_one", _L["und_medida"]), C("af_material", "Material", "select_one", _L["material"]),
+           C("af_conservacion", "Est. conservación", "select_one", _L["conservacion"]),
+           C("af_construccion", "Est. construcción", "select_one", _L["construccion"]),
+           C("af_ubicacion", "Ubicación", "text")], "FP_afectaciones"),
+        R("r_puntos", "Puntos de control / vértices del predio",
+          [C("pt_gps", "Punto", "utm", requerido=True), C("pt_tipo", "Tipo de punto", "select_one", "pt_tipo")],
+          "FP_puntos"),
+        R("poligono_sus", "Vértices del lote SUS (en orden, UTM 17S)",
+          [C("orden", "Orden", "int", requerido=True), C("pt_gps", "Vértice", "utm", requerido=True)],
+          "FP_vertices_SUS", relevante={"tipo_unidad": ["lote_sus"]}),
+    ]
+    return lc.Formulario(FORM_ID, CODIGO, "Ficha técnica predial completa (registra F-LA-02 + F-LA-03)", campos,
+                         repeats, con_predio=True)
+
+
+PROVINCIAS_AMBITO = tuple(fpx.PROVINCIAS)               # ayabaca, huancabamba, morropon
+FORMULARIO = None
+
+
+def _registrar_formulario():
+    global FORMULARIO
+    FORMULARIO = _formulario_app()
+    lc.FORMULARIOS_EXTRA[FORM_ID] = FORMULARIO
+
+
+_registrar_formulario()
