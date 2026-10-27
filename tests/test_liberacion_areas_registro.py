@@ -364,6 +364,21 @@ def test_f_la_03_fotos_y_descripcion():
     assert "descripcion_predio" in claves and not claves & set(_FOTOS)
 
 
+def test_f_la_03_puntos_con_numero_fijo():
+    """Puntos de control / vértices: se pregunta antes cuántos (n_puntos) y el repeat usa repeat_count; abierto,
+    Kobo pedía «agregar otro» sin fin y no dejaba seguir con el formulario."""
+    s = lp.xlsform_hojas("f_la_03_inspeccion")["survey"]
+    nombres = list(s["name"])
+    assert nombres.index("n_puntos") == nombres.index("r_puntos") - 1
+    s = s.set_index("name")
+    assert s.loc["n_puntos", "type"] == "integer" and s.loc["n_puntos", "required"] == "yes"
+    assert s.loc["n_puntos", "constraint"] == ". >= 0 and . <= 50"
+    rep = s[s["type"] == "begin_repeat"].loc["r_puntos"]
+    assert rep["repeat_count"] == "${n_puntos}" and rep["relevant"] == "${n_puntos} > 0"
+    # n_puntos es solo de Kobo: no entra en la plantilla Excel
+    assert "n_puntos" not in {c["clave"] for c in lp._columnas_campos(lc.FORMULARIOS["f_la_03_inspeccion"].campos)}
+
+
 def test_f_la_03_registro_conserva_fotos_al_editar():
     """El nombre de la foto queda en el envío; editar sin subir otra foto conserva la registrada."""
     cat = _cat()

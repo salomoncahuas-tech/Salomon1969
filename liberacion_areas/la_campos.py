@@ -126,6 +126,7 @@ class Repeat:
     campos: list[Campo]
     hoja: str                         # hoja de la plantilla Excel
     relevante: dict | None = None
+    max_filas: int | None = None      # Kobo: se pregunta antes cuántas filas (n_…) y se fija repeat_count
 
 
 @dataclass
@@ -230,7 +231,7 @@ FORMULARIOS["f_la_03_inspeccion"] = Formulario(
     repeats=[
         Repeat("r_puntos", "Puntos de control / vértices del predio",
                [C("pt_gps", "Punto", "utm", requerido=True), C("pt_tipo", "Tipo de punto", "select_one", "pt_tipo")],
-               "F-LA-03_puntos"),
+               "F-LA-03_puntos", max_filas=50),
         Repeat("poligono_sus", "Vértices del lote SUS (en orden, UTM 17S)",
                [C("orden", "Orden", "int", requerido=True), C("pt_gps", "Vértice", "utm", requerido=True)],
                "F-LA-03_vertices_SUS", relevante={"tipo_unidad": ["lote_sus"]}),

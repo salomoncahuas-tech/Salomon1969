@@ -445,6 +445,11 @@ def _fila_xls(c: lc.Campo, relevante_extra: str = "") -> dict:
     return fila
 
 
+def conteo_repeat(rp: lc.Repeat) -> str:
+    """Nombre del campo Kobo con el número de filas de un repeat con max_filas (r_puntos → n_puntos)."""
+    return "n_" + rp.nombre.removeprefix("r_")
+
+
 def xlsform_hojas(form_id: str) -> dict[str, pd.DataFrame]:
     """XLSForm (survey, choices, settings) de un formulario F-LA, con los nombres que espera el importador."""
     f = lc.FORMULARIOS[form_id]
@@ -478,7 +483,18 @@ def xlsform_hojas(form_id: str) -> dict[str, pd.DataFrame]:
                            "relevant": rel, "required": "yes" if rel else "",
                            "hint": "Recorra el perímetro del lote SUS; mínimo 1 ha, ≤ 10 % del bloque, dentro o a ≤ 50 m."})
             continue
-        survey.append({"type": "begin_repeat", "name": rp.nombre, "label": rp.etiqueta, "relevant": rel})
+        fila_rep = {"type": "begin_repeat", "name": rp.nombre, "label": rp.etiqueta, "relevant": rel}
+        if rp.max_filas:
+            # Repeat abierto: Kobo pide «agregar otro» sin fin y no deja seguir; con repeat_count se llenan
+            # exactamente las filas indicadas y el formulario continúa (0 = ninguna).
+            n = conteo_repeat(rp)
+            survey.append({"type": "integer", "name": n, "label": f"N.° de {rp.etiqueta[0].lower()}{rp.etiqueta[1:]}",
+                           "hint": f"Indique cuántos registrará (0 a {rp.max_filas}). Para corregir, vuelva aquí y "
+                                   "cambie el número.", "required": "yes", "relevant": rel, "default": "0",
+                           "constraint": f". >= 0 and . <= {rp.max_filas}",
+                           "constraint_message": f"Entre 0 y {rp.max_filas}"})
+            fila_rep.update(repeat_count=f"${{{n}}}", relevant=" and ".join(x for x in (rel, f"${{{n}}} > 0") if x))
+        survey.append(fila_rep)
         for c in rp.campos:
             survey.append(_fila_xls(c))
             if c.lista:
@@ -488,7 +504,7 @@ def xlsform_hojas(form_id: str) -> dict[str, pd.DataFrame]:
                    "hint": _AYUDA_FIN})
     choices = [{"list_name": ln, "name": cod, "label": et} for ln in sorted(listas_usadas) for cod, et in lc.OPCIONES[ln]]
     cols_s = ["type", "name", "label", "hint", "required", "relevant", "constraint", "constraint_message", "calculation",
-              "choice_filter", "appearance", "default", "parameters"]
+              "choice_filter", "appearance", "default", "parameters", "repeat_count"]
     settings = pd.DataFrame([{"form_title": f"{f.codigo} – {f.nombre}", "form_id": form_id,
                               "version": datetime.now().strftime("%Y%m%d%H%M"), "default_language": _IDIOMA}])
     # Las columnas traducibles llevan el idioma (label::Español (es)); si quedan sin sufijo junto a
@@ -537,6 +553,8 @@ def paquete_kobo(catalogo: dict[str, dict]) -> bytes:
             "   «Enviar» el formulario queda en blanco y vuelve al inicio. NO use «En línea (envío único)» (/single/…),\n"
             "   que termina en la página de agradecimiento. En KoboCollect: «Guardar y salir» › «Llenar formulario».\n"
             "   El aplicativo muestra estos enlaces en «Importar KoboToolbox › Enlaces de llenado».\n"
+            "3c. F-LA-03: en «Puntos de control / vértices» se indica primero cuántos se registrarán (0 a 50); el\n"
+            "   formulario pide solo esos puntos y continúa. Para agregar o quitar puntos, cambie ese número.\n"
             "4. En el aplicativo: Liberación de Áreas › Importar KoboToolbox › API › Listar formularios F-LA.\n\n"
             "Los nombres de campo son los mismos de la plantilla Excel y del registro en el aplicativo;\n"
             "las tres vías pasan por las mismas validaciones. F-LA-05 (búsqueda documental) se registra en el\n"

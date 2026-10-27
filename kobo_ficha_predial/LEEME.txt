@@ -19,4 +19,6 @@ Notas
     validaciones; los datos propios de la ficha (colindancias, afectaciones, domicilio…) se conservan en el registro.
     El aviso «envíos de KoboToolbox aún no importados» de la página incluye este formulario.
   - Lotes SUS: el formulario pide el polígono del lote (geoshape) como el F-LA-03.
+  - Puntos de control / vértices: primero se indica cuántos se registrarán (0 a 50) y el formulario pide solo
+    esos puntos y continúa con las fotos. Para agregar o quitar puntos, vuelva a esa pregunta y cambie el número.
   - Se regenera con: python -m liberacion_areas.la_xlsform_ficha

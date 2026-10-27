@@ -290,7 +290,12 @@ def _survey() -> list[dict]:
     q("image", "croquis", "Croquis del predio (dibuje: norte, linderos, accesos, vértices)", appearance="draw",
       parameters=f"max-pixels={FOTO_MAX_PX}")
     fin("g_croquis")
-    q("begin_repeat", "r_puntos", "Puntos de control / vértices del predio")
+    # repeat con número fijo de filas: abierto, Kobo pedía «agregar otro» sin fin y no dejaba seguir la ficha
+    q("integer", "n_puntos", "N.° de puntos de control / vértices del predio", required="yes", default="0",
+      constraint=". >= 0 and . <= 50", constraint_message="Entre 0 y 50",
+      hint="Indique cuántos registrará (0 a 50). Para corregir, vuelva aquí y cambie el número.")
+    q("begin_repeat", "r_puntos", "Puntos de control / vértices del predio", relevant="${n_puntos} > 0",
+      repeat_count="${n_puntos}")
     q("geopoint", "pt_gps", "Punto", required="yes", hint="Precisión ≤ 10 m.")
     q("select_one pt_tipo", "pt_tipo", "Tipo de punto")
     S.append({"type": "end_repeat", "name": "r_puntos"})
@@ -319,7 +324,7 @@ def _survey() -> list[dict]:
 
 
 _COLS_SURVEY = ["type", "name", "label", "hint", "required", "relevant", "constraint", "constraint_message",
-                "calculation", "choice_filter", "appearance", "default", "parameters"]
+                "calculation", "choice_filter", "appearance", "default", "parameters", "repeat_count"]
 _TRAD = ("label", "hint", "constraint_message")
 
 
@@ -381,6 +386,8 @@ Notas
     validaciones; los datos propios de la ficha (colindancias, afectaciones, domicilio…) se conservan en el registro.
     El aviso «envíos de KoboToolbox aún no importados» de la página incluye este formulario.
   - Lotes SUS: el formulario pide el polígono del lote (geoshape) como el F-LA-03.
+  - Puntos de control / vértices: primero se indica cuántos se registrarán (0 a 50) y el formulario pide solo
+    esos puntos y continúa con las fotos. Para agregar o quitar puntos, vuelva a esa pregunta y cambie el número.
   - Se regenera con: python -m liberacion_areas.la_xlsform_ficha
 """
 
