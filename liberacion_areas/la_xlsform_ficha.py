@@ -382,6 +382,8 @@ Cómo cargarlo en kobotoolbox.org
   2. En el proyecto: Configuración › Multimedia › cargue {CSV_UNIDADES} (sin él la lista de unidades sale vacía).
   3. Desplegar. Para llenar: Formulario › Recolectar datos › «En línea-Fuera de línea (envíos múltiples)» o KoboCollect.
   4. Si cambian las asignaciones de asistentes, reemplace solo {CSV_UNIDADES} en Multimedia y vuelva a desplegar.
+  5. Para actualizar un formulario ya desplegado use ⋯ › «Reemplazar formulario», no «Nuevo»: una copia nueva hace
+     que los celulares vean dos versiones. Si ya hay copias, archive las viejas (⋯ › Archivar; no las elimine).
 
 Notas
   - Las coordenadas del GPS se guardan en lat/lon (formato de Kobo); el aplicativo las convierte a UTM WGS84 17S.

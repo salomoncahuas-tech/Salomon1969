@@ -149,12 +149,17 @@ def enlaces_llenado(kobo, uid: str) -> dict[str, str]:
     return {et: links[k] for k, et in ENLACES_LLENADO if links.get(k)}
 
 
-def enlaces_formularios_la(kobo) -> list[dict]:
+def _en_uso(f: dict) -> bool:
+    """Desplegado y no archivado (lo ven los celulares)."""
+    return bool(f.get("desplegado")) and f.get("activo", True) is not False
+
+
+def enlaces_formularios_la(kobo, formularios: list[dict] | None = None) -> list[dict]:
     """Enlaces de registro continuo de cada formulario F-LA desplegado. Un formulario que falla no detiene el resto."""
     out = []
-    for f in kobo.listar_formularios():
+    for f in (kobo.listar_formularios() if formularios is None else formularios):
         fid = form_id_kobo(f.get("nombre"), f.get("uid"))
-        if not fid or not f.get("desplegado"):
+        if not fid or not _en_uso(f):
             continue
         fila = {"form_id": fid, "nombre": f.get("nombre"), "enlaces": {}, "error": ""}
         try:
@@ -163,6 +168,23 @@ def enlaces_formularios_la(kobo) -> list[dict]:
             fila["error"] = str(e)
         out.append(fila)
     return sorted(out, key=lambda x: (x["form_id"], str(x["nombre"])))
+
+
+def formularios_duplicados(formularios: list[dict]) -> list[dict]:
+    """Formularios F-LA / FP desplegados más de una vez en la cuenta: los celulares muestran todas las copias.
+    Por cada uno: el que se conserva (el modificado más recientemente, donde se hizo «Reemplazar formulario») y los
+    que se deben archivar en KoboToolbox. Los envíos de los archivados siguen disponibles para importar."""
+    grupos: dict[str, list[dict]] = {}
+    for f in formularios:
+        fid = form_id_kobo(f.get("nombre"), f.get("uid"))
+        if fid and _en_uso(f):
+            grupos.setdefault(fid, []).append(f)
+    out = []
+    for fid, fs in sorted(grupos.items()):
+        if len(fs) > 1:
+            fs = sorted(fs, key=lambda f: str(f.get("fecha_modificacion") or ""), reverse=True)
+            out.append({"form_id": fid, "codigo": codigo_formulario(fid), "conservar": fs[0], "archivar": fs[1:]})
+    return out
 
 
 # ------------------------------------------------------------------ sincronización de envíos

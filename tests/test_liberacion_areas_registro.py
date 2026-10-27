@@ -344,6 +344,30 @@ def test_enlaces_llenado_envios_multiples():
     assert not any("/single/" in u for u in enlaces.values())
 
 
+def test_formularios_duplicados_kobo():
+    """Copias desplegadas del mismo F-LA: se conserva la modificada más recientemente; las archivadas no cuentan."""
+    from liberacion_areas import la_kobo as kb
+    forms = [{"uid": "a01v", "nombre": "F-LA-01 – Reunión", "desplegado": True, "activo": True,
+              "fecha_modificacion": "2026-10-01T10:00:00Z", "envios": 12},
+             {"uid": "a01n", "nombre": "F-LA-01 – Reunión / asamblea", "desplegado": True, "activo": True,
+              "fecha_modificacion": "2026-10-27T12:00:00Z", "envios": 0},
+             {"uid": "a02v", "nombre": "F-LA-02 – Ficha", "desplegado": True, "activo": False,
+              "fecha_modificacion": "2026-09-01T10:00:00Z", "envios": 5},
+             {"uid": "a02n", "nombre": "F-LA-02 – Ficha", "desplegado": True, "activo": True,
+              "fecha_modificacion": "2026-10-27T12:00:00Z", "envios": 1},
+             {"uid": "aP6a", "nombre": "Paso 6", "desplegado": True}, {"uid": "aP6b", "nombre": "Paso 6", "desplegado": True}]
+    d = kb.formularios_duplicados(forms)
+    assert [x["codigo"] for x in d] == ["F-LA-01"]
+    assert d[0]["conservar"]["uid"] == "a01n" and [a["uid"] for a in d[0]["archivar"]] == ["a01v"]
+    # los archivados no reciben enlaces de llenado
+    class Kobo:
+        def _get_json(self, endpoint, params=None):
+            return {"deployment__links": {"offline_url": f"https://ee.kobotoolbox.org/x/{endpoint}"}}
+    assert {f["nombre"] for f in kb.enlaces_formularios_la(Kobo(), forms)} == {
+        "F-LA-01 – Reunión", "F-LA-01 – Reunión / asamblea", "F-LA-02 – Ficha"}
+    assert len(kb.enlaces_formularios_la(Kobo(), forms)) == 3
+
+
 # ------------------------------------------------------------------ F-LA-03: fotos y descripción del predio
 _FOTOS = ["foto_1", "foto_2", "foto_3", "foto_4"]
 

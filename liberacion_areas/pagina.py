@@ -850,12 +850,15 @@ def _enlaces_llenado(kobo):
     if st.button("🔗 Obtener enlaces de envíos múltiples", key="la_enlaces"):
         with st.spinner("Consultando KoboToolbox…"):
             try:
-                st.session_state["la_enlaces_kobo"] = kb.enlaces_formularios_la(kobo)
+                todos = kobo.listar_formularios()
+                st.session_state["la_enlaces_kobo"] = kb.enlaces_formularios_la(kobo, todos)
+                st.session_state["la_dup_kobo"] = kb.formularios_duplicados(todos)
             except Exception as e:  # noqa: BLE001 – token inválido, sin red, etc.
                 st.error(f"No se pudo consultar KoboToolbox: {e}")
     filas = st.session_state.get("la_enlaces_kobo")
     if filas is None:
         return
+    _avisar_duplicados(st.session_state.get("la_dup_kobo") or [])
     if not filas:
         st.info("No hay formularios F-LA desplegados en la cuenta KoboToolbox.")
     for f in filas:
@@ -866,6 +869,26 @@ def _enlaces_llenado(kobo):
             st.warning(f"{codigo} · {f['nombre']}: sin enlaces web (despliegue el formulario en KoboToolbox).")
         else:
             st.markdown(f"**{codigo}** · {f['nombre']}  \n" + "  \n".join(f"{et}: {url}" for et, url in f["enlaces"].items()))
+
+
+def _avisar_duplicados(duplicados: list[dict]):
+    """Copias desplegadas del mismo formulario: los celulares las muestran todas (dos F-LA-01, dos F-LA-02…)."""
+    if not duplicados:
+        return
+    url = "https://kf.kobotoolbox.org/#/forms/{}/landing"
+    lineas = []
+    for d in duplicados:
+        c = d["conservar"]
+        lineas.append(f"**{d['codigo']}** – conservar «{c['nombre']}» ({c['envios']} envíos, modificado "
+                      f"{str(c.get('fecha_modificacion') or '')[:10]}) · archivar: "
+                      + "; ".join(f"[«{a['nombre']}» ({a['envios']} envíos)]({url.format(a['uid'])})"
+                                  for a in d["archivar"]))
+    st.warning("**Formularios duplicados en KoboToolbox.** Los asistentes ven más de una versión del mismo formulario "
+               "en el celular. Abra cada copia a archivar › ⋯ › **Archivar** (no la elimine): deja de aparecer en "
+               "KoboCollect y en los enlaces web, y sus envíos se conservan y se siguen importando. Se conserva la "
+               "copia modificada más recientemente; si la correcta es otra, archive las demás. Después, en "
+               "KoboCollect: «Descargar formulario» (o «Eliminar formulario» para quitar la copia vieja).  \n"
+               + "  \n".join(lineas))
 
 
 def _tab_importar(conn):
