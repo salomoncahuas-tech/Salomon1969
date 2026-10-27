@@ -1137,6 +1137,9 @@ class KoBoClient:
                 "fecha_modificacion": a.get("date_modified", ""),
                 "envios": a.get("deployment__submission_count", 0),
                 "desplegado": a.get("has_deployment", False),
+                # archivado = desplegado pero inactivo: no aparece en KoboCollect ni en los enlaces web
+                "activo": a.get("deployment__active", a.get("has_deployment", False)),
+                "propietario": a.get("owner__username", ""),
             })
         return formularios
 

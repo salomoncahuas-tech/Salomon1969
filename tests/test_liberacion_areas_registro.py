@@ -344,6 +344,30 @@ def test_enlaces_llenado_envios_multiples():
     assert not any("/single/" in u for u in enlaces.values())
 
 
+def test_formularios_duplicados_kobo():
+    """Copias desplegadas del mismo F-LA: se conserva la modificada más recientemente; las archivadas no cuentan."""
+    from liberacion_areas import la_kobo as kb
+    forms = [{"uid": "a01v", "nombre": "F-LA-01 – Reunión", "desplegado": True, "activo": True,
+              "fecha_modificacion": "2026-10-01T10:00:00Z", "envios": 12},
+             {"uid": "a01n", "nombre": "F-LA-01 – Reunión / asamblea", "desplegado": True, "activo": True,
+              "fecha_modificacion": "2026-10-27T12:00:00Z", "envios": 0},
+             {"uid": "a02v", "nombre": "F-LA-02 – Ficha", "desplegado": True, "activo": False,
+              "fecha_modificacion": "2026-09-01T10:00:00Z", "envios": 5},
+             {"uid": "a02n", "nombre": "F-LA-02 – Ficha", "desplegado": True, "activo": True,
+              "fecha_modificacion": "2026-10-27T12:00:00Z", "envios": 1},
+             {"uid": "aP6a", "nombre": "Paso 6", "desplegado": True}, {"uid": "aP6b", "nombre": "Paso 6", "desplegado": True}]
+    d = kb.formularios_duplicados(forms)
+    assert [x["codigo"] for x in d] == ["F-LA-01"]
+    assert d[0]["conservar"]["uid"] == "a01n" and [a["uid"] for a in d[0]["archivar"]] == ["a01v"]
+    # los archivados no reciben enlaces de llenado
+    class Kobo:
+        def _get_json(self, endpoint, params=None):
+            return {"deployment__links": {"offline_url": f"https://ee.kobotoolbox.org/x/{endpoint}"}}
+    assert {f["nombre"] for f in kb.enlaces_formularios_la(Kobo(), forms)} == {
+        "F-LA-01 – Reunión", "F-LA-01 – Reunión / asamblea", "F-LA-02 – Ficha"}
+    assert len(kb.enlaces_formularios_la(Kobo(), forms)) == 3
+
+
 # ------------------------------------------------------------------ F-LA-03: fotos y descripción del predio
 _FOTOS = ["foto_1", "foto_2", "foto_3", "foto_4"]
 
@@ -362,6 +386,42 @@ def test_f_la_03_fotos_y_descripcion():
     # la plantilla Excel no lleva columnas de fotos (se toman en Kobo o se suben en el aplicativo)
     claves = {c["clave"] for c in lp._columnas_campos(f.campos)}
     assert "descripcion_predio" in claves and not claves & set(_FOTOS)
+
+
+def test_f_la_03_puntos_con_numero_fijo():
+    """Puntos de control / vértices: se pregunta antes cuántos (n_puntos) y el repeat usa repeat_count; abierto,
+    Kobo pedía «agregar otro» sin fin y no dejaba seguir con el formulario."""
+    s = lp.xlsform_hojas("f_la_03_inspeccion")["survey"]
+    nombres = list(s["name"])
+    assert nombres.index("n_puntos") == nombres.index("r_puntos") - 1
+    s = s.set_index("name")
+    assert s.loc["n_puntos", "type"] == "integer" and s.loc["n_puntos", "required"] == "yes"
+    assert s.loc["n_puntos", "constraint"] == ". >= 0 and . <= 50"
+    rep = s[s["type"] == "begin_repeat"].loc["r_puntos"]
+    assert rep["repeat_count"] == "${n_puntos}" and rep["relevant"] == "${n_puntos} > 0"
+    # n_puntos es solo de Kobo: no entra en la plantilla Excel
+    assert "n_puntos" not in {c["clave"] for c in lp._columnas_campos(lc.FORMULARIOS["f_la_03_inspeccion"].campos)}
+
+
+def test_f_la_04_firmantes_con_numero_fijo():
+    """Firmantes del acta: mismo esquema que r_puntos (n_firmantes + repeat_count)."""
+    s = lp.xlsform_hojas("f_la_04_actas")["survey"]
+    nombres = list(s["name"])
+    assert nombres.index("n_firmantes") == nombres.index("r_firmantes") - 1
+    s = s.set_index("name")
+    assert s.loc["n_firmantes", "constraint"] == ". >= 0 and . <= 200"
+    rep = s[s["type"] == "begin_repeat"].loc["r_firmantes"]
+    assert rep["repeat_count"] == "${n_firmantes}" and rep["relevant"] == "${n_firmantes} > 0"
+
+
+def test_xlsform_repeats_todos_con_numero_fijo():
+    """Ningún formulario F-LA queda con un repeat abierto (Kobo pediría filas sin fin)."""
+    for fid, f in lc.FORMULARIOS.items():
+        if not f.kobo:
+            continue
+        s = lp.xlsform_hojas(fid)["survey"]
+        reps = s[s["type"] == "begin_repeat"]
+        assert (reps["repeat_count"] != "").all(), fid
 
 
 def test_f_la_03_registro_conserva_fotos_al_editar():

@@ -47,7 +47,7 @@ def test_nombres_unicos_y_listas_definidas():
 
 def test_campos_y_opciones_iguales_a_f_la():
     """Los datos que ya existen en F-LA-02/03 conservan nombre, lista y códigos de opción."""
-    s = {f["name"]: f for f in _survey()}
+    s = {f["name"]: f for f in _survey() if f["type"] != "end_repeat"}
     for fid in ("f_la_02_titular", "f_la_03_inspeccion"):
         for c in lc.FORMULARIOS[fid].campos:
             if c.nombre in s and c.lista:
@@ -68,7 +68,7 @@ def test_cascada_provincia_distrito_y_unidad():
     assert provincias == set(fp.PROVINCIAS) and len(distritos) == 15
     assert {d["provincia"] for d in distritos} == provincias
     assert {d["name"] for d in distritos} == set(fp.DISTRITOS)          # mismos códigos que unidades.csv
-    s = {f["name"]: f for f in _survey()}
+    s = {f["name"]: f for f in _survey() if f["type"] != "end_repeat"}
     assert s["predio_distrito"]["choice_filter"] == "provincia=${predio_provincia}"
     assert s["unidad"]["type"] == "select_one_from_file unidades.csv"
     assert s["unidad"]["choice_filter"] == "asistente=${asistente} or ${asistente}='ESP'"
@@ -77,3 +77,19 @@ def test_cascada_provincia_distrito_y_unidad():
 def test_sincronizacion_no_lo_toma_como_f_la():
     from liberacion_areas import la_kobo
     assert la_kobo.form_id_por_nombre(xf.TITULO) is None
+
+
+def test_puntos_de_control_con_numero_fijo():
+    """r_puntos lleva repeat_count: Kobo no pide «agregar otro» sin fin y la ficha continúa con las fotos."""
+    s = {f["name"]: f for f in _survey() if f["type"] != "end_repeat"}
+    n = s["n_puntos"]
+    assert n["type"] == "integer" and n["required"] == "yes" and "<= 50" in n["constraint"]
+    assert s["r_puntos"]["repeat_count"] == "${n_puntos}" and s["r_puntos"]["relevant"] == "${n_puntos} > 0"
+
+
+def test_afectaciones_con_numero_fijo_y_ningun_repeat_abierto():
+    s = {f["name"]: f for f in _survey() if f["type"] != "end_repeat"}
+    n = s["n_afectaciones"]
+    assert n["relevant"] == "${tiene_afectaciones}='si'" and n["constraint"] == ". >= 1 and . <= 20"
+    assert s["r_afectaciones"]["repeat_count"] == "${n_afectaciones}"
+    assert all(f.get("repeat_count") for f in _survey() if f["type"] == "begin_repeat")

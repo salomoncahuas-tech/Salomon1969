@@ -10,6 +10,8 @@ Cómo cargarlo en kobotoolbox.org
   2. En el proyecto: Configuración › Multimedia › cargue unidades.csv (sin él la lista de unidades sale vacía).
   3. Desplegar. Para llenar: Formulario › Recolectar datos › «En línea-Fuera de línea (envíos múltiples)» o KoboCollect.
   4. Si cambian las asignaciones de asistentes, reemplace solo unidades.csv en Multimedia y vuelva a desplegar.
+  5. Para actualizar un formulario ya desplegado use ⋯ › «Reemplazar formulario», no «Nuevo»: una copia nueva hace
+     que los celulares vean dos versiones. Si ya hay copias, archive las viejas (⋯ › Archivar; no las elimine).
 
 Notas
   - Las coordenadas del GPS se guardan en lat/lon (formato de Kobo); el aplicativo las convierte a UTM WGS84 17S.
@@ -19,4 +21,7 @@ Notas
     validaciones; los datos propios de la ficha (colindancias, afectaciones, domicilio…) se conservan en el registro.
     El aviso «envíos de KoboToolbox aún no importados» de la página incluye este formulario.
   - Lotes SUS: el formulario pide el polígono del lote (geoshape) como el F-LA-03.
+  - Puntos de control / vértices y afectaciones: primero se indica cuántos se registrarán (puntos 0 a 50,
+    afectaciones 1 a 20) y el formulario pide solo esas filas y continúa. Para agregar o quitar filas, vuelva a
+    esa pregunta y cambie el número.
   - Se regenera con: python -m liberacion_areas.la_xlsform_ficha

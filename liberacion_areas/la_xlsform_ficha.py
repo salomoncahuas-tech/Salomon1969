@@ -261,7 +261,12 @@ def _survey() -> list[dict]:
     q("select_multiple intervencion", "intervencion_prevista", "Intervención prevista (referencial)")
     q("select_one si_no", "tiene_afectaciones", "¿Existen obras o bienes afectados en el área?")
     fin("g_area")
-    q("begin_repeat", "r_afectaciones", "Afectaciones (OC-01, OC-02…)", relevant="${tiene_afectaciones}='si'")
+    # número fijo de afectaciones (repeat_count), como r_puntos: abierto, Kobo pedía agregar otra sin fin
+    q("integer", "n_afectaciones", "N.° de obras o bienes afectados", relevant="${tiene_afectaciones}='si'",
+      required="yes", default="1", constraint=". >= 1 and . <= 20", constraint_message="Entre 1 y 20",
+      hint="Indique cuántos registrará (1 a 20). Para corregir, vuelva aquí y cambie el número.")
+    q("begin_repeat", "r_afectaciones", "Afectaciones (OC-01, OC-02…)",
+      relevant="${tiene_afectaciones}='si' and ${n_afectaciones} > 0", repeat_count="${n_afectaciones}")
     q("calculate", "af_codigo", calculation="concat('OC-', if(position(..) < 10, '0', ''), position(..))")
     q("note", "af_nota", "**${af_codigo}**")
     q("text", "af_descripcion", "Descripción / uso", required="yes")
@@ -290,7 +295,12 @@ def _survey() -> list[dict]:
     q("image", "croquis", "Croquis del predio (dibuje: norte, linderos, accesos, vértices)", appearance="draw",
       parameters=f"max-pixels={FOTO_MAX_PX}")
     fin("g_croquis")
-    q("begin_repeat", "r_puntos", "Puntos de control / vértices del predio")
+    # repeat con número fijo de filas: abierto, Kobo pedía «agregar otro» sin fin y no dejaba seguir la ficha
+    q("integer", "n_puntos", "N.° de puntos de control / vértices del predio", required="yes", default="0",
+      constraint=". >= 0 and . <= 50", constraint_message="Entre 0 y 50",
+      hint="Indique cuántos registrará (0 a 50). Para corregir, vuelva aquí y cambie el número.")
+    q("begin_repeat", "r_puntos", "Puntos de control / vértices del predio", relevant="${n_puntos} > 0",
+      repeat_count="${n_puntos}")
     q("geopoint", "pt_gps", "Punto", required="yes", hint="Precisión ≤ 10 m.")
     q("select_one pt_tipo", "pt_tipo", "Tipo de punto")
     S.append({"type": "end_repeat", "name": "r_puntos"})
@@ -319,7 +329,7 @@ def _survey() -> list[dict]:
 
 
 _COLS_SURVEY = ["type", "name", "label", "hint", "required", "relevant", "constraint", "constraint_message",
-                "calculation", "choice_filter", "appearance", "default", "parameters"]
+                "calculation", "choice_filter", "appearance", "default", "parameters", "repeat_count"]
 _TRAD = ("label", "hint", "constraint_message")
 
 
@@ -372,6 +382,8 @@ Cómo cargarlo en kobotoolbox.org
   2. En el proyecto: Configuración › Multimedia › cargue {CSV_UNIDADES} (sin él la lista de unidades sale vacía).
   3. Desplegar. Para llenar: Formulario › Recolectar datos › «En línea-Fuera de línea (envíos múltiples)» o KoboCollect.
   4. Si cambian las asignaciones de asistentes, reemplace solo {CSV_UNIDADES} en Multimedia y vuelva a desplegar.
+  5. Para actualizar un formulario ya desplegado use ⋯ › «Reemplazar formulario», no «Nuevo»: una copia nueva hace
+     que los celulares vean dos versiones. Si ya hay copias, archive las viejas (⋯ › Archivar; no las elimine).
 
 Notas
   - Las coordenadas del GPS se guardan en lat/lon (formato de Kobo); el aplicativo las convierte a UTM WGS84 17S.
@@ -381,6 +393,9 @@ Notas
     validaciones; los datos propios de la ficha (colindancias, afectaciones, domicilio…) se conservan en el registro.
     El aviso «envíos de KoboToolbox aún no importados» de la página incluye este formulario.
   - Lotes SUS: el formulario pide el polígono del lote (geoshape) como el F-LA-03.
+  - Puntos de control / vértices y afectaciones: primero se indica cuántos se registrarán (puntos 0 a 50,
+    afectaciones 1 a 20) y el formulario pide solo esas filas y continúa. Para agregar o quitar filas, vuelva a
+    esa pregunta y cambie el número.
   - Se regenera con: python -m liberacion_areas.la_xlsform_ficha
 """
 
