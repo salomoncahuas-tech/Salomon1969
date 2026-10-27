@@ -379,6 +379,27 @@ def test_f_la_03_puntos_con_numero_fijo():
     assert "n_puntos" not in {c["clave"] for c in lp._columnas_campos(lc.FORMULARIOS["f_la_03_inspeccion"].campos)}
 
 
+def test_f_la_04_firmantes_con_numero_fijo():
+    """Firmantes del acta: mismo esquema que r_puntos (n_firmantes + repeat_count)."""
+    s = lp.xlsform_hojas("f_la_04_actas")["survey"]
+    nombres = list(s["name"])
+    assert nombres.index("n_firmantes") == nombres.index("r_firmantes") - 1
+    s = s.set_index("name")
+    assert s.loc["n_firmantes", "constraint"] == ". >= 0 and . <= 200"
+    rep = s[s["type"] == "begin_repeat"].loc["r_firmantes"]
+    assert rep["repeat_count"] == "${n_firmantes}" and rep["relevant"] == "${n_firmantes} > 0"
+
+
+def test_xlsform_repeats_todos_con_numero_fijo():
+    """Ningún formulario F-LA queda con un repeat abierto (Kobo pediría filas sin fin)."""
+    for fid, f in lc.FORMULARIOS.items():
+        if not f.kobo:
+            continue
+        s = lp.xlsform_hojas(fid)["survey"]
+        reps = s[s["type"] == "begin_repeat"]
+        assert (reps["repeat_count"] != "").all(), fid
+
+
 def test_f_la_03_registro_conserva_fotos_al_editar():
     """El nombre de la foto queda en el envío; editar sin subir otra foto conserva la registrada."""
     cat = _cat()

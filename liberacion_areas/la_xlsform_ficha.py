@@ -261,7 +261,12 @@ def _survey() -> list[dict]:
     q("select_multiple intervencion", "intervencion_prevista", "Intervención prevista (referencial)")
     q("select_one si_no", "tiene_afectaciones", "¿Existen obras o bienes afectados en el área?")
     fin("g_area")
-    q("begin_repeat", "r_afectaciones", "Afectaciones (OC-01, OC-02…)", relevant="${tiene_afectaciones}='si'")
+    # número fijo de afectaciones (repeat_count), como r_puntos: abierto, Kobo pedía agregar otra sin fin
+    q("integer", "n_afectaciones", "N.° de obras o bienes afectados", relevant="${tiene_afectaciones}='si'",
+      required="yes", default="1", constraint=". >= 1 and . <= 20", constraint_message="Entre 1 y 20",
+      hint="Indique cuántos registrará (1 a 20). Para corregir, vuelva aquí y cambie el número.")
+    q("begin_repeat", "r_afectaciones", "Afectaciones (OC-01, OC-02…)",
+      relevant="${tiene_afectaciones}='si' and ${n_afectaciones} > 0", repeat_count="${n_afectaciones}")
     q("calculate", "af_codigo", calculation="concat('OC-', if(position(..) < 10, '0', ''), position(..))")
     q("note", "af_nota", "**${af_codigo}**")
     q("text", "af_descripcion", "Descripción / uso", required="yes")
@@ -386,8 +391,9 @@ Notas
     validaciones; los datos propios de la ficha (colindancias, afectaciones, domicilio…) se conservan en el registro.
     El aviso «envíos de KoboToolbox aún no importados» de la página incluye este formulario.
   - Lotes SUS: el formulario pide el polígono del lote (geoshape) como el F-LA-03.
-  - Puntos de control / vértices: primero se indica cuántos se registrarán (0 a 50) y el formulario pide solo
-    esos puntos y continúa con las fotos. Para agregar o quitar puntos, vuelva a esa pregunta y cambie el número.
+  - Puntos de control / vértices y afectaciones: primero se indica cuántos se registrarán (puntos 0 a 50,
+    afectaciones 1 a 20) y el formulario pide solo esas filas y continúa. Para agregar o quitar filas, vuelva a
+    esa pregunta y cambie el número.
   - Se regenera con: python -m liberacion_areas.la_xlsform_ficha
 """
 

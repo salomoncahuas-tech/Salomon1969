@@ -85,3 +85,11 @@ def test_puntos_de_control_con_numero_fijo():
     n = s["n_puntos"]
     assert n["type"] == "integer" and n["required"] == "yes" and "<= 50" in n["constraint"]
     assert s["r_puntos"]["repeat_count"] == "${n_puntos}" and s["r_puntos"]["relevant"] == "${n_puntos} > 0"
+
+
+def test_afectaciones_con_numero_fijo_y_ningun_repeat_abierto():
+    s = {f["name"]: f for f in _survey() if f["type"] != "end_repeat"}
+    n = s["n_afectaciones"]
+    assert n["relevant"] == "${tiene_afectaciones}='si'" and n["constraint"] == ". >= 1 and . <= 20"
+    assert s["r_afectaciones"]["repeat_count"] == "${n_afectaciones}"
+    assert all(f.get("repeat_count") for f in _survey() if f["type"] == "begin_repeat")

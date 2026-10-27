@@ -256,7 +256,7 @@ FORMULARIOS["f_la_04_actas"] = Formulario(
                     [C("fir_nombre", "Nombre del firmante", "text", requerido=True), C("fir_dni", "DNI", "text"),
                      C("fir_rol", "Rol", "select_one", "fir_rol", requerido=True),
                      C("fir_huella", "Huella digital", "select_one", "si_no")],
-                    "F-LA-04_firmantes")],
+                    "F-LA-04_firmantes", max_filas=200)],
     con_predio=True)
 
 FORMULARIOS["f_la_05_documentos"] = Formulario(
