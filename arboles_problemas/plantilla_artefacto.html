@@ -1,0 +1,472 @@
+<title>Árboles de Problemas IN Piura</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: banda institucional + pestañas fijas; cada árbol en un lienzo desplazable con panel de sustento al costado (abajo en móvil) */
+:root {
+  --bg: #f4f7f4;
+  --surface: #ffffff;
+  --ink: #1d2a22;
+  --muted: #56675c;
+  --line: #ccd8cf;
+  --anin: #1b4d2e;
+  --anin-ink: #ffffff;
+  --anin-soft: #e6efe8;
+  --ci: #f3f7f4;
+  --ci-line: #7fa48c;
+  --ed: #f6e7c8;
+  --ed-line: #b8862b;
+  --ei: #fbf3e2;
+  --ei-line: #c9a24f;
+  --ef: #7f5212;
+  --ex-line: #6b7a70;
+  --wire: #4a5a50;
+  --focus: #d08a12;
+  --m: #1f6f78;
+  --h: #6b5b95;
+  --a: #9c4a2f;
+  --font: Arial, "Liberation Sans", Helvetica, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --r: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1a14; --surface: #16251c; --ink: #e3ece5; --muted: #9fb3a6; --line: #2c4235;
+    --anin: #2f7a4c; --anin-ink: #ffffff; --anin-soft: #1d3326; --ci: #18291f; --ci-line: #4f7c61;
+    --ed: #3a2f17; --ed-line: #c99a3b; --ei: #2c2614; --ei-line: #a88638; --ef: #a8701f;
+    --ex-line: #8ea296; --wire: #8ea296; --focus: #f0b13a; --m: #4fb0ba; --h: #a596d0; --a: #d98466;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1a14; --surface: #16251c; --ink: #e3ece5; --muted: #9fb3a6; --line: #2c4235;
+  --anin: #2f7a4c; --anin-ink: #ffffff; --anin-soft: #1d3326; --ci: #18291f; --ci-line: #4f7c61;
+  --ed: #3a2f17; --ed-line: #c99a3b; --ei: #2c2614; --ei-line: #a88638; --ef: #a8701f;
+  --ex-line: #8ea296; --wire: #8ea296; --focus: #f0b13a; --m: #4fb0ba; --h: #a596d0; --a: #d98466;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 14px; line-height: 1.45; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--anin); }
+.gut { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.wrap { max-width: 1480px; margin: 0 auto; }
+
+/* Banda institucional */
+.banda { background: var(--anin); color: var(--anin-ink); padding-block: 18px 16px; }
+.inst { display: grid; gap: 1px; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; opacity: .92; }
+.inst b { font-size: 12px; }
+.banda h1 { font-size: clamp(22px, 2.6vw, 30px); line-height: 1.15; margin: 12px 0 4px; text-wrap: balance; }
+.banda .sub { font-size: 13px; opacity: .9; }
+.banda .ver { font-size: 12px; opacity: .8; margin-top: 6px; }
+
+/* Pestañas */
+.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line); }
+.tabs .wrap { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: thin; }
+.tab { appearance: none; border: 0; background: none; color: var(--muted); font: inherit; font-weight: 700; padding: 13px 14px 11px; border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap; }
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { color: var(--anin); border-bottom-color: var(--anin); }
+:root[data-theme="dark"] .tab[aria-selected="true"] { color: var(--ink); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tab[aria-selected="true"] { color: var(--ink); } }
+.tab .k { font-family: var(--mono); font-weight: 500; font-size: 11px; margin-left: 6px; opacity: .75; }
+.tab:focus-visible, button:focus-visible, .nodo:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+main { padding-block: 22px 40px; }
+.vista[hidden] { display: none !important; }
+
+/* Cabecera de cada árbol */
+.cab { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; align-items: end; margin-bottom: 14px; }
+.cab h2 { margin: 0; font-size: 21px; text-wrap: balance; }
+.cab p { margin: 6px 0 0; color: var(--muted); max-width: 95ch; }
+.ficha { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 12px 0 0; padding: 0; list-style: none; font-size: 12.5px; color: var(--muted); }
+.ficha b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.ctrl { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+@media (max-width: 760px) { .cab { grid-template-columns: minmax(0, 1fr); } .ctrl { justify-content: flex-start; } }
+.btn { appearance: none; font: inherit; font-size: 12.5px; font-weight: 700; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 7px 11px; cursor: pointer; }
+.btn:hover { border-color: var(--anin); }
+.btn[aria-pressed="true"] { background: var(--anin); color: var(--anin-ink); border-color: var(--anin); }
+
+/* Zona de trabajo: lienzo + panel */
+.zona { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; align-items: start; }
+@media (max-width: 1100px) { .zona { grid-template-columns: minmax(0, 1fr); } }
+.lienzo-scroll { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
+.lienzo { position: relative; min-width: 980px; padding: 24px 20px 18px; }
+.lienzo svg.cables { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.nivel { position: relative; display: grid; gap: 14px; }
+.nivel + .nivel { margin-top: 30px; }
+.rotulo { position: absolute; left: -4px; top: -21px; z-index: 2; background: var(--surface); padding: 0 4px; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.n-ef { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+.n-ef .nodo { width: min(64%, 860px); }
+.n-pc { grid-template-columns: minmax(0, 1fr) minmax(0, 1.55fr) minmax(0, 1fr); align-items: center; gap: 34px; }
+.col { display: grid; gap: 9px; align-content: start; }
+.col .nodo.ci { margin-left: 22px; }
+.col .cis { display: grid; gap: 9px; margin-top: 12px; }
+
+.nodo { position: relative; z-index: 1; border-radius: 4px; padding: 9px 11px; font-size: 13px; line-height: 1.35; cursor: pointer; border: 1.5px solid; background: var(--surface); color: var(--ink); text-align: left; transition: opacity .15s, box-shadow .15s; }
+.nodo .cod { font-family: var(--mono); font-size: 10.5px; color: var(--muted); display: block; margin-bottom: 2px; }
+.nodo.ef { background: var(--ef); border-color: var(--ef); color: #fff; font-weight: 700; text-align: center; font-size: 14px; border-radius: 10px; }
+.nodo.ef .cod, .nodo.pc .cod { color: rgba(255,255,255,.78); }
+.nodo.ei { background: var(--ei); border-color: var(--ei-line); }
+.nodo.ed { background: var(--ed); border-color: var(--ed-line); border-width: 2px; font-weight: 700; text-align: center; }
+.nodo.pc { background: var(--anin); border-color: var(--anin); color: var(--anin-ink); font-weight: 700; font-size: 15.5px; text-align: center; border-radius: 12px; padding: 14px 18px; }
+.nodo.pc .ind { display: block; font-weight: 400; font-size: 12px; margin-top: 8px; opacity: .9; }
+.nodo.cd { background: var(--anin-soft); border-color: var(--anin); border-width: 2px; font-weight: 700; text-align: center; }
+.nodo.ci { background: var(--ci); border-color: var(--ci-line); font-size: 12.5px; }
+.nodo.ex { background: var(--surface); border: 1.5px dashed var(--ex-line); color: var(--muted); font-size: 12px; }
+.nodo.ex b { color: var(--ink); display: block; margin-bottom: 3px; }
+.nodo.sel { box-shadow: 0 0 0 3px var(--focus); }
+.lienzo.foco .nodo:not(.ruta) { opacity: .28; }
+.lienzo.foco .cables path:not(.ruta) { opacity: .15; }
+.cables path { fill: none; stroke: var(--wire); stroke-width: 1.4; }
+.cables path.ex { stroke: var(--ex-line); stroke-dasharray: 5 4; }
+.cables path.ruta { stroke: var(--focus); stroke-width: 2.2; }
+.provs { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
+.nodo.cd .provs, .nodo.ed .provs, .nodo.ef .provs { justify-content: center; }
+.pv { font-family: var(--mono); font-size: 10px; font-weight: 500; padding: 1px 5px; border-radius: 3px; color: #fff; letter-spacing: .02em; }
+.pv.M { background: var(--m); } .pv.H { background: var(--h); } .pv.A { background: var(--a); }
+.pv.d1 { opacity: .55; } .pv.d2 { opacity: .8; }
+.leyenda { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 18px; font-size: 11.5px; color: var(--muted); }
+.leyenda span { display: inline-flex; align-items: center; gap: 6px; }
+.leyenda i { width: 16px; height: 11px; border: 1.5px solid; border-radius: 2px; display: inline-block; }
+
+/* Panel de sustento */
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px 16px 18px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 58px); max-height: calc(100vh - 80px); overflow: auto; }
+@media (max-width: 1100px) { .panel { position: static; max-height: none; } }
+.panel h3 { margin: 0 0 4px; font-size: 15.5px; line-height: 1.3; text-wrap: balance; }
+.panel .tipo { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.panel dl { margin: 12px 0 0; display: grid; gap: 12px; }
+.panel dt { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 3px; }
+.panel dd { margin: 0; }
+.panel ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; }
+.panel .fuente { font-size: 12px; color: var(--muted); }
+.panel .vacio { color: var(--muted); font-size: 13px; }
+.chip { display: inline-block; font-size: 11.5px; font-weight: 700; padding: 2px 8px; border-radius: 99px; border: 1px solid var(--line); margin: 0 4px 4px 0; }
+
+/* Esquema (vista de lista) */
+.esquema { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px 20px; }
+.esquema h4 { margin: 16px 0 6px; font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.esquema h4:first-child { margin-top: 0; }
+.esquema ol { margin: 0; padding-left: 22px; display: grid; gap: 6px; }
+.esquema ol ol { margin-top: 6px; }
+.esquema .pcx { font-weight: 700; color: var(--anin); font-size: 15px; }
+:root[data-theme="dark"] .esquema .pcx { color: var(--ink); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .esquema .pcx { color: var(--ink); } }
+
+/* Sustento y método */
+.doc { display: grid; gap: 22px; }
+.doc section { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px 22px; min-width: 0; }
+.doc h2 { margin: 0 0 10px; font-size: 19px; }
+.doc h3 { margin: 18px 0 6px; font-size: 15px; }
+.doc p, .doc li { max-width: 100ch; }
+.pasos { counter-reset: p; list-style: none; padding: 0; display: grid; gap: 10px; }
+.pasos li { counter-increment: p; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; }
+.pasos li::before { content: counter(p); font-family: var(--mono); font-weight: 600; width: 26px; height: 26px; border-radius: 50%; background: var(--anin-soft); color: var(--ink); display: grid; place-items: center; font-size: 12.5px; }
+.tabla-scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 12.5px; min-width: 760px; }
+th, td { border: 1px solid var(--line); padding: 7px 8px; vertical-align: top; text-align: left; }
+thead th { background: var(--anin); color: var(--anin-ink); font-weight: 700; position: sticky; top: 0; }
+tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--anin-soft) 55%, var(--surface)); }
+td.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+td .pv { margin-right: 3px; }
+.nota { font-size: 12.5px; color: var(--muted); }
+.pend { font-family: var(--mono); font-size: 12px; background: var(--ei); border: 1px solid var(--ei-line); padding: 0 4px; border-radius: 3px; color: var(--ink); }
+.toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: var(--r); font-size: 13px; z-index: 20; }
+@media (prefers-reduced-motion: reduce) { .nodo { transition: none; } }
+</style>
+
+<header class="banda gut">
+  <div class="wrap">
+    <div class="inst">
+      <b>Autoridad Nacional de Infraestructura - ANIN</b>
+      <span>Dirección de Intervenciones Multisectoriales y de Emergencia - DIME</span>
+      <span>Subdirección de Estudios de Inversión - SESDI</span>
+    </div>
+    <h1 id="h1"></h1>
+    <div class="sub" id="sub"></div>
+    <div class="ver" id="ver"></div>
+  </div>
+</header>
+
+<nav class="tabs gut" aria-label="Árboles">
+  <div class="wrap" role="tablist" id="tabs"></div>
+</nav>
+
+<main class="gut">
+  <div class="wrap" id="vistas"></div>
+</main>
+
+<script>
+const DATA = /*__DATA__*/null;
+
+const $ = (s, el = document) => el.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const NIV = { EF: "Efecto final", EI: "Efecto indirecto", ED: "Efecto directo", PC: "Problema central", CD: "Causa directa", CI: "Causa indirecta", EX: "Factor exógeno de peligro" };
+const PROV = { M: "Morropón", H: "Huancabamba", A: "Ayabaca" };
+
+function toast(msg) {
+  const t = document.createElement("div");
+  t.className = "toast"; t.textContent = msg; t.setAttribute("role", "status");
+  document.body.appendChild(t); setTimeout(() => t.remove(), 2200);
+}
+
+function chips(prov) {
+  if (!prov) return "";
+  return '<span class="provs">' + Object.entries(prov).filter(([, v]) => v > 0)
+    .map(([k, v]) => `<span class="pv ${k} d${v}" title="${PROV[k]}: evidencia ${["", "puntual", "frecuente", "generalizada"][v]}">${k}${"·".repeat(v)}</span>`).join("") + "</span>";
+}
+
+function nodoHTML(n, nivel) {
+  const cls = nivel.toLowerCase();
+  let cuerpo = esc(n.texto);
+  if (nivel === "EX") cuerpo = `<b>${esc(n.titulo)}</b>${esc(n.texto)}`;
+  if (nivel === "PC" && n.indicador) cuerpo += `<span class="ind">${esc(n.indicador)}</span>`;
+  return `<button type="button" class="nodo ${cls}" data-id="${esc(n.id)}" data-nivel="${nivel}"><span class="cod">${esc(n.id)}</span>${cuerpo}${chips(n.prov)}</button>`;
+}
+
+function construirArbol(clave, t) {
+  const cdCols = t.causas_directas.length;
+  const ei = t.efectos_indirectos, ed = t.efectos_directos, ex = t.factores_exogenos || [];
+  const cols = t.causas_directas.map((c) => {
+    const hijos = t.causas_indirectas.filter((x) => x.padre === c.id);
+    return `<div class="col">${nodoHTML(c, "CD")}<div class="cis">${hijos.map((h) => nodoHTML(h, "CI")).join("")}</div></div>`;
+  }).join("");
+  return `
+  <div class="lienzo" id="lz-${clave}">
+    <svg class="cables" aria-hidden="true"></svg>
+    <div class="nivel n-ef"><span class="rotulo">Efecto final</span>${nodoHTML(t.efecto_final, "EF")}</div>
+    <div class="nivel" style="grid-template-columns:repeat(${ei.length},minmax(0,1fr))"><span class="rotulo">Efectos indirectos</span>${ei.map((e) => nodoHTML(e, "EI")).join("")}</div>
+    <div class="nivel" style="grid-template-columns:repeat(${ed.length},minmax(0,1fr))"><span class="rotulo">Efectos directos</span>${ed.map((e) => nodoHTML(e, "ED")).join("")}</div>
+    <div class="nivel n-pc"><span class="rotulo">Problema central</span>${ex[0] ? nodoHTML(ex[0], "EX") : "<span></span>"}${nodoHTML(t.problema, "PC")}${ex[1] ? nodoHTML(ex[1], "EX") : "<span></span>"}</div>
+    <div class="nivel" style="grid-template-columns:repeat(${cdCols},minmax(0,1fr))"><span class="rotulo">Causas directas e indirectas</span>${cols}</div>
+    <div class="leyenda">
+      <span><i style="background:var(--ef);border-color:var(--ef)"></i>Efecto final</span>
+      <span><i style="background:var(--ei);border-color:var(--ei-line)"></i>Efecto indirecto</span>
+      <span><i style="background:var(--ed);border-color:var(--ed-line)"></i>Efecto directo</span>
+      <span><i style="background:var(--anin);border-color:var(--anin)"></i>Problema central</span>
+      <span><i style="background:var(--anin-soft);border-color:var(--anin)"></i>Causa directa</span>
+      <span><i style="background:var(--ci);border-color:var(--ci-line)"></i>Causa indirecta</span>
+      <span><i style="border-style:dashed;border-color:var(--ex-line)"></i>Factor exógeno de peligro (no controlable por el PI)</span>
+      ${t.prov_leyenda ? '<span><span class="pv M">M</span><span class="pv H">H</span><span class="pv A">A</span> provincias con evidencia (· puntual, ·· frecuente, ··· generalizada)</span>' : ""}
+    </div>
+  </div>`;
+}
+
+function enlaces(t) {
+  const L = [];
+  t.causas_indirectas.forEach((c) => L.push([c.id, c.padre, "ci"]));
+  t.causas_directas.forEach((c) => L.push([c.id, t.problema.id, "v"]));
+  (t.factores_exogenos || []).forEach((f) => L.push([f.id, t.problema.id, "ex"]));
+  t.efectos_directos.forEach((e) => L.push([t.problema.id, e.id, "v"]));
+  t.efectos_indirectos.forEach((e) => { e.padres.forEach((p) => L.push([p, e.id, "v"])); L.push([e.id, t.efecto_final.id, "v"]); });
+  return L;
+}
+
+function dibujar(clave) {
+  const t = DATA.arboles[clave];
+  const lz = document.getElementById("lz-" + clave);
+  if (!lz || lz.offsetParent === null) return;
+  const svg = lz.querySelector("svg");
+  const R = lz.getBoundingClientRect();
+  const box = (id) => { const el = lz.querySelector(`[data-id="${CSS.escape(id)}"]`); const r = el.getBoundingClientRect(); return { x: r.left - R.left, y: r.top - R.top, w: r.width, h: r.height }; };
+  let d = '<defs><marker id="fl-' + clave + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" style="stroke:none"/></marker></defs>';
+  for (const [a, b, tipo] of enlaces(t)) {
+    const A = box(a), B = box(b);
+    let p;
+    if (tipo === "ci") {
+      const sx = B.x + 11;
+      p = `M${B.x + 11},${B.y + B.h} L${sx},${A.y + A.h / 2} L${A.x},${A.y + A.h / 2}`;
+      d += `<path data-a="${esc(a)}" data-b="${esc(b)}" d="${p}"/>`;
+    } else if (tipo === "ex") {
+      const izq = A.x < B.x;
+      const y = A.y + A.h / 2;
+      p = izq ? `M${A.x + A.w},${y} L${B.x - 2},${y}` : `M${A.x},${y} L${B.x + B.w + 2},${y}`;
+      d += `<path class="ex" data-a="${esc(a)}" data-b="${esc(b)}" d="${p}" marker-end="url(#fl-${clave})" style="color:var(--ex-line)"/>`;
+    } else {
+      const x1 = A.x + A.w / 2, y1 = A.y, x2 = B.x + B.w / 2, y2 = B.y + B.h + 1;
+      const ym = (y1 + y2) / 2;
+      p = `M${x1},${y1} L${x1},${ym} L${x2},${ym} L${x2},${y2}`;
+      d += `<path data-a="${esc(a)}" data-b="${esc(b)}" d="${p}" marker-end="url(#fl-${clave})" style="color:var(--wire)"/>`;
+    }
+  }
+  svg.innerHTML = d;
+  marcarRuta(clave);
+}
+
+const seleccion = {};
+function ruta(t, id) {
+  const L = enlaces(t), set = new Set([id]);
+  let cambio = true;
+  const arriba = new Set([id]), abajo = new Set([id]);
+  while (cambio) { cambio = false; for (const [a, b] of L) { if (arriba.has(a) && !arriba.has(b)) { arriba.add(b); cambio = true; } if (abajo.has(b) && !abajo.has(a)) { abajo.add(a); cambio = true; } } }
+  arriba.forEach((x) => set.add(x)); abajo.forEach((x) => set.add(x));
+  return set;
+}
+function marcarRuta(clave) {
+  const lz = document.getElementById("lz-" + clave); if (!lz) return;
+  const id = seleccion[clave];
+  lz.classList.toggle("foco", !!id && foco[clave]);
+  lz.querySelectorAll(".nodo").forEach((n) => { n.classList.toggle("sel", n.dataset.id === id); n.classList.remove("ruta"); });
+  lz.querySelectorAll(".cables path").forEach((p) => p.classList.remove("ruta"));
+  if (!id || !foco[clave]) return;
+  const S = ruta(DATA.arboles[clave], id);
+  lz.querySelectorAll(".nodo").forEach((n) => n.classList.toggle("ruta", S.has(n.dataset.id)));
+  lz.querySelectorAll(".cables path").forEach((p) => p.classList.toggle("ruta", S.has(p.dataset.a) && S.has(p.dataset.b)));
+}
+const foco = {};
+
+function buscar(t, id) {
+  const todos = [t.efecto_final, ...t.efectos_indirectos, ...t.efectos_directos, t.problema, ...(t.factores_exogenos || []), ...t.causas_directas, ...t.causas_indirectas];
+  return todos.find((n) => n.id === id);
+}
+function nivelDe(t, id) {
+  if (t.efecto_final.id === id) return "EF";
+  if (t.problema.id === id) return "PC";
+  if (t.efectos_indirectos.some((n) => n.id === id)) return "EI";
+  if (t.efectos_directos.some((n) => n.id === id)) return "ED";
+  if (t.causas_directas.some((n) => n.id === id)) return "CD";
+  if ((t.factores_exogenos || []).some((n) => n.id === id)) return "EX";
+  return "CI";
+}
+
+function panel(clave) {
+  const t = DATA.arboles[clave];
+  const el = document.getElementById("pn-" + clave);
+  const id = seleccion[clave];
+  if (!id) {
+    el.innerHTML = `<div class="tipo">Sustento</div><h3>Selecciona una caja del árbol</h3><p class="vacio">Verás la evidencia del diagnóstico que la respalda, su fuente, su lectura en el análisis de riesgo (peligro, exposición, fragilidad, resiliencia) y la línea de intervención del proyecto que la atiende.</p>${t.lectura ? `<dl><div><dt>Lectura del árbol</dt><dd>${esc(t.lectura)}</dd></div></dl>` : ""}`;
+    return;
+  }
+  const n = buscar(t, id), nv = nivelDe(t, id);
+  const lista = (arr) => arr && arr.length ? "<ul>" + arr.map((x) => `<li>${esc(x)}</li>`).join("") + "</ul>" : '<span class="vacio">Sin dato específico.</span>';
+  const prov = n.prov ? Object.entries(n.prov).filter(([, v]) => v > 0).map(([k, v]) => `<span class="chip">${PROV[k]} · ${["", "puntual", "frecuente", "generalizada"][v]}</span>`).join("") : "";
+  el.innerHTML = `<div class="tipo">${NIV[nv]} · <span style="font-family:var(--mono)">${esc(n.id)}</span></div>
+    <h3>${esc(nv === "EX" ? n.titulo : n.texto)}</h3>
+    <dl>
+      ${nv === "EX" ? `<div><dt>Factores</dt><dd>${esc(n.texto)}</dd></div>` : ""}
+      ${n.indicador ? `<div><dt>Indicador</dt><dd>${esc(n.indicador)}</dd></div>` : ""}
+      <div><dt>Evidencia del diagnóstico</dt><dd>${lista(n.sustento)}</dd></div>
+      ${prov ? `<div><dt>Presencia por provincia</dt><dd>${prov}</dd></div>` : ""}
+      ${n.adr ? `<div><dt>Lectura AdR-CCC</dt><dd>${esc(n.adr)}</dd></div>` : ""}
+      ${n.linea ? `<div><dt>Lo atiende en el proyecto</dt><dd>${esc(n.linea)}</dd></div>` : ""}
+      ${n.fuentes && n.fuentes.length ? `<div><dt>Fuente</dt><dd class="fuente">${n.fuentes.map(esc).join("<br>")}</dd></div>` : ""}
+    </dl>`;
+}
+
+function esquemaHTML(t) {
+  const li = (n) => `<li>${esc(n.texto)} <span class="nota" style="font-family:var(--mono)">${esc(n.id)}</span></li>`;
+  return `<div class="esquema">
+    <h4>Efecto final</h4><ol><li>${esc(t.efecto_final.texto)}</li></ol>
+    <h4>Efectos indirectos</h4><ol>${t.efectos_indirectos.map(li).join("")}</ol>
+    <h4>Efectos directos</h4><ol>${t.efectos_directos.map(li).join("")}</ol>
+    <h4>Problema central</h4><p class="pcx">${esc(t.problema.texto)}</p>${t.problema.indicador ? `<p class="nota">${esc(t.problema.indicador)}</p>` : ""}
+    <h4>Causas directas e indirectas</h4><ol>${t.causas_directas.map((c) => `<li><b>${esc(c.texto)}</b> <span class="nota" style="font-family:var(--mono)">${esc(c.id)}</span><ol>${t.causas_indirectas.filter((x) => x.padre === c.id).map(li).join("")}</ol></li>`).join("")}</ol>
+    ${(t.factores_exogenos || []).length ? `<h4>Factores exógenos de peligro (contexto, no controlables por el proyecto)</h4><ol>${t.factores_exogenos.map((f) => `<li><b>${esc(f.titulo)}:</b> ${esc(f.texto)}</li>`).join("")}</ol>` : ""}
+  </div>`;
+}
+
+function textoPlano(t) {
+  const L = [];
+  L.push(t.titulo.toUpperCase(), t.subtitulo, "");
+  L.push("EFECTO FINAL", "  " + t.efecto_final.texto, "");
+  L.push("EFECTOS INDIRECTOS"); t.efectos_indirectos.forEach((e) => L.push(`  ${e.id}. ${e.texto}`)); L.push("");
+  L.push("EFECTOS DIRECTOS"); t.efectos_directos.forEach((e) => L.push(`  ${e.id}. ${e.texto}`)); L.push("");
+  L.push("PROBLEMA CENTRAL", "  " + t.problema.texto); if (t.problema.indicador) L.push("  " + t.problema.indicador); L.push("");
+  L.push("CAUSAS");
+  t.causas_directas.forEach((c) => { L.push(`  ${c.id}. ${c.texto}`); t.causas_indirectas.filter((x) => x.padre === c.id).forEach((x) => L.push(`      ${x.id}. ${x.texto}`)); });
+  if ((t.factores_exogenos || []).length) { L.push("", "FACTORES EXÓGENOS DE PELIGRO"); t.factores_exogenos.forEach((f) => L.push(`  ${f.titulo}: ${f.texto}`)); }
+  return L.join("\n");
+}
+
+function copiar(clave, btn) {
+  const txt = textoPlano(DATA.arboles[clave]);
+  const ok = () => toast("Texto del árbol copiado");
+  try {
+    navigator.clipboard.writeText(txt).then(ok, () => fallback());
+  } catch (e) { fallback(); }
+  function fallback() {
+    const ta = document.createElement("textarea"); ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); ok(); } catch (e) { toast("Selecciona el texto en la vista Esquema y cópialo"); }
+    ta.remove();
+  }
+}
+
+function vistaArbol(clave) {
+  const t = DATA.arboles[clave];
+  const ficha = (t.ficha || []).map((f) => `<li>${esc(f.k)}: <b>${esc(f.v)}</b></li>`).join("");
+  return `<section class="vista" id="v-${clave}" role="tabpanel" aria-labelledby="t-${clave}" hidden>
+    <div class="cab">
+      <div><h2>${esc(t.titulo)}</h2><p>${esc(t.subtitulo)}</p>${ficha ? `<ul class="ficha">${ficha}</ul>` : ""}</div>
+      <div class="ctrl">
+        <button class="btn" type="button" id="bd-${clave}" aria-pressed="true" data-modo="diagrama">Diagrama</button>
+        <button class="btn" type="button" id="be-${clave}" aria-pressed="false" data-modo="esquema">Esquema</button>
+        <button class="btn" type="button" id="bf-${clave}" aria-pressed="true" data-foco="1" title="Al seleccionar una caja, resalta su cadena de causas y efectos">Resaltar cadena</button>
+        <button class="btn" type="button" id="bc-${clave}" data-copiar="1">Copiar texto</button>
+      </div>
+    </div>
+    <div class="zona">
+      <div style="min-width:0">
+        <div class="lienzo-scroll" id="ls-${clave}">${construirArbol(clave, t)}</div>
+        <div id="es-${clave}" hidden>${esquemaHTML(t)}</div>
+      </div>
+      <aside class="panel" id="pn-${clave}" aria-live="polite"></aside>
+    </div>
+  </section>`;
+}
+
+function iniciar() {
+  document.getElementById("h1").textContent = DATA.meta.titulo_pagina;
+  document.getElementById("sub").textContent = DATA.meta.subtitulo;
+  document.getElementById("ver").textContent = DATA.meta.version;
+  const tabs = document.getElementById("tabs"), vistas = document.getElementById("vistas");
+  const claves = [...DATA.orden, "metodo"];
+  tabs.innerHTML = claves.map((k) => {
+    const nom = k === "metodo" ? "Sustento y método" : DATA.arboles[k].pestana;
+    const sig = k === "metodo" ? "" : `<span class="k">${esc(DATA.arboles[k].sigla || "")}</span>`;
+    return `<button class="tab" role="tab" id="t-${k}" aria-controls="v-${k}" aria-selected="false" data-k="${k}">${esc(nom)}${sig}</button>`;
+  }).join("");
+  vistas.innerHTML = DATA.orden.map(vistaArbol).join("") + `<section class="vista doc" id="v-metodo" role="tabpanel" aria-labelledby="t-metodo" hidden>${DATA.metodo_html}</section>`;
+  DATA.orden.forEach((k) => {
+    foco[k] = true; panel(k);
+    const v = document.getElementById("v-" + k);
+    v.addEventListener("click", (ev) => {
+      const n = ev.target.closest(".nodo");
+      if (n) { seleccion[k] = seleccion[k] === n.dataset.id ? null : n.dataset.id; marcarRuta(k); panel(k); return; }
+      const b = ev.target.closest(".btn"); if (!b) return;
+      if (b.dataset.modo) {
+        const esq = b.dataset.modo === "esquema";
+        document.getElementById("ls-" + k).hidden = esq; document.getElementById("es-" + k).hidden = !esq;
+        document.getElementById("bd-" + k).setAttribute("aria-pressed", String(!esq)); document.getElementById("be-" + k).setAttribute("aria-pressed", String(esq));
+        if (!esq) dibujar(k);
+      } else if (b.dataset.foco) {
+        foco[k] = !foco[k]; b.setAttribute("aria-pressed", String(foco[k])); marcarRuta(k);
+      } else if (b.dataset.copiar) copiar(k, b);
+    });
+  });
+  tabs.addEventListener("click", (ev) => { const b = ev.target.closest(".tab"); if (b) { location.hash = b.dataset.k; mostrar(b.dataset.k); } });
+  tabs.addEventListener("keydown", (ev) => {
+    if (!["ArrowLeft", "ArrowRight"].includes(ev.key)) return;
+    const i = claves.indexOf(actual) + (ev.key === "ArrowRight" ? 1 : -1);
+    const k = claves[(i + claves.length) % claves.length]; location.hash = k; mostrar(k); document.getElementById("t-" + k).focus();
+  });
+  window.addEventListener("hashchange", () => mostrar(location.hash.slice(1)));
+  const ro = new ResizeObserver(() => DATA.orden.forEach(dibujar));
+  DATA.orden.forEach((k) => ro.observe(document.getElementById("lz-" + k)));
+  if (window.matchMedia && window.matchMedia("(max-width: 760px)").matches) {
+    DATA.orden.forEach((k) => document.getElementById("be-" + k).click());
+  }
+  mostrar(location.hash.slice(1));
+}
+let actual = null;
+function mostrar(k) {
+  const claves = [...DATA.orden, "metodo"];
+  if (!claves.includes(k)) k = DATA.orden[0];
+  actual = k;
+  claves.forEach((c) => {
+    document.getElementById("v-" + c).hidden = c !== k;
+    const t = document.getElementById("t-" + c); t.setAttribute("aria-selected", String(c === k)); t.tabIndex = c === k ? 0 : -1;
+  });
+  try { document.getElementById("t-" + k).scrollIntoView({ block: "nearest", inline: "nearest" }); } catch (e) {}
+  if (k !== "metodo") requestAnimationFrame(() => dibujar(k));
+}
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => DATA.orden.forEach(dibujar));
+iniciar();
+</script>
