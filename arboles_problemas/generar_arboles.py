@@ -37,16 +37,16 @@ SEP_COL = 0.22          # separación horizontal entre cajas
 SANGRIA = 0.30          # sangría de las causas indirectas bajo su causa directa
 PAD_X, PAD_Y = 0.08, 0.05
 
-# Paleta ANIN (verde institucional) para niveles del árbol
+# Paleta ANIN (azul institucional #1B4F72) para niveles del árbol
 COL = {
-    "verde": "1B4D2E", "verde2": "2E6B45", "verde_claro": "E8F0EA", "borde_cd": "1B4D2E",
-    "ci_fondo": "F4F8F5", "ci_borde": "7FA48C",
-    "pc_fondo": "1B4D2E", "pc_texto": "FFFFFF",
+    "verde": "1B4F72", "verde2": "2A6A98", "verde_claro": "E5EEF6", "borde_cd": "1B4F72",
+    "ci_fondo": "F3F7FA", "ci_borde": "7B9BB5",
+    "pc_fondo": "1B4F72", "pc_texto": "FFFFFF",
     "ed_fondo": "F6E7C8", "ed_borde": "B8862B",
     "ei_fondo": "FBF3E2", "ei_borde": "C9A24F",
     "ef_fondo": "8C5A12", "ef_texto": "FFFFFF",
-    "ex_fondo": "FFFFFF", "ex_borde": "6B7A70",
-    "texto": "1E2A22", "gris": "5B6B61", "linea": "4A5A50",
+    "ex_fondo": "FFFFFF", "ex_borde": "6B7A89",
+    "texto": "1B2733", "gris": "55677A", "linea": "4A5867",
 }
 TAM_BASE = {"EF": 12, "EI": 9.5, "ED": 10, "PC": 13, "CD": 10, "CI": 9, "EX": 8.5}
 TAM = dict(TAM_BASE)  # se escala por lámina para aprovechar la altura A3 (ver ajustar_escala)
@@ -413,7 +413,7 @@ def generar_drawio(datos, salida):
         titulo = escape(arbol["titulo"] + " — " + arbol["subtitulo"])
         celdas.append(
             f'<mxCell id="titulo" value="{titulo}" style="text;html=0;fontFamily=Arial;fontSize=16;fontStyle=1;'
-            f'fontColor=#1B4D2E;align=left;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="1">'
+            f'fontColor=#1B4F72;align=left;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="1">'
             f'<mxGeometry x="{MARGEN*PX:.0f}" y="{0.25*PX:.0f}" width="{(ANCHO-2*MARGEN)*PX:.0f}" height="{0.6*PX:.0f}" as="geometry"/></mxCell>')
         for k, c in cajas.items():
             fondo, borde, color = _estilo(c["nivel"])
@@ -432,13 +432,13 @@ def generar_drawio(datos, salida):
                 f'vertex="1" parent="1"><mxGeometry x="{c["x"]*PX:.1f}" y="{c["y"]*PX:.1f}" '
                 f'width="{c["w"]*PX:.1f}" height="{c["h"]*PX:.1f}" as="geometry"/></mxCell>')
         for i, (hijo, padre, tipo) in enumerate(enlaces):
-            base = "edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#4A5A50;strokeWidth=1.5;"
+            base = "edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#4A5867;strokeWidth=1.5;"
             if tipo == "indirecta":
                 est = base + "exitX=0;exitY=0.5;entryX=0;entryY=0.5;endArrow=none;"
                 # el borde izquierdo de la causa indirecta une al borde inferior-izquierdo de la directa
                 est = base + f"exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX={SANGRIA/2/cajas[padre]['w']:.4f};entryY=1;endArrow=none;"
             elif tipo == "exogeno":
-                est = "endArrow=block;dashed=1;html=0;strokeColor=#6B7A70;strokeWidth=1.5;"
+                est = "endArrow=block;dashed=1;html=0;strokeColor=#6B7A89;strokeWidth=1.5;"
             else:
                 est = base + "exitX=0.5;exitY=0;entryX=0.5;entryY=1;endArrow=block;endFill=1;"
             celdas.append(f'<mxCell id="e{i}" style="{est}" edge="1" parent="1" source="{escape(hijo)}" target="{escape(padre)}">'

@@ -177,6 +177,14 @@ def main():
     (AQUI / "arboles_IN_Piura.json").write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding="utf-8")
     plantilla = (AQUI / "plantilla_artefacto.html").read_text(encoding="utf-8")
     pagina = plantilla.replace("/*__DATA__*/null", json.dumps(d, ensure_ascii=False).replace("</", "<\\/"))
+    # Documento completo: se abre tal cual en un navegador y es lo que se publica como artefacto
+    corte = pagina.index("</style>") + len("</style>")
+    reinicio = ("<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);"
+                "padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}"
+                "[hidden]{display:none!important}</style>\n")
+    pagina = ('<!DOCTYPE html>\n<html lang="es">\n<head>\n<meta charset="utf-8">\n'
+              '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
+              + reinicio + pagina[:corte] + "\n</head>\n<body>\n" + pagina[corte:] + "\n</body>\n</html>\n")
     destinos = [AQUI / "Arboles_Problemas_IN_Piura.html"] + [Path(p) / "arboles_problemas_in_piura.html" for p in sys.argv[1:]]
     for ruta in destinos:
         ruta.write_text(pagina, encoding="utf-8")
