@@ -9,7 +9,10 @@
 <style>
 /* Color institucional: azul ANIN #1B4F72. Layout: banda institucional + pestañas fijas; cada árbol en un lienzo desplazable con panel de sustento al costado (abajo en móvil) */
 :root {
-  --bg: #f3f6f9;
+  --bg: #1b4f72;
+  --on-bg: #ffffff;
+  --on-bg-muted: #c9dbe9;
+  --band: #123a57;
   --surface: #ffffff;
   --ink: #1b2733;
   --muted: #55677a;
@@ -36,7 +39,7 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0e1822; --surface: #152331; --ink: #e2ebf3; --muted: #9db0c2; --line: #2a3e52;
+    --bg: #12354f; --on-bg: #ffffff; --on-bg-muted: #b9cee0; --band: #0b2336; --surface: #152331; --ink: #e2ebf3; --muted: #9db0c2; --line: #2a3e52;
     --anin: #2a6a98; --anin-ink: #ffffff; --anin-soft: #1a3047; --ci: #172838; --ci-line: #4c7394;
     --ed: #3a2f17; --ed-line: #c99a3b; --ei: #2c2614; --ei-line: #a88638; --ef: #a8701f;
     --ex-line: #8fa3b6; --wire: #8fa3b6; --focus: #f0b13a; --m: #5fb07f; --h: #a596d0; --a: #d98466;
@@ -44,20 +47,20 @@
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0e1822; --surface: #152331; --ink: #e2ebf3; --muted: #9db0c2; --line: #2a3e52;
+  --bg: #12354f; --on-bg: #ffffff; --on-bg-muted: #b9cee0; --band: #0b2336; --surface: #152331; --ink: #e2ebf3; --muted: #9db0c2; --line: #2a3e52;
   --anin: #2a6a98; --anin-ink: #ffffff; --anin-soft: #1a3047; --ci: #172838; --ci-line: #4c7394;
   --ed: #3a2f17; --ed-line: #c99a3b; --ei: #2c2614; --ei-line: #a88638; --ef: #a8701f;
   --ex-line: #8fa3b6; --wire: #8fa3b6; --focus: #f0b13a; --m: #5fb07f; --h: #a596d0; --a: #d98466;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
-body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 14px; line-height: 1.45; }
-body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--anin); }
+body { background: var(--bg); color: var(--on-bg); font-family: var(--font); font-size: 14px; line-height: 1.45; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--band); }
 .gut { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 .wrap { max-width: 1480px; margin: 0 auto; }
 
 /* Banda institucional */
-.banda { background: var(--anin); color: var(--anin-ink); padding-block: 18px 16px; }
+.banda { background: var(--band); color: var(--anin-ink); padding-block: 18px 16px; }
 .inst { display: grid; gap: 1px; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; opacity: .92; }
 .inst b { font-size: 12px; }
 .banda h1 { font-size: clamp(22px, 2.6vw, 30px); line-height: 1.15; margin: 12px 0 4px; text-wrap: balance; }
@@ -88,7 +91,7 @@ main { padding-block: 22px 40px; }
 @media (max-width: 760px) { .cab { grid-template-columns: minmax(0, 1fr); } .ctrl { justify-content: flex-start; } }
 .btn { appearance: none; font: inherit; font-size: 12.5px; font-weight: 700; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 7px 11px; cursor: pointer; }
 .btn:hover { border-color: var(--anin); }
-.btn[aria-pressed="true"] { background: var(--anin); color: var(--anin-ink); border-color: var(--anin); }
+.btn[aria-pressed="true"] { background: var(--band); color: #ffffff; border-color: var(--on-bg-muted); }
 
 /* Zona de trabajo: lienzo + panel */
 .zona { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; align-items: start; }
@@ -176,6 +179,11 @@ td .pv { margin-right: 3px; }
 .pend { font-family: var(--mono); font-size: 12px; background: var(--ei); border: 1px solid var(--ei-line); padding: 0 4px; border-radius: 3px; color: var(--ink); }
 .toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: var(--r); font-size: 13px; z-index: 20; }
 @media (prefers-reduced-motion: reduce) { .nodo { transition: none; } }
+/* Fondo de página azul ANIN: el texto que va directo sobre el fondo usa tonos claros; tarjetas y lienzo conservan su superficie */
+.cab h2 { color: var(--on-bg); }
+.cab p, .ficha { color: var(--on-bg-muted); }
+.ficha b { color: var(--on-bg); }
+.zona, .doc section, .esquema, .tabs { color: var(--ink); }
 </style>
 </head>
 <body>
