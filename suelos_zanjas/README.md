@@ -1,4 +1,4 @@
-# Aptitud de áreas para zanjas de infiltración — Proyecto IN Piura
+# Aptitud de áreas para zanjas de infiltración y terrazas — Proyecto IN Piura
 
 Cruce de los 117 bloques V6 con el mapa de suelos del **Estudio de Suelos E5 (informe final, GEOSIG)** y con una
 capa de pendientes para decidir **dónde** se pueden proyectar zanjas de infiltración y **con qué espaciamiento**.
@@ -37,8 +37,14 @@ Con el vector de pendientes del proyecto (salida vigente):
 
 ```bash
 python suelos_zanjas/aptitud_zanjas.py --pendientes datos/gis/pendientes/Pendientes_vector.zip \
-    --leyenda suelos_zanjas/leyenda_pendientes.json --salida suelos_zanjas/salidas
+    --leyenda suelos_zanjas/leyenda_pendientes.json --msavi datos/gis/msavi/MSAVI_vectorizado.zip \
+    --salida suelos_zanjas/salidas
 ```
+
+El cruce es de cuatro capas (bloque × suelo E5 × pendiente × MSAVI) y entrega, por bloque y por clase R1
+(MSAVI DN 1–2) y R2 (DN 3), la superficie en las clases 0–10, 10–15, …, 35–40, 40–70 y > 70 %. La clase
+> 27° del vector (más de 51 %) va a 40–70 %, salvo en las delineaciones del E5 con pendiente dominante H (> 75 %).
+Control: R1 = 5,503.4 ha y R2 = 2,838.4 ha, iguales a las del motor de costos.
 
 `leyenda_pendientes.json` transcribe la imagen «PENDIENTES VALORES DE VECTOR.jpeg» (incluida en el .zip): DN 1 = 0–5°,
 2 = 5–10°, 3 = 10–15°, 4 = 15–20°, 5 = 20–25°, 6 = 25–27°, 7 = > 27°. Equivalencias usadas: 10 % = 5.71°,
@@ -52,12 +58,16 @@ Sin `--pendientes`, el script usa la clase de pendiente dominante de cada deline
 ## Estado
 
 - **Pendiente:** vector del proyecto «Pendientes vector» (57,255 polígonos), en `datos/gis/pendientes/Pendientes_vector.zip`.
-- **Resultado vigente (cartera de 117 bloques):** 5,992 ha de los bloques están entre 10 y 40 % de pendiente; 244 ha de
-  ellas en suelos aptos. Con las celdas R1/R2 de bosque seco y andino y la regla de cobertura, el área apta para zanjas
-  es 13.35 ha y el metrado 8.06 km (frente a 17,971.71 km en el Excel v1.4). Sin la restricción de suelo serían
-  3,605.99 ha y 2,220.44 km.
-- **Cobertura:** la intersección celda a celda MSAVI × pendiente requiere la geometría de «MSAVI vectorizado»
-  (13.9 MB); por ahora el motor reparte R1 y R2 dentro del bloque en proporción a la superficie.
+- **Zanjas (cartera de 117 bloques):** 5,992 ha de los bloques están entre 10 y 40 % de pendiente; 244 ha de ellas en
+  suelos aptos. En las celdas R1/R2 de bosque seco y andino con PMM alto o muy alto, el área apta es 12.29 ha y el
+  metrado 7.44 km (17,971.71 km en el Excel v1.4).
+- **Cobertura:** MSAVI vectorizado V6 (38,988 polígonos) en `datos/gis/msavi/MSAVI_vectorizado.zip`, cruzado
+  polígono a polígono con suelo y pendiente.
+- **Medidas donde no cabe zanja (motor v1.5):** terrazas de formación lenta en 30–70 % (matriz suelo–intervención
+  del E5) con el CU y el espaciamiento de la ficha ANIN (8.33 m); barreras vivas como su complemento (metrado igual a
+  las terrazas, CU por definir: la ficha ANIN tiene las partidas 03.03 de esquejes sin cantidad por km); diques en las
+  23.08 km de cárcavas registradas. Escenario por defecto (celdas con PMM alto o muy alto): 7.44 km de zanjas,
+  4,047.38 km de terrazas, 23.08 km de diques; inversión S/ 509.93 M (181 % del techo con O&M).
 - **Costo unitario:** el CU de zanja del motor es el de la ficha ANIN (0.40 × 0.30 m); la sección de la cartilla
   (0.40 × 0.40 m) excava un tercio más por metro. Ajustar el APU en el expediente técnico.
 
