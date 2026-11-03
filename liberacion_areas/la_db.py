@@ -59,7 +59,8 @@ def inicializar_la(conn, csv_catalogo: Path | None = None) -> dict:
     csv_catalogo = csv_catalogo or (Path(__file__).resolve().parent.parent / "datos" / "unidades_liberacion_areas.csv")
     if n == 0 and csv_catalogo.exists():
         cargadas = cargar_unidades_csv(conn, pd.read_csv(csv_catalogo, dtype=str))
-    return {"cargadas": cargadas, **vincular_bloques(conn)}
+    huerfanos = depurar_predios_huerfanos(conn)
+    return {"cargadas": cargadas, "predios_sin_registros": huerfanos, **vincular_bloques(conn)}
 
 
 def _existe(conn, tabla: str) -> bool:
@@ -353,8 +354,71 @@ def _registrar_titular(cur, d: dict, actualizar: bool = False) -> str | None:
 
 
 # ------------------------------------------------------------------ estados
+USUARIO_SISTEMA = "SISTEMA"
+MOTIVO_HUERFANO = "Predio sin registros: sus fichas, inspecciones, actas y documentos fueron eliminados"
+_SQL_HUERFANOS = """SELECT p.cod_predio FROM la_predios p
+    WHERE NOT EXISTS (SELECT 1 FROM la_envios_raw r WHERE r.cod_predio = p.cod_predio)
+      AND NOT EXISTS (SELECT 1 FROM la_fichas_titular f WHERE f.cod_predio = p.cod_predio)
+      AND NOT EXISTS (SELECT 1 FROM la_inspecciones i WHERE i.cod_predio = p.cod_predio)
+      AND NOT EXISTS (SELECT 1 FROM la_actas a WHERE a.cod_predio = p.cod_predio)
+      AND NOT EXISTS (SELECT 1 FROM la_documentos d WHERE d.cod_predio = p.cod_predio)
+    ORDER BY p.cod_predio"""
+
+
+def predios_huerfanos(conn) -> list[str]:
+    """Predios de la matriz que ya no tienen ningún registro (todos sus formularios y documentos se eliminaron)."""
+    d = df(conn, _SQL_HUERFANOS)
+    return list(d["cod_predio"]) if not d.empty else []
+
+
+def depurar_predios_huerfanos(conn, usuario: str = USUARIO_SISTEMA) -> list[str]:
+    """Quita de la matriz los predios sin registros, para que no sigan en la matriz, el semáforo ni los reportes.
+    Cada uno queda en la bitácora (automático): si luego se restaura alguno de sus registros, el predio vuelve con
+    los campos que se le editaron en la matriz. Devuelve los códigos quitados."""
+    cods = predios_huerfanos(conn)
+    if not cods:
+        return []
+    with conn.cursor() as cur:
+        for cod in cods:
+            cur.execute("SELECT row_to_json(p) FROM la_predios p WHERE cod_predio = %s", (cod,))
+            fila = cur.fetchone()[0]
+            cur.execute("SELECT cod_titular, rol FROM la_predio_titular WHERE cod_predio = %s", (cod,))
+            tit = [{"cod_titular": a, "rol": b} for a, b in cur.fetchall()]
+            _bitacora(cur, usuario, "ELIMINAR", "la_predios", cod, None,
+                      {"fila": fila, "titulares": tit, "automatico": True, "motivo": MOTIVO_HUERFANO})
+            cur.execute("DELETE FROM la_predios WHERE cod_predio = %s", (cod,))
+    conn.commit()
+    return cods
+
+
+def _reponer_predio_automatico(conn, cod_predio: str | None, usuario: str) -> None:
+    """Al restaurar un registro cuyo predio se quitó por quedar sin registros: recupera sus campos de la matriz."""
+    if not cod_predio:
+        return
+    b = df(conn, """SELECT id, datos FROM la_bitacora WHERE tabla = 'la_predios' AND clave = %s AND accion = 'ELIMINAR'
+                    AND NOT restaurado AND COALESCE((datos->>'automatico')::boolean, FALSE) ORDER BY id DESC LIMIT 1""",
+           (cod_predio,))
+    if b.empty:
+        return
+    datos = b["datos"][0] if isinstance(b["datos"][0], dict) else json.loads(b["datos"][0])
+    f = datos["fila"]
+    cols = [k for k in f if k != "actualizado"]
+    with conn.cursor() as cur:
+        cur.execute(f"INSERT INTO la_predios ({', '.join(cols)}) VALUES ({', '.join(['%s'] * len(cols))}) "
+                    f"ON CONFLICT (cod_predio) DO UPDATE SET "
+                    f"{', '.join(f'{k} = EXCLUDED.{k}' for k in cols if k != 'cod_predio')}", tuple(f[k] for k in cols))
+        for t in datos.get("titulares", []):
+            cur.execute("INSERT INTO la_predio_titular VALUES (%s,%s,%s) ON CONFLICT DO NOTHING",
+                        (cod_predio, t["cod_titular"], t["rol"]))
+        cur.execute("UPDATE la_bitacora SET restaurado = TRUE WHERE id = %s", (int(b["id"][0]),))
+        _bitacora(cur, usuario, "RESTAURAR", "la_predios", cod_predio, None, {"id_bitacora": int(b["id"][0])})
+    conn.commit()
+
+
 def recalcular_estados(conn):
-    """Recalcula estado_la y clasificación de cada predio a partir de los formularios importados."""
+    """Recalcula estado_la y clasificación de cada predio a partir de los formularios importados.
+    Antes quita los predios que quedaron sin ningún registro (depurar_predios_huerfanos)."""
+    depurar_predios_huerfanos(conn)
     pred = df(conn, "SELECT * FROM la_predios")
     if pred.empty:
         return
@@ -521,7 +585,8 @@ def eliminar_envio(conn, kobo_uuid: str, usuario: str) -> None:
 
 
 def bitacora(conn, solo_eliminados: bool = False, limite: int = 500) -> pd.DataFrame:
-    w = "WHERE accion = 'ELIMINAR' AND NOT restaurado" if solo_eliminados else ""
+    w = ("WHERE accion = 'ELIMINAR' AND NOT restaurado AND NOT COALESCE((datos->>'automatico')::boolean, FALSE)"
+         if solo_eliminados else "")
     return df(conn, f"""SELECT id, fecha, usuario, accion, tabla, clave, form_id, restaurado FROM la_bitacora {w}
                         ORDER BY id DESC LIMIT %s""", (limite,))
 
@@ -544,6 +609,7 @@ def restaurar(conn, id_bitacora: int, usuario: str) -> str:
                                  sus_areas(conn, cat))
         res.kobo_uuid = b["clave"]
         importar(conn, [res], "RESTAURACION", b["form_id"], usuario, origen=(datos.get("envio") or {}).get("origen"))
+        _reponer_predio_automatico(conn, res.cod_predio, usuario)
         with conn.cursor() as cur:
             if datos.get("adjuntos"):
                 cur.execute("UPDATE la_adjuntos SET kobo_uuid = %s WHERE kobo_uuid IS NULL AND id = ANY(%s)",
@@ -556,6 +622,9 @@ def restaurar(conn, id_bitacora: int, usuario: str) -> str:
                         tuple(f.get(k) for k in ("cod_doc", "cod_unidad", "cod_predio", "tipo", "entidad", "fecha",
                                                  "resultado", "n_partida", "descripcion", "archivo_url", "registrado_por")))
     elif b["tabla"] == "la_predios":
+        if not datos.get("vinculados"):
+            raise ValueError(f"El predio {b['clave']} no tenía registros asociados. Vuelve a la matriz al restaurar o "
+                             "registrar una ficha, inspección o acta de ese predio.")
         f = datos["fila"]
         cols = [k for k in f if k != "actualizado"]
         # si el predio ya se recreó (p. ej. al restaurar antes una de sus fichas) se recuperan sus campos guardados:
