@@ -223,10 +223,17 @@ def test_integracion_sincronizacion_fp():
     assert set(insp.validacion_espacial) == {"DENTRO"} and len(insp) == 2
     pred = db.df(conn, "SELECT nombre_predio, area_decl_ha, uso_actual FROM la_predios WHERE cod_predio='27-P05'")
     assert pred["nombre_predio"][0] == "EL ALGARROBO" and float(pred["area_decl_ha"][0]) == 12.5
+    # «Historial / Edición › FP»: una fila por ficha con sus dos partes
+    fichas = fp.listar_fichas(conn).set_index("fp_uuid")
+    assert set(fichas.index) == {"fp-101", "fp-102"}
+    assert fichas.loc["fp-101", "uuid_f02"] == "fp-101-F02" and fichas.loc["fp-101", "uuid_f03"] == "fp-101-F03"
+    assert fichas.loc["fp-102", "cod_predio"] == "27-P06" and fichas.loc["fp-102", "origen"] == "KOBO"
     # al día: nada pendiente; una parte eliminada en el aplicativo no se vuelve a traer
     assert all(not f["pendientes"] for f in kb.revisar_envios(kobo, conn))
     db.eliminar_envio(conn, "fp-101-F03", "pytest")
     assert all(not f["pendientes"] for f in kb.revisar_envios(kobo, conn))
+    fichas = fp.listar_fichas(conn).set_index("fp_uuid")
+    assert fichas.loc["fp-101", "uuid_f02"] == "fp-101-F02" and fichas.loc["fp-101", "uuid_f03"] is None
 
     # ficha Excel llena desde la base (con la foto de Kobo) y re-importación sin duplicar
     with conn.cursor() as cur:

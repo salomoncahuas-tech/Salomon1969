@@ -1110,7 +1110,7 @@ def _paginar(d: pd.DataFrame, clave: str) -> pd.DataFrame:
 
 def _humanizar(fid: str, payload: dict) -> pd.DataFrame:
     """Campos del formulario con su etiqueta y el valor legible (sin DNI ni celular)."""
-    f = lc.FORMULARIOS[fid]
+    f = lc.formulario(fid)
     filas = []
     for c in f.campos:
         v = payload.get(c.nombre)
@@ -1144,9 +1144,15 @@ def _tab_historial(conn, cat: dict):
     conteo = db.df(conn, "SELECT form_id, count(*) AS n FROM la_envios_raw GROUP BY form_id")
     n_por = dict(zip(conteo.form_id, conteo.n)) if not conteo.empty else {}
     n_por["f_la_05_documentos"] = int(db.df(conn, "SELECT count(*) AS n FROM la_documentos")["n"][0])
-    fid = st.selectbox("Formulario", list(lc.FORMULARIOS), key="la_h_form",
+    fichas = fpm.listar_fichas(conn)
+    n_por[fpm.FORM_ID] = len(fichas)
+    fid = st.selectbox("Formulario", list(lc.FORMULARIOS) + [fpm.FORM_ID], key="la_h_form",
                        format_func=lambda x: f"{_form_label(x)} ({n_por.get(x, 0)})")
     es_doc = fid == "f_la_05_documentos"
+    if fid == fpm.FORM_ID:
+        _historial_fichas(conn, fichas)
+        _papelera(conn)
+        return
     d = rep.tabla_formulario(conn, fid) if es_doc else db.listar_envios(conn, fid)
     if d.empty:
         st.info("Sin registros para este formulario. Los envíos de KoboToolbox se incorporan con **Importar ahora** "
@@ -1176,6 +1182,161 @@ def _tab_historial(conn, cat: dict):
                            key="la_h_xls")
         _detalle(conn, fid, v, es_doc)
     _papelera(conn)
+
+
+# ------------------------------------------------------------------ fichas técnicas prediales completas (FP)
+def _historial_fichas(conn, d: pd.DataFrame):
+    """Fichas FP (Kobo «Formato de Liberación de Áreas», aplicativo o ficha Excel): una fila por ficha con sus dos
+    partes. Editar abre la parte F-LA-02 o F-LA-03 en «Registro en campo»; Eliminar quita ambas (restaurables)."""
+    st.caption("Cada ficha técnica predial completa se registra como **F-LA-02** (titular) + **F-LA-03** (inspección). "
+               "Aquí se ven juntas; también aparecen en los listados de F-LA-02 y F-LA-03.")
+    if d.empty:
+        st.info("Sin fichas técnicas prediales registradas. Los envíos del formulario Kobo vinculado se incorporan con "
+                "**Importar ahora** (aviso al inicio de la página) o en **3 · Importar KoboToolbox › Formato de "
+                "Liberación de Áreas vinculado**; las fichas Excel, en **2 · Plantillas Excel / Kobo**.")
+        return
+    c1, c2, c3, c4 = st.columns(4)
+    fu = c1.multiselect("Unidad", sorted(d["cod_unidad"].dropna().astype(str).unique()), key="la_hf_u")
+    fa = c2.multiselect("Asistente", sorted(d["asistente"].dropna().unique()), key="la_hf_a")
+    fe = c3.multiselect("Estado / origen", ["NUEVO", "OBSERVADO", "KOBO", "APP", "PLANTILLA"], key="la_hf_e")
+    texto = c4.text_input("Buscar (predio / código)", key="la_hf_q")
+    mask = pd.Series(True, index=d.index)
+    if fu:
+        mask &= d["cod_unidad"].astype(str).isin(fu)
+    if fa:
+        mask &= d["asistente"].isin(fa)
+    if fe:
+        mask &= d["estado_import"].isin(fe) | d["origen"].isin(fe)
+    if texto:
+        mask &= d.astype(str).apply(lambda r: r.str.contains(texto, case=False, regex=False).any(), axis=1)
+    v = d[mask]
+    _lista_fichas(conn, v)
+    hojas = {"FP": ("FICHAS TÉCNICAS PREDIALES COMPLETAS – REGISTROS",
+                    v.drop(columns=["creado"]).rename(columns={"uuid_f02": "kobo_uuid F-LA-02",
+                                                               "uuid_f03": "kobo_uuid F-LA-03"}), None)}
+    for parte, col in (("f_la_02_titular", "uuid_f02"), ("f_la_03_inspeccion", "uuid_f03")):
+        t = rep.tabla_formulario(conn, parte)
+        if not t.empty:
+            hojas[lc.FORMULARIOS[parte].codigo] = (f"{_form_label(parte).upper()} – PARTE DE LA FICHA FP",
+                                                   t[t["kobo_uuid"].isin(set(v[col].dropna()))], None)
+    st.download_button("⬇️ Exportar fichas filtradas (Excel ANIN)", ex.exportar(hojas), mime=MIME_XLSX,
+                       file_name=f"FP_Fichas_Prediales_IN_Piura_{date.today():%Y%m%d}.xlsx", key="la_hf_xls")
+    _detalle_ficha(conn, v)
+
+
+def _lista_fichas(conn, v: pd.DataFrame):
+    pagina = _paginar(v, "la_hf_pag")
+    anchos = [1.1, 0.9, 0.8, 0.8, 0.7, 1.6, 0.6, 0.6, 0.7]
+    for col, h in zip(st.columns(anchos), ["Predio", "Unidad", "Asistente", "Fecha", "Origen", "Estado / motivos",
+                                            "Editar", "", ""]):
+        col.markdown(f"**{h}**")
+    confirmar = st.session_state.get("la_hf_del")
+    for r in pagina.to_dict("records"):
+        clave = r["fp_uuid"]
+        fila = st.columns(anchos)
+        fecha = r["fecha_envio"]
+        vals = [r["cod_predio"] or "—", r["cod_unidad"], r["asistente"],
+                pd.to_datetime(fecha).strftime("%d/%m/%Y") if fecha is not None and not pd.isna(fecha) else "—",
+                r["origen"], ("✅ " if r["estado_import"] == "NUEVO" else "⚠️ ") + (r["motivos"] or r["estado_import"])[:90]]
+        for col, x in zip(fila[:6], vals):
+            col.write("—" if x is None or (isinstance(x, float) and pd.isna(x)) else str(x))
+        for col, parte, col_uuid in ((fila[6], "f_la_02_titular", "uuid_f02"), (fila[7], "f_la_03_inspeccion", "uuid_f03")):
+            uuid = r[col_uuid]
+            if col.button(f"✏️ {lc.FORMULARIOS[parte].codigo[-2:]}", key=f"la_hfe_{parte}_{clave}", type="primary",
+                          disabled=not uuid, help=f"Editar la parte {lc.FORMULARIOS[parte].codigo} en «Registro en campo»"):
+                _editar(conn, parte, {"kobo_uuid": uuid}, False)
+                st.rerun()
+        partes = [u for u in (r["uuid_f02"], r["uuid_f03"]) if u]
+        if confirmar == clave:
+            if fila[8].button("Confirmar", key=f"la_hfdelok_{clave}", type="primary"):
+                if not _usuario():
+                    st.warning("Ingrese el usuario responsable (arriba).")
+                else:
+                    for u in partes:
+                        db.eliminar_envio(conn, u, _usuario())
+                    st.session_state.pop("la_hf_del", None)
+                    _flash(f"Ficha {r['cod_predio'] or clave} eliminada (F-LA-02 + F-LA-03). Puede restaurar cada parte "
+                           "desde «Registros eliminados».")
+                    st.rerun()
+        elif fila[8].button("Eliminar", key=f"la_hfdel_{clave}"):
+            st.session_state["la_hf_del"] = clave
+            st.rerun()
+    if confirmar is not None:
+        st.warning("Confirme la eliminación pulsando **Confirmar** en su fila. Se eliminan el F-LA-02 y el F-LA-03 de "
+                   "la ficha y se guarda una copia en la bitácora.")
+        if st.button("Cancelar eliminación", key="la_hf_del_cancel"):
+            st.session_state.pop("la_hf_del", None)
+            st.rerun()
+
+
+def _galeria(adj: pd.DataFrame, titulo: str):
+    """Adjuntos en 4 columnas. Un archivo dañado o que no es imagen se muestra como enlace, sin detener la página."""
+    if adj.empty:
+        return
+    st.markdown(f"**{titulo} ({len(adj)})**")
+    cols = st.columns(4)
+    for i, a in enumerate(adj.to_dict("records")):
+        col = cols[i % 4]
+        if a["contenido"] is not None and str(a["mimetype"] or "").startswith("image"):
+            try:
+                col.image(bytes(a["contenido"]), caption=a["nombre_archivo"])
+                continue
+            except Exception:  # noqa: BLE001 – imagen ilegible
+                pass
+        if a["url_original"]:
+            col.markdown(f"[{a['nombre_archivo']}]({a['url_original']})")
+        else:
+            col.caption(f"{a['nombre_archivo']} (no se puede mostrar)")
+
+
+def _detalle_ficha(conn, v: pd.DataFrame):
+    st.markdown("#### Detalle de la ficha")
+    opciones = {f"{r['cod_predio'] or r['cod_unidad']} · {r['origen']} · {str(r['fp_uuid'])[:13]}": r
+                for r in v.to_dict("records")}
+    sel = st.selectbox("Seleccione una ficha", [""] + list(opciones), key="la_hf_det")
+    if not sel:
+        return
+    r = opciones[sel]
+    envs = [e for e in (db.obtener_envio(conn, u) for u in (r["uuid_f03"], r["uuid_f02"]) if u) if e]
+    if not envs:
+        return
+    payload = {}
+    for e in reversed(envs):                         # F-LA-03 prevalece (inspección más reciente)
+        payload.update({k: x for k, x in (e["payload"] or {}).items() if x not in (None, "", [])})
+    for e in envs:
+        if e.get("motivos"):
+            st.warning(f"{lc.FORMULARIOS[e['form_id']].codigo} – motivos: {e['motivos']}")
+    st.dataframe(_humanizar(fpm.FORM_ID, payload), hide_index=True, width="stretch")
+    for rp in lc.formulario(fpm.FORM_ID).repeats:
+        filas = payload.get(rp.nombre) or []
+        if not filas or rp.nombre == "poligono_sus":
+            continue
+        st.markdown(f"**{rp.etiqueta}**")
+        if rp.nombre == "r_afectaciones":
+            tabla_rep = fpm.tabla_afectaciones(payload)
+        else:
+            tabla_rep = pd.DataFrame(filas).drop(columns=["fir_dni"], errors="ignore")
+            if "pt_gps" in tabla_rep:                     # coordenadas en UTM WGS84 17S
+                utm = tabla_rep["pt_gps"].map(lc.geopoint_a_utm)
+                tabla_rep["este"] = utm.map(lambda u: (u or {}).get("este"))
+                tabla_rep["norte"] = utm.map(lambda u: (u or {}).get("norte"))
+                tabla_rep = tabla_rep.drop(columns=["pt_gps"])
+        st.dataframe(tabla_rep, hide_index=True, width="stretch")
+    extra = fpm.datos_adicionales(payload)
+    if not extra.empty:
+        with st.expander("Datos propios de la ficha (colindancias, domicilio, personería…)"):
+            st.dataframe(extra, hide_index=True, width="stretch")
+    _galeria(pd.concat([db.adjuntos_envio(conn, e["kobo_uuid"]) for e in envs], ignore_index=True),
+             "Fotos, croquis y firma")
+    if r["cod_predio"]:
+        if st.button("📄 Generar ficha técnica predial (Excel)", key=f"la_hf_ficha_{r['fp_uuid']}"):
+            st.session_state["la_fp_ficha"] = (r["cod_predio"], fpm.ficha_predio_bytes(conn, r["cod_predio"]))
+        lista = st.session_state.get("la_fp_ficha")
+        if lista and lista[0] == r["cod_predio"]:
+            st.download_button(f"⬇️ Ficha_Predial_{lista[0]}.xlsx", lista[1], mime=MIME_XLSX,
+                               file_name=f"Ficha_Predial_{lista[0]}_{date.today():%Y%m%d}.xlsx",
+                               key=f"la_hf_ficha_dl_{r['fp_uuid']}")
+    st.caption(f"Origen {r['origen']} · F-LA-02: {r['uuid_f02'] or 'falta'} · F-LA-03: {r['uuid_f03'] or 'falta'}")
 
 
 def _exportable(conn, fid: str, v: pd.DataFrame, es_doc: bool) -> pd.DataFrame:
@@ -1288,15 +1449,7 @@ def _detalle(conn, fid: str, v: pd.DataFrame, es_doc: bool):
                 if "fir_dni" in tabla_rep:
                     tabla_rep = tabla_rep.drop(columns=["fir_dni"])
                 st.dataframe(tabla_rep, hide_index=True, width="stretch")
-        adj = db.adjuntos_envio(conn, env["kobo_uuid"])
-        if not adj.empty:
-            st.markdown(f"**Adjuntos ({len(adj)})**")
-            cols = st.columns(4)
-            for i, a in enumerate(adj.to_dict("records")):
-                if a["contenido"] is not None and str(a["mimetype"] or "").startswith("image"):
-                    cols[i % 4].image(bytes(a["contenido"]), caption=a["nombre_archivo"])
-                elif a["url_original"]:
-                    cols[i % 4].markdown(f"[{a['nombre_archivo']}]({a['url_original']})")
+        _galeria(db.adjuntos_envio(conn, env["kobo_uuid"]), "Adjuntos")
         if fid in fpm.PARTES:
             extra = fpm.datos_adicionales(env["payload"])
             if not extra.empty:

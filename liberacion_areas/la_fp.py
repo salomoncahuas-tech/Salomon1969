@@ -457,6 +457,25 @@ def ficha_excel_llena(catalogo: list[dict], payloads: list[dict], imagenes: dict
     return buf.getvalue()
 
 
+def listar_fichas(conn) -> pd.DataFrame:
+    """Una fila por ficha técnica predial completa (sus partes F-LA-02 + F-LA-03 registradas), de cualquier vía:
+    Kobo, aplicativo o ficha Excel. OBSERVADO si alguna parte lo está. Para «Historial / Edición»."""
+    from . import la_db as db
+    d = db.df(conn, """
+        SELECT COALESCE(NULLIF(payload->>'fp_uuid', ''), regexp_replace(kobo_uuid, '-F0[23]$', '')) AS fp_uuid,
+               max(cod_unidad) AS cod_unidad, max(cod_predio) AS cod_predio, max(asistente) AS asistente,
+               max(fecha_envio) AS fecha_envio, max(COALESCE(origen, 'KOBO')) AS origen,
+               CASE WHEN bool_or(estado_import = 'OBSERVADO') THEN 'OBSERVADO' ELSE 'NUEVO' END AS estado_import,
+               string_agg(NULLIF(motivos, ''), ' | ' ORDER BY form_id) AS motivos,
+               max(kobo_uuid) FILTER (WHERE form_id = 'f_la_02_titular') AS uuid_f02,
+               max(kobo_uuid) FILTER (WHERE form_id = 'f_la_03_inspeccion') AS uuid_f03,
+               max(creado) AS creado
+        FROM la_envios_raw
+        WHERE payload->>'origen_ficha' = %s AND form_id IN ('f_la_02_titular', 'f_la_03_inspeccion')
+        GROUP BY 1 ORDER BY max(creado) DESC, 1""", (CODIGO,))
+    return d.astype(object).where(pd.notna(d), None)      # parte faltante → None (no NaN)
+
+
 def ficha_predio_bytes(conn, cod_predio: str) -> bytes:
     """Ficha Excel llena de un predio con sus F-LA-02 / F-LA-03 registrados (de cualquier vía, el más reciente
     prevalece) y sus fotos guardadas en la base."""
