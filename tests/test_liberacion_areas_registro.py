@@ -461,3 +461,46 @@ def test_integracion_eliminar_predio_completo():
     pend = db.bitacora(conn, solo_eliminados=True)
     assert pend.empty or P not in set(pend["clave"])                                  # nada pendiente del predio
     conn.close()
+
+
+# ------------------------------------------------------------------ predios que quedan sin registros
+def test_integracion_predio_sin_registros_sale_de_matriz_y_reportes():
+    """Al eliminar en «Historial» todos los registros de un predio, el predio deja de figurar en la matriz, el semáforo
+    y el reporte consolidado (antes quedaba la fila en la_predios). Restaurar uno de sus registros lo trae de vuelta con
+    lo editado en la matriz."""
+    url = os.environ.get("LA_TEST_DB")
+    if not url:
+        return
+    base.test_integracion_postgres()              # esquema limpio + catálogo + envíos Kobo de prueba
+    from liberacion_areas import la_db as db
+    from liberacion_areas import la_reportes as rep
+    conn = db.conectar(url)
+    P = "27-P02"
+    assert db.actualizar_predios(conn, [{"cod_predio": P, "nucleo": True, "nombre_predio": "EL EDITADO"}], "ed") == 1
+    uuids = list(db.registros_predio(conn, P)["envios"]["kobo_uuid"])
+    tit = db.df(conn, "SELECT cod_titular FROM la_predio_titular WHERE cod_predio=%s", (P,))["cod_titular"][0]
+    assert uuids and P in set(rep.matriz(conn)["cod_predio"])
+    for u in uuids:                                 # como en «Historial / Edición › Eliminar», uno por uno
+        db.eliminar_envio(conn, u, "ed")
+    assert P not in set(rep.matriz(conn)["cod_predio"])
+    assert db.df(conn, "SELECT count(*) n FROM la_predios WHERE cod_predio=%s", (P,))["n"][0] == 0
+    assert db.predios_huerfanos(conn) == []
+    xls = load_workbook(io.BytesIO(rep.excel_consolidado(conn)))
+    assert P not in {r[0] for r in xls["Matriz_predial"].iter_rows(min_row=8, values_only=True)}
+    assert tit not in {r[0] for r in xls["Titulares"].iter_rows(min_row=8, values_only=True)}   # titular sin ficha
+    elim = db.bitacora(conn, solo_eliminados=True)
+    assert set(uuids) <= set(elim["clave"]) and P not in set(elim["clave"])     # el predio no ensucia la papelera
+
+    # restaurar uno de sus registros → el predio vuelve con lo editado en la matriz
+    db.restaurar(conn, int(elim[elim.clave == uuids[0]]["id"].iloc[0]), "ed")
+    p = db.df(conn, "SELECT nombre_predio, nucleo FROM la_predios WHERE cod_predio=%s", (P,))
+    assert len(p) == 1 and p["nombre_predio"][0] == "EL EDITADO" and bool(p["nucleo"][0]), p
+
+    # predios sin registros que ya existían en la base: se quitan al abrir el módulo
+    with conn.cursor() as cur:
+        cur.execute("INSERT INTO la_predios (cod_predio, cod_unidad, n_predio, nombre_predio) VALUES "
+                    "('27-P09', '27', 9, 'HUERFANO')")
+    conn.commit()
+    assert db.inicializar_la(conn, base.CSV)["predios_sin_registros"] == ["27-P09"]
+    assert "27-P09" not in set(rep.matriz(conn)["cod_predio"])
+    conn.close()

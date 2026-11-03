@@ -325,3 +325,21 @@ práctica impedía eliminar casi cualquier predio.
 Archivos: `liberacion_areas/la_db.py` (`registros_predio`, `resumen_registros_predio`, `eliminar_predio_completo`,
 restauración enlazada), `liberacion_areas/pagina.py`. Pruebas: `tests/test_liberacion_areas_registro.py`
 (`test_integracion_eliminar_predio_completo`, PostgreSQL). Sin migración de base de datos.
+
+## Actualización 03-nov-2026 · Los reportes ya no muestran registros eliminados
+
+Al eliminar en «4 · Historial / Edición» todas las fichas, inspecciones y actas de un predio, la fila del predio quedaba
+en `la_predios` y seguía saliendo en la matriz predial, el semáforo, el resumen y el reporte consolidado (p. ej.
+83-P01 «Don Pedro»). Igual con los titulares cuyas fichas F-LA-02 se eliminaron (hoja «Titulares»).
+
+- **Predios sin registros** (`la_db.depurar_predios_huerfanos`): se quitan de la matriz cada vez que se recalculan los
+  estados (después de importar, editar, eliminar o restaurar) y al abrir el módulo, así que los que ya existían en la
+  base desaparecen al reiniciar la aplicación. Quedan en la bitácora como eliminación automática (no se listan en
+  «Registros eliminados»).
+- **Restaurar** cualquier registro de ese predio lo trae de vuelta con lo editado en la matriz (nombre, núcleo, LA-5,
+  LA-6, excepción, alertas).
+- **Hoja «Titulares»** del reporte: solo titulares con predio o ficha F-LA-02 vigente. No se borra ningún titular (su
+  código T0000 se conserva por si se vuelve a registrar).
+
+Archivos: `liberacion_areas/la_db.py`, `liberacion_areas/la_reportes.py`. Prueba:
+`test_integracion_predio_sin_registros_sale_de_matriz_y_reportes` (PostgreSQL). Sin migración de base de datos.

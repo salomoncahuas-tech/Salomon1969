@@ -68,6 +68,8 @@ def titulares_sin_reservados(conn) -> pd.DataFrame:
     return db.df(conn, """SELECT t.cod_titular, t.tipo_titularidad, t.nombre, t.representante, t.partida,
                                  string_agg(DISTINCT pt.cod_predio, '; ') AS predios
                           FROM la_titulares t LEFT JOIN la_predio_titular pt USING (cod_titular)
+                          WHERE pt.cod_predio IS NOT NULL
+                             OR EXISTS (SELECT 1 FROM la_fichas_titular f WHERE f.cod_titular = t.cod_titular)
                           GROUP BY t.cod_titular ORDER BY t.cod_titular""")
 
 
