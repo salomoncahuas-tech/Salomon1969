@@ -305,3 +305,23 @@ Archivos: `liberacion_areas/la_kobo.py` (`formulario_vinculado`, `leer_url_formu
 
 Archivos: `liberacion_areas/la_fp.py` (`listar_fichas`), `liberacion_areas/pagina.py`. Pruebas: `tests/test_la_fp.py`
 (integración PostgreSQL). Sin migración de base de datos.
+
+## Actualización 03-nov-2026 · Eliminar predios desde la Matriz predial
+
+Antes, «Eliminar un predio» solo funcionaba si el predio no tenía fichas, inspecciones, actas ni documentos, lo que en la
+práctica impedía eliminar casi cualquier predio.
+
+- **5 · Matriz predial › 🗑️ Eliminar predios de la matriz**: se eligen uno o varios predios; una tabla muestra cuántos
+  registros se eliminan con cada uno (F-LA-02, F-LA-03, F-LA-04 del predio y F-LA-05). Se confirma con una casilla y el
+  botón **Eliminar N predio(s)** (requiere el Usuario responsable).
+- Se elimina el predio **con sus registros** en una sola transacción (`la_db.eliminar_predio_completo`). Las fichas
+  técnicas prediales FP se eliminan con sus dos partes. Las reuniones F-LA-01 y las actas de unidad (sin predio) no se
+  tocan. Las fotos no se borran.
+- Los envíos de KoboToolbox eliminados quedan en la bitácora y **no se vuelven a importar** en la sincronización.
+- **Restaurar**: en **4 · Historial / Edición › Registros eliminados**, la fila «Predio (con sus registros)» recupera el
+  predio, sus campos editados en la matriz (núcleo, LA-5, LA-6, excepción, alertas, nombre) y todos los registros
+  eliminados con él; el estado LA se recalcula.
+
+Archivos: `liberacion_areas/la_db.py` (`registros_predio`, `resumen_registros_predio`, `eliminar_predio_completo`,
+restauración enlazada), `liberacion_areas/pagina.py`. Pruebas: `tests/test_liberacion_areas_registro.py`
+(`test_integracion_eliminar_predio_completo`, PostgreSQL). Sin migración de base de datos.

@@ -421,9 +421,10 @@ def _json(v) -> str:
     return json.dumps(v, ensure_ascii=False, default=str)
 
 
-def _bitacora(cur, usuario, accion, tabla, clave, form_id, datos):
-    cur.execute("INSERT INTO la_bitacora (usuario, accion, tabla, clave, form_id, datos) VALUES (%s,%s,%s,%s,%s,%s)",
-                (usuario, accion, tabla, clave, form_id, _json(datos)))
+def _bitacora(cur, usuario, accion, tabla, clave, form_id, datos) -> int:
+    cur.execute("INSERT INTO la_bitacora (usuario, accion, tabla, clave, form_id, datos) VALUES (%s,%s,%s,%s,%s,%s) "
+                "RETURNING id", (usuario, accion, tabla, clave, form_id, _json(datos)))
+    return cur.fetchone()[0]
 
 
 def listar_envios(conn, form_id: str | None = None) -> pd.DataFrame:
@@ -496,18 +497,25 @@ def actualizar_envio(conn, r: core.Resultado, form_id: str, usuario: str) -> Non
     recalcular_estados(conn)
 
 
+def _eliminar_envio(cur, previo: dict, usuario: str) -> int:
+    """Borra un envío (sin commit) dejando su copia en la bitácora. Devuelve el id de la bitácora."""
+    kobo_uuid = previo["kobo_uuid"]
+    cur.execute("SELECT id FROM la_adjuntos WHERE kobo_uuid = %s", (kobo_uuid,))
+    adj = [x[0] for x in cur.fetchall()]
+    fila = _quitar_formulario(cur, previo["form_id"], kobo_uuid)
+    id_bit = _bitacora(cur, usuario, "ELIMINAR", "la_envios_raw", kobo_uuid, previo["form_id"],
+                       {"envio": {k: v for k, v in previo.items() if k != "payload"}, "payload": previo["payload"],
+                        "fila": fila, "adjuntos": adj})
+    cur.execute("DELETE FROM la_envios_raw WHERE kobo_uuid = %s", (kobo_uuid,))   # adjuntos → kobo_uuid NULL
+    return id_bit
+
+
 def eliminar_envio(conn, kobo_uuid: str, usuario: str) -> None:
     previo = obtener_envio(conn, kobo_uuid)
     if previo is None:
         return
     with conn.cursor() as cur:
-        cur.execute("SELECT id FROM la_adjuntos WHERE kobo_uuid = %s", (kobo_uuid,))
-        adj = [x[0] for x in cur.fetchall()]
-        fila = _quitar_formulario(cur, previo["form_id"], kobo_uuid)
-        _bitacora(cur, usuario, "ELIMINAR", "la_envios_raw", kobo_uuid, previo["form_id"],
-                  {"envio": {k: v for k, v in previo.items() if k != "payload"}, "payload": previo["payload"],
-                   "fila": fila, "adjuntos": adj})
-        cur.execute("DELETE FROM la_envios_raw WHERE kobo_uuid = %s", (kobo_uuid,))   # adjuntos → kobo_uuid NULL
+        _eliminar_envio(cur, previo, usuario)
     conn.commit()
     recalcular_estados(conn)
 
@@ -550,12 +558,29 @@ def restaurar(conn, id_bitacora: int, usuario: str) -> str:
     elif b["tabla"] == "la_predios":
         f = datos["fila"]
         cols = [k for k in f if k != "actualizado"]
-        with conn.cursor() as cur:
-            cur.execute(f"INSERT INTO la_predios ({', '.join(cols)}) VALUES ({', '.join(['%s'] * len(cols))}) "
-                        "ON CONFLICT (cod_predio) DO NOTHING", tuple(f[k] for k in cols))
-            for t in datos.get("titulares", []):
-                cur.execute("INSERT INTO la_predio_titular VALUES (%s,%s,%s) ON CONFLICT DO NOTHING",
-                            (f["cod_predio"], t["cod_titular"], t["rol"]))
+        # si el predio ya se recreó (p. ej. al restaurar antes una de sus fichas) se recuperan sus campos guardados:
+        # núcleo, LA-5, LA-6, excepción, alertas… (el estado LA se recalcula al final)
+        actualizar = ", ".join(f"{k} = EXCLUDED.{k}" for k in cols if k != "cod_predio")
+
+        def _predio():
+            with conn.cursor() as cur:
+                cur.execute(f"INSERT INTO la_predios ({', '.join(cols)}) VALUES ({', '.join(['%s'] * len(cols))}) "
+                            f"ON CONFLICT (cod_predio) DO UPDATE SET {actualizar}", tuple(f[k] for k in cols))
+                for t in datos.get("titulares", []):
+                    cur.execute("INSERT INTO la_predio_titular VALUES (%s,%s,%s) ON CONFLICT DO NOTHING",
+                                (f["cod_predio"], t["cod_titular"], t["rol"]))
+            conn.commit()
+
+        _predio()
+        vinculados = df(conn, "SELECT id FROM la_bitacora WHERE id = ANY(%s) AND NOT restaurado ORDER BY id",
+                        ([int(x) for x in datos.get("vinculados", [])],))
+        for id_v in (vinculados["id"] if not vinculados.empty else []):      # fichas, inspecciones, actas, documentos
+            try:
+                restaurar(conn, int(id_v), usuario)
+            except ValueError:                                                 # ya existe: se conserva el vigente
+                conn.rollback()
+        if not vinculados.empty:
+            _predio()      # los campos editados en la matriz prevalecen sobre los que traen las fichas restauradas
     with conn.cursor() as cur:
         cur.execute("UPDATE la_bitacora SET restaurado = TRUE WHERE id = %s", (id_bitacora,))
         _bitacora(cur, usuario, "RESTAURAR", b["tabla"], b["clave"], b["form_id"], {"id_bitacora": id_bitacora})
@@ -648,6 +673,66 @@ def referencias_predio(conn, cod_predio: str) -> dict[str, int]:
         if n:
             out[t] = int(n)
     return out
+
+
+def registros_predio(conn, cod_predio: str) -> dict[str, pd.DataFrame]:
+    """Lo que se elimina junto con un predio: envíos (F-LA-02, F-LA-03, F-LA-04 del predio; incluye las fichas FP) y
+    documentos F-LA-05. Las reuniones F-LA-01 y las actas de unidad (sin predio) no se tocan."""
+    envios = df(conn, """SELECT r.kobo_uuid, r.form_id, COALESCE(r.origen, 'KOBO') AS origen FROM la_envios_raw r
+                         WHERE r.cod_predio = %(p)s
+                            OR r.kobo_uuid IN (SELECT kobo_uuid FROM la_fichas_titular WHERE cod_predio = %(p)s
+                                               UNION SELECT kobo_uuid FROM la_inspecciones WHERE cod_predio = %(p)s
+                                               UNION SELECT kobo_uuid FROM la_actas WHERE cod_predio = %(p)s)
+                         ORDER BY r.form_id, r.kobo_uuid""", {"p": cod_predio})
+    docs = df(conn, "SELECT id, cod_doc, tipo FROM la_documentos WHERE cod_predio = %s ORDER BY id", (cod_predio,))
+    return {"envios": envios, "documentos": docs}
+
+
+def resumen_registros_predio(conn, cod_predio: str) -> dict[str, int]:
+    """{código de formulario: n} de los registros que se eliminarían con el predio."""
+    r = registros_predio(conn, cod_predio)
+    out: dict[str, int] = {}
+    for fid in (r["envios"]["form_id"] if not r["envios"].empty else []):
+        cod = core.FORMULARIOS[fid]["codigo"]
+        out[cod] = out.get(cod, 0) + 1
+    if not r["documentos"].empty:
+        out["F-LA-05"] = len(r["documentos"])
+    return out
+
+
+def eliminar_predio_completo(conn, cod_predio: str, usuario: str) -> dict[str, int]:
+    """Elimina el predio de la matriz con todos sus registros, en una sola transacción. Cada registro queda en la
+    bitácora; restaurar el predio (Registros eliminados) los restaura también. Los envíos de Kobo eliminados no se
+    vuelven a importar en la sincronización. Las fotos no se borran. Devuelve {formulario: n eliminados}."""
+    resumen = resumen_registros_predio(conn, cod_predio)
+    regs = registros_predio(conn, cod_predio)
+    try:
+        with conn.cursor() as cur:
+            cur.execute("SELECT row_to_json(p) FROM la_predios p WHERE cod_predio = %s", (cod_predio,))
+            x = cur.fetchone()
+            if not x:
+                raise ValueError(f"El predio {cod_predio} ya no existe.")
+            cur.execute("SELECT cod_titular, rol FROM la_predio_titular WHERE cod_predio = %s", (cod_predio,))
+            tit = [{"cod_titular": a, "rol": b} for a, b in cur.fetchall()]
+            vinculados = []
+            for e in (regs["envios"].to_dict("records") if not regs["envios"].empty else []):
+                previo = obtener_envio(conn, e["kobo_uuid"])
+                if previo:
+                    vinculados.append(_eliminar_envio(cur, previo, usuario))
+            for d in (regs["documentos"].to_dict("records") if not regs["documentos"].empty else []):
+                doc = obtener_documento(conn, int(d["id"]))
+                vinculados.append(_bitacora(cur, usuario, "ELIMINAR", "la_documentos", doc["cod_doc"],
+                                            "f_la_05_documentos", {"fila": doc}))
+                cur.execute("DELETE FROM la_documentos WHERE id = %s", (int(d["id"]),))
+            _bitacora(cur, usuario, "ELIMINAR", "la_predios", cod_predio, None,
+                      {"fila": x[0], "titulares": tit, "vinculados": vinculados, "resumen": resumen})
+            cur.execute("DELETE FROM la_predios WHERE cod_predio = %s", (cod_predio,))
+        conn.commit()
+    except Exception:
+        conn.rollback()
+        raise
+    recalcular_estados(conn)
+    return resumen
 
 
 def eliminar_predio(conn, cod_predio: str, usuario: str) -> None:

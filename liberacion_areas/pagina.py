@@ -1480,6 +1480,12 @@ def _detalle(conn, fid: str, v: pd.DataFrame, es_doc: bool):
             st.dataframe(hist, hide_index=True, width="stretch")
 
 
+def _etiqueta_bitacora(r: dict) -> str:
+    if r["form_id"] in lc.FORMULARIOS:
+        return lc.FORMULARIOS[r["form_id"]].codigo
+    return {"la_predios": "Predio (con sus registros)", "la_documentos": "F-LA-05"}.get(r["tabla"], r["tabla"])
+
+
 def _papelera(conn):
     st.markdown("---")
     elim = db.bitacora(conn, solo_eliminados=True)
@@ -1489,7 +1495,7 @@ def _papelera(conn):
         for r in elim.to_dict("records"):
             c1, c2, c3, c4 = st.columns([1.2, 1.5, 1.2, 0.8])
             c1.write(f"{pd.to_datetime(r['fecha']):%d/%m/%Y %H:%M}")
-            c2.write(f"{lc.FORMULARIOS.get(r['form_id']).codigo if r['form_id'] in lc.FORMULARIOS else r['tabla']} · {r['clave'][:30]}")
+            c2.write(f"{_etiqueta_bitacora(r)} · {r['clave'][:30]}")
             c3.write(r["usuario"] or "—")
             if c4.button("Restaurar", key=f"la_rest_{r['id']}"):
                 if not _usuario():
@@ -1498,9 +1504,12 @@ def _papelera(conn):
                     try:
                         clave = db.restaurar(conn, int(r["id"]), _usuario())
                         env = db.obtener_envio(conn, clave) if r["tabla"] == "la_envios_raw" else None
-                        cod = lc.FORMULARIOS[r["form_id"]].codigo if r["form_id"] in lc.FORMULARIOS else r["tabla"]
-                        _flash(f"{cod} restaurado: {(env or {}).get('cod_predio') or (env or {}).get('cod_unidad') or clave}"
-                               + (f" · estado {env['estado_import']}" if env else "") + ".")
+                        if r["tabla"] == "la_predios":
+                            _flash(f"Predio {clave} restaurado en la matriz con los registros eliminados junto con él.")
+                        else:
+                            _flash(f"{_etiqueta_bitacora(r)} restaurado: "
+                                   f"{(env or {}).get('cod_predio') or (env or {}).get('cod_unidad') or clave}"
+                                   + (f" · estado {env['estado_import']}" if env else "") + ".")
                     except ValueError as e:
                         _flash(str(e), "error")
                     st.rerun()
@@ -1562,21 +1571,56 @@ def _tab_matriz(conn):
                        "aceptación). Sirve para priorizar la visita; no reemplaza la ficha F-LA-02.")
             codigos = sorted(set(v.cod_unidad)) if not v.empty else []
             st.dataframe(ant[ant.codigo_bloque.isin(codigos)] if codigos else ant, hide_index=True, width="stretch")
-    with st.expander("Eliminar un predio (solo si no tiene fichas, inspecciones, actas ni documentos)"):
-        p = st.selectbox("Predio", [""] + list(v.cod_predio), key="la_mz_del")
-        if p:
-            refs = db.referencias_predio(conn, p)
-            if refs:
-                st.info("Registros asociados: " + ", ".join(f"{k} ({n})" for k, n in refs.items())
-                        + ". Elimínelos o corrija su predio en «Historial / Edición» antes de eliminar el predio.")
-            elif st.button(f"Eliminar predio {p}", disabled=not _usuario(), key="la_mz_del_btn"):
-                db.eliminar_predio(conn, p, _usuario())
-                _flash(f"Predio {p} eliminado (restaurable desde la bitácora).")
-                st.rerun()
+    _eliminar_predios(conn, v)
     st.download_button("⬇️ Exportar matriz predial (Excel ANIN)",
                        ex.exportar({"Matriz_predial": ("MATRIZ PREDIAL – EXPEDIENTE PRELIMINAR DE LIBERACIÓN DE ÁREAS", v,
                                                        ["area_decl_ha", "area_unidad_ha"])}),
                        file_name=f"Matriz_Predial_IN_Piura_{date.today():%Y%m%d}.xlsx", mime=MIME_XLSX)
+
+
+FORMS_PREDIO = ("F-LA-02", "F-LA-03", "F-LA-04", "F-LA-05")
+
+
+def _eliminar_predios(conn, v: pd.DataFrame):
+    """Elimina uno o varios predios de la matriz con todos sus registros (restaurables con un clic)."""
+    with st.expander("🗑️ Eliminar predios de la matriz", expanded=bool(st.session_state.get("la_mz_del_sel"))):
+        st.caption("Elimina el predio **y sus registros**: fichas F-LA-02 (incluidas las fichas técnicas prediales FP), "
+                   "inspecciones F-LA-03, actas F-LA-04 del predio y documentos F-LA-05. Las reuniones F-LA-01 y las actas "
+                   "de la unidad no se tocan. Todo queda en la bitácora: en **4 · Historial / Edición › Registros "
+                   "eliminados**, «Restaurar» sobre el predio lo recupera con todos sus registros. Los envíos de "
+                   "KoboToolbox eliminados no se vuelven a importar y las fotos no se borran.")
+        sel = st.multiselect("Predios a eliminar", list(v.cod_predio), key="la_mz_del_sel",
+                             format_func=lambda c: f"{c} · {v.loc[v.cod_predio == c, 'nombre_predio'].iloc[0] or 's/n'}"
+                             if (v.cod_predio == c).any() else c)
+        if not sel:
+            return
+        filas = []
+        for c in sel:
+            r = db.resumen_registros_predio(conn, c)
+            filas.append({"predio": c, **{f: r.get(f, 0) for f in FORMS_PREDIO}, "total registros": sum(r.values())})
+        tabla = pd.DataFrame(filas)
+        st.dataframe(tabla, hide_index=True, width="stretch")
+        n_reg = int(tabla["total registros"].sum())
+        ok = st.checkbox(f"Confirmo que deseo eliminar {len(sel)} predio(s) y {n_reg} registro(s) asociados",
+                         key="la_mz_del_ok")
+        if st.button(f"🗑️ Eliminar {len(sel)} predio(s)", type="primary", key="la_mz_del_btn",
+                     disabled=not (ok and _usuario())):
+            hechos, errores = [], []
+            for c in sel:
+                try:
+                    db.eliminar_predio_completo(conn, c, _usuario())
+                    hechos.append(c)
+                except Exception as e:  # noqa: BLE001 – se informa por predio; los demás continúan
+                    errores.append(f"{c}: {e}")
+            for k in ("la_mz_del_sel", "la_mz_del_ok", "la_mz_ed"):
+                st.session_state.pop(k, None)
+            msg = (f"Predio(s) eliminado(s): {', '.join(hechos)} con {n_reg} registro(s) asociados. Se pueden restaurar "
+                   "desde «4 · Historial / Edición › Registros eliminados»." if hechos else "")
+            _flash((msg + (" · No se pudo eliminar: " + "; ".join(errores) if errores else "")).strip(" ·"),
+                   "warning" if errores else "success")
+            st.rerun()
+        if not _usuario():
+            st.caption("Escriba el **Usuario responsable** (arriba) para eliminar.")
 
 
 # ================================================================== 6. avance

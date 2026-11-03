@@ -402,3 +402,62 @@ def test_integracion_f_la_03_fotos():
     d = db.df(conn, "SELECT descripcion_predio FROM la_inspecciones WHERE kobo_uuid = %s", (r.kobo_uuid,))
     assert d["descripcion_predio"][0] == "Pastizal degradado"
     conn.close()
+
+
+# ------------------------------------------------------------------ eliminar un predio desde la matriz predial
+def test_integracion_eliminar_predio_completo():
+    url = os.environ.get("LA_TEST_DB")
+    if not url:
+        return
+    base.test_integracion_postgres()              # esquema limpio + catálogo + envíos Kobo de prueba
+    from liberacion_areas import la_db as db
+    conn = db.conectar(url)
+    with conn.cursor() as cur:
+        for cod, g in base.GEOMS.items():
+            cur.execute("UPDATE la_unidades SET geom_wkt=%s WHERE codigo=%s", (g.wkt, cod))
+    conn.commit()
+    cat, geoms = db.catalogo(conn), db.geometrias(conn)
+    r = lp.leer_plantilla_excel(io.BytesIO(_plantilla_llenada()), cat)
+    for fid in ("f_la_02_titular", "f_la_03_inspeccion", "f_la_04_actas"):
+        res = [core.validar_envio(fid, x["registro"], cat, geoms, db.uuids_existentes(conn), db.sus_areas(conn, cat))
+               for x in r["envios"][fid]]
+        db.importar(conn, res, "PLANTILLA", fid, "pytest")
+    for d in r["documentos"]:
+        db.registrar_documento(conn, d["datos"])
+    P = "27-P03"
+    assert db.df(conn, "SELECT estado_la FROM la_predios WHERE cod_predio=%s", (P,))["estado_la"][0] == "LA-4"
+    assert db.actualizar_predios(conn, [{"cod_predio": P, "nucleo": True, "nombre_predio": "NOMBRE EDITADO"}], "ed") == 1
+
+    regs = db.registros_predio(conn, P)
+    uuids = set(regs["envios"]["kobo_uuid"])
+    resumen = db.resumen_registros_predio(conn, P)
+    assert {"F-LA-02", "F-LA-03", "F-LA-04"} <= set(resumen) and sum(resumen.values()) == len(uuids) + len(regs["documentos"])
+    otros = db.df(conn, "SELECT count(*) n FROM la_envios_raw WHERE kobo_uuid <> ALL(%s)", (list(uuids),))["n"][0]
+    n_predios = db.df(conn, "SELECT count(*) n FROM la_predios")["n"][0]
+    n_adj = db.df(conn, "SELECT count(*) n FROM la_adjuntos")["n"][0]
+
+    assert db.eliminar_predio_completo(conn, P, "ed") == resumen
+    assert db.df(conn, "SELECT count(*) n FROM la_predios WHERE cod_predio=%s", (P,))["n"][0] == 0
+    assert db.df(conn, "SELECT count(*) n FROM la_predios")["n"][0] == n_predios - 1
+    assert not set(db.listar_envios(conn)["kobo_uuid"]) & uuids                      # sus registros se fueron
+    assert db.df(conn, "SELECT count(*) n FROM la_envios_raw")["n"][0] == otros       # los demás, intactos
+    assert db.df(conn, "SELECT count(*) n FROM la_documentos WHERE cod_predio=%s", (P,))["n"][0] == 0
+    assert uuids <= db.uuids_eliminados(conn)                                         # Kobo no los vuelve a traer
+    assert db.df(conn, "SELECT count(*) n FROM la_adjuntos")["n"][0] == n_adj         # las fotos no se borran
+    try:
+        db.eliminar_predio_completo(conn, P, "ed")
+        raise AssertionError("debió avisar que el predio ya no existe")
+    except ValueError:
+        pass
+
+    # restaurar el predio → vuelve con todos sus registros, sus campos editados y su estado
+    b = db.bitacora(conn, solo_eliminados=True)
+    db.restaurar(conn, int(b[(b.tabla == "la_predios") & (b.clave == P)]["id"].iloc[0]), "ed")
+    p = db.df(conn, "SELECT nombre_predio, nucleo, estado_la FROM la_predios WHERE cod_predio=%s", (P,)).iloc[0]
+    assert p["nombre_predio"] == "NOMBRE EDITADO" and bool(p["nucleo"]) and p["estado_la"] == "LA-4", p
+    assert uuids <= set(db.listar_envios(conn)["kobo_uuid"])
+    assert db.df(conn, "SELECT count(*) n FROM la_documentos WHERE cod_predio=%s", (P,))["n"][0] == len(regs["documentos"])
+    assert not uuids & db.uuids_eliminados(conn)
+    pend = db.bitacora(conn, solo_eliminados=True)
+    assert pend.empty or P not in set(pend["clave"])                                  # nada pendiente del predio
+    conn.close()
