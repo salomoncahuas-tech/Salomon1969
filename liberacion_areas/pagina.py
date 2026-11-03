@@ -92,6 +92,10 @@ def render():
         c2.caption("Tres vías de registro equivalentes: **KoboToolbox**, **digitación en el aplicativo** y **plantilla "
                    "Excel**. Todas pasan por las mismas validaciones (catálogo V6, asistente, UTM 17S, lotes SUS, actas) "
                    "y se consultan, editan o eliminan en **Historial / Edición**.")
+        vinc = kb.formulario_vinculado()
+        c2.link_button("📋 Abrir el Formato de Liberación de Áreas en KoboToolbox", vinc["url"],
+                       help=f"Formulario {vinc['uid']} en {vinc['servidor']}. Estado, envíos pendientes e importación: "
+                            "pestaña «3 · Importar KoboToolbox».")
         _mostrar_flash(st.container())
         _aviso_kobo(conn)
         cat = db.catalogo(conn)
@@ -682,8 +686,10 @@ def _seccion_ficha_predial(conn, cat: dict):
     if st.session_state.get("la_fp_zip"):
         c2.download_button("⬇️ XLSForm FP + unidades.csv (ZIP)", st.session_state["la_fp_zip"], key="la_fp_zdl",
                            file_name=f"Kobo_Ficha_Predial_FP_{date.today():%Y%m%d}.zip", mime="application/zip")
-    c3.caption(f"Formulario Kobo vinculado: título «{xf.TITULO}» (UID {', '.join(sorted(fpm.uids_fp()))}). "
-               "Si cambia el catálogo, reemplace unidades.csv en Kobo › Configuración › Multimedia y vuelva a desplegar.")
+    vinc = kb.formulario_vinculado()
+    c3.caption(f"Formulario Kobo vinculado: [{vinc['uid']}]({vinc['url']}) (título «{xf.TITULO}»; UID reconocidos: "
+               f"{', '.join(sorted(fpm.uids_fp() | {vinc['uid']}))}). Si cambia el catálogo, reemplace unidades.csv en "
+               "Kobo › Configuración › Multimedia y vuelva a desplegar.")
 
     archivos = st.file_uploader("Importar fichas Excel llenadas (.xlsx, una ficha por archivo, máx. 25 MB c/u)",
                                 type=["xlsx"], accept_multiple_files=True, key="la_fp_up")
@@ -837,11 +843,103 @@ def _panel_sincronizacion(conn, kobo, rev: dict, clave: str):
 
 def _cambiar_servidor(clave: str):
     st.session_state[kb.CLAVE_SERVIDOR_SESION] = st.session_state[clave]
-    for k in ("la_kobo_rev", "la_forms", "la_raw"):
+    for k in ("la_kobo_rev", "la_forms", "la_raw", "la_vinc_estado"):
         st.session_state.pop(k, None)
 
 
 # ================================================================== 3. importar KoboToolbox
+_ORIGEN_VINCULO = {"predeterminado": "predeterminado del aplicativo", "secrets": "KOBO_LA_FORM_URL de los secrets",
+                   "sesion": "elegido en esta sesión"}
+
+
+def _limpiar_cache_kobo():
+    for k in ("la_kobo_rev", "la_forms", "la_raw", "la_enlaces_kobo", "la_vinc_estado"):
+        st.session_state.pop(k, None)
+
+
+def _fecha_kobo(t: str) -> str:
+    """Fecha ISO de la API de Kobo → 'dd/mm/aaaa hh:mm' (hora de Lima si trae zona horaria)."""
+    try:
+        ts = pd.Timestamp(t)
+        return (ts.tz_convert("America/Lima") if ts.tzinfo else ts).strftime("%d/%m/%Y %H:%M")
+    except Exception:  # noqa: BLE001
+        return str(t or "")
+
+
+def _panel_formulario_vinculado(conn, kobo):
+    """Formato de Liberación de Áreas (KoboToolbox) enlazado al aplicativo: acceso directo, estado y sincronización."""
+    v = kb.formulario_vinculado()
+    st.markdown("**Formato de Liberación de Áreas vinculado (KoboToolbox)**")
+    st.caption(f"Formulario `{v['uid']}` en {v['servidor']} ({_ORIGEN_VINCULO[v['origen']]}). Se consulta directamente "
+               "por su UID, aunque esté compartido desde otra cuenta. Sus envíos entran como ficha técnica predial "
+               "completa (F-LA-02 + F-LA-03) con las mismas validaciones que las demás vías.")
+    cols = st.columns([1] * len(kb.VISTAS_KOBO) + [3])
+    for c, (vista, etiqueta) in zip(cols, kb.VISTAS_KOBO.items()):
+        c.link_button(f"{etiqueta} ↗", kb.url_formulario(v["servidor"], v["uid"], vista))
+
+    resumen = st.session_state.pop("la_sync_resumen_vinc", None)
+    if resumen:
+        st.dataframe(pd.DataFrame(resumen), hide_index=True, width="stretch")
+    est = st.session_state.get("la_vinc_estado")
+    if est and est.get("uid") != v["uid"]:
+        est = None
+    if st.button("🔄 Consultar formulario vinculado", key="la_vinc_consultar") or est is None:
+        with st.spinner("Consultando el formulario vinculado en KoboToolbox…"):
+            est = kb.estado_vinculado(kobo, conn)
+        st.session_state["la_vinc_estado"] = est
+    if est["error"]:
+        st.warning(est["error"])
+    else:
+        titulo = f"«{est['nombre']}»" + (f" · propietario: {est['propietario']}" if est["propietario"] else "")
+        st.markdown(titulo + (f" · último envío: {_fecha_kobo(est['ultimo_envio'])}" if est["ultimo_envio"] else ""))
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Estado", "Desplegado" if est["desplegado"] else "No desplegado")
+        c2.metric("Envíos en Kobo", est["envios"] if est["envios"] is not None else "—")
+        c3.metric("Importados", est["importados"])
+        c4.metric("Pendientes", est["pendientes"])
+        if est["aviso"]:
+            st.info(est["aviso"])
+        if est["enlaces_llenado"]:
+            st.caption("Llenado web con registro continuo (después de «Enviar» el formulario vuelve al inicio):")
+            for etiqueta, url in est["enlaces_llenado"].items():
+                st.link_button(f"✍️ {etiqueta}", url)
+        if est["pendientes"]:
+            if st.button(f"📥 Importar {est['pendientes']} envío(s) del formulario vinculado", type="primary",
+                         key="la_vinc_importar", disabled=not _usuario()):
+                with st.spinner("Importando envíos y descargando fotos, croquis y firma…"):
+                    res = kb.sincronizar_envios(kobo, conn, _usuario(), revision=[est["revision"]])
+                _limpiar_cache_kobo()
+                st.session_state["la_sync_resumen_vinc"] = res
+                n = sum(r["Importados"] for r in res)
+                _flash(f"Formato de Liberación de Áreas: {n} registro(s) importados (F-LA-02 + F-LA-03). Ya aparecen "
+                       "en «4 · Historial / Edición».", "success" if n else "warning")
+                st.rerun()
+            if not _usuario():
+                st.caption("Escriba el **Usuario responsable** (arriba) para importar.")
+        elif est["envios"]:
+            st.caption("✅ Todos los envíos del formulario vinculado están en el aplicativo.")
+
+    with st.expander("Cambiar el formulario vinculado"):
+        st.caption("Pegue el enlace del formulario tal como aparece en el navegador "
+                   "(`https://kf.kobotoolbox.org/#/forms/<UID>/summary`) o solo el UID. El cambio vale para esta "
+                   "sesión; para dejarlo fijo agregue en Streamlit Cloud → Settings → Secrets la línea "
+                   "`KOBO_LA_FORM_URL = \"<enlace>\"` y reinicie la aplicación.")
+        nuevo = st.text_input("Enlace del formulario en KoboToolbox", value=v["url"], key=f"la_vinc_url_{v['uid']}")
+        c1, c2 = st.columns(2)
+        if c1.button("Vincular este formulario", key="la_vinc_ok"):
+            leido = kb.leer_url_formulario(nuevo)
+            if not leido:
+                st.error("No se reconoce el enlace: debe contener /#/forms/<UID>/ (o ser el UID del formulario).")
+            else:
+                st.session_state[kb.CLAVE_VINCULO_SESION] = kb.url_formulario(*leido)
+                _limpiar_cache_kobo()
+                st.rerun()
+        if v["origen"] == "sesion" and c2.button("Restablecer el vínculo configurado", key="la_vinc_reset"):
+            st.session_state.pop(kb.CLAVE_VINCULO_SESION, None)
+            _limpiar_cache_kobo()
+            st.rerun()
+
+
 def _enlaces_llenado(kobo):
     st.markdown("**Enlaces de llenado – registro continuo de prediantes**")
     st.caption("Con estos enlaces, después de «Enviar» el formulario queda en blanco y vuelve al inicio para el siguiente "
@@ -899,6 +997,8 @@ def _tab_importar(conn):
         except ValueError as e:
             st.error(str(e))
             return
+        _panel_formulario_vinculado(conn, kobo)
+        st.divider()
         st.markdown("**Todos los formularios F-LA**")
         st.caption("Busca en la cuenta los formularios F-LA, reconoce a qué formulario corresponde cada uno y muestra, en "
                    "el aviso al inicio de la página, los envíos que aún no están en la base (con «Importar ahora»).")

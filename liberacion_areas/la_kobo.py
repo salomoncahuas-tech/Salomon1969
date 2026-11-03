@@ -83,6 +83,129 @@ def describir_token(token: str) -> str:
     return f"{len(t)} caracteres, termina en «…{t[-4:]}»{aviso}" if t else "vacío"
 
 
+# ------------------------------------------------------------------ formulario vinculado (Formato de Liberación de Áreas)
+# Formulario de KoboToolbox enlazado al aplicativo: la ficha técnica predial completa (FP) de Liberación de Áreas.
+# Se puede cambiar sin tocar el código con KOBO_LA_FORM_URL en los secrets (enlace copiado del navegador) o, solo en
+# la sesión, desde la pestaña «3 · Importar KoboToolbox». Sus envíos entran como F-LA-02 + F-LA-03 (la_fp).
+FORMULARIO_VINCULADO_URL = "https://kf.kobotoolbox.org/#/forms/aCyBhgqeCTZ3UKzmBW8tx2/summary"
+CLAVE_VINCULO_SESION = "la_kobo_vinculo"
+_PATRON_UID_URL = re.compile(r"/forms/([A-Za-z0-9]{10,40})(?![A-Za-z0-9])")
+_PATRON_UID_SOLO = re.compile(r"^a[A-Za-z0-9]{9,39}$")
+# Vistas del formulario en la interfaz web de KoboToolbox
+VISTAS_KOBO = {"summary": "Resumen", "landing": "Formulario", "data/table": "Datos", "settings": "Configuración"}
+
+
+def leer_url_formulario(texto: str | None, servidor_defecto: str = SERVIDOR_POR_DEFECTO) -> tuple[str, str] | None:
+    """(servidor, uid) de un enlace de formulario de KoboToolbox; None si no se reconoce.
+    'https://kf.kobotoolbox.org/#/forms/aXyz…/summary' → ('https://kf.kobotoolbox.org', 'aXyz…').
+    También acepta el UID solo (se asume el servidor por defecto) o el enlace de la API (/api/v2/assets/<uid>/)."""
+    t = str(texto or "").strip().strip('"').strip("'").strip()
+    if not t:
+        return None
+    if _PATRON_UID_SOLO.match(t):
+        return normalizar_servidor(servidor_defecto), t
+    m = _PATRON_UID_URL.search(t) or re.search(r"/assets/([A-Za-z0-9]{10,40})(?![A-Za-z0-9])", t)
+    if not m:
+        return None
+    servidor = normalizar_servidor(t)
+    if not re.match(r"^https?://[a-z0-9.-]+\.[a-z]{2,}(:\d+)?$", servidor):   # enlace sin dominio: '/#/forms/…'
+        servidor = normalizar_servidor(servidor_defecto)
+    return servidor, m.group(1)
+
+
+def url_formulario(servidor: str, uid: str, vista: str = "summary") -> str:
+    """Enlace a una vista del formulario en la interfaz web de KoboToolbox."""
+    return f"{normalizar_servidor(servidor)}/#/forms/{uid}/{vista}"
+
+
+def formulario_vinculado() -> dict:
+    """{servidor, uid, url, origen}: el elegido en esta sesión, KOBO_LA_FORM_URL de los secrets o el predeterminado."""
+    candidatos = []
+    try:
+        import streamlit as st
+        candidatos.append((st.session_state.get(CLAVE_VINCULO_SESION), "sesion"))
+    except Exception:  # noqa: BLE001 – fuera de Streamlit
+        pass
+    try:
+        from odk_kobo import secreto_kobo
+        candidatos.append((secreto_kobo("KOBO_LA_FORM_URL"), "secrets"))
+    except Exception:  # noqa: BLE001
+        pass
+    candidatos.append((FORMULARIO_VINCULADO_URL, "predeterminado"))
+    for texto, origen in candidatos:
+        leido = leer_url_formulario(texto)
+        if leido:
+            servidor, uid = leido
+            return {"servidor": servidor, "uid": uid, "url": url_formulario(servidor, uid), "origen": origen}
+    raise AssertionError("FORMULARIO_VINCULADO_URL no es un enlace de formulario válido")
+
+
+def formularios_cuenta(kobo) -> list[dict]:
+    """Formularios de la cuenta más el formulario vinculado si no figura en el listado (p. ej. compartido por otra
+    cuenta): se consulta directamente por su UID. Si el token no tiene permiso sobre él, se omite aquí y el panel
+    del formulario vinculado explica el motivo."""
+    todos = list(kobo.listar_formularios())
+    v = formulario_vinculado()
+    obtener = getattr(kobo, "obtener_formulario", None)
+    servidor = normalizar_servidor(getattr(kobo, "url_servidor", "") or v["servidor"])
+    if obtener and servidor == v["servidor"] and v["uid"] not in {f.get("uid") for f in todos}:
+        try:
+            todos.append(obtener(v["uid"]))
+        except Exception:  # noqa: BLE001 – sin permiso o sin red
+            pass
+    return todos
+
+
+def _pendientes(form_id: str, registros: list[dict], ya: set[str]) -> list[dict]:
+    """Envíos aún no importados. Una ficha FP está pendiente si falta su F-LA-02 o su F-LA-03."""
+    from . import la_fp as fp
+    if form_id == fp.FORM_ID:
+        return [r for r in registros if not set(fp.uuids_partes(core.kobo_uuid(core.aplanar(r)))) <= ya]
+    return [r for r in registros if (core.kobo_uuid(core.aplanar(r)) or "") not in ya]
+
+
+def estado_vinculado(kobo, conn) -> dict:
+    """Estado del formulario vinculado: datos del formulario en KoboToolbox, envíos y pendientes de importar.
+    No escribe en la base. La fila `revision` sirve tal cual para sincronizar_envios."""
+    from . import la_db as db
+    v = formulario_vinculado()
+    out = {**v, "nombre": "", "desplegado": None, "envios": None, "ultimo_envio": "", "propietario": "",
+           "enlaces_llenado": {}, "importados": 0, "pendientes": 0, "revision": None, "error": "", "aviso": ""}
+    servidor = normalizar_servidor(getattr(kobo, "url_servidor", "") or v["servidor"])
+    if servidor != v["servidor"]:
+        out["error"] = (f"El formulario vinculado está en {v['servidor']}, pero el aplicativo consulta {servidor}. "
+                        f"Elija {v['servidor']} como servidor (o KOBO_SERVER en los secrets) con un token de esa cuenta.")
+        return out
+    try:
+        info = kobo.obtener_formulario(v["uid"])
+    except Exception as e:  # noqa: BLE001
+        out["error"] = (f"No se pudo leer el formulario: {e}. Verifique que la cuenta del token sea la propietaria del "
+                        "formulario o que el formulario esté compartido con ella (KoboToolbox › Compartir › «Ver envíos»)."
+                        if es_error_token(e) or "404" in str(e) else f"No se pudo leer el formulario: {e}")
+        return out
+    links = info.get("enlaces") or {}
+    out.update({"nombre": info.get("nombre", ""), "desplegado": bool(info.get("desplegado")),
+                "envios": info.get("envios"), "ultimo_envio": info.get("ultimo_envio", ""),
+                "propietario": info.get("propietario", ""),
+                "enlaces_llenado": {et: links[k] for k, et in ENLACES_LLENADO if links.get(k)}})
+    fid = form_id_kobo(out["nombre"], v["uid"])
+    if not out["desplegado"] and not out["envios"]:
+        out["aviso"] = "El formulario no está desplegado en KoboToolbox: despliéguelo para recibir envíos."
+        return out
+    try:
+        registros = kobo.obtener_envios(v["uid"])
+    except Exception as e:  # noqa: BLE001
+        out["error"] = f"No se pudieron leer los envíos: {e}"
+        return out
+    ya = db.uuids_existentes(conn) | db.uuids_eliminados(conn)
+    pend = _pendientes(fid, registros, ya)
+    out.update({"envios": len(registros), "pendientes": len(pend), "importados": len(registros) - len(pend),
+                "form_id": fid,
+                "revision": {"uid": v["uid"], "nombre": out["nombre"], "form_id": fid, "en_kobo": len(registros),
+                             "pendientes": pend, "error": ""}})
+    return out
+
+
 # «F-LA-01», «F-LA01», «F_LA_01», «FLA 01 – Reunión…» → f_la_01_reunion (F-LA-05 no tiene formulario Kobo)
 _PATRON_FLA = re.compile(r"F[\s_-]*LA[\s_-]*0?([1-6])(?!\d)")
 _FORM_POR_NUMERO = {"1": "f_la_01_reunion", "2": "f_la_02_titular", "3": "f_la_03_inspeccion", "4": "f_la_04_actas",
@@ -105,11 +228,15 @@ def form_id_por_nombre(nombre: str | None) -> str | None:
 
 
 def form_id_kobo(nombre: str | None, uid: str | None = None) -> str | None:
-    """Como form_id_por_nombre, reconociendo además la ficha técnica predial completa (FP) por título o UID."""
+    """Como form_id_por_nombre, reconociendo además la ficha técnica predial completa (FP) por título o UID.
+    El formulario vinculado (Formato de Liberación de Áreas) es la ficha FP, salvo que su nombre indique un F-LA-0x."""
     from . import la_fp as fp
     if fp.es_formulario_fp(nombre, uid):
         return fp.FORM_ID
-    return form_id_por_nombre(nombre)
+    fid = form_id_por_nombre(nombre)
+    if not fid and uid and uid == formulario_vinculado()["uid"]:
+        return fp.FORM_ID
+    return fid
 
 
 def codigo_formulario(form_id: str) -> str:
@@ -129,7 +256,7 @@ def form_id_por_campos(registros: list[dict]) -> str | None:
 
 def formularios_la(kobo) -> list[dict]:
     """Formularios desplegados cuyo nombre corresponde a la serie F-LA (si no hay ninguno, todos)."""
-    todos = kobo.listar_formularios()
+    todos = formularios_cuenta(kobo)
     return [f for f in todos if form_id_kobo(f.get("nombre"), f.get("uid"))] or todos
 
 
@@ -152,7 +279,7 @@ def enlaces_llenado(kobo, uid: str) -> dict[str, str]:
 def enlaces_formularios_la(kobo) -> list[dict]:
     """Enlaces de registro continuo de cada formulario F-LA desplegado. Un formulario que falla no detiene el resto."""
     out = []
-    for f in kobo.listar_formularios():
+    for f in formularios_cuenta(kobo):
         fid = form_id_kobo(f.get("nombre"), f.get("uid"))
         if not fid or not f.get("desplegado"):
             continue
@@ -170,10 +297,9 @@ def revisar_envios(kobo, conn) -> list[dict]:
     """Por cada formulario F-LA de la cuenta: envíos en KoboToolbox y cuáles faltan importar.
     No escribe en la base. Los envíos eliminados en el aplicativo (bitácora) no cuentan como pendientes."""
     from . import la_db as db
-    from . import la_fp as fp
     ya = db.uuids_existentes(conn) | db.uuids_eliminados(conn)
     out = []
-    for f in kobo.listar_formularios():
+    for f in formularios_cuenta(kobo):
         fid = form_id_kobo(f.get("nombre"), f.get("uid"))
         if not fid or not (f.get("desplegado") or f.get("envios")):
             continue
@@ -185,11 +311,7 @@ def revisar_envios(kobo, conn) -> list[dict]:
             out.append(fila)
             continue
         fila["en_kobo"] = len(registros)
-        if fid == fp.FORM_ID:              # una ficha FP está pendiente si falta su F-LA-02 o su F-LA-03
-            fila["pendientes"] = [r for r in registros
-                                  if not set(fp.uuids_partes(core.kobo_uuid(core.aplanar(r)))) <= ya]
-        else:
-            fila["pendientes"] = [r for r in registros if (core.kobo_uuid(core.aplanar(r)) or "") not in ya]
+        fila["pendientes"] = _pendientes(fid, registros, ya)
         out.append(fila)
     return out
 

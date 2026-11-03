@@ -261,3 +261,29 @@ Archivos: `liberacion_areas/la_fp.py` (nuevo), `la_kobo.py`, `la_db.py`, `la_fic
   OBSERVADO). Si difiere del distrito de la unidad en el catálogo V6, solo se avisa.
 - `la_campos.FORMULARIOS_EXTRA` / `la_campos.formulario()`: formularios que se digitan en el aplicativo pero no entran
   en la plantilla Excel F-LA ni en el paquete Kobo F-LA.
+
+## Actualización 03-nov-2026 · Formato de Liberación de Áreas vinculado (KoboToolbox)
+
+El aplicativo queda enlazado al formulario de KoboToolbox
+**https://kf.kobotoolbox.org/#/forms/aCyBhgqeCTZ3UKzmBW8tx2/summary** (ficha técnica predial completa, FP).
+
+- **Acceso directo**: botón «📋 Abrir el Formato de Liberación de Áreas en KoboToolbox» en el encabezado de la página
+  (no requiere token).
+- **Pestaña 3 · Importar KoboToolbox › Formato de Liberación de Áreas vinculado**: botones a las vistas *Resumen*,
+  *Formulario*, *Datos* y *Configuración* de KoboToolbox; «Consultar formulario vinculado» muestra nombre, propietario,
+  último envío, estado de despliegue, envíos en Kobo, importados y pendientes; enlaces de llenado web con registro
+  continuo; e «Importar N envío(s) del formulario vinculado» (mismas validaciones que las otras vías: cada ficha entra
+  como F-LA-02 + F-LA-03).
+- **Consulta directa por UID**: si el formulario no aparece en el listado de la cuenta del token (por ejemplo, porque
+  está compartido desde otra cuenta), se consulta igual por su UID. Así lo incluyen también el aviso «envíos aún no
+  importados» / **Importar ahora**, «Listar formularios F-LA» y «Obtener enlaces de envíos múltiples».
+- **Permisos**: el token (`KOBO_TOKEN`) debe ser de la cuenta propietaria del formulario o de una cuenta con la que se
+  haya compartido con permiso «Ver envíos». Si no, el panel lo indica y explica cómo resolverlo.
+- **Cambiar el formulario vinculado** sin tocar el código: en Streamlit Cloud → Settings → Secrets agregue
+  `KOBO_LA_FORM_URL = "https://kf.kobotoolbox.org/#/forms/<UID>/summary"` (también acepta solo el UID) y reinicie
+  la aplicación; o, solo para la sesión, use el expander «Cambiar el formulario vinculado» de la pestaña 3. El
+  formulario vinculado se trata como ficha FP, salvo que su nombre indique un F-LA-0x.
+
+Archivos: `liberacion_areas/la_kobo.py` (`formulario_vinculado`, `leer_url_formulario`, `formularios_cuenta`,
+`estado_vinculado`), `odk_kobo.py` (`KoBoClient.obtener_formulario`), `liberacion_areas/pagina.py`. Pruebas:
+`tests/test_la_kobo_vinculo.py` (cliente Kobo simulado, sin red). Sin migración de base de datos.
