@@ -1127,18 +1127,33 @@ class KoBoClient:
                 break
         return resultados
 
+    @staticmethod
+    def _resumen_formulario(a):
+        return {
+            "uid": a["uid"], "nombre": a.get("name", "Sin nombre"),
+            "fecha_modificacion": a.get("date_modified", ""),
+            "envios": a.get("deployment__submission_count", 0),
+            "desplegado": a.get("has_deployment", False),
+        }
+
     def listar_formularios(self):
         formularios = []
         for a in self._paginar("assets/", {"asset_type": "survey"}, limite=300):
             if a.get("asset_type") != "survey":
                 continue
-            formularios.append({
-                "uid": a["uid"], "nombre": a.get("name", "Sin nombre"),
-                "fecha_modificacion": a.get("date_modified", ""),
-                "envios": a.get("deployment__submission_count", 0),
-                "desplegado": a.get("has_deployment", False),
-            })
+            formularios.append(self._resumen_formulario(a))
         return formularios
+
+    def obtener_formulario(self, formulario_uid):
+        """Un formulario por su UID (aunque no figure en el listado de la cuenta, p. ej. compartido),
+        con fecha del ultimo envio, propietario y enlaces web de llenado (deployment__links)."""
+        uid = urllib.parse.quote(formulario_uid, safe="")
+        a = self._get_json(f"assets/{uid}/")
+        f = self._resumen_formulario(a)
+        f.update({"ultimo_envio": a.get("deployment__last_submission_time") or "",
+                  "propietario": a.get("owner__username") or "",
+                  "enlaces": a.get("deployment__links") or {}})
+        return f
 
     def obtener_envios(self, formulario_uid):
         """Todos los envios del formulario (todas las paginas)."""
