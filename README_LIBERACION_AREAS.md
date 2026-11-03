@@ -287,3 +287,21 @@ El aplicativo queda enlazado al formulario de KoboToolbox
 Archivos: `liberacion_areas/la_kobo.py` (`formulario_vinculado`, `leer_url_formulario`, `formularios_cuenta`,
 `estado_vinculado`), `odk_kobo.py` (`KoBoClient.obtener_formulario`), `liberacion_areas/pagina.py`. Pruebas:
 `tests/test_la_kobo_vinculo.py` (cliente Kobo simulado, sin red). Sin migración de base de datos.
+
+### Ficha técnica predial completa (FP) en «4 · Historial / Edición» (03-nov-2026)
+
+- El selector **Formulario** de Historial incluye **FP – Ficha técnica predial completa**, con el número de fichas
+  registradas. Antes solo se listaban F-LA-01 … F-LA-06 y las fichas FP aparecían únicamente partidas en F-LA-02 y
+  F-LA-03.
+- Una fila por ficha (Kobo «Formato de Liberación de Áreas», aplicativo o ficha Excel), agrupada por su identificador
+  (`fp_uuid`): predio, unidad, asistente, fecha, origen y estado (OBSERVADO si alguna parte lo está). Filtros por unidad,
+  asistente, estado / origen y búsqueda libre.
+- **Editar 02 / 03** abre la parte F-LA-02 o F-LA-03 en «Registro en campo» (se deshabilita si esa parte no existe).
+  **Eliminar** quita ambas partes; cada una se puede restaurar desde «Registros eliminados».
+- **Detalle de la ficha**: todos los campos de la ficha, afectaciones, puntos de control en UTM WGS84 17S, datos propios
+  (colindancias, domicilio, personería), fotos, croquis y firma, y «Generar ficha técnica predial (Excel)».
+- **Exportar fichas filtradas (Excel ANIN)**: hoja FP más las hojas F-LA-02 y F-LA-03 de esas fichas.
+- Un adjunto dañado ya no detiene el detalle: se muestra como enlace.
+
+Archivos: `liberacion_areas/la_fp.py` (`listar_fichas`), `liberacion_areas/pagina.py`. Pruebas: `tests/test_la_fp.py`
+(integración PostgreSQL). Sin migración de base de datos.
