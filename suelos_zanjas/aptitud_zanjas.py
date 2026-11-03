@@ -29,12 +29,11 @@ Uso:
 import argparse
 import json
 import math
-import os
 import re
 from collections import defaultdict
 from pathlib import Path
 
-os.environ.setdefault("SHAPE_RESTORE_SHX", "YES")
+
 import geopandas as gpd  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parents[1]
@@ -111,13 +110,16 @@ def main():
 
     x = gpd.overlay(blq[["BLOQUE", "geometry"]], sue, how="intersection", keep_geom_type=True)
     if a.pendientes:
-        leyenda = {int(k): v for k, v in json.load(open(a.leyenda, encoding="utf-8")).items()}
-        pen = gpd.read_file(a.pendientes)[["DN", "geometry"]].to_crs(blq.crs)
-        pen = gpd.clip(pen, blq.geometry.union_all())
+        leyenda = {int(k): v for k, v in json.load(open(a.leyenda, encoding="utf-8")).items() if not k.startswith("_")}
+        ruta = a.pendientes
+        if ruta.lower().endswith(".zip"):
+            ruta = f"zip://{ruta}!Pendientes vector/Pendientes vector.shp"
+        pen = gpd.read_file(ruta)[["DN", "geometry"]].to_crs(blq.crs)
         x = gpd.overlay(x, pen, how="intersection", keep_geom_type=True)
         rep = {dn: reparto(v[0], v[1], v[2] if len(v) > 2 else "%") for dn, v in leyenda.items()}
         x["rep"] = x["DN"].map(rep)
-        fuente = "Vector de pendientes del proyecto (DN 1–7)"
+        fuente = ("Vector de pendientes del proyecto («Pendientes vector», 57,255 polígonos, DN 1–7 en grados: "
+                  "0–5°, 5–10°, 10–15°, 15–20°, 20–25°, 25–27°, > 27°)")
     else:
         rep = {k: reparto(lo, hi, "%") for k, (lo, hi) in MIDAGRI.items()}
         x["rep"] = x["PEND_SIMB"].map(rep)

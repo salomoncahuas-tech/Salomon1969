@@ -33,22 +33,29 @@ pip install geopandas pyogrio
 python suelos_zanjas/aptitud_zanjas.py --salida suelos_zanjas/salidas
 ```
 
-Con el vector de pendientes del proyecto (Drive, carpeta «Pendientes vector», campo `DN` 1–7):
+Con el vector de pendientes del proyecto (salida vigente):
 
 ```bash
-python suelos_zanjas/aptitud_zanjas.py --pendientes "datos/gis/pendientes/Pendientes vector.shp" \
+python suelos_zanjas/aptitud_zanjas.py --pendientes datos/gis/pendientes/Pendientes_vector.zip \
     --leyenda suelos_zanjas/leyenda_pendientes.json --salida suelos_zanjas/salidas
 ```
 
-`leyenda_pendientes.json` define el rango de cada DN: `{"1": [0, 5, "grados"], ..., "7": [35, null, "grados"]}`
-(transcribir la imagen «PENDIENTES VALORES DE VECTOR.jpeg»). Cuando una clase cruza un límite de 10, 15, …, 40 %,
-su superficie se reparte en proporción lineal a su amplitud.
+`leyenda_pendientes.json` transcribe la imagen «PENDIENTES VALORES DE VECTOR.jpeg» (incluida en el .zip): DN 1 = 0–5°,
+2 = 5–10°, 3 = 10–15°, 4 = 15–20°, 5 = 20–25°, 6 = 25–27°, 7 = > 27°. Equivalencias usadas: 10 % = 5.71°,
+15 % = 8.53°, 20 % = 11.31°, 25 % = 14.04°, 30 % = 16.70°, 35 % = 19.29°, 40 % = 21.80°. Cuando una clase cruza uno
+de esos límites, su superficie se reparte en proporción lineal a su amplitud en grados (p. ej., DN 2: 14 % bajo 10 %,
+56 % en 10–15 % y 29 % en 15–17.6 %). Control: la pendiente media por bloque que resulta de las clases coincide con la
+de «Rango de altitud y Pendiente Promedio por Bloques V6» (bloque 5: 18.6° frente a 18.57°; M9B1: 10.2° frente a 10.17°).
+
+Sin `--pendientes`, el script usa la clase de pendiente dominante de cada delineación del E5 (`PEND_SIMB`).
 
 ## Estado
 
-- **Pendiente provisional:** mientras no se incorpore la geometría de «Pendientes vector» (14.7 MB; el conector de
-  Drive solo baja archivos de hasta 10 MB), el script usa la **clase de pendiente dominante de cada delineación del E5**
-  (`PEND_SIMB`, D.S. N.° 005-2022-MIDAGRI, MDE de 12.5 m del proyecto).
+- **Pendiente:** vector del proyecto «Pendientes vector» (57,255 polígonos), en `datos/gis/pendientes/Pendientes_vector.zip`.
+- **Resultado vigente (cartera de 117 bloques):** 5,992 ha de los bloques están entre 10 y 40 % de pendiente; 244 ha de
+  ellas en suelos aptos. Con las celdas R1/R2 de bosque seco y andino y la regla de cobertura, el área apta para zanjas
+  es 13.35 ha y el metrado 8.06 km (frente a 17,971.71 km en el Excel v1.4). Sin la restricción de suelo serían
+  3,605.99 ha y 2,220.44 km.
 - **Cobertura:** la intersección celda a celda MSAVI × pendiente requiere la geometría de «MSAVI vectorizado»
   (13.9 MB); por ahora el motor reparte R1 y R2 dentro del bloque en proporción a la superficie.
 - **Costo unitario:** el CU de zanja del motor es el de la ficha ANIN (0.40 × 0.30 m); la sección de la cartilla
