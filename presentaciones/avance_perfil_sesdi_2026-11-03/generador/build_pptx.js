@@ -39,12 +39,12 @@ function kpi(s, x, y, w, h, label, value, unit, note, color = C.accent1) {
   if (note) txt(s, note, { x: x + 0.18, y: y + 1.1, w: w - 0.36, h: h - 1.2, fontSize: 12, color: C.background1 });
 }
 // Tarjeta con titular y texto
-function card(s, x, y, w, h, k, titulo, cuerpo, kc = C.accent2, fs = 13) {
+function card(s, x, y, w, h, k, titulo, cuerpo, kc = C.accent2, fs = 13, tH = 0.95) {
   tarjeta(s, x, y, w, h);
   s.addShape(pres.ShapeType.rect, { x, y, w, h: 0.06, fill: { color: kc }, line: { color: kc, width: 0 }, objectName: nombre("filete") });
   kicker(s, k, x + 0.2, y + 0.18, w - 0.4, kc);
-  txt(s, titulo, { x: x + 0.2, y: y + 0.46, w: w - 0.4, h: 0.95, fontSize: 15, bold: true, color: C.background1 });
-  txt(s, cuerpo, { x: x + 0.2, y: y + 1.45, w: w - 0.4, h: h - 1.55, fontSize: fs, color: C.background1, paraSpaceAfter: 4 });
+  txt(s, titulo, { x: x + 0.2, y: y + 0.46, w: w - 0.4, h: tH, fontSize: 15, bold: true, color: C.background1 });
+  txt(s, cuerpo, { x: x + 0.2, y: y + 0.5 + tH, w: w - 0.4, h: h - 0.6 - tH, fontSize: fs, color: C.background1, paraSpaceAfter: 4 });
 }
 // Tabla con cabecera
 function tabla(s, cab, filas, o) {
@@ -79,7 +79,7 @@ SEC("Portada"); secActual = "Portada";
 // ======================= 01 RESUMEN =======================
 {
   const s = lam("01 Resumen", "Estado del Perfil: 51.4 % de avance ponderado",
-    "Fuente: Diagnóstico Integral IN Piura V3 (03/11/2026). Avance ponderado con los pesos de los 15 entregables del Perfil. El 28/10 se presentó 45 %. Identificación (E1–E9): 76.4 %. E6 al 75 %: borrador de la versión final; solo falta incorporar el estudio de oferta de material vegetal. El Peligro Integrado (MCA–AHP) combina movimientos en masa, erosión y escorrentía; el 93.9 % es solo por movimientos en masa (EVAR). La línea base del indicador propuesta es el criterio areal del E6.");
+    "El Perfil del proyecto IN Piura, por Administración Directa de la ANIN, llega al 51.4 % de avance ponderado. Destaca el cierre de los estudios básicos: el Estudio de Suelos (E5), con informe final del 01/11/2026, y la evaluación del riesgo (E8), con su informe final EVAR pendiente de actualización en función de la redelimitación del área de influencia directa. El diagnóstico de ecosistemas (E6) tiene el borrador de su versión final, alcanza el 75 % de avance y solo falta incorporar el estudio de oferta de material vegetal. El árbol de problemas unificado v1.0 (30/10) es ya el insumo principal del E7, lo que hace que suba al 80 % de avance. El diagnóstico social cuenta con los volúmenes I al III en borrador B3 (422 fichas en 85 bloques), el tamizaje predial registra sus primeras inspecciones de campo y la Formulación cuenta con la Matriz de Costos Paramétricos, que toma las obras del plano de conservación de suelos y ahora incluye el metrado de las cárcavas: con los diques, la cartera, considerando la totalidad del metrado de IM, llega al 105.8 % del presupuesto total. La base territorial es ahora el catálogo V8: 117 bloques y 12,157.47 ha netas. Fuente: Diagnóstico Integral IN Piura V3 (03/11/2026). Avance ponderado con los pesos de los 15 entregables del Perfil. El 28/10 se presentó 45 %. Identificación (E1–E9): 76.4 %. E6 al 75 %: borrador de la versión final; solo falta incorporar el estudio de oferta de material vegetal. El Peligro Integrado (MCA–AHP) combina movimientos en masa, erosión y escorrentía; el 93.9 % es solo por movimientos en masa (EVAR). La línea base del indicador propuesta es el criterio areal del E6.");
   const W = 2.93, g = 0.13, x0 = 0.6, y1 = 1.55, y2 = 4.25, h = 2.5;
   const k = [
     ["Avance del Perfil", "51.4", "%", "Ponderado de los 15 entregables · 45 % el 28/10", C.accent1],
@@ -103,8 +103,8 @@ SEC("Portada"); secActual = "Portada";
     "Adoptar el criterio areal del E6, 8,341.83 ha bajo el umbral MSAVI (68.0 %), como línea base del indicador de la R.M. N.° 00213-2024-MINAM, y recalcularlo sobre los polígonos V8, que descuentan 112.77 ha superpuestas con minería en trámite y un sitio arqueológico.", C.accent5);
   card(s, 0.6 + 2 * (W + g), 1.55, W, 5.25, "Alerta", "Con los diques en cárcavas, la cartera supera el techo",
     "La Matriz v1.6 ya costea las 55 cárcavas (23.08 km en 32 bloques) con diques. Inversión (S/ 259.85 M) más O&M (S/ 134.27 M) suman el 105.8 % de los S/ 372.44 M: faltan S/ 21.68 M. Con la zanja de la ficha ANIN (0.40 × 0.30 m) bajaría al 97.4 %, más acorde con la baja infiltración del E5.", C.accent1);
-  card(s, 0.6 + 3 * (W + g), 1.55, W, 5.25, "Ruta crítica", "Primeras inspecciones prediales, sin actas conformes",
-    "Al 03/11 el tamizaje registra 22 predios inspeccionados en 10 bloques de Morropón y 1 acta observada (bloque 85); ninguna conforme. Los otros 107 bloques y los 60 lotes SUS siguen sin datos de campo: sin actas no se fija la superficie disponible ni las metas.", C.accent1);
+  card(s, 0.6 + 3 * (W + g), 1.55, W, 5.25, "Ruta crítica", "Primeras inspecciones prediales, con actas pendientes de conformidad",
+    "Al 03/11 el tamizaje registra 22 predios inspeccionados en 10 bloques de Morropón y 1 acta observada (bloque 85); queda pendiente que se les otorgue conformidad. Los otros 107 bloques y los 60 lotes SUS siguen sin datos de campo.", C.accent1, 13, 1.25);
 }
 {
   const s = lam("01 Resumen", "Ámbito de intervención · catálogo V8",
@@ -153,7 +153,7 @@ const DEL = [
     "Fuentes: Estudio de Suelos E5, informe final (GEOSIG, 01/11/2026); informe final EVAR (19/10/2026); Árboles de Problemas IN Piura v1.0 (30/10/2026); informe de avance del Estudio Hidrológico (láminas de octubre); Informe E2 B3 (03/11/2026); Matriz de Costos Paramétricos v1.6 (03/11/2026); E6, borrador del informe final (15/10/2026).");
   tabla(s, ["Entregable", "Avance", "Sustento"], [
     [B("E5 Suelos"), G("100 %  (63 %)"), "Informe final: 74 calicatas, 148 chequeos, 152 muestras y 13 pruebas de infiltración; 7 unidades de suelo, Factor K, CUM y matriz suelo–intervención."],
-    [B("E8 Riesgo"), G("100 %  (95 %)"), "Informe final EVAR (Manual CENEPRED v02): peligro en 117 bloques y 85 áreas de aporte; vulnerabilidad y riesgo en 117 áreas de influencia."],
+    [B("E8 Riesgo"), G("100 %  (95 %)"), "Informe final EVAR preliminar: peligro en 117 bloques y 85 áreas de aporte; riesgo en 117 áreas de influencia. Pendiente de actualizar con la redelimitación del AID."],
     [B("E7 Problema"), G("80 %  (45 %)"), "Árbol de problemas unificado v1.0: problema central, 3 causas directas y 10 indirectas; insumo principal del Informe Final."],
     [B("E4 Hidrología"), G("40 %  (60 %)"), "Informe de avance: 60 microcuencas y 264 nanocuencas; 15 nanocuencas priorizadas. Faltan lluvias de 24 h, curvas IDF y caudales HEC-HMS."],
     [B("E2 Social"), "75 %", "Volúmenes I–III en borrador B3: 422 fichas en 85 bloques. Tamizaje: 22 predios inspeccionados y 1 acta observada."],
@@ -211,7 +211,7 @@ MAPS.forEach((m, j) => {
   m.codes.forEach((c) => { if (V8[c[0]] != null) { c[3] = c[2]; c[2] = V8[c[0]]; } });
   const ha8 = m.codes.reduce((a, c) => a + c[2], 0);
   const s = lam("04 Mapas distritales", `Distrito de ${m.n} · ${m.p}`,
-    `Mapa de distribución de bloques preliminares del distrito de ${m.n} (equipo SIG del Proyecto IN Piura, QGIS, UTM WGS 84 Zona 17S; delimitación V6). Superficie neta del catálogo V8 (09/10/2026).` +
+    `Mapa de distribución de bloques preliminares del distrito de ${m.n} (equipo SIG del Proyecto IN Piura, QGIS, UTM WGS 84 Zona 17S). Superficie neta del catálogo V8 (09/10/2026).` +
     (m.codes.some((c) => c[3] != null) ? " Bloques con descuento V8: " + m.codes.filter((c) => c[3] != null).map((c) => `${c[0]} (V7 ${fmt(c[3])} ha → V8 ${fmt(c[2])} ha)`).join("; ") + "." : ""));
   s.addImage({ path: path.join(IMG, String(j + 1).padStart(2, "0") + ".jpg"), x: 0.6, y: 1.45, w: 7.85, h: 5.55, altText: `Mapa de distribución de bloques en el distrito de ${m.n}, provincia de ${m.p}: ${m.bl} bloques, ${fmt(ha8)} ha netas V8.`, objectName: nombre("mapa") });
   tarjeta(s, 8.65, 1.45, 4.08, 5.55);
@@ -231,14 +231,14 @@ MAPS.forEach((m, j) => {
 
 // ======================= 05 ESTUDIOS BÁSICOS =======================
 {
-  const s = lam("05 Estudios básicos", "Estudios básicos: dos culminados en la etapa",
+  const s = lam("05 Estudios básicos", "Estudios básicos: estado al 03/11/2026",
     "E3 Geología: ISL-MM medio 3.81 e ISL-EH 3.68. E4: QSWAT sobre DEM ASTER de 30 m (71,787 ha); 15 nanocuencas priorizadas (5,936 ha; 9/5/1 por provincia); siguen lluvias máximas de 24 h (PISCO y 6 estaciones, 1964–2023), curvas IDF y HEC-HMS (SCS-CN). E5: GEOSIG, 01/11/2026; laboratorio LQA Valle Grande; Soil Taxonomy y WRB 2022; CUM D.S. 005-2022-MIDAGRI. E8: Manual CENEPRED v02.");
   const st = [
     ["E3 · Culminado", "Geología", "Unidades litológicas y susceptibilidad a movimientos en masa y erosión hídrica, integradas en los volúmenes.", C.accent3],
     ["E4 · 40 %", "Hidrología y clima", "60 microcuencas y 264 nanocuencas delimitadas; 15 priorizadas. Siguen lluvias de diseño, curvas IDF y caudales.", C.accent2],
     ["E5 · Culminado", "Suelos · informe final", "74 calicatas y 152 muestras; 7 unidades de suelo; 87.9 % tierras de protección; zanja compatible solo en 2 unidades.", C.accent3],
     ["E6 · 75 %", "Ecosistemas", "Borrador de la versión final de 117 bloques: 8,341.82 ha bajo el umbral; 69 especies nativas; falta la oferta de material vegetal.", C.accent2],
-    ["E8 · Culminado", "Análisis de riesgos", "EVAR final: peligro alto y muy alto en el 93.9 % de los bloques; riesgo alto en 7,132.39 ha.", C.accent3],
+    ["E8 · Por actualizar", "Análisis de riesgos · pendiente de actualización", "EVAR (19/10): peligro alto y muy alto en el 93.9 % de los bloques; riesgo alto en 7,132.39 ha. Se actualizará con la redelimitación del AID.", C.accent1],
     ["E1 · 85 %", "Microlocalización · V8", "117 bloques y 12,157.47 ha netas; 45 con código M#-B# y 72 por codificar; recortar 5 polígonos.", C.accent2],
   ];
   st.forEach((d, i) => card(s, 0.6 + (i % 3) * 4.09, i < 3 ? 1.5 : 4.25, 3.95, 2.6, d[0], d[1], d[2], d[3], 13));
@@ -263,12 +263,12 @@ MAPS.forEach((m, j) => {
 
 // ======================= 06 RIESGO (E8) =======================
 {
-  const s = lam("06 Riesgo (E8)", "Riesgo por movimientos en masa (EVAR final)",
-    "Informe EVAR (19/10/2026, Manual CENEPRED v02). Peligro: capa PEL_MM (239,462 polígonos). Riesgo R = P × V con cortes 0.04375, 0.111 y 0.231. Riesgo muy alto solo en AI_73 (Chococa, 36.98 ha) y AI_41 (Cambruran, 19.94 ha), en Huarmaca. 106 centros poblados de referencia, 21,672 hab. sin duplicación (Censo 2017). Por provincia, peligro alto y muy alto: Morropón 90.7 %, Huancabamba 98.2 %, Ayabaca 99.4 % de los bloques. El EVAR no valora daños: beneficios por daños evitados [POR DEFINIR].");
+  const s = lam("06 Riesgo (E8)", "Riesgo por movimientos en masa (preliminar)",
+    "Los resultados se actualizarán en función de la redelimitación del área de influencia directa (AID). Informe EVAR (19/10/2026, Manual CENEPRED v02). Peligro: capa PEL_MM (239,462 polígonos). Riesgo R = P × V con cortes 0.04375, 0.111 y 0.231. Riesgo muy alto solo en AI_73 (Chococa, 36.98 ha) y AI_41 (Cambruran, 19.94 ha), en Huarmaca. 106 centros poblados de referencia, 21,672 hab. sin duplicación (Censo 2017). Por provincia, peligro alto y muy alto: Morropón 90.7 %, Huancabamba 98.2 %, Ayabaca 99.4 % de los bloques. El EVAR no valora daños: beneficios por daños evitados [POR DEFINIR].");
   const labs = ["Peligro · bloques (12,270 ha)", "Peligro · áreas de aporte (7,538 ha)", "Peligro · áreas de influencia (17,132 ha)", "Riesgo · áreas de influencia (17,132 ha)"].reverse();
   const D = [[0.08, 6.04, 45.16, 48.72], [0, 3.12, 37.28, 59.60], [4.37, 45.69, 32.65, 17.29], [0, 58.04, 41.63, 0.33]].reverse();
   s.addChart(pres.ChartType.bar, ["Bajo", "Medio", "Alto", "Muy alto"].map((n, j) => ({ name: n, labels: labs, values: D.map((r) => r[j]) })),
-    { x: 0.6, y: 1.45, w: 7.4, h: 5.45, barDir: "bar", barGrouping: "percentStacked", chartColors: [PI.b, PI.m, PI.a, PI.ma], barGapWidthPct: 45,
+    { x: 0.6, y: 1.45, w: 7.4, h: 5.45, barDir: "bar", barGrouping: "percentStacked", chartColors: [PI.b, PI.m, PI.a, PI.ma], barGapWidthPct: 45, showTitle: true, title: "Resultados por actualizar con la redelimitación del AID", titleColor: "F2B447", titleFontSize: 13,
       showValue: true, dataLabelPosition: "ctr", dataLabelFontSize: 10, dataLabelColor: "1A1A1A", dataLabelFormatCode: "[<2.5]\"\";0.0", showLegend: true, legendPos: "b", legendColor: H.white, legendFontSize: 11,
       catAxisLabelFontSize: 11, valAxisHidden: true, ...ejes, objectName: "grafico-riesgo" });
   const k = [["Peligro alto y muy alto", "93.9", "%", "De los bloques · 96.9 % de las áreas de aporte", C.accent1], ["Riesgo alto", "7,132.4", "ha", "41.6 % de las áreas de influencia; predomina en 76", C.accent1], ["Riesgo muy alto", "56.9", "ha", "AI_73 Chococa y AI_41 Cambruran (Huarmaca)", C.accent1], ["Vulnerabilidad alta", "15", "de 117", "3 Morropón · 10 Huancabamba · 2 Ayabaca", C.accent5]];
@@ -462,22 +462,15 @@ MAPS.forEach((m, j) => {
 // ======================= 10 PENDIENTES =======================
 const GAP = [
   ["Libre disponibilidad (E2 · SE2)", "22 predios inspeccionados; 0 actas conformes; 107 bloques y 60 lotes SUS sin datos", "Ruta F-LA en bloques piloto y de mayor riesgo; resolver 7 observaciones", "Alta"],
-  ["Diagnóstico social (E2 · SE1)", "32 bloques sin ficha; F-DS-04, 05 y 07 sin aplicar; Ayabaca sin F-DS-03", "Priorizar Huarmaca y Ayabaca; F-DS-05 y F-DS-07 en bloques comunales y 83–87", "Alta"],
-  ["Línea base de la brecha", "Criterios mixtos; el E6 areal cubre 117 bloques sobre geometría V7", "Adoptar el E6 areal (8,341.83 ha) y recalcularlo en V8", "Alta"],
-  ["Zanjas del plano frente al E5", "2,250.56 km proyectados; 7.44 km aptos por suelo, pendiente y cobertura", "Pruebas de infiltración; terraza o barrera viva donde no infiltre", "Alta"],
   ["Costos y evaluación social (E10)", "Con cárcavas, 105.8 % del techo (faltan S/ 21.68 M); terraza sin pirca por validar", "Ajustar al techo (zanja ANIN: 97.4 %); calibrar con el piloto; VANS y TIR social", "Alta"],
-  ["Bloques con P < 400 mm", "8, 20, 71, M4B3 y M4B4: infiltración y prendimiento inciertos", "Ensayos de infiltración y prendimiento; decidir las obras", "Media"],
+  ["Bloques con P < 400 mm", "8, 20, 71, M4B3 y M4B4: infiltración y prendimiento inciertos", "Correlacionar con los ensayos de infiltración y prendimiento del E5; decidir si se mantienen las obras", "Media"],
   ["E4 Hidrología", "Sin lluvias de diseño, curvas IDF ni caudales", "Completar HEC-HMS; vuelo de dron para drenaje y cárcavas", "Media"],
   ["E6 Ecosistemas", "Borrador de la versión final (75 %); oferta declarada de solo 21,000 plantones", "Incorporar el estudio de oferta de material vegetal (viveros y brecha de plantones)", "Media"],
-  ["Geometría V8", "Polígonos de 5 bloques sin recortar; bloque 8 al 25.4 %", "Recortar y recalcular PI, MSAVI, EVAR y costos; decidir el bloque 8", "Media"],
-  ["E8 · EVAR", "Sin escenarios de cambio climático; daños no valorados", "Escenario SSP5-8.5; inventario de elementos expuestos", "Media"],
-  ["Cárcavas", "Metrado de gabinete incorporado: 23.08 km en 32 bloques; 85 bloques sin registro", "Verificar en campo (F-DT-02) o con dron el número y altura de diques", "Media"],
-  ["E5 Suelos", "3 unidades sin infiltración propia; Factor K sin parcelas", "Repetir infiltración donde haya zanjas; validar el Factor K", "Media"],
+  ["E8 · EVAR", "Resultados por actualizar con la redelimitación del AID; sin escenarios de cambio climático; daños no valorados", "Actualizar con el AID redelimitado; escenario SSP5-8.5; elementos expuestos", "Media"],
   ["E7 Árbol de problemas", "v1.0 lista; medios y fines por alinear", "Redactar el Informe Final del E7", "Baja"],
-  ["E1 Relieve", "Pendiente de campo por clase visual", "Medir con clinómetro en parcelas", "Baja"],
 ];
-[[0, 5, "Pendientes de prioridad alta"], [5, 14, "Pendientes de prioridad media y baja"]].forEach(([a, b, t]) => {
-  const s = lam("10 Pendientes", t, "Vacíos de integración en los 117 bloques al 03/11/2026 (Diagnóstico Integral V3, «Vacíos para cerrar el Perfil»). Salen de la lista el laboratorio de suelos (E5 final) y la cartera sobre el techo (Matriz v1.6). La prioridad indica el efecto sobre el indicador de brecha, las metas físicas o el costo.");
+[[0, 7, "Pendientes para cerrar la Identificación"]].forEach(([a, b, t]) => {
+  const s = lam("10 Pendientes", t, "Vacíos de integración en los 117 bloques al 03/11/2026 (Diagnóstico Integral V3, «Vacíos para cerrar el Perfil»). Entra el ajuste de la cartera al techo, que con los diques en cárcavas llega al 105.8 %. La prioridad indica el efecto sobre el indicador de brecha, las metas físicas o el costo.");
   tabla(s, ["Tema", "Situación al 03/11/2026", "Acción propuesta", "Prioridad"],
     GAP.slice(a, b).map((r) => [B(r[0]), r[1], r[2], r[3] === "Alta" ? G(r[3]) : r[3]]),
     { x: 0.6, y: 1.5, w: 12.13, colW: [2.75, 4.35, 4.03, 1.0], fontSize: b - a > 6 ? 12 : 13.5 });
@@ -502,8 +495,8 @@ const GAP = [
   const s = lam("11 Próximos pasos", "Próximos pasos: noviembre de 2026 a abril de 2027",
     "Cumplido en octubre: plano de obras (06/10), catálogo V8 (09/10), primeras inspecciones F-LA-03 (desde 07/10), borrador de la versión final del E6 (15/10), EVAR final (19/10), árbol de problemas v1.0 (30/10). Cumplido en noviembre: E5 final (01/11), E2 B3 y Matriz v1.6 (03/11). Fechas referenciales del estudio, sujetas a las condiciones de campo y a la temporada de lluvias.");
   const T = [
-    ["Nov 2026", "En curso", ["Informe Final del E7 con medios y fines alineados", "Hidrología: lluvias de diseño, IDF y HEC-HMS", "Tamizaje: asambleas, fichas y actas (piloto y mayor riesgo)", "Infiltración donde hay zanjas; F-DS-05 y F-DS-07", "Inicio del análisis de mercado y del plan de O&M"]],
-    ["Dic 2026", "Programado", ["Liberación de áreas y catálogo definitivo", "Versión final del E6 con la oferta de material vegetal", "Polígonos V8 recortados", "Cartera ajustada al techo; cárcavas verificadas", "Capítulo de Identificación"]],
+    ["Nov 2026", "En curso", ["Informe Final del E7 con medios y fines alineados", "Hidrología: lluvias de diseño, IDF y HEC-HMS", "Tamizaje: asambleas, fichas y actas (piloto y mayor riesgo)", "Versión final del E6 con la oferta de material vegetal (27/11)", "Inicio del análisis de mercado y del plan de O&M"]],
+    ["Dic 2026", "Programado", ["Liberación de áreas y catálogo definitivo", "Polígonos V8 recortados", "Cartera ajustada al techo; cárcavas verificadas", "Capítulo de Identificación"]],
     ["Ene – Feb 2027", "Programado", ["Metas y costos calibrados con el piloto", "Plan de O&M y evaluación social", "Capítulos de Formulación y Evaluación"]],
     ["Mar – Abr 2027", "Programado", ["Perfil completo con resumen ejecutivo y anexos", "Revisión, registro en el Banco de Inversiones", "Declaración de viabilidad"]],
   ];
