@@ -89,7 +89,7 @@ SEC("Portada"); secActual = "Portada";
     ["Bajo umbral de cobertura", "68.0", "%", "8,341.83 ha · MSAVI areal (E6) · línea base del indicador", C.accent3],
     ["Diagnóstico social", "422", "fichas", "En 85 de 117 bloques · 18,651 hab. afectados", C.accent5],
     ["Libre disponibilidad", "0", "actas conformes", "22 predios inspeccionados en 10 bloques · 1 acta observada", C.accent1],
-    ["Inversión + O&M 15 años", "95.8", "% del techo", "S/ 241.23 M + S/ 115.40 M · Matriz v1.6", C.accent3],
+    ["Inversión + O&M 15 años", "105.8", "% del techo", "S/ 259.85 M + S/ 134.27 M · Matriz v1.6 con cárcavas", C.accent6],
   ];
   k.forEach((d, i) => kpi(s, x0 + (i % 4) * (W + g), i < 4 ? y1 : y2, W, h, d[0], d[1], d[2], d[3], d[4]));
 }
@@ -101,8 +101,8 @@ SEC("Portada"); secActual = "Portada";
     "Geología, Suelos (informe final, 01/11) y Riesgo (EVAR final) culminados. El E6 sube de 39 % a 75 % con el borrador de su versión final y el E7 de 45 % a 80 % con el árbol de problemas v1.0. Hidrología entregó su informe de avance (E4 al 40 %) y el E10 sigue en 25 %, ahora con la Matriz v1.6.", C.accent3);
   card(s, 0.6 + (W + g), 1.55, W, 5.25, "Decisión", "Línea base del indicador sobre la base V8",
     "Adoptar el criterio areal del E6, 8,341.83 ha bajo el umbral MSAVI (68.0 %), como línea base del indicador de la R.M. N.° 00213-2024-MINAM, y recalcularlo sobre los polígonos V8, que descuentan 112.77 ha superpuestas con minería en trámite y un sitio arqueológico.", C.accent5);
-  card(s, 0.6 + 2 * (W + g), 1.55, W, 5.25, "Alerta", "La cartera cabe en el techo, con condiciones",
-    "Inversión (S/ 241.23 M) más O&M de 15 años (S/ 115.40 M) suman el 95.8 % de los S/ 372.44 M (antes 167.7 %). El margen exige validar en campo la terraza sin pirca y la infiltración: el plano proyecta 2,250.56 km de zanjas y el suelo del E5 solo sustenta 7.44 km.", C.accent1);
+  card(s, 0.6 + 2 * (W + g), 1.55, W, 5.25, "Alerta", "Con los diques en cárcavas, la cartera supera el techo",
+    "La Matriz v1.6 ya costea las 55 cárcavas (23.08 km en 32 bloques) con diques. Inversión (S/ 259.85 M) más O&M (S/ 134.27 M) suman el 105.8 % de los S/ 372.44 M: faltan S/ 21.68 M. Con la zanja de la ficha ANIN (0.40 × 0.30 m) bajaría al 97.4 %, más acorde con la baja infiltración del E5.", C.accent1);
   card(s, 0.6 + 3 * (W + g), 1.55, W, 5.25, "Ruta crítica", "Primeras inspecciones prediales, sin actas conformes",
     "Al 03/11 el tamizaje registra 22 predios inspeccionados en 10 bloques de Morropón y 1 acta observada (bloque 85); ninguna conforme. Los otros 107 bloques y los 60 lotes SUS siguen sin datos de campo: sin actas no se fija la superficie disponible ni las metas.", C.accent1);
 }
@@ -158,7 +158,7 @@ const DEL = [
     [B("E4 Hidrología"), G("40 %  (60 %)"), "Informe de avance: 60 microcuencas y 264 nanocuencas; 15 nanocuencas priorizadas. Faltan lluvias de 24 h, curvas IDF y caudales HEC-HMS."],
     [B("E2 Social"), "75 %", "Volúmenes I–III en borrador B3: 422 fichas en 85 bloques. Tamizaje: 22 predios inspeccionados y 1 acta observada."],
     [B("E6 Ecosistemas"), G("75 %  (39 %)"), "Borrador de la versión final: 8,341.82 ha bajo el umbral MSAVI y 69 especies nativas. Solo falta incorporar el estudio de oferta de material vegetal."],
-    [B("E10 Costos"), "25 %", "Matriz de Costos Paramétricos v1.6: inversión S/ 241.23 M y O&M S/ 115.40 M, el 95.8 % del techo."],
+    [B("E10 Costos"), "25 %", "Matriz v1.6 con metrado de cárcavas (23.08 km de diques): inversión S/ 259.85 M y O&M S/ 134.27 M, el 105.8 % del techo."],
   ], { x: 0.6, y: 1.55, w: 12.13, colW: [1.9, 1.75, 8.48], fontSize: 13 });
   txt(s, "Entre paréntesis, el avance presentado el 28/10/2026.", { x: 0.6, y: 6.55, w: 12, h: 0.3, fontSize: 12, color: C.background2 });
 }
@@ -184,7 +184,7 @@ const DEL = [
     { text: "69.0 % del ámbito con peligro integrado Alto o Muy alto: Morropón 72.8 %, Huancabamba 66.3 %, Ayabaca 56.2 %.", options: { bullet: true, breakLine: true } },
     { text: "8,341.83 ha bajo el umbral MSAVI: 5,503.41 ha de restauración activa y 2,838.41 ha de enriquecimiento.", options: { bullet: true, breakLine: true } },
     { text: "Suelos: infiltración lenta en 5 de 7 unidades; restringe las zanjas.", options: { bullet: true, breakLine: true } },
-    { text: "Clima semiárido (544 mm/año, aridez 0.34) y 55 cárcavas (23.08 km).", options: { bullet: true } },
+    { text: "Clima semiárido (544 mm/año, aridez 0.34); 55 cárcavas codificadas (23.08 km en 32 bloques), ya metradas en la Matriz v1.6.", options: { bullet: true } },
   ], { x: 7.6, y: 3.95, w: 4.95, h: 2.85, fontSize: 13, color: C.background1, paraSpaceAfter: 5 });
 }
 {
@@ -398,54 +398,54 @@ MAPS.forEach((m, j) => {
 // ======================= 09 METAS Y COSTOS (E10) =======================
 {
   const s = lam("09 Metas y costos (E10)", "Matriz de Costos Paramétricos v1.6",
-    "Costos_Parametros_IN_Piura_v1.6.xlsx (03/11/2026), generado desde el v1.5. Metas marrón del plano de obras de conservación de suelos (06/10/2026). Elimina el pircado con piedra y los riegos de revegetación de terrazas; desestima relleno compactado, eliminación de desmonte, podas y fertilización. Cifras preliminares, no son metas del Perfil: densidades y cerco por calibrar con el piloto (21, 31, 66, 73 y M6B10); cárcavas sin metrado; supervisión y expediente técnico 0 % por definir.");
-  const k = [["Plantación R1 + R2", "8,341.87", "ha", "R1 plena 5,503.44 · R2 enriquecimiento 2,838.42", C.accent3], ["Plantas", "4.51", "M", "4,959,516 plantones con recalce de 10 %", C.accent3], ["Zanjas", "2,250.6", "km", "y 3,117.7 km de terrazas · plano de obras", C.accent1], ["Cerco perimétrico", "577.8", "km", "100 % del perímetro (supuesto)", C.background1],
-    ["Inversión total", "S/ 241.23", "M", "S/ 19,660 por ha · v1.4: S/ 343.05 M", C.accent1], ["O&M 15 años", "S/ 115.40", "M", "Primer año S/ 19.45 M · v1.4: S/ 281.68 M", C.accent5], ["VAC social", "S/ 130.56", "M", "TSD 8 % · horizonte de 20 años", C.background1], ["Costo-efectividad", "S/ 15,652", "", "VAC social por ha plantada", C.accent5]];
+    "Costos_Parametros_IN_Piura_v1.6.xlsx (03/11/2026), generado desde el v1.5. Metas marrón del plano de obras de conservación de suelos (06/10/2026). Elimina el pircado con piedra y los riegos de revegetación de terrazas; desestima relleno compactado, eliminación de desmonte, podas y fertilización. Cifras preliminares, no son metas del Perfil: densidades y cerco por calibrar con el piloto (21, 31, 66, 73 y M6B10); cárcavas: 55 registros y 23.08 km de la capa «Cárcavas codificadas» (10/09/2026), con diques de piedra canteada a S/ 700,993.31 por km (S/ 16,179,374 de costo directo); número y altura de diques por verificar en campo; supervisión y expediente técnico 0 % por definir.");
+  const k = [["Plantación R1 + R2", "8,341.87", "ha", "R1 plena 5,503.44 · R2 enriquecimiento 2,838.42", C.accent3], ["Plantas", "4.51", "M", "4,959,516 plantones con recalce · cerco 577.8 km", C.accent3], ["Zanjas", "2,250.6", "km", "y 3,117.7 km de terrazas · plano de obras", C.accent1], ["Diques en cárcavas", "23.08", "km", "55 cárcavas en 32 bloques · S/ 16.18 M de costo directo", C.background1],
+    ["Inversión total", "S/ 259.85", "M", "S/ 21,177 por ha · sin cárcavas: S/ 241.23 M", C.accent1], ["O&M 15 años", "S/ 134.27", "M", "Primer año S/ 20.71 M · diques: S/ 18.87 M", C.accent5], ["VAC social", "S/ 144.84", "M", "TSD 8 % · horizonte de 20 años", C.background1], ["Costo-efectividad", "S/ 17,363", "", "VAC social por ha plantada", C.accent5]];
   k.forEach((d, i) => kpi(s, 0.6 + (i % 4) * 3.06, i < 4 ? 1.5 : 4.25, 2.95, 2.5, d[0], d[1], d[2], d[3], d[4]));
 }
 {
-  const s = lam("09 Metas y costos (E10)", "La cartera v1.6 cabe en el techo presupuestal",
-    "Techo: presupuesto total de la inversión S/ 372,442,809 (incluye preinversión, expediente técnico, ejecución y O&M de 15 años). Matriz v1.6: S/ 356.63 M (95.8 %), margen S/ 15.81 M para estudios. Motor v1.4 (28/10): S/ 624.73 M (167.7 %). Escenarios de la Matriz v1.6 frente al techo: fichas ANIN completas 163.7 %; solo lo resaltado en amarillo 140.9 %; v1.6 con diques en 23.08 km de cárcavas 105.8 %; v1.6 con zanja de la ficha ANIN (0.40 × 0.30 m) 87.3 %; v1.6 sin obras en bloques con P < 400 mm 92.5 %.");
-  const cats = ["Presupuesto total", "Matriz v1.6 (03/11)", "Motor v1.4 (28/10)"];
+  const s = lam("09 Metas y costos (E10)", "Con cárcavas, la cartera llega al 105.8 % del techo",
+    "Techo: presupuesto total de la inversión S/ 372,442,809 (incluye preinversión, expediente técnico, ejecución y O&M de 15 años). Matriz v1.6 con diques en 23.08 km de cárcavas: S/ 394.12 M (105.8 %), S/ 21.68 M sobre el techo. Sin cárcavas: S/ 356.63 M (95.8 %). Motor v1.4 (28/10): S/ 624.73 M (167.7 %). Escenarios con cárcavas: zanja de la ficha ANIN 0.40 × 0.30 m → S/ 228.46 M + S/ 134.27 M = 97.4 % (margen S/ 9.71 M); sin obras en los 5 bloques con P < 400 mm → 102.6 %; ambas medidas → S/ 223.40 M + S/ 130.42 M = 95.0 % (margen S/ 18.62 M).");
+  const cats = ["Presupuesto total", "v1.6 con cárcavas", "v1.6 sin cárcavas", "Motor v1.4 (28/10)"];
   s.addChart(pres.ChartType.bar, [
-    { name: "Inversión", labels: cats, values: [372.44, 241.23, 343.05] },
-    { name: "O&M 15 años", labels: cats, values: [0, 115.40, 281.68] },
+    { name: "Inversión", labels: cats, values: [372.44, 259.85, 241.23, 343.05] },
+    { name: "O&M 15 años", labels: cats, values: [0, 134.27, 115.40, 281.68] },
   ], { x: 0.6, y: 1.45, w: 7.2, h: 5.45, barDir: "bar", barGrouping: "stacked", chartColors: [H.gold, H.teal], barGapWidthPct: 45,
     showValue: true, dataLabelPosition: "ctr", dataLabelFontSize: 11, dataLabelColor: H.dark, dataLabelFormatCode: "#,##0.0;;;",
     showTitle: true, title: "Millones de soles", titleColor: H.white, titleFontSize: 12, valAxisMinVal: 0, valAxisMaxVal: 650, valAxisMajorUnit: 100,
     showLegend: true, legendPos: "b", legendColor: H.white, legendFontSize: 11, catAxisLabelFontSize: 12, valAxisLabelFontSize: 10, ...ejes, objectName: "grafico-techo" });
-  kpi(s, 8.0, 1.5, 4.73, 1.95, "Inversión + O&M v1.6", "95.8", "% del techo", "S/ 356.63 M · margen de S/ 15.81 M para estudios (antes 167.7 %)", C.accent3);
-  tabla(s, ["Escenario de la Matriz v1.6", "% del techo"], [
-    ["Valores por defecto (sin pirca ni relleno)", G("95.8 %")],
-    ["Con la zanja de la ficha ANIN 0.40 × 0.30 m", "87.3 %"],
-    ["Sin obras en bloques con P < 400 mm", "92.5 %"],
-    ["Con diques en cárcavas (23.08 km)", "105.8 %"],
-    ["Con las fichas ANIN completas", "163.7 %"],
+  kpi(s, 8.0, 1.5, 4.73, 1.95, "Inversión + O&M con cárcavas", "105.8", "% del techo", "S/ 394.12 M · faltan S/ 21.68 M (sin cárcavas: 95.8 %)", C.accent6);
+  tabla(s, ["Escenario con diques en cárcavas", "% del techo"], [
+    ["v1.6 con cárcavas (base)", "105.8 %"],
+    ["+ zanja de la ficha ANIN 0.40 × 0.30 m", G("97.4 %")],
+    ["+ sin obras en bloques con P < 400 mm", "102.6 %"],
+    ["+ ambas medidas", G("95.0 %")],
+    ["Referencia: v1.6 sin cárcavas", "95.8 %"],
   ], { x: 8.0, y: 3.65, w: 4.73, colW: [3.43, 1.3], right: [1], fontSize: 12 });
 }
 {
   const s = lam("09 Metas y costos (E10)", "Presupuesto por partida (precios de mercado)",
-    "CU de mercado set-2026: base ANIN (S10, 10/12/2020), jornal rural S/ 100 por día y factor IPC Lima dic-2020 → set-2026. Plantones con recalce de 10 %. Flete rural con la metodología Sierra Azul. Gastos generales 15.08 % (S/ 31,606,286). Precios sociales: MO no calificada × 0.42, MO calificada × 0.79, bienes y servicios ÷ 1.18 (MEF, Anexo 11). Inversión a precios sociales: S/ 134,396,789 (55.7 %).");
+    "CU de mercado set-2026: base ANIN (S10, 10/12/2020), jornal rural S/ 100 por día y factor IPC Lima dic-2020 → set-2026. Plantones con recalce de 10 %. Flete rural con la metodología Sierra Azul. Gastos generales 15.08 % (S/ 34,045,707). Precios sociales: MO no calificada × 0.42, MO calificada × 0.79, bienes y servicios ÷ 1.18 (MEF, Anexo 11). Inversión a precios sociales: S/ 148,111,150 (57.0 %). Diques en cárcavas: 23.081 km × S/ 700,993.31 por km (ficha ANIN de control de cárcavas), capa «Cárcavas codificadas».");
   const R = (l, u, m, p, pc) => [l, u, m, p, pc];
   tabla(s, ["Partida", "Und", "Metrado", "Parcial (S/)", "% CD"], [
-    R("Producción de plantones en vivero propio (recalce 10 %)", "und", "4,959,516", "6,612,951", "3.2"),
-    R("Plantación y labores por planta", "und", "4,508,651", "30,933,320", "14.8"),
-    R("Labores por hectárea", "ha", "8,342", "9,345,023", "4.5"),
-    R("Flete rural y terrestre de plantones e insumos", "kg", "9,125,509", "2,268,047", "1.1"),
-    R("Cerco perimétrico de alambre de púas", "m", "577,846", "12,695,154", "6.1"),
-    R("Zanjas de infiltración 0.60 × 0.50 m y de derivación", "km", "2,250.56", "47,367,900", "22.6"),
-    R("Terrazas de formación lenta sin pirca", "km", "3,117.65", "96,700,179", "46.1"),
-    R("Barrera viva en bordos y camellones (sin riego)", "km", "5,069.97", "3,705,006", "1.8"),
-    R("Control de cárcavas · meta por definir", "km", "sin metrado", "—", "—"),
-    [B("Costo directo"), "", "", G("209,627,579"), B("100.0")],
-    [B("Inversión total (con gastos generales)"), "", "", G("241,233,865"), ""],
+    R("Producción de plantones en vivero propio (recalce 10 %)", "und", "4,959,516", "6,612,951", "2.9"),
+    R("Plantación y labores por planta", "und", "4,508,651", "30,933,320", "13.7"),
+    R("Labores por hectárea", "ha", "8,342", "9,345,023", "4.1"),
+    R("Flete rural y terrestre de plantones e insumos", "kg", "9,125,509", "2,268,047", "1.0"),
+    R("Cerco perimétrico de alambre de púas", "m", "577,846", "12,695,154", "5.6"),
+    R("Zanjas de infiltración 0.60 × 0.50 m y de derivación", "km", "2,250.56", "47,367,900", "21.0"),
+    R("Terrazas de formación lenta sin pirca", "km", "3,117.65", "96,700,179", "42.8"),
+    R("Barrera viva en bordos y camellones (sin riego)", "km", "5,069.97", "3,705,006", "1.6"),
+    R("Control de cárcavas con diques · capa de gabinete", "km", "23.08", "16,179,374", "7.2"),
+    [B("Costo directo"), "", "", G("225,806,954"), B("100.0")],
+    [B("Inversión total (con gastos generales)"), "", "", G("259,852,661"), ""],
   ], { x: 0.6, y: 1.5, w: 12.13, colW: [6.13, 0.8, 1.7, 2.1, 1.4], right: [2, 3, 4], fontSize: 12.5 });
 }
 {
   const s = lam("09 Metas y costos (E10)", "Inversión por tipología y piloto de calibración",
-    "Tipologías T1–T6 = grupo de ecosistema dominante × degradación (Alta si ≥ 50 % del bloque está bajo el umbral MSAVI 0.4976). Simulación de la Matriz v1.6 por tipología con los valores por defecto. Piloto de calibración: bloques 21 (T6), 66 (T6), 73 (T6), 31 (T3) y M6B10 (T1): 538.32 ha, R1 + R2 310.45 ha, inversión S/ 8,271,185 (S/ 15,365 por ha); zanjas 97.50 km y terrazas 83.71 km.");
+    "Tipologías T1–T6 = grupo de ecosistema dominante × degradación (Alta si ≥ 50 % del bloque está bajo el umbral MSAVI 0.4976). Simulación de la Matriz v1.6 por tipología, con los diques en cárcavas de la capa de gabinete. Ninguno de los 5 bloques piloto tiene cárcavas registradas. Piloto de calibración: bloques 21 (T6), 66 (T6), 73 (T6), 31 (T3) y M6B10 (T1): 538.32 ha, R1 + R2 310.45 ha, inversión S/ 8,271,185 (S/ 15,365 por ha); zanjas 97.50 km y terrazas 83.71 km.");
   const T = ["T1 BES alta (47)", "T2 BES moderada (7)", "T3 Andino alta (3)", "T4 Andino moderada (20)", "T5 Mosaico alta (3)", "T6 Mosaico moderada (37)"];
-  s.addChart(pres.ChartType.bar, [{ name: "Inversión (S/ M)", labels: T.slice().reverse(), values: [184.87, 6.79, 1.86, 17.84, 1.83, 28.04].reverse() }],
+  s.addChart(pres.ChartType.bar, [{ name: "Inversión (S/ M)", labels: T.slice().reverse(), values: [200.21, 7.32, 1.86, 17.84, 1.89, 30.73].reverse() }],
     { x: 0.6, y: 1.45, w: 6.6, h: 5.45, barDir: "bar", chartColors: [H.gold], barGapWidthPct: 40, showValue: true, dataLabelPosition: "outEnd", dataLabelFontSize: 11, dataLabelColor: H.white, dataLabelFormatCode: "#,##0.00",
       showTitle: true, title: "Inversión por tipología · millones de soles (bloques)", titleColor: H.white, titleFontSize: 12, showLegend: false, catAxisLabelFontSize: 11, valAxisHidden: true, ...ejes, objectName: "grafico-tipologia" });
   tabla(s, ["Bloque piloto", "Tip.", "Área (ha)", "R1+R2 (ha)", "Inversión (S/)", "S/ por ha"], [
@@ -456,7 +456,7 @@ MAPS.forEach((m, j) => {
     [B("M6B10"), "T1", "249.89", "249.46", "5,462,180", "21,858"],
     [B("Piloto"), "5", G("538.32"), G("310.45"), G("8,271,185"), G("15,365")],
   ], { x: 7.4, y: 1.55, w: 5.33, colW: [1.05, 0.55, 0.85, 0.9, 1.13, 0.85], right: [2, 3, 4, 5], fontSize: 11.5 });
-  txt(s, "T1 (bosque seco con degradación alta) concentra el 76.6 % de la inversión. El piloto cuesta S/ 15,365 por ha, frente a S/ 19,660 de la cartera.", { x: 7.4, y: 4.6, w: 5.33, h: 1.2, fontSize: 13, color: C.background1 });
+  txt(s, "T1 (bosque seco con degradación alta) concentra el 77.0 % de la inversión. El piloto cuesta S/ 15,365 por ha, frente a S/ 21,177 de la cartera con cárcavas.", { x: 7.4, y: 4.6, w: 5.33, h: 1.2, fontSize: 13, color: C.background1 });
 }
 
 // ======================= 10 PENDIENTES =======================
@@ -465,13 +465,13 @@ const GAP = [
   ["Diagnóstico social (E2 · SE1)", "32 bloques sin ficha; F-DS-04, 05 y 07 sin aplicar; Ayabaca sin F-DS-03", "Priorizar Huarmaca y Ayabaca; F-DS-05 y F-DS-07 en bloques comunales y 83–87", "Alta"],
   ["Línea base de la brecha", "Criterios mixtos; el E6 areal cubre 117 bloques sobre geometría V7", "Adoptar el E6 areal (8,341.83 ha) y recalcularlo en V8", "Alta"],
   ["Zanjas del plano frente al E5", "2,250.56 km proyectados; 7.44 km aptos por suelo, pendiente y cobertura", "Pruebas de infiltración; terraza o barrera viva donde no infiltre", "Alta"],
-  ["Costos y evaluación social (E10)", "95.8 % del techo; terraza sin pirca por validar; beneficios por determinar", "Calibrar con el piloto; supervisión y expediente; VANS y TIR social", "Alta"],
+  ["Costos y evaluación social (E10)", "Con cárcavas, 105.8 % del techo (faltan S/ 21.68 M); terraza sin pirca por validar", "Ajustar al techo (zanja ANIN: 97.4 %); calibrar con el piloto; VANS y TIR social", "Alta"],
   ["Bloques con P < 400 mm", "8, 20, 71, M4B3 y M4B4: infiltración y prendimiento inciertos", "Ensayos de infiltración y prendimiento; decidir las obras", "Media"],
   ["E4 Hidrología", "Sin lluvias de diseño, curvas IDF ni caudales", "Completar HEC-HMS; vuelo de dron para drenaje y cárcavas", "Media"],
   ["E6 Ecosistemas", "Borrador de la versión final (75 %); oferta declarada de solo 21,000 plantones", "Incorporar el estudio de oferta de material vegetal (viveros y brecha de plantones)", "Media"],
   ["Geometría V8", "Polígonos de 5 bloques sin recortar; bloque 8 al 25.4 %", "Recortar y recalcular PI, MSAVI, EVAR y costos; decidir el bloque 8", "Media"],
   ["E8 · EVAR", "Sin escenarios de cambio climático; daños no valorados", "Escenario SSP5-8.5; inventario de elementos expuestos", "Media"],
-  ["Cárcavas", "No figuran en el plano; 85 bloques sin registro", "Levantamiento F-DT-02 o dron antes de fijar diques", "Media"],
+  ["Cárcavas", "Metrado de gabinete incorporado: 23.08 km en 32 bloques; 85 bloques sin registro", "Verificar en campo (F-DT-02) o con dron el número y altura de diques", "Media"],
   ["E5 Suelos", "3 unidades sin infiltración propia; Factor K sin parcelas", "Repetir infiltración donde haya zanjas; validar el Factor K", "Media"],
   ["E7 Árbol de problemas", "v1.0 lista; medios y fines por alinear", "Redactar el Informe Final del E7", "Baja"],
   ["E1 Relieve", "Pendiente de campo por clase visual", "Medir con clinómetro en parcelas", "Baja"],
@@ -503,7 +503,7 @@ const GAP = [
     "Cumplido en octubre: plano de obras (06/10), catálogo V8 (09/10), primeras inspecciones F-LA-03 (desde 07/10), borrador de la versión final del E6 (15/10), EVAR final (19/10), árbol de problemas v1.0 (30/10). Cumplido en noviembre: E5 final (01/11), E2 B3 y Matriz v1.6 (03/11). Fechas referenciales del estudio, sujetas a las condiciones de campo y a la temporada de lluvias.");
   const T = [
     ["Nov 2026", "En curso", ["Informe Final del E7 con medios y fines alineados", "Hidrología: lluvias de diseño, IDF y HEC-HMS", "Tamizaje: asambleas, fichas y actas (piloto y mayor riesgo)", "Infiltración donde hay zanjas; F-DS-05 y F-DS-07", "Inicio del análisis de mercado y del plan de O&M"]],
-    ["Dic 2026", "Programado", ["Liberación de áreas y catálogo definitivo", "Versión final del E6 con la oferta de material vegetal", "Polígonos V8 recortados", "Capítulo de Identificación"]],
+    ["Dic 2026", "Programado", ["Liberación de áreas y catálogo definitivo", "Versión final del E6 con la oferta de material vegetal", "Polígonos V8 recortados", "Cartera ajustada al techo; cárcavas verificadas", "Capítulo de Identificación"]],
     ["Ene – Feb 2027", "Programado", ["Metas y costos calibrados con el piloto", "Plan de O&M y evaluación social", "Capítulos de Formulación y Evaluación"]],
     ["Mar – Abr 2027", "Programado", ["Perfil completo con resumen ejecutivo y anexos", "Revisión, registro en el Banco de Inversiones", "Declaración de viabilidad"]],
   ];
