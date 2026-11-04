@@ -78,12 +78,12 @@ SEC("Portada"); secActual = "Portada";
 
 // ======================= 01 RESUMEN =======================
 {
-  const s = lam("01 Resumen", "Estado del Perfil: 48.5 % de avance ponderado",
-    "Fuente: Diagnóstico Integral IN Piura V3 (03/11/2026). Avance ponderado con los pesos de los 15 entregables del Perfil. El 28/10 se presentó 45 %. Identificación (E1–E9): 71.9 %. El Peligro Integrado (MCA–AHP) combina movimientos en masa, erosión y escorrentía; el 93.9 % es solo por movimientos en masa (EVAR). La línea base del indicador propuesta es el criterio areal del E6.");
+  const s = lam("01 Resumen", "Estado del Perfil: 51.4 % de avance ponderado",
+    "Fuente: Diagnóstico Integral IN Piura V3 (03/11/2026). Avance ponderado con los pesos de los 15 entregables del Perfil. El 28/10 se presentó 45 %. Identificación (E1–E9): 76.4 %. E6 al 75 %: borrador de la versión final; solo falta incorporar el estudio de oferta de material vegetal. El Peligro Integrado (MCA–AHP) combina movimientos en masa, erosión y escorrentía; el 93.9 % es solo por movimientos en masa (EVAR). La línea base del indicador propuesta es el criterio areal del E6.");
   const W = 2.93, g = 0.13, x0 = 0.6, y1 = 1.55, y2 = 4.25, h = 2.5;
   const k = [
-    ["Avance del Perfil", "48.5", "%", "Ponderado de los 15 entregables · 45 % el 28/10", C.accent1],
-    ["Capítulo de Identificación", "71.9", "%", "E1 a E9 · Geología, Suelos y Riesgo culminados", C.accent5],
+    ["Avance del Perfil", "51.4", "%", "Ponderado de los 15 entregables · 45 % el 28/10", C.accent1],
+    ["Capítulo de Identificación", "76.4", "%", "E1 a E9 · Geología, Suelos y Riesgo culminados; E6 al 75 %", C.accent5],
     ["Bloques de intervención", "117", "", "12,157.47 ha netas (catálogo V8) · 15 distritos · 26 microcuencas", C.background1],
     ["Peligro Alto y Muy alto", "69.0", "%", "8,471.57 ha · Peligro Integrado; 93.9 % por movimientos en masa (EVAR)", C.accent1],
     ["Bajo umbral de cobertura", "68.0", "%", "8,341.83 ha · MSAVI areal (E6) · línea base del indicador", C.accent3],
@@ -97,8 +97,8 @@ SEC("Portada"); secActual = "Portada";
   const s = lam("01 Resumen", "Aspectos clave del avance",
     "Logros, decisiones y alertas de la etapa. Avance: E5 informe final 01/11/2026; EVAR final 19/10/2026; árbol de problemas v1.0 del 30/10/2026; E4 informe de avance (40 %). Decisión: adoptar la brecha areal del E6 y recalcularla sobre V8. Alerta: Matriz v1.6 dentro del techo (antes 167.7 % con el motor v1.4); el E5 solo sustenta 7.44 km de zanjas frente a 2,250.56 km del plano. Ruta crítica: Reporte_Liberacion_Areas al 03/11/2026.");
   const W = 2.93, g = 0.13;
-  card(s, 0.6, 1.55, W, 5.25, "Avance", "Identificación al 71.9 %, con suelos y riesgo cerrados",
-    "Geología, Suelos (informe final, 01/11) y Riesgo (EVAR final) culminados. El E7 pasa de 45 % a 80 % con el árbol de problemas v1.0. Hidrología entregó su informe de avance (E4 al 40 %) y el E10 sigue en 25 %, ahora con la Matriz v1.6.", C.accent3);
+  card(s, 0.6, 1.55, W, 5.25, "Avance", "Identificación al 76.4 %, con suelos y riesgo cerrados",
+    "Geología, Suelos (informe final, 01/11) y Riesgo (EVAR final) culminados. El E6 sube de 39 % a 75 % con el borrador de su versión final y el E7 de 45 % a 80 % con el árbol de problemas v1.0. Hidrología entregó su informe de avance (E4 al 40 %) y el E10 sigue en 25 %, ahora con la Matriz v1.6.", C.accent3);
   card(s, 0.6 + (W + g), 1.55, W, 5.25, "Decisión", "Línea base del indicador sobre la base V8",
     "Adoptar el criterio areal del E6, 8,341.83 ha bajo el umbral MSAVI (68.0 %), como línea base del indicador de la R.M. N.° 00213-2024-MINAM, y recalcularlo sobre los polígonos V8, que descuentan 112.77 ha superpuestas con minería en trámite y un sitio arqueológico.", C.accent5);
   card(s, 0.6 + 2 * (W + g), 1.55, W, 5.25, "Alerta", "La cartera cabe en el techo, con condiciones",
@@ -122,13 +122,13 @@ SEC("Portada"); secActual = "Portada";
 // ======================= 02 AVANCE =======================
 const DEL = [
   ["E1 Microlocalización", 85, 85], ["E2 Diagnóstico social y liberación", 75, 75], ["E3 Geología", 100, 100], ["E4 Hidrología", 40, 60],
-  ["E5 Suelos", 100, 63], ["E6 Ecosistemas y material vegetal", 39, 39], ["E7 Problema y planteamiento", 80, 45], ["E8 Análisis de riesgos", 100, 95],
+  ["E5 Suelos", 100, 63], ["E6 Ecosistemas y material vegetal", 75, 39], ["E7 Problema y planteamiento", 80, 45], ["E8 Análisis de riesgos", 100, 95],
   ["E9 Capítulo de Identificación", 40, 40], ["E10 Metas, costos y presupuesto", 25, 25], ["E11 Plan de gestión", 0, 0], ["E12 Plan de O&M", 0, 0],
   ["E13 Evaluación social", 0, 0], ["E14 Formulación y Evaluación", 0, 0], ["E15 Resumen ejecutivo", 0, 0],
 ];
 {
   const s = lam("02 Avance", "Avance por entregable: 28/10 frente a 03/11",
-    "Pesos del Perfil: E1 8, E2 10, E3 5, E4 6, E5 6, E6 8, E7 5, E8 8, E9 8, E10 10, E11 4, E12 4, E13 8, E14 5, E15 5. Cambios: E5 de 63 % a 100 % (informe final del 01/11/2026); E7 de 45 % a 80 % (árbol de problemas v1.0 como insumo principal del informe final); E8 de 95 % a 100 % (informe final EVAR). E4: 40 % según el informe de avance hidrológico; los 20 puntos que el 28/10 se anticipaban por el modelamiento se reconocerán con las lluvias de diseño, las curvas IDF y los caudales HEC-HMS.");
+    "Pesos del Perfil: E1 8, E2 10, E3 5, E4 6, E5 6, E6 8, E7 5, E8 8, E9 8, E10 10, E11 4, E12 4, E13 8, E14 5, E15 5. Cambios: E6 de 39 % a 75 % (borrador de la versión final; solo falta el estudio de oferta de material vegetal); E5 de 63 % a 100 % (informe final del 01/11/2026); E7 de 45 % a 80 % (árbol de problemas v1.0 como insumo principal del informe final); E8 de 95 % a 100 % (informe final EVAR). E4: 40 % según el informe de avance hidrológico; los 20 puntos que el 28/10 se anticipaban por el modelamiento se reconocerán con las lluvias de diseño, las curvas IDF y los caudales HEC-HMS.");
   const cats = DEL.map((d) => d[0]).reverse();
   s.addChart(pres.ChartType.bar, [
     { name: "28/10/2026", labels: cats, values: DEL.map((d) => d[2]).reverse() },
@@ -137,10 +137,10 @@ const DEL = [
     valAxisMaxVal: 100, valAxisMinVal: 0, valAxisMajorUnit: 25, valAxisLabelFormatCode: "0\"%\"", catAxisLabelFontSize: 11, valAxisLabelFontSize: 10,
     showValue: true, dataLabelPosition: "outEnd", dataLabelFontSize: 9, dataLabelColor: H.white, dataLabelFormatCode: "0\"%\";;;",
     showLegend: true, legendPos: "t", legendFontSize: 11, legendColor: H.white, ...ejes, objectName: "grafico-avance" });
-  const caps = [["Capítulo I · Identificación", "71.9 %", "peso 64"], ["Capítulo II · Formulación", "13.9 %", "peso 18"], ["Capítulo III · Evaluación", "0.0 %", "peso 13"], ["Resumen y anexos", "0.0 %", "peso 5"]];
+  const caps = [["Capítulo I · Identificación", "76.4 %", "peso 64"], ["Capítulo II · Formulación", "13.9 %", "peso 18"], ["Capítulo III · Evaluación", "0.0 %", "peso 13"], ["Resumen y anexos", "0.0 %", "peso 5"]];
   tarjeta(s, 9.25, 1.5, 3.48, 5.4);
   kicker(s, "Avance ponderado", 9.45, 1.65, 3.1, C.accent2);
-  txt(s, [{ text: "48.5", options: { fontSize: 44, bold: true, color: C.accent1 } }, { text: " %", options: { fontSize: 18, color: C.background2 } }], { x: 9.45, y: 1.95, w: 3.1, h: 0.85 });
+  txt(s, [{ text: "51.4", options: { fontSize: 44, bold: true, color: C.accent1 } }, { text: " %", options: { fontSize: 18, color: C.background2 } }], { x: 9.45, y: 1.95, w: 3.1, h: 0.85 });
   txt(s, "45 % el 28/10", { x: 9.45, y: 2.8, w: 3.1, h: 0.3, fontSize: 12, color: C.background2 });
   caps.forEach((c, i) => {
     const y = 3.3 + i * 0.88;
@@ -157,7 +157,7 @@ const DEL = [
     [B("E7 Problema"), G("80 %  (45 %)"), "Árbol de problemas unificado v1.0: problema central, 3 causas directas y 10 indirectas; insumo principal del Informe Final."],
     [B("E4 Hidrología"), G("40 %  (60 %)"), "Informe de avance: 60 microcuencas y 264 nanocuencas; 15 nanocuencas priorizadas. Faltan lluvias de 24 h, curvas IDF y caudales HEC-HMS."],
     [B("E2 Social"), "75 %", "Volúmenes I–III en borrador B3: 422 fichas en 85 bloques. Tamizaje: 22 predios inspeccionados y 1 acta observada."],
-    [B("E6 Ecosistemas"), "39 %", "Borrador del informe final (fases 1–5 de 7): 8,341.82 ha bajo el umbral MSAVI y 69 especies nativas."],
+    [B("E6 Ecosistemas"), G("75 %  (39 %)"), "Borrador de la versión final: 8,341.82 ha bajo el umbral MSAVI y 69 especies nativas. Solo falta incorporar el estudio de oferta de material vegetal."],
     [B("E10 Costos"), "25 %", "Matriz de Costos Paramétricos v1.6: inversión S/ 241.23 M y O&M S/ 115.40 M, el 95.8 % del techo."],
   ], { x: 0.6, y: 1.55, w: 12.13, colW: [1.9, 1.75, 8.48], fontSize: 13 });
   txt(s, "Entre paréntesis, el avance presentado el 28/10/2026.", { x: 0.6, y: 6.55, w: 12, h: 0.3, fontSize: 12, color: C.background2 });
@@ -237,7 +237,7 @@ MAPS.forEach((m, j) => {
     ["E3 · Culminado", "Geología", "Unidades litológicas y susceptibilidad a movimientos en masa y erosión hídrica, integradas en los volúmenes.", C.accent3],
     ["E4 · 40 %", "Hidrología y clima", "60 microcuencas y 264 nanocuencas delimitadas; 15 priorizadas. Siguen lluvias de diseño, curvas IDF y caudales.", C.accent2],
     ["E5 · Culminado", "Suelos · informe final", "74 calicatas y 152 muestras; 7 unidades de suelo; 87.9 % tierras de protección; zanja compatible solo en 2 unidades.", C.accent3],
-    ["E6 · 39 %", "Ecosistemas", "Borrador final de 117 bloques: 8,341.82 ha bajo el umbral; 69 especies nativas; faltan viveros y validación.", C.accent2],
+    ["E6 · 75 %", "Ecosistemas", "Borrador de la versión final de 117 bloques: 8,341.82 ha bajo el umbral; 69 especies nativas; falta la oferta de material vegetal.", C.accent2],
     ["E8 · Culminado", "Análisis de riesgos", "EVAR final: peligro alto y muy alto en el 93.9 % de los bloques; riesgo alto en 7,132.39 ha.", C.accent3],
     ["E1 · 85 %", "Microlocalización · V8", "117 bloques y 12,157.47 ha netas; 45 con código M#-B# y 72 por codificar; recortar 5 polígonos.", C.accent2],
   ];
@@ -249,7 +249,7 @@ MAPS.forEach((m, j) => {
   kpi(s, 0.6, 1.5, 2.95, 1.85, "Tierras de protección", "87.9", "%", "12,074.90 ha (X) · pastos 7.7 % · forestal 4.3 %", C.accent3);
   kpi(s, 3.66, 1.5, 2.95, 1.85, "Zanjas aptas por suelo", "7.44", "km", "frente a 2,250.56 km del plano de obras", C.accent1);
   kpi(s, 6.72, 1.5, 2.95, 1.85, "Bajo umbral MSAVI", "8,341.82", "ha", "E6: 5,503.41 activa · 2,838.41 enriquecimiento", C.accent3);
-  kpi(s, 9.78, 1.5, 2.95, 1.85, "Oferta de plantones", "21,000", "", "declarada (Hualtacal) · brecha en la fase 6", C.accent1);
+  kpi(s, 9.78, 1.5, 2.95, 1.85, "Oferta de plantones", "21,000", "", "declarada (Hualtacal) · brecha en el estudio de oferta", C.accent1);
   tabla(s, ["Unidad de suelo", "Superficie (ha)", "Factor K", "Infiltración diseño (cm/h)", "Vaciado zanja 40 cm (h)", "Zanja de infiltración"], [
     ["Morropón (Torriorthents)", "6,936.10", "0.0272 · Media", "0.175", "229", "No compatible"],
     ["Cruz de Piedra (Ustorthents)", "2,658.80", "0.0222 · Media", "0.165", "242", "No compatible"],
@@ -468,7 +468,7 @@ const GAP = [
   ["Costos y evaluación social (E10)", "95.8 % del techo; terraza sin pirca por validar; beneficios por determinar", "Calibrar con el piloto; supervisión y expediente; VANS y TIR social", "Alta"],
   ["Bloques con P < 400 mm", "8, 20, 71, M4B3 y M4B4: infiltración y prendimiento inciertos", "Ensayos de infiltración y prendimiento; decidir las obras", "Media"],
   ["E4 Hidrología", "Sin lluvias de diseño, curvas IDF ni caudales", "Completar HEC-HMS; vuelo de dron para drenaje y cárcavas", "Media"],
-  ["E6 Ecosistemas", "Fases 1–5; oferta declarada de solo 21,000 plantones", "Fase 6 (viveros y brecha de plantones) y fase 7 (validación)", "Media"],
+  ["E6 Ecosistemas", "Borrador de la versión final (75 %); oferta declarada de solo 21,000 plantones", "Incorporar el estudio de oferta de material vegetal (viveros y brecha de plantones)", "Media"],
   ["Geometría V8", "Polígonos de 5 bloques sin recortar; bloque 8 al 25.4 %", "Recortar y recalcular PI, MSAVI, EVAR y costos; decidir el bloque 8", "Media"],
   ["E8 · EVAR", "Sin escenarios de cambio climático; daños no valorados", "Escenario SSP5-8.5; inventario de elementos expuestos", "Media"],
   ["Cárcavas", "No figuran en el plano; 85 bloques sin registro", "Levantamiento F-DT-02 o dron antes de fijar diques", "Media"],
@@ -486,24 +486,24 @@ const GAP = [
 // ======================= 11 PRÓXIMOS PASOS =======================
 {
   const s = lam("11 Próximos pasos", "Proyección del avance del Perfil",
-    "Avance ponderado con los pesos del Perfil. 28/10/2026: 45 % (presentación anterior). 03/11/2026: 48.5 %. Diciembre de 2026: ≥ 66.5 % al culminar el Capítulo de Identificación (E1 a E9 = 64 puntos, más el E10 al 25 %). Febrero de 2027: ≥ 95 % con los Capítulos de Formulación y Evaluación (E10 a E14 = 31 puntos). Marzo de 2027: 100 % con el resumen ejecutivo y anexos. Fechas referenciales, sujetas al campo y a la temporada de lluvias.");
+    "Avance ponderado con los pesos del Perfil. 28/10/2026: 45 % (presentación anterior). 03/11/2026: 51.4 % (E6 al 75 %). Diciembre de 2026: ≥ 66.5 % al culminar el Capítulo de Identificación (E1 a E9 = 64 puntos, más el E10 al 25 %). Febrero de 2027: ≥ 95 % con los Capítulos de Formulación y Evaluación (E10 a E14 = 31 puntos). Marzo de 2027: 100 % con el resumen ejecutivo y anexos. Fechas referenciales, sujetas al campo y a la temporada de lluvias.");
   const cats = ["28/10/2026", "03/11/2026", "Dic 2026", "Feb 2027", "Mar 2027"];
   s.addChart(pres.ChartType.bar, [
-    { name: "Logrado", labels: cats, values: [45.35, 48.52, 0, 0, 0] },
+    { name: "Logrado", labels: cats, values: [45.35, 51.4, 0, 0, 0] },
     { name: "Previsto (mínimo)", labels: cats, values: [0, 0, 66.5, 95, 100] },
   ], { x: 0.6, y: 1.45, w: 7.6, h: 5.45, barDir: "col", barGrouping: "stacked", chartColors: [H.gold, H.teal], barGapWidthPct: 55,
     valAxisMaxVal: 100, valAxisMinVal: 0, valAxisMajorUnit: 25, valAxisLabelFormatCode: "0\"%\"", showValue: true, dataLabelPosition: "inEnd", dataLabelFontSize: 12, dataLabelColor: H.dark, dataLabelFormatCode: "0.0\"%\";;;",
     showLegend: true, legendPos: "b", legendColor: H.white, legendFontSize: 11, catAxisLabelFontSize: 12, valAxisLabelFontSize: 10, ...ejes, objectName: "grafico-proyeccion" });
-  kpi(s, 8.4, 1.5, 4.33, 1.7, "Avance al 03/11/2026", "48.5", "%", "E5 y E8 culminados · E7 al 80 %", C.accent1);
+  kpi(s, 8.4, 1.5, 4.33, 1.7, "Avance al 03/11/2026", "51.4", "%", "E5 y E8 culminados · E6 al 75 % · E7 al 80 %", C.accent1);
   kpi(s, 8.4, 3.35, 4.33, 1.7, "Al cerrar la Identificación", "≥ 66.5", "%", "Diciembre de 2026 · E1 a E9", C.accent5);
   kpi(s, 8.4, 5.2, 4.33, 1.7, "Perfil completo", "100", "%", "Marzo de 2027 · viabilidad en abril", C.accent3);
 }
 {
   const s = lam("11 Próximos pasos", "Próximos pasos: noviembre de 2026 a abril de 2027",
-    "Cumplido en octubre: plano de obras (06/10), catálogo V8 (09/10), primeras inspecciones F-LA-03 (desde 07/10), borrador final del E6 (15/10), EVAR final (19/10), árbol de problemas v1.0 (30/10). Cumplido en noviembre: E5 final (01/11), E2 B3 y Matriz v1.6 (03/11). Fechas referenciales del estudio, sujetas a las condiciones de campo y a la temporada de lluvias.");
+    "Cumplido en octubre: plano de obras (06/10), catálogo V8 (09/10), primeras inspecciones F-LA-03 (desde 07/10), borrador de la versión final del E6 (15/10), EVAR final (19/10), árbol de problemas v1.0 (30/10). Cumplido en noviembre: E5 final (01/11), E2 B3 y Matriz v1.6 (03/11). Fechas referenciales del estudio, sujetas a las condiciones de campo y a la temporada de lluvias.");
   const T = [
     ["Nov 2026", "En curso", ["Informe Final del E7 con medios y fines alineados", "Hidrología: lluvias de diseño, IDF y HEC-HMS", "Tamizaje: asambleas, fichas y actas (piloto y mayor riesgo)", "Infiltración donde hay zanjas; F-DS-05 y F-DS-07", "Inicio del análisis de mercado y del plan de O&M"]],
-    ["Dic 2026", "Programado", ["Liberación de áreas y catálogo definitivo", "E6 fases 6 y 7", "Polígonos V8 recortados", "Capítulo de Identificación"]],
+    ["Dic 2026", "Programado", ["Liberación de áreas y catálogo definitivo", "Versión final del E6 con la oferta de material vegetal", "Polígonos V8 recortados", "Capítulo de Identificación"]],
     ["Ene – Feb 2027", "Programado", ["Metas y costos calibrados con el piloto", "Plan de O&M y evaluación social", "Capítulos de Formulación y Evaluación"]],
     ["Mar – Abr 2027", "Programado", ["Perfil completo con resumen ejecutivo y anexos", "Revisión, registro en el Banco de Inversiones", "Declaración de viabilidad"]],
   ];
