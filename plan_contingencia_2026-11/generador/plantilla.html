@@ -63,7 +63,7 @@ td.nw{white-space:nowrap} td b{font-weight:600}
 svg{max-width:100%;height:auto;display:block}
 .gantt-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);padding:8px}
 .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0 10px;font-size:14px;color:var(--fg)}
-.controls label{display:flex;align-items:center;gap:6px} select,input[type=checkbox]{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:4px 6px}
+.controls label{display:flex;align-items:center;gap:6px;min-width:0;max-width:100%} .controls select{max-width:100%;min-width:0;text-overflow:ellipsis} select,input[type=checkbox]{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:4px 6px}
 .seg{display:inline-flex;border:1px solid var(--accent);border-radius:4px;overflow:hidden}
 .seg button{font:600 13px var(--font-display);padding:6px 12px;border:0;background:var(--surface);color:var(--accent);cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
@@ -85,7 +85,7 @@ section a{color:var(--accent)} footer a{color:#fff}
 <header class="top"><div class="wrap">
   <div class="inst">Autoridad Nacional de Infraestructura · ANIN<br>Dirección de Intervenciones Multisectoriales y de Emergencia · DIME<br>Subdirección de Estudios de Inversión · SESDI</div>
   <h1>Plan de Contingencia para la culminación del Estudio de Perfil · Proyecto IN Piura</h1>
-  <p class="sub">En el contexto del Decreto Supremo N° 149-2026-PCM, que declara el Estado de Emergencia por peligro inminente ante intensas precipitaciones pluviales asociadas al Fenómeno El Niño 2026-2027. Versión 2.0 del 04/11/2026.</p>
+  <p class="sub">En el contexto del Decreto Supremo N° 149-2026-PCM, que declara el Estado de Emergencia por peligro inminente ante intensas precipitaciones pluviales asociadas al Fenómeno El Niño 2026-2027. <span id="verSub"></span></p>
   <div class="chips" id="chips"></div>
 </div></header>
 <nav class="toc"><div class="wrap">
@@ -114,7 +114,7 @@ section a{color:var(--accent)} footer a{color:#fff}
   <p>Pesos del Perfil sobre 100 puntos; el Capítulo de Identificación (E1 a E9) pesa 64. La barra muestra el avance de cada entregable; el valor entre paréntesis es su peso.</p>
   <div class="bars" id="bars"></div>
   <p class="src">Fuente: HTML de avance del Perfil ante la SESDI y Resumen Ejecutivo con apuntes de la reunión del 03/11/2026.</p>
-  <h3>Decisiones requeridas de la Alta Dirección (reunión del 03/11/2026)</h3>
+  <h3>Decisiones requeridas (reunión del 03/11/2026; D1 actualizada el 05/11/2026)</h3>
   <div class="tw"><table id="tDec"></table></div>
   <h3>Acuerdos incorporados al plan</h3>
   <ul class="tight" id="acuerdos"></ul>
@@ -134,7 +134,7 @@ section a{color:var(--accent)} footer a{color:#fff}
 
 <section id="presupuesto"><div class="panel">
   <h2><small>5 · Presupuesto y recursos</small>Estructura para valorización por la Administración de la DIME</h2>
-  <p>Las cantidades son supuestos de planificación y los costos unitarios están por definir; solo el viático diario tiene un valor normativo de referencia (D.S. N° 007-2013-EF, S/ 320 por día). El libro Excel calcula los totales con fórmulas a medida que se completen las celdas de costo unitario. Las partidas «Optimista» o «Base» aplican solo a ese escenario.</p>
+  <p>Las cantidades son supuestos de planificación. Costos unitarios indicados por el equipo formulador el 05/11/2026: viáticos de especialistas y analistas a S/ 160 por día y camioneta 4x4 a todo costo (con conductor y combustible) a S/ 700 por día. Las imágenes satelitales se obtienen sin compra y el SCTR corre por cuenta del propio personal. Los demás costos están por definir; el Excel calcula los totales por escenario con fórmulas a medida que se completen. Las partidas «Optimista» o «Base» aplican solo a ese escenario.</p>
   <dl class="kpis" id="kpiPres"></dl>
   <div class="tw"><table id="tPres"></table></div>
   <p class="src" id="srcPres"></p>
@@ -147,7 +147,7 @@ section a{color:var(--accent)} footer a{color:#fff}
 
 <section id="riesgos"><div class="panel">
   <h2><small>7 · Gestión de riesgos</small>Factores que podrían impedir o dificultar la culminación del Perfil</h2>
-  <p>Probabilidad e impacto en escala de 1 a 5; nivel = P × I (Bajo &lt; 6, Medio 6-11, Alto 12-19, Muy alto ≥ 20). El R21 es una oportunidad (impacto positivo).</p>
+  <p>Probabilidad e impacto en escala de 1 a 5; nivel = P × I (Bajo &lt; 6, Medio 6-11, Alto 12-19, Muy alto ≥ 20). El <span id="opId"></span> es una oportunidad (impacto positivo).</p>
   <div class="grid2">
     <div class="card"><h4>Mapa de calor · cantidad de riesgos por probabilidad e impacto</h4><div class="heat" id="heat"></div></div>
     <div class="card"><h4>Resumen por nivel</h4><div id="nivRes"></div></div>
@@ -195,7 +195,7 @@ section a{color:var(--accent)} footer a{color:#fff}
   <ul class="tight" id="fuentes"></ul>
 </div></section>
 </main>
-<footer class="wrap">Equipo formulador del Proyecto IN Piura · ANIN - DIME - SESDI · Versión 2.0 del 04/11/2026 · Código de Idea 337830 · Coordenadas UTM WGS 84 Zona 17S (EPSG:32717). Archivos complementarios: Plan en Word y matrices en Excel en la carpeta plan_contingencia_2026-11 del repositorio.</footer>
+<footer class="wrap">Equipo formulador del Proyecto IN Piura · ANIN - DIME - SESDI · <span id="verFoot"></span> · Código de Idea 337830 · Coordenadas UTM WGS 84 Zona 17S (EPSG:32717). Archivos complementarios: Plan en Word y matrices en Excel en la carpeta plan_contingencia_2026-11 del repositorio.</footer>
 
 <script>
 const D = /*__DATOS__*/;
@@ -216,22 +216,24 @@ const avance = D.avance, C = D.cartera;
 const muyAlto = D.riesgos.filter(r => nivel(r[5], r[6]) === "Muy alto").length;
 const pendCampo = D.pendientes.filter(p => p[2] === "Sí").length, pendPunt = D.pendientes.filter(p => p[2] === "Puntual").length;
 
-$("chips").innerHTML = ["Código de Idea 337830", `Corte ${D.corte}`, `Avance del Perfil ${f1(avance)} %`, D.meta.modalidad, "Versión 2.0 · propuesta"].map(c => `<span class="chip">${esc(c)}</span>`).join("");
-$("lede").textContent = `El D.S. N° 149-2026-PCM (dado el 02/11/2026 y publicado el 03/11/2026) declara el Estado de Emergencia por 60 días calendario en 1,380 distritos, entre ellos los 15 del proyecto, y el ENFEN mantiene la alerta de El Niño Costero con lluvias por encima de lo normal en la sierra norte occidental. El Perfil está al ${f1(avance)} % (Identificación al ${f1(D.avance_id)} %). Solo el tamizaje predial sigue requiriendo campo: se prioriza por superficie y bloques comunales, los predios del Estado se gestionan en gabinete con el GORE Piura y Agricultura, y los privados pasan al expediente técnico. En el escenario optimista (sin FEN o FEN retrasado) se mantiene el Perfil al 31/03/2027 y la viabilidad al 30/04/2027; en el escenario base (con FEN desde diciembre) el campo residual se traslada a abril y mayo y el Perfil se culmina el 31/05/2027.`;
+$("verSub").textContent = $("verFoot").textContent = `Versión ${D.meta.version.split(" ")[0]} del ${D.meta.fecha}`;
+$("opId").textContent = (D.riesgos.find(r => r[1] === "Oportunidad") || ["—"])[0];
+$("chips").innerHTML = ["Código de Idea 337830", `Corte ${D.corte}`, `Avance del Perfil ${f1(avance)} %`, D.meta.modalidad, `Versión ${D.meta.version.split(" ")[0]} · propuesta`].map(c => `<span class="chip">${esc(c)}</span>`).join("");
+$("lede").textContent = `El D.S. N° 149-2026-PCM (dado el 02/11/2026 y publicado el 03/11/2026) declara el Estado de Emergencia por 60 días calendario en 1,380 distritos, entre ellos los 15 del proyecto, y el ENFEN mantiene la alerta de El Niño Costero con lluvias por encima de lo normal en la costa y sierra norte. El Perfil está al ${f1(avance)} % (Identificación al ${f1(D.avance_id)} %). Solo el tamizaje predial sigue requiriendo campo: se prioriza por superficie y bloques comunales, los predios del Estado se gestionan en gabinete con el GORE Piura y Agricultura, y los privados pasan al expediente técnico. El ingreso de fichas del diagnóstico al aplicativo cierra el 30/11/2026. En el escenario optimista (sin FEN o FEN retrasado) se mantiene el Perfil al 31/03/2027 y la viabilidad al 30/04/2027; en el escenario base (con FEN desde diciembre) el campo residual se traslada a abril y mayo y el Perfil se culmina el 31/05/2027.`;
 $("kpis").innerHTML = [
   ["Avance del Perfil", `${f1(avance)} <small>%</small>`, `Identificación ${f1(D.avance_id)} % · 15 entregables al 03/11/2026`, avance],
   ["Vigencia del decreto", `60 <small>días</small>`, "calendario desde el 03/11/2026 (artículo 1); prorrogable", null],
   ["Perfil completo · optimista", `31/03/27`, "viabilidad 30/04/2027 · sin FEN o FEN retrasado", null],
   ["Perfil completo · base", `31/05/27`, "viabilidad 30/06/2027 · con FEN desde diciembre", null],
   ["Riesgos de nivel Muy alto", `${muyAlto} <small>de ${D.riesgos.length}</small>`, "acceso por lluvias, autoridades, equipo DIME y tamizaje incompleto", null],
-  ["Cartera frente al techo", `${f1(C.pct)} <small>%</small>`, `S/ ${f1(C.total)} M; D1 la devuelve al ${f1(C.d1_zanja)} % o ${f1(C.d1_zanja_p400)} %`, null],
+  ["Cartera frente al techo", `${f1(C.pct)} <small>%</small>`, `S/ ${f1(C.total)} M; D1 con zanja de ${C.zanja}: ${f1(C.d1_zanja)} % o ${f1(C.d1_zanja_p400)} %`, null],
 ].map(k => `<div class="kpi"><dt>${k[0]}</dt><dd>${k[1]}</dd><div class="n">${k[2]}</div>${k[3] != null ? `<div class="meter"><i style="width:${k[3]}%"></i></div>` : ""}</div>`).join("");
-$("notaEsc").innerHTML = `<p><b>Decisiones con plazo.</b> D1, D2 y D3 al 30/11/2026 (cartera dentro del techo, Estudio de Hidrología culminado, equipo predial completo); D4 y D5 al 15/12/2026 (EVAR actualizado con el AID y línea base del indicador sobre V8). Sin ellas no se cierra el Capítulo de Identificación en diciembre.</p>`;
+$("notaEsc").innerHTML = `<p><b>Decisiones con plazo.</b> D1, D2 y D3 al 30/11/2026 (cartera dentro del techo, Estudio de Hidrología culminado, equipo predial completo); D4 al 15/12/2026 (EVAR actualizado con el AID). Con la zanja reajustada de ${C.zanja} la cartera queda en el ${f1(C.d1_zanja)} % del techo y deja S/ ${f2(C.d1_zanja_margen)} M para preinversión y expediente técnico (S/ ${f2(C.d1_zanja_p400_margen)} M si no hay obras en los 5 bloques con P < 400 mm).</p>`;
 
 $("ctx").innerHTML = [
-  ["Decreto Supremo N° 149-2026-PCM (texto oficial)", [["Publicación", D.decreto.publicacion], ["Objeto", D.decreto.objeto], ["Plazo", D.decreto.plazo], ["Alcance nacional", D.decreto.alcance_nacional], ["Alcance en Piura", D.decreto.alcance_piura], ["Acciones", D.decreto.acciones], ["Financiamiento", D.decreto.financiamiento], ["Refrendo", D.decreto.refrendo], ["Sustento técnico", D.decreto.sustento]]],
+  ["Decreto Supremo N° 149-2026-PCM (texto oficial)", [["Publicación", D.decreto.publicacion], ["Objeto", D.decreto.objeto], ["Plazo", D.decreto.plazo], ["Alcance nacional", D.decreto.alcance_nacional], ["Alcance en Piura", D.decreto.alcance_piura], ["Acciones por ejecutar", D.decreto.acciones], ["Financiamiento", D.decreto.financiamiento], ["Refrendo", D.decreto.refrendo], ["Sustento técnico", D.decreto.sustento]]],
   ["Escenario climático · ENFEN", [["Estado", D.clima.comunicado], ["Magnitud", D.clima.magnitud], ["Lluvias", D.clima.lluvias], ["Implicancia", D.clima.implicancia]]],
-  ["Qué implica para el Perfil", [["Campo", "Solo el tamizaje predial requiere salidas a los 117 bloques, situados en laderas con peligro alto y muy alto; la temporada de lluvias lo restringe. Los demás entregables se cierran en gabinete, con verificaciones puntuales en zonas accesibles (E4, cárcavas) o imágenes satelitales."], ["Autoridades", "Gobiernos regionales y locales concentrados en la emergencia (artículo 2); cambio de autoridades el 01/01/2027 y renovación de juntas comunales: los acuerdos y los arreglos sobre predios del Estado deben documentarse y ratificarse."], ["ANIN", "La DIME es la dirección de intervenciones de emergencia; posible reasignación de personal; cierre fiscal 2026 y continuidad de contratos en enero."], ["Oportunidad", "El evento genera evidencia directa del peligro y de los daños para E4, E7, E8 y E13."]]],
+  ["Qué implica para el Perfil", [["Campo", "Solo el tamizaje predial requiere salidas a los 117 bloques, situados en laderas con peligro alto y muy alto; la temporada de lluvias lo restringe. Los demás entregables se cierran en gabinete, con verificaciones y salidas de campo muy puntuales en zonas accesibles (E4, cárcavas) o imágenes satelitales obtenidas sin compra."], ["Autoridades", "Gobiernos regionales y locales concentrados en la emergencia (artículo 2); cambio de autoridades el 01/01/2027 y renovación de juntas comunales: los acuerdos y los arreglos sobre predios del Estado deben documentarse y ratificarse."], ["ANIN", "La DIME es la dirección de intervenciones de emergencia; posible reasignación de personal; cierre fiscal 2026 y continuidad de contratos en enero."], ["Oportunidad", "El evento genera evidencia directa del peligro y de los daños para E4, E7, E8 y E13."]]],
 ].map(c => `<div class="card"><h4>${esc(c[0])}</h4>${c[1].map(p => `<p><b>${esc(p[0])}.</b> ${mark(p[1])}</p>`).join("")}</div>`).join("");
 tbl("tDist", [["N.°", "num"], ["Distrito"], ["Provincia"], ["Incluido en el Anexo"], ["N.° en el Anexo", "num"]], D.distritos.map((d, i) => [i + 1, esc(d[0]), esc(d[1]), '<span class="tag g">Sí</span>', d[2]]));
 
@@ -260,7 +262,7 @@ function renderGantt() {
     s += `<rect class="bar" data-i="${i}" x="${x0}" y="${y + 3}" width="${Math.max(3, x1 - x0)}" height="${rh - 8}" rx="3" fill="${FC[a[1]]}" ${a[6] === "Sí" ? 'stroke="var(--fg)" stroke-width="1.5" stroke-dasharray="3 2"' : ""}/>`;
     if (a[8] !== "—") s += `<path d="M${x1 + 6} ${y + 3} l6 7 l-6 7 l-6 -7 z" fill="var(--fg)"><title>${esc(a[8])}</title></path>`;
   });
-  const hoy = X("2026-11-04"); s += `<line x1="${hoy}" x2="${hoy}" y1="${top - 6}" y2="${H - 6}" stroke="var(--critical)" stroke-width="1.5"/><text x="${hoy + 3}" y="${H - 1}" font-size="10" fill="var(--critical)">04/11/2026</text></svg>`;
+  const hoy = X("2026-11-05"); s += `<line x1="${hoy}" x2="${hoy}" y1="${top - 6}" y2="${H - 6}" stroke="var(--critical)" stroke-width="1.5"/><text x="${hoy + 3}" y="${H - 1}" font-size="10" fill="var(--critical)">05/11/2026</text></svg>`;
   $("gantt").innerHTML = s;
   const tip = $("tip");
   document.querySelectorAll("#gantt .bar").forEach(b => {
@@ -279,15 +281,18 @@ renderGantt();
 /* Presupuesto */
 const comps = [...new Set(D.presupuesto.map(p => p[1]))];
 const val = D.presupuesto.reduce((s, p) => s + (p[6] ? p[4] * p[6] : 0), 0);
+const parc = (p) => (p[6] != null ? p[4] * p[6] : 0);
+const vEsc = (e) => D.presupuesto.filter(p => p[9] === "Ambos" || p[9] === e).reduce((a, p) => a + parc(p), 0);
+const pc = D.contingencia_pct;
 $("kpiPres").innerHTML = [
-  ["Partidas", `${D.presupuesto.length}`, `en ${comps.length} componentes (A a G); campo en Piura y gabinete en Lima`],
-  ["Con costo unitario referencial", `${D.presupuesto.filter(p => p[6] != null).length}`, "viáticos (D.S. N° 007-2013-EF); el resto por definir"],
-  ["Valorizado parcial", `S/ ${n0(Math.round(val))}`, `solo viáticos, ambos escenarios sumados; + ${Math.round(D.contingencia_pct * 100)} % de reserva [SUPUESTO]`],
-  ["Cartera v1.6 con diques", `S/ ${f1(C.total)} <small>M</small>`, `${f1(C.pct)} % del techo de S/ 372.44 M; faltan S/ ${f1(C.brecha)} M; D1 → ${f1(C.d1_zanja)} % / ${f1(C.d1_zanja_p400)} %`],
+  ["Partidas", `${D.presupuesto.length}`, `en ${comps.length} componentes (A a G); ${D.presupuesto.filter(p => p[6] == null).length} con costo unitario por definir`],
+  ["Valorizado · optimista", `S/ ${n0(Math.round(vEsc("Optimista") * (1 + pc)))}`, `S/ ${n0(Math.round(vEsc("Optimista")))} + ${Math.round(pc * 100)} % de reserva [SUPUESTO]; parcial`],
+  ["Valorizado · base", `S/ ${n0(Math.round(vEsc("Base") * (1 + pc)))}`, `S/ ${n0(Math.round(vEsc("Base")))} + ${Math.round(pc * 100)} % de reserva [SUPUESTO]; parcial`],
+  ["Cartera con D1", `${f1(C.d1_zanja)} <small>% del techo</small>`, `zanja ${C.zanja}: S/ ${f2(C.d1_zanja_total)} M; margen S/ ${f2(C.d1_zanja_margen)} M (v1.6 con diques: ${f1(C.pct)} %)`],
 ].map(k => `<div class="kpi"><dt>${k[0]}</dt><dd>${k[1]}</dd><div class="n">${mark(k[2])}</div></div>`).join("");
 tbl("tPres", [["Cód.", "nw"], ["Componente"], ["Partida / recurso"], ["Unidad", "nw"], ["Cantidad", "num"], ["Base del cálculo"], ["CU (S/)", "num"], ["Parcial (S/)", "num"], ["Fuente del CU"], ["Fase", "nw"], ["Escenario", "nw"]],
-  D.presupuesto.map(p => [p[0], esc(p[1].split("·")[1].trim()), esc(p[2]), esc(p[3]), n0(p[4]), mark(p[5]), p[6] != null ? f2(p[6]) : mark("[POR DEFINIR]"), p[6] != null ? f2(p[4] * p[6]) : "—", mark(p[7]), esc(p[8]), esc(p[9])]));
-$("srcPres").textContent = "El presupuesto asignado al Perfil en el POI/PIA de la ANIN y la planilla del equipo no constan en el repositorio; completar en la hoja 3 del Excel. Equipo de campo: 6 asistentes prediales (4 contratados y 2 por contratar, D3).";
+  D.presupuesto.map(p => [p[0], esc(p[1].split("·")[1].trim()), esc(p[2]), esc(p[3]), n0(p[4]), mark(p[5]), p[6] == null ? mark("[POR DEFINIR]") : p[6] === 0 ? "Sin costo" : f2(p[6]), p[6] != null ? f2(p[4] * p[6]) : "—", mark(p[7]), esc(p[8]), esc(p[9])]));
+$("srcPres").textContent = "El presupuesto asignado al Perfil en el POI/PIA de la ANIN y la planilla del equipo no constan en el repositorio; completar en la hoja 3 del Excel. Equipo de campo: 6 asistentes prediales (4 contratados y 2 por contratar, D3). " + D.nota_pres;
 
 tbl("tCamb", [["Tema"], ["Situación actual"], ["Cambio propuesto"], ["Efecto en el Perfil"], ["Decisión de", "nw"], ["Tipo", "nw"]], D.cambios.map(c => [`<b>${esc(c[0])}</b>`, mark(c[1]), mark(c[2]), esc(c[3]), esc(c[4]), `<span class="tag ${c[5].startsWith("Contratación") ? "v" : "m"}">${esc(c[5])}</span>`]));
 
@@ -328,12 +333,13 @@ $("notas").innerHTML = [
   "Avance del 51.4 % al 03/11/2026 (Identificación 76.4 %) con los pesos de los 15 entregables; E8 culminado con resultados preliminares, por actualizar con el AID (D4).",
   "Decreto verificado en el texto oficial de El Peruano (03/11/2026, pp. 13-25): dado el 02/11/2026, 60 días calendario, artículos 1 a 4 y Anexo con los 15 distritos del proyecto.",
   "Escenarios: optimista (sin FEN o FEN retrasado) con Perfil al 31/03/2027 y viabilidad al 30/04/2027; base (con FEN desde diciembre) con Perfil al 31/05/2027 y viabilidad al 30/06/2027.",
-  "Campo solo para el tamizaje predial, priorizado por superficie y bloques comunales; cárcavas con salidas seguras en zonas accesibles o imágenes satelitales de alta resolución. Los lotes de uso sostenible se gestionan dentro de cada uno de los 117 bloques V8.",
-  "Presupuesto: cantidades [SUPUESTO] y costos unitarios [POR DEFINIR]; viático S/ 320 por día (D.S. N° 007-2013-EF) como único valor referencial. Cartera v1.6 con diques al 105.8 % del techo; D1 la devuelve al 97.4 % o 95.0 %.",
+  "Campo solo para el tamizaje predial, priorizado por superficie (los de mayor superficie) y bloques comunales; cárcavas con salidas seguras en zonas accesibles o imágenes satelitales de alta resolución obtenidas sin compra. El ingreso de fichas del diagnóstico al aplicativo cierra el 30/11/2026; los formularios F-LA se registran a medida que avanza el tamizaje. Los lotes de uso sostenible se gestionan dentro de cada uno de los 117 bloques V8.",
+  "Presupuesto: cantidades [SUPUESTO]; viáticos de especialistas y analistas S/ 160 por día y camioneta 4x4 a todo costo S/ 700 por día (05/11/2026); el resto [POR DEFINIR]. SCTR a cargo del propio personal. El E4 lo elabora personal con orden de servicio, sin consultor contratado.",
+  "Cartera v1.6 con diques al 105.8 % del techo. D1 recalculada el 05/11/2026 con la Matriz v1.6 y la zanja reajustada de 0.40 × 0.40 m: 99.4 % (margen S/ 2.43 M) o 96.8 % sin obras en los bloques con P < 400 mm (margen S/ 12.05 M). Con 0.40 × 0.30 m la misma reconstrucción daba 97.4 % y 95.0 %, como en el Resumen Ejecutivo del 03/11.",
   "Segunda elección regional en Piura: fecha reportada por la prensa 06/12/2026, [POR VERIFICAR] con el JNE; autoridades regionales y municipales asumen el 01/01/2027; alcaldes electos [POR VERIFICAR] en ONPE/JNE.",
 ].map(n => `<li>${mark(n)}</li>`).join("");
 const fu = [["Proyecto", "HTML de avance del Perfil ante la SESDI (03/11/2026); Resumen Ejecutivo con apuntes de la reunión del 03/11/2026; Diagnóstico Integral IN Piura V3; Matriz de Costos v1.6; E5 final; EVAR final; E2 B3; catálogo V8", null]];
 D.decreto.fuentes.forEach(f => fu.push(["Decreto", f[0], f[1]])); D.clima.fuentes.forEach(f => fu.push(["Clima", f[0], f[1]])); D.electoral.fuentes.forEach(f => fu.push(["Electoral", f[0], f[1]]));
-fu.push(["Normativa", "Guía General IFE de PI (DGPMI-MEF, 2022) y Anexo 2 GdR-CCC; Ley N° 29664; D.S. N° 048-2011-PCM; D.S. N° 074-2014-PCM; Ley N° 30754; D.S. N° 017-2018-MINAM; R.M. N° 178-2019-MINAM; R.M. N° 00213-2024-MINAM; D.S. N° 007-2013-EF; Ley N° 27867; Ley N° 27972; Ley N° 24656", null]);
+fu.push(["Normativa", "Guía General IFE de PI (DGPMI-MEF, 2022) y Anexo 2 GdR-CCC; Ley N° 29664; D.S. N° 048-2011-PCM; D.S. N° 074-2014-PCM; Ley N° 30754; D.S. N° 017-2018-MINAM; R.M. N° 178-2019-MINAM; R.M. N° 00213-2024-MINAM; Ley N° 27867; Ley N° 27972; Ley N° 24656", null]);
 $("fuentes").innerHTML = fu.map(f => `<li><b>${esc(f[0])}.</b> ${f[2] ? `<a href="${esc(f[2])}" target="_blank" rel="noopener">${esc(f[1])}</a>` : esc(f[1])}</li>`).join("");
 </script>

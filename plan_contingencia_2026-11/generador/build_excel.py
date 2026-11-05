@@ -17,7 +17,7 @@ OUT = sys.argv[1] if len(sys.argv) > 1 else "Matrices_Plan_Contingencia_IN_Piura
 AMAR = "FFF2CC"; TOTAL = "D9E6DD"; GRIS = "F2F2F2"
 F = lambda **k: Font(name="Arial", size=k.pop("size", 10), **k)
 WRAP = Alignment(vertical="top", wrap_text=True)
-FUENTE = "Equipo formulador del Proyecto IN Piura (ANIN - DIME - SESDI). Avance del Perfil a la SESDI y acuerdos de la reunión del 03/11/2026; D.S. N° 149-2026-PCM (El Peruano, 03/11/2026, pp. 13-25); Comunicados ENFEN N° 18 y 19-2026. Versión 2.0 del plan (04/11/2026)."
+FUENTE = "Equipo formulador del Proyecto IN Piura (ANIN - DIME - SESDI). Avance del Perfil a la SESDI y acuerdos de la reunión del 03/11/2026; D.S. N° 149-2026-PCM (El Peruano, 03/11/2026, pp. 13-25); Comunicados ENFEN N° 18 y 19-2026; ajustes del 05/11/2026. Versión 2.1 del plan (05/11/2026)."
 
 def tabla(ws, fila, cols, filas, anchos, formatos=None, alt=True, altura=None, input_cols=()):
     """Cabecera verde, filas alternas, bordes, texto ajustado. Devuelve la fila siguiente."""
@@ -34,8 +34,9 @@ def tabla(ws, fila, cols, filas, anchos, formatos=None, alt=True, altura=None, i
             if cols[j-1] in formatos: c.number_format = formatos[cols[j-1]]
         if altura: ws.row_dimensions[fila + i].height = altura
     for j, a in enumerate(anchos, 1): ws.column_dimensions[L(j)].width = a
-    ws.freeze_panes = ws.cell(fila + 1, 1)
-    ws.auto_filter.ref = f"A{fila}:{L(len(cols))}{fila + len(filas)}"
+    if ws.auto_filter.ref is None:  # la primera tabla de la hoja fija paneles y filtro
+        ws.freeze_panes = ws.cell(fila + 1, 1)
+        ws.auto_filter.ref = f"A{fila}:{L(len(cols))}{fila + len(filas)}"
     return fila + len(filas) + 1
 
 def nota(ws, fila, texto, ncols, bold=False, color=None):
@@ -73,7 +74,7 @@ ws.cell(f, 5, f"=F{f}/D{f}*100").number_format = "0.0"; ws.cell(f, 7, "Avance po
 f += 2
 ws.cell(f, 1, "Programación de referencia (reunión del 03/11/2026) frente a los dos escenarios del Plan de Contingencia").font = F(bold=True, color=VERDE); f += 1
 cols = ["Hito", "Programación de referencia", "Escenario optimista (sin FEN o FEN retrasado)", "Escenario base (con FEN desde diciembre)"]
-filas = [["Capítulo de Identificación (E1 a E9)", "Diciembre de 2026 (≥ 66.5 %)", "23/12/2026 versión para revisión; D4 y D5 al 15/12/2026; final en marzo de 2027 con el catálogo definitivo", "23/12/2026 versión para revisión; final en mayo de 2027 con el campo residual"],
+filas = [["Capítulo de Identificación (E1 a E9)", "Diciembre de 2026 (≥ 66.5 %)", "23/12/2026 versión para revisión; D4 al 15/12/2026; final en marzo de 2027 con el catálogo definitivo", "23/12/2026 versión para revisión; final en mayo de 2027 con el campo residual"],
          ["Tamizaje predial (ruta F-LA)", "Noviembre de 2026 en adelante", "Ventana continua del 09/11/2026 al 19/02/2027", "09/11 al 30/11/2026; ventanas puntuales de enero a marzo; residual del 05/04 al 14/05/2027"],
          ["Capítulos de Formulación y Evaluación (E10 a E14)", "Enero - febrero de 2027 (≥ 95 %)", "Borradores al 26/02/2027; final al 26/03/2027", "Borradores al 26/02 y 26/03/2027; final en mayo de 2027"],
          ["Perfil completo (E15)", "Marzo de 2027 (100 %)", "31/03/2027", "31/05/2027"],
@@ -135,7 +136,7 @@ hoja_cronograma("2b_Cronograma_Optimista", "CRONOGRAMA HASTA LA CULMINACIÓN DEL
 
 # ---------------------------------------------------------------- 2c. Decisiones y acuerdos
 ws = wb.create_sheet("2c_Decisiones_Acuerdos")
-f = encabezado_institucional(ws, "DECISIONES REQUERIDAS (D1 A D5) Y ACUERDOS DE LA REUNIÓN DEL 03/11/2026", 5, fuente=FUENTE)
+f = encabezado_institucional(ws, "DECISIONES REQUERIDAS (D1 A D4) Y ACUERDOS DE LA REUNIÓN DEL 03/11/2026", 5, fuente=FUENTE)
 f = tabla(ws, f, ["N.°", "Decisión solicitada", "Plazo", "Instancia", "Entregables"], [list(d) for d in D["decisiones"]], [6, 90, 14, 30, 14], altura=55)
 f += 1
 ws.cell(f, 1, "Acuerdos y notas de la reunión del 03/11/2026 incorporados al plan").font = F(bold=True, color=VERDE); f += 1
@@ -144,40 +145,56 @@ f = tabla(ws, f, ["N.°", "Acuerdo"], [[i + 1, a] for i, a in enumerate(D["acuer
 # ---------------------------------------------------------------- 3. Presupuesto
 ws = wb.create_sheet("3_Presupuesto")
 f = encabezado_institucional(ws, "PRESUPUESTO Y RECURSOS NECESARIOS PARA LA CULMINACIÓN DEL PERFIL · ESTRUCTURA PARA VALORIZACIÓN (CAMPO EN PIURA Y GABINETE EN LIMA)", 12, fuente=FUENTE)
-f = nota(ws, f, "Las cantidades son supuestos de planificación (columna 'Base del cálculo') y las celdas amarillas (cantidad y costo unitario) deben completarse o ajustarse por la Administración de la DIME. Solo el viático diario tiene un valor referencial normativo (D.S. N° 007-2013-EF, S/ 320 por día); los demás costos unitarios están [POR DEFINIR] y el total es parcial hasta completarlos. La columna 'Escenario' indica si la partida aplica a ambos escenarios, solo al optimista (ventana de campo ampliada) o solo al base (campo residual). No se han inventado precios.", 12)
+f = nota(ws, f, "Las cantidades son supuestos de planificación (columna 'Base del cálculo') y las celdas amarillas (cantidad y costo unitario) deben completarse o ajustarse por la Administración de la DIME. Costos unitarios indicados por el equipo formulador (05/11/2026): viáticos de especialistas y analistas S/ 160 por día y camioneta 4x4 a todo costo (con conductor y combustible) S/ 700 por día; las imágenes satelitales se obtienen sin compra; los demás costos unitarios están [POR DEFINIR] y el total es parcial hasta completarlos. La columna 'Escenario' indica si la partida aplica a ambos escenarios, solo al optimista (ventana de campo ampliada) o solo al base (campo residual). No se han inventado precios.", 12)
 cols = ["Código", "Componente", "Partida / recurso", "Unidad", "Cantidad", "Base del cálculo", "Costo unitario (S/)", "Parcial (S/)", "Fuente del costo unitario", "Fase", "Escenario", "Estado del dato"]
 ini = f + 1
 filas = []
 for i, p in enumerate(D["presupuesto"]):
     r = ini + i
-    filas.append([p[0], p[1], p[2], p[3], p[4], p[5], p[6] if p[6] is not None else None, f'=IF(AND(ISNUMBER(E{r}),ISNUMBER(G{r})),E{r}*G{r},"")', p[7], p[8], p[9], "Referencial" if p[6] is not None else "[POR DEFINIR]"])
+    filas.append([p[0], p[1], p[2], p[3], p[4], p[5], p[6] if p[6] is not None else None, f'=IF(AND(ISNUMBER(E{r}),ISNUMBER(G{r})),E{r}*G{r},"")', p[7], p[8], p[9], ("Sin costo (no compra)" if p[6] == 0 else "Indicado (05/11/2026)") if p[6] is not None else "[POR DEFINIR]"])
 f = tabla(ws, f, cols, filas, [8, 34, 52, 12, 10, 40, 14, 16, 40, 8, 11, 14], {"Cantidad": "#,##0", "Costo unitario (S/)": "#,##0.00", "Parcial (S/)": "#,##0.00"}, altura=45, input_cols=(5, 7))
 fin = ini + len(filas) - 1
 f += 1
-ws.cell(f, 1, "Resumen por componente").font = F(bold=True, color=VERDE); f += 1
+ws.cell(f, 1, "Resumen por componente y escenario (las partidas «Ambos» se suman en los dos escenarios)").font = F(bold=True, color=VERDE); f += 1
 comps = sorted(set(p[1] for p in D["presupuesto"]))
-cols2 = ["Componente", "Partidas", "Parcial valorizado (S/)", "Partidas sin costo unitario"]
+cols2 = ["Componente", "Partidas", "Escenario optimista (S/)", "Escenario base (S/)", "Partidas sin costo unitario"]
 ini2 = f + 1
-filas2 = [[c, f'=COUNTIF($B${ini}:$B${fin},A{ini2+i})', f'=SUMIF($B${ini}:$B${fin},A{ini2+i},$H${ini}:$H${fin})', f'=COUNTIFS($B${ini}:$B${fin},A{ini2+i},$G${ini}:$G${fin},"")'] for i, c in enumerate(comps)]
-f = tabla(ws, f, cols2, filas2, [8, 34, 52, 12], {"Parcial valorizado (S/)": "#,##0.00"}, altura=22)
+rgB, rgH, rgK, rgG = f"$B${ini}:$B${fin}", f"$H${ini}:$H${fin}", f"$K${ini}:$K${fin}", f"$G${ini}:$G${fin}"
+filas2 = [[c, f'=COUNTIF({rgB},A{ini2+i})',
+           f'=SUMIFS({rgH},{rgB},A{ini2+i},{rgK},"Ambos")+SUMIFS({rgH},{rgB},A{ini2+i},{rgK},"Optimista")',
+           f'=SUMIFS({rgH},{rgB},A{ini2+i},{rgK},"Ambos")+SUMIFS({rgH},{rgB},A{ini2+i},{rgK},"Base")',
+           f'=COUNTIFS({rgB},A{ini2+i},{rgG},"")'] for i, c in enumerate(comps)]
+f = tabla(ws, f, cols2, filas2, [8, 34, 52, 12, 10], {"Escenario optimista (S/)": "#,##0.00", "Escenario base (S/)": "#,##0.00"}, altura=22)
 fin2 = ini2 + len(filas2) - 1
+for col in (3, 4):
+    ws.cell(f - 1, col).number_format = "#,##0.00"
 C = D["cartera"]
-res = [("Subtotal valorizado (ambos escenarios; descontar la partida del escenario que no aplique)", f"=SUM(C{ini2}:C{fin2})"), (f"Reserva de contingencia [SUPUESTO {int(D['contingencia_pct']*100)} %]", f"=C{f}*{D['contingencia_pct']}"), ("TOTAL ESTIMADO (parcial hasta completar los costos unitarios)", f"=C{f}+C{f+1}"),
-       ("Presupuesto asignado al Estudio de Perfil en el POI/PIA de la ANIN", "[POR DEFINIR]"),
-       ("Referencia · cartera de la Matriz v1.6 con diques en cárcavas: inversión + O&M 15 años (S/ M)", C["total"]), ("Referencia · % del presupuesto total de la inversión (S/ 372,442,809)", C["pct"]),
-       ("Referencia · brecha a cubrir con la decisión D1 (S/ M)", C["brecha"]), ("Referencia · con la zanja de la ficha ANIN 0.40 × 0.30 m (D1) · % del techo", C["d1_zanja"]), ("Referencia · además sin obras en los 5 bloques con P < 400 mm (D1) · % del techo", C["d1_zanja_p400"])]
-for i, (k, v) in enumerate(res):
-    a = ws.cell(f + i, 1, k); a.font = F(bold=True); a.fill = PatternFill("solid", fgColor=TOTAL); a.border = BORDE; a.alignment = WRAP
-    ws.merge_cells(start_row=f + i, start_column=1, end_row=f + i, end_column=2)
-    c = ws.cell(f + i, 3, v); c.font = F(bold=True); c.fill = PatternFill("solid", fgColor=TOTAL); c.border = BORDE
-    c.number_format = "#,##0.00" if i < 4 else "0.0"; ws.row_dimensions[f + i].height = 28
-f += len(res) + 1
-f = nota(ws, f, "Recursos humanos del equipo núcleo: la planilla y los contratos vigentes de la DIME no constan en el repositorio del proyecto; se registran como partida C con cantidad en meses y costo [POR DEFINIR]. Equipo de campo: 6 asistentes prediales (4 contratados y 2 por contratar, D3). Fuente del viático: Decreto Supremo N° 007-2013-EF; verificar la escala interna vigente de la ANIN. La cartera (Resumen Ejecutivo del 03/11/2026) supera el presupuesto total en 5.8 %: el plan no cuenta con margen para estudios hasta que se adopte D1.", 12)
+def fila_res(fr, k, vo, vb=None, fmt="#,##0.00"):
+    a = ws.cell(fr, 1, k); a.font = F(bold=True); a.fill = PatternFill("solid", fgColor=TOTAL); a.border = BORDE; a.alignment = WRAP
+    ws.merge_cells(start_row=fr, start_column=1, end_row=fr, end_column=2)
+    for col, v in ((3, vo), (4, vb if vb is not None else "")):
+        c = ws.cell(fr, col, v); c.font = F(bold=True); c.fill = PatternFill("solid", fgColor=TOTAL); c.border = BORDE; c.number_format = fmt
+    ws.row_dimensions[fr].height = 28
+pct = D["contingencia_pct"]
+fila_res(f, "Subtotal valorizado por escenario (S/)", f"=SUM(C{ini2}:C{fin2})", f"=SUM(D{ini2}:D{fin2})")
+fila_res(f + 1, f"Reserva de contingencia [SUPUESTO {int(pct*100)} %]", f"=C{f}*{pct}", f"=D{f}*{pct}")
+fila_res(f + 2, "TOTAL ESTIMADO (parcial hasta completar los costos unitarios)", f"=C{f}+C{f+1}", f"=D{f}+D{f+1}")
+fila_res(f + 3, "Presupuesto asignado al Estudio de Perfil en el POI/PIA de la ANIN", "[POR DEFINIR]", "[POR DEFINIR]")
+f += 5
+ws.cell(f, 1, "Referencia de la cartera frente al presupuesto total de la inversión (S/ 372,442,809)").font = F(bold=True, color=VERDE); f += 1
+refs = [("Matriz v1.6 con diques en 55 cárcavas (23.08 km): inversión + O&M 15 años", C["total"], C["pct"], round(372.442809 - C["total"], 2)),
+        (f"D1 · zanja de la ficha ANIN reajustada {C['zanja']}", C["d1_zanja_total"], C["d1_zanja"], C["d1_zanja_margen"]),
+        (f"D1 · zanja {C['zanja']} y sin obras en los 5 bloques con P < 400 mm", C["d1_zanja_p400_total"], C["d1_zanja_p400"], C["d1_zanja_p400_margen"])]
+f = tabla(ws, f, ["Caso", "Inversión + O&M (S/ M)", "% del techo", "Margen para preinversión y expediente técnico (S/ M)"], [list(r) for r in refs], [8, 34, 52, 12], {"Inversión + O&M (S/ M)": "#,##0.00", "% del techo": "0.0", "Margen para preinversión y expediente técnico (S/ M)": "#,##0.00"}, altura=30)
+ws.column_dimensions["A"].width = 8
+f += 1
+f = nota(ws, f, f"Cálculo del D1 (05/11/2026): Matriz de Costos Paramétricos v1.6 recalculada con LibreOffice cambiando la sección de zanja (P_ZI_ANCHO = 0.40 m, P_ZI_PROF = 0.40 m) y, en el segundo caso, P_ARIDO = 2; se suma el costo de los diques del Resumen Ejecutivo del 03/11/2026 (S/ 18.62 M de inversión y S/ 18.87 M de O&M). La misma reconstrucción con 0.40 × 0.30 m reproduce el {C['ref_0403']} % y el {C['ref_0403_p400']} % del Resumen Ejecutivo.", 12)
+f = nota(ws, f, "Recursos humanos del equipo núcleo: la planilla y los contratos vigentes de la DIME no constan en el repositorio del proyecto; se registran como partida C con cantidad en meses y costo [POR DEFINIR]. Equipo de campo: 6 asistentes prediales (4 contratados y 2 por contratar, D3). El Estudio de Hidrología (E4) lo elabora personal con orden de servicio; no hay consultor contratado. " + D["nota_pres"], 12)
 
 # ---------------------------------------------------------------- 4. Matriz de riesgos
 ws = wb.create_sheet("4_Riesgos")
 f = encabezado_institucional(ws, "MATRIZ DE RIESGOS DEL PLAN DE CONTINGENCIA · FACTORES QUE PODRÍAN IMPEDIR O DIFICULTAR LA CULMINACIÓN DEL PERFIL", 14, fuente=FUENTE)
-f = nota(ws, f, "Probabilidad e impacto en escala 1 (muy bajo) a 5 (muy alto); el nivel se calcula como P × |I| (Bajo < 6, Medio 6-11, Alto 12-19, Muy alto ≥ 20). El impacto negativo (-) identifica una oportunidad (R20). Celdas amarillas editables; el nivel y el semáforo se recalculan.", 14)
+f = nota(ws, f, "Probabilidad e impacto en escala 1 (muy bajo) a 5 (muy alto); el nivel se calcula como P × |I| (Bajo < 6, Medio 6-11, Alto 12-19, Muy alto ≥ 20). El impacto negativo (-) identifica una oportunidad (R22). Celdas amarillas editables; el nivel y el semáforo se recalculan.", 14)
 cols = ["ID", "Categoría", "Riesgo", "Causa", "Efecto en el Perfil", "Probabilidad (1-5)", "Impacto (1-5)", "Puntaje", "Nivel", "Medidas prospectivas y correctivas (mitigación)", "Medidas reactivas (respuesta)", "Responsable", "Indicador / disparador", "Entregables afectados"]
 ini = f + 1
 filas = []
@@ -237,13 +254,14 @@ f += 1
 ws.cell(f, 1, "Calendario institucional y electoral de referencia").font = F(bold=True, color=VERDE); f += 1
 cal = [["02/11/2026", "D.S. N° 149-2026-PCM dado en la Casa de Gobierno; publicado el 03/11/2026 (60 días calendario, artículo 1)", "El Peruano, Normas Legales, pp. 13-25"],
        ["30/11/2026", "Plazo de las decisiones D1, D2 y D3 (reunión del 03/11/2026)", "Resumen Ejecutivo con apuntes"],
-       ["15/12/2026", "Plazo de las decisiones D4 y D5", "Resumen Ejecutivo con apuntes"],
+       ["30/11/2026", "Cierre de ingreso de fichas del diagnóstico al aplicativo IN Piura", "Ajustes del equipo formulador (05/11/2026)"],
+       ["15/12/2026", "Plazo de la decisión D4", "Resumen Ejecutivo con apuntes"],
        ["Inicios de enero de 2027", "Término de la vigencia del Estado de Emergencia, salvo prórroga (D.S. N° 074-2014-PCM)", "Artículo 1"],
        ["06/12/2026", "Segunda Elección Regional (Piura incluida)", "[POR VERIFICAR] con el JNE (prensa: reprogramada desde el 29/11)"],
        ["31/12/2026", "Fin del mandato de autoridades regionales y municipales; cierre del año fiscal", "Ley N° 27867, Ley N° 27972, normativa presupuestal"],
        ["01/01/2027", "Asumen las autoridades regionales y municipales electas (periodo 2027-2030)", "Ley N° 27867, Ley N° 27972"],
        ["Dic 2026 - Ene 2027", "Asambleas eleccionarias de comunidades campesinas (según cada estatuto)", "[POR VERIFICAR] por comunidad"],
-       ["Nov 2026 - Ene 2027", "Lluvias por encima de lo normal en la sierra norte occidental; tendencia que continúa en el verano de 2027", "Comunicados ENFEN N° 18-2026 (citado en el decreto) y N° 19-2026"],
+       ["Nov 2026 - Ene 2027", "Lluvias por encima de lo normal en la costa y sierra norte; tendencia que continúa en el verano de 2027", "Comunicados ENFEN N° 18-2026 (citado en el decreto) y N° 19-2026"],
        ["Feb 2027", "Magnitud extraordinaria de El Niño Costero (Niño 1+2) hasta febrero; descenso gradual hasta junio de 2027", "Comunicado ENFEN N° 19-2026"]]
 f = tabla(ws, f, ["Fecha", "Evento", "Fuente / estado"], cal, [30, 44, 44], altura=30)
 
@@ -263,9 +281,9 @@ notas = [
  "1. Estado del Perfil: avance ponderado del 51.4 % al 03/11/2026 con los pesos de los 15 entregables (HTML de avance a la SESDI y Resumen Ejecutivo con apuntes del 03/11/2026); Capítulo de Identificación al 76.4 %. E8 culminado con resultados preliminares, por actualizar con el AID (D4).",
  "2. Decreto Supremo N° 149-2026-PCM: texto oficial y Anexo verificados en El Peruano (Normas Legales del 03/11/2026, pp. 13-25). Dado el 02/11/2026; 60 días calendario (artículo 1); acciones (artículo 2), financiamiento (artículo 3) y refrendo (artículo 4). Los 15 distritos del proyecto figuran en el Anexo (hoja 8).",
  "3. Escenarios: optimista (sin FEN o FEN retrasado) con ventana de campo ampliada hasta el 19/02/2027, Perfil al 31/03/2027 y viabilidad al 30/04/2027 (previsión de la reunión del 03/11/2026); base (con FEN desde diciembre) con campo solo en noviembre y residual en abril y mayo, Perfil al 31/05/2027 y viabilidad al 30/06/2027.",
- "4. Campo: solo el tamizaje predial requiere salidas de campo, priorizadas por superficie y bloques comunales; los demás entregables se culminan en gabinete, con verificaciones puntuales en zonas accesibles (E4, cárcavas). El inventario de cárcavas se completa con salidas seguras o con imágenes satelitales de alta resolución.",
+ "4. Campo: solo el tamizaje predial requiere salidas de campo, priorizadas por superficie (los de mayor superficie) y bloques comunales; los demás entregables se culminan en gabinete, con verificaciones y salidas puntuales en zonas accesibles (E4, cárcavas). El inventario de cárcavas se completa con salidas seguras o con imágenes satelitales de alta resolución obtenidas sin compra. El ingreso de fichas del diagnóstico al aplicativo IN Piura cierra el 30/11/2026; los formularios F-LA se registran a medida que avanza el tamizaje predial.",
  "5. Liberación de áreas en el Perfil: predios del Estado (GORE Piura y Agricultura) mediante arreglos institucionales (50 %), comunidades campesinas mediante actas (25 %); predios privados al expediente técnico. Los lotes de uso sostenible se gestionan dentro de cada uno de los 117 bloques V8.",
- "6. Presupuesto: cantidades [SUPUESTO] y costos unitarios [POR DEFINIR]; viático S/ 320 por día (D.S. N° 007-2013-EF) como único valor referencial. La cartera v1.6 con diques supera el presupuesto total (105.8 %, S/ 394.12 M); D1 la devuelve al 97.4 % o 95.0 %.",
+ "6. Presupuesto: cantidades [SUPUESTO]; costos unitarios indicados el 05/11/2026 (viáticos de especialistas y analistas S/ 160 por día; camioneta 4x4 a todo costo S/ 700 por día; imágenes sin compra) y el resto [POR DEFINIR]. SCTR a cargo del propio personal. La cartera v1.6 con diques supera el presupuesto total (105.8 %, S/ 394.12 M); D1 con la zanja reajustada de 0.40 × 0.40 m la deja en 99.4 % (margen S/ 2.43 M) o 96.8 % sin obras en los bloques con P < 400 mm (margen S/ 12.05 M).",
  "7. Calendario electoral: ERM del 04/10/2026; segunda elección regional en Piura (prensa: 06/12/2026, [POR VERIFICAR] con el JNE); autoridades regionales y municipales asumen el 01/01/2027; alcaldes electos [POR VERIFICAR] (ONPE/JNE).",
  "8. Riesgos: construidos con los vacíos del Diagnóstico Integral V3, el EVAR, el E5 final, el E2 B3, los acuerdos del 03/11/2026, los Comunicados ENFEN N° 18 y 19-2026 y el decreto.",
  "9. Coordenadas: UTM WGS 84 Zona 17S (EPSG:32717). Áreas del catálogo V8 (09/10/2026): 12,157.47 ha netas en 117 bloques.",
@@ -277,7 +295,7 @@ fuentes = [("Proyecto", "HTML de avance del Perfil ante la SESDI (03/11/2026); R
 fuentes += [("Decreto", a, b) for a, b in D["decreto"]["fuentes"]] + [("Clima", a, b) for a, b in D["clima"]["fuentes"]] + [("Electoral", a, b) for a, b in D["electoral"]["fuentes"]]
 fuentes += [("Normativa", "Guía General para la Identificación, Formulación y Evaluación de Proyectos de Inversión (DGPMI-MEF, 2022), Anexo 2 GdR-CCC", "https://www.mef.gob.pe"),
             ("Normativa", "Ley N° 29664 (SINAGERD) y D.S. N° 048-2011-PCM; Ley N° 30754; D.S. N° 017-2018-MINAM; R.M. N° 178-2019-MINAM; R.M. N° 00213-2024-MINAM", "—"),
-            ("Normativa", "D.S. N° 007-2013-EF (viáticos nacionales); Ley N° 27867 (Gobiernos Regionales); Ley N° 27972 (Municipalidades); Ley N° 24656 (Comunidades Campesinas)", "—")]
+            ("Normativa", "Ley N° 27867 (Gobiernos Regionales); Ley N° 27972 (Municipalidades); Ley N° 24656 (Comunidades Campesinas)", "—")]
 f = tabla(ws, f, ["Tipo", "Fuente", "Enlace / ubicación"], [list(x) for x in fuentes], [14, 90, 80], altura=28)
 
 for w in wb.worksheets:

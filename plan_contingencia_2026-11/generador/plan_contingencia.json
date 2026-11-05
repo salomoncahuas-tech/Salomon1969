@@ -2,8 +2,8 @@
  "meta": {
   "titulo": "PLAN DE CONTINGENCIA PARA LA CULMINACIÓN DEL ESTUDIO DE PREINVERSIÓN A NIVEL DE PERFIL",
   "subtitulo": "Proyecto IN Piura · Código de Idea 337830 · D.S. N° 149-2026-PCM (Estado de Emergencia por peligro inminente ante intensas precipitaciones pluviales asociadas al FEN 2026-2027)",
-  "version": "2.0 · propuesta para validación del equipo formulador y la SESDI",
-  "fecha": "04/11/2026",
+  "version": "2.1 · propuesta para validación del equipo formulador y la SESDI",
+  "fecha": "05/11/2026",
   "elaborado": "Ing. Héctor Salomón Cahuas Miller · Ingeniero Forestal · ANIN - DIME - SESDI",
   "proyecto": "Recuperación del servicio de regulación de riesgos naturales y recuperación de ecosistemas degradados en la Cuenca Alta del Río Piura",
   "codigo": "Código de Idea 337830",
@@ -15,7 +15,7 @@
   "pie": "Plan de Contingencia del Estudio de Perfil · Proyecto IN Piura · Código de Idea 337830",
   "subtitulo_excel": "PROYECTO IN PIURA | Código de Idea 337830 | Cuenca Alta del Río Piura | UTM WGS 84 Zona 17S (EPSG:32717)"
  },
- "corte": "04/11/2026",
+ "corte": "05/11/2026",
  "distritos": [
   [
    "Buenos Aires",
@@ -122,7 +122,7 @@
  "clima": {
   "comunicado": "El decreto se sustenta en el Comunicado Oficial ENFEN N° 18-2026 (16/10/2026). El Comunicado Oficial ENFEN N° 19-2026 (30/10/2026) mantiene la Alerta de El Niño Costero.",
   "magnitud": "Región Niño 1+2 con magnitud extraordinaria hasta febrero de 2027 y descenso gradual hasta junio de 2027; El Niño en el Pacífico central (Niño 3.4) de magnitud muy fuerte hasta febrero de 2027.",
-  "lluvias": "Entre noviembre de 2026 y enero de 2027 las precipitaciones seguirán por encima de lo normal en la costa norte y la sierra norte occidental; la tendencia continúa durante el verano de 2027.",
+  "lluvias": "Entre noviembre de 2026 y enero de 2027 las precipitaciones seguirán por encima de lo normal en la costa y sierra norte; la tendencia continúa durante el verano de 2027.",
   "implicancia": "El ámbito del proyecto (vertiente occidental andina de Piura, 69.0 % del área con peligro integrado Alto o Muy alto y 93.9 % de los bloques con peligro alto o muy alto por movimientos en masa según el EVAR) coincide con la zona de mayor incremento esperado de lluvias. La temporada crítica para el trabajo de campo es diciembre de 2026 a abril de 2027; si el FEN se retrasa o es de menor intensidad, la ventana de campo se amplía (escenario optimista).",
   "fuentes": [
    [
@@ -185,7 +185,7 @@
    10,
    75,
    "En curso",
-   "Volúmenes I-III en borrador B3 (03/11/2026): 422 fichas F-DS en 85 de 117 bloques. Tamizaje predial: 22 predios inspeccionados en 10 bloques de Morropón y 1 acta (bloque 85) pendiente de conformidad. Equipo predial: 4 de 6 asistentes contratados."
+   "Volúmenes I-III en borrador B3 (03/11/2026): 422 fichas F-DS en 85 de 117 bloques. Tamizaje predial: 22 predios inspeccionados en 10 bloques de Morropón y 1 acta (bloque 85) pendiente de conformidad. Equipo predial: 4 de 6 asistentes contratados. Cierre de ingreso de fichas al aplicativo: 30/11/2026."
   ],
   [
    "E3",
@@ -203,7 +203,7 @@
    6,
    40,
    "En curso",
-   "Informe de avance: 60 microcuencas y 264 nanocuencas (QSWAT) y 15 nanocuencas priorizadas. Faltan lluvias máximas de 24 h, curvas IDF y caudales HEC-HMS; requiere una visita de campo y culmina a fines de noviembre (D2)."
+   "Informe de avance: 60 microcuencas y 264 nanocuencas (QSWAT) y 15 nanocuencas priorizadas. Faltan lluvias máximas de 24 h, curvas IDF y caudales HEC-HMS; lo elabora personal con orden de servicio (no hay consultor contratado); requiere una visita de campo y culmina a fines de noviembre (D2)."
   ],
   [
    "E5",
@@ -230,7 +230,7 @@
    5,
    80,
    "En curso",
-   "Árbol de problemas unificado v1.0 (30/10/2026), elaborado en la sede de Lima con apoyo de la FT; falta el Informe Final con medios y fines; concluye en noviembre."
+   "Árbol de problemas unificado v1.0 (30/10/2026), elaborado por el equipo de Especialistas IN Piura, para su validación con el apoyo de Forest Trends; falta el Informe Final con medios y fines; concluye en noviembre."
   ],
   [
    "E8",
@@ -336,16 +336,16 @@
  "decisiones": [
   [
    "D1",
-   "Aprobar el criterio para ajustar la cartera al presupuesto total: zanja de la ficha ANIN (0.40 × 0.30 m), con la que la cartera vuelve al 97.4 % del techo, y evaluación de las obras en los 5 bloques con lluvia menor de 400 mm (95.0 %).",
+   "Ajustar la cartera al presupuesto total: zanjas de la ficha ANIN reajustada (0.40 × 0.40 m), con las que la cartera queda en el 99.4 % del techo, y evaluación de las obras en los 5 bloques con lluvia menor de 400 mm (96.8 %).",
    "30/11/2026",
-   "Alta Dirección / SESDI",
+   "SESDI-IN",
    "E10"
   ],
   [
    "D2",
    "Culminar el Estudio de Hidrología incluido el modelamiento (lluvias de diseño, curvas IDF y caudales), con la visita de campo requerida.",
    "30/11/2026",
-   "SESDI / Coordinación del Perfil",
+   "SESDI-IN / Coordinación del Perfil",
    "E4"
   ],
   [
@@ -359,24 +359,18 @@
    "D4",
    "Disponer la redelimitación del área de influencia directa (AID) y la actualización del Análisis de Riesgos (E8), incluidos los medios de vida beneficiados, antes del cierre del Capítulo de Identificación.",
    "15/12/2026",
-   "SESDI / Especialista en riesgos",
+   "SESDI-IN / Especialista en riesgos",
    "E8, E9"
-  ],
-  [
-   "D5",
-   "Validar como línea base del indicador de brecha el criterio areal del E6 (8,341.83 ha bajo el umbral MSAVI) sobre la superficie neta del catálogo V8.",
-   "15/12/2026",
-   "SESDI",
-   "E6, E9"
   ]
  ],
  "acuerdos": [
-  "Las salidas a campo se restringen a lo estrictamente necesario: el tamizaje predial (ruta F-LA) es la única actividad que sigue requiriendo campo; el resto de entregables se culmina en gabinete, salvo verificaciones muy puntuales en zonas accesibles (visita del E4, cárcavas).",
+  "Las salidas a campo se restringen a lo estrictamente necesario: el tamizaje predial es la única actividad que sigue requiriendo campo; el resto de entregables se culmina en gabinete, salvo verificaciones muy puntuales en zonas accesibles (visita del E4, cárcavas).",
   "Liberación de áreas en el Perfil por tipo de titular: predios del Estado (GORE Piura y Agricultura) mediante arreglos institucionales de gabinete (meta de avance 50 %), comunidades campesinas mediante actas de asamblea (25 %); los predios privados quedan pendientes para el expediente técnico.",
-  "Priorización del tamizaje predial por superficie y por bloques comunales (ya no por nivel de riesgo); se avanza con los predios más alejados mientras se tiene acceso.",
+  "Priorización del tamizaje predial por superficie (los de mayor superficie) y por bloques comunales; se avanza con los predios más alejados mientras se tiene acceso.",
   "Diferenciar las actividades de campo (Piura) y de gabinete (Lima) en el cronograma y en el presupuesto.",
   "El equipo social coordina con las comunidades campesinas la gestión del acta de compromiso para la aceptación social del proyecto.",
-  "Hay restricciones presupuestales que afectan el taller de involucrados; se generará un taller con contenidos y mensajes diferenciados por tipo de involucrado.",
+  "Hay restricciones presupuestales que afectan el taller de involucrados; se generará un taller con contenidos y mensajes diferenciados por tipo de involucrado y centralizando convocatorias.",
+  "Cierre de ingreso de fichas al aplicativo IN Piura el 30/11/2026 (fichas del diagnóstico F-DS, F-DT y F-EE); los formularios de liberación de áreas (F-LA) se siguen registrando a medida que avanza el tamizaje predial.",
   "E6: versión final al 27/11/2026 con el estudio de oferta de material vegetal; se realizó el primer ensayo con firmas espectrales; los estudios de campo sobre estructura y composición florística pasan al expediente técnico; los estudios florísticos de AIDER en el ACR Salitral sirven de referencia para los ecosistemas estacionalmente secos de montaña.",
   "E7: la información se presenta con sus bases de datos y archivos nativos en las plataformas oficiales de la ANIN (memorando de la DIME).",
   "E8: el análisis se elaboró por unidades funcionales (zona de aporte, bloques y zona de influencia); se actualiza con el AID redelimitada e incorpora los medios de vida beneficiados.",
@@ -421,12 +415,21 @@
   ],
   [
    "E2",
-   "SE1 · Completar la digitación en el aplicativo (70.1 %) y el registro de saberes ancestrales (3 entrevistas sin ingresar); consolidar los Volúmenes I-III con las fichas levantadas",
+   "SE1 · Completar el ingreso de fichas al aplicativo IN Piura (70.1 % al 02/11) y el registro de saberes ancestrales (3 entrevistas sin ingresar) hasta el cierre del 30/11/2026",
    "No",
-   "Nov-Dic 2026",
+   "Nov 2026 (cierre 30/11)",
+   "Base de datos del diagnóstico cerrada",
+   "Alta",
+   "Especialista social; digitadores"
+  ],
+  [
+   "E2",
+   "SE1 · Consolidar los Volúmenes I-III del diagnóstico social con la base de datos cerrada",
+   "No",
+   "Dic 2026",
    "Informe E2 (diagnóstico social) versión final",
    "Alta",
-   "Gabinete"
+   "Cierre de fichas (30/11)"
   ],
   [
    "E2",
@@ -507,7 +510,7 @@
    "Nov 2026",
    "Informe final del Estudio de Hidrología",
    "Alta",
-   "Estudio hidrológico"
+   "Personal con OS del E4"
   ],
   [
    "E4",
@@ -526,15 +529,6 @@
    "Informe final del E6",
    "Alta",
    "Viveros del ámbito (consulta remota)"
-  ],
-  [
-   "E6",
-   "Validar la línea base del indicador de brecha: criterio areal (8,341.83 ha bajo el umbral MSAVI) sobre la superficie neta V8 (D5)",
-   "No",
-   "Dic 2026 (15/12)",
-   "Cifra del indicador de brecha (R.M. N° 00213-2024-MINAM)",
-   "Alta",
-   "SESDI; E1"
   ],
   [
    "E7",
@@ -583,7 +577,7 @@
   ],
   [
    "E10",
-   "Ajustar la cartera al techo según D1 (zanja de la ficha ANIN 0.40 × 0.30 m; obras en bloques con P < 400 mm) y recalcular la Matriz",
+   "Ajustar la cartera al techo según D1 (zanja de la ficha ANIN reajustada 0.40 × 0.40 m: 99.4 % del techo; sin obras en bloques con P < 400 mm: 96.8 %) y emitir la Matriz v1.7",
    "No",
    "Nov 2026 (30/11)",
    "Matriz de costos v1.7 dentro del techo",
@@ -610,12 +604,12 @@
   ],
   [
    "E10",
-   "Inventario de cárcavas: completar en lo posible con salidas de campo en zonas accesibles y sin riesgo para el personal; donde no sea posible, con imágenes satelitales de alta resolución",
+   "Inventario de cárcavas: completar en lo posible con salidas de campo en zonas accesibles y sin riesgo para el personal; donde no sea posible, con imágenes satelitales de alta resolución obtenidas sin compra",
    "Puntual",
    "Nov 2026 - Feb 2027",
    "Inventario de cárcavas y metrado de diques",
    "Media",
-   "Clima; imágenes"
+   "Clima; gestión de imágenes"
   ],
   [
    "E10",
@@ -688,7 +682,7 @@
    [
     "A02",
     "F0",
-    "Protocolo de seguridad para las salidas de campo en temporada de lluvias (avisos SENAMHI, reportes COER, umbrales de suspensión, EPP, SCTR, comunicación)",
+    "Protocolo de seguridad para las salidas de campo en temporada de lluvias (avisos SENAMHI, reportes COER, umbrales de suspensión, EPP y verificación del SCTR vigente, a cargo del propio personal)",
     "2026-11-04",
     "2026-11-13",
     "E2",
@@ -699,7 +693,7 @@
    [
     "A03",
     "F0",
-    "Completar el equipo de liberación de áreas: 2 asistentes prediales y ámbito de Lalaquiz (D3); transporte 4x4, SCTR y EPP asegurados",
+    "Completar el equipo de liberación de áreas: 2 asistentes prediales y ámbito de Lalaquiz (D3); camionetas 4x4 a todo costo y EPP asegurados",
     "2026-11-04",
     "2026-11-20",
     "E2",
@@ -781,7 +775,7 @@
     "2026-11-30",
     "E4",
     "Puntual",
-    "Estudio hidrológico",
+    "Personal con OS del E4",
     "—"
    ],
    [
@@ -809,8 +803,19 @@
    [
     "A18",
     "F1",
-    "Digitación y consolidación del E2 (aplicativo, saberes ancestrales); Volúmenes I-III",
-    "2026-11-09",
+    "Ingreso de fichas del diagnóstico (F-DS, F-DT, F-EE) y de saberes ancestrales al aplicativo IN Piura hasta su cierre",
+    "2026-11-04",
+    "2026-11-30",
+    "E2-SE1",
+    "No",
+    "Especialista social / digitadores",
+    "H1a · Cierre de ingreso de fichas al aplicativo (30/11/2026)"
+   ],
+   [
+    "A19",
+    "F2",
+    "Consolidación del E2 (Volúmenes I-III del diagnóstico social) con la base de datos cerrada",
+    "2026-12-01",
     "2026-12-23",
     "E2-SE1",
     "No",
@@ -820,13 +825,13 @@
    [
     "A20",
     "F2",
-    "Redelimitación del AID, actualización del EVAR y medios de vida (D4); línea base del indicador sobre V8 (D5)",
+    "Redelimitación del AID, actualización del EVAR y medios de vida (D4)",
     "2026-11-16",
     "2026-12-15",
-    "E8, E6, E9",
+    "E8, E9",
     "No",
     "Especialista en riesgos / SIG",
-    "H2a · D4 y D5 (15/12/2026)"
+    "H2a · D4 (15/12/2026)"
    ],
    [
     "A21",
@@ -864,7 +869,7 @@
    [
     "A24",
     "F2",
-    "Monitoreo climático y de eventos (SENAMHI, COER, SINPAD) en los 15 distritos; registro de daños y cárcavas activadas como evidencia para E4, E8 y E13; inventario de cárcavas con imágenes satelitales donde no haya acceso",
+    "Monitoreo climático y de eventos (SENAMHI, COER, SINPAD) en los 15 distritos; registro de daños y cárcavas activadas como evidencia para E4, E8 y E13; inventario de cárcavas con imágenes satelitales obtenidas sin compra donde no haya acceso",
     "2026-12-01",
     "2027-03-31",
     "E4, E8, E10, E13",
@@ -976,7 +981,7 @@
    [
     "A02",
     "F0",
-    "Protocolo de seguridad para las salidas de campo en temporada de lluvias (avisos SENAMHI, reportes COER, umbrales de suspensión, EPP, SCTR, comunicación)",
+    "Protocolo de seguridad para las salidas de campo en temporada de lluvias (avisos SENAMHI, reportes COER, umbrales de suspensión, EPP y verificación del SCTR vigente, a cargo del propio personal)",
     "2026-11-04",
     "2026-11-13",
     "E2",
@@ -987,7 +992,7 @@
    [
     "A03",
     "F0",
-    "Completar el equipo de liberación de áreas: 2 asistentes prediales y ámbito de Lalaquiz (D3); transporte 4x4, SCTR y EPP asegurados",
+    "Completar el equipo de liberación de áreas: 2 asistentes prediales y ámbito de Lalaquiz (D3); camionetas 4x4 a todo costo y EPP asegurados",
     "2026-11-04",
     "2026-11-20",
     "E2",
@@ -1069,7 +1074,7 @@
     "2026-11-30",
     "E4",
     "Puntual",
-    "Estudio hidrológico",
+    "Personal con OS del E4",
     "—"
    ],
    [
@@ -1097,8 +1102,19 @@
    [
     "A18",
     "F1",
-    "Digitación y consolidación del E2 (aplicativo, saberes ancestrales); Volúmenes I-III",
-    "2026-11-09",
+    "Ingreso de fichas del diagnóstico (F-DS, F-DT, F-EE) y de saberes ancestrales al aplicativo IN Piura hasta su cierre",
+    "2026-11-04",
+    "2026-11-30",
+    "E2-SE1",
+    "No",
+    "Especialista social / digitadores",
+    "H1a · Cierre de ingreso de fichas al aplicativo (30/11/2026)"
+   ],
+   [
+    "A19",
+    "F2",
+    "Consolidación del E2 (Volúmenes I-III del diagnóstico social) con la base de datos cerrada",
+    "2026-12-01",
     "2026-12-23",
     "E2-SE1",
     "No",
@@ -1108,13 +1124,13 @@
    [
     "A20",
     "F2",
-    "Redelimitación del AID, actualización del EVAR y medios de vida (D4); línea base del indicador sobre V8 (D5)",
+    "Redelimitación del AID, actualización del EVAR y medios de vida (D4)",
     "2026-11-16",
     "2026-12-15",
-    "E8, E6, E9",
+    "E8, E9",
     "No",
     "Especialista en riesgos / SIG",
-    "H2a · D4 y D5 (15/12/2026)"
+    "H2a · D4 (15/12/2026)"
    ],
    [
     "A21",
@@ -1152,7 +1168,7 @@
    [
     "A24",
     "F2",
-    "Monitoreo climático y de eventos (SENAMHI, COER, SINPAD) en los 15 distritos; registro de daños y cárcavas activadas como evidencia para E4, E8 y E13; inventario de cárcavas con imágenes satelitales donde no haya acceso",
+    "Monitoreo climático y de eventos (SENAMHI, COER, SINPAD) en los 15 distritos; registro de daños y cárcavas activadas como evidencia para E4, E8 y E13; inventario de cárcavas con imágenes satelitales obtenidas sin compra donde no haya acceso",
     "2026-12-01",
     "2027-03-31",
     "E4, E8, E10, E13",
@@ -1282,7 +1298,7 @@
    "09/11 - 30/11/2026 (base) · 09/11/2026 - 19/02/2027 (optimista)"
   ],
   "F2": [
-   "Fase 2 · Cierre de la Identificación (D4, D5) y cierre fiscal",
+   "Fase 2 · Cierre de la Identificación (D4) y cierre fiscal",
    "16/11 - 31/12/2026"
   ],
   "F3": [
@@ -1319,43 +1335,55 @@
  "presupuesto": [
   [
    "A",
-   "A · Campo: tamizaje predial, noviembre de 2026 (Piura)",
-   "Viáticos de los asistentes prediales y del especialista social",
+   "A · Campo en noviembre de 2026 (Piura): tamizaje predial y visita del E4",
+   "Viáticos de especialistas y analistas que acompañan el tamizaje predial (social, legal-predial, SIG)",
    "persona-día",
-   126,
-   "6 asistentes prediales (D3) + 1 especialista social × 18 días hábiles [SUPUESTO de días]",
-   320.0,
-   "D.S. N° 007-2013-EF (S/ 320 por día); confirmar escala vigente de la ANIN",
+   54,
+   "3 especialistas o analistas (uno por camioneta) × 18 días hábiles [SUPUESTO]",
+   160.0,
+   "S/ 160 por día para especialistas y analistas (equipo formulador, 05/11/2026)",
    "F1",
    "Ambos"
   ],
   [
    "A",
-   "A · Campo: tamizaje predial, noviembre de 2026 (Piura)",
-   "Alquiler de camioneta 4x4 con conductor",
+   "A · Campo en noviembre de 2026 (Piura): tamizaje predial y visita del E4",
+   "Alquiler de camioneta 4x4 a todo costo",
    "vehículo-día",
    54,
-   "3 vehículos × 18 días [SUPUESTO]",
-   null,
-   "Cotización o contrato vigente de la DIME [POR DEFINIR]",
+   "3 camionetas (una por provincia) × 18 días [SUPUESTO]",
+   700.0,
+   "S/ 700 por día a todo costo, incluye conductor y combustible (equipo formulador, 05/11/2026)",
    "F1",
    "Ambos"
   ],
   [
    "A",
-   "A · Campo: tamizaje predial, noviembre de 2026 (Piura)",
-   "Combustible",
-   "galón",
-   432,
-   "8 galones por vehículo y día en trocha [SUPUESTO]",
-   null,
-   "Precio local en Piura [POR DEFINIR]",
+   "A · Campo en noviembre de 2026 (Piura): tamizaje predial y visita del E4",
+   "Visita de campo puntual del E4 (D2): viáticos del personal con OS",
+   "persona-día",
+   6,
+   "2 personas × 3 días [SUPUESTO]",
+   160.0,
+   "S/ 160 por día para especialistas y analistas (equipo formulador, 05/11/2026)",
    "F1",
    "Ambos"
   ],
   [
    "A",
-   "A · Campo: tamizaje predial, noviembre de 2026 (Piura)",
+   "A · Campo en noviembre de 2026 (Piura): tamizaje predial y visita del E4",
+   "Visita de campo puntual del E4 (D2): camioneta 4x4 a todo costo",
+   "vehículo-día",
+   3,
+   "1 camioneta × 3 días [SUPUESTO]",
+   700.0,
+   "S/ 700 por día a todo costo, incluye conductor y combustible (equipo formulador, 05/11/2026)",
+   "F1",
+   "Ambos"
+  ],
+  [
+   "A",
+   "A · Campo en noviembre de 2026 (Piura): tamizaje predial y visita del E4",
    "Asambleas comunales F-LA-01 (local, refrigerios, materiales, difusión)",
    "evento",
    12,
@@ -1368,50 +1396,50 @@
   [
    "B",
    "B · Campo: ventana ampliada (optimista) o residual (base)",
-   "Viáticos de los asistentes prediales · ventana ampliada diciembre 2026 - febrero 2027",
+   "Viáticos de especialistas y analistas · ventana ampliada diciembre 2026 - febrero 2027",
    "persona-día",
-   300,
-   "6 asistentes × 50 días hábiles [SUPUESTO]",
-   320.0,
-   "D.S. N° 007-2013-EF",
+   150,
+   "3 especialistas o analistas × 50 días hábiles [SUPUESTO]",
+   160.0,
+   "S/ 160 por día para especialistas y analistas (equipo formulador, 05/11/2026)",
    "F1",
    "Optimista"
   ],
   [
    "B",
    "B · Campo: ventana ampliada (optimista) o residual (base)",
-   "Viáticos de los asistentes prediales · campo residual abril - mayo 2027",
+   "Alquiler de camioneta 4x4 a todo costo · ventana ampliada diciembre 2026 - febrero 2027",
+   "vehículo-día",
+   150,
+   "3 camionetas × 50 días [SUPUESTO]",
+   700.0,
+   "S/ 700 por día a todo costo, incluye conductor y combustible (equipo formulador, 05/11/2026)",
+   "F1",
+   "Optimista"
+  ],
+  [
+   "B",
+   "B · Campo: ventana ampliada (optimista) o residual (base)",
+   "Viáticos de especialistas y analistas · campo residual abril - mayo 2027",
    "persona-día",
-   168,
-   "6 asistentes × 28 días hábiles [SUPUESTO]",
-   320.0,
-   "D.S. N° 007-2013-EF",
+   84,
+   "3 especialistas o analistas × 28 días hábiles [SUPUESTO]",
+   160.0,
+   "S/ 160 por día para especialistas y analistas (equipo formulador, 05/11/2026)",
    "F4",
    "Base"
   ],
   [
    "B",
    "B · Campo: ventana ampliada (optimista) o residual (base)",
-   "Alquiler de camioneta 4x4 con conductor",
+   "Alquiler de camioneta 4x4 a todo costo · campo residual abril - mayo 2027",
    "vehículo-día",
-   150,
-   "3 vehículos × 50 días (optimista) o × 28 días (base) [SUPUESTO]",
-   null,
-   "[POR DEFINIR]",
-   "F1 / F4",
-   "Ambos"
-  ],
-  [
-   "B",
-   "B · Campo: ventana ampliada (optimista) o residual (base)",
-   "Combustible",
-   "galón",
-   1200,
-   "8 galones por vehículo y día [SUPUESTO]",
-   null,
-   "[POR DEFINIR]",
-   "F1 / F4",
-   "Ambos"
+   84,
+   "3 camionetas × 28 días [SUPUESTO]",
+   700.0,
+   "S/ 700 por día a todo costo, incluye conductor y combustible (equipo formulador, 05/11/2026)",
+   "F4",
+   "Base"
   ],
   [
    "B",
@@ -1488,31 +1516,31 @@
   [
    "D",
    "D · Estudios y servicios especializados",
-   "Culminación del Estudio de Hidrología (E4) incluida la visita de campo (D2): saldo o adenda según contrato vigente",
+   "Estudio de Hidrología (E4): continuidad de las órdenes de servicio del personal que lo elabora hasta su culminación (30/11/2026); no hay consultor contratado",
    "global",
    1,
-   "Según contrato vigente",
+   "Según las OS vigentes",
    null,
-   "Contrato E4 [POR DEFINIR]",
+   "OS del personal del E4 [POR DEFINIR]",
    "F1",
    "Ambos"
   ],
   [
    "D",
    "D · Estudios y servicios especializados",
-   "Imágenes satelitales de alta resolución post-evento para el inventario de cárcavas y la actualización del diagnóstico donde no haya acceso",
+   "Imágenes satelitales de alta resolución post-evento para el inventario de cárcavas y la actualización del diagnóstico donde no haya acceso: obtención sin compra (gestión institucional o fuentes de acceso libre)",
    "km²",
    122,
    "12,157.47 ha netas V8 ≈ 122 km²",
-   null,
-   "Proveedor de imágenes [POR DEFINIR]",
+   0.0,
+   "Sin compra: gestión institucional con entidades proveedoras del Estado (p. ej., CONIDA) o fuentes de acceso libre [POR CONFIRMAR]",
    "F2-F3",
    "Ambos"
   ],
   [
    "E",
    "E · Socialización, taller de involucrados y nuevas autoridades",
-   "Taller de involucrados con contenidos y mensajes diferenciados por tipo de involucrado (restricciones presupuestales identificadas el 03/11/2026)",
+   "Taller de involucrados con contenidos y mensajes diferenciados por tipo de involucrado y convocatorias centralizadas (restricciones presupuestales identificadas el 03/11/2026)",
    "taller",
    3,
    "1 por provincia [SUPUESTO]",
@@ -1559,7 +1587,7 @@
   ],
   [
    "F",
-   "F · Seguridad, salud y comunicaciones",
+   "F · Seguridad y salud",
    "Equipos de protección personal para lluvias (botas, ponchos, cascos, chalecos, linternas)",
    "juego",
    8,
@@ -1571,35 +1599,11 @@
   ],
   [
    "F",
-   "F · Seguridad, salud y comunicaciones",
-   "Seguro Complementario de Trabajo de Riesgo (SCTR) para el personal de campo",
-   "persona-mes",
-   32,
-   "8 personas × 4 meses de campo [SUPUESTO]",
-   null,
-   "Aseguradora [POR DEFINIR]",
-   "F1 / F4",
-   "Ambos"
-  ],
-  [
-   "F",
-   "F · Seguridad, salud y comunicaciones",
-   "Comunicación satelital o radio para el personal en zonas sin cobertura",
-   "equipo-mes",
-   12,
-   "3 equipos × 4 meses [SUPUESTO]",
-   null,
-   "[POR DEFINIR]",
-   "F1 / F4",
-   "Ambos"
-  ],
-  [
-   "F",
-   "F · Seguridad, salud y comunicaciones",
+   "F · Seguridad y salud",
    "Botiquines, repelente, vacunación y kits de emergencia",
    "juego",
    3,
-   "1 por vehículo",
+   "1 por camioneta",
    null,
    "[POR DEFINIR]",
    "F0",
@@ -1640,6 +1644,18 @@
    "Tarifa vigente [POR DEFINIR]",
    "F0-F5",
    "Ambos"
+  ],
+  [
+   "G",
+   "G · Logística, datos y tecnología",
+   "Viáticos de especialistas en las misiones de coordinación Lima - Piura",
+   "persona-día",
+   36,
+   "6 misiones × 2 personas × 3 días [SUPUESTO]",
+   160.0,
+   "S/ 160 por día para especialistas y analistas (equipo formulador, 05/11/2026)",
+   "F0-F5",
+   "Ambos"
   ]
  ],
  "contingencia_pct": 0.1,
@@ -1649,10 +1665,19 @@
   "total": 394.12,
   "pct": 105.8,
   "brecha": 21.68,
-  "d1_zanja": 97.4,
-  "d1_zanja_p400": 95.0
+  "zanja": "0.40 × 0.40 m",
+  "d1_zanja": 99.4,
+  "d1_zanja_total": 370.01,
+  "d1_zanja_margen": 2.43,
+  "d1_zanja_p400": 96.8,
+  "d1_zanja_p400_total": 360.39,
+  "d1_zanja_p400_margen": 12.05,
+  "ref_0403": 97.4,
+  "ref_0403_p400": 95.0
  },
- "viatico_ref": 320.0,
+ "viatico_ref": 160.0,
+ "camioneta_ref": 700.0,
+ "nota_pres": "El SCTR del personal de campo corre por cuenta del propio personal (la DIME verifica su vigencia antes de cada salida). Los asistentes prediales se asignan por ámbito distrital; sus honorarios figuran en el componente C y no reciben viáticos en esta estructura (la tarifa de S/ 160 aplica a especialistas y analistas) [POR CONFIRMAR]. Las imágenes satelitales se obtienen sin compra.",
  "cambios": [
   [
    "Liberación de áreas por tipo de titular",
@@ -1674,16 +1699,16 @@
    "Campo restringido a lo estrictamente necesario",
    "Varios entregables preveían salidas de campo (fichas sociales, pendientes con clinómetro, validación del E6, cárcavas).",
    "Solo el tamizaje predial requiere campo; el resto se culmina en gabinete: pendiente por DEM (E1), fichas sociales con lo levantado (E2), validación florística al expediente técnico (E6), cárcavas con salidas puntuales en zonas accesibles o imágenes satelitales (E10); visita puntual del E4.",
-   "Reduce exposición del personal y días de campo sin afectar el indicador de brecha.",
+   "Reduce exposición del personal y días de campo sin afectar la calidad del diagnóstico.",
    "Coordinación del Perfil",
    "Alcance y método"
   ],
   [
    "Ajuste de la cartera al techo (D1)",
    "Matriz v1.6 con diques en cárcavas: S/ 394.12 M, 105.8 % del presupuesto total (faltan S/ 21.68 M).",
-   "Adoptar la zanja de la ficha ANIN de 0.40 × 0.30 m (97.4 % del techo) y evaluar las obras en los 5 bloques con lluvia menor de 400 mm (95.0 %).",
-   "Cartera dentro del techo de S/ 372,442,809; metas de la línea marrón ajustadas.",
-   "Alta Dirección / SESDI (30/11/2026)",
+   "Adoptar la zanja de la ficha ANIN reajustada de 0.40 × 0.40 m (S/ 370.01 M, 99.4 % del techo; margen de S/ 2.43 M) y evaluar las obras en los 5 bloques con lluvia menor de 400 mm (S/ 360.39 M, 96.8 %; margen de S/ 12.05 M).",
+   "Cartera dentro del techo de S/ 372,442,809; metas de la línea marrón ajustadas; margen estrecho para preinversión y expediente técnico.",
+   "SESDI-IN (30/11/2026)",
    "Alcance técnico"
   ],
   [
@@ -1691,16 +1716,8 @@
    "EVAR final preliminar por unidades funcionales; sin medios de vida ni escenarios de cambio climático.",
    "Redelimitar el AID, actualizar el EVAR, incorporar medios de vida beneficiados y el registro de eventos del FEN 2026-2027 como evidencia; escenario SSP5-8.5 en gabinete.",
    "Fortalece la justificación y los beneficios por daños evitados (E13).",
-   "SESDI / Especialista en riesgos (15/12/2026)",
+   "SESDI-IN / Especialista en riesgos (15/12/2026)",
    "Alcance"
-  ],
-  [
-   "Línea base del indicador (D5)",
-   "Criterios mixtos entre volúmenes.",
-   "Validar el criterio areal del E6 (8,341.83 ha bajo el umbral MSAVI) sobre la superficie neta V8.",
-   "Cifra única del indicador de brecha (R.M. N° 00213-2024-MINAM).",
-   "SESDI (15/12/2026)",
-   "Método"
   ],
   [
    "Bloques con condiciones límite",
@@ -1727,11 +1744,11 @@
    "Contratación estrictamente necesaria"
   ],
   [
-   "Contratación: culminación del E4 (D2)",
-   "Informe de avance al 40 %; faltan lluvias de diseño, IDF y HEC-HMS; requiere una visita de campo.",
-   "Asegurar el saldo o la adenda y la visita puntual para culminar el 30/11/2026.",
+   "Continuidad del personal con OS del E4 (D2)",
+   "El E4 lo elabora personal con orden de servicio; no hay consultor contratado. Informe de avance al 40 %; faltan lluvias de diseño, IDF y HEC-HMS; requiere una visita de campo.",
+   "Asegurar la vigencia de las OS hasta el 30/11/2026 (o su ampliación) y la visita de campo puntual.",
    "Cierre del Capítulo de Identificación.",
-   "Administración DIME",
+   "Administración DIME / SESDI-IN",
    "Contratación estrictamente necesaria"
   ],
   [
@@ -1743,17 +1760,17 @@
    "Contratación estrictamente necesaria"
   ],
   [
-   "Contratación: imágenes satelitales de alta resolución",
-   "No contratadas.",
-   "Servicio de imágenes post-evento para el inventario de cárcavas y la actualización del diagnóstico donde no haya acceso.",
-   "Cárcavas y diagnóstico sin exponer personal.",
-   "Administración DIME",
-   "Contratación estrictamente necesaria"
+   "Imágenes satelitales de alta resolución (sin compra)",
+   "No se prevé su compra.",
+   "Obtener sin costo las imágenes post-evento (gestión institucional con entidades proveedoras del Estado, p. ej. CONIDA, o fuentes de acceso libre) para el inventario de cárcavas y la actualización del diagnóstico donde no haya acceso.",
+   "Cárcavas y diagnóstico sin exponer personal y sin gasto.",
+   "Coordinación del Perfil / Equipo SIG",
+   "Gestión institucional"
   ],
   [
-   "Contratación: transporte 4x4, SCTR, EPP y comunicaciones",
-   "Según disponibilidad actual de la DIME.",
-   "Asegurar antes del 09/11/2026 para la ventana de campo y mantener hasta el fin del tamizaje predial.",
+   "Contratación: camionetas 4x4 a todo costo y EPP",
+   "Según disponibilidad actual de la DIME. El SCTR corre por cuenta del propio personal de campo.",
+   "Contratar camionetas a todo costo (S/ 700 por día, con conductor y combustible) y EPP antes del 09/11/2026 y mantenerlos hasta el fin del tamizaje predial; verificar el SCTR vigente de cada persona antes de cada salida.",
    "Seguridad del personal y ejecución del campo.",
    "Administración DIME",
    "Contratación estrictamente necesaria"
@@ -1761,7 +1778,7 @@
   [
    "Taller de involucrados",
    "Restricciones presupuestales identificadas el 03/11/2026.",
-   "Programar un taller por provincia con contenidos y mensajes diferenciados por tipo de involucrado, con el presupuesto mínimo necesario.",
+   "Programar un taller por provincia con contenidos y mensajes diferenciados por tipo de involucrado, centralizando convocatorias y con el presupuesto mínimo necesario.",
    "Aceptación social y actas de compromiso.",
    "Administración DIME / Equipo social",
    "Contratación estrictamente necesaria"
@@ -1780,7 +1797,7 @@
    "R01",
    "Climático",
    "Lluvias intensas y crecidas de quebradas impiden el acceso a los bloques (vías y trochas cortadas)",
-   "FEN 2026-2027 con lluvias por encima de lo normal en la sierra norte occidental (ENFEN N° 18 y 19-2026)",
+   "FEN 2026-2027 con lluvias por encima de lo normal en la costa y sierra norte (ENFEN N° 18 y 19-2026)",
    "Suspensión del tamizaje predial; atraso de E2, E1 y E10 (metas)",
    5,
    5,
@@ -1798,7 +1815,7 @@
    "Accidente, paralización del campo, responsabilidad institucional",
    3,
    5,
-   "Protocolo de seguridad con umbrales de suspensión (aviso SENAMHI, lluvia acumulada), horarios de retorno, EPP, SCTR, comunicación, vehículos 4x4; no pernoctar en cauces ni laderas inestables",
+   "Protocolo de seguridad con umbrales de suspensión (aviso SENAMHI, lluvia acumulada), horarios de retorno, EPP, SCTR vigente (a cargo del propio personal) y camionetas 4x4 a todo costo; no pernoctar en cauces ni laderas inestables",
    "Plan de evacuación por bloque; coordinación con COER y centros de salud; suspensión inmediata ante alerta",
    "Responsable de seguridad / asistentes prediales",
    "Aviso meteorológico vigente; lluvia acumulada en 24 h sobre el umbral; evento reportado en el distrito",
@@ -1868,7 +1885,7 @@
    "Interrupción del equipo y de servicios en enero de 2027; taller de involucrados sin financiamiento",
    4,
    4,
-   "Programar en noviembre las certificaciones y la contratación 2027; adelantar conformidades; priorizar los servicios de la ruta crítica (asistentes prediales, E4, E13, imágenes, transporte, taller)",
+   "Programar en noviembre las certificaciones y la contratación 2027; adelantar conformidades; priorizar los servicios de la ruta crítica (asistentes prediales, OS del personal del E4, E13, camionetas, taller)",
    "Contratación directa de servicios menores; redistribución de tareas en enero",
    "Administración DIME",
    "Certificaciones no emitidas al 15/12/2026; contratos sin renovación al 20/12/2026",
@@ -1877,13 +1894,13 @@
   [
    "R08",
    "Contractual",
-   "Retraso de estudios en curso (hidrología E4) o dificultad para contratar nuevos servicios durante la emergencia",
-   "Dependencia de una visita de campo y de datos externos (SENAMHI); mercado de proveedores demandado por la emergencia",
+   "Retraso del E4, elaborado por personal con orden de servicio, o vencimiento de sus OS; dificultad para contratar nuevos servicios durante la emergencia",
+   "Dependencia de una visita de campo y de datos externos (SENAMHI); OS con plazo; mercado de proveedores demandado por la emergencia",
    "E4 no cierra en noviembre; falta de insumos para el diseño de obras y para el E13",
    3,
    4,
-   "Seguimiento semanal del E4 (D2); entregas parciales; TDR listos para los nuevos servicios antes del 15/11/2026",
-   "Adenda de plazo; uso de PISCO y estaciones ya procesadas; alternativas de proveedores",
+   "Seguimiento semanal del E4 (D2); entregas parciales; verificar la vigencia de las OS; TDR listos para los nuevos servicios antes del 15/11/2026",
+   "Ampliación de la OS o nueva OS; uso de PISCO y estaciones ya procesadas; alternativas de proveedores",
    "Coordinación / Administración DIME",
    "Entrega del E4 no recibida al 30/11/2026",
    "E4, E10, E13"
@@ -1910,7 +1927,7 @@
    "Desactualización del catálogo V8, del MSAVI 2024 y del EVAR; metas y costos por revisar; también oportunidad de evidencia",
    4,
    3,
-   "Monitoreo de eventos (SENAMHI, SINPAD, COER) por distrito; imágenes satelitales post-evento; protocolo de actualización de capas",
+   "Monitoreo de eventos (SENAMHI, SINPAD, COER) por distrito; imágenes satelitales post-evento obtenidas sin compra; protocolo de actualización de capas",
    "Actualizar el catálogo, el MSAVI y el inventario de cárcavas tras el evento; ajustar metas en la Matriz v2.0",
    "Equipo SIG / Especialista en riesgos",
    "Registro SINPAD de emergencia en un distrito del ámbito",
@@ -1947,15 +1964,15 @@
   [
    "R13",
    "Logístico",
-   "Escasez o encarecimiento de transporte 4x4, combustible y alojamiento en la zona de emergencia",
+   "Escasez o encarecimiento de camionetas 4x4 y alojamiento en la zona de emergencia",
    "Demanda de las entidades de respuesta; vías dañadas",
    "Mayor costo y menor disponibilidad para el personal de campo",
    4,
    3,
-   "Contratar o reservar antes del 09/11/2026; convenios con municipalidades para alojamiento",
+   "Contratar las camionetas a todo costo (S/ 700 por día) antes del 09/11/2026; convenios con municipalidades para alojamiento",
    "Reasignar vehículos; priorizar bloques por accesibilidad",
    "Administración DIME",
-   "Cotización por encima del presupuesto; sin disponibilidad de vehículos",
+   "Cotización por encima de S/ 700 por día; sin disponibilidad de camionetas",
    "E2"
   ],
   [
@@ -1990,11 +2007,11 @@
    "R16",
    "Presupuestal",
    "Cartera por encima del presupuesto total e incremento de costos unitarios por la emergencia",
-   "Matriz v1.6 con diques: 105.8 % del techo (faltan S/ 21.68 M); presión de precios de fletes, jornales e insumos por el FEN",
-   "Metas recortadas o Perfil fuera del techo de S/ 372.44 M",
+   "Matriz v1.6 con diques: 105.8 % del techo (faltan S/ 21.68 M); con la zanja reajustada de 0.40 × 0.40 m el margen para preinversión y expediente técnico baja a S/ 2.43 M (S/ 12.05 M sin obras en bloques con P < 400 mm); presión de precios de fletes, jornales e insumos por el FEN",
+   "Metas recortadas, margen insuficiente para preinversión y expediente técnico o Perfil fuera del techo de S/ 372.44 M",
    4,
    4,
-   "Adoptar D1 (zanja de la ficha ANIN: 97.4 %; sin obras en bloques con P < 400 mm: 95.0 %); actualizar precios con índices oficiales; escenarios de techo; priorización por tipología",
+   "Adoptar D1 (zanja de la ficha ANIN reajustada 0.40 × 0.40 m: 99.4 %; sin obras en bloques con P < 400 mm: 96.8 %); actualizar precios con índices oficiales; escenarios de techo; priorización por tipología",
    "Ajustar metas o alternativa; sustentar incremento ante la SESDI",
    "Economista",
    "Inversión + O&M por encima del 100 % del techo en la Matriz v2.0",
@@ -2036,7 +2053,7 @@
    "Decisiones pendientes sin dueño; cambio de criterios de revisión",
    2,
    3,
-   "Actas de decisiones técnicas (D1 a D5); repositorio documental versionado; este plan como referencia aprobada",
+   "Actas de decisiones técnicas (D1 a D4); repositorio documental versionado; este plan como referencia aprobada",
    "Reunión de inducción a nuevas jefaturas; ratificación del plan",
    "Coordinación del Perfil",
    "Cambio de titular en la cadena de aprobación",
@@ -2058,6 +2075,20 @@
   ],
   [
    "R21",
+   "Información",
+   "Fichas del diagnóstico sin ingresar al aplicativo IN Piura al cierre del 30/11/2026",
+   "Digitación al 70.1 % al 02/11/2026; 3 entrevistas de saberes ancestrales sin ingresar; personal de campo dedicado al tamizaje predial",
+   "Volúmenes I-III del E2 y Capítulo de Identificación con información incompleta",
+   3,
+   3,
+   "Programa diario de digitación con meta por persona; control semanal en el tablero; prioridad a las fichas de los bloques sin registro",
+   "Digitación concentrada en gabinete la última semana de noviembre; reporte de fichas pendientes al cierre",
+   "Especialista social",
+   "Avance de digitación menor al 90 % al 23/11/2026",
+   "E2, E9"
+  ],
+  [
+   "R22",
    "Oportunidad",
    "El FEN 2026-2027 genera evidencia directa del peligro y de los daños en la zona de origen",
    "Evento climático sobre el ámbito del proyecto",
@@ -2108,7 +2139,7 @@
    "Gobierno Nacional y ANIN",
    "Estado de Emergencia nacional por el FEN (D.S. N° 149-2026-PCM); la DIME es la dirección de intervenciones de emergencia de la ANIN.",
    "Prioridad institucional en la respuesta; posible reasignación de personal; cambios de titulares en la cadena de aprobación [POR VERIFICAR].",
-   "Formalizar la dedicación del equipo núcleo; presentar el Perfil como medida de reducción del riesgo en la zona de origen; informes quincenales a la SESDI; decisiones D1 a D5 con sus plazos.",
+   "Formalizar la dedicación del equipo núcleo; presentar el Perfil como medida de reducción del riesgo en la zona de origen; informes quincenales a la SESDI; decisiones D1 a D4 con sus plazos.",
    "Nov 2026 - Jun 2027",
    "Jefatura DIME / SESDI"
   ],
@@ -2156,13 +2187,13 @@
  "seguimiento": [
   [
    "Tablero semanal del plan",
-   "Avance por actividad del cronograma, bloques con tamizaje ejecutado, arreglos con el Estado y actas conformes, alertas climáticas",
+   "Avance por actividad del cronograma, fichas ingresadas al aplicativo hasta el cierre del 30/11, bloques con tamizaje ejecutado, arreglos con el Estado y actas conformes, alertas climáticas",
    "Semanal (lunes)",
    "Coordinación del Perfil"
   ],
   [
    "Informe quincenal a la SESDI",
-   "Avance ponderado por entregable, riesgos activados, decisiones D1 a D5 y nuevas decisiones requeridas",
+   "Avance ponderado por entregable, riesgos activados, decisiones D1 a D4 y nuevas decisiones requeridas",
    "Quincenal",
    "Coordinación del Perfil"
   ],

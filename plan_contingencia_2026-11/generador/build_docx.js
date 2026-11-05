@@ -1,4 +1,4 @@
-// Plan de Contingencia del Estudio de Perfil · Word con formato ANIN (docx-js + anin_docx.js) · v2.0
+// Plan de Contingencia del Estudio de Perfil · Word con formato ANIN (docx-js + anin_docx.js) · v2.1
 // Uso: NODE_PATH=$(npm root -g) node build_docx.js plan_contingencia.json salida.docx
 const fs = require("fs"), path = require("path");
 const A = require(path.join(__dirname, "..", "..", ".claude", "skills", "anin-in-piura", "scripts", "anin_docx"));
@@ -28,7 +28,7 @@ const portada = [
     ["Versión y fecha", `${D.meta.version} · ${D.meta.fecha}`], ["Elaborado por", D.meta.elaborado],
   ]),
   sp(),
-  A.fuente("Documento de trabajo del equipo formulador. Versión 2.0: incorpora el texto oficial del decreto y su Anexo, los acuerdos de la reunión del 03/11/2026 y el avance del Perfil al 03/11/2026 (51.4 %). Lo que no tiene fuente verificada se marca [POR DEFINIR], [POR VERIFICAR] o [SUPUESTO]."),
+  A.fuente("Documento de trabajo del equipo formulador. Versión 2.1: incorpora el texto oficial del decreto y su Anexo, los acuerdos de la reunión del 03/11/2026, el avance del Perfil al 03/11/2026 (51.4 %) y los ajustes de costos y alcance del 05/11/2026."),
   A.h2("Contenido"),
   ...["1. Antecedentes y contexto", "2. Objetivo, alcance y principios del plan", "3. Calendario de actividades hasta la culminación del Perfil (dos escenarios)", "4. Presupuesto y recursos necesarios", "5. Cambios de alcance y contrataciones estrictamente necesarias", "6. Gestión de riesgos del plan", "7. Actividades pendientes por entregable", "8. Aspectos administrativos y de gestión", "9. Seguimiento y actualización del plan", "10. Conclusiones y recomendaciones", "Fuentes", "Anexo A. Distritos del ámbito en el Anexo del decreto", "Anexo B. Archivos complementarios"].map((t) => A.bullet(t)),
 ];
@@ -41,7 +41,7 @@ const s1 = [
   A.para([A.b("Plazo. "), D.decreto.plazo]),
   A.para([A.b("Alcance nacional. "), D.decreto.alcance_nacional]),
   A.para([A.b("Alcance en Piura. "), D.decreto.alcance_piura]),
-  A.para([A.b("Acciones a ejecutar. "), D.decreto.acciones]),
+  A.para([A.b("Acciones por ejecutar. "), D.decreto.acciones]),
   A.para([A.b("Financiamiento. "), D.decreto.financiamiento]),
   A.para([A.b("Refrendo. "), D.decreto.refrendo]),
   A.para([A.b("Sustento técnico. "), D.decreto.sustento]),
@@ -51,7 +51,7 @@ const s1 = [
   A.para([A.b("Implicancia para el ámbito del proyecto. "), D.clima.implicancia]),
   A.h2("1.3 Implicancia para el Proyecto IN Piura"),
   A.para("El Estado de Emergencia y el escenario climático inciden sobre el Perfil en cuatro frentes:"),
-  A.bullet([A.b("Trabajo de campo. "), "El tamizaje predial (ruta F-LA) es la única actividad que sigue requiriendo salidas de campo a los 117 bloques, situados en laderas con peligro alto y muy alto por movimientos en masa; la temporada de lluvias de diciembre a abril restringe ese acceso y eleva el riesgo para el personal. El resto de entregables se culmina en gabinete, con verificaciones muy puntuales en zonas accesibles."]),
+  A.bullet([A.b("Trabajo de campo. "), "El tamizaje predial (ruta F-LA) es la única actividad que sigue requiriendo salidas de campo a los 117 bloques, situados en laderas con peligro alto y muy alto por movimientos en masa; la temporada de lluvias de diciembre a abril restringe ese acceso y eleva el riesgo para el personal. El resto de entregables se culmina en gabinete, con verificaciones y salidas de campo muy puntuales en zonas accesibles."]),
   A.bullet([A.b("Autoridades e instituciones. "), "Los gobiernos regionales y locales asumen las acciones de reducción del riesgo, respuesta y rehabilitación durante la emergencia (artículo 2), y el 01/01/2027 cambian las autoridades regionales, provinciales y distritales; además se renuevan juntas directivas comunales. Las asambleas, actas y los arreglos institucionales sobre predios del Estado compiten con la agenda de la emergencia y deben ratificarse con las nuevas gestiones."]),
   A.bullet([A.b("Capacidad institucional de la ANIN. "), "La DIME es la dirección de intervenciones de emergencia de la ANIN; la declaratoria puede reasignar personal y prioridades, y el cierre del año fiscal 2026 condiciona la continuidad de contratos y servicios en enero de 2027."]),
   A.bullet([A.b("Oportunidad técnica. "), "El evento genera evidencia directa del peligro en la zona de origen (precipitación, activación de cárcavas, movimientos en masa, daños), útil para la hidrología (E4), el EVAR (E8), el problema (E7) y los beneficios por daños evitados (E13)."]),
@@ -63,8 +63,8 @@ const s1 = [
     ["Total", "15 entregables", "100", `${avance} %`, "", "Avance ponderado = suma de peso × avance / 100"]),
   A.fuente("Fuente: HTML de avance del Perfil ante la SESDI y Resumen Ejecutivo con apuntes de la reunión del 03/11/2026; Diagnóstico Integral IN Piura V3."),
   A.h2("1.5 Acuerdos de la reunión del 03/11/2026 y decisiones requeridas"),
-  A.para("El Resumen Ejecutivo con apuntes de la reunión del 03/11/2026 fija cinco decisiones de la Alta Dirección con plazo y varios acuerdos operativos que este plan incorpora."),
-  A.cap("Tabla 2. Decisiones requeridas (D1 a D5)"),
+  A.para("El Resumen Ejecutivo con apuntes de la reunión del 03/11/2026 fija cuatro decisiones con plazo y varios acuerdos operativos que este plan incorpora. La decisión D1 se actualizó el 05/11/2026 con la zanja de la ficha ANIN reajustada (0.40 × 0.40 m) y su porcentaje del techo se recalculó con la Matriz de Costos v1.6 (sección 4)."),
+  A.cap("Tabla 2. Decisiones requeridas (D1 a D4)"),
   A.tabla(cols([6, 60, 12, 14, 8], A.W), ["N.°", "Decisión solicitada", "Plazo", "Instancia", "Entregables"], D.decisiones.map((d) => [...d])),
   ...D.acuerdos.map((a) => A.bullet(a)),
   A.cap("Tabla 3. Programación de referencia del Perfil (reunión del 03/11/2026)"),
@@ -78,11 +78,11 @@ const s2 = [
   A.para([A.b("Alcance. "), "Comprende las actividades pendientes de los 15 entregables del Perfil, el tamizaje predial en los 117 bloques V8 (con sus lotes de uso sostenible incluidos en cada bloque), las coordinaciones con autoridades regionales, locales y comunales, los recursos y contrataciones estrictamente necesarios y la gestión de los riesgos que podrían impedir o dificultar la culminación del estudio. El horizonte del plan va del 04/11/2026 a la declaración de viabilidad: 30/04/2027 en el escenario optimista y 30/06/2027 en el escenario base."]),
   A.para([A.b("Principios. ")]),
   A.bullet([A.b("Seguridad primero. "), "Ninguna salida de campo sin autorización del protocolo de seguridad; umbrales de suspensión por avisos del SENAMHI y reportes del COER Piura; no se arriesga personal para completar inventarios."]),
-  A.bullet([A.b("Campo solo para lo estrictamente necesario. "), "El tamizaje predial es la única actividad de campo; el resto de entregables se culmina en gabinete (Lima), con verificaciones muy puntuales en zonas accesibles (visita del E4, cárcavas). Donde no se pueda salir, se recurre a imágenes satelitales de alta resolución."]),
+  A.bullet([A.b("Campo solo para lo estrictamente necesario. "), "El tamizaje predial es la única actividad de campo; el resto de entregables se culmina en gabinete (Lima), con verificaciones muy puntuales en zonas accesibles (visita del E4, cárcavas). Donde no se pueda salir sin arriesgar al personal, se recurre a imágenes satelitales de alta resolución obtenidas sin compra."]),
   A.bullet([A.b("Priorización por superficie y bloques comunales. "), "Los bloques comunales y los de mayor superficie se atienden primero, avanzando por los predios más alejados mientras haya acceso."]),
   A.bullet([A.b("Liberación de áreas por tipo de titular. "), "Predios del Estado mediante arreglos institucionales de gabinete (GORE Piura, Agricultura), comunidades campesinas mediante actas de asamblea; predios privados al expediente técnico."]),
   A.bullet([A.b("Dos escenarios. "), "Optimista (sin FEN o FEN retrasado): ventana de campo ampliada y Perfil al 31/03/2027 con viabilidad al 30/04/2027. Base (con FEN desde diciembre): campo en noviembre y residual en abril y mayo, Perfil al 31/05/2027 y viabilidad al 30/06/2027."]),
-  A.bullet([A.b("Trazabilidad. "), "Todo acuerdo con autoridades se documenta antes del 31/12/2026 y se ratifica con las gestiones electas; las decisiones técnicas (D1 a D5) se registran en actas."]),
+  A.bullet([A.b("Trazabilidad. "), "Todo acuerdo con autoridades se documenta antes del 31/12/2026 y se ratifica con las gestiones electas; las decisiones técnicas (D1 a D4) se registran en actas."]),
   A.bullet([A.b("Sin datos inventados. "), "Lo que el campo no permita verificar se declara como vacío con su plan de cierre; las metas se fijan sobre superficie con arreglos o actas verificados."]),
 ];
 
@@ -107,24 +107,29 @@ const s3 = [
 
 // ------------------------------------------------------------------ 4. Presupuesto (horizontal)
 const comps = [...new Set(D.presupuesto.map((p) => p[1]))];
-const valorizado = D.presupuesto.reduce((s, p) => s + (p[6] ? p[4] * p[6] : 0), 0);
+const parc = (p) => (p[6] != null ? p[4] * p[6] : 0);
+const valEsc = (esc, comp) => D.presupuesto.filter((p) => (!comp || p[1] === comp) && (p[9] === "Ambos" || p[9] === esc)).reduce((a, p) => a + parc(p), 0);
+const vOpt = valEsc("Optimista"), vBase = valEsc("Base"), pc = D.contingencia_pct;
+const cuTxt = (p) => (p[6] == null ? "[POR DEFINIR]" : p[6] === 0 ? "Sin costo" : f2(p[6]));
 const s4 = [
   A.h1("4. PRESUPUESTO Y RECURSOS NECESARIOS"),
-  A.para("El presupuesto del plan se estructura en siete componentes (A a G), diferenciando el campo en Piura (tamizaje predial) del gabinete en Lima, con las partidas y cantidades que se derivan de las actividades pendientes. Las cantidades son supuestos de planificación explícitos y los costos unitarios están [POR DEFINIR] por la Administración de la DIME, con excepción del viático diario, para el que se consigna el valor normativo de referencia del D.S. N° 007-2013-EF (S/ 320 por día), sujeto a la escala vigente de la ANIN. No se han inventado precios: el libro Excel calcula los parciales y totales con fórmulas a medida que se completen las celdas de costo unitario. Las partidas marcadas «Optimista» o «Base» aplican solo a ese escenario."),
-  A.para(`Referencia del techo: la Matriz de Costos Paramétricos v1.6 (03/11/2026), con las obras del plano de conservación de suelos y 23.08 km de diques en 55 cárcavas, suma S/ ${C.inversion} M de inversión y S/ ${C.om} M de operación y mantenimiento de 15 años: S/ ${C.total} M, el ${C.pct} % del presupuesto total de S/ ${f0(D.meta.techo)} (faltan S/ ${C.brecha} M). La decisión D1 devuelve la cartera al techo: ${C.d1_zanja} % con la zanja de la ficha ANIN de 0.40 × 0.30 m y ${C.d1_zanja_p400} % si además no se ejecutan obras en los 5 bloques con lluvia menor de 400 mm. El presupuesto asignado al Perfil en el POI/PIA de la ANIN está [POR DEFINIR] en este documento.`),
-  A.cap("Tabla 8. Resumen por componente"),
-  A.tabla(cols([55, 15, 30], WL), ["Componente", "Partidas", "Estado de la valorización"], comps.map((c) => {
-    const ps = D.presupuesto.filter((p) => p[1] === c); const sin = ps.filter((p) => p[6] == null).length;
-    return [c, String(ps.length), sin === ps.length ? "Costos unitarios [POR DEFINIR]" : `${ps.length - sin} partida(s) con valor referencial; ${sin} [POR DEFINIR]`]; }),
-    ["Total", String(D.presupuesto.length), `Valorizado parcial (solo viáticos referenciales, ambos escenarios): S/ ${f2(valorizado)} + reserva de contingencia ${Math.round(D.contingencia_pct * 100)} % [SUPUESTO]`]),
-  A.cap("Tabla 9. Partidas y recursos (cantidades [SUPUESTO]; costos unitarios [POR DEFINIR] salvo referencia)"),
-  A.tabla(cols([4, 12, 29, 7, 7, 20, 8, 14, 5, 7], WL), ["Cód.", "Componente", "Partida / recurso", "Unidad", "Cantidad", "Base del cálculo", "CU (S/)", "Fuente del CU", "Fase", "Escenario"],
-    D.presupuesto.map((p) => [p[0], p[1].split("·")[1].trim(), p[2], p[3], f0(p[4]), p[5], p[6] != null ? f2(p[6]) : "[POR DEFINIR]", p[7], p[8], p[9]])),
-  A.fuente("Fuente: elaboración propia. Viático: D.S. N° 007-2013-EF. Equipo de campo: 6 asistentes prediales (4 contratados y 2 por contratar, D3). Las cantidades de vehículos y días son supuestos para dimensionar el plan."),
+  A.para("El presupuesto del plan se estructura en siete componentes (A a G), diferenciando el campo en Piura (tamizaje predial y visita puntual del E4) del gabinete en Lima, con las partidas y cantidades que se derivan de las actividades pendientes. Las cantidades son supuestos de planificación explícitos. El equipo formulador indicó el 05/11/2026 dos costos unitarios: viáticos de especialistas y analistas a S/ 160 por día y alquiler de camioneta 4x4 a todo costo (con conductor y combustible) a S/ 700 por día. Las imágenes satelitales se obtienen sin compra y el SCTR corre por cuenta del propio personal de campo. Los demás costos unitarios están [POR DEFINIR] por la Administración de la DIME; el libro Excel calcula los parciales y los totales por escenario con fórmulas a medida que se completen. Las partidas marcadas «Optimista» o «Base» aplican solo a ese escenario."),
+  A.para(`Referencia del techo: la Matriz de Costos Paramétricos v1.6 (03/11/2026), con las obras del plano de conservación de suelos y 23.08 km de diques en 55 cárcavas, suma S/ ${C.inversion} M de inversión y S/ ${C.om} M de operación y mantenimiento de 15 años: S/ ${C.total} M, el ${C.pct.toFixed(1)} % del presupuesto total de S/ ${f0(D.meta.techo)} (faltan S/ ${C.brecha} M). Con la decisión D1 y la zanja de la ficha ANIN reajustada de ${C.zanja}, la cartera baja a S/ ${f2(C.d1_zanja_total)} M, el ${C.d1_zanja.toFixed(1)} % del techo, y deja S/ ${f2(C.d1_zanja_margen)} M para preinversión y expediente técnico. Si además no se ejecutan obras en los 5 bloques con lluvia menor de 400 mm, la cartera es de S/ ${f2(C.d1_zanja_p400_total)} M, el ${C.d1_zanja_p400.toFixed(1)} % del techo, con un margen de S/ ${f2(C.d1_zanja_p400_margen)} M.`),
+  A.para(`Estas cifras se recalcularon el 05/11/2026 con la Matriz v1.6 en LibreOffice, cambiando la sección de zanja a ${C.zanja} y sumando el costo de los diques del Resumen Ejecutivo. La misma reconstrucción con la sección anterior de 0.40 × 0.30 m reproduce el ${C.ref_0403.toFixed(1)} % y el ${C.ref_0403_p400.toFixed(1)} % del Resumen Ejecutivo del 03/11/2026. El presupuesto asignado al Perfil en el POI/PIA de la ANIN está [POR DEFINIR] en este documento.`),
+  A.cap("Tabla 8. Resumen por componente y escenario (valorizado con los costos unitarios disponibles)"),
+  A.tabla(cols([44, 9, 15, 15, 17], WL), ["Componente", "Partidas", "Optimista (S/)", "Base (S/)", "Partidas sin costo unitario"], comps.map((c) => {
+    const ps = D.presupuesto.filter((p) => p[1] === c);
+    return [c, String(ps.length), f2(valEsc("Optimista", c)), f2(valEsc("Base", c)), String(ps.filter((p) => p[6] == null).length)]; }),
+    ["Total parcial", String(D.presupuesto.length), f2(vOpt), f2(vBase), String(D.presupuesto.filter((p) => p[6] == null).length)]),
+  A.para(`Con la reserva de contingencia del ${Math.round(pc * 100)} % [SUPUESTO], el total parcial es de S/ ${f2(vOpt * (1 + pc))} en el escenario optimista y de S/ ${f2(vBase * (1 + pc))} en el escenario base. Ambos montos crecerán al completarse los costos unitarios por definir, en especial los honorarios del componente C.`),
+  A.cap("Tabla 9. Partidas y recursos (cantidades [SUPUESTO])"),
+  A.tabla(cols([4, 12, 28, 7, 7, 19, 9, 15, 5, 7], WL), ["Cód.", "Componente", "Partida / recurso", "Unidad", "Cantidad", "Base del cálculo", "CU (S/)", "Fuente del CU", "Fase", "Escenario"],
+    D.presupuesto.map((p) => [p[0], p[1].split("·")[1].trim(), p[2], p[3], f0(p[4]), p[5], cuTxt(p), p[7], p[8], p[9]])),
+  A.fuente("Fuente: elaboración propia con los costos unitarios indicados por el equipo formulador el 05/11/2026. Equipo de campo: 6 asistentes prediales (4 contratados y 2 por contratar, D3). Las cantidades de camionetas, personas y días son supuestos para dimensionar el plan. " + D.nota_pres),
   A.h2("4.1 Recursos humanos"),
-  A.para("El plan requiere mantener el equipo núcleo del Perfil (coordinación, SIG, social, riesgos, ecosistemas y legal-predial) durante 2027, completar el equipo de liberación de áreas (2 asistentes prediales para Santa Catalina de Mossa y Frías y la asignación de Lalaquiz, D3) y sumar, por locación de servicios, un especialista en evaluación social (E13) de enero a marzo de 2027 y un especialista en gestión de la implementación y operación y mantenimiento (E11 y E12) de noviembre de 2026 a febrero de 2027. La planilla y los contratos vigentes están [POR DEFINIR] con la Administración de la DIME."),
+  A.para("El plan requiere mantener el equipo núcleo del Perfil (coordinación, SIG, social, riesgos, ecosistemas y legal-predial) durante 2027, completar el equipo de liberación de áreas (2 asistentes prediales para Santa Catalina de Mossa y Frías y la asignación de Lalaquiz, D3) y sumar, por locación de servicios, un especialista en evaluación social (E13) de enero a marzo de 2027 y un especialista en gestión de la implementación y operación y mantenimiento (E11 y E12) de noviembre de 2026 a febrero de 2027. El Estudio de Hidrología (E4) lo elabora personal con orden de servicio, sin consultor contratado: el plan asegura la vigencia de esas órdenes hasta su culminación el 30/11/2026. La planilla y los contratos vigentes están [POR DEFINIR] con la Administración de la DIME."),
   A.h2("4.2 Recursos logísticos, de seguridad y tecnológicos"),
-  A.para("Camionetas 4x4 con conductor, combustible, equipos de protección personal para lluvias, Seguro Complementario de Trabajo de Riesgo, comunicación satelital o radio, botiquines y prevención sanitaria para el personal de campo; servicio de base de datos y aplicativo IN Piura (PostgreSQL, KoboToolbox) con copias de seguridad diarias; imágenes satelitales de alta resolución post-evento para el inventario de cárcavas y la actualización del diagnóstico donde no haya acceso."),
+  A.para("Camionetas 4x4 a todo costo (S/ 700 por día, con conductor y combustible), equipos de protección personal para lluvias, botiquines y prevención sanitaria para el personal de campo. El Seguro Complementario de Trabajo de Riesgo corre por cuenta de cada persona y la DIME verifica que esté vigente antes de cada salida. Servicio de base de datos y aplicativo IN Piura (PostgreSQL, KoboToolbox) con copias de seguridad diarias; el ingreso de fichas del diagnóstico al aplicativo cierra el 30/11/2026. Imágenes satelitales de alta resolución post-evento, obtenidas sin compra, para el inventario de cárcavas y la actualización del diagnóstico donde no haya acceso."),
 ];
 
 // ------------------------------------------------------------------ 5. Cambios de alcance
@@ -137,10 +142,11 @@ const s5 = [
 ];
 
 // ------------------------------------------------------------------ 6. Riesgos
+const opId = (D.riesgos.find((r) => r[1] === "Oportunidad") || ["—"])[0];
 const cnt = {}; D.riesgos.forEach((r) => { const n = nivel(r[5], r[6]); cnt[n] = (cnt[n] || 0) + 1; });
 const s6 = [
   A.h1("6. GESTIÓN DE RIESGOS DEL PLAN"),
-  A.para("Se entiende por riesgo todo factor que podría impedir o dificultar la culminación del Perfil. La matriz distingue la causa, el efecto sobre el estudio (entregables afectados), la probabilidad y el impacto en escala de 1 a 5, el nivel resultante (P × I: Bajo menor que 6, Medio de 6 a 11, Alto de 12 a 19, Muy alto de 20 a 25), las medidas prospectivas y correctivas de mitigación, las medidas reactivas de respuesta, el responsable y el indicador o disparador que activa la respuesta. El riesgo R21 se registra como oportunidad (impacto positivo). La matriz completa, con fórmulas y mapa de calor, está en la hoja 4 del libro Excel."),
+  A.para(`Se entiende por riesgo todo factor que podría impedir o dificultar la culminación del Perfil. La matriz distingue la causa, el efecto sobre el estudio (entregables afectados), la probabilidad y el impacto en escala de 1 a 5, el nivel resultante (P × I: Bajo menor que 6, Medio de 6 a 11, Alto de 12 a 19, Muy alto de 20 a 25), las medidas prospectivas y correctivas de mitigación, las medidas reactivas de respuesta, el responsable y el indicador o disparador que activa la respuesta. El riesgo ${opId} se registra como oportunidad (impacto positivo). La matriz completa, con fórmulas y mapa de calor, está en la hoja 4 del libro Excel.`),
   A.cap("Tabla 11. Resumen de la matriz de riesgos por nivel"),
   A.tabla(cols([30, 20, 50], WL), ["Nivel", "Cantidad", "Riesgos"], ["Muy alto", "Alto", "Medio", "Bajo"].map((n) => [n, String(cnt[n] || 0), D.riesgos.filter((r) => nivel(r[5], r[6]) === n).map((r) => r[0]).join(", ") || "—"])),
   A.cap("Tabla 12. Matriz de riesgos del Plan de Contingencia"),
@@ -188,18 +194,19 @@ const s9 = [
   A.h1("10. CONCLUSIONES Y RECOMENDACIONES"),
   A.bullet("El D.S. N° 149-2026-PCM (60 días calendario, 65 distritos de Piura incluidos los 15 del proyecto) y los Comunicados ENFEN N° 18 y 19-2026 confirman que la temporada de diciembre de 2026 a abril de 2027 no es compatible con salidas de campo masivas. El plan limita el campo al tamizaje predial, priorizado por superficie y bloques comunales, y culmina el resto de entregables en gabinete."),
   A.bullet("En el escenario optimista (sin FEN o FEN retrasado) se mantiene la previsión de la reunión del 03/11/2026: Perfil completo al 31/03/2027 y viabilidad al 30/04/2027, con la ventana de campo ampliada hasta el 19/02/2027. En el escenario base (con FEN desde diciembre) el campo residual se traslada a abril y mayo y el Perfil se culmina el 31/05/2027 con viabilidad al 30/06/2027, salvo que la SESDI y la OPMI acepten fijar metas sobre la superficie con arreglos verificados y cartera condicionada."),
+  A.bullet(`Con la zanja de la ficha ANIN reajustada de ${C.zanja} la cartera queda en el ${C.d1_zanja.toFixed(1)} % del techo y deja solo S/ ${f2(C.d1_zanja_margen)} M para preinversión y expediente técnico; sin obras en los 5 bloques con lluvia menor de 400 mm el margen sube a S/ ${f2(C.d1_zanja_p400_margen)} M (${C.d1_zanja_p400.toFixed(1)} % del techo). La decisión D1 debe tomar en cuenta ese margen.`),
   A.bullet("Los riesgos de nivel Muy alto son el acceso a los bloques por lluvias (R01), la indisponibilidad de autoridades por la emergencia (R03), el cambio de autoridades (R04), la reasignación del equipo de la DIME (R06) y el tamizaje predial incompleto para fijar metas (R09). Sus medidas requieren decisiones de la jefatura en noviembre de 2026."),
-  A.bullet("Recomendación 1: aprobar el plan y el protocolo de seguridad antes del 10/11/2026; completar el equipo de liberación de áreas (D3) y asegurar transporte, SCTR, EPP y comunicaciones para la ventana de campo que empieza el 09/11/2026."),
-  A.bullet("Recomendación 2: adoptar D1 y D2 antes del 30/11/2026 (cartera dentro del techo y Estudio de Hidrología culminado) y D4 y D5 antes del 15/12/2026 (EVAR actualizado con el AID y línea base del indicador sobre V8), para cerrar el Capítulo de Identificación en diciembre de 2026."),
-  A.bullet("Recomendación 3: formalizar la dedicación del equipo núcleo al Perfil durante la emergencia y programar en noviembre las certificaciones y contrataciones de 2027 (asistentes prediales, E13, imágenes satelitales, transporte, taller de involucrados)."),
+  A.bullet("Recomendación 1: aprobar el plan y el protocolo de seguridad antes del 10/11/2026; completar el equipo de liberación de áreas (D3), contratar las camionetas a todo costo y los EPP y verificar el SCTR vigente del personal para la ventana de campo que empieza el 09/11/2026; cerrar el ingreso de fichas del diagnóstico al aplicativo el 30/11/2026."),
+  A.bullet("Recomendación 2: adoptar D1 y D2 antes del 30/11/2026 (cartera dentro del techo y Estudio de Hidrología culminado) y D4 antes del 15/12/2026 (EVAR actualizado con el AID), para cerrar el Capítulo de Identificación en diciembre de 2026."),
+  A.bullet("Recomendación 3: formalizar la dedicación del equipo núcleo al Perfil durante la emergencia y programar en noviembre las certificaciones y contrataciones de 2027 (asistentes prediales, órdenes de servicio del personal del E4, E13, camionetas, taller de involucrados) y gestionar sin compra las imágenes satelitales."),
   A.bullet("Recomendación 4: documentar todos los acuerdos con autoridades y los arreglos sobre predios del Estado antes del 31/12/2026 y ejecutar la re-socialización con las gestiones electas en enero y febrero de 2027."),
-  A.bullet("Recomendación 5: acordar con la SESDI y la OPMI el criterio de corte para fijar metas (predios del Estado y comunidades campesinas en el Perfil; privados al expediente técnico) y completar los costos unitarios del presupuesto antes de la aprobación del plan."),
+  A.bullet("Recomendación 5: acordar con la SESDI y la OPMI el criterio de corte para fijar metas (predios del Estado y comunidades campesinas en el Perfil; privados al expediente técnico) y completar los costos unitarios por definir del presupuesto antes de la aprobación del plan."),
   A.h1("FUENTES"),
   A.bullet("HTML de avance del Estudio de Perfil ante la SESDI (03/11/2026); Resumen Ejecutivo con apuntes de la reunión del 03/11/2026; Diagnóstico Integral IN Piura V3; Matriz de Costos Paramétricos v1.6 (03/11/2026); informe final del Estudio de Suelos E5 (01/11/2026); informe final EVAR (19/10/2026); E2 B3 (03/11/2026); catálogo V8 (09/10/2026)."),
   ...D.decreto.fuentes.map((f) => A.bullet(`${f[0]} · ${f[1]}`)),
   ...D.clima.fuentes.map((f) => A.bullet(`${f[0]} · ${f[1]}`)),
   ...D.electoral.fuentes.map((f) => A.bullet(`${f[0]} · ${f[1]}`)),
-  A.bullet("Guía General para la Identificación, Formulación y Evaluación de Proyectos de Inversión (DGPMI-MEF, 2022), Anexo 2 GdR-CCC; Ley N° 29664 y D.S. N° 048-2011-PCM; D.S. N° 074-2014-PCM; Ley N° 30754; D.S. N° 017-2018-MINAM; R.M. N° 178-2019-MINAM; R.M. N° 00213-2024-MINAM; D.S. N° 007-2013-EF; Ley N° 27867; Ley N° 27972; Ley N° 24656."),
+  A.bullet("Guía General para la Identificación, Formulación y Evaluación de Proyectos de Inversión (DGPMI-MEF, 2022), Anexo 2 GdR-CCC; Ley N° 29664 y D.S. N° 048-2011-PCM; D.S. N° 074-2014-PCM; Ley N° 30754; D.S. N° 017-2018-MINAM; R.M. N° 178-2019-MINAM; R.M. N° 00213-2024-MINAM; Ley N° 27867; Ley N° 27972; Ley N° 24656."),
   A.h1("ANEXO A. DISTRITOS DEL ÁMBITO EN EL ANEXO DEL DECRETO", { nuevaPagina: true }),
   A.para("El Anexo del D.S. N° 149-2026-PCM (El Peruano, 03/11/2026) comprende 65 distritos del departamento de Piura (n.° 1193 a 1257): Ayabaca 10 (1193-1202), Huancabamba 8 (1203-1210), Morropón 10 (1211-1220) y los de Paita, Piura, Sullana, Talara y Sechura. Los 15 distritos del proyecto están incluidos."),
   A.cap("Tabla A1. Distritos del ámbito del Proyecto IN Piura en el Anexo del decreto"),
