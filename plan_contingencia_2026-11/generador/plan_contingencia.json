@@ -2,8 +2,8 @@
  "meta": {
   "titulo": "PLAN DE CONTINGENCIA PARA LA CULMINACIÓN DEL ESTUDIO DE PREINVERSIÓN A NIVEL DE PERFIL",
   "subtitulo": "Proyecto IN Piura · Código de Idea 337830 · D.S. N° 149-2026-PCM (Estado de Emergencia por peligro inminente ante intensas precipitaciones pluviales asociadas al FEN 2026-2027)",
-  "version": "2.1 · propuesta para validación del equipo formulador y la SESDI",
-  "fecha": "05/11/2026",
+  "version": "2.2 · propuesta para validación del equipo formulador y la SESDI",
+  "fecha": "06/11/2026",
   "elaborado": "Ing. Héctor Salomón Cahuas Miller · Ingeniero Forestal · ANIN - DIME - SESDI",
   "proyecto": "Recuperación del servicio de regulación de riesgos naturales y recuperación de ecosistemas degradados en la Cuenca Alta del Río Piura",
   "codigo": "Código de Idea 337830",
@@ -15,7 +15,7 @@
   "pie": "Plan de Contingencia del Estudio de Perfil · Proyecto IN Piura · Código de Idea 337830",
   "subtitulo_excel": "PROYECTO IN PIURA | Código de Idea 337830 | Cuenca Alta del Río Piura | UTM WGS 84 Zona 17S (EPSG:32717)"
  },
- "corte": "05/11/2026",
+ "corte": "06/11/2026",
  "distritos": [
   [
    "Buenos Aires",
@@ -1456,7 +1456,7 @@
   [
    "C",
    "C · Gabinete: especialistas (Lima)",
-   "Especialista en evaluación social de proyectos (E13) · locación de servicios",
+   "Especialista en costos (E10 y E13) · locación de servicios",
    "mes",
    3,
    "Enero a marzo de 2027 [SUPUESTO]",
@@ -1752,10 +1752,10 @@
    "Contratación estrictamente necesaria"
   ],
   [
-   "Contratación: especialista en evaluación social (E13)",
-   "Entregable al 0 %.",
+   "Contratación: especialista en costos (E10 y E13)",
+   "E10 al 25 % (costos por calibrar con el piloto); E13 al 0 %.",
    "Locación de servicios de enero a marzo de 2027, con TDR alineados a la Guía DGPMI y al Anexo 2 (GdR-CCC).",
-   "E13 y E14 en plazo.",
+   "E10, E13 y E14 en plazo.",
    "Administración DIME / SESDI",
    "Contratación estrictamente necesaria"
   ],
@@ -1885,7 +1885,7 @@
    "Interrupción del equipo y de servicios en enero de 2027; taller de involucrados sin financiamiento",
    4,
    4,
-   "Programar en noviembre las certificaciones y la contratación 2027; adelantar conformidades; priorizar los servicios de la ruta crítica (asistentes prediales, OS del personal del E4, E13, camionetas, taller)",
+   "Programar en noviembre las certificaciones y la contratación 2027; adelantar conformidades; priorizar los servicios de la ruta crítica (asistentes prediales, OS del personal del E4, especialista en costos, camionetas, taller)",
    "Contratación directa de servicios menores; redistribución de tareas en enero",
    "Administración DIME",
    "Certificaciones no emitidas al 15/12/2026; contratos sin renovación al 20/12/2026",
