@@ -13,6 +13,11 @@ costos (E10 y E13). Desde la V3 del Ing. Cahuas, el Word y el Excel de la carpet
 incluyen ediciones (textos, costos unitarios) que este módulo no reproduce. Regenerarlos con
 build_docx.js o build_excel.py sobrescribiría esas ediciones; este módulo alimenta el artefacto HTML.
 
+V3 (06/11/2026): este módulo se alineó con el Word y el Excel V3 para el artefacto HTML (presupuesto
+con los costos unitarios de la V3, D1, E2, acuerdos, liberación de áreas, textos del decreto y del
+clima, fuentes). La matriz de riesgos sigue al Excel V3: la tabla de riesgos del Word V3 corresponde a
+una versión anterior del plan.
+
 Un solo origen de datos para el Word, el Excel y el HTML. Lo que no tiene fuente verificada queda
 marcado [POR DEFINIR] o [SUPUESTO]."""
 import json, sys
@@ -23,13 +28,13 @@ CODIGO = "Código de Idea 337830"
 META = {
     "titulo": "PLAN DE CONTINGENCIA PARA LA CULMINACIÓN DEL ESTUDIO DE PREINVERSIÓN A NIVEL DE PERFIL",
     "subtitulo": f"Proyecto IN Piura · {CODIGO} · D.S. N° 149-2026-PCM (Estado de Emergencia por peligro inminente ante intensas precipitaciones pluviales asociadas al FEN 2026-2027)",
-    "version": "2.2 · propuesta para validación del equipo formulador y la SESDI",
+    "version": "V3 · propuesta para validación del equipo formulador y la SESDI", "version_corta": "V3",
     "fecha": CORTE,
-    "elaborado": "Ing. Héctor Salomón Cahuas Miller · Ingeniero Forestal · ANIN - DIME - SESDI",
+    "elaborado": "Ing. Héctor Salomón Cahuas Miller · Ingeniero Forestal · ANIN - DIME - SESDI-IN",
     "proyecto": "Recuperación del servicio de regulación de riesgos naturales y recuperación de ecosistemas degradados en la Cuenca Alta del Río Piura",
     "codigo": CODIGO, "fase": "Preinversión · Estudio de Perfil (51.4 % de avance ponderado al 03/11/2026)",
     "modalidad": "Administración Directa", "techo": 372442809,
-    "ambito": "3 provincias (Morropón, Huancabamba, Ayabaca) · 15 distritos · 117 bloques V8 · 12,157.47 ha netas · 26 microcuencas",
+    "ambito": "3 provincias (Morropón, Huancabamba, Ayabaca) · 15 distritos · 117 bloques · 12,157.47 ha netas · 26 microcuencas",
     "crs": "UTM WGS 84 Zona 17S (EPSG:32717)",
     "pie": f"Plan de Contingencia del Estudio de Perfil · Proyecto IN Piura · {CODIGO}",
     "subtitulo_excel": f"PROYECTO IN PIURA | {CODIGO} | Cuenca Alta del Río Piura | UTM WGS 84 Zona 17S (EPSG:32717)",
@@ -48,7 +53,7 @@ DISTRITOS = [
 # ---------------------------------------------------------------- Decreto (texto oficial, El Peruano 03/11/2026, pp. 13-25)
 DECRETO = {
     "norma": "Decreto Supremo N° 149-2026-PCM",
-    "publicacion": "Diario Oficial El Peruano, Normas Legales, martes 3 de noviembre de 2026 (dado en la Casa de Gobierno el 2 de noviembre de 2026)",
+    "publicacion": "Diario Oficial El Peruano, 3 de noviembre de 2026",
     "objeto": "Declara el Estado de Emergencia en varios distritos de algunas provincias de los departamentos de Amazonas, Áncash, Apurímac, Arequipa, Ayacucho, Cajamarca, Cusco, Huancavelica, Huánuco, Ica, Junín, La Libertad, Lambayeque, Lima, Loreto, Madre de Dios, Moquegua, Pasco, Piura, Puno, San Martín, Tacna, Tumbes, Ucayali y la Provincia Constitucional del Callao, detallados en su Anexo, por peligro inminente ante intensas precipitaciones pluviales asociadas al Fenómeno El Niño 2026-2027 (artículo 1).",
     "plazo": "Sesenta (60) días calendario (artículo 1), para la ejecución de medidas y acciones de excepción, inmediatas y necesarias, de reducción del Muy Alto Riesgo existente, así como de respuesta y rehabilitación. La vigencia se extiende hasta inicios de enero de 2027 y puede prorrogarse conforme al D.S. N° 074-2014-PCM.",
     "alcance_nacional": "El Anexo enumera 1,380 distritos; la emergencia se configura como de nivel 4 (numeral 43.2 del artículo 43 del Reglamento de la Ley N° 29664) porque la capacidad de respuesta de los gobiernos regionales ha sido sobrepasada.",
@@ -60,19 +65,17 @@ DECRETO = {
     "fuentes": [
         ("El Peruano · Normas Legales · D.S. N° 149-2026-PCM (texto y Anexo, pp. 13-25, 03/11/2026)", "https://busquedas.elperuano.pe/dispositivo/NL/2571017-4"),
         ("El Peruano · Fenómeno El Niño 2026-2027: declaran estado de emergencia en distritos de 25 regiones", "https://elperuano.pe/noticia/308230-fenomeno-el-nino-2026-2027-declaran-estado-de-emergencia-en-distritos-de-25-regiones"),
-        ("El Tiempo (Piura) · Declaran en emergencia 65 distritos por peligro de lluvias", "https://eltiempo.pe/local/declaran-en-emergencia-65-distritos-por-peligro-de-lluvias/"),
     ],
 }
 
 CLIMA = {
     "comunicado": "El decreto se sustenta en el Comunicado Oficial ENFEN N° 18-2026 (16/10/2026). El Comunicado Oficial ENFEN N° 19-2026 (30/10/2026) mantiene la Alerta de El Niño Costero.",
     "magnitud": "Región Niño 1+2 con magnitud extraordinaria hasta febrero de 2027 y descenso gradual hasta junio de 2027; El Niño en el Pacífico central (Niño 3.4) de magnitud muy fuerte hasta febrero de 2027.",
-    "lluvias": "Entre noviembre de 2026 y enero de 2027 las precipitaciones seguirán por encima de lo normal en la costa y sierra norte; la tendencia continúa durante el verano de 2027.",
-    "implicancia": "El ámbito del proyecto (vertiente occidental andina de Piura, 69.0 % del área con peligro integrado Alto o Muy alto y 93.9 % de los bloques con peligro alto o muy alto por movimientos en masa según el EVAR) coincide con la zona de mayor incremento esperado de lluvias. La temporada crítica para el trabajo de campo es diciembre de 2026 a abril de 2027; si el FEN se retrasa o es de menor intensidad, la ventana de campo se amplía (escenario optimista).",
+    "lluvias": "Entre noviembre de 2026 y enero de 2027 las precipitaciones seguirán por encima de lo normal en la costa y sierra norte; la tendencia continuará durante el verano de 2027.",
+    "implicancia": "El ámbito del proyecto (vertiente occidental andina de Piura, con 69.0 % del área con peligro integrado Alto o Muy alto y 93.9 % de los bloques con peligro alto o muy alto por movimientos en masa según el EVAR) coincide con la zona de mayor incremento esperado de lluvias. La temporada crítica para el trabajo de campo es diciembre de 2026 a abril de 2027; si el FEN se retrasa o es de menor intensidad, la ventana de campo se amplía (escenario optimista).",
     "fuentes": [
         ("ENFEN · Comunicados oficiales", "https://enfen.imarpe.gob.pe/comunicados/"),
         ("ENFEN · Comunicado Oficial N° 16-2026 (14/09/2026)", "https://enfen.imarpe.gob.pe/download/comunicado-oficial-enfen-n-16-2026/"),
-        ("Radio RSD · ENFEN mantiene alerta de El Niño Costero hasta febrero de 2027 (Comunicado N° 19-2026)", "https://radiorsd.pe/noticias/enfen-mantiene-alerta-de-el-nino-costero-hasta-febrero-de-2027"),
         ("CENEPRED · Escenarios de riesgo por inundaciones y movimientos en masa (Plan Multisectorial 2025-2027)", "https://sigrid.cenepred.gob.pe/sigridv3/storage/biblioteca//17791_escenarios-de-riesgo-por-inundaciones-y-movimientos-en-masa-en-el-marco-del-plan-multisectorial-2025-2027.pdf"),
     ],
 }
@@ -80,21 +83,17 @@ CLIMA = {
 ELECTORAL = {
     "erm": "Elecciones Regionales y Municipales del 04/10/2026 (autoridades para el periodo 2027-2030). Las autoridades regionales y municipales vigentes culminan su mandato el 31/12/2026 y las electas asumen funciones el 01/01/2027 (Ley N° 27867 y Ley N° 27972).",
     "segunda_vuelta": "Piura va a Segunda Elección Regional: ninguna fórmula alcanzó el 30 % de votos válidos (ONPE/JNE). La prensa reporta la fecha reprogramada por el JNE para el 06/12/2026 (antes 29/11/2026) [POR VERIFICAR con el JNE].",
-    "municipal": "Se renuevan las 3 municipalidades provinciales (Morropón, Huancabamba, Ayabaca) y las 15 municipalidades distritales del ámbito; los alcaldes electos por distrito están [POR VERIFICAR] en los resultados oficiales de la ONPE/JNE.",
+    "municipal": "Se renuevan las 3 municipalidades provinciales (Morropón, Huancabamba, Ayabaca) y las 15 municipalidades distritales del ámbito; los alcaldes electos por distrito están en los resultados oficiales de la ONPE/JNE.",
     "comunal": "Las juntas directivas de las comunidades campesinas se renuevan cada dos años (Ley N° 24656 y su reglamento). El calendario de cada comunidad del ámbito (3,929.61 ha comunales, 32.3 % de la superficie neta; 83.9 % en Ayabaca) está [POR VERIFICAR] con la DRA Piura y SUNARP; en la práctica varias asambleas eleccionarias se realizan entre diciembre y enero.",
     "nacional": "El Gobierno Nacional asumió el 28/07/2026 (el decreto es dado por la Presidenta de la República y refrendado por el Presidente del Consejo de Ministros). Los cambios de titulares en la ANIN posteriores a esa fecha [POR VERIFICAR] afectan las instancias de aprobación y priorización.",
-    "fuentes": [
-        ("Andina · ERM 2026: 15 de las 25 regiones irían a segunda vuelta", "https://andina.pe/agencia/noticia-erm-2026-15-las-25-regiones-irian-a-segunda-vuelta-para-elegir-a-su-gobernador-1094780.aspx"),
-        ("El Tiempo · Segunda vuelta decidirá gobernador de Piura", "https://eltiempo.pe/local/segunda-vuelta-decidira-gobernador-de-piura/"),
-        ("Panamericana · JNE cambia fecha de segunda vuelta regional al 6 de diciembre", "https://panamericana.pe/politica/475578-jne-cambia-fecha-segunda-vuelta-elecciones-regionales-2026-6-diciembre"),
-        ("Forbes Perú · Gobierno convoca ERM para el 4 de octubre", "https://forbes.pe/actualidad/2026-01-07/gobierno-convoca-elecciones-regionales-y-municipales-para-el-4-de-octubre/"),
-    ],
+    "fuentes": [    ],
 }
 
 # ---------------------------------------------------------------- Estado del Perfil al 03/11/2026 (HTML de avance a la SESDI)
 ENTREGABLES = [
  ("E1","ID","Microlocalización e identificación de las unidades de intervención",8,85,"En curso","117 bloques verificados en campo; catálogo V8 (09/10/2026) con 12,157.47 ha netas tras descontar 112.77 ha superpuestas con minería en trámite y un sitio arqueológico; se cierra con el catálogo definitivo tras la liberación de áreas."),
- ("E2","ID","Diagnóstico de la población afectada y actores; expediente de liberación de áreas",10,75,"En curso","Volúmenes I-III en borrador B3 (03/11/2026): 422 fichas F-DS en 85 de 117 bloques. Tamizaje predial: 22 predios inspeccionados en 10 bloques de Morropón y 1 acta (bloque 85) pendiente de conformidad. Equipo predial: 4 de 6 asistentes contratados. Cierre de ingreso de fichas al aplicativo: 30/11/2026."),
+ ("E2","ID","Diagnóstico de la población afectada y actores; expediente de liberación de áreas",10,75,"En curso","Volúmenes I-III en borrador B3 (03/11/2026): 422 fichas F-DS en 85 de 117 bloques ingresadas al aplicativo. Tamizaje predial: 22 predios inspeccionados en 10 bloques de Morropón y 1 acta (bloque 85) pendiente de conformidad. Equipo predial: 4 de 6 asistentes contratados. Cierre de ingreso de fichas al aplicativo: 30/11/2026."),
+
  ("E3","ID","Estudio de Geología",5,100,"Culminado","Culminado e integrado en los volúmenes de diagnóstico (susceptibilidad por movimientos en masa y erosión hídrica)."),
  ("E4","ID","Estudio de Hidrología",6,40,"En curso","Informe de avance: 60 microcuencas y 264 nanocuencas (QSWAT) y 15 nanocuencas priorizadas. Faltan lluvias máximas de 24 h, curvas IDF y caudales HEC-HMS; lo elabora personal con orden de servicio (no hay consultor contratado); requiere una visita de campo y culmina a fines de noviembre (D2)."),
  ("E5","ID","Estudio de Suelos",6,100,"Culminado","Informe final (01/11/2026): 74 calicatas, 152 muestras, 7 unidades de suelo, Factor K, capacidad de uso mayor y matriz suelo-intervención."),
@@ -120,23 +119,23 @@ PROGRAMACION_ORIGINAL = [
 
 # ---------------------------------------------------------------- Acuerdos de la reunión del 03/11/2026 (Resumen Ejecutivo con apuntes)
 DECISIONES = [
- ("D1","Ajustar la cartera al presupuesto total: zanjas de la ficha ANIN reajustada (0.40 × 0.40 m), con las que la cartera queda en el 99.4 % del techo, y evaluación de las obras en los 5 bloques con lluvia menor de 400 mm (96.8 %).","30/11/2026","SESDI-IN","E10"),
+ ("D1","Ajustar la cartera al presupuesto total: con las intervenciones y medidas propuestas la cartera queda en el 99.4 % del techo, y con posibilidad de reajuste tras evaluación de las obras en 5 bloques con lluvia menor de 400 mm se reduce a 96.8 %.","30/11/2026","SESDI-IN","E10"),
  ("D2","Culminar el Estudio de Hidrología incluido el modelamiento (lluvias de diseño, curvas IDF y caudales), con la visita de campo requerida.","30/11/2026","SESDI-IN / Coordinación del Perfil","E4"),
  ("D3","Priorizar la conformidad de las actas de libre disponibilidad y completar el equipo de campo de liberación de áreas: 4 de 6 asistentes prediales contratados; faltan Santa Catalina de Mossa y Frías, y el ámbito de Lalaquiz sin asignar.","30/11/2026","Administración DIME / SESDI","E2"),
  ("D4","Disponer la redelimitación del área de influencia directa (AID) y la actualización del Análisis de Riesgos (E8), incluidos los medios de vida beneficiados, antes del cierre del Capítulo de Identificación.","15/12/2026","SESDI-IN / Especialista en riesgos","E8, E9"),
 ]
 ACUERDOS = [
  "Las salidas a campo se restringen a lo estrictamente necesario: el tamizaje predial es la única actividad que sigue requiriendo campo; el resto de entregables se culmina en gabinete, salvo verificaciones muy puntuales en zonas accesibles (visita del E4, cárcavas).",
- "Liberación de áreas en el Perfil por tipo de titular: predios del Estado (GORE Piura y Agricultura) mediante arreglos institucionales de gabinete (meta de avance 50 %), comunidades campesinas mediante actas de asamblea (25 %); los predios privados quedan pendientes para el expediente técnico.",
+ "Liberación de áreas en el Perfil por tipo de titular: predios del Estado (GORE, Agricultura, Gobiernos Locales, entre otros) mediante arreglos institucionales de gabinete, comunidades campesinas mediante actas de asamblea; los predios privados quedan pendientes para el expediente técnico.",
  "Priorización del tamizaje predial por superficie (los de mayor superficie) y por bloques comunales; se avanza con los predios más alejados mientras se tiene acceso.",
  "Diferenciar las actividades de campo (Piura) y de gabinete (Lima) en el cronograma y en el presupuesto.",
- "El equipo social coordina con las comunidades campesinas la gestión del acta de compromiso para la aceptación social del proyecto.",
- "Hay restricciones presupuestales que afectan el taller de involucrados; se generará un taller con contenidos y mensajes diferenciados por tipo de involucrado y centralizando convocatorias.",
+ "El equipo social y predial coordina con las comunidades campesinas la gestión del acta de compromiso para la aceptación social del proyecto.",
+ "Se generará un taller con contenidos y mensajes diferenciados por tipo de involucrado y centralizando convocatorias.",
  "Cierre de ingreso de fichas al aplicativo IN Piura el 30/11/2026 (fichas del diagnóstico F-DS, F-DT y F-EE); los formularios de liberación de áreas (F-LA) se siguen registrando a medida que avanza el tamizaje predial.",
- "E6: versión final al 27/11/2026 con el estudio de oferta de material vegetal; se realizó el primer ensayo con firmas espectrales; los estudios de campo sobre estructura y composición florística pasan al expediente técnico; los estudios florísticos de AIDER en el ACR Salitral sirven de referencia para los ecosistemas estacionalmente secos de montaña.",
- "E7: la información se presenta con sus bases de datos y archivos nativos en las plataformas oficiales de la ANIN (memorando de la DIME).",
- "E8: el análisis se elaboró por unidades funcionales (zona de aporte, bloques y zona de influencia); se actualiza con el AID redelimitada e incorpora los medios de vida beneficiados.",
+ "E6: Diagnóstico del Ecosistema y estudio de oferta de material vegetal: versión final al 27/11/2026 con el estudio de oferta de material vegetal; se realizó el primer ensayo con firmas espectrales; los estudios de campo sobre estructura y composición florística pasan al expediente técnico; los estudios florísticos de AIDER en el ACR Salitral sirven de referencia para los ecosistemas estacionalmente secos de montaña.",
+ "E8: Análisis de riesgos, se elaboró por unidades funcionales (zona de aporte, bloques y zona de influencia); se actualiza con el AID redelimitada e incorpora los medios de vida beneficiados.",
  "Cronograma de referencia: Capítulo de Identificación en diciembre de 2026 (avance mínimo de 66.5 %), Perfil completo en marzo de 2027 y declaración de viabilidad en abril de 2027.",
+ "E1 – E15: la información se presenta con sus bases de datos y archivos nativos en las plataformas oficiales de la ANIN (memorando de la DIME).",
 ]
 
 # ---------------------------------------------------------------- Actividades pendientes por entregable
@@ -244,36 +243,36 @@ CAMIONETA_REF = 700.00 # S/ por día · camioneta 4x4 a todo costo: conductor y 
 F_VIA = "S/ 160 por día para especialistas y analistas (equipo formulador, 05/11/2026)"
 F_CAM = "S/ 700 por día a todo costo, incluye conductor y combustible (equipo formulador, 05/11/2026)"
 PRESUPUESTO = [
- # (código, componente, partida, unidad, cantidad, base del cálculo, CU (S/) o None, fuente del CU, fase, escenario)
- ("A","A · Campo en noviembre de 2026 (Piura): tamizaje predial y visita del E4","Viáticos de especialistas y analistas que acompañan el tamizaje predial (social, legal-predial, SIG)","persona-día",3*18,"3 especialistas o analistas (uno por camioneta) × 18 días hábiles [SUPUESTO]",VIATICO_REF,F_VIA,"F1","Ambos"),
- ("A","A · Campo en noviembre de 2026 (Piura): tamizaje predial y visita del E4","Alquiler de camioneta 4x4 a todo costo","vehículo-día",3*18,"3 camionetas (una por provincia) × 18 días [SUPUESTO]",CAMIONETA_REF,F_CAM,"F1","Ambos"),
- ("A","A · Campo en noviembre de 2026 (Piura): tamizaje predial y visita del E4","Visita de campo puntual del E4 (D2): viáticos del personal con OS","persona-día",2*3,"2 personas × 3 días [SUPUESTO]",VIATICO_REF,F_VIA,"F1","Ambos"),
- ("A","A · Campo en noviembre de 2026 (Piura): tamizaje predial y visita del E4","Visita de campo puntual del E4 (D2): camioneta 4x4 a todo costo","vehículo-día",3,"1 camioneta × 3 días [SUPUESTO]",CAMIONETA_REF,F_CAM,"F1","Ambos"),
- ("A","A · Campo en noviembre de 2026 (Piura): tamizaje predial y visita del E4","Asambleas comunales F-LA-01 (local, refrigerios, materiales, difusión)","evento",12,"Bloques comunales y de mayor superficie priorizados [SUPUESTO]",None,"[POR DEFINIR]","F1","Ambos"),
- ("B","B · Campo: ventana ampliada (optimista) o residual (base)","Viáticos de especialistas y analistas · ventana ampliada diciembre 2026 - febrero 2027","persona-día",3*50,"3 especialistas o analistas × 50 días hábiles [SUPUESTO]",VIATICO_REF,F_VIA,"F1","Optimista"),
- ("B","B · Campo: ventana ampliada (optimista) o residual (base)","Alquiler de camioneta 4x4 a todo costo · ventana ampliada diciembre 2026 - febrero 2027","vehículo-día",3*50,"3 camionetas × 50 días [SUPUESTO]",CAMIONETA_REF,F_CAM,"F1","Optimista"),
- ("B","B · Campo: ventana ampliada (optimista) o residual (base)","Viáticos de especialistas y analistas · campo residual abril - mayo 2027","persona-día",3*28,"3 especialistas o analistas × 28 días hábiles [SUPUESTO]",VIATICO_REF,F_VIA,"F4","Base"),
- ("B","B · Campo: ventana ampliada (optimista) o residual (base)","Alquiler de camioneta 4x4 a todo costo · campo residual abril - mayo 2027","vehículo-día",3*28,"3 camionetas × 28 días [SUPUESTO]",CAMIONETA_REF,F_CAM,"F4","Base"),
- ("B","B · Campo: ventana ampliada (optimista) o residual (base)","Asambleas y reuniones F-LA-01 / F-LA-04 en los bloques restantes, agrupadas por localidad","evento",40,"Agrupación de bloques por centro poblado [SUPUESTO]",None,"[POR DEFINIR]","F1 / F4","Ambos"),
- ("C","C · Gabinete: especialistas (Lima)","Especialista en costos (E10 y E13) · locación de servicios","mes",3,"Enero a marzo de 2027 [SUPUESTO]",None,"Honorario según TDR y escala de la ANIN [POR DEFINIR]","F3","Ambos"),
- ("C","C · Gabinete: especialistas (Lima)","Especialista en gestión de la implementación y O&M (E11, E12)","mes",4,"Noviembre de 2026 a febrero de 2027 [SUPUESTO]",None,"[POR DEFINIR]","F1-F3","Ambos"),
- ("C","C · Gabinete: especialistas (Lima)","Especialista legal-predial (arreglos institucionales con el Estado, F-LA-05, expedientes AX-04)","mes",5,"Noviembre de 2026 a marzo de 2027 (optimista) o mayo de 2027 (base) [SUPUESTO]",None,"[POR DEFINIR]","F1-F4","Ambos"),
- ("C","C · Gabinete: especialistas (Lima)","Dos asistentes prediales adicionales (Santa Catalina de Mossa y Frías) y asignación de Lalaquiz (D3)","persona-mes",2*5,"2 personas × 5 meses [SUPUESTO]",None,"Contratos vigentes de asistentes prediales [POR DEFINIR]","F0-F4","Ambos"),
- ("C","C · Gabinete: especialistas (Lima)","Continuidad del equipo núcleo del Perfil (coordinación, SIG, social, riesgos, ecosistemas) durante 2027","mes",6,"Enero a junio de 2027; número de personas y escala [POR DEFINIR]",None,"Planilla / contratos vigentes de la DIME [POR DEFINIR]","F3-F5","Ambos"),
- ("D","D · Estudios y servicios especializados","Estudio de Hidrología (E4): continuidad de las órdenes de servicio del personal que lo elabora hasta su culminación (30/11/2026); no hay consultor contratado","global",1,"Según las OS vigentes",None,"OS del personal del E4 [POR DEFINIR]","F1","Ambos"),
- ("D","D · Estudios y servicios especializados","Imágenes satelitales de alta resolución post-evento para el inventario de cárcavas y la actualización del diagnóstico donde no haya acceso: obtención sin compra (gestión institucional o fuentes de acceso libre)","km²",122,"12,157.47 ha netas V8 ≈ 122 km²",0.0,"Sin compra: gestión institucional con entidades proveedoras del Estado (p. ej., CONIDA) o fuentes de acceso libre [POR CONFIRMAR]","F2-F3","Ambos"),
- ("E","E · Socialización, taller de involucrados y nuevas autoridades","Taller de involucrados con contenidos y mensajes diferenciados por tipo de involucrado y convocatorias centralizadas (restricciones presupuestales identificadas el 03/11/2026)","taller",3,"1 por provincia [SUPUESTO]",None,"[POR DEFINIR]","F1","Ambos"),
- ("E","E · Socialización, taller de involucrados y nuevas autoridades","Talleres de presentación del proyecto a las autoridades regionales, provinciales y distritales electas","taller",4,"1 regional + 3 provinciales [SUPUESTO]",None,"[POR DEFINIR]","F3","Ambos"),
- ("E","E · Socialización, taller de involucrados y nuevas autoridades","Reuniones distritales y con juntas directivas comunales renovadas","reunión",15,"15 distritos [SUPUESTO: una por distrito]",None,"[POR DEFINIR]","F3","Ambos"),
- ("E","E · Socialización, taller de involucrados y nuevas autoridades","Material de difusión (mapas por distrito, cartillas, actas modelo)","juego",20,"15 distritos + 3 provincias + GORE + reserva [SUPUESTO]",None,"[POR DEFINIR]","F3","Ambos"),
- ("F","F · Seguridad y salud","Equipos de protección personal para lluvias (botas, ponchos, cascos, chalecos, linternas)","juego",8,"6 asistentes prediales + 2 de reserva [SUPUESTO]",None,"[POR DEFINIR]","F0","Ambos"),
- ("F","F · Seguridad y salud","Botiquines, repelente, vacunación y kits de emergencia","juego",3,"1 por camioneta",None,"[POR DEFINIR]","F0","Ambos"),
+ # (código, componente, partida, unidad, cantidad, base del cálculo, CU (S/) o None, fuente del CU, fase, escenario) · V3 del Ing. Cahuas
+ ("A","A · Campo en noviembre de 2026 (Piura): tamizaje predial y visita del E4","Viáticos de especialistas y analistas que acompañan el tamizaje predial (social, legal-predial, SIG)","persona-día",54,"3 especialistas o analistas (uno por camioneta) × 18 días hábiles [SUPUESTO]",VIATICO_REF,F_VIA,"F1","Ambos"),
+ ("A","A · Campo en noviembre de 2026 (Piura): tamizaje predial y visita del E4","Alquiler de camioneta 4x4 a todo costo","vehículo-día",54,"3 camionetas (una por provincia) × 18 días [SUPUESTO]",CAMIONETA_REF,F_CAM,"F1","Ambos"),
+ ("A","A · Campo en noviembre de 2026 (Piura): tamizaje predial y visita del E4","Visita de campo puntual del E4 (D2): viáticos del personal con OS","persona-día",6,"2 personas × 3 días [SUPUESTO]",VIATICO_REF,F_VIA,"F1","Ambos"),
+ ("A","A · Campo en noviembre de 2026 (Piura): tamizaje predial y visita del E4","Visita de campo puntual del E4 (D2): camioneta 4x4 a todo costo","vehículo-día",3,"1 camioneta × 3 días",CAMIONETA_REF,F_CAM,"F1","Ambos"),
+ ("A","A · Campo en noviembre de 2026 (Piura): tamizaje predial y visita del E4","Asambleas comunales F-LA-01 (local, refrigerios, materiales, difusión)","evento",12,"Bloques comunales y de mayor superficie priorizados",700.0,"[POR DEFINIR]","F1","Ambos"),
+ ("B","B · Campo: ventana ampliada (optimista) o residual (base)","Viáticos de especialistas y analistas · ventana ampliada diciembre 2026 - febrero 2027","persona-día",150,"3 especialistas o analistas × 50 días hábiles",VIATICO_REF,F_VIA,"F1","Optimista"),
+ ("B","B · Campo: ventana ampliada (optimista) o residual (base)","Alquiler de camioneta 4x4 a todo costo · ventana ampliada diciembre 2026 - febrero 2027","vehículo-día",150,"3 camionetas × 50 días",CAMIONETA_REF,F_CAM,"F1","Optimista"),
+ ("B","B · Campo: ventana ampliada (optimista) o residual (base)","Viáticos de especialistas y analistas · campo residual abril - mayo 2027","persona-día",84,"3 especialistas o analistas × 28 días hábiles [SUPUESTO]",VIATICO_REF,F_VIA,"F4","Base"),
+ ("B","B · Campo: ventana ampliada (optimista) o residual (base)","Alquiler de camioneta 4x4 a todo costo · campo residual abril - mayo 2027","vehículo-día",84,"3 camionetas × 28 días [SUPUESTO]",CAMIONETA_REF,F_CAM,"F4","Base"),
+ ("B","B · Campo: ventana ampliada (optimista) o residual (base)","Asambleas y reuniones F-LA-01 / F-LA-04 en los bloques restantes, agrupadas por localidad","evento",40,"Agrupación de bloques por centro poblado",None,"—","F1 / F4","Ambos"),
+ ("C","C · Gabinete: especialistas (Lima)","Especialista en costos (E10 y E13) · locación de servicios","mes",3,"Enero a marzo de 2027 [SUPUESTO]",None,"Honorario según TDR y escala de la ANIN","F3","Ambos"),
+ ("C","C · Gabinete: especialistas (Lima)","Especialista en gestión de la implementación y O&M (E11, E12)","mes",4,"Noviembre de 2026 a febrero de 2027",None,"—","F1-F3","Ambos"),
+ ("C","C · Gabinete: especialistas (Lima)","Especialista legal-predial (arreglos institucionales con el Estado, F-LA-05, expedientes AX-04)","mes",5,"Noviembre de 2026 a marzo de 2027 (optimista) o mayo de 2027 (base)",None,"—","F1-F4","Ambos"),
+ ("C","C · Asistentes prediales (Piura provincias)","Dos asistentes prediales adicionales (Santa Catalina de Mossa y Frías) y asignación de Lalaquiz (D3)","persona-mes",10,"2 personas × 5 meses",None,"Contratos vigentes de asistentes prediales","F0-F4","Ambos"),
+ ("C","C · Gabinete: especialistas (Lima)","Continuidad del equipo núcleo del Perfil (coordinación, SIG, social, riesgos, ecosistemas) durante 2027","mes",6,"Enero a junio de 2027; número de personas y escala",None,"Planilla / contratos vigentes de la DIME","F3-F5","Ambos"),
+ ("D","D · Estudios y servicios especializados","Estudio de Hidrología (E4): continuidad de las órdenes de servicio del personal que lo elabora hasta su culminación (30/11/2026); no hay consultor contratado","global",1,"Según las OS vigentes",None,"OS del personal del E4","F1","Ambos"),
+ ("D","D · Estudios y servicios especializados","Imágenes satelitales de alta resolución post-evento para el inventario de cárcavas y la actualización del diagnóstico donde no haya acceso: obtención sin compra (gestión institucional o fuentes de acceso libre)","km²",122,"12,157.47 ha netas V8 ≈ 122 km²",0.0,"Sin compra: gestión institucional con entidades proveedoras del Estado (p. ej., CONIDA) o fuentes de acceso libre","F2-F3","Ambos"),
+ ("E","E · Socialización, taller de involucrados y nuevas autoridades","Taller de involucrados con contenidos y mensajes diferenciados por tipo de involucrado y convocatorias centralizadas (restricciones presupuestales identificadas el 03/11/2026)","taller",3,"1 por provincia",1200.0,"Cotización local","F1","Ambos"),
+ ("E","E · Socialización, taller de involucrados y nuevas autoridades","Talleres de presentación del proyecto a las autoridades regionales, provinciales y distritales electas","taller",4,"1 regional + 3 provinciales",1200.0,"Cotización local","F3","Ambos"),
+ ("E","E · Socialización, taller de involucrados y nuevas autoridades","Reuniones distritales y con juntas directivas comunales renovadas","reunión",15,"15 distritos [SUPUESTO: una por distrito]",600.0,"Cotización local","F3","Ambos"),
+ ("E","E · Socialización, taller de involucrados y nuevas autoridades","Material de difusión (mapas por distrito, cartillas, actas modelo)","juego",20,"15 distritos + 3 provincias + GORE + reserva [SUPUESTO]",50.0,"Cotización local","F3","Ambos"),
+ ("F","F · Seguridad y salud","Equipos de protección personal para lluvias (botas, ponchos, cascos, chalecos, linternas)","juego",8,"6 asistentes prediales + 2 de reserva [SUPUESTO]",500.0,"Cotización local","F0","Ambos"),
+ ("F","F · Seguridad y salud","Botiquines, repelente y kits de emergencia","juego",3,"1 por camioneta",300.0,"Cotización local","F0","Ambos"),
  ("G","G · Logística, datos y tecnología","Servicio de base de datos y aplicativo (PostgreSQL, Render, KoboToolbox) hasta la viabilidad","mes",8,"Noviembre de 2026 a junio de 2027",None,"Planes vigentes [POR DEFINIR]","F0-F5","Ambos"),
- ("G","G · Logística, datos y tecnología","Impresión de fichas, planos y expedientes AX-04; copias certificadas (SUNARP, COFOPRI)","global",1,"[POR DEFINIR]",None,"[POR DEFINIR]","F2-F4","Ambos"),
- ("G","G · Logística, datos y tecnología","Pasajes Lima - Piura - Lima del equipo de gabinete para misiones de coordinación","pasaje",12,"6 misiones × 2 personas [SUPUESTO]",None,"Tarifa vigente [POR DEFINIR]","F0-F5","Ambos"),
- ("G","G · Logística, datos y tecnología","Viáticos de especialistas en las misiones de coordinación Lima - Piura","persona-día",6*2*3,"6 misiones × 2 personas × 3 días [SUPUESTO]",VIATICO_REF,F_VIA,"F0-F5","Ambos"),
+ ("G","G · Logística, datos y tecnología","Impresión de fichas, planos y expedientes AX-04; copias certificadas (SUNARP, COFOPRI)","global",1,"—",1500.0,"Cotización local","F2-F4","Ambos"),
+ ("G","G · Logística, datos y tecnología","Pasajes Lima - Piura - Lima del equipo de gabinete para misiones de coordinación","pasaje",12,"6 misiones × 2 personas [SUPUESTO]",700.0,"Tarifa vigente [POR DEFINIR]","F0-F5","Ambos"),
+ ("G","G · Logística, datos y tecnología","Viáticos de especialistas en las misiones de coordinación Lima - Piura","persona-día",36,"6 misiones × 2 personas × 3 días [SUPUESTO]",VIATICO_REF,F_VIA,"F0-F5","Ambos"),
 ]
-NOTA_PRES = "El SCTR del personal de campo corre por cuenta del propio personal (la DIME verifica su vigencia antes de cada salida). Los asistentes prediales se asignan por ámbito distrital; sus honorarios figuran en el componente C y no reciben viáticos en esta estructura (la tarifa de S/ 160 aplica a especialistas y analistas) [POR CONFIRMAR]. Las imágenes satelitales se obtienen sin compra."
+NOTA_PRES = "El SCTR del personal de campo corre por cuenta del propio personal (la DIME verifica su vigencia antes de cada salida). Los asistentes prediales se asignan por ámbito distrital; sus honorarios figuran en el componente C y no reciben viáticos en esta estructura (la tarifa de S/ 160 aplica a especialistas y analistas). Las imágenes satelitales se obtienen sin compra."
 CONTINGENCIA_PCT = 0.10  # [SUPUESTO] reserva sobre el subtotal; ajustar según la política de la ANIN
 # Cartera: Matriz v1.6 (sección de zanja 0.60 × 0.50 m) + diques en 55 cárcavas (23.08 km) del Resumen Ejecutivo del 03/11/2026.
 # D1 recalculado el 05/11/2026 con la Matriz v1.6 (P_ZI_ANCHO = 0.40, P_ZI_PROF = 0.40; P_ARIDO = 2 sin obras en P < 400 mm)
@@ -287,7 +286,7 @@ CARTERA = {"inversion": 259.85, "om": 134.27, "total": 394.12, "pct": 105.8, "br
 
 # ---------------------------------------------------------------- Cambios de alcance y contrataciones
 CAMBIOS = [
- ("Liberación de áreas por tipo de titular","Ruta F-LA prevista para los 117 bloques antes de fijar metas; 0 actas conformes al 03/11/2026.","En el Perfil: predios del Estado mediante arreglos institucionales de gabinete con el GORE Piura y Agricultura (meta 50 %) y comunidades campesinas mediante actas de asamblea (25 %); los predios privados se trasladan al expediente técnico. Si en el escenario base persisten bloques sin acta, las metas se fijan sobre la superficie con arreglos verificados y el resto se presenta como cartera condicionada.","Menos campo; metas sustentadas en superficie con arreglos verificados; posible ajuste del área de intervención dentro del rango de 10,000 a 15,000 ha.","SESDI / OPMI ANIN","Alcance"),
+ ("Liberación de áreas por tipo de titular","Prevista para los 117 bloques antes de fijar metas; 0 actas conformes al 03/11/2026.","En el Perfil: predios del Estado mediante arreglos institucionales de gabinete con el GORE Piura y Agricultura (meta referencial 50 %) y comunidades campesinas mediante actas de asamblea (meta referencial 25 %). Respecto a los predios privados es necesario que desde la fase de perfil se identifiquen las posibles afectaciones y contingencias prediales, aunque su saneamiento o gestión definitiva se desarrolle en una etapa posterior. Si en el escenario base persisten bloques sin acta, las metas se fijan sobre la superficie con arreglos verificados y el resto se presenta como cartera condicionada.","Menos campo; metas sustentadas en superficie con arreglos verificados; posible ajuste del área de intervención dentro del rango de 10,000 a 15,000 ha.","SESDI / OPMI ANIN","Alcance"),
  ("Priorización del tamizaje predial","Priorización prevista en la versión 1.0 por nivel de riesgo.","Priorización por superficie y por bloques comunales, avanzando por los predios más alejados mientras haya acceso.","Mayor superficie liberada por salida de campo.","Coordinación del Perfil","Método"),
  ("Campo restringido a lo estrictamente necesario","Varios entregables preveían salidas de campo (fichas sociales, pendientes con clinómetro, validación del E6, cárcavas).","Solo el tamizaje predial requiere campo; el resto se culmina en gabinete: pendiente por DEM (E1), fichas sociales con lo levantado (E2), validación florística al expediente técnico (E6), cárcavas con salidas puntuales en zonas accesibles o imágenes satelitales (E10); visita puntual del E4.","Reduce exposición del personal y días de campo sin afectar la calidad del diagnóstico.","Coordinación del Perfil","Alcance y método"),
  ("Ajuste de la cartera al techo (D1)","Matriz v1.6 con diques en cárcavas: S/ 394.12 M, 105.8 % del presupuesto total (faltan S/ 21.68 M).","Adoptar la zanja de la ficha ANIN reajustada de 0.40 × 0.40 m (S/ 370.01 M, 99.4 % del techo; margen de S/ 2.43 M) y evaluar las obras en los 5 bloques con lluvia menor de 400 mm (S/ 360.39 M, 96.8 %; margen de S/ 12.05 M).","Cartera dentro del techo de S/ 372,442,809; metas de la línea marrón ajustadas; margen estrecho para preinversión y expediente técnico.","SESDI-IN (30/11/2026)","Alcance técnico"),
@@ -335,7 +334,7 @@ ADMIN = [
  ("Autoridades provinciales (Morropón, Huancabamba, Ayabaca)","Alcaldes provinciales electos el 04/10/2026 [POR VERIFICAR]; asumen el 01/01/2027.","Nuevos interlocutores para la coordinación territorial, el apoyo logístico y las plataformas de Defensa Civil.","Cerrar actas de compromiso con la gestión saliente antes del 31/12/2026; presentación a los electos en enero; reuniones de trabajo por provincia.","Nov 2026 - Feb 2027","Especialista social / Coordinación"),
  ("Autoridades distritales (15 distritos)","Alcaldes distritales electos el 04/10/2026 [POR VERIFICAR]; asumen el 01/01/2027.","Cambio de regidores, gerencias y agentes municipales que convocan asambleas y validan información local; posible pérdida de acuerdos informales.","Carpetas por distrito (mapa de bloques, centros poblados, fichas aplicadas, compromisos); actas de ratificación; agenda de asambleas F-LA-01 coordinada con las nuevas gestiones.","Dic 2026 - Mar 2027","Especialista social"),
  ("Autoridades comunales","Juntas directivas con mandatos de dos años; calendario eleccionario por comunidad [POR VERIFICAR] con la DRA Piura y SUNARP.","Las actas de asamblea y de compromiso de aceptación social (meta 25 % de comunidades) requieren ratificación por la nueva junta; riesgo de reapertura de acuerdos.","Levantar el calendario de cada comunidad; cerrar actas con las juntas vigentes en noviembre; inscribir acuerdos en libros de actas; ratificación en la primera asamblea de 2027.","Nov 2026 - Mar 2027","Especialista social / legal-predial"),
- ("Gobierno Nacional y ANIN","Estado de Emergencia nacional por el FEN (D.S. N° 149-2026-PCM); la DIME es la dirección de intervenciones de emergencia de la ANIN.","Prioridad institucional en la respuesta; posible reasignación de personal; cambios de titulares en la cadena de aprobación [POR VERIFICAR].","Formalizar la dedicación del equipo núcleo; presentar el Perfil como medida de reducción del riesgo en la zona de origen; informes quincenales a la SESDI; decisiones D1 a D4 con sus plazos.","Nov 2026 - Jun 2027","Jefatura DIME / SESDI"),
+ ("Gobierno Nacional y ANIN","Estado de Emergencia nacional por el FEN (D.S. N° 149-2026-PCM); la DIME es la dirección de intervenciones de emergencia de la ANIN.","Prioridad institucional en la respuesta; posible reasignación de personal; cambios de titulares en la cadena de aprobación.","Formalizar la dedicación del equipo núcleo; presentar el Perfil como medida de reducción del riesgo en la zona de origen; informes quincenales a la SESDI; decisiones D1 a D4 con sus plazos.","Nov 2026 - Jun 2027","Jefatura DIME / SESDI"),
  ("Presupuesto institucional y contratos","Cierre del ejercicio 2026; PIA 2027; contratos de personal y servicios con vencimiento al 31/12/2026; restricciones presupuestales para el taller de involucrados.","Interrupción de enero si no se programan las certificaciones y contrataciones; taller sin financiamiento.","Programar en noviembre las certificaciones 2026 y 2027, la renovación de contratos, los 2 asistentes prediales (D3) y los TDR de los servicios estrictamente necesarios (sección 5).","Nov - Dic 2026","Administración DIME"),
  ("Banco de Inversiones (Invierte.pe)","Idea registrada (Código de Idea 337830); Formato N° 07-A por actualizar con el avance del Perfil.","El cambio de fecha de culminación y de monto debe reflejarse en el registro; la viabilidad depende de la revisión de la OPMI.","Actualizar el Formato N° 07-A al cerrar la Identificación y al cerrar el Perfil; reunión previa con la OPMI; sustentar el cronograma con este plan.","Dic 2026 y Mar 2027 (optimista) / May 2027 (base)","SESDI / OPMI ANIN"),
  ("Coordinación con el SINAGERD (COER Piura, INDECI, CENEPRED)","Emergencia de nivel 4; el INDECI coordina y hace seguimiento de las acciones del decreto (artículo 2).","Acceso a reportes de eventos, vías y daños; posibilidad de registrar el proyecto como intervención de reducción del riesgo; agenda compartida con las autoridades.","Oficio de coordinación al COER Piura y al INDECI; acceso al SINPAD; participación en las plataformas provinciales cuando corresponda.","Nov 2026 - Abr 2027","Especialista en riesgos / Coordinación"),
