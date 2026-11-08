@@ -575,6 +575,49 @@ class TestHojaDeGraficos(unittest.TestCase):
                     f"un grafico llega a {caja[3]:.1f} cm y la seccion "
                     f"«{titulo}» empieza en {y_titulo:.1f} cm")
 
+    def test_cada_grafico_trae_titulo_y_etiquetas_de_datos(self):
+        """Sin rotulo de valor, el grafico obliga a adivinar la cifra."""
+        for grafico in self._hoja_graficos()._charts:
+            self.assertIsNotNone(grafico.title)
+            etiquetas = grafico.dLbls or next(
+                (s.dLbls for s in grafico.series if s.dLbls), None)
+            self.assertIsNotNone(etiquetas, type(grafico).__name__)
+            self.assertTrue(etiquetas.showVal or etiquetas.showPercent)
+
+    def test_las_series_llevan_color_por_categoria(self):
+        """El color informa la clase; una serie de un solo tono no dice nada."""
+        for grafico in self._hoja_graficos()._charts:
+            serie = grafico.series[0]
+            if serie.dLbls is None and grafico.dLbls is None:
+                continue
+            self.assertTrue(serie.data_points,
+                            f"{type(grafico).__name__} sin color por punto")
+
+    def test_el_texto_de_ejes_y_leyendas_no_escribe_el_literal_none(self):
+        """openpyxl inserta una corrida vacia si el parrafo no declara 'r'.
+
+        Excel la escribe como el literal «None» sobre el eje, que es lo que
+        se ve al abrir el libro.
+        """
+        contenido = rb.generar_excel_con_graficos(self.libro, self.datos)
+        with zipfile.ZipFile(io.BytesIO(contenido)) as z:
+            for nombre in z.namelist():
+                if nombre.startswith("xl/charts/chart"):
+                    self.assertNotIn("<a:t>None</a:t>",
+                                     z.read(nombre).decode("utf-8"))
+
+    def test_la_brecha_msavi_se_grafica_cuando_hay_condicion(self):
+        ws = self._hoja_graficos()
+        titulos = [c.value for fila in ws.iter_rows() for c in fila
+                   if isinstance(c.value, str)]
+        self.assertTrue(any("Brecha de degradacion" in t for t in titulos))
+
+    def test_la_hoja_sale_apaisada_y_ajustada_al_ancho(self):
+        """El libro se imprime: sin esto la tabla se parte entre paginas."""
+        ws = self._hoja_graficos()
+        self.assertEqual(ws.page_setup.orientation, "landscape")
+        self.assertEqual(ws.page_setup.fitToWidth, 1)
+
     def test_el_consolidado_tampoco_encima_sus_graficos(self):
         contenido = rb.generar_excel_consolidado([self.datos, self.datos])
         wb = load_workbook(io.BytesIO(contenido))

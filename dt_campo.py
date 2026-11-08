@@ -1634,33 +1634,78 @@ def _hoja_registro_campo(wb, integrado):
     return ws
 
 
+# El color de esta hoja no distingue series: informa severidad. Verde = la
+# fuente de campo y el gabinete coinciden; ocre = el dato cambio; rojo = la
+# discrepancia sigue abierta. Es la misma lectura que la hoja de graficos de
+# las fichas de resumen, para que ambos libros se lean igual.
+_COLOR_PROCEDENCIA = {CAMPO: "1B4D2E", GABINETE: "3C6E8C", OFICIAL: "6C7A89"}
+_COLOR_ESTADO = {
+    CONFORME: "1B4D2E",
+    COMPLEMENTADO: "3A7C4F",
+    ACTUALIZADO: "C4A03C",
+    DISCREPANTE: "B03A34",
+    PENDIENTE: "A6A6A6",
+}
+# Cobertura: del dosel continuo al suelo expuesto.
+_COLOR_ESTRATO = {
+    "Dosel": "1B4D2E",
+    "Arbustiva": "3A7C4F",
+    "Herbácea": "7AA874",
+    "Hojarasca": "C4A03C",
+    "Suelo desnudo": "B03A34",
+}
+# Intensidad declarada en la F-DT-04 (1 ligera - 4 muy fuerte).
+_COLOR_INTENSIDAD = {1: "7AA874", 2: "C4A03C", 3: "B06036", 4: "B03A34"}
+
+
 def _hoja_graficos_integracion(wb, integrado):
-    """Series y graficos nativos de Excel sobre la integracion del bloque."""
+    """Series y graficos nativos de Excel sobre la integracion del bloque.
+
+    Usa la misma maqueta de bandas que la hoja de graficos de las fichas de
+    resumen: la tabla a la izquierda y sus graficos a la derecha, cada banda
+    por debajo de la anterior. Antes la hoja quedaba en vertical sin ajuste
+    de impresion y los graficos se partian entre paginas.
+    """
     if "Gráficos de integración" in wb.sheetnames:
         del wb["Gráficos de integración"]
     ws = wb.create_sheet("Gráficos de integración")
-    fila = rbq.titulo_hoja(
+    fila = rbq.preparar_hoja_graficos(
         ws, "GRÁFICOS DE LA INTEGRACIÓN — BLOQUE %s"
-        % integrado["codigo_bloque"], ancho=8)
+        % integrado["codigo_bloque"])
 
-    fila_cab, fila = rbq.escribir_tabla(
-        ws, fila, "Hechos declarados por fuente",
+    fila_cab, fin = rbq.escribir_tabla(
+        ws, fila, "A. Hechos declarados por fuente",
         ["Fuente", "Hechos"],
         [[ETIQUETA_FUENTE[f], integrado["conteo_fuente"].get(f, 0)]
-         for f in FUENTES])
-    libre = rbq.grafico_torta_excel(ws, "Procedencia de los hechos declarados",
-                                    fila_cab, len(FUENTES), 1, 2,
-                                    "D%d" % fila_cab)
-    fila = max(fila, libre) + 2
+         for f in FUENTES],
+        formatos=[None, rbq.FMT_ENTERO])
+    tintas = [_COLOR_PROCEDENCIA[f] for f in FUENTES]
+    libres = [
+        rbq.grafico_torta_excel(
+            ws, "Procedencia de los hechos declarados",
+            fila_cab, len(FUENTES), 1, 2, rbq.ancla_grafico(0, fila_cab),
+            subtitulo="Bloque %s" % integrado["codigo_bloque"],
+            colores=tintas),
+        rbq.grafico_barras_excel(
+            ws, "Hechos por fuente", fila_cab, len(FUENTES), 1, 2,
+            rbq.ancla_grafico(1, fila_cab), eje_y="hechos",
+            subtitulo="Campo, gabinete y fuente oficial",
+            colores=tintas, num_fmt=rbq.FMT_ENTERO),
+    ]
+    fila = rbq.cierre_banda(fin, libres)
 
-    fila_cab, fila = rbq.escribir_tabla(
-        ws, fila, "Estado del cruce entre fuentes",
+    fila_cab, fin = rbq.escribir_tabla(
+        ws, fila, "B. Estado del cruce entre fuentes",
         ["Estado", "Hechos"],
-        [[e, integrado["conteo_estado"].get(e, 0)] for e in ESTADOS])
-    libre = rbq.grafico_barras_excel(ws, "Estado del cruce entre fuentes",
-                                     fila_cab, len(ESTADOS), 1, 2,
-                                     "D%d" % fila_cab, eje_y="Hechos")
-    fila = max(fila, libre) + 2
+        [[e, integrado["conteo_estado"].get(e, 0)] for e in ESTADOS],
+        formatos=[None, rbq.FMT_ENTERO])
+    libre = rbq.grafico_barras_excel(
+        ws, "Estado del cruce entre fuentes", fila_cab, len(ESTADOS), 1, 2,
+        rbq.ancla_grafico(0, fila_cab), eje_y="hechos",
+        subtitulo="Rojo: discrepancia abierta entre campo y gabinete",
+        colores=[_COLOR_ESTADO[e] for e in ESTADOS],
+        num_fmt=rbq.FMT_ENTERO)
+    fila = rbq.cierre_banda(fin, [libre])
 
     estratos = [
         ("Dosel", integrado["por_clave"]["cobertura_dosel"]["valor"]),
@@ -1671,36 +1716,65 @@ def _hoja_graficos_integracion(wb, integrado):
     ]
     estratos = [(e, _num(v)) for e, v in estratos if _num(v) is not None]
     if estratos:
-        fila_cab, fila = rbq.escribir_tabla(
-            ws, fila, "Cobertura por estrato — campo (%)",
-            ["Estrato", "% del área"], [[e, v] for e, v in estratos])
-        libre = rbq.grafico_barras_excel(ws, "Cobertura por estrato (%)",
-                                         fila_cab, len(estratos), 1, 2,
-                                         "D%d" % fila_cab, eje_y="%")
-        fila = max(fila, libre) + 2
+        fila_cab, fin = rbq.escribir_tabla(
+            ws, fila, "C. Cobertura por estrato — campo (%)",
+            ["Estrato", "% del área"], [[e, v] for e, v in estratos],
+            formatos=[None, rbq.FMT_PCT])
+        libre = rbq.grafico_barras_excel(
+            ws, "Cobertura por estrato (%)", fila_cab, len(estratos), 1, 2,
+            rbq.ancla_grafico(0, fila_cab), eje_y="% del área",
+            subtitulo="Observación de campo (F-DT-02)",
+            colores=[_COLOR_ESTRATO[e] for e, _ in estratos],
+            num_fmt=rbq.FMT_PCT)
+        fila = rbq.cierre_banda(fin, [libre])
 
     causas = integrado["causas_activas"][:10]
     if causas:
-        fila_cab, fila = rbq.escribir_tabla(
-            ws, fila, "Causas activas de degradación (F-DT-04)",
+        fila_cab, fin = rbq.escribir_tabla(
+            ws, fila, "D. Causas activas de degradación (F-DT-04)",
             ["Causa", "Intensidad (1 ligera - 4 muy fuerte)"],
-            [[c["causa"], c["peso"]] for c in causas])
-        libre = rbq.grafico_barras_excel(ws, "Causas activas por intensidad",
-                                         fila_cab, len(causas), 1, 2,
-                                         "D%d" % fila_cab, eje_y="Intensidad")
-        fila = max(fila, libre) + 2
+            [[c["causa"], c["peso"]] for c in causas],
+            formatos=[None, rbq.FMT_ENTERO])
+        libre = rbq.grafico_barras_excel(
+            ws, "Causas activas por intensidad", fila_cab, len(causas), 1, 2,
+            rbq.ancla_grafico(0, fila_cab), eje_y="intensidad",
+            subtitulo="Rojo: intensidad muy fuerte declarada en campo",
+            colores=[_COLOR_INTENSIDAD.get(_num(c["peso"]) or 0, "A6A6A6")
+                     for c in causas],
+            num_fmt=rbq.FMT_ENTERO, horizontal=True)
+        fila = rbq.cierre_banda(fin, [libre])
 
     calificaciones = [(c, integrado["consistencia_resumen"].get(c, 0))
                       for c in rbq.CALIFICACIONES]
-    fila_cab, fila = rbq.escribir_tabla(
-        ws, fila, "Control de consistencia por calificación",
+    total = sum(n for _, n in calificaciones)
+    fila_cab, fin = rbq.escribir_tabla(
+        ws, fila, "E. Control de consistencia por calificación",
         ["Calificación", "Verificaciones"],
-        [[c, n] for c, n in calificaciones])
-    rbq.grafico_torta_excel(ws, "Control de consistencia", fila_cab,
-                               len(calificaciones), 1, 2, "D%d" % fila_cab)
+        [[c, n] for c, n in calificaciones],
+        formatos=[None, rbq.FMT_ENTERO])
+    tintas = [rbq.COLOR_CALIFICACION.get(c, "A6A6A6")
+              for c, _ in calificaciones]
+    libres = [
+        rbq.grafico_torta_excel(
+            ws, "Control de consistencia", fila_cab, len(calificaciones),
+            1, 2, rbq.ancla_grafico(0, fila_cab),
+            subtitulo="Total: %d verificaciones" % total, colores=tintas),
+        rbq.grafico_barras_excel(
+            ws, "Verificaciones por calificación", fila_cab,
+            len(calificaciones), 1, 2, rbq.ancla_grafico(1, fila_cab),
+            eje_y="verificaciones",
+            subtitulo="Rojo: discrepancia sustantiva pendiente",
+            colores=tintas, num_fmt=rbq.FMT_ENTERO),
+    ]
+    fila = rbq.cierre_banda(fin, libres)
 
-    for columna, ancho in zip("AB", (44, 18)):
-        ws.column_dimensions[columna].width = ancho
+    rbq.nota_pie(
+        ws, fila,
+        "Graficos generados por el aplicativo IN Piura sobre los hechos "
+        "integrados del bloque. Cada hecho se cuenta una sola vez y se "
+        "atribuye a la fuente que lo declara; las clases sin dato declarado "
+        "se omiten y no se estiman. Sistema de referencia UTM WGS 84 "
+        "Zona 17S (EPSG:32717).")
     return ws
 
 

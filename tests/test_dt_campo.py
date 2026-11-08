@@ -21,7 +21,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import dt_campo as dtc            # noqa: E402
 import resumenes_bloques as rbq   # noqa: E402
-from test_resumenes_bloques import construir_libro  # noqa: E402
+from test_resumenes_bloques import (construir_libro,  # noqa: E402
+                                    graficos_encimados)
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -335,6 +336,58 @@ class TestActualizacionLibro(unittest.TestCase):
 # ══════════════════════════════════════════════════════════════════════════
 # Agregacion y reportes
 # ══════════════════════════════════════════════════════════════════════════
+
+class TestHojaGraficosIntegracion(unittest.TestCase):
+    """La hoja de graficos del libro V7.
+
+    Comparte la maqueta con la hoja de graficos de las fichas de resumen:
+    bandas apiladas, impresion apaisada ajustada al ancho y un color por
+    categoria. Sin esto los graficos se partian entre paginas y salian con
+    el azul por defecto de Excel.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        integrado = dtc.integrar_bloque(resumen_de(), ficha_campo())
+        contenido = dtc.actualizar_libro(construir_libro(codigo="M9B1"),
+                                         integrado)
+        cls.ws = load_workbook(
+            io.BytesIO(contenido))["Gráficos de integración"]
+
+    def test_se_imprime_apaisada_y_ajustada_al_ancho(self):
+        self.assertEqual(self.ws.page_setup.orientation, "landscape")
+        self.assertEqual(self.ws.page_setup.fitToWidth, 1)
+        self.assertTrue(self.ws.sheet_properties.pageSetUpPr.fitToPage)
+
+    def test_ningun_grafico_se_encima_con_otro(self):
+        self.assertEqual(graficos_encimados(self.ws), [])
+
+    def test_cada_grafico_colorea_sus_categorias_y_rotula_el_valor(self):
+        self.assertTrue(self.ws._charts, "la hoja quedo sin graficos")
+        for grafico in self.ws._charts:
+            serie = grafico.series[0]
+            puntos = serie.data_points or []
+            self.assertTrue(
+                puntos, "serie sin color por punto en la hoja")
+            # Tras el viaje por el XML el relleno vuelve como ColorChoice,
+            # no como la cadena con que se declaro.
+            tintas = {getattr(p.spPr.solidFill, "srgbClr", p.spPr.solidFill)
+                      for p in puntos}
+            self.assertTrue(
+                all(isinstance(t, str) and len(t) == 6 for t in tintas),
+                "color sin definir en un grafico de la hoja")
+            self.assertTrue(
+                serie.dLbls is not None or grafico.dLbls is not None,
+                "grafico sin etiquetas de valor en la hoja")
+
+    def test_los_conteos_no_se_escriben_con_decimales(self):
+        """Un numero de hechos es entero; "2.0000" delataba el formato
+        heredado de las hectareas."""
+        formatos = {c.number_format for fila in self.ws.iter_rows(min_col=2,
+                                                                  max_col=2)
+                    for c in fila if isinstance(c.value, (int, float))}
+        self.assertNotIn("0.0000", formatos)
+
 
 class TestReportes(unittest.TestCase):
 
