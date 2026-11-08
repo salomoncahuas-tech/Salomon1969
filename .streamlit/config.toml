@@ -1,0 +1,6 @@
+# Tema institucional ANIN: solo apariencia (colores y tipografia).
+# No modifica datos, base de datos ni configuracion del servidor.
+[theme]
+base = "light"
+primaryColor = "#2A7A48"
+font = "sans serif"

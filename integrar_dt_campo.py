@@ -162,10 +162,16 @@ def main():
     # Siempre se parte de los libros de gabinete V6, no de una integracion
     # anterior: asi el registro de lo que la verificacion de campo cambia se
     # calcula contra la misma linea base en cada corrida.
+    # La linea base viaja extraida o como el .zip publicado en GitHub; se
+    # admiten las dos formas y manda la carpeta cuando ambas estan.
     libros = rbq.libros_del_repositorio(
         os.path.join(RAIZ, rbq.CARPETA_LIBROS_V6))
     if not libros:
-        sys.exit("No se encontro la carpeta %s." % rbq.CARPETA_LIBROS_V6)
+        libros = rbq.libros_del_zip(
+            os.path.join(RAIZ, rbq.ZIP_LIBROS))
+    if not libros:
+        sys.exit("No se encontro la linea base V6: ni la carpeta %s ni el "
+                 "archivo %s." % (rbq.CARPETA_LIBROS_V6, rbq.ZIP_LIBROS))
     print("  %d libros de resumen leidos." % len(libros))
 
     print("Integrando y actualizando los libros...")

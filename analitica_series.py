@@ -181,15 +181,29 @@ def _sino(valor):
     return _txt(valor)
 
 
-def _lista(valor):
-    """Valor de un multiselect: lista de opciones marcadas."""
+def _lista(valor, opciones=None):
+    """Valor de un multiselect: lista de opciones marcadas (sin repetir).
+
+    Las fichas antiguas o importadas guardan el marcado como texto unido
+    ("Letrina seca / Pozo séptico"). Como algunas opciones llevan su propia
+    barra ("JASS / Sistema local"), el texto se separa reconociendo las
+    opciones de la lista de la ficha y no partiendo en cada barra.
+    """
     if isinstance(valor, (list, tuple, set)):
-        return [_txt(v) for v in valor if _txt(v)]
+        return list(dict.fromkeys(_txt(v) for v in valor if _txt(v)))
     texto = _txt(valor)
     if not texto:
         return []
+    if opciones and texto not in opciones:
+        clave = _clave(texto)
+        halladas = [o for o in opciones if _clave(o) and _clave(o) in clave]
+        # Una opcion contenida en otra mas larga ya hallada no cuenta dos veces.
+        halladas = [o for o in halladas
+                    if not any(o != h and _clave(o) in _clave(h) for h in halladas)]
+        if halladas:
+            return halladas
     if ";" in texto:
-        return [p.strip() for p in texto.split(";") if p.strip()]
+        return list(dict.fromkeys(p.strip() for p in texto.split(";") if p.strip()))
     return [texto]
 
 
@@ -213,6 +227,17 @@ def _serie(id_, titulo, forma, filas, cat, val, **extra):
         "orden_sub": None, "escala": "neutra", "colores": None,
         "unidad": "", "nota": "", "descripcion": "", "eje_x": "", "eje_y": "",
         "decimales": 0,
+        # Base de los porcentajes del libro Excel (ver _base_porcentaje):
+        # "auto", "fila", "columna", "total", ("ref", subclase), un entero
+        # (N.° de fichas o de CP, para marcado multiple) o None (no aplica).
+        "pct_base": "auto",
+        # Rotulo de la base entera (marcado multiple): "ficha(s)" o
+        # "centro(s) poblado(s) con dato".
+        "base_texto": "ficha(s)",
+        # Totales de la tabla (ver _modo_totales): "auto", "columnas",
+        # "filas", "ambos", "promedio", "base" o "ninguno".
+        "totales": "auto",
+        "etiqueta_total": "Total",
     }
     serie.update(extra)
     # Una serie con color declarado por clase viene de una escala ordenada
@@ -474,9 +499,13 @@ def _eje_x(alt, serie, escala, tope=0):
     "0 1 1 2". Por debajo de una docena se fijan los enteros uno a uno y por
     encima basta con exigir el paso minimo de 1.
     """
-    fmt = _formato(serie)
+    # Un eje en % se rotula en enteros ("20", no "20.0") aunque la serie
+    # traiga decimales: esos van en el tooltip y en la tabla.
+    fmt = ",.0f" if serie.get("unidad") == "%" else _formato(serie)
     ejes = {"format": fmt, "labelFontSize": 10, "labelFlush": False}
-    if serie.get("decimales", 0) == 0:
+    if serie.get("unidad") == "%" and serie.get("maximo"):
+        ejes["values"] = list(range(0, int(serie["maximo"]) + 1, 10))
+    elif serie.get("decimales", 0) == 0:
         ejes["tickMinStep"] = 1
         if 0 < tope <= 12:
             ejes["values"] = list(range(0, int(math.ceil(tope)) + 1))
@@ -540,9 +569,17 @@ def _barras_multiples(alt, base, serie, t, forma, categorias, subclases):
                alt.Tooltip(f"{sub}:N", title="Clase"),
                alt.Tooltip(f"{val}:Q", title=unidad or "Valor", format=fmt)]
 
-    if forma == "apiladas":
+    if forma == "apiladas" and serie.get("maximo"):
+        # Composicion en % de un todo (familias del ambito): la escala llega
+        # al 100 % para que se lea cuanto falta, no solo cuanto hay.
+        tope = float(serie["maximo"])
+        escala_x = alt.Scale(domain=[0, tope], nice=False)
+    elif forma == "apiladas":
         totales = base.data.groupby(cat)[val].sum()
         tope, escala_x = float(totales.max() or 0), alt.Scale(nice=False)
+    elif serie.get("maximo"):
+        tope = float(serie["maximo"])
+        escala_x = alt.Scale(domain=[0, tope], nice=False)
     else:
         tope, escala_x = float(base.data[val].max() or 0), alt.Scale()
     codificacion = {
@@ -624,7 +661,10 @@ def tabla_serie(serie):
 
     Es la vista tabular que acompana a cada grafico: sostiene la lectura de
     los tonos que no alcanzan 3:1 de contraste sobre el fondo y permite
-    copiar los valores sin exportar el libro.
+    copiar los valores sin exportar el libro. Sale de la misma matriz que el
+    grafico y el Excel (_pivote), de modo que las tres vistas coinciden, y
+    solo agrega un total o un porcentaje donde tiene sentido (ver
+    _modo_totales): nunca suma porcentajes ni unidades distintas.
     """
     import pandas as pd
     filas = serie.get("filas") or []
@@ -641,18 +681,27 @@ def tabla_serie(serie):
         if orden_sub:
             df = df[orden_sub + [c for c in df.columns if c not in orden_sub]]
         return df.reset_index()
+    modo = _modo_totales(serie)
+    categorias, subclases, matriz = _pivote(serie)
+    cabecera = serie.get("eje_y") or "Clase"
     if sub:
-        df = pd.DataFrame(filas).pivot_table(
-            index=cat, columns=sub, values=val, aggfunc="sum", fill_value=0)
-        orden_sub = [c for c in (serie.get("orden_sub") or []) if c in df.columns]
-        df = df[orden_sub + [c for c in df.columns if c not in orden_sub]]
-        df["Total"] = df.sum(axis=1)
-        return df.sort_values("Total", ascending=False).reset_index()
+        df = pd.DataFrame(matriz, columns=subclases, dtype="float")
+        df.insert(0, cabecera, categorias)
+        if modo in ("ambos", "filas") and len(subclases) > 1:
+            df[serie.get("etiqueta_total") or "Total"] = \
+                df[subclases].sum(axis=1, min_count=1)
+        # Se redondea despues de totalizar: el total de una composicion en %
+        # no puede pasar de 100 por sumar tramos ya redondeados.
+        return df.round(serie["decimales"]) if serie.get("decimales") else df
     etiqueta = serie.get("unidad") or "Valor"
-    df = pd.DataFrame([{"Clase": f[cat], etiqueta: f[val]} for f in filas])
+    df = pd.DataFrame({cabecera: categorias,
+                       etiqueta: [fila[0] for fila in matriz]})
     total = df[etiqueta].sum()
-    if total:
+    base = serie.get("pct_base")
+    if modo == "columnas" and total:
         df["% del total"] = (100.0 * df[etiqueta] / total).round(1)
+    elif modo == "base" and isinstance(base, int) and base:
+        df["% de la base"] = (100.0 * df[etiqueta] / base).round(1)
     return df
 
 
@@ -662,6 +711,320 @@ def tabla_serie(serie):
 # Los graficos se generan como objetos nativos de Excel (no como imagenes):
 # el usuario puede reordenarlos, cambiar la escala o copiarlos a Word sin
 # perder calidad, y las series quedan a la vista en la misma hoja.
+
+
+# Tablas en porcentaje y rotulos de valor. El libro puede emitirse en
+# valores absolutos, en porcentaje o con ambas tablas; la base de cada
+# porcentaje la declara la propia serie (ver `_base_porcentaje`).
+
+_FORMATO_PCT = "0.0%"
+
+
+def _formato_numero(serie):
+    decimales = serie.get("decimales", 0) or 0
+    return "#,##0" if not decimales else "#,##0." + "0" * decimales
+
+
+def _modo_totales(serie):
+    """Totales de la tabla de una serie.
+
+    - "columnas": fila TOTAL con =SUMA de cada columna (conteos simples).
+    - "ambos": ademas, columna de total por fila (composiciones aditivas).
+    - "filas": solo la columna de total por fila (baterias de preguntas:
+      sumar los "Si" de preguntas distintas no significa nada).
+    - "promedio": fila PROMEDIO con =PROMEDIO (series en %).
+    - "base": marcado multiple; fila con la base y columna en % de la base.
+    - "ninguno": sin totales (unidades mixtas o indices).
+    """
+    modo = serie.get("totales", "auto")
+    if modo and modo != "auto":
+        return modo
+    if serie.get("unidad") == "%":
+        return "promedio"
+    base = serie.get("pct_base", "auto")
+    if base is None:
+        return "ninguno"
+    if isinstance(base, int) and not isinstance(base, bool):
+        return "base"
+    forma = serie.get("forma")
+    if forma == "mapa_calor":
+        return "ambos"
+    if forma == "apiladas":
+        return "filas" if serie.get("escala") == "sino" else "ambos"
+    return "columnas"
+
+
+def _div(a, b):
+    return (a / b) if b else 0.0
+
+
+def _base_porcentaje(serie):
+    """Denominador de los porcentajes de una serie, o None si no aplica.
+
+    - "fila": barras apiladas; cada categoria suma 100 % (composicion).
+    - "columna": barras simples o agrupadas; cada clase sobre el total.
+    - "total": mapa de calor; cada celda sobre el total general.
+    - ("ref", subclase): cada valor sobre el de una subclase de la misma
+      fila (p. ej. asistentes sobre convocados).
+    - entero: N.° de fichas, para preguntas de marcado multiple, donde la
+      suma supera el numero de fichas.
+    - None: la serie ya esta en porcentaje o mezcla unidades.
+    """
+    base = serie.get("pct_base", "auto")
+    if base is None or serie.get("unidad") == "%":
+        return None
+    if isinstance(base, tuple) and not any(
+            f.get(serie.get("sub")) == base[1] for f in serie.get("filas") or []):
+        return None             # ningun ambito trae la referencia (convocados)
+    if base != "auto":
+        return base
+    if serie.get("forma") == "mapa_calor":
+        return "total"
+    if serie.get("sub") and serie.get("forma") == "apiladas":
+        return "fila"
+    return "columna"
+
+
+def _texto_base(base, subclases, base_texto="ficha(s)"):
+    if base == "fila":
+        return "Porcentaje sobre el total de cada fila (cada categoría suma 100 %)."
+    if base == "columna":
+        return ("Porcentaje sobre el total de cada columna (la columna suma "
+                "100 %).")
+    if base == "total":
+        return "Porcentaje sobre el total general de la tabla."
+    if isinstance(base, tuple):
+        return f"Porcentaje respecto de «{base[1]}» en cada fila."
+    return (f"Porcentaje sobre {base} {base_texto}; por el marcado "
+            "múltiple, la suma puede superar el 100 %.")
+
+
+def _matriz_porcentaje(base, subclases, matriz):
+    """Matriz en fracciones (0-1, formato 0.0 %) y su fila de totales."""
+    n_sub = len(subclases)
+    col_tot = [sum(f[j] or 0 for f in matriz) for j in range(n_sub)]
+    gran = sum(col_tot)
+    if base == "fila":
+        pct = [[_div(v or 0, sum(x or 0 for x in f)) for v in f] for f in matriz]
+        tot = [_div(c, gran) for c in col_tot]
+    elif base == "columna":
+        pct = [[_div(v or 0, col_tot[j]) for j, v in enumerate(f)] for f in matriz]
+        tot = [1.0 if c else 0.0 for c in col_tot]
+    elif base == "total":
+        pct = [[_div(v or 0, gran) for v in f] for f in matriz]
+        tot = [_div(c, gran) for c in col_tot]
+    elif isinstance(base, tuple):
+        # Solo las filas con referencia (p. ej. talleres con convocados): una
+        # fila sin denominador queda vacia y no entra al total, que asi no
+        # puede superar el 100 % por asistentes sin convocados.
+        k = subclases.index(base[1]) if base[1] in subclases else None
+        con_ref = [f for f in matriz if k is not None and (f[k] or 0) > 0]
+        pct = [[_div(v or 0, f[k]) if k is not None and (f[k] or 0) > 0 else None
+                for v in f] for f in matriz]
+        ref_tot = sum(f[k] for f in con_ref) if k is not None else 0
+        tot = [_div(sum(f[j] or 0 for f in con_ref), ref_tot) for j in range(n_sub)]
+    else:
+        pct = [[_div(v or 0, base) for v in f] for f in matriz]
+        tot = None          # la suma de un marcado multiple no es un total
+    return pct, tot
+
+
+def _formulas_porcentaje(base, subclases, fila_ini, n_cat, fila_tot, base_ref=None):
+    """Formulas de la tabla % que apuntan a la tabla de valores absolutos
+    (filas fila_ini..fila_ini+n_cat-1, columnas B..). `fila_tot` es la fila
+    TOTAL de esa tabla, o None si no la tiene (entonces la formula suma el
+    rango). Devuelve (celdas, total)."""
+    n_sub = len(subclases)
+    col = [get_column_letter(2 + j) for j in range(n_sub)]
+    ult = col[-1]
+    fin = fila_ini + n_cat - 1
+    celdas, total = [], []
+    if fila_tot is None:
+        return _formulas_porcentaje_sin_total(base, subclases, col, fila_ini,
+                                              fin, n_cat, base_ref)
+    k = (subclases.index(base[1])
+         if isinstance(base, tuple) and base[1] in subclases else None)
+    for i in range(n_cat):
+        r = fila_ini + i
+        fila = []
+        for c in col:
+            if base == "fila":
+                f = f"=IFERROR({c}{r}/SUM($B{r}:${ult}{r}),0)"
+            elif base == "columna":
+                f = f"=IFERROR({c}{r}/{c}${fila_tot},0)"
+            elif base == "total":
+                f = f"=IFERROR({c}{r}/SUM($B${fila_ini}:${ult}${fin}),0)"
+            elif isinstance(base, tuple):
+                f = (f'=IF(N(${col[k]}{r})>0,{c}{r}/${col[k]}{r},"")'
+                     if k is not None else "")
+            else:
+                f = f"=IFERROR({c}{r}/{base_ref or base},0)"
+            fila.append(f)
+        celdas.append(fila)
+    for c in col:
+        if base in ("fila", "total"):
+            total.append(f"=IFERROR({c}{fila_tot}/SUM($B${fila_tot}:${ult}${fila_tot}),0)")
+        elif base == "columna":
+            total.append(f"=IF({c}{fila_tot}>0,1,0)")
+        elif isinstance(base, tuple) and k is not None:
+            ref = f"${col[k]}${fila_ini}:${col[k]}${fin}"
+            total.append(f'=IFERROR(SUMIFS({c}{fila_ini}:{c}{fin},{ref},">0")'
+                         f'/SUMIFS({ref},{ref},">0"),0)')
+        else:
+            total = None
+            break
+    return celdas, total
+
+
+def _formulas_porcentaje_sin_total(base, subclases, col, fila_ini, fin, n_cat,
+                                   base_ref=None):
+    """Variante de _formulas_porcentaje para tablas sin fila TOTAL: los
+    denominadores se calculan sobre el rango de datos."""
+    ult = col[-1]
+    k = (subclases.index(base[1])
+         if isinstance(base, tuple) and base[1] in subclases else None)
+    celdas = []
+    for i in range(n_cat):
+        r = fila_ini + i
+        fila = []
+        for c in col:
+            if base == "fila":
+                f = f"=IFERROR({c}{r}/SUM($B{r}:${ult}{r}),0)"
+            elif base == "columna":
+                f = f"=IFERROR({c}{r}/SUM({c}${fila_ini}:{c}${fin}),0)"
+            elif base == "total":
+                f = f"=IFERROR({c}{r}/SUM($B${fila_ini}:${ult}${fin}),0)"
+            elif isinstance(base, tuple):
+                f = (f'=IF(N(${col[k]}{r})>0,{c}{r}/${col[k]}{r},"")'
+                     if k is not None else "")
+            elif isinstance(base, int):
+                # La base es la celda de la tabla de valores, si la hay: al
+                # corregirla se recalculan las dos columnas de %.
+                f = f"=IFERROR({c}{r}/{base_ref or base},0)"
+            else:
+                f = 0
+            fila.append(f)
+        celdas.append(fila)
+    if base in ("fila", "total"):
+        total = [f"=IFERROR(SUM({c}{fila_ini}:{c}{fin})/SUM($B${fila_ini}:${ult}${fin}),0)"
+                 for c in col]
+    elif base == "columna":
+        total = [f"=IF(SUM({c}{fila_ini}:{c}{fin})>0,1,0)" for c in col]
+    elif isinstance(base, tuple) and k is not None:
+        ref = f"${col[k]}${fila_ini}:${col[k]}${fin}"
+        total = [f'=IFERROR(SUMIFS({c}{fila_ini}:{c}{fin},{ref},">0")'
+                 f'/SUMIFS({ref},{ref},">0"),0)' for c in col]
+    else:
+        total = None
+    return celdas, total
+
+
+def _tabla_porcentaje(ws, fila, titulo, cabecera_cat, categorias, subclases,
+                      celdas, total, base, simple=False, base_texto="ficha(s)"):
+    """Escribe una tabla en porcentaje con estilo ANIN. Devuelve
+    (fila_cabecera, fila_siguiente)."""
+    if simple:
+        cabeceras = [cabecera_cat, "Porcentaje (%)"]
+    else:
+        cabeceras = [cabecera_cat] + [f"{s} (%)" for s in subclases]
+    filas = [[c] + list(v) for c, v in zip(categorias, celdas)]
+    subt = _texto_base(base, subclases, base_texto)
+    fila_cab, fila_fin = _escribir_tabla(ws, fila, titulo, cabeceras, filas,
+                                         subtitulo=subt)
+    for r in range(fila_cab + 1, fila_fin):
+        for j in range(len(subclases)):
+            ws.cell(r, 2 + j).number_format = _FORMATO_PCT
+    if total is False:
+        pass                            # sin fila de cierre
+    elif total is not None:
+        ws.cell(fila_fin, 1, "TOTAL").font = Font(name="Arial", size=9, bold=True)
+        for j, v in enumerate(total):
+            celda = ws.cell(fila_fin, 2 + j, v)
+            celda.font = Font(name="Arial", size=9, bold=True)
+            celda.number_format = _FORMATO_PCT
+    else:
+        celda = ws.cell(fila_fin, 1, f"Base: {base} {base_texto}")
+        celda.font = Font(name="Arial", size=9, bold=True)
+    return fila_cab, fila_fin
+
+
+def _tabla_valores(ws, fila, titulo, cab_cat, categorias, subclases, matriz,
+                   serie, aviso_na=False):
+    """Tabla de valores de una serie con sus totales como formula.
+
+    Los totales van como formula para que el usuario pueda corregir una
+    celda y ver el recalculo; cuales se escriben depende de la naturaleza de
+    la serie (ver _modo_totales). Devuelve (fila_cabecera, fila_siguiente,
+    n_columnas_de_datos).
+    """
+    modo_tot = _modo_totales(serie)
+    n_sub = len(subclases)
+    total_fila = modo_tot in ("ambos", "filas") and bool(serie.get("sub")) \
+        and n_sub > 1
+    base = serie.get("pct_base")
+    con_base = modo_tot == "base" and isinstance(base, int) and base > 0
+    cabeceras = [cab_cat] + list(subclases)
+    if total_fila:
+        cabeceras.append(serie.get("etiqueta_total") or "Total")
+    if con_base:
+        cabeceras.append("% de la base")
+    filas = [[c] + [_celda_num(v) for v in valores]
+             for c, valores in zip(categorias, matriz)]
+    subt = serie.get("descripcion", "")
+    if aviso_na:
+        subt = (subt + " " if subt else "") + (
+            "(Se presenta en valores: la serie ya está expresada en "
+            "porcentaje o combina unidades distintas.)")
+    fila_cab, fila_fin = _escribir_tabla(ws, fila, titulo, cabeceras, filas,
+                                         subtitulo=subt)
+    formato = _formato_numero(serie)
+    negrita = Font(name="Arial", size=9, bold=True)
+    ult = get_column_letter(1 + n_sub)
+    for r in range(fila_cab + 1, fila_fin):
+        for j in range(n_sub):
+            ws.cell(r, 2 + j).number_format = formato
+        if total_fila:
+            celda = ws.cell(r, 2 + n_sub, f"=SUM(B{r}:{ult}{r})")
+            celda.font, celda.number_format = negrita, formato
+            celda.border = _BORDE
+        if con_base:
+            # La base va en la fila de cierre (columna B): la formula la
+            # referencia, de modo que corregirla recalcula todos los %.
+            celda = ws.cell(r, 2 + n_sub, f"=IFERROR(B{r}/$B${fila_fin},0)")
+            celda.number_format, celda.border = _FORMATO_PCT, _BORDE
+    n_cols = n_sub + (1 if total_fila or con_base else 0)
+    ini, fin = fila_cab + 1, fila_fin - 1
+    if not categorias:
+        return fila_cab, fila_fin, n_cols
+    if modo_tot in ("columnas", "ambos"):
+        ws.cell(fila_fin, 1, "TOTAL").font = negrita
+        for j in range(n_sub + (1 if total_fila else 0)):
+            letra = get_column_letter(2 + j)
+            celda = ws.cell(fila_fin, 2 + j, f"=SUM({letra}{ini}:{letra}{fin})")
+            celda.font, celda.number_format = negrita, formato
+    elif modo_tot == "promedio":
+        ws.cell(fila_fin, 1, "PROMEDIO (CP con dato)").font = negrita
+        for j in range(n_sub):
+            letra = get_column_letter(2 + j)
+            celda = ws.cell(fila_fin, 2 + j,
+                            f'=IFERROR(AVERAGE({letra}{ini}:{letra}{fin}),"")')
+            celda.font = negrita
+            celda.number_format = "0.0"
+    elif con_base:
+        ws.cell(fila_fin, 1, f"Base: {base} {serie.get('base_texto') or 'ficha(s)'}"
+                ).font = negrita
+        celda = ws.cell(fila_fin, 2, base)
+        celda.font, celda.number_format = negrita, "#,##0"
+    # Como en _escribir_tabla, fila_fin es la fila siguiente a los datos: la
+    # del total cuando lo hay; la nota de fuente va debajo.
+    return fila_cab, fila_fin, n_cols
+
+
+def _rotulo_pdf(valor, serie):
+    """Rotulo de una barra: las series en % llevan el signo y sus decimales."""
+    if valor is None or serie.get("unidad") != "%":
+        return _fmt_pdf(valor)
+    return f"{valor:.{serie.get('decimales') or 0}f} %"
 
 _BORDE = Border(*(Side(style="thin", color="BFBFBF"),) * 4)
 _ALTO_GRAFICO_FILAS = 16          # filas que ocupa un grafico de 8 cm
@@ -742,13 +1105,18 @@ def _acumular(serie):
     de uno solo con el total.
     """
     cat, val, sub = serie["cat"], serie["val"], serie.get("sub")
-    acumulado, extras = {}, {}
+    acumulado, extras, n = {}, {}, {}
     for f in serie.get("filas") or []:
         clave = (f[cat], f[sub]) if sub else (f[cat], None)
         acumulado[clave] = acumulado.get(clave, 0) + (f[val] or 0)
+        n[clave] = n.get(clave, 0) + 1
         # El tooltip del mapa de calor lista los actores de cada celda.
         if f.get("detalle") and clave not in extras:
             extras[clave] = f["detalle"]
+    if _modo_totales(serie) == "promedio":
+        # Un porcentaje no se suma: si una categoria llegara repetida (dos
+        # fichas de un mismo CP), se promedia y nunca supera el 100 %.
+        acumulado = {k: v / n[k] for k, v in acumulado.items()}
     return acumulado, extras
 
 
@@ -782,7 +1150,13 @@ def _pivote(serie):
     subclases = [s for s in (serie.get("orden_sub") or [])
                  if any(k[1] == s for k in acumulado)]
     subclases += sorted({k[1] for k in acumulado} - set(subclases))
-    matriz = [[acumulado.get((c, s), 0) for s in subclases] for c in categorias]
+    # Una celda sin dato queda vacia en las series de valor (porcentajes,
+    # habitantes): leer "0 %" o "0 hab." donde la ficha no trae el dato es
+    # un error. En los conteos, la ausencia si es un cero.
+    vacio = (None if _modo_totales(serie) == "promedio"
+             or serie.get("unidad") == "hab."
+             or isinstance(serie.get("pct_base"), tuple) else 0)
+    matriz = [[acumulado.get((c, s), vacio) for s in subclases] for c in categorias]
     return categorias, subclases, matriz
 
 
@@ -797,8 +1171,8 @@ def _colores_serie(serie, subclases, categorias):
     # Sin color por clase, la propia magnitud ordena la rampa: la barra mas
     # larga recibe el paso mas oscuro.
     rampa = _escala_valor(serie)
-    filas = serie.get("filas") or []
-    valores = {f[serie["cat"]]: f[serie["val"]] for f in filas}
+    acumulado, _extras = _acumular(serie)
+    valores = {c: v or 0 for (c, _s), v in acumulado.items()}
     orden = sorted(categorias, key=lambda c: valores.get(c, 0))
     paso = {c: rampa[min(len(rampa) - 1,
                          int(i * len(rampa) / max(len(orden), 1)))]
@@ -807,7 +1181,7 @@ def _colores_serie(serie, subclases, categorias):
 
 
 def _grafico_de_serie(ws, serie, fila_cab, categorias, subclases, colores,
-                      ancla):
+                      ancla, porcentaje=False):
     """Agrega a la hoja el grafico nativo que corresponde a la serie."""
     n_cat, n_sub = len(categorias), len(subclases)
     if not n_cat or not n_sub:
@@ -816,7 +1190,15 @@ def _grafico_de_serie(ws, serie, fila_cab, categorias, subclases, colores,
     graf.type = "bar"                      # barras horizontales, como en la app
     graf.style = 2
     graf.title = serie.get("titulo", "")
-    graf.y_axis.title = serie.get("unidad") or serie.get("eje_x") or ""
+    graf.y_axis.title = ("Porcentaje (%)" if porcentaje
+                         else serie.get("unidad") or serie.get("eje_x") or "")
+    if porcentaje:
+        graf.y_axis.number_format = "0%"
+    elif serie.get("maximo"):
+        # Como en el aplicativo y el PDF: una serie en % de un todo se lee
+        # sobre 0-100, no sobre la escala que Excel ajusta a los datos.
+        graf.y_axis.scaling.min = 0
+        graf.y_axis.scaling.max = float(serie["maximo"])
     graf.x_axis.title = ""
     graf.gapWidth = 60
     graf.height = 8.5
@@ -852,11 +1234,19 @@ def _grafico_de_serie(ws, serie, fila_cab, categorias, subclases, colores,
         serie_excel.dLbls.showSerName = False
         serie_excel.dLbls.showCatName = False
         serie_excel.dLbls.showLegendKey = False
+        if porcentaje:
+            serie_excel.dLbls.numFmt = _FORMATO_PCT
     ws.add_chart(graf, ancla)
 
 
-def _hoja_seccion(wb, seccion, usados):
-    """Una hoja por seccion: cada serie con su tabla y su grafico al lado."""
+def _hoja_seccion(wb, seccion, usados, modo="absoluto"):
+    """Una hoja por seccion: cada serie con su tabla y su grafico al lado.
+
+    `modo` (ver MODOS_EXCEL): "absoluto" conserva el libro tal cual;
+    "porcentaje" reemplaza cada tabla por su version en % (y el grafico la
+    sigue); "ambos" agrega bajo la tabla de valores su tabla en %, con
+    formulas que apuntan a ella.
+    """
     ws = wb.create_sheet(_nombre_hoja(seccion["titulo"], usados))
     fila = _titulo_hoja(ws, seccion["titulo"].upper(), ancho=10)
     for col, ancho in zip("ABCDEFGHIJ", (46, 15, 15, 15, 15, 15, 15, 15, 15, 15)):
@@ -871,29 +1261,51 @@ def _hoja_seccion(wb, seccion, usados):
         if not categorias:
             continue
         colores = _colores_serie(serie, subclases, categorias)
-        cabeceras = [serie.get("eje_y") or "Clase"] + list(subclases)
-        filas = [[c] + [_celda_num(v) for v in valores]
-                 for c, valores in zip(categorias, matriz)]
-        fila_cab, fila_fin = _escribir_tabla(
-            ws, fila, f"{chr(64 + i)}. {serie['titulo']}", cabeceras, filas,
-            subtitulo=serie.get("descripcion", ""))
-        # Totales por columna, como formula: el usuario puede filtrar y ver
-        # el recalculo, que es lo que se pierde si se graban valores fijos.
-        ws.cell(fila_fin, 1, "TOTAL").font = Font(name="Arial", size=9, bold=True)
-        for j in range(len(subclases)):
-            letra = get_column_letter(2 + j)
-            celda = ws.cell(fila_fin, 2 + j,
-                            f"=SUM({letra}{fila_cab + 1}:{letra}{fila_fin - 1})")
-            celda.font = Font(name="Arial", size=9, bold=True)
-            celda.number_format = "#,##0.00"
-        ancla = f"{get_column_letter(3 + len(subclases))}{fila_cab}"
+        cab_cat = serie.get("eje_y") or "Clase"
+        titulo = f"{chr(64 + i)}. {serie['titulo']}"
+        base = _base_porcentaje(serie) if modo != "absoluto" else None
+        aviso_na = (modo != "absoluto" and base is None)
+
+        base_texto = serie.get("base_texto") or "ficha(s)"
+        n_cols = len(subclases)
+        if base is not None and modo == "porcentaje":
+            celdas, total = _matriz_porcentaje(base, subclases, matriz)
+            if _modo_totales(serie) == "filas":
+                total = False           # cada fila es una pregunta distinta
+            fila_cab, fila_fin = _tabla_porcentaje(
+                ws, fila, titulo, cab_cat, categorias, subclases, celdas,
+                total, base, simple=not serie.get("sub"), base_texto=base_texto)
+            graf_pct = True
+        else:
+            fila_cab, fila_fin, n_cols = _tabla_valores(
+                ws, fila, titulo, cab_cat, categorias, subclases, matriz, serie,
+                aviso_na)
+            graf_pct = False
+        ancla = f"{get_column_letter(3 + n_cols)}{fila_cab}"
         _grafico_de_serie(ws, serie, fila_cab, categorias, subclases, colores,
-                          ancla)
+                          ancla, porcentaje=graf_pct)
+        fila_sig = fila_fin + 1
         if serie.get("nota"):
-            celda = ws.cell(fila_fin + 1, 1, "Fuente: " + serie["nota"])
+            celda = ws.cell(fila_sig, 1, "Fuente: " + serie["nota"])
             celda.font = Font(name="Arial", size=8, italic=True, color="595959")
-            ws.merge_cells(start_row=fila_fin + 1, start_column=1,
-                           end_row=fila_fin + 1, end_column=8)
+            ws.merge_cells(start_row=fila_sig, start_column=1,
+                           end_row=fila_sig, end_column=8)
+            fila_sig += 1
+        if base is not None and modo == "ambos":
+            # La fila TOTAL de la tabla de valores es la ultima con datos; si
+            # la serie no lleva total por columnas se calcula en la formula.
+            fila_tot = fila_fin if _modo_totales(serie) in ("columnas", "ambos") \
+                else None
+            base_ref = (f"$B${fila_fin}" if _modo_totales(serie) == "base"
+                        and isinstance(base, int) else None)
+            celdas, total = _formulas_porcentaje(
+                base, subclases, fila_cab + 1, len(categorias), fila_tot, base_ref)
+            if _modo_totales(serie) == "filas":
+                total = False
+            _cab, fila_fin = _tabla_porcentaje(
+                ws, fila_sig + 1, f"{titulo} (%)", cab_cat, categorias,
+                subclases, celdas, total, base, simple=not serie.get("sub"),
+                base_texto=base_texto)
         fila = max(fila_fin + 3,
                    fila_cab + _ALTO_GRAFICO_FILAS + 2)
     ws.sheet_view.showGridLines = False
@@ -921,23 +1333,72 @@ def _nombre_hoja(nombre, usados):
 
 
 def _hoja_tablas(wb, seccion, usados):
-    """Hojas de respaldo con el detalle fila a fila de las fichas."""
+    """Hojas de respaldo con el detalle fila a fila de las fichas.
+
+    `seccion["formato_tablas"][titulo]` puede pedir, para una tabla:
+      - "totales": columnas numericas con fila TOTAL (=SUMA);
+      - "calculadas": columnas derivadas como formula, cada una
+        (nombre, "suma" | "resta", [columnas]); "resta" es la primera menos
+        las demas. Quedan vacias si falta alguno de los datos, para no
+        confundir "sin dato" con cero;
+      - "formatos": {columna: formato numerico} para toda la columna (sin
+        el, el formato sale del tipo de cada celda y una misma columna
+        mezcla "21.20" con "50").
+    """
+    formatos = seccion.get("formato_tablas") or {}
     for titulo, filas in seccion.get("tablas", []):
         if not filas:
             continue
+        opciones = formatos.get(titulo) or {}
+        calculadas = opciones.get("calculadas") or []
         ws = wb.create_sheet(_nombre_hoja(f"T {titulo}", usados))
-        fila = _titulo_hoja(ws, titulo.upper(), ancho=min(len(filas[0]), 12) or 6)
         cabeceras = list(filas[0].keys())
-        for i, cab in enumerate(cabeceras, start=1):
+        todas = cabeceras + [nombre for nombre, _op, _cols in calculadas]
+        fila = _titulo_hoja(ws, titulo.upper(), ancho=min(len(todas), 12) or 6)
+        for i, cab in enumerate(todas, start=1):
             ws.column_dimensions[get_column_letter(i)].width = \
                 min(max(len(str(cab)) + 4, 14), 46)
-        fila_cab, _ = _escribir_tabla(
-            ws, fila, "", cabeceras,
+        fila_cab, fila_fin = _escribir_tabla(
+            ws, fila, "", todas,
             [[_celda_num(f.get(c)) if isinstance(f.get(c), (int, float))
               else _txt(f.get(c)) for c in cabeceras] for f in filas])
-        ws.freeze_panes = ws.cell(fila_cab + 1, 1)
+        letra = {c: get_column_letter(i) for i, c in enumerate(todas, start=1)}
+        for columna, formato in (opciones.get("formatos") or {}).items():
+            if columna in cabeceras:
+                j = cabeceras.index(columna) + 1
+                for r in range(fila_cab + 1, fila_fin):
+                    ws.cell(r, j).number_format = formato
+        negrita = Font(name="Arial", size=9, bold=True)
+        for r in range(fila_cab + 1, fila_fin):
+            for j, (nombre, operacion, columnas) in enumerate(calculadas):
+                refs = [f"{letra[c]}{r}" for c in columnas if c in letra]
+                if len(refs) != len(columnas):
+                    continue
+                expresion = ("+".join(refs) if operacion == "suma"
+                             else refs[0] + "".join(f"-{x}" for x in refs[1:]))
+                condicion = ",".join(f"ISNUMBER({x})" for x in refs)
+                celda = ws.cell(r, len(cabeceras) + 1 + j,
+                                f'=IF(AND({condicion}),{expresion},"")')
+                celda.font = Font(name="Arial", size=9, italic=True)
+                celda.border = _BORDE
+                celda.number_format = "#,##0"
+                if (r - fila_cab - 1) % 2:
+                    celda.fill = PatternFill("solid", fgColor=ANIN_GRIS)
+        sumar = [c for c in (opciones.get("totales") or []) if c in letra]
+        sumar += [nombre for nombre, _op, _cols in calculadas]
+        if sumar:
+            ws.cell(fila_fin, 1, "TOTAL").font = negrita
+            for c in sumar:
+                col = letra[c]
+                rango = f"{col}{fila_cab + 1}:{col}{fila_fin - 1}"
+                # SUBTOTAL(109) suma solo las filas visibles: con el
+                # autofiltro el total sigue a la seleccion del usuario.
+                celda = ws.cell(fila_fin, todas.index(c) + 1,
+                                f'=IF(COUNT({rango})=0,"",SUBTOTAL(109,{rango}))')
+                celda.font, celda.number_format = negrita, "#,##0"
+        ws.freeze_panes = ws.cell(fila_cab + 1, 2)
         ws.auto_filter.ref = (f"A{fila_cab}:"
-                              f"{get_column_letter(len(cabeceras))}"
+                              f"{get_column_letter(len(todas))}"
                               f"{fila_cab + len(filas)}")
         ws.sheet_view.showGridLines = False
 
@@ -992,7 +1453,18 @@ def _pdf_barras_apiladas(pdf, serie, alto_fila=6.2):
     ancho = pdf.w - 24
     ancho_etq = ancho * 0.36
     ancho_barra = ancho - ancho_etq - 16
-    maximo = max((sum(f) for f in matriz), default=0) or 1.0
+    agrupadas = serie.get("forma") == "agrupadas"
+    if agrupadas:
+        # Dos medidas distintas (agua y energia, convocados y asistentes):
+        # cada una con su barra y su rotulo; sumarlas no tiene sentido. Una
+        # celda sin dato (None) no se dibuja ni se rotula como 0.
+        maximo = serie.get("maximo") or max(
+            (v for f in matriz for v in f if v is not None), default=0) or 1.0
+    else:
+        matriz = [[v or 0 for v in fila] for fila in matriz]
+        # Composicion en % de un todo: la barra llena es el 100 %.
+        maximo = serie.get("maximo") or max(
+            (sum(f) for f in matriz), default=0) or 1.0
 
     for i, categoria in enumerate(filas_visibles):
         valores = matriz[categorias.index(categoria)]
@@ -1001,6 +1473,21 @@ def _pdf_barras_apiladas(pdf, serie, alto_fila=6.2):
         pdf.set_font("Helvetica", "", 6.3)
         pdf.cell(ancho_etq, alto_fila, _s(_recortar(categoria, 46)), 0, 0, "L")
         x = x0 + ancho_etq
+        if agrupadas:
+            alto_sub = alto_fila * 0.8 / max(len(valores), 1)
+            for j, (valor, tinta) in enumerate(zip(valores, tintas)):
+                if valor is None:
+                    continue
+                ys = y + alto_fila * 0.1 + j * alto_sub
+                largo = ancho_barra * valor / maximo if valor else 0
+                if largo:
+                    pdf.set_fill_color(*tinta)
+                    pdf.rect(x, ys + alto_sub * 0.1, max(largo, 0.3),
+                             alto_sub * 0.8, "F")
+                pdf.set_xy(x + largo + 1.0, ys - 0.4)
+                pdf.set_font("Helvetica", "B", 5)
+                pdf.cell(12, alto_sub + 0.8, _s(_rotulo_pdf(valor, serie)), 0, 0, "L")
+            continue
         for valor, tinta in zip(valores, tintas):
             if not valor:
                 continue
@@ -1011,7 +1498,7 @@ def _pdf_barras_apiladas(pdf, serie, alto_fila=6.2):
             x += largo
         pdf.set_xy(x + 1.2, y)
         pdf.set_font("Helvetica", "B", 6)
-        pdf.cell(14, alto_fila, _s(_fmt_pdf(sum(valores))), 0, 0, "L")
+        pdf.cell(14, alto_fila, _s(_rotulo_pdf(sum(valores), serie)), 0, 0, "L")
 
     y = y0 + len(filas_visibles) * alto_fila + 1.5
     pdf.set_y(y)
@@ -1033,9 +1520,9 @@ def _pdf_barras_apiladas(pdf, serie, alto_fila=6.2):
         x += ancho_item
     pdf.set_y(y + 6)
     if len(categorias) > len(filas_visibles):
-        pdf.nota(f"Se grafican los {len(filas_visibles)} ámbitos con mayor "
-                 f"registro de un total de {len(categorias)}; el detalle "
-                 f"completo está en el libro Excel.")
+        pdf.nota(f"Se grafican los primeros {len(filas_visibles)} de "
+                 f"{len(categorias)} ámbitos, en el orden del gráfico; el "
+                 f"detalle completo está en el libro Excel.")
     if serie.get("nota"):
         pdf.nota("Fuente: " + serie["nota"])
 
@@ -1056,7 +1543,7 @@ def _pdf_barras_simples(pdf, serie):
     colores = _colores_serie(serie, [serie.get("unidad") or "Valor"], categorias)
     mapa = {str(c).strip().upper(): _rgb("#" + colores[i])
             for i, c in enumerate(categorias)}
-    valores = [fila[0] for fila in matriz]
+    valores = [fila[0] or 0 for fila in matriz]
     pdf.set_font("Helvetica", "I", 6.5)
     pdf.grafico_barras(serie.get("titulo", ""), categorias, valores,
                        unidad=(" " + serie["unidad"]) if serie.get("unidad") else "",

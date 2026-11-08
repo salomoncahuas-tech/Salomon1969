@@ -9,14 +9,14 @@
   "n_provincias": 3,
   "n_distritos": 15,
   "n_microcuencas": 26,
-  "hechos_campo": 6877,
+  "hechos_campo": 6876,
   "hechos_gabinete": 2739,
   "hechos_oficial": 1638,
   "n_actualizados": 184,
-  "n_pendientes": 2084,
-  "n_sustantivas": 527,
-  "n_verificaciones": 2374,
-  "cobertura_pct": 84.3778,
+  "n_pendientes": 2085,
+  "n_sustantivas": 558,
+  "n_verificaciones": 2469,
+  "cobertura_pct": 84.3701,
   "bloques_con_campo": 117
  },
  "por_provincia": [
@@ -144,12 +144,12 @@
    "suelo_desnudo_pct": 23.6591,
    "n_carcavas": 72,
    "n_taxones": 656,
-   "cobertura_integracion_pct": 87.1695,
+   "cobertura_integracion_pct": 87.1542,
    "n_actualizados": 138,
-   "n_pendientes": 863,
-   "n_sustantivas": 290,
-   "n_verificaciones": 1309,
-   "hechos_campo": 3629,
+   "n_pendientes": 864,
+   "n_sustantivas": 321,
+   "n_verificaciones": 1404,
+   "hechos_campo": 3628,
    "hechos_gabinete": 1408,
    "hechos_oficial": 826,
    "estado_conservacion": "Medianamente alterado",
@@ -235,8 +235,8 @@
    "cobertura_integracion_pct": 91.7286,
    "n_actualizados": 16,
    "n_pendientes": 66,
-   "n_sustantivas": 36,
-   "n_verificaciones": 154,
+   "n_sustantivas": 49,
+   "n_verificaciones": 196,
    "hechos_campo": 476,
    "hechos_gabinete": 158,
    "hechos_oficial": 98,
@@ -335,8 +335,8 @@
    "cobertura_integracion_pct": 84.1,
    "n_actualizados": 24,
    "n_pendientes": 127,
-   "n_sustantivas": 43,
-   "n_verificaciones": 168,
+   "n_sustantivas": 52,
+   "n_verificaciones": 208,
    "hechos_campo": 406,
    "hechos_gabinete": 167,
    "hechos_oficial": 98,
@@ -516,8 +516,8 @@
    "cobertura_integracion_pct": 91.7,
    "n_actualizados": 2,
    "n_pendientes": 19,
-   "n_sustantivas": 12,
-   "n_verificaciones": 45,
+   "n_sustantivas": 16,
+   "n_verificaciones": 49,
    "hechos_campo": 133,
    "hechos_gabinete": 48,
    "hechos_oficial": 28,
@@ -545,8 +545,8 @@
    "cobertura_integracion_pct": 92.7778,
    "n_actualizados": 46,
    "n_pendientes": 74,
-   "n_sustantivas": 52,
-   "n_verificaciones": 240,
+   "n_sustantivas": 53,
+   "n_verificaciones": 244,
    "hechos_campo": 619,
    "hechos_gabinete": 207,
    "hechos_oficial": 126,
@@ -656,8 +656,8 @@
    "cobertura_integracion_pct": 85.5,
    "n_actualizados": 7,
    "n_pendientes": 66,
-   "n_sustantivas": 15,
-   "n_verificaciones": 86,
+   "n_sustantivas": 17,
+   "n_verificaciones": 88,
    "hechos_campo": 243,
    "hechos_gabinete": 91,
    "hechos_oficial": 56,
@@ -721,12 +721,12 @@
    "suelo_desnudo_pct": 17.8333,
    "n_carcavas": 9,
    "n_taxones": 65,
-   "cobertura_integracion_pct": 91.2333,
+   "cobertura_integracion_pct": 91.0833,
    "n_actualizados": 10,
-   "n_pendientes": 60,
-   "n_sustantivas": 19,
-   "n_verificaciones": 113,
-   "hechos_campo": 401,
+   "n_pendientes": 61,
+   "n_sustantivas": 21,
+   "n_verificaciones": 116,
+   "hechos_campo": 400,
    "hechos_gabinete": 139,
    "hechos_oficial": 84,
    "estado_conservacion": "Alterado (intervención marcada)",
@@ -1040,8 +1040,8 @@
    "cobertura_integracion_pct": 90.0,
    "n_actualizados": 11,
    "n_pendientes": 57,
-   "n_sustantivas": 26,
-   "n_verificaciones": 109,
+   "n_sustantivas": 39,
+   "n_verificaciones": 151,
    "hechos_campo": 329,
    "hechos_gabinete": 114,
    "hechos_oficial": 70,
@@ -1129,8 +1129,8 @@
    "cobertura_integracion_pct": 90.7286,
    "n_actualizados": 28,
    "n_pendientes": 74,
-   "n_sustantivas": 43,
-   "n_verificaciones": 183,
+   "n_sustantivas": 44,
+   "n_verificaciones": 187,
    "hechos_campo": 456,
    "hechos_gabinete": 170,
    "hechos_oficial": 98,
@@ -1267,8 +1267,8 @@
    "cobertura_integracion_pct": 90.35,
    "n_actualizados": 2,
    "n_pendientes": 22,
-   "n_sustantivas": 10,
-   "n_verificaciones": 48,
+   "n_sustantivas": 14,
+   "n_verificaciones": 52,
    "hechos_campo": 130,
    "hechos_gabinete": 48,
    "hechos_oficial": 28,
@@ -1296,8 +1296,8 @@
    "cobertura_integracion_pct": 81.5,
    "n_actualizados": 20,
    "n_pendientes": 253,
-   "n_sustantivas": 37,
-   "n_verificaciones": 235,
+   "n_sustantivas": 39,
+   "n_verificaciones": 237,
    "hechos_campo": 659,
    "hechos_gabinete": 288,
    "hechos_oficial": 168,
@@ -1332,12 +1332,12 @@
    "suelo_desnudo_pct": 17.8333,
    "n_carcavas": 9,
    "n_taxones": 65,
-   "cobertura_integracion_pct": 91.2333,
+   "cobertura_integracion_pct": 91.0833,
    "n_actualizados": 10,
-   "n_pendientes": 60,
-   "n_sustantivas": 19,
-   "n_verificaciones": 113,
-   "hechos_campo": 401,
+   "n_pendientes": 61,
+   "n_sustantivas": 21,
+   "n_verificaciones": 116,
+   "hechos_campo": 400,
    "hechos_gabinete": 139,
    "hechos_oficial": 84,
    "estado_conservacion": "Alterado (intervención marcada)",
@@ -1491,8 +1491,8 @@
    "cobertura_integracion_pct": 83.3,
    "n_actualizados": 1,
    "n_pendientes": 19,
-   "n_sustantivas": 5,
-   "n_verificaciones": 21,
+   "n_sustantivas": 9,
+   "n_verificaciones": 37,
    "hechos_campo": 59,
    "hechos_gabinete": 22,
    "hechos_oficial": 14,
@@ -1519,8 +1519,8 @@
    "cobertura_integracion_pct": 81.6,
    "n_actualizados": 2,
    "n_pendientes": 42,
-   "n_sustantivas": 8,
-   "n_verificaciones": 40,
+   "n_sustantivas": 13,
+   "n_verificaciones": 64,
    "hechos_campo": 107,
    "hechos_gabinete": 51,
    "hechos_oficial": 28,
@@ -1586,11 +1586,11 @@
     "PENDIENTE": 12
    },
    "consistencia": {
-    "SUSTANTIVA": 2,
-    "NO SUSTANTIVA": 3,
-    "CORREGIDO": 2,
-    "CONFORME": 11,
-    "total": 18
+    "SUSTANTIVA": 7,
+    "NO SUSTANTIVA": 12,
+    "CORREGIDO": 3,
+    "CONFORME": 20,
+    "total": 42
    },
    "campos_reescritos": [
     "parcela_muestreo",
@@ -3097,11 +3097,11 @@
     "PENDIENTE": 14
    },
    "consistencia": {
-    "SUSTANTIVA": 5,
+    "SUSTANTIVA": 7,
     "NO SUSTANTIVA": 6,
     "CORREGIDO": 2,
     "CONFORME": 12,
-    "total": 25
+    "total": 27
    },
    "campos_reescritos": [
     "parcela_muestreo",
@@ -4303,11 +4303,11 @@
     "PENDIENTE": 4
    },
    "consistencia": {
-    "SUSTANTIVA": 7,
-    "NO SUSTANTIVA": 5,
-    "CORREGIDO": 4,
+    "SUSTANTIVA": 8,
+    "NO SUSTANTIVA": 7,
+    "CORREGIDO": 5,
     "CONFORME": 10,
-    "total": 26
+    "total": 30
    },
    "campos_reescritos": [
     "causa_subyacente",
@@ -4402,11 +4402,11 @@
     "PENDIENTE": 26
    },
    "consistencia": {
-    "SUSTANTIVA": 7,
-    "NO SUSTANTIVA": 2,
-    "CORREGIDO": 3,
-    "CONFORME": 10,
-    "total": 22
+    "SUSTANTIVA": 13,
+    "NO SUSTANTIVA": 8,
+    "CORREGIDO": 4,
+    "CONFORME": 14,
+    "total": 39
    },
    "campos_reescritos": [
     "comunidad_campesina",
@@ -4472,11 +4472,11 @@
     "PENDIENTE": 19
    },
    "consistencia": {
-    "SUSTANTIVA": 6,
-    "NO SUSTANTIVA": 1,
-    "CORREGIDO": 1,
-    "CONFORME": 12,
-    "total": 20
+    "SUSTANTIVA": 9,
+    "NO SUSTANTIVA": 5,
+    "CORREGIDO": 3,
+    "CONFORME": 17,
+    "total": 34
    },
    "campos_reescritos": [
     "comunidad_campesina",
@@ -4505,11 +4505,11 @@
     "PENDIENTE": 4
    },
    "consistencia": {
-    "SUSTANTIVA": 6,
-    "NO SUSTANTIVA": 3,
-    "CORREGIDO": 5,
-    "CONFORME": 12,
-    "total": 26
+    "SUSTANTIVA": 10,
+    "NO SUSTANTIVA": 6,
+    "CORREGIDO": 8,
+    "CONFORME": 13,
+    "total": 37
    },
    "campos_reescritos": [
     "evaluador",
@@ -5133,11 +5133,11 @@
     "PENDIENTE": 11
    },
    "consistencia": {
-    "SUSTANTIVA": 7,
+    "SUSTANTIVA": 9,
     "NO SUSTANTIVA": 2,
     "CORREGIDO": 1,
     "CONFORME": 12,
-    "total": 22
+    "total": 24
    },
    "campos_reescritos": [
     "parcela_muestreo",
@@ -5273,11 +5273,11 @@
     "PENDIENTE": 19
    },
    "consistencia": {
-    "SUSTANTIVA": 5,
-    "NO SUSTANTIVA": 4,
+    "SUSTANTIVA": 9,
+    "NO SUSTANTIVA": 10,
     "CORREGIDO": 1,
-    "CONFORME": 11,
-    "total": 21
+    "CONFORME": 17,
+    "total": 37
    },
    "campos_reescritos": [
     "causa_subyacente"
@@ -5325,28 +5325,27 @@
    "microcuenca": "C1086-Q9575",
    "archivo_campo": "FDT_M28B3_Diagnostico_Territorial.xlsx",
    "archivo_resumen": "Plantilla_Excel_Bloque_M28B3_IN_Piura.xlsx",
-   "cobertura_pct": 84.2,
+   "cobertura_pct": 83.3,
    "conteo_fuente": {
-    "CAMPO": 57,
+    "CAMPO": 56,
     "GABINETE": 25,
     "OFICIAL": 14
    },
    "conteo_estado": {
     "CONFORME": 91,
-    "COMPLEMENTADO": 3,
+    "COMPLEMENTADO": 2,
     "ACTUALIZADO": 2,
     "DISCREPANTE": 0,
-    "PENDIENTE": 18
+    "PENDIENTE": 19
    },
    "consistencia": {
-    "SUSTANTIVA": 5,
+    "SUSTANTIVA": 7,
     "NO SUSTANTIVA": 3,
-    "CORREGIDO": 2,
+    "CORREGIDO": 3,
     "CONFORME": 11,
-    "total": 21
+    "total": 24
    },
    "campos_reescritos": [
-    "cobertura_total_pct",
     "comunidad_campesina",
     "evaluador",
     "parcela_muestreo",
@@ -5434,11 +5433,11 @@
     "PENDIENTE": 8
    },
    "consistencia": {
-    "SUSTANTIVA": 5,
+    "SUSTANTIVA": 7,
     "NO SUSTANTIVA": 3,
     "CORREGIDO": 3,
     "CONFORME": 12,
-    "total": 23
+    "total": 25
    },
    "campos_reescritos": [
     "parcela_muestreo",

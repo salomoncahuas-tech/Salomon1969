@@ -8,11 +8,13 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime, date, time as dtime, timedelta
 import os
+import base64
 import uuid
 import io
 import csv
 import json
 import re
+import unicodedata
 import tempfile
 import zipfile
 
@@ -20,6 +22,7 @@ import database as db
 import export_diagnosticos as exp_diag
 import resumenes_bloques as rbq
 import dt_campo as dtc
+import fichas_dt as fdt
 import analitica_social as ans
 import analitica_series as ase
 import analitica_territorial as ate
@@ -133,7 +136,12 @@ def _controles_paginacion(total_paginas, pagina_actual, page_key):
             st.rerun()
 import reports
 from georeferenciacion import utm_a_latlon, latlon_a_utm
-from odk_kobo import generar_xlsform, importar_csv_odk, importar_desde_kobo, KoBoClient
+from odk_kobo import (generar_xlsform, KoBoClient, FORM_ID as ODK_FORM_ID,
+    preparar_envios as odk_preparar_envios, registrar_envios as odk_registrar_envios,
+    resumen_preparacion as odk_resumen_preparacion, texto_resultado as odk_texto_resultado,
+    leer_archivo_odk as odk_leer_archivo, encabezados_plantilla_csv as odk_encabezados_csv,
+    DIST_ALERTA_CENTROIDE_M as ODK_DIST_ALERTA, MAX_PREDIOS_BLOQUE as ODK_MAX_PREDIOS,
+    secreto_kobo, token_kobo, normalizar_token, CLAVE_TOKEN_SESION as KOBO_TOKEN_SESION)
 from excel_diagnostico_social import generar_plantilla_ds, parsear_excel_ds, mapear_a_session_state
 from excel_diagnostico_territorial import generar_plantilla_dt, parsear_excel_dt, mapear_dt_a_session_state
 from excel_elementos_expuestos import (generar_plantilla_ee, parsear_excel_ee,
@@ -148,6 +156,10 @@ try:
     PDF_CONV_OK = True
 except ImportError:
     PDF_CONV_OK = False
+
+# Modulo Liberacion de Areas (tamizaje predial, formularios F-LA de KoBo).
+# Tablas propias la_* (migracion aditiva) enlazadas a bloques(id).
+from liberacion_areas.pagina import render as pagina_liberacion_areas
 
 # ── Configuracion ─────────────────────────────────────────────────────────
 st.set_page_config(
@@ -166,13 +178,16 @@ def _arrancar_con_reintento():
     try:
         _inicializar_bd_una_vez()
     except Exception as e:
+        diag = db.diagnosticar_error_conexion(e)
         st.error(
             "**No se pudo conectar a la base de datos.**\n\n"
-            "La base de datos puede estar pausada (esto ocurre en el plan gratuito de Supabase "
-            "cuando no hay actividad por varios días).\n\n"
+            f"**Causa probable:** {diag['causa']}\n\n"
+            f"- Conexión configurada (DATABASE_URL): `{diag['conexion']}`\n"
+            f"- Mensaje del servidor: `{diag['detalle']}`\n\n"
             "**¿Qué hacer?**\n"
-            "1. Entra a [supabase.com](https://supabase.com) y verifica que tu proyecto esté activo (no pausado).\n"
-            "2. Si está pausado, haz clic en **Resume project** y espera 1-2 minutos.\n"
+            "1. Corrija DATABASE_URL en Streamlit Cloud → Settings → Secrets si la causa lo indica.\n"
+            "2. Entra a [supabase.com](https://supabase.com) y verifica que tu proyecto esté activo; si está "
+            "pausado, haz clic en **Resume project** y espera 1-2 minutos.\n"
             "3. Luego presiona el botón de abajo para reintentar."
         )
         if st.button("🔄 Reintentar conexión"):
@@ -192,10 +207,15 @@ CONDICIONES_CLIMATICAS = [
     "Despejado", "Parcialmente nublado", "Nublado",
     "Lluvia ligera", "Lluvia moderada", "Lluvia intensa", "Neblina",
 ]
+# C1076-Q9593, C1077-Q9580 y C1081-Q9590 son microcuencas de bloques del
+# catalogo (M1B1, 8, 10, 16, 20, 33, 34, 38, 50, 51, 61, 71, 76, 80) que
+# faltaban en la lista: sus fichas quedaban sin microcuenca o con la de otro
+# bloque.
 MICROCUENCAS = [
     "C1075-Q9580","C1076-Q9581","C1076-Q9584","C1076-Q9585","C1076-Q9586",
-    "C1076-Q9587","C1076-Q9588","C1076-Q9589","C1076-Q9592","C1077-Q9566",
-    "C1077-Q9579","C1078-Q9562","C1080-Q9560","C1081-Q9582","C1081-Q9583",
+    "C1076-Q9587","C1076-Q9588","C1076-Q9589","C1076-Q9592","C1076-Q9593",
+    "C1077-Q9566","C1077-Q9579","C1077-Q9580","C1078-Q9562","C1080-Q9560",
+    "C1081-Q9582","C1081-Q9583","C1081-Q9590",
     "C1081-Q9591","C1086-Q9569","C1086-Q9570","C1086-Q9575","C1086-Q9576",
     "C1096-Q9545","C1096-Q9547","C1096-Q9556","C1096-Q9557","C1096-Q9558",
     "C1096-Q9564","C1107-Q9539","C1107-Q9541","C1108-Q9552",
@@ -345,6 +365,14 @@ BLOQUES_V5 = [
     (132, "87", "C1081-Q9583", 62.219, "Morropon", "San Juan de Bigote", 0, 0, 642882, 9411123, 0.248717766, "Z08"),
 ]
 
+# Catalogo completo, incluidos los bloques retirados: solo para RESOLVER datos
+# de registros ya ingresados (microcuenca, zona) sin que se rompan.
+BLOQUES_V5_COMPLETO = BLOQUES_V5
+# Catalogo VIGENTE (V6: 117 bloques): sin los codigos de db.BLOQUES_RETIRADOS.
+# Es el que alimentan los desplegables, las plantillas y la sincronizacion, de
+# modo que un bloque retirado no se vuelve a ofrecer ni figura como "faltante".
+BLOQUES_V5 = [b for b in BLOQUES_V5_COMPLETO if b[1] not in db.BLOQUES_RETIRADOS]
+
 # Alias para compatibilidad con codigo previo
 BLOQUES_128 = BLOQUES_V5
 
@@ -352,7 +380,7 @@ BLOQUES_128_MAP = {b[1]: {"n": b[0], "codigo": b[1], "microcuenca": b[2],
     "area_ha": b[3], "provincia": b[4], "distrito": b[5],
     "accesibilidad": b[6], "dia_evaluacion": b[7],
     "utm_este": b[8], "utm_norte": b[9], "msavi_2024": b[10],
-    "zona": b[11] if len(b) > 11 else ""} for b in BLOQUES_128}
+    "zona": b[11] if len(b) > 11 else ""} for b in BLOQUES_V5_COMPLETO}
 
 # Aliases V5
 BLOQUES_V5_MAP = BLOQUES_128_MAP
@@ -577,6 +605,7 @@ FDT04_INDICADORES_LABELS = [
 # los 5 formatos anteriores y usan celdas de validacion (desplegables) que
 # replican las listas oficiales del Excel.
 import fds_listas as FL
+import fds_actores as FA
 
 FICHAS_DS = ["F-DS-01", "F-DS-02", "F-DS-03", "F-DS-04",
              "F-DS-05", "F-DS-06", "F-DS-07"]
@@ -595,33 +624,136 @@ FICHAS_DS_TITULOS = {
 DS_SINO = FL.L_SINO                       # ["Si", "No"]
 DS_SINONA = FL.L_SINONA                   # ["Si", "No", "No aplica"]
 
+# ── Identidad institucional ANIN ──────────────────────────────────────────
+# Logo vectorial (assets/logo_anin.svg) incrustado como data URI: se ve nitido
+# a cualquier tamano y no depende de rutas estaticas del servidor.
+_LOGO_ANIN_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                               "assets", "logo_anin.svg")
+
+@st.cache_data
+def _logo_anin_data_uri():
+    """Data URI del logo ANIN; cadena vacia si el archivo no esta disponible."""
+    try:
+        with open(_LOGO_ANIN_PATH, "rb") as fh:
+            return "data:image/svg+xml;base64," + base64.b64encode(fh.read()).decode("ascii")
+    except OSError:
+        return ""
+
+def _seccion(titulo, icono=""):
+    """Titulo de seccion con el estilo institucional (reemplaza **negritas**)."""
+    ic = f'<span class="anin-section__ic">{icono}</span>' if icono else ""
+    st.markdown(f'<div class="anin-section">{ic}{titulo}</div>', unsafe_allow_html=True)
+
 # ── CSS ───────────────────────────────────────────────────────────────────
+# Paleta: verde institucional #1B4D2E, verde acento #2A7A48, rojo ANIN #E1141C,
+# azul ANIN #1D3461. Los fondos usan transparencias para que se lean bien
+# tanto en el tema claro como en el oscuro de Streamlit.
 st.markdown("""<style>
-.main-header{background:#2C3E50;padding:1rem 2rem;border-radius:.5rem;margin-bottom:1rem}
-.main-header h1{color:#fff!important;margin:0!important;font-size:1.8rem!important}
-.main-header p{color:#BDC3C7!important;margin:0!important}
+.block-container{padding-top:2.6rem}
+/* Encabezado institucional */
+.anin-header{border-radius:14px;overflow:hidden;margin-bottom:1.1rem;
+    box-shadow:0 6px 22px rgba(15,40,25,.18);font-family:Arial,Helvetica,sans-serif}
+.anin-header__inst{background:#fff;display:flex;align-items:center;gap:1.4rem;
+    padding:.85rem 1.6rem;flex-wrap:wrap}
+.anin-header__logo{height:70px;width:auto;display:block}
+.anin-header__org{border-left:3px solid #E1141C;padding-left:1.1rem;display:flex;
+    flex-direction:column;gap:.15rem;line-height:1.25}
+.anin-header__org .l1{color:#1D3461;font-weight:700;font-size:.82rem;letter-spacing:.02em}
+.anin-header__org .l2{color:#1B4D2E;font-weight:700;font-size:.74rem;letter-spacing:.03em}
+.anin-header__band{background:linear-gradient(115deg,#123821 0%,#1B4D2E 45%,#2A7A48 100%);
+    display:flex;align-items:center;justify-content:space-between;gap:1rem;
+    padding:1rem 1.6rem;flex-wrap:wrap;position:relative}
+.anin-header__band:after{content:"";position:absolute;right:0;top:0;bottom:0;width:38%;
+    background:repeating-linear-gradient(120deg,rgba(255,255,255,.035) 0 14px,transparent 14px 28px);
+    pointer-events:none}
+.anin-header__title{color:#fff;font-size:1.75rem;font-weight:800;margin:0;line-height:1.15;
+    letter-spacing:.01em}
+.anin-header__sub{color:#CFE8D6;font-size:.92rem;margin:.25rem 0 0 0}
+.anin-header__chips{display:flex;gap:.45rem;flex-wrap:wrap;position:relative;z-index:1}
+.anin-chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);color:#fff;
+    padding:.28rem .75rem;border-radius:999px;font-size:.76rem;font-weight:600;white-space:nowrap}
+.anin-chip b{color:#FFD27A}
+.anin-header__stripe{height:5px;background:linear-gradient(90deg,#E1141C 0 33%,#1D3461 33% 66%,#C9A227 66% 100%)}
+@media (max-width:700px){.anin-header__logo{height:46px}.anin-header__org{border-left:none;padding-left:0}
+    .anin-header__title{font-size:1.4rem}}
+/* Titulos de pagina (st.subheader) y de seccion */
+.stApp h3{border-left:5px solid #2A7A48;padding-left:.65rem!important}
+.anin-section{display:flex;align-items:center;gap:.45rem;font-weight:700;font-size:1rem;
+    margin:.2rem 0 .55rem 0;padding-bottom:.35rem;border-bottom:2px solid rgba(42,122,72,.35)}
+.anin-section__ic{font-size:1.05rem}
+/* Tarjetas de indicadores (st.metric) */
+div[data-testid="stMetric"]{background:rgba(42,122,72,.07);border:1px solid rgba(42,122,72,.22);
+    border-left:5px solid #2A7A48;border-radius:.65rem;padding:.65rem .8rem;
+    box-shadow:0 1px 4px rgba(0,0,0,.06);transition:transform .15s ease,box-shadow .15s ease}
+div[data-testid="stMetric"]:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(0,0,0,.10)}
+div[data-testid="stMetricValue"]{font-weight:700;font-size:clamp(1.15rem,1.6vw,1.9rem)}
+div[data-testid="stMetricValue"] > div{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.15}
+/* Pestanas */
+.stTabs [data-baseweb="tab"]{font-weight:600}
+/* Barra lateral */
+section[data-testid="stSidebar"]{border-top:5px solid #1B4D2E}
+.anin-side-logo{background:#fff;border-radius:12px;padding:.7rem .8rem;margin:0 0 .9rem 0;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);border-bottom:4px solid #E1141C}
+.anin-side-logo img{width:100%;height:auto;display:block}
+.anin-side-info{background:rgba(42,122,72,.08);border:1px solid rgba(42,122,72,.25);
+    border-radius:10px;padding:.7rem .85rem;font-size:.82rem;line-height:1.45}
+.anin-side-info .t{font-weight:800;color:#2A7A48;font-size:.95rem}
+.anin-side-info .v{display:inline-block;margin-left:.35rem;font-size:.68rem;font-weight:700;
+    background:#1B4D2E;color:#fff;border-radius:999px;padding:.05rem .45rem;vertical-align:middle}
+/* Pie de pagina */
+.anin-footer{margin-top:2.2rem;padding:.8rem 0 .2rem 0;border-top:1px solid rgba(128,128,128,.25);
+    font-size:.75rem;opacity:.75;text-align:center;font-family:Arial,Helvetica,sans-serif}
+/* Componentes existentes */
 .edit-mode-banner{background:linear-gradient(90deg,#f39c12,#e67e22);color:#fff;padding:.6rem 1.2rem;
     border-radius:.4rem;margin-bottom:.8rem;font-weight:600;display:flex;align-items:center;gap:.5rem}
 .edit-mode-banner .icon{font-size:1.2rem}
 .dup-warning{background:#fff3cd;border-left:4px solid #ffc107;padding:.8rem 1rem;border-radius:0 .4rem .4rem 0;margin:.5rem 0}
 </style>""", unsafe_allow_html=True)
 
-st.markdown("""<div class="main-header">
-<h1>\U0001F331 IN Piura</h1>
-<p>Plan de Ingreso | Verificacion de Campo | Cuenca Alta del Rio Piura</p>
-</div>""", unsafe_allow_html=True)
+_logo_uri = _logo_anin_data_uri()
+_logo_html = (f'<img class="anin-header__logo" src="{_logo_uri}" '
+              f'alt="ANIN - Autoridad Nacional de Infraestructura">' if _logo_uri else
+              '<div class="anin-header__org"><span class="l1">AUTORIDAD NACIONAL DE '
+              'INFRAESTRUCTURA - ANIN</span></div>')
+# El HTML se arma sin sangria: Markdown trataria las lineas indentadas como codigo.
+st.markdown("".join([
+    '<div class="anin-header">',
+    '<div class="anin-header__inst">', _logo_html,
+    '<div class="anin-header__org">',
+    '<span class="l1">DIRECCIÓN DE INTERVENCIONES MULTISECTORIALES Y DE EMERGENCIA - DIME</span>',
+    '<span class="l2">SUBDIRECCIÓN DE ESTUDIOS DE INVERSIÓN</span>',
+    '</div></div>',
+    '<div class="anin-header__band"><div>',
+    '<div class="anin-header__title">\U0001F331 IN Piura</div>',
+    '<p class="anin-header__sub">Plan de Ingreso | Verificacion de Campo | '
+    'Cuenca Alta del Rio Piura</p></div>',
+    '<div class="anin-header__chips">',
+    '<span class="anin-chip">CUI <b>2669244</b></span>',
+    f'<span class="anin-chip"><b>{len(BLOQUES_V5)}</b> bloques vigentes</span>',
+    '<span class="anin-chip">UTM WGS84 · Zona 17S</span>',
+    '</div></div>',
+    '<div class="anin-header__stripe"></div>',
+    '</div>',
+]), unsafe_allow_html=True)
 
 # ── Sidebar ───────────────────────────────────────────────────────────────
+if _logo_uri:
+    st.sidebar.markdown(f'<div class="anin-side-logo"><img src="{_logo_uri}" '
+                        'alt="ANIN"></div>', unsafe_allow_html=True)
 pagina = st.sidebar.selectbox("Navegacion", [
     "Panel de Control","Bloques de Intervencion","Inspeccion de Campo",
     "Indicadores de Calidad","Diagnostico Territorial","Diagnostico Social",
     "Elementos Expuestos (AdR)",
     "Presupuesto","Cronograma",
-    "Georreferenciacion","ODK / KoBoToolbox","Reportes",
+    "Georreferenciacion","ODK / KoBoToolbox","Liberacion de Areas","Reportes",
     "Conversor PDF -> Excel",
 ])
 st.sidebar.markdown("---")
-st.sidebar.markdown("**IN Piura** v2.1 Web\n\nRestauracion de Ecosistemas\nCuenca Alta del Rio Piura")
+st.sidebar.markdown(
+    '<div class="anin-side-info"><span class="t">\U0001F331 IN Piura</span>'
+    '<span class="v">v2.1 Web</span><br>Restauracion de Ecosistemas<br>'
+    'Cuenca Alta del Rio Piura<br><span style="opacity:.75">ANIN · DIME · SESDI</span></div>',
+    unsafe_allow_html=True)
 
 # ── Helpers ───────────────────────────────────────────────────────────────
 def _bloques_map():
@@ -710,35 +842,35 @@ def pagina_dashboard():
     st.markdown("---")
     ci,cd = st.columns(2)
     with ci:
-        st.markdown("**Distribucion por Estado**")
+        _seccion("Distribucion por Estado", "\U0001F4CA")
         tb = max(stats["total_bloques"],1)
         for e in ["Pendiente","En progreso","Verificado"]:
             n = stats["bloques_por_estado"].get(e,0)
             st.progress(n/tb, text=f"{e}: {n} ({n/tb*100:.1f}%)")
     with cd:
-        st.markdown("**Distribucion por Tipo**")
+        _seccion("Distribucion por Tipo", "\U0001F33F")
         if stats["bloques_por_tipo"]:
             df = pd.DataFrame(list(stats["bloques_por_tipo"].items()), columns=["Tipo","Cantidad"])
-            st.bar_chart(df.set_index("Tipo"))
+            st.bar_chart(df.set_index("Tipo"), color="#2A7A48")
         else:
             st.info("Sin bloques.")
     st.markdown("---")
     cp,cc = st.columns(2)
     with cp:
-        st.markdown("**Resumen Presupuestal**")
+        _seccion("Resumen Presupuestal", "\U0001F4B0")
         pl,ej = stats["presupuesto_planificado"],stats["presupuesto_ejecutado"]
         pe = (ej/pl*100) if pl>0 else 0
         st.metric("Planificado",f"S/ {pl:,.2f}"); st.metric("Ejecutado",f"S/ {ej:,.2f}")
         st.progress(min(pe/100,1.0), text=f"Ejecucion: {pe:.1f}%")
         st.caption(f"Saldo: S/ {pl-ej:,.2f}")
     with cc:
-        st.markdown("**Cronograma**")
+        _seccion("Cronograma", "\U0001F4C5")
         ae = stats["actividades_por_estado"]; ta = sum(ae.values()) if ae else 0
         st.caption(f"Total actividades: {ta}")
         for en in ["Programado","En ejecucion","Completado","Retrasado"]:
             cn = ae.get(en,0); st.progress((cn/ta) if ta>0 else 0, text=f"{en}: {cn}")
     st.markdown("---")
-    st.markdown("**Resumen de Bloques**")
+    _seccion("Resumen de Bloques", "\U0001F5C2\uFE0F")
     res = _cached_obtener_resumen_bloques(_cache_version())
     if res:
         def _fmt_area(v):
@@ -1618,7 +1750,8 @@ def _carga_masiva_resumenes(bm):
         "de la carpeta **plantillas_117_msavi_v6** de Google Drive. Puede "
         "seleccionar los 117 a la vez o subir la carpeta comprimida en un "
         "solo .zip. Los libros ya cargados se actualizan; ningun otro "
-        "registro del aplicativo se toca.")
+        "registro del aplicativo se toca. Solo hace falta si va a cargar una "
+        "revision posterior a la que el aplicativo ya trae consigo.")
 
     manifiesto = rbq.cargar_manifiesto()
     if manifiesto.get("carpeta_drive_url"):
@@ -1710,19 +1843,21 @@ def _actualizar_desde_repositorio(bm):
     """Reemplaza los resumenes cargados por los libros vigentes del repo.
 
     Evita tener que volver a subir los 117 archivos a mano: el aplicativo
-    los trae consigo en la carpeta `plantillas_117_msavi_v6`.
+    los trae consigo en `plantillas_117_msavi_v6.zip` (o en la carpeta
+    `plantillas_117_msavi_v6`, si viaja extraida).
     """
     libros = rbq.libros_del_repositorio()
     if not libros:
         return
     st.info(
         f"El aplicativo incluye **{len(libros)} libros vigentes (V7)**: los "
-        f"libros de gabinete V6 —con la distribucion areal del MSAVI 2024 "
-        f"por clase DN y la superficie bajo el umbral {rbq.UMBRAL_MSAVI}— ya "
-        f"cruzados con la ficha DT de campo, con su control de consistencia "
-        f"regenerado y las hojas de integracion, registro de campo y "
-        f"graficos. Reemplazan a los ya cargados por codigo de bloque; "
-        f"ningun otro registro del aplicativo se toca.")
+        f"libros de gabinete V6 revision 1 —distribucion areal del MSAVI 2024 "
+        f"por clase DN, superficie bajo el umbral {rbq.UMBRAL_MSAVI} y, en "
+        f"los bloques con vuelo, la verificacion aerea con dron— ya cruzados "
+        f"con la ficha DT de campo, con su control de consistencia regenerado "
+        f"y las hojas de integracion, registro de campo y graficos. "
+        f"Reemplazan a los ya cargados por codigo de bloque; ningun otro "
+        f"registro del aplicativo se toca.")
     if st.button(f"Reemplazar los {len(libros)} resumenes por la version vigente (V7)",
                  key="rbq_repo"):
         _procesar_libros(bm, libros)
@@ -1961,22 +2096,435 @@ def _detalle_resumen_bloque(codigo):
         d3.error(f"No se pudo generar el PDF: {exc}")
 
 
+# ══════════════════════════════════════════════════════════════════════════
+# FICHAS F-DT ACTUALIZADAS (117 libros de campo)
+# ══════════════════════════════════════════════════════════════════════════
+
+@st.cache_data(ttl=3600, show_spinner=False, max_entries=2)
+def _cached_fichas_dt(catalogo_items):
+    """Lee los 117 libros F-DT del repositorio y los deja en cache.
+
+    La lectura completa toma del orden de diez segundos: se memoriza por el
+    catalogo de bloques con el que se resuelve la localizacion, de modo que
+    solo se repite si el catalogo cambia.
+    """
+    catalogo = {codigo: dict(campos) for codigo, campos in catalogo_items}
+    return fdt.cargar_fichas(catalogo=catalogo)
+
+
+def _catalogo_para_fichas(cargados):
+    """{codigo: {provincia, distrito, microcuenca, area_ha}} del aplicativo.
+
+    Manda el catalogo de bloques; lo que falte se completa con el resumen
+    cargado del mismo bloque. Once libros F-DT dejaron la localizacion en
+    blanco y uno trae un valor que no es una provincia: el aplicativo si
+    sabe donde esta cada bloque y esa es la fuente que gobierna.
+    """
+    catalogo = {}
+    for bloque in _cached_obtener_bloques(_cache_version()):
+        codigo = str(bloque.get("codigo") or "").strip().upper()
+        if not codigo:
+            continue
+        catalogo[codigo] = {
+            "provincia": bloque.get("provincia") or "",
+            "distrito": bloque.get("distrito") or "",
+            "microcuenca": bloque.get("microcuenca") or "",
+            "area_ha": bloque.get("area_hectareas") or "",
+        }
+    for resumen in cargados:
+        codigo = str(resumen.get("codigo_bloque") or "").strip().upper()
+        if not codigo:
+            continue
+        registro = catalogo.setdefault(
+            codigo, {"provincia": "", "distrito": "", "microcuenca": "",
+                     "area_ha": ""})
+        for campo, origen in (("provincia", "provincia"),
+                              ("distrito", "distrito"),
+                              ("microcuenca", "microcuenca"),
+                              ("area_ha", "area_ha")):
+            if not registro.get(campo):
+                registro[campo] = resumen.get(origen) or ""
+    return catalogo
+
+
+def _items_catalogo(catalogo):
+    """Catalogo en forma inmutable, para poder usarlo como clave de cache."""
+    return tuple(sorted(
+        (codigo, tuple(sorted((k, str(v)) for k, v in campos.items())))
+        for codigo, campos in catalogo.items()))
+
+
+def _df_tabla_compacta(fichas, nivel):
+    cabeceras, filas = fdt.tabla_compacta(fichas, nivel, breve=True)
+    return pd.DataFrame(filas, columns=cabeceras)
+
+
+def _grafico_fdt(df, columna, titulo, nivel):
+    """Barras de una columna de la tabla compacta, por grupo."""
+    if columna not in df.columns:
+        return
+    datos = df[[df.columns[0], columna]].dropna()
+    datos = datos[datos[columna] != 0] if columna.startswith("Carcavas") else datos
+    if datos.empty:
+        st.caption(f"{titulo}: ningun grupo declara el dato.")
+        return
+    if nivel == "bloque" and len(datos) > 30:
+        datos = datos.sort_values(columna, ascending=False).head(30)
+        titulo += " - 30 primeros"
+    st.caption(titulo)
+    st.bar_chart(datos.set_index(df.columns[0])[columna], color="#1B4D2E",
+                 use_container_width=True)
+
+
+def _detalle_ficha_dt(ficha):
+    """Reporte de un bloque: campos declarados de las cinco fichas."""
+    etiquetas = fdt.etiquetas_indicador()
+    generales = [
+        ("Codigo de bloque", ficha.get("codigo_bloque")),
+        ("Microcuenca", ficha.get("microcuenca")),
+        ("Provincia", ficha.get("provincia")),
+        ("Distrito", ficha.get("distrito")),
+        ("Centro poblado mas cercano", ficha.get("centro_poblado_cercano")),
+        ("Comunidad campesina", ficha.get("comunidad_campesina_dt")),
+        ("UTM ESTE / NORTE del punto de muestreo",
+         f"{ficha.get('utm_este_dt', '')} / {ficha.get('utm_norte_dt', '')}"),
+        ("Altitud del punto (msnm)", ficha.get("altitud_gps")),
+        ("Brigada / responsable", ficha.get("evaluador")),
+        ("Fecha de evaluacion", ficha.get("fecha_evaluacion")),
+        ("Ficha (correlativo)", ficha.get("ficha_correlativo")),
+        ("Archivo de origen", ficha.get("nombre_archivo")),
+    ]
+    st.dataframe(pd.DataFrame(
+        [{"Campo": e, "Valor": v} for e, v in generales if fdt.declarado(v)]),
+        use_container_width=True, hide_index=True)
+
+    c1, c2 = st.columns(2)
+    numericos = [{"Indicador": etiquetas[c][0], "Unidad": etiquetas[c][1],
+                  "Valor": ficha.get(c + "_num")}
+                 for c, _e, _u, _a in fdt.INDICADORES_NUM
+                 if ficha.get(c + "_num") is not None]
+    c1.markdown("**Indicadores declarados**")
+    c1.dataframe(pd.DataFrame(numericos), use_container_width=True,
+                 hide_index=True)
+
+    sino = [{"Observacion": etq,
+             "Respuesta": "Si" if ficha.get(c + "_si") else "No"}
+            for c, etq in fdt.INDICADORES_SINO
+            if ficha.get(c + "_si") is not None]
+    c2.markdown("**Observaciones de campo**")
+    c2.dataframe(pd.DataFrame(sino), use_container_width=True, hide_index=True)
+
+    categoricas = [{"Variable": etq, "Valor": fdt.categoria(ficha, campo)}
+                   for campo, etq in fdt.CATEGORICOS]
+    st.markdown("**Caracterizacion**")
+    st.dataframe(pd.DataFrame(categoricas), use_container_width=True,
+                 hide_index=True)
+
+    for tipo, etiqueta, _clave, _acr, _cols in fdt.INVENTARIOS:
+        filas = fdt.inventario([ficha], tipo)
+        with st.expander(f"{etiqueta} - {len(filas)} registro(s)",
+                         expanded=False):
+            if filas:
+                st.dataframe(pd.DataFrame(filas).drop(
+                    columns=["Bloque", "Distrito", "Provincia"]),
+                    use_container_width=True, hide_index=True)
+            else:
+                st.caption("La ficha no registra filas en este inventario.")
+
+    observaciones = [
+        ("F-DT-01 - Datos generales y fisiografia", ficha.get("dt01_observaciones")),
+        ("F-DT-02 - Suelo y procesos erosivos", ficha.get("dt02_observaciones")),
+        ("F-DT-03 - Vegetacion y ecosistema", ficha.get("dt03_observaciones")),
+        ("F-DT-04 - Causas de degradacion", ficha.get("dt04_observaciones")),
+        ("F-DT-05 - Hidrologia y accesibilidad", ficha.get("dt05_observaciones")),
+    ]
+    with st.expander("Observaciones de las cinco fichas", expanded=False):
+        for titulo, texto in observaciones:
+            if fdt.declarado(texto):
+                st.markdown(f"**{titulo}**")
+                st.write(texto)
+
+
+def _seccion_carcavas(seleccion, nivel):
+    """Cruce del inventario de campo (F-DT-02) con la caracterizacion SIG."""
+    st.markdown("**Carcavas: campo (F-DT-02) y caracterizacion geoespacial**")
+    st.caption(
+        "El inventario de la F-DT-02 registra lo que la brigada recorrio; la "
+        "caracterizacion geoespacial mide sobre el MDE y los compuestos "
+        "Sentinel-2 la longitud, el rango altitudinal, la pendiente media, el "
+        "indice de irregularidad y el NDVI de cada carcava digitalizada. Las "
+        "dos fuentes se integran por bloque y no se fusionan: de cada carcava "
+        "caracterizada se declara la distancia al registro de campo mas "
+        "cercano de su bloque.")
+
+    if not fdt.carcavas_caracterizadas():
+        st.info("El archivo `Caracterización de cárcavas.xlsx` no viaja en "
+                "este despliegue. Subalo al repositorio para integrarlo al "
+                "inventario de la F-DT-02.")
+        return
+
+    radio = st.slider(
+        "Radio para declarar correspondencia con un registro de campo (m)",
+        min_value=50, max_value=1000,
+        value=int(fdt.RADIO_CORRESPONDENCIA_M), step=50, key="fdt_radio")
+    fdt.integrar_carcavas(seleccion, radio_m=float(radio))
+
+    cruce = fdt.resumen_carcavas(seleccion)
+    c1, c2, c3, c4, c5 = st.columns(5)
+    c1.metric("Carcavas en campo", cruce["carcavas_campo"],
+              f"{cruce['bloques_campo']} bloques")
+    c2.metric("Carcavas caracterizadas", cruce["carcavas_gabinete"],
+              f"{cruce['bloques_gabinete']} bloques")
+    c3.metric("Bloques con ambas fuentes", cruce["bloques_ambas"])
+    c4.metric("Longitud caracterizada (m)",
+              f"{cruce['longitud_total_m']:,.0f}".replace(",", " ")
+              if cruce["longitud_total_m"] is not None else "s/d")
+    c5.metric("Pendiente media de carcava (%)",
+              f"{cruce['pendiente_media_pct']:.2f}"
+              if cruce["pendiente_media_pct"] is not None else "s/d",
+              f"{cruce['con_correspondencia']} con par a <= {radio} m")
+
+    resumen = fdt.tabla_resumen(seleccion, nivel)
+    comparacion = pd.DataFrame([{
+        fdt.ETIQUETA_NIVEL[nivel]: fila["grupo"],
+        "Campo (F-DT-02)": fila.get("n_carcavas_inventario", 0),
+        "Caracterizadas": fila.get("n_carcavas_gabinete", 0),
+    } for fila in resumen])
+    con_datos = comparacion[(comparacion["Campo (F-DT-02)"] > 0) |
+                            (comparacion["Caracterizadas"] > 0)]
+    if not con_datos.empty:
+        if nivel == "bloque" and len(con_datos) > 30:
+            con_datos = con_datos.assign(
+                _t=con_datos["Campo (F-DT-02)"] + con_datos["Caracterizadas"]
+            ).sort_values("_t", ascending=False).head(30).drop(columns="_t")
+            st.caption("Carcavas por fuente - 30 bloques con mas registros")
+        else:
+            st.caption("Carcavas por fuente")
+        st.bar_chart(con_datos.set_index(fdt.ETIQUETA_NIVEL[nivel]),
+                     color=["#1B4D2E", "#B8860B"], use_container_width=True)
+
+    st.caption("Contraste por bloque: lo declarado en la sintesis de la "
+               "F-DT-02, lo inventariado en campo y lo caracterizado.")
+    st.dataframe(pd.DataFrame(fdt.contraste_carcavas(seleccion)),
+                 use_container_width=True, hide_index=True)
+
+    filas_gab = fdt.inventario(seleccion, "carcavas_gabinete")
+    with st.expander(f"Carcavas caracterizadas - {len(filas_gab)} registro(s)",
+                     expanded=False):
+        st.dataframe(pd.DataFrame(filas_gab), use_container_width=True,
+                     hide_index=True)
+        r1, r2 = st.columns(2)
+        r1.markdown("**Clase morfologica**")
+        r1.dataframe(pd.DataFrame(fdt.ranking(
+            seleccion, "carcavas_gabinete", "clase_morfologica")),
+            use_container_width=True, hide_index=True)
+        r2.markdown("**Clase NDVI**")
+        r2.dataframe(pd.DataFrame(fdt.ranking(
+            seleccion, "carcavas_gabinete", "clase_ndvi")),
+            use_container_width=True, hide_index=True)
+
+
+def _seccion_fichas_dt(cargados):
+    """Graficos y tablas construidos sobre los 117 libros de campo F-DT."""
+    st.markdown("**5. Fichas F-DT actualizadas: graficos y tablas**")
+    st.caption(
+        "Analitica de los 117 libros de campo `Plantillas Excel FDT "
+        "actualizadas` que viajan con el aplicativo: las cinco fichas "
+        "F-DT-01 a F-DT-05 de cada bloque, con sus inventarios de carcavas, "
+        "elenco floristico, especies clave, matriz de causas, indicadores "
+        "cuantitativos y fuentes de agua. Se despliega por bloque, distrito, "
+        "provincia y consolidado total. Ningun valor ausente se estima: cada "
+        "promedio informa cuantos bloques lo sustentan.")
+
+    libros = fdt.fichas_del_repositorio()
+    if not libros:
+        st.info("El paquete de fichas F-DT no viaja en este despliegue. "
+                "Suba `Plantillas Excel FDT actualizadas.zip` al repositorio "
+                "para habilitar esta seccion.")
+        return
+
+    if not st.session_state.get("fdt_cargadas"):
+        st.info(f"El aplicativo incluye **{len(libros)} libros de campo "
+                f"F-DT**. La lectura completa toma unos segundos y queda en "
+                f"memoria para el resto de la sesion.")
+        if st.button(f"Leer las {len(libros)} fichas F-DT y generar la "
+                     f"analitica", key="fdt_cargar", type="primary"):
+            st.session_state["fdt_cargadas"] = True
+            st.rerun()
+        return
+
+    catalogo = _catalogo_para_fichas(cargados)
+    with st.spinner("Leyendo las fichas F-DT del repositorio..."):
+        fichas, errores = _cached_fichas_dt(_items_catalogo(catalogo))
+    if errores:
+        st.error(f"{len(errores)} libro(s) no pudieron leerse:")
+        st.dataframe(pd.DataFrame(errores, columns=["Archivo", "Motivo"]),
+                     use_container_width=True, hide_index=True)
+    if not fichas:
+        return
+
+    # ── Filtros territoriales de la seccion ──
+    provincias = sorted({f["provincia"] for f in fichas if f.get("provincia")})
+    distritos = sorted({f["distrito"] for f in fichas if f.get("distrito")})
+    c1, c2 = st.columns(2)
+    fil_prov = c1.multiselect("Provincia", provincias, key="fdt_f_prov")
+    fil_dist = c2.multiselect("Distrito", distritos, key="fdt_f_dist")
+    seleccion = [f for f in fichas
+                 if (not fil_prov or f.get("provincia") in fil_prov)
+                 and (not fil_dist or f.get("distrito") in fil_dist)]
+    if not seleccion:
+        st.warning("Ningun bloque cumple los filtros.")
+        return
+
+    general = fdt.resumen_general(seleccion)
+    m1, m2, m3, m4, m5 = st.columns(5)
+    m1.metric("Bloques con ficha", general["bloques"])
+    m2.metric("Cobertura vegetal media (%)",
+              f"{general['cobertura_media']:.1f}"
+              if general["cobertura_media"] is not None else "s/d",
+              f"{general['cobertura_media_n']} bloques con dato")
+    m3.metric("Suelo desnudo medio (%)",
+              f"{general['suelo_desnudo_medio']:.1f}"
+              if general["suelo_desnudo_medio"] is not None else "s/d",
+              f"{general['suelo_desnudo_medio_n']} bloques con dato")
+    m4.metric("Carcavas inventariadas", general["carcavas"])
+    m5.metric("Fuentes de agua", general["fuentes_agua"])
+
+    # Por omision, distrito: el nivel al que se leen los reportes del
+    # estudio. Bloque son 117 filas y total una sola.
+    nivel = st.radio(
+        "Nivel de desagregacion", list(fdt.NIVELES), index=1, horizontal=True,
+        format_func=lambda n: fdt.ETIQUETA_NIVEL[n], key="fdt_nivel")
+
+    df = _df_tabla_compacta(seleccion, nivel)
+    st.markdown(f"**Indicadores de cabecera por {fdt.ETIQUETA_NIVEL[nivel].lower()}**")
+    st.dataframe(df, use_container_width=True, hide_index=True)
+
+    g1, g2 = st.columns(2)
+    with g1:
+        _grafico_fdt(df, "Cobertura (%)", "Cobertura vegetal total (%)", nivel)
+        _grafico_fdt(df, "Carcavas (n)", "Carcavas inventariadas", nivel)
+    with g2:
+        _grafico_fdt(df, "Suelo desn. (%)", "Suelo desnudo (%)", nivel)
+        _grafico_fdt(df, "Taxones", "Taxones del elenco floristico", nivel)
+
+    # ── Indicadores detallados del grupo ──
+    resumen = fdt.tabla_resumen(seleccion, nivel)
+    grupos = [fila["grupo"] for fila in resumen]
+    with st.expander("Indicadores detallados de un grupo", expanded=False):
+        grupo = st.selectbox(fdt.ETIQUETA_NIVEL[nivel], grupos,
+                             key="fdt_grupo_detalle")
+        fila = next((f for f in resumen if f["grupo"] == grupo), None)
+        if fila:
+            st.dataframe(pd.DataFrame(fdt.indicadores_largos(fila)),
+                         use_container_width=True, hide_index=True)
+
+    # ── Distribuciones categoricas ──
+    st.markdown("**Distribucion de una variable categorica**")
+    etiquetas_cat = dict(fdt.CATEGORICOS)
+    campo = st.selectbox(
+        "Variable", [c for c, _e in fdt.CATEGORICOS],
+        format_func=lambda c: etiquetas_cat[c], key="fdt_categorico")
+    filas_dist = fdt.distribucion(seleccion, campo, nivel)
+    df_dist = pd.DataFrame(filas_dist)
+    d1, d2 = st.columns([1.3, 1])
+    d1.dataframe(df_dist, use_container_width=True, hide_index=True)
+    total_dist = fdt.distribucion(seleccion, campo, "total")
+    if total_dist:
+        d2.caption(f"{etiquetas_cat[campo]} - todos los bloques filtrados")
+        d2.bar_chart(pd.DataFrame(total_dist).set_index("Categoria")["Bloques"],
+                     color="#1B4D2E", use_container_width=True)
+
+    # ── Inventarios y rankings ──
+    st.markdown("**Inventarios de las fichas**")
+    etiquetas_inv = {t: e for t, e, _c, _a, _co in fdt.INVENTARIOS}
+    tipo = st.selectbox("Inventario", list(etiquetas_inv),
+                        format_func=lambda t: etiquetas_inv[t],
+                        key="fdt_inventario")
+    filas_inv = fdt.inventario(seleccion, tipo)
+    st.caption(f"{len(filas_inv)} registro(s) en {len(seleccion)} bloque(s).")
+    st.dataframe(pd.DataFrame(filas_inv), use_container_width=True,
+                 hide_index=True)
+
+    r1, r2 = st.columns(2)
+    r1.markdown("**Causas de degradacion presentes**")
+    r1.dataframe(pd.DataFrame(fdt.causas_presentes(seleccion, limite=15)),
+                 use_container_width=True, hide_index=True)
+    r2.markdown("**Especies mas frecuentes del elenco floristico**")
+    r2.dataframe(pd.DataFrame(
+        fdt.ranking(seleccion, "floristica", "nombre_comun", limite=15)),
+        use_container_width=True, hide_index=True)
+
+    _seccion_carcavas(seleccion, nivel)
+
+    with st.expander("Cobertura declarada de cada indicador", expanded=False):
+        st.caption("Cuantos bloques declaran cada dato. Un promedio sobre "
+                   "pocos bloques no es el promedio del conjunto.")
+        st.dataframe(pd.DataFrame(fdt.cobertura_declarada(seleccion)),
+                     use_container_width=True, hide_index=True)
+
+    # ── Reporte por bloque ──
+    st.markdown("**Reporte de un bloque**")
+    codigos = [f["codigo_bloque"] for f in seleccion]
+    codigo = st.selectbox("Bloque", codigos, key="fdt_bloque")
+    ficha = next((f for f in seleccion if f["codigo_bloque"] == codigo), None)
+    if ficha:
+        _detalle_ficha_dt(ficha)
+
+    # ── Descargas ──
+    st.markdown("**Descargas del reporte F-DT**")
+    if st.button(f"Generar reporte {fdt.ETIQUETA_NIVEL[nivel].lower()} "
+                 f"({len(seleccion)} bloques)", key="fdt_generar"):
+        with st.spinner("Generando Excel y PDF..."):
+            st.session_state["fdt_reporte"] = {
+                "nivel": nivel,
+                "n": len(seleccion),
+                "xlsx": fdt.generar_excel_fdt(seleccion, nivel),
+                "pdf": fdt.generar_pdf_fdt(seleccion, nivel),
+            }
+    reporte = st.session_state.get("fdt_reporte")
+    if reporte:
+        sufijo = fdt.ETIQUETA_NIVEL[reporte["nivel"]].replace(" ", "_")
+        b1, b2 = st.columns(2)
+        b1.download_button(
+            f"Excel F-DT por {fdt.ETIQUETA_NIVEL[reporte['nivel']].lower()} "
+            f"({reporte['n']} bloques)",
+            reporte["xlsx"], file_name=f"Fichas_FDT_{sufijo}_IN_Piura.xlsx",
+            mime=_mime_xlsx(), use_container_width=True, key="fdt_dl_xlsx")
+        b2.download_button(
+            f"PDF F-DT por {fdt.ETIQUETA_NIVEL[reporte['nivel']].lower()} "
+            f"({reporte['n']} bloques)",
+            reporte["pdf"], file_name=f"Fichas_FDT_{sufijo}_IN_Piura.pdf",
+            mime="application/pdf", use_container_width=True,
+            key="fdt_dl_pdf")
+
+
 def _tab_resumenes_bloques(bm):
     """Pestana de resumenes Excel de Diagnostico Territorial por bloque."""
     st.markdown("### Resumenes Excel de Diagnostico Territorial por bloque")
     st.caption(
         "Un libro por bloque con cinco hojas: Resumen, Cobertura MSAVI-NDVI, "
         "Estaciones fotograficas, Microcuenca y Control de consistencia; los "
-        "libros vigentes suman ademas las hojas de integracion de campo, "
-        "registro F-DT y graficos. Fuente: fichas F-DT-01 a F-DT-05, "
-        "catalogo maestro Bloques V5/V6, estadistica zonal sobre el MDE y "
-        "compuestos Sentinel-2. Sistema de referencia UTM WGS 84 Zona 17S "
-        "(EPSG:32717).")
+        "libros revisados suman las hojas de verificacion aerea con dron y "
+        "los vigentes (V7), ademas, las de integracion de campo, registro "
+        "F-DT y graficos. Fuente: fichas F-DT-01 a F-DT-05, catalogo maestro "
+        "Bloques V5/V6, estadistica zonal sobre el MDE y compuestos "
+        "Sentinel-2. Sistema de referencia UTM WGS 84 Zona 17S (EPSG:32717).")
 
     _carga_masiva_resumenes(bm)
     st.markdown("---")
 
     cargados = _cached_obtener_resumenes_bloques(_cache_version())
+    _catalogo_resumenes(bm, cargados)
+
+    # La analitica de las fichas F-DT no depende de que haya resumenes
+    # cargados: se construye sobre los libros de campo del repositorio.
+    st.markdown("---")
+    _seccion_fichas_dt(cargados)
+
+
+def _catalogo_resumenes(bm, cargados):
+    """Catalogo, consolidados y detalle de los resumenes ya cargados."""
     esperados = rbq.codigos_esperados()
     codigos_cargados = {r["codigo_bloque"] for r in cargados}
 
@@ -4052,6 +4600,8 @@ def _ds_tabla(label, slot, columns, default_rows=None, default_n=3, help=None):
             init = [dict(r) for r in default_rows]
         else:
             init = [{c: "" for c in col_names} for _ in range(default_n)]
+    # Registros antiguos de F-DS-02: separa "Nombre del actor / Organizacion"
+    init = FA.migrar_tabla(slot, init)
     rows = [{c: r.get(c, "") for c in col_names} for r in init]
     df = pd.DataFrame(rows, columns=col_names)
     colcfg = {}
@@ -4084,10 +4634,13 @@ def _render_fds01():
     c1, c2 = st.columns(2)
     _T(f, c1, "Nombre oficial completo (CP/CC/Anexo)", "f1_nombre_oficial")
     _T(f, c2, "Año de fundacion", "f1_anio_fund")
-    c1, c2, c3 = st.columns(3)
+    c1, c2, c3, c4 = st.columns(4)
     _T(f, c1, "N total de familias / viviendas *", "f1_nfam")
     _T(f, c2, "Poblacion total estimada (hab.) *", "f1_pob_t")
     _T(f, c3, "Pob. autoidentificada originaria", "f1_pob_orig")
+    _T(f, c4, "Mano de obra disponible (N personas)", "f1_mano_obra",
+       help="Personas del CP/Comunidad disponibles para trabajar como mano "
+            "de obra no calificada en las actividades del proyecto.")
     c1, c2, c3, c4 = st.columns(4)
     _T(f, c1, "Pob. hombres", "f1_pob_h")
     _T(f, c2, "Pob. mujeres", "f1_pob_m")
@@ -4119,11 +4672,17 @@ def _render_fds01():
     _SB(f, c2, "¿Comite de RRNN?", DS_SINO, "f1_comite_rrnn")
     _T(f, c3, "Nombre del comite (si existe)", "f1_nombre_comite")
 
-    st.markdown("**4. Tenencia de la Tierra**")
-    _SB(f, st, "4.1 Regimen predominante de tenencia", FL.L_TENENCIA, "f1_tenencia")
+    st.markdown("**4. Tenencia de la Tierra relacionada al Bloque**")
+    # Como en la plantilla V4: la seccion describe al bloque, no al CP. El
+    # analisis toma un valor por bloque (el mas frecuente entre sus fichas).
+    st.caption("Responda para el BLOQUE de intervención, no para el centro "
+               "poblado. Si el bloque tiene varias fichas F-DS-01, todas "
+               "deben declarar la misma tenencia.")
+    _SB(f, st, "4.1 Regimen predominante de tenencia del bloque", FL.L_TENENCIA,
+        "f1_tenencia")
     c1, c2 = st.columns(2)
-    _T(f, c1, "N aprox. de predios individuales", "f1_n_predios")
-    _T(f, c2, "% tierras tituladas", "f1_pct_tituladas")
+    _T(f, c1, "N aprox. de predios individuales en el bloque", "f1_n_predios")
+    _T(f, c2, "% tierras tituladas en el bloque", "f1_pct_tituladas")
     c1, c2 = st.columns(2)
     _SB(f, c1, "¿Conflictos de linderos registrados?", DS_SINO, "f1_conf_linderos")
     _SB(f, c2, "¿Bloque se superpone a tierras comunales?", DS_SINO, "f1_superpone")
@@ -4193,7 +4752,8 @@ def _render_fds02():
     st.info("TIPO de actor, Influencia, Interes, Posicion y Nivel territorial se eligen "
             "de los desplegables (valores completos). Ver hoja _Codigos del Excel para la leyenda.")
     _TB(f, "**3. Registro de Actores Identificados**", "f2_actores",
-        [("Nombre del actor / Organizacion", "text", None),
+        [(FA.COL_NOMBRE, "text", None),
+         (FA.COL_CARGO, "text", None),
          ("Tipo", "select", FL.L_TIPO_ACTOR),
          ("Rol / Funcion frente al proyecto", "text", None),
          ("Influencia", "select", FL.L_ABC),
@@ -4204,7 +4764,8 @@ def _render_fds02():
          ("Correo / Contacto", "text", None),
          ("Observaciones / Historial", "text", None)],
         default_n=5,
-        help="Registre todos los actores relevantes para la zona del bloque.")
+        help="Registre todos los actores relevantes para la zona del bloque. "
+             "Escriba el nombre del actor y su cargo en columnas separadas.")
     st.markdown("**5. Actores Criticos Prioritarios (sintesis)**")
     _T(f, st, "Actor mas influyente a favor", "f2_favor")
     _T(f, st, "Actor mas influyente en contra / reticente", "f2_contra")
@@ -4222,7 +4783,7 @@ def _render_fds03():
     _T(f, c2, "DNI", "f3_dni")
     _T(f, c3, "Edad", "f3_edad")
     c1, c2, c3 = st.columns(3)
-    _SB(f, c1, "Genero", ["M", "F"], "f3_genero")
+    _SB(f, c1, "Genero", FL.FDS03_GENERO, "f3_genero")
     _T(f, c2, "Cargo / Rol *", "f3_cargo")
     _T(f, c3, "Institucion / Organizacion", "f3_inst")
     c1, c2, c3 = st.columns(3)
@@ -4291,16 +4852,9 @@ def _render_fds04():
     _T(f, c2, "N adultos mayores (>60)", "f4_am")
     _T(f, c3, "N total asistentes", "f4_tot")
     _TA(f, "Objetivo general del taller *", "f4_obj", height=60)
-    METODOS = ["Exposicion magistral", "Mesas de trabajo / Grupos focales", "Mapa parlante",
-               "Matriz Foda / Vester", "Cartografia participativa", "Lluvia de ideas",
-               "Entrevistas semiestructuradas", "Sociodrama / Dinamicas"]
-    MATERIALES = ["Papelografos", "Plumones / Lapices", "Tarjetas de colores", "Cinta adhesiva",
-                  "Mapas impresos / Ortofotos", "Proyector / Laptop", "Camara fotografica",
-                  "Grabadora de audio", "Refrigerio", "Otros"]
-    _MS(f, st, "2.2 Metodologia empleada", METODOS, "f4_metod")
-    _MS(f, st, "2.3 Materiales utilizados", MATERIALES, "f4_mater")
-    _SB(f, st, "2.4 Idioma de la facilitacion",
-        ["Español", "Quechua", "Bilingue español-quechua", "Otro"], "f4_idioma")
+    _MS(f, st, "2.2 Metodologia empleada", FL.FDS04_METODOS, "f4_metod")
+    _MS(f, st, "2.3 Materiales utilizados", FL.FDS04_MATERIALES, "f4_mater")
+    _SB(f, st, "2.4 Idioma de la facilitacion", FL.FDS04_IDIOMA, "f4_idioma")
 
     _TB(f, "**3. Lista de Participantes**", "f4_part",
         [("Nombres y Apellidos", "text", None), ("DNI", "text", None),
@@ -4343,8 +4897,7 @@ def _render_fds05():
     _SB(f, st, "¿Se diferencia el proyecto IN del contexto minero?", DS_SINONA, "f5_rb5")
     _T(f, st, "Otros conflictos relevantes (Tambogrande, Majaz, otros)", "f5_otros")
     _T(f, st, "Rol de las rondas en conflictos historicos", "f5_rol_rondas")
-    _SB(f, st, "3.1 Nivel de polarizacion actual",
-        ["Muy alto", "Alto", "Medio", "Bajo", "Muy bajo / Inexistente"], "f5_polar")
+    _SB(f, st, "3.1 Nivel de polarizacion actual", FL.FDS05_POLARIZACION, "f5_polar")
 
     _TB(f, "**4. Identificacion de Oportunidades**", "f5_oportunidades",
         [("Oportunidad identificada", "text", None),
@@ -4355,17 +4908,12 @@ def _render_fds05():
         default_n=3)
 
     st.markdown("**5. Sintesis Estrategica**")
-    _SB(f, st, "5.1 Nivel global de conflictividad",
-        ["Muy bajo", "Bajo", "Medio", "Alto", "Muy alto"], "f5_confglob")
-    _SB(f, st, "5.2 Viabilidad social preliminar",
-        ["Alta — viable para intervencion inmediata", "Media — requiere acercamiento reforzado",
-         "Baja — requiere mesa de dialogo previa", "Muy baja — reevaluar inclusion del bloque"], "f5_viab")
+    _SB(f, st, "5.1 Nivel global de conflictividad", FL.FDS05_CONFLICTIVIDAD, "f5_confglob")
+    _SB(f, st, "5.2 Viabilidad social preliminar", FL.FDS05_VIABILIDAD, "f5_viab")
     _T(f, st, "Estrategia de acercamiento recomendada", "f5_estrategia")
     c1, c2 = st.columns(2)
     _SB(f, c1, "¿Se requiere mesa de dialogo especifica?", DS_SINO, "f5_mesa")
-    _SB(f, c2, "5.3 Plazo estimado para aceptacion comunal",
-        ["Inmediato (<1 mes)", "Corto (1-3 meses)", "Medio (3-6 meses)",
-         "Largo (6-12 meses)", "Requiere >12 meses"], "f5_plazo")
+    _SB(f, c2, "5.3 Plazo estimado para aceptacion comunal", FL.FDS05_PLAZO, "f5_plazo")
     return f
 
 
@@ -4421,14 +4969,12 @@ def _render_fds07():
     _T(f, c2, "DNI *", "f7_dni")
     _T(f, c3, "Edad", "f7_edad")
     c1, c2 = st.columns(2)
-    _SB(f, c1, "Genero", ["Hombre", "Mujer", "Otro / Pref. no decir"], "f7_genero")
+    _SB(f, c1, "Genero", FL.FDS07_GENERO, "f7_genero")
     _T(f, c2, "Direccion / Residencia habitual", "f7_residencia")
     c1, c2 = st.columns(2)
     _T(f, c1, "Telefono / Correo de contacto", "f7_contacto")
     _T(f, c2, "Superficie predio en el bloque (ha)", "f7_superficie")
-    DOCS = ["Titulo de propiedad SUNARP", "Constancia de posesion (municipal)", "Titulo COFOPRI",
-            "Certificado catastral", "Resolucion de adjudicacion", "Sin documentacion disponible"]
-    _MS(f, st, "2.2 Documentacion de tenencia disponible", DOCS, "f7_docs")
+    _MS(f, st, "2.2 Documentacion de tenencia disponible", FL.FDS07_DOCS, "f7_docs")
     c1, c2 = st.columns(2)
     _SB(f, c1, "¿Tiene conflictos de linderos?", DS_SINO, "f7_linderos")
     _SB(f, c2, "¿Es residente permanente?", DS_SINO, "f7_residente")
@@ -4552,7 +5098,10 @@ def _ds_build_edit_pending(det):
     """Construye {session_key: valor} para precargar un registro (modo edicion)."""
     ficha = det.get("ficha", "")
     pend = {
-        "ds_mc": det.get("microcuenca", "") or "",
+        # La microcuenca es la del bloque: la guardada en fichas antiguas
+        # quedaba pegada de un bloque anterior (ds_mc no se limpiaba).
+        "ds_mc": next((mc for mc in (det.get("bloque_microcuenca"), det.get("microcuenca"))
+                       if mc and mc in MICROCUENCAS), ""),
         "ds_eval": det.get("evaluador", "") or "",
         "ds_fnum": det.get("ficha_numero", "") or "",
         "ds_prov": det.get("provincia", "") or "",
@@ -4569,6 +5118,11 @@ def _ds_build_edit_pending(det):
         "ds_obs": det.get("observaciones_generales", "") or "",
         "ds_ficha_sel": ficha,
     }
+    # Posicionar el selector de bloque en el bloque del registro (como en el
+    # DT): sin esto, al actualizar, la ficha se movia al bloque que estuviera
+    # seleccionado en ese momento.
+    if det.get("bloque_codigo"):
+        pend["ds_bl"] = det["bloque_codigo"]
     if det.get("fecha_evaluacion"):
         try:
             pend["ds_fecha"] = datetime.strptime(det["fecha_evaluacion"], "%Y-%m-%d").date()
@@ -4590,6 +5144,75 @@ def _ds_build_edit_pending(det):
     return pend
 
 
+def _ds_validar(ficha, form, dg):
+    """(errores, avisos) de una ficha social antes de guardarla.
+
+    Los errores impiden guardar: son los datos que despues no se pueden
+    graficar ni consolidar (un porcentaje que no es porcentaje, una F-DS-01
+    registrada para varios centros poblados a la vez). Los avisos se guardan
+    pero se informan al responsable.
+    """
+    errores, avisos = [], []
+    if ficha != "F-DS-01":
+        return errores, avisos
+    for clave, etiqueta in (("f1_nfam", "N total de familias / viviendas"),
+                            ("f1_pob_t", "Poblacion total"), ("f1_pob_h", "Pob. hombres"),
+                            ("f1_pob_m", "Pob. mujeres"), ("f1_pob_men18", "Pob. < 18 años"),
+                            ("f1_pob_may65", "Pob. > 65 años"),
+                            ("f1_pob_orig", "Pob. autoidentificada originaria"),
+                            ("f1_mano_obra", "Mano de obra disponible"),
+                            ("f1_juntos", "Beneficiarios JUNTOS"),
+                            ("f1_pension65", "Pension 65"), ("f1_beca18", "Beca 18"),
+                            ("f1_qaliwarma", "Qali Warma"),
+                            ("f1_n_predios", "N aprox. de predios individuales")):
+        texto = str(form.get(clave) or "").strip()
+        if texto and not re.fullmatch(r"\d{1,3}([.,]\d{3})+|\d+", texto.replace(" ", "")):
+            errores.append(f"«{etiqueta}» = «{texto}»: escriba solo el número "
+                           "entero (sin «aprox.», unidades ni texto).")
+    for clave, etiqueta in (("f1_agua_cob", "Cobertura agua (%)"),
+                            ("f1_energia_cob", "Cobertura energía (%)"),
+                            ("f1_pct_tituladas", "% tierras tituladas")):
+        texto = str(form.get(clave) or "").strip()
+        # Solo la cifra (con o sin %): el texto acompanante ("cada 15 dias")
+        # es otra medida y se pierde o se confunde con el porcentaje.
+        solo_numero = re.fullmatch(r"\d+(?:[.,]\d+)?\s*%?", texto)
+        if texto and (not solo_numero or ans._pct_valido(texto) is None):
+            errores.append(
+                f"«{etiqueta}» = «{texto}»: escriba solo un número entre 0 y 100 "
+                "(p. ej. 50). La frecuencia o el horario del servicio van en "
+                "Observaciones generales.")
+    centro = str(dg.get("centro_poblado") or "").strip()
+    if len(ans._partes_cp(centro)) > 1:
+        errores.append(
+            "La F-DS-01 describe a un solo centro poblado: elija uno en "
+            "«Centro Poblado / Localidad» en lugar de la lista de todos los "
+            "del bloque, y registre una ficha por cada CP.")
+    total = ans._entero(form.get("f1_pob_t"))
+    hombres, mujeres = ans._entero(form.get("f1_pob_h")), ans._entero(form.get("f1_pob_m"))
+    if total is not None and hombres is not None and mujeres is not None:
+        if hombres + mujeres > total:
+            errores.append(
+                f"Hombres + mujeres ({hombres + mujeres:,.0f}) supera la población "
+                f"total ({total:,.0f}). Corrija las cifras o deje en blanco la "
+                "desagregación por sexo si no se conoce.")
+        elif hombres + mujeres < total:
+            avisos.append(
+                f"hombres + mujeres ({hombres + mujeres:,.0f}) es menor que la "
+                f"población total ({total:,.0f}); la diferencia se mostrará como "
+                "«sin desagregar por sexo».")
+    menores, mayores = ans._entero(form.get("f1_pob_men18")), ans._entero(form.get("f1_pob_may65"))
+    if total is not None and (menores or 0) + (mayores or 0) > total:
+        errores.append("Menores de 18 + mayores de 65 supera la población total.")
+    return errores, avisos
+
+
+# Datos generales que dependen del bloque seleccionado (se re-autocompletan
+# al cambiar de bloque).
+_DS_KEYS_POR_BLOQUE = ("ds_prov", "ds_dist", "ds_cpob", "ds_ccam", "ds_este", "ds_norte",
+                       "ds_alt", "ds_ubigeo", "ds_entrev_nombre", "ds_entrev_dni",
+                       "ds_entrev_oficio", "ds_mc")
+
+
 def _ds_apply_pending():
     """Aplica precarga pendiente (edicion / import) a session_state una vez."""
     pend = st.session_state.pop("_ds_pending_state", None)
@@ -4598,6 +5221,15 @@ def _ds_apply_pending():
     edit_id = st.session_state.pop("_ds_pending_edit_id", None)
     # Limpiar widgets de la ficha anterior para evitar valores residuales
     st.session_state["_ds_nonce"] = _ds_nonce() + 1
+    if pend.get("ds_bl"):
+        # La precarga trae su propio bloque: se descartan los datos generales
+        # del bloque anterior (se auto-completan con los del nuevo) y se marca
+        # el bloque como ya visto, para que el cambio de bloque no borre los
+        # datos generales que trae la precarga (centro poblado, coordenadas,
+        # entrevistado).
+        for k in _DS_KEYS_POR_BLOQUE:
+            st.session_state.pop(k, None)
+        st.session_state["_ds_prev_bl"] = pend["ds_bl"]
     for k, v in pend.items():
         st.session_state[k] = v
     st.session_state["ds_edit_id"] = edit_id
@@ -4627,7 +5259,8 @@ def _ds_render_detalle(ficha, form):
                 "f6_peligros": "Peligros naturales", "f6_cambios": "Cambios climaticos",
             }.get(slot, slot)
             with st.expander(f"{titulo} ({len(form[slot])})", expanded=True):
-                st.dataframe(pd.DataFrame(form[slot]), use_container_width=True, hide_index=True)
+                st.dataframe(pd.DataFrame(FA.migrar_tabla(slot, form[slot])),
+                             use_container_width=True, hide_index=True)
     # Escalares
     escalares = {k: v for k, v in form.items()
                  if k not in _DS_TABLE_SLOTS and v not in ("", None, [])}
@@ -4723,12 +5356,30 @@ def _analitica_descargas(informe, clave, modulo=ans):
                "de respaldo con el detalle fila por fila. El anexo PDF "
                "reproduce los mismos gráficos con el formato institucional.")
     c1, c2 = st.columns(2)
+    # Solo cambia las tablas del libro Excel; los graficos y tablas que se
+    # ven en el aplicativo siguen en valores absolutos. El informe
+    # territorial no expresa sus tablas en porcentaje: ahi no se ofrece.
+    modos = getattr(modulo, "MODOS_EXCEL", None)
+    modo_xlsx = modos and c1.radio(
+        "Expresar las tablas del Excel en:", list(modos or ()),
+        format_func=(modos or {}).get, key=f"{clave}_modo_xlsx",
+        help="Porcentaje: cada tabla (y su gráfico) se expresa en %. "
+             "Composiciones (barras apiladas): % dentro de cada fila; "
+             "conteos simples: % del total de la columna; marcado múltiple: "
+             "% de centros poblados con dato (F-DS-01) o de talleres y "
+             "titulares (F-DS-04 y F-DS-07) que reportan la opción. Valores absolutos y "
+             "porcentaje: se agrega bajo cada tabla su versión en %, con "
+             "fórmulas. Las series que ya están en % (coberturas, tierras "
+             "tituladas, actividades económicas) o que mezclan unidades se "
+             "mantienen en valores.")
+    modo = (modo_xlsx,) if modo_xlsx else ()
     if c1.button("Generar Excel con gráficos", key=f"{clave}_gen_xlsx",
                  type="primary", use_container_width=True):
         with st.spinner("Construyendo el libro..."):
             try:
                 st.session_state[f"{clave}_xlsx"] = (
-                    modulo.nombre_excel(informe), modulo.generar_excel(informe))
+                    modulo.nombre_excel(informe, *modo),
+                    modulo.generar_excel(informe, *modo), modo_xlsx)
             except Exception as exc:
                 st.error(f"No se pudo generar el Excel: {exc}")
     if c2.button("Generar anexo gráfico (PDF)", key=f"{clave}_gen_pdf",
@@ -4740,6 +5391,10 @@ def _analitica_descargas(informe, clave, modulo=ans):
             except Exception as exc:
                 st.error(f"No se pudo generar el PDF: {exc}")
     listo_xlsx = st.session_state.get(f"{clave}_xlsx")
+    # Un libro generado con otra opcion de expresion no se ofrece: obliga a
+    # regenerarlo para que lo descargado coincida con lo seleccionado.
+    if listo_xlsx and listo_xlsx[2:3] != (modo_xlsx or None,):
+        listo_xlsx = None
     if listo_xlsx:
         c1.download_button(f"⬇️ Descargar {listo_xlsx[0]}", listo_xlsx[1],
                            file_name=listo_xlsx[0], mime=_mime_xlsx(),
@@ -4749,6 +5404,36 @@ def _analitica_descargas(informe, clave, modulo=ans):
         c2.download_button(f"⬇️ Descargar {listo_pdf[0]}", listo_pdf[1],
                            file_name=listo_pdf[0], mime="application/pdf",
                            key=f"{clave}_dl_pdf", use_container_width=True)
+
+
+def _ds_control_calidad(informe):
+    """Observaciones de calidad de datos: fichas de un mismo CP que no
+    coinciden, poblaciones incoherentes, porcentajes ilegibles y posibles
+    fichas duplicadas. Es la lista de trabajo para depurar la base."""
+    control = informe.get("control") or {}
+    tablas = dict(control.get("tablas") or [])
+    observaciones = tablas.get("Control de calidad") or []
+    fichas = tablas.get("Fichas F-DS-01 por CP") or []
+    if not (observaciones or fichas):
+        return
+    titulo = (f"🔎 Control de calidad de los datos: {len(observaciones)} "
+              "observación(es) para revisar en las fichas")
+    with st.expander(titulo, expanded=False):
+        st.caption(
+            "Cada centro poblado se cuenta una sola vez aunque tenga varias "
+            "fichas (varios informantes, reediciones o el mismo CP en varios "
+            "bloques). Sus datos son el valor más frecuente entre sus fichas "
+            "(en empate, el de la más reciente); nunca se suman fichas de un "
+            "mismo CP ni porcentajes. Corrija o elimine en el Historial las "
+            "fichas observadas para que los gráficos reflejen el dato "
+            "validado.")
+        if observaciones:
+            st.dataframe(pd.DataFrame(observaciones), use_container_width=True,
+                         hide_index=True)
+        if fichas:
+            st.markdown("**Fichas F-DS-01 y centro poblado al que se asignan**")
+            st.dataframe(pd.DataFrame(fichas), use_container_width=True,
+                         hide_index=True)
 
 
 def _analitica_render_informe(informe, clave, modulo=ans, vacio=None):
@@ -4763,6 +5448,8 @@ def _analitica_render_informe(informe, clave, modulo=ans, vacio=None):
     st.markdown("---")
     _analitica_descargas(informe, clave, modulo)
     st.markdown("---")
+
+    _ds_control_calidad(informe)
 
     tema = informe.get("tema", "claro")
     titulos = [s["titulo"] for s in informe["secciones"]]
@@ -4818,6 +5505,13 @@ def _tab_graficos_sociales(bm):
                       ["Un bloque", "Consolidado de varios bloques"],
                       horizontal=True, key="ds_graf_ambito")
     todos = _cached_obtener_todos_diagnosticos_sociales(_cache_version())
+    # Los bloques retirados del catalogo vigente (V6) conservan sus fichas en
+    # la base, pero no entran en graficos ni entregables.
+    retiradas = [d for d in todos if d.get("bloque_codigo") not in bm]
+    todos = [d for d in todos if d.get("bloque_codigo") in bm]
+    if retiradas:
+        st.caption(f"{len(retiradas)} ficha(s) de bloques retirados del catálogo "
+                   "vigente no se incluyen en los gráficos.")
     if not todos:
         st.info("Aún no hay fichas sociales registradas.")
         return
@@ -4839,29 +5533,54 @@ def _tab_graficos_sociales(bm):
         return
 
     # ── Consolidado ──
+    # Los filtros usan la provincia, el distrito y la microcuenca del BLOQUE
+    # (valores del catalogo, sin variantes de escritura), y el mismo criterio
+    # define los bloques del ambito: asi la relacion de CP del catalogo INEI
+    # incluye tambien los bloques que aun no tienen fichas.
+    def _del_bloque(d, campo):
+        return (d.get(f"bloque_{campo}") or d.get(campo) or "").strip()
+
+    def _norm_filtro(texto):
+        return re.sub(r"[^a-z0-9]", "", unicodedata.normalize(
+            "NFKD", str(texto or "")).encode("ascii", "ignore").decode().lower())
+
     f1, f2, f3 = st.columns(3)
-    provincias = sorted({d.get("provincia", "") for d in todos if d.get("provincia")})
-    distritos = sorted({d.get("distrito", "") for d in todos if d.get("distrito")})
-    microcuencas = sorted({d.get("microcuenca", "") for d in todos if d.get("microcuenca")})
-    fil_prov = f1.multiselect("Provincia", provincias, key="ds_graf_prov")
-    fil_dist = f2.multiselect("Distrito", distritos, key="ds_graf_dist")
-    fil_micro = f3.multiselect("Microcuenca", microcuencas, key="ds_graf_micro")
+    provincias = sorted({_del_bloque(d, "provincia") for d in todos
+                         if _del_bloque(d, "provincia")})
+    distritos = sorted({_del_bloque(d, "distrito") for d in todos
+                        if _del_bloque(d, "distrito")})
+    microcuencas = sorted({_del_bloque(d, "microcuenca") for d in todos
+                           if _del_bloque(d, "microcuenca")})
+    fil_prov = f1.multiselect("Provincia (del bloque)", provincias, key="ds_graf_prov")
+    fil_dist = f2.multiselect("Distrito (del bloque)", distritos, key="ds_graf_dist")
+    fil_micro = f3.multiselect("Microcuenca (del bloque)", microcuencas,
+                               key="ds_graf_micro")
     filtrados = [
         d for d in todos
-        if (not fil_prov or d.get("provincia") in fil_prov)
-        and (not fil_dist or d.get("distrito") in fil_dist)
-        and (not fil_micro or d.get("microcuenca") in fil_micro)
+        if (not fil_prov or _del_bloque(d, "provincia") in fil_prov)
+        and (not fil_dist or _del_bloque(d, "distrito") in fil_dist)
+        and (not fil_micro or _del_bloque(d, "microcuenca") in fil_micro)
+    ]
+    sel_prov = {_norm_filtro(x) for x in fil_prov}
+    sel_dist = {_norm_filtro(x) for x in fil_dist}
+    sel_micro = {_norm_filtro(x) for x in fil_micro}
+    bloques_ambito = [
+        b[1] for b in BLOQUES_V5
+        if (not sel_prov or _norm_filtro(BLOQUES_128_MAP[b[1]]["provincia"]) in sel_prov)
+        and (not sel_dist or _norm_filtro(BLOQUES_128_MAP[b[1]]["distrito"]) in sel_dist)
+        and (not sel_micro or _norm_filtro(BLOQUES_128_MAP[b[1]]["microcuenca"]) in sel_micro)
     ]
     etiqueta = " / ".join(filter(None, [
         ", ".join(fil_prov), ", ".join(fil_dist), ", ".join(fil_micro)])) \
         or "todo el ámbito"
     st.caption(f"{len(filtrados)} ficha(s) social(es) tras aplicar los filtros "
-               f"({etiqueta}).")
+               f"({etiqueta}); {len(bloques_ambito)} bloque(s) en el ámbito.")
     if not filtrados:
         st.info("Ningún registro cumple los filtros seleccionados.")
         return
     informe = ans.indicadores_consolidado(filtrados, etiqueta=etiqueta,
-                                          tema=_tema_analitica())
+                                          tema=_tema_analitica(),
+                                          bloques_ambito=bloques_ambito)
     # La clave del estado incluye el filtro: asi un Excel ya generado no se
     # ofrece como descarga cuando el usuario cambia de ambito.
     _analitica_render_informe(informe, "ds_graf_cons_" + _clave_filtro(etiqueta))
@@ -4912,7 +5631,7 @@ def pagina_diagnostico_social():
         prev_bl = st.session_state.get("_ds_prev_bl", "")
         if prev_bl and prev_bl != bl and not edit_id:
             for k in ("ds_prov", "ds_dist", "ds_cpob", "ds_ccam", "ds_este", "ds_norte",
-                      "ds_entrev_nombre", "ds_entrev_dni", "ds_entrev_oficio"):
+                      "ds_entrev_nombre", "ds_entrev_dni", "ds_entrev_oficio", "ds_mc"):
                 st.session_state.pop(k, None)
         st.session_state["_ds_prev_bl"] = bl
 
@@ -4944,8 +5663,12 @@ def pagina_diagnostico_social():
 
         btn_label = "Actualizar Diagnostico Social" if edit_id else "Guardar Diagnostico Social"
         if st.button(btn_label, type="primary", key="ds_guardar"):
+            errores_ds, avisos_ds = _ds_validar(ficha_sel, form, dg)
             if not evaluador:
                 st.warning("Ingrese el nombre del responsable.")
+            elif errores_ds:
+                st.error("No se guardó la ficha. Corrija lo siguiente:\n\n"
+                         + "\n".join(f"- {e}" for e in errores_ds))
             else:
                 try:
                     archivos_guardados = []
@@ -4965,7 +5688,10 @@ def pagina_diagnostico_social():
                     num = ficha_sel.split("-")[-1]
                     reg = {
                         "bloque_id": bid, "ficha": ficha_sel,
-                        "ficha_numero": ficha_num, "microcuenca": mc,
+                        # Siempre la microcuenca del bloque: el selector podia
+                        # conservar la de un bloque elegido antes.
+                        "ficha_numero": ficha_num,
+                        "microcuenca": _resolver_microcuenca(bl) or mc,
                         "fecha_evaluacion": fecha_ev.strftime("%Y-%m-%d"),
                         "evaluador": evaluador,
                         "observaciones_generales": observ_gen,
@@ -4983,22 +5709,42 @@ def pagina_diagnostico_social():
                         _flash(f"Ficha {ficha_sel} actualizada correctamente (ID {edit_id}).")
                     else:
                         existentes_ds = db.obtener_diagnosticos_sociales_por_bloque(bid)
+                        # Es la misma ficha solo si coinciden tambien el centro
+                        # poblado y el entrevistado. Sin ellos en la clave, una
+                        # segunda ficha del mismo dia (otro CP u otro
+                        # informante) se rechazaba y obligaba a variar el
+                        # nombre del responsable ("Stefany Campos.."), lo que
+                        # a su vez impedia reconocer las copias en los graficos.
+                        def _n(texto):
+                            return re.sub(r"[^a-z0-9]", "", unicodedata.normalize(
+                                "NFKD", str(texto or "")).encode(
+                                    "ascii", "ignore").decode().lower())
                         dup_ds = [e for e in existentes_ds
                                   if e.get("ficha") == ficha_sel
                                   and e.get("fecha_evaluacion") == fecha_ev.strftime("%Y-%m-%d")
-                                  and e.get("evaluador") == evaluador]
+                                  and _n(e.get("evaluador")) == _n(evaluador)
+                                  and _n(e.get("centro_poblado")) == _n(reg.get("centro_poblado"))
+                                  and _n(e.get("nombre_entrevistado"))
+                                  == _n(reg.get("nombre_entrevistado"))]
                         if dup_ds:
-                            st.markdown('<div class="dup-warning">Ya existe una ficha '
-                                       f'{ficha_sel} para este bloque en '
-                                       f'{fecha_ev.strftime("%Y-%m-%d")} por {evaluador}. '
-                                       f'Use <b>Editar</b> en Historial para modificarla.</div>',
-                                       unsafe_allow_html=True)
+                            # Como mensaje flash: un st.markdown aqui se perdia
+                            # con el st.rerun() de mas abajo y el usuario no
+                            # sabia por que la ficha no se guardaba.
+                            _flash(f"No se guardó: ya existe una ficha {ficha_sel} "
+                                   f"para este bloque en {fecha_ev.strftime('%Y-%m-%d')} "
+                                   f"por {evaluador}, del mismo centro poblado y "
+                                   "entrevistado. Use «Editar» en el Historial para "
+                                   "modificarla.", "warning")
                         else:
                             if "archivos_adjuntos" not in reg:
                                 reg["archivos_adjuntos"] = ""
                             db.insertar_diagnostico_social(reg)
                             _invalidar_cache()
-                            _flash(f"Ficha {ficha_sel} guardada correctamente.")
+                            if avisos_ds:
+                                _flash(f"Ficha {ficha_sel} guardada. Revise: "
+                                       + " ".join(avisos_ds), "warning")
+                            else:
+                                _flash(f"Ficha {ficha_sel} guardada correctamente.")
                     st.rerun()
                 except Exception as e:
                     st.error(f"Error: {e}")
@@ -5021,7 +5767,13 @@ def pagina_diagnostico_social():
                     "Generar Excel consolidado", key="ds_export_prep", type="secondary",
                     help="Genera un unico archivo Excel con una hoja por ficha (F-DS-01..07) "
                          "y hojas adicionales para las tablas (actores, participantes, conflictos, etc.)."):
-                st.session_state["ds_export_bytes"] = exp_diag.exportar_fds_consolidado(todos_ds)
+                st.session_state["ds_export_bytes"] = exp_diag.exportar_fds_consolidado(
+                    todos_ds, bloques_vigentes=set(bm))
+                st.session_state["ds_export_version"] = _cache_version()
+            # Un libro generado antes de guardar, editar o eliminar una ficha
+            # ya no refleja la base: se descarta y hay que regenerarlo.
+            if st.session_state.get("ds_export_version") != _cache_version():
+                st.session_state.pop("ds_export_bytes", None)
             if st.session_state.get("ds_export_bytes"):
                 st.download_button(
                     "⬇️ Descargar todo (Excel)",
@@ -5036,8 +5788,10 @@ def pagina_diagnostico_social():
             st.caption("Genera un PDF por bloque con la relacion de sus centros "
                        "poblados y todas las fichas F-DS-01 a F-DS-07 registradas, "
                        "agrupadas por centro poblado.")
+            # Solo bloques vigentes: un bloque retirado no se ofrece (y al
+            # elegirlo daba "ya no existe en la base de datos").
             cods_ds = sorted({(d.get("bloque_codigo", "") or "") for d in todos_ds
-                              if d.get("bloque_codigo")})
+                              if d.get("bloque_codigo") in bm})
             if not cods_ds:
                 st.info("Aun no hay fichas sociales asociadas a un bloque.")
             else:
@@ -5064,10 +5818,12 @@ def pagina_diagnostico_social():
                             st.session_state["ds_pdf_bytes"] = bytes_pdf
                             st.session_state["ds_pdf_nombre"] = nombre_pdf
                             st.session_state["ds_pdf_bloque"] = bl_ds_pdf
+                            st.session_state["ds_pdf_version"] = _cache_version()
                         except Exception as e:
                             st.error(f"No se pudo generar la ficha PDF: {e}")
                 if (st.session_state.get("ds_pdf_bytes")
-                        and st.session_state.get("ds_pdf_bloque") == bl_ds_pdf):
+                        and st.session_state.get("ds_pdf_bloque") == bl_ds_pdf
+                        and st.session_state.get("ds_pdf_version") == _cache_version()):
                     st.download_button(
                         f"⬇️ Descargar ficha DS del bloque {bl_ds_pdf} (PDF)",
                         data=st.session_state["ds_pdf_bytes"],
@@ -5111,7 +5867,13 @@ def pagina_diagnostico_social():
                 row[6].write(d.get("distrito", "") or "")
                 if row[7].button("Editar", key=f"edit_ds_{d['id']}", type="primary"):
                     det = db.obtener_diagnostico_social_por_id(d["id"])
-                    if det:
+                    if det and det.get("bloque_codigo") not in bm:
+                        # El selector solo ofrece bloques vigentes: editarla
+                        # la moveria al bloque que este seleccionado.
+                        _flash(f"La ficha ID {det['id']} pertenece al bloque "
+                               f"{det.get('bloque_codigo')}, retirado del catálogo "
+                               "vigente: no se edita desde el formulario.", "warning")
+                    elif det:
                         st.session_state["_ds_pending_state"] = _ds_build_edit_pending(det)
                         st.session_state["_ds_pending_edit_id"] = det["id"]
                     st.session_state.pop("ds_confirm_del_id", None)
@@ -5189,7 +5951,9 @@ def pagina_diagnostico_social():
             if resumen_ds:
                 st.dataframe(pd.DataFrame([{
                     "Bloque": r["codigo"],
-                    "Total Fichas": r.get("total_fichas", "") or "",
+                    # 0 y no "": una columna con numeros y textos vacios no se
+                    # puede mostrar (error de conversion de Arrow).
+                    "Total Fichas": int(r.get("total_fichas") or 0),
                     "Fichas Completadas": r.get("fichas_completadas", "") or "",
                 } for r in resumen_ds]), use_container_width=True, hide_index=True)
 
@@ -5229,32 +5993,42 @@ def pagina_diagnostico_social():
             uploaded_excel = None
         if uploaded_excel is not None:
             try:
-                resultados = parsear_excel_ds(uploaded_excel)
-                if not resultados:
-                    st.error("No se detectaron fichas F-DS en el archivo. Verifique el formato.")
-                else:
-                    st.success(f"Se detectaron {len(resultados)} ficha(s) en el archivo.")
-                    for i, res in enumerate(resultados):
-                        ficha_det = res.get("ficha", "")
-                        datos_res = res.get("datos", {})
-                        with st.expander(f"Vista previa: {ficha_det}", expanded=True):
-                            cols_prev = st.columns(4)
-                            cols_prev[0].markdown(f"**Fecha:** {datos_res.get('fecha', '-')}")
-                            cols_prev[1].markdown(f"**Responsable:** {datos_res.get('evaluador', '-')}")
-                            cols_prev[2].markdown(f"**Bloque:** {datos_res.get('codigo_bloque', '-')}")
-                            cols_prev[3].markdown(f"**Distrito:** {datos_res.get('distrito', '-')}")
-                            form_prev = datos_res.get("form", {})
-                            n_campos = sum(1 for v in form_prev.values() if v not in ("", None, []))
-                            st.markdown(f"**Campos detectados:** {n_campos}")
-                        if st.button(f"Autocompletar formulario {ficha_det}", type="primary", key=f"ds_ac_{i}"):
-                            pend = mapear_a_session_state(res, bm)
-                            st.session_state["_ds_pending_state"] = pend
-                            st.session_state["_ds_pending_edit_id"] = None
-                            st.success(f"Formulario {ficha_det} autocompletado. "
-                                       "Vaya a la pestana **Registro** para revisar y guardar.")
-                            st.rerun()
+                resultados = parsear_excel_ds(uploaded_excel.getvalue())
             except Exception as e:
-                st.error(f"Error al leer el archivo Excel: {e}")
+                resultados = None
+                st.error("No se pudo abrir el archivo como plantilla Excel (.xlsx). "
+                         f"Verifique que sea la Plantilla V4 guardada en Excel. Detalle: {e}")
+            if resultados is not None and not resultados:
+                st.warning("El archivo no contiene datos capturados en las fichas F-DS-01 a "
+                           "F-DS-07 (la plantilla esta en blanco). Llene al menos la fecha, "
+                           "el responsable y el codigo de bloque de la ficha, guarde el "
+                           "archivo y vuelva a subirlo.")
+            elif resultados:
+                st.success(f"Se detectaron {len(resultados)} ficha(s) con datos en el archivo.")
+                for i, res in enumerate(resultados):
+                    ficha_det = res.get("ficha", "")
+                    datos_res = res.get("datos", {})
+                    with st.expander(f"Vista previa: {ficha_det}", expanded=True):
+                        cols_prev = st.columns(4)
+                        cols_prev[0].markdown(f"**Fecha:** {datos_res.get('fecha') or '-'}")
+                        cols_prev[1].markdown(f"**Responsable:** {datos_res.get('evaluador') or '-'}")
+                        cols_prev[2].markdown(f"**Bloque:** {datos_res.get('codigo_bloque') or '-'}")
+                        cols_prev[3].markdown(f"**Distrito:** {datos_res.get('distrito') or '-'}")
+                        st.markdown(f"**Campos con datos:** {datos_res.get('n_campos', 0)}")
+                        for av in res.get("avisos", []):
+                            st.warning(av)
+                    if st.button(f"Autocompletar formulario {ficha_det}", type="primary", key=f"ds_ac_{i}"):
+                        pend = mapear_a_session_state(res, bm, FECHA_MIN_PROYECTO, date.today())
+                        st.session_state["_ds_pending_state"] = pend
+                        st.session_state["_ds_pending_edit_id"] = None
+                        msg = (f"Formulario {ficha_det} autocompletado desde el Excel "
+                               f"({datos_res.get('n_campos', 0)} campos con datos). Abra la "
+                               "pestana **Registro** para revisarlo y pulse **Guardar**.")
+                        avisos = res.get("avisos", [])
+                        if avisos:
+                            msg += "\n\nRevise:\n" + "\n".join(f"- {a}" for a in avisos)
+                        _flash(msg, "warning" if avisos else "success")
+                        st.rerun()
 
 
 
@@ -6130,78 +6904,250 @@ def pagina_georreferenciacion():
 # ══════════════════════════════════════════════════════════════════════════
 # ODK / KoBoToolbox
 # ══════════════════════════════════════════════════════════════════════════
+def _secreto(nombre, defecto=""):
+    """Lee un secreto de KoBo (nivel superior, seccion [kobo] o entorno) sin romper."""
+    return secreto_kobo(nombre, defecto)
+
+
+def _odk_vista_previa(preparados, origen, uid="", cliente=None):
+    """Guarda la vista previa en sesion; nada se escribe hasta confirmar."""
+    st.session_state["odk_preview"] = {"preparados": preparados, "origen": origen,
+                                       "uid": uid, "cliente": cliente}
+
+
+def _odk_mostrar_vista_previa():
+    pv = st.session_state.get("odk_preview")
+    if not pv:
+        return
+    preparados = pv["preparados"]
+    n_nuevos = sum(p["estado"] == "listo" for p in preparados)
+    n_dup = sum(p["estado"] == "duplicado" for p in preparados)
+    n_err = sum(p["estado"] == "error" for p in preparados)
+    n_alert = sum(bool(p["alertas"]) and p["estado"] == "listo" for p in preparados)
+    st.markdown("#### Vista previa (aun no se ha guardado nada)")
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Nuevos", n_nuevos)
+    c2.metric("Ya importados", n_dup)
+    c3.metric("Rechazados", n_err)
+    c4.metric("Nuevos con alertas", n_alert)
+    df = pd.DataFrame(odk_resumen_preparacion(preparados))
+    st.dataframe(df, use_container_width=True, hide_index=True)
+    if n_err:
+        st.warning("Los envios rechazados no se guardan (bloque inexistente o retirado, "
+                   "falta fecha o verificador). Corrijalos en KoBo y vuelva a importar.")
+    descargar = False
+    if pv["cliente"] is not None:
+        descargar = st.checkbox("Descargar fotos de los envios nuevos", value=True,
+                                key="odk_descargar_fotos")
+    b1, b2 = st.columns(2)
+    if b1.button(f"Registrar {n_nuevos} envio(s) nuevo(s)", type="primary",
+                 disabled=n_nuevos == 0, key="odk_confirmar"):
+        barra = st.progress(0.0, text="Registrando...")
+        r = odk_registrar_envios(
+            preparados, cliente=pv["cliente"], descargar_fotos=descargar,
+            progreso=lambda i, t: barra.progress(i / max(t, 1),
+                                                 text=f"Registrando {i}/{t}"))
+        barra.empty()
+        _invalidar_cache()
+        st.session_state.pop("odk_preview", None)
+        st.session_state["odk_ultimo_resultado"] = r
+        st.rerun()
+    if b2.button("Descartar vista previa", key="odk_descartar"):
+        st.session_state.pop("odk_preview", None)
+        st.rerun()
+
+
 def pagina_odk():
-    st.subheader("ODK / KoBoToolbox")
-    st.markdown("### Generar Formulario XLSForm")
-    if st.button("Generar Formulario XLSForm", type="primary"):
-        try:
-            ruta = generar_xlsform()
-            with open(ruta,"rb") as f: data = f.read()
-            st.download_button("Descargar XLSForm",data,os.path.basename(ruta),
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-            st.success("Formulario generado.")
-        except Exception as e: st.error(f"Error: {e}")
-    st.markdown("---")
-    st.markdown("### Importar CSV")
-    uf = st.file_uploader("Archivo CSV",type=["csv"])
-    if uf:
-        with tempfile.NamedTemporaryFile(mode="w",suffix=".csv",delete=False,encoding="utf-8") as tmp:
-            tmp.write(uf.read().decode("utf-8-sig")); tp = tmp.name
-        try:
-            r = importar_csv_odk(tp)
-            st.success(f"**{r['total_filas']} registros** | Nuevos: {r['bloques_nuevos']} | Actualizados: {r['bloques_actualizados']} | Inspecciones: {r['inspecciones_creadas']} | Indicadores: {r['indicadores_creados']}")
-            if r["errores"]:
-                with st.expander(f"{len(r['errores'])} errores"):
-                    for e in r["errores"]: st.warning(e)
-        except Exception as e: st.error(f"Error: {e}")
-        finally: os.unlink(tp)
-    enc = ["codigo_bloque","tipo_intervencion","cuenca","distrito","utm_este","utm_norte",
-        "utm_zona","area_hectareas","estado","ubicacion_gps","fecha_visita","inspector",
-        "condiciones_climaticas","avance_fisico","observaciones","desviaciones",
-        "foto_1","foto_2","foto_3","cobertura_vegetal_planificada",
-        "cobertura_vegetal_lograda","sobrevivencia_especies","longitud_zanjas",
-        "volumen_retencion","codigo_verificacion"]
-    buf = io.StringIO(); w = csv.writer(buf); w.writerow(enc)
-    w.writerow(["BLQ-001","revegetacion","Cuenca Alta del Rio Piura","Canchaque",
-        "622150.50","9436720.30","17S","2.5","pendiente","","2026-01-15","Juan Perez",
-        "despejado","45","","","","","","1100","850","78.5","120.5","35.2",""])
-    st.download_button("Descargar plantilla CSV",buf.getvalue(),"plantilla_odk.csv","text/csv")
-    st.markdown("---")
-    st.markdown("### API KoBoToolbox")
-    sv = st.selectbox("Servidor",["https://kf.kobotoolbox.org","https://kobo.humanitarianresponse.info"])
-    tk = st.text_input("Token API",type="password")
-    c1,c2,c3 = st.columns(3)
-    if c1.button("Probar Conexion"):
-        if not tk: st.warning("Ingrese token.")
-        else:
-            cl = KoBoClient(sv,tk); ok,msg = cl.test_conexion()
-            if ok: st.success("Conexion exitosa"); st.session_state["kobo"]=cl
-            else: st.error(msg)
-    if c2.button("Listar Formularios"):
-        if "kobo" not in st.session_state: st.warning("Pruebe la conexion primero.")
-        else:
+    st.subheader("ODK / KoBoToolbox - Verificacion de campo (Paso 6)")
+    st.caption("La importacion solo AGREGA registros nuevos: no crea, modifica ni borra "
+               "bloques, y no duplica envios ya importados.")
+
+    r = st.session_state.pop("odk_ultimo_resultado", None)
+    if r:
+        (st.success if not r["errores"] else st.warning)(odk_texto_resultado(r))
+        if r.get("inspecciones_vinculadas"):
+            st.info(f"{r['inspecciones_vinculadas']} envio(s) se enlazaron a una inspeccion "
+                    "ya existente del mismo bloque, fecha y verificador (sin modificarla).")
+        if r["errores"]:
+            with st.expander(f"{len(r['errores'])} observacion(es)"):
+                for e in r["errores"]:
+                    st.write(f"- {e}")
+
+    t_form, t_api, t_arch, t_reg = st.tabs([
+        "1. Formulario", "2. Importar desde KoBo (API)",
+        "3. Importar archivo CSV / Excel", "4. Verificaciones registradas"])
+
+    # ── 1. Formulario ────────────────────────────────────────────────────
+    with t_form:
+        bloques = _cached_obtener_bloques(_cache_version())
+        st.markdown(
+            f"Genera el XLSForm del **Paso 6** con la lista cerrada de **{len(bloques)} bloques** "
+            "activos (filtrados por distrito) y secciones de accesibilidad real, riesgo social, "
+            "uso actual del suelo, evidencia de movimientos en masa, titulares de predios y "
+            "dictamen. Funciona sin internet en ODK Collect / KoBoCollect.")
+        if st.button("Generar formulario XLSForm", type="primary", key="odk_gen"):
             try:
-                fs = st.session_state["kobo"].listar_formularios()
-                if fs: st.dataframe(pd.DataFrame([{"UID":f["uid"],"Nombre":f["nombre"],
-                    "Envios":f["envios"],"Estado":"Desplegado" if f["desplegado"] else "Borrador"} for f in fs]),
-                    use_container_width=True, hide_index=True)
-            except Exception as e: st.error(f"Error: {e}")
-    uid = st.text_input("UID del formulario")
-    if c3.button("Importar Envios"):
-        if not uid or not tk: st.warning("Complete los campos.")
+                ruta = generar_xlsform(bloques=bloques)
+                with open(ruta, "rb") as f:
+                    st.session_state["odk_xlsform"] = (os.path.basename(ruta), f.read())
+            except Exception as e:
+                st.error(f"Error: {e}")
+        if st.session_state.get("odk_xlsform"):
+            nombre, data = st.session_state["odk_xlsform"]
+            st.download_button("Descargar XLSForm", data, nombre,
+                               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        st.info("Suba el archivo a KoBoToolbox como **formulario nuevo**: su identificador "
+                f"(`{ODK_FORM_ID}`) es distinto del anterior, asi que los envios ya "
+                "recolectados con el formulario anterior se conservan y siguen importandose.")
+        enc = odk_encabezados_csv()
+        buf = io.StringIO()
+        csv.writer(buf).writerow(enc)
+        st.download_button("Descargar plantilla CSV (carga manual)", buf.getvalue(),
+                           "plantilla_in_piura_paso6.csv", "text/csv")
+
+    # ── 2. API ───────────────────────────────────────────────────────────
+    with t_api:
+        sv_def = _secreto("KOBO_SERVER", "https://kf.kobotoolbox.org")
+        servidores = ["https://kf.kobotoolbox.org", "https://eu.kobotoolbox.org",
+                      "https://kobo.humanitarianresponse.info"]
+        if sv_def not in servidores:
+            servidores.insert(0, sv_def)
+        sv = st.selectbox("Servidor", servidores, index=servidores.index(sv_def))
+        token, fuente_token = token_kobo()
+        if fuente_token == "secrets":
+            st.caption("Token API leido de la configuracion segura (secrets).")
         else:
+            escrito = st.text_input(
+                "Token API", type="password", value=token, key="odk_token_input",
+                help="Se usa solo en esta sesion y no se guarda. Para no escribirlo cada "
+                     "vez, agregue KOBO_TOKEN en los secrets de Streamlit.")
+            token = normalizar_token(escrito)
+            st.session_state[KOBO_TOKEN_SESION] = token
+        if st.button("Conectar y listar formularios", key="odk_listar"):
+            if not token:
+                st.warning("Ingrese el token.")
+            else:
+                try:
+                    cl = KoBoClient(sv, token)
+                    ok_, msg = cl.test_conexion()
+                    if not ok_:
+                        st.error(msg)
+                    else:
+                        st.session_state["odk_cliente"] = cl
+                        st.session_state["odk_formularios"] = cl.listar_formularios()
+                except Exception as e:
+                    st.error(f"Error: {e}")
+        forms = st.session_state.get("odk_formularios")
+        if forms is not None:
+            if not forms:
+                st.info("La cuenta no tiene formularios.")
+            else:
+                uid_def = _secreto("KOBO_FORM_UID")
+                opciones = {f"{f['nombre']}  ·  {f['envios']} envios  ·  {f['uid']}": f["uid"]
+                            for f in forms}
+                etiquetas = list(opciones)
+                idx = next((i for i, k in enumerate(etiquetas) if opciones[k] == uid_def), 0)
+                sel = st.selectbox("Formulario", etiquetas, index=idx)
+                if st.button("Descargar envios y revisar", type="primary", key="odk_bajar"):
+                    try:
+                        with st.spinner("Descargando todos los envios (todas las paginas)..."):
+                            cl = st.session_state["odk_cliente"]
+                            envios = cl.obtener_envios(opciones[sel])
+                            prep = odk_preparar_envios(envios, "api", opciones[sel])
+                        _odk_vista_previa(prep, "api", opciones[sel], cl)
+                    except Exception as e:
+                        st.error(f"Error: {e}")
+        if st.session_state.get("odk_preview", {}).get("origen") == "api":
+            _odk_mostrar_vista_previa()
+
+    # ── 3. Archivo ───────────────────────────────────────────────────────
+    with t_arch:
+        st.markdown("Exporte desde KoBo en **CSV o XLS** con la opcion *Valores y "
+                    "encabezados XML*. Se aceptan CSV separados por coma o punto y coma.")
+        uf = st.file_uploader("Archivo exportado", type=["csv", "xlsx"], key="odk_archivo")
+        if uf and st.button("Revisar archivo", type="primary", key="odk_revisar"):
+            sufijo = os.path.splitext(uf.name)[1].lower()
+            with tempfile.NamedTemporaryFile(suffix=sufijo, delete=False) as tmp:
+                tmp.write(uf.getvalue())
+                tp = tmp.name
             try:
-                r = importar_desde_kobo(sv,tk,uid)
-                st.success(f"Importado: {r['total_filas']} envios | Nuevos: {r['bloques_nuevos']} | Inspecciones: {r['inspecciones_creadas']}")
-            except Exception as e: st.error(f"Error: {e}")
-    with st.expander("Guia Rapida"):
-        st.markdown("""
-1. **GENERAR** el formulario XLSForm
-2. **SUBIR** a KoBoToolbox o ODK Central
-3. **DESPLEGAR** el formulario
-4. **RECOLECTAR** datos con KoBoCollect/ODK Collect (sin internet)
-5. **SINCRONIZAR** al tener conexion
-6. **IMPORTAR** CSV o usar API directa""")
+                envios = odk_leer_archivo(tp)
+                _odk_vista_previa(odk_preparar_envios(envios, "csv"), "csv")
+            except Exception as e:
+                st.error(f"No se pudo leer el archivo: {e}")
+            finally:
+                os.unlink(tp)
+        if st.session_state.get("odk_preview", {}).get("origen") == "csv":
+            _odk_mostrar_vista_previa()
+
+    # ── 4. Registradas ───────────────────────────────────────────────────
+    with t_reg:
+        try:
+            verifs = db.obtener_verificaciones_odk()
+        except Exception as e:
+            st.error(f"No se pudo leer las verificaciones: {e}")
+            verifs = []
+        if not verifs:
+            st.info("Aun no hay verificaciones importadas.")
+        else:
+            df = pd.DataFrame(verifs)
+            c1, c2 = st.columns(2)
+            dictamenes = sorted(x for x in df["dictamen"].dropna().unique() if x)
+            f_dict = c1.multiselect("Dictamen", dictamenes)
+            solo_alertas = c2.checkbox("Solo con alertas")
+            if f_dict:
+                df = df[df["dictamen"].isin(f_dict)]
+            if solo_alertas:
+                df = df[df["alertas"].fillna("") != ""]
+            cols = ["codigo_bloque", "distrito", "fecha_visita", "inspector", "dictamen",
+                    "accesibilidad", "riesgo_social", "uso_suelo_predominante",
+                    "evidencia_mm", "aceptacion_titular", "utm_este", "utm_norte",
+                    "utm_fuente", "coord_valida", "distancia_centroide_m", "n_fotos",
+                    "alertas"]
+            st.dataframe(df[cols], use_container_width=True, hide_index=True)
+            st.download_button("Descargar tabla (CSV)",
+                               df.drop(columns=["fotos"], errors="ignore")
+                                 .to_csv(index=False).encode("utf-8-sig"),
+                               "verificaciones_paso6.csv", "text/csv")
+            etiquetas = {f"{v['codigo_bloque']} · {v['fecha_visita']} · {v['inspector']} (#{v['id']})": v
+                         for v in df.to_dict("records")}
+            if etiquetas:
+                sel = st.selectbox("Ver detalle", list(etiquetas))
+                v = etiquetas[sel]
+                d1, d2 = st.columns(2)
+                d1.markdown(
+                    f"**Bloque:** {v['codigo_bloque']}  \n**Dictamen:** {v['dictamen'] or '-'}  \n"
+                    f"**Accesibilidad:** {v['accesibilidad'] or '-'} ({v['tipo_acceso'] or '-'})  \n"
+                    f"**Riesgo social:** {v['riesgo_social'] or '-'} {v['riesgo_social_factores'] or ''}  \n"
+                    f"**Uso del suelo:** {v['uso_suelo_predominante'] or '-'}  \n"
+                    f"**Mov. en masa:** {v['evidencia_mm'] or '-'} {v['tipos_mm'] or ''} {v['magnitud_mm'] or ''}  \n"
+                    f"**Titulares:** {v['tenencia'] or '-'} · {v['aceptacion_titular'] or '-'}")
+                if v.get("utm_este") is not None and not pd.isna(v.get("utm_este")):
+                    d2.markdown(f"**UTM 17S:** {v['utm_este']:,.1f} E / {v['utm_norte']:,.1f} N "
+                                f"({v['utm_fuente']})")
+                d2.markdown(f"**Observaciones:** {v['observaciones'] or '-'}  \n"
+                            f"**Alertas:** {v['alertas'] or 'ninguna'}")
+                fotos = db.obtener_adjuntos_odk(v["id"])
+                if fotos:
+                    cols_f = st.columns(min(3, len(fotos)))
+                    for i, fa in enumerate(fotos):
+                        contenido = db.obtener_contenido_adjunto_odk(fa["id"])
+                        if contenido:
+                            cols_f[i % len(cols_f)].image(
+                                contenido, caption=f"{fa['campo']} · {fa['nombre_archivo']}")
+
+    with st.expander("Guia rapida"):
+        st.markdown(f"""
+1. **Generar** el XLSForm (pestana 1) y subirlo a KoBoToolbox como formulario nuevo; **desplegar**.
+2. **Recolectar** con KoBoCollect / ODK Collect (sin internet). El GPS se captura en el bloque.
+3. **Enviar** al servidor cuando haya señal.
+4. **Importar** por API (pestana 2) o con el archivo exportado (pestana 3): revise la
+   vista previa y confirme. Solo se guardan los envios nuevos.
+5. La UTM 17S se calcula del GPS del celular (pyproj, EPSG:32717) y se valida en el rango
+   450,000–750,000 E / 9,300,000–9,600,000 N. Se alerta si el punto queda a mas de
+   {ODK_DIST_ALERTA:,} m del centroide del bloque o si hay mas de {ODK_MAX_PREDIOS} predios.
+6. Para no escribir el token cada vez, agregue en los *secrets* de Streamlit:
+   `KOBO_TOKEN = "..."`, opcionalmente `KOBO_SERVER` y `KOBO_FORM_UID`.""")
 
 # ══════════════════════════════════════════════════════════════════════════
 # REPORTES
@@ -6271,7 +7217,7 @@ def pagina_reportes():
                                            "Por provincia", "Por distrito"],
                                 key="rep_zip_ambito")
         # La zona solo vive en el catalogo; provincia y distrito, en la BD.
-        zona_por_codigo = {b[1]: (b[11] if len(b) > 11 else "") for b in BLOQUES_V5}
+        zona_por_codigo = {b[1]: (b[11] if len(b) > 11 else "") for b in BLOQUES_V5_COMPLETO}
         bloques_bd = _cached_obtener_bloques(_cache_version())
         # Cada selector lleva su propia clave: compartirla haria que Streamlit
         # intentara restaurar, por ejemplo, una zona sobre la lista de provincias.
@@ -6665,5 +7611,13 @@ elif pagina == "Presupuesto": pagina_presupuesto()
 elif pagina == "Cronograma": pagina_cronograma()
 elif pagina == "Georreferenciacion": pagina_georreferenciacion()
 elif pagina == "ODK / KoBoToolbox": pagina_odk()
+elif pagina == "Liberacion de Areas": pagina_liberacion_areas()
 elif pagina == "Reportes": pagina_reportes()
 elif pagina == "Conversor PDF -> Excel": pagina_conversor_pdf()
+
+# ── Pie de pagina institucional ───────────────────────────────────────────
+st.markdown(
+    '<div class="anin-footer">Autoridad Nacional de Infraestructura - ANIN · DIME · '
+    'Subdireccion de Estudios de Inversion<br>Proyecto IN Piura · CUI 2669244 · '
+    'Cuenca Alta del Rio Piura · Coordenadas UTM WGS84 Zona 17S</div>',
+    unsafe_allow_html=True)

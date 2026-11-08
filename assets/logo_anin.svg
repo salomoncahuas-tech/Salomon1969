@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 240" role="img" aria-label="ANIN - Autoridad Nacional de Infraestructura">
+  <title>ANIN - Autoridad Nacional de Infraestructura</title>
+  <defs>
+    <!-- Cortes que separan el anillo hexagonal en dos piezas entrelazadas -->
+    <mask id="anin-cortes">
+      <rect x="0" y="0" width="260" height="240" fill="#fff"/>
+      <rect x="162" y="50" width="98" height="14" fill="#000"/>
+      <rect x="0" y="176" width="98" height="14" fill="#000"/>
+    </mask>
+  </defs>
+
+  <!-- Emblema: anillo hexagonal rojo -->
+  <path mask="url(#anin-cortes)" fill="#E1141C" fill-rule="evenodd"
+        d="M250 120 L190 16 L70 16 L10 120 L70 224 L190 224 Z
+           M195 120 L162.5 64 L97.5 64 L65 120 L97.5 176 L162.5 176 Z"/>
+
+  <!-- Emblema: motivo central (flechas convergentes) -->
+  <g transform="translate(130 120)">
+    <g fill="none" stroke="#1D3461" stroke-width="9" stroke-linejoin="miter" stroke-linecap="butt">
+      <g transform="rotate(45)"><polyline points="31,-14 18,0 31,14"/><polyline points="45,-14 32,0 45,14"/></g>
+      <g transform="rotate(135)"><polyline points="31,-14 18,0 31,14"/><polyline points="45,-14 32,0 45,14"/></g>
+      <g transform="rotate(225)"><polyline points="31,-14 18,0 31,14"/><polyline points="45,-14 32,0 45,14"/></g>
+      <g transform="rotate(315)"><polyline points="31,-14 18,0 31,14"/><polyline points="45,-14 32,0 45,14"/></g>
+      <polygon points="10,0 5,8.7 -5,8.7 -10,0 -5,-8.7 5,-8.7" stroke-width="6"/>
+    </g>
+    <g fill="#E1141C">
+      <rect x="-4.5" y="-44" width="10" height="10" transform="rotate(12)"/>
+      <rect x="-4.5" y="-44" width="10" height="10" transform="rotate(102)"/>
+      <rect x="-4.5" y="-44" width="10" height="10" transform="rotate(192)"/>
+      <rect x="-4.5" y="-44" width="10" height="10" transform="rotate(282)"/>
+    </g>
+  </g>
+
+  <!-- Logotipo ANIN -->
+  <g transform="translate(290 34) scale(1.36)" fill="#1D3461" fill-rule="evenodd">
+    <path d="M0 100 L28 0 L64 0 L92 100 L66 100 L61 82 L31 82 L26 100 Z M36 62 L56 62 L46 26 Z"/>
+    <path transform="translate(102 0)" d="M0 100 L0 0 L26 0 L58 56 L58 0 L84 0 L84 100 L58 100 L26 44 L26 100 Z"/>
+    <path transform="translate(196 0)" d="M0 44 L26 26 L26 100 L0 100 Z"/>
+    <path transform="translate(196 0)" fill="#E1141C" d="M0 20 L26 2 L26 20 L0 38 Z"/>
+    <path transform="translate(232 0)" d="M0 100 L0 0 L26 0 L58 56 L58 0 L84 0 L84 100 L58 100 L26 44 L26 100 Z"/>
+  </g>
+  <text x="290" y="200" textLength="429" lengthAdjust="spacingAndGlyphs"
+        font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="25" fill="#1D3461">AUTORIDAD NACIONAL DE INFRAESTRUCTURA</text>
+</svg>

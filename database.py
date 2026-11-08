@@ -29,7 +29,12 @@ DATABASE_URL = st.secrets["DATABASE_URL"]
 # diagnosticos territorial y social. En su lugar se marcan con activo=0: dejan
 # de listarse en todo el aplicativo, pero su fila y todo lo ya registrado para
 # ellos permanece intacto en la base y el cambio es reversible.
-BLOQUES_RETIRADOS = ("54", "62", "65")
+BLOQUES_RETIRADOS = (
+    "54", "62", "65",
+    # Descartados en el catalogo vigente Bloques V6 (Rev. 07-sep-2026: 117 bloques
+    # activos, 12,270.235 ha). Confirmado por el Especialista en IV el 28-sep-2026.
+    "1", "7", "25", "29", "32", "33", "46", "48", "68", "74", "75", "M18B5",
+)
 
 # Fragmento reutilizable para excluir los bloques retirados. Se usa COALESCE
 # porque las filas anteriores a la migracion podrian no tener el campo.
@@ -58,6 +63,71 @@ def _connect_with_retry(dsn, **kwargs):
             if attempt < 3:
                 time.sleep(2 ** attempt)
     raise last_err
+
+
+_USUARIO_VALIDO = re.compile(r"^postgres(\.[a-z0-9]{20})?$")
+
+
+def _partes_url(dsn):
+    """(usuario, contrasena, servidor, puerto, base) de DATABASE_URL; None si no se puede leer."""
+    import urllib.parse
+    try:
+        u = urllib.parse.urlsplit(str(dsn).strip())
+        return (urllib.parse.unquote(u.username or ""), urllib.parse.unquote(u.password or ""),
+                u.hostname or "", u.port or 5432, u.path or "")
+    except ValueError:
+        return None
+
+
+def describir_url(dsn=None):
+    """DATABASE_URL sin datos secretos: usuario@servidor:puerto/base (contrasena: N caracteres).
+    Si el usuario no tiene la forma postgres / postgres.<codigo> (p. ej. la contrasena se pego delante
+    del usuario) no se muestra: podria contener la contrasena."""
+    partes = _partes_url(DATABASE_URL if dsn is None else dsn)
+    if partes is None:
+        return "DATABASE_URL con formato no válido"
+    usuario, clave, host, puerto, base = partes
+    if not _USUARIO_VALIDO.match(usuario):
+        usuario = f"[usuario NO válido, {len(usuario)} caracteres: no se muestra]"
+    return f"{usuario}@{host or '?'}:{puerto}{base} (contraseña: {len(clave)} caracteres)"
+
+
+def diagnosticar_error_conexion(error, dsn=None):
+    """Causa probable de un error de conexion a Supabase, en lenguaje simple y sin revelar la contrasena."""
+    dsn = DATABASE_URL if dsn is None else dsn
+    texto = str(error)
+    partes = _partes_url(dsn)
+    usuario, clave = (partes[0], partes[1]) if partes else ("", "")
+    usuario_valido = bool(_USUARIO_VALIDO.match(usuario))
+    for secreto in (clave, "" if usuario_valido else usuario):
+        if secreto:
+            texto = texto.replace(secreto, "****")
+    t = texto.lower()
+    if partes and not usuario_valido:
+        causa = ("El usuario de DATABASE_URL no es válido: debe ser exactamente «postgres.<código del proyecto>» "
+                 "(por ejemplo postgres.maiizkcpepuwlevbxlxw). Suele pasar cuando la contraseña se pega delante "
+                 "del usuario: la contraseña va entre «:» y «@». Formato correcto: "
+                 "postgresql://postgres.<código>:CONTRASEÑA@<servidor>.pooler.supabase.com:6543/postgres")
+    elif "password authentication failed" in t:
+        causa = ("La contraseña escrita en DATABASE_URL no coincide con la de Supabase. Si acaba de cambiarla, "
+                 "reemplácela en DATABASE_URL (entre «:» y «@»), sin espacios ni comillas extra.")
+    elif "circuit breaker" in t or "too many authentication" in t:
+        causa = ("Supabase bloqueó temporalmente las conexiones por varios intentos con contraseña incorrecta. "
+                 "Corrija DATABASE_URL, espere 5 a 10 minutos y reintente.")
+    elif "tenant or user not found" in t or "user not found" in t:
+        causa = ("El usuario de DATABASE_URL no corresponde al proyecto. Con el pooler de Supabase debe ser "
+                 "«postgres.<código del proyecto>», por ejemplo postgres.maiizkcpepuwlevbxlxw.")
+    elif "could not translate host name" in t or "name or service not known" in t or "nodename nor servname" in t:
+        causa = "El servidor (host) de DATABASE_URL está mal escrito o la URL está incompleta."
+    elif "invalid dsn" in t or "invalid integer value" in t or "invalid port" in t or "missing" in t:
+        causa = ("DATABASE_URL tiene un formato no válido. Suele pasar cuando la contraseña contiene @ : / # ? % "
+                 "o cuando falta alguna parte de la dirección.")
+    elif "timeout" in t or "timed out" in t or "connection refused" in t or "server closed" in t:
+        causa = ("El servidor no respondió: el proyecto de Supabase puede estar pausado (plan gratuito) o "
+                 "reiniciándose. Verifique en supabase.com que esté activo.")
+    else:
+        causa = "Revise DATABASE_URL en los secrets y que el proyecto de Supabase esté activo."
+    return {"causa": causa, "detalle": texto.strip()[:400], "conexion": describir_url(dsn)}
 
 
 # == CAPA DE COMPATIBILIDAD SQLite -> PostgreSQL ===========================
@@ -484,14 +554,9 @@ def inicializar_bd():
             END IF;
         END $$
     """)
-    cursor.execute("""
-        DO $$ BEGIN
-            IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'uq_ds_bloque_ficha_fecha_evaluador') THEN
-                CREATE UNIQUE INDEX uq_ds_bloque_ficha_fecha_evaluador
-                ON diagnostico_social (bloque_id, ficha, fecha_evaluacion, evaluador);
-            END IF;
-        END $$
-    """)
+    # La unicidad de diagnostico_social se define mas abajo, despues de las
+    # columnas nuevas (uq_ds_bloque_ficha_fecha_eval_cp): el indice anterior
+    # (bloque, ficha, fecha, responsable) no debe volver a crearse.
     cursor.execute("""
         DO $$ BEGIN
             IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'uq_presupuesto_bloque_cat_desc') THEN
@@ -547,6 +612,37 @@ def inicializar_bd():
             EXCEPTION WHEN duplicate_column THEN NULL;
             END $$
         """)
+
+    # ── Migracion: unicidad de la ficha social por CP y entrevistado ──────
+    # El indice anterior (bloque, ficha, fecha, responsable) impedia guardar
+    # en el mismo dia la F-DS-01 de un segundo centro poblado o de un segundo
+    # informante, y obligaba a variar el nombre del responsable
+    # ("Stefany Campos..", "Stefany Campos Abad1") para registrarla; eso a su
+    # vez impedia reconocer las copias en los graficos. El nuevo indice suma
+    # el centro poblado y el entrevistado. Es una clave mas amplia que la
+    # anterior, de modo que los registros existentes la cumplen y la
+    # migracion no puede fallar por datos ya guardados.
+    cursor.execute("""
+        DO $$ BEGIN
+            IF NOT EXISTS (SELECT 1 FROM pg_indexes
+                           WHERE indexname = 'uq_ds_bloque_ficha_fecha_eval_cp') THEN
+                CREATE UNIQUE INDEX uq_ds_bloque_ficha_fecha_eval_cp
+                ON diagnostico_social (bloque_id, ficha, fecha_evaluacion, evaluador,
+                                       (COALESCE(centro_poblado, '')),
+                                       (COALESCE(nombre_entrevistado, '')));
+            END IF;
+            DROP INDEX IF EXISTS uq_ds_bloque_ficha_fecha_evaluador;
+        EXCEPTION WHEN OTHERS THEN
+            RAISE WARNING 'No se actualizo el indice de diagnostico_social: %', SQLERRM;
+        END $$
+    """)
+    cursor.execute("SELECT 1 FROM pg_indexes "
+                   "WHERE indexname = 'uq_ds_bloque_ficha_fecha_evaluador'")
+    if cursor.fetchone():
+        # Queda en los registros del servidor de la app: con el indice viejo
+        # vuelve a rechazarse la ficha de un segundo CP en el mismo dia.
+        print("AVISO IN Piura: no se pudo reemplazar el indice "
+              "uq_ds_bloque_ficha_fecha_evaluador de diagnostico_social.")
 
     # ── Diagnostico Territorial V5: nuevas columnas (Plantilla DT V5) ──────
     # F-DT-01..05 V5 reemplazan a las 6 fichas previas. Las columnas viejas
@@ -761,6 +857,109 @@ def inicializar_bd():
             IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'uq_dt_campo_codigo') THEN
                 CREATE UNIQUE INDEX uq_dt_campo_codigo
                 ON dt_campo_bloque (codigo_bloque);
+            END IF;
+        END $$
+    """)
+
+    # ── Verificacion de campo ODK / KoBoToolbox (Paso 6) ──────────────────
+    # Migracion ADITIVA: solo crea tablas nuevas si no existen. No modifica
+    # ni borra ninguna tabla ni fila ya registrada.
+    #
+    # - Las llaves foraneas usan ON DELETE SET NULL (nunca CASCADE): si algun
+    #   dia se borra un bloque o una inspeccion, la verificacion importada de
+    #   campo se conserva igual, solo pierde el enlace.
+    # - clave_envio es UNIQUE: identifica cada envio de KoBo (_uuid) o, en
+    #   CSV sin _uuid, una huella del contenido. Reimportar el mismo envio no
+    #   genera duplicados.
+    # - Coordenadas en DOUBLE PRECISION: REAL (float4) redondea el Norte UTM
+    #   (~9.4 millones) al metro o peor.
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS verificacion_campo_odk (
+            id SERIAL PRIMARY KEY,
+            clave_envio TEXT NOT NULL,
+            kobo_id BIGINT,
+            formulario_uid TEXT DEFAULT '',
+            formulario_version TEXT DEFAULT '',
+            origen TEXT DEFAULT '',
+            bloque_id INTEGER REFERENCES bloques(id) ON DELETE SET NULL,
+            inspeccion_id INTEGER REFERENCES inspecciones(id) ON DELETE SET NULL,
+            codigo_bloque TEXT NOT NULL,
+            distrito TEXT DEFAULT '',
+            fecha_visita TEXT DEFAULT '',
+            inspector TEXT DEFAULT '',
+            gps_lat DOUBLE PRECISION,
+            gps_lon DOUBLE PRECISION,
+            gps_altitud DOUBLE PRECISION,
+            gps_precision DOUBLE PRECISION,
+            utm_este DOUBLE PRECISION,
+            utm_norte DOUBLE PRECISION,
+            utm_zona TEXT DEFAULT '17S',
+            utm_fuente TEXT DEFAULT '',
+            utm_este_manual DOUBLE PRECISION,
+            utm_norte_manual DOUBLE PRECISION,
+            coord_valida INTEGER DEFAULT 0,
+            distancia_centroide_m DOUBLE PRECISION,
+            accesibilidad TEXT DEFAULT '',
+            tipo_acceso TEXT DEFAULT '',
+            tiempo_acceso_min INTEGER,
+            acceso_estacional TEXT DEFAULT '',
+            riesgo_social TEXT DEFAULT '',
+            riesgo_social_factores TEXT DEFAULT '',
+            riesgo_social_detalle TEXT DEFAULT '',
+            uso_suelo_predominante TEXT DEFAULT '',
+            uso_suelo_otros TEXT DEFAULT '',
+            agricultura_activa TEXT DEFAULT '',
+            cobertura_vegetal_pct DOUBLE PRECISION,
+            evidencia_mm TEXT DEFAULT '',
+            tipos_mm TEXT DEFAULT '',
+            magnitud_mm TEXT DEFAULT '',
+            actividad_mm TEXT DEFAULT '',
+            tenencia TEXT DEFAULT '',
+            n_predios INTEGER,
+            titular TEXT DEFAULT '',
+            aceptacion_titular TEXT DEFAULT '',
+            condiciones_aceptacion TEXT DEFAULT '',
+            acta_firmada TEXT DEFAULT '',
+            dictamen TEXT DEFAULT '',
+            motivo_no_apto TEXT DEFAULT '',
+            condiciones_climaticas TEXT DEFAULT '',
+            observaciones TEXT DEFAULT '',
+            fotos TEXT DEFAULT '',
+            alertas TEXT DEFAULT '',
+            datos_json TEXT DEFAULT '',
+            fecha_envio TEXT DEFAULT '',
+            fecha_registro TEXT NOT NULL
+        )
+    """)
+    cursor.execute("""
+        DO $$ BEGIN
+            IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'uq_verif_odk_clave') THEN
+                CREATE UNIQUE INDEX uq_verif_odk_clave
+                ON verificacion_campo_odk (clave_envio);
+            END IF;
+        END $$
+    """)
+    # Fotos descargadas de KoBo (version mediana, ~640 px) para no agotar la
+    # cuota de la base. La URL del original queda registrada.
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS adjuntos_odk (
+            id SERIAL PRIMARY KEY,
+            verificacion_id INTEGER REFERENCES verificacion_campo_odk(id) ON DELETE SET NULL,
+            clave_envio TEXT NOT NULL,
+            campo TEXT DEFAULT '',
+            nombre_archivo TEXT NOT NULL,
+            mimetype TEXT DEFAULT '',
+            url_original TEXT DEFAULT '',
+            contenido BYTEA,
+            tamano_bytes INTEGER DEFAULT 0,
+            fecha_registro TEXT NOT NULL
+        )
+    """)
+    cursor.execute("""
+        DO $$ BEGIN
+            IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'uq_adjunto_odk') THEN
+                CREATE UNIQUE INDEX uq_adjunto_odk
+                ON adjuntos_odk (clave_envio, nombre_archivo);
             END IF;
         END $$
     """)
@@ -1870,11 +2069,20 @@ def actualizar_diagnostico_social(diagnostico_id, datos):
     conn.close()
 
 
+# Las columnas del bloque van con alias propio: `ds.*` ya trae `distrito`,
+# `provincia` y `microcuenca` de la ficha, y un `b.distrito` sin alias las
+# pisaba en el dict del cursor (el distrito del bloque reemplazaba al del
+# centro poblado y, al editar, la ficha volvia con el distrito del bloque).
+_COLS_BLOQUE_DS = ("b.codigo AS bloque_codigo, b.distrito AS bloque_distrito, "
+                   "b.provincia AS bloque_provincia, "
+                   "b.microcuenca AS bloque_microcuenca")
+
+
 def obtener_diagnosticos_sociales_por_bloque(bloque_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("""
-        SELECT ds.*, b.codigo AS bloque_codigo
+    cursor.execute(f"""
+        SELECT ds.*, {_COLS_BLOQUE_DS}
         FROM diagnostico_social ds
         JOIN bloques b ON ds.bloque_id = b.id
         WHERE ds.bloque_id=? ORDER BY ds.fecha_evaluacion DESC
@@ -1887,8 +2095,8 @@ def obtener_diagnosticos_sociales_por_bloque(bloque_id):
 def obtener_todos_diagnosticos_sociales():
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("""
-        SELECT ds.*, b.codigo AS bloque_codigo, b.tipo_intervencion, b.distrito
+    cursor.execute(f"""
+        SELECT ds.*, {_COLS_BLOQUE_DS}, b.tipo_intervencion
         FROM diagnostico_social ds
         JOIN bloques b ON ds.bloque_id = b.id
         ORDER BY ds.fecha_evaluacion DESC
@@ -1901,8 +2109,8 @@ def obtener_todos_diagnosticos_sociales():
 def obtener_diagnostico_social_por_id(diagnostico_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("""
-        SELECT ds.*, b.codigo AS bloque_codigo, b.tipo_intervencion, b.distrito
+    cursor.execute(f"""
+        SELECT ds.*, {_COLS_BLOQUE_DS}, b.tipo_intervencion
         FROM diagnostico_social ds
         JOIN bloques b ON ds.bloque_id = b.id
         WHERE ds.id=?
@@ -2406,3 +2614,199 @@ def vincular_resumenes_a_bloques():
     """)
     conn.commit()
     conn.close()
+
+
+# ── Verificacion de campo ODK / KoBoToolbox (Paso 6) ──────────────────────
+# Todas las funciones de esta seccion son ADITIVAS o de solo lectura: ninguna
+# modifica ni borra bloques, inspecciones o indicadores ya registrados.
+
+VERIF_ODK_COLUMNAS = (
+    "clave_envio", "kobo_id", "formulario_uid", "formulario_version", "origen",
+    "bloque_id", "codigo_bloque", "distrito", "fecha_visita", "inspector",
+    "gps_lat", "gps_lon", "gps_altitud", "gps_precision",
+    "utm_este", "utm_norte", "utm_zona", "utm_fuente",
+    "utm_este_manual", "utm_norte_manual", "coord_valida",
+    "distancia_centroide_m",
+    "accesibilidad", "tipo_acceso", "tiempo_acceso_min", "acceso_estacional",
+    "riesgo_social", "riesgo_social_factores", "riesgo_social_detalle",
+    "uso_suelo_predominante", "uso_suelo_otros", "agricultura_activa",
+    "cobertura_vegetal_pct",
+    "evidencia_mm", "tipos_mm", "magnitud_mm", "actividad_mm",
+    "tenencia", "n_predios", "titular", "aceptacion_titular",
+    "condiciones_aceptacion", "acta_firmada",
+    "dictamen", "motivo_no_apto", "condiciones_climaticas", "observaciones",
+    "fotos", "alertas", "datos_json", "fecha_envio",
+)
+
+
+def obtener_claves_verificacion_odk():
+    """Conjunto de claves de envio ya importadas (para deduplicar en lote)."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT clave_envio FROM verificacion_campo_odk")
+    claves = {r["clave_envio"] for r in _dictfetch(cursor)}
+    conn.close()
+    return claves
+
+
+def registrar_verificacion_odk(verificacion, inspeccion=None, indicadores=None):
+    """Registra un envio de campo en UNA sola transaccion.
+
+    1. Reserva la clave del envio en `verificacion_campo_odk`
+       (INSERT ... ON CONFLICT DO NOTHING). Si la clave ya existe, se
+       deshace todo y se devuelve estado 'duplicado': no se crea nada.
+    2. Si `inspeccion` trae datos, crea la inspeccion ligada al bloque para
+       que el envio aparezca en las vistas existentes del aplicativo.
+    3. Si `indicadores` trae datos, crea la fila de indicadores de calidad.
+
+    Nunca toca la tabla `bloques`.
+    Devuelve {"estado": "nuevo"|"duplicado", "verificacion_id", "inspeccion_id"}.
+    """
+    ahora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    cols = list(VERIF_ODK_COLUMNAS) + ["fecha_registro"]
+    valores = [verificacion.get(c) for c in VERIF_ODK_COLUMNAS] + [ahora]
+    conn = _connect_with_retry(DATABASE_URL, cursor_factory=RealDictCursor)
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            f"INSERT INTO verificacion_campo_odk ({', '.join(cols)}) "
+            f"VALUES ({', '.join(['%s'] * len(cols))}) "
+            "ON CONFLICT (clave_envio) DO NOTHING RETURNING id",
+            valores)
+        fila = cur.fetchone()
+        if not fila:
+            conn.rollback()
+            return {"estado": "duplicado", "verificacion_id": None,
+                    "inspeccion_id": None}
+        verif_id = fila["id"]
+
+        inspeccion_id = None
+        inspeccion_existente = False
+        if inspeccion and verificacion.get("bloque_id"):
+            # `inspecciones` tiene UNIQUE (bloque_id, fecha_visita, inspector).
+            # Si ya hay una inspeccion de ese bloque, dia y verificador (cargada
+            # a mano o por otro punto GPS del mismo bloque), solo se ENLAZA:
+            # no se modifica ni se le agregan indicadores.
+            cur.execute("""
+                SELECT id FROM inspecciones
+                WHERE bloque_id=%s AND fecha_visita=%s AND inspector=%s
+                ORDER BY id LIMIT 1
+            """, (verificacion["bloque_id"], inspeccion.get("fecha_visita") or "",
+                  inspeccion.get("inspector") or ""))
+            previa = cur.fetchone()
+            if previa:
+                inspeccion_id = previa["id"]
+                inspeccion_existente = True
+                cur.execute("UPDATE verificacion_campo_odk SET inspeccion_id=%s "
+                            "WHERE id=%s", (inspeccion_id, verif_id))
+        if inspeccion and verificacion.get("bloque_id") and not inspeccion_existente:
+            cur.execute("""
+                INSERT INTO inspecciones (bloque_id, fecha_visita, inspector,
+                    condiciones_climaticas, avance_fisico, observaciones,
+                    desviaciones, registro_fotografico, codigo_verificacion,
+                    microcuenca, archivos_pdf, fecha_registro)
+                VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) RETURNING id
+            """, (verificacion["bloque_id"],
+                  inspeccion.get("fecha_visita") or "",
+                  inspeccion.get("inspector") or "",
+                  inspeccion.get("condiciones_climaticas") or "",
+                  float(inspeccion.get("avance_fisico") or 0),
+                  inspeccion.get("observaciones") or "",
+                  inspeccion.get("desviaciones") or "",
+                  inspeccion.get("registro_fotografico") or "",
+                  inspeccion.get("codigo_verificacion") or "",
+                  inspeccion.get("microcuenca") or "",
+                  "", ahora))
+            inspeccion_id = cur.fetchone()["id"]
+            cur.execute("UPDATE verificacion_campo_odk SET inspeccion_id=%s "
+                        "WHERE id=%s", (inspeccion_id, verif_id))
+
+            if indicadores and any(float(indicadores.get(k) or 0) for k in (
+                    "cobertura_vegetal_planificada", "cobertura_vegetal_lograda",
+                    "sobrevivencia_especies", "longitud_zanjas_ejecutada",
+                    "volumen_retencion_sedimentos")):
+                cur.execute("""
+                    INSERT INTO indicadores_calidad (bloque_id, inspeccion_id,
+                        cobertura_vegetal_planificada, cobertura_vegetal_lograda,
+                        sobrevivencia_especies, longitud_zanjas_ejecutada,
+                        volumen_retencion_sedimentos, microcuenca, fecha_registro)
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s) RETURNING id
+                """, (verificacion["bloque_id"], inspeccion_id,
+                      float(indicadores.get("cobertura_vegetal_planificada") or 0),
+                      float(indicadores.get("cobertura_vegetal_lograda") or 0),
+                      float(indicadores.get("sobrevivencia_especies") or 0),
+                      float(indicadores.get("longitud_zanjas_ejecutada") or 0),
+                      float(indicadores.get("volumen_retencion_sedimentos") or 0),
+                      inspeccion.get("microcuenca") or "", ahora))
+        conn.commit()
+        return {"estado": "nuevo", "verificacion_id": verif_id,
+                "inspeccion_id": inspeccion_id,
+                "inspeccion_existente": inspeccion_existente}
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
+
+
+def guardar_adjunto_odk(verificacion_id, clave_envio, campo, nombre_archivo,
+                        mimetype, url_original, contenido):
+    """Guarda una foto de campo. Si ya existe (misma clave y archivo) no hace
+    nada. Devuelve el id nuevo o None si ya estaba."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO adjuntos_odk (verificacion_id, clave_envio, campo,
+            nombre_archivo, mimetype, url_original, contenido, tamano_bytes,
+            fecha_registro)
+        VALUES (?,?,?,?,?,?,?,?,?)
+        ON CONFLICT (clave_envio, nombre_archivo) DO NOTHING
+    """, (verificacion_id, clave_envio, campo, nombre_archivo, mimetype,
+          url_original, psycopg2.Binary(contenido) if contenido else None,
+          len(contenido or b""), datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+    nuevo_id = cursor.lastrowid
+    conn.commit()
+    conn.close()
+    return nuevo_id
+
+
+def obtener_verificaciones_odk():
+    """Verificaciones importadas (sin el JSON crudo), mas recientes primero."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    cols = ", ".join(f"v.{c}" for c in VERIF_ODK_COLUMNAS if c != "datos_json")
+    cursor.execute(f"""
+        SELECT v.id, v.inspeccion_id, v.fecha_registro, {cols},
+               b.microcuenca AS microcuenca,
+               (SELECT COUNT(*) FROM adjuntos_odk a
+                 WHERE a.verificacion_id = v.id) AS n_fotos
+        FROM verificacion_campo_odk v
+        LEFT JOIN bloques b ON b.id = v.bloque_id
+        ORDER BY v.fecha_visita DESC, v.id DESC
+    """)
+    rows = _dictfetch(cursor)
+    conn.close()
+    return rows
+
+
+def obtener_adjuntos_odk(verificacion_id):
+    """Metadatos de las fotos de una verificacion (sin el contenido)."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT id, campo, nombre_archivo, mimetype, url_original, tamano_bytes
+        FROM adjuntos_odk WHERE verificacion_id=? ORDER BY id
+    """, (verificacion_id,))
+    rows = _dictfetch(cursor)
+    conn.close()
+    return rows
+
+
+def obtener_contenido_adjunto_odk(adjunto_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT contenido FROM adjuntos_odk WHERE id=?", (adjunto_id,))
+    row = _dictfetchone(cursor)
+    conn.close()
+    return bytes(row["contenido"]) if row and row.get("contenido") else None
+
