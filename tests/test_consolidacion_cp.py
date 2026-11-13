@@ -23,6 +23,8 @@ from openpyxl import load_workbook
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import analitica_social as an  # noqa: E402
+# Paleta, modelo de serie y renderizadores viven en el motor comun.
+import analitica_series as ase  # noqa: E402
 
 
 _ID = [0]
@@ -55,7 +57,7 @@ def _serie(informe, id_):
 
 def _tabla(serie):
     """{categoria: {subclase: valor}} tal como lo dibujan grafico y Excel."""
-    categorias, subclases, matriz = an._pivote(serie)
+    categorias, subclases, matriz = ase._pivote(serie)
     return {c: dict(zip(subclases, fila)) for c, fila in zip(categorias, matriz)}
 
 
@@ -147,10 +149,10 @@ class LecturaDeCampos(unittest.TestCase):
 
     def test_multiselect_guardado_como_texto(self):
         self.assertEqual(
-            an._lista("Letrina seca / Pozo séptico", opciones=an.FL.L_SANEA),
+            ase._lista("Letrina seca / Pozo séptico", opciones=an.FL.L_SANEA),
             ["Letrina seca", "Pozo séptico"])
         self.assertEqual(
-            an._lista("JASS / Sistema local", opciones=an.FL.L_AGUA),
+            ase._lista("JASS / Sistema local", opciones=an.FL.L_AGUA),
             ["JASS / Sistema local"])
 
     def test_comunidad_ninguna_no_es_ambito(self):
@@ -457,8 +459,8 @@ class HallazgosDeLaRevision(unittest.TestCase):
                                  "f4_tot": "62"}, "Sapalache", bloque="X1")]
         informe = an.indicadores_bloque({"codigo": "X1"}, regs)
         serie = _serie(informe, "f4_asistencia")
-        categorias, subclases, matriz = an._pivote(serie)
-        pct, total = an._matriz_porcentaje(("ref", "Convocados"), subclases, matriz)
+        categorias, subclases, matriz = ase._pivote(serie)
+        pct, total = ase._matriz_porcentaje(("ref", "Convocados"), subclases, matriz)
         self.assertLessEqual(max(t for t in total if t is not None), 1.0)
         fila_sin = pct[categorias.index(next(c for c in categorias if "Sapalache" in c))]
         self.assertTrue(all(v is None for v in fila_sin))
@@ -517,19 +519,19 @@ class TablaDeLaApp(unittest.TestCase):
     def test_cobertura_sin_columna_total(self):
         """El CSV exportado traía 'Total' = agua % + energía %."""
         informe = an.indicadores_consolidado(_coyona())
-        df = an.tabla_serie(_serie(informe, "f1_cobertura"))
+        df = ase.tabla_serie(_serie(informe, "f1_cobertura"))
         self.assertNotIn("Total", df.columns)
         self.assertEqual(df.columns[0], "Centro poblado")
 
     def test_tituladas_sin_porcentaje_del_total(self):
         informe = an.indicadores_bloque({"codigo": "12"}, _chacayo())
-        df = an.tabla_serie(_serie(informe, "f1_tituladas"))
+        df = ase.tabla_serie(_serie(informe, "f1_tituladas"))
         self.assertNotIn("% del total", df.columns)
         self.assertEqual(len(df), 1)
 
     def test_poblacion_con_total_por_centro_poblado(self):
         informe = an.indicadores_consolidado(_coyona())
-        df = an.tabla_serie(_serie(informe, "f1_poblacion"))
+        df = ase.tabla_serie(_serie(informe, "f1_poblacion"))
         totales = dict(zip(df["Centro poblado"], df["Población total"]))
         self.assertEqual(totales["Coyona (Canchaque)"], 1100)
         self.assertEqual(totales["Coyona (San Miguel de El Faique)"], 443)
