@@ -1,0 +1,902 @@
+{
+ "fecha": "2026-10-23",
+ "bloques": {
+  "n": 117,
+  "ha": 12270.235,
+  "ai_ha": 17139.655,
+  "ai_n": 130,
+  "n_microcuencas": 26,
+  "n_distritos": 15
+ },
+ "ambito_ha": 642927.8,
+ "por_distrito": [
+  {
+   "prov": "Ayabaca",
+   "dist": "Frías",
+   "dist_ha": 56736.6,
+   "n": 10,
+   "ha": 1391.704,
+   "ai": 821.105
+  },
+  {
+   "prov": "Huancabamba",
+   "dist": "Canchaque",
+   "dist_ha": 30327.7,
+   "n": 10,
+   "ha": 587.416,
+   "ai": 732.649
+  },
+  {
+   "prov": "Huancabamba",
+   "dist": "Huancabamba",
+   "dist_ha": 45862.9,
+   "n": 2,
+   "ha": 126.677,
+   "ai": 34.026
+  },
+  {
+   "prov": "Huancabamba",
+   "dist": "Huarmaca",
+   "dist_ha": 194552.0,
+   "n": 21,
+   "ha": 1966.121,
+   "ai": 1710.719
+  },
+  {
+   "prov": "Huancabamba",
+   "dist": "Lalaquiz",
+   "dist_ha": 15627.3,
+   "n": 6,
+   "ha": 201.196,
+   "ai": 240.69
+  },
+  {
+   "prov": "Huancabamba",
+   "dist": "San Miguel de El Faique",
+   "dist_ha": 22112.5,
+   "n": 9,
+   "ha": 669.754,
+   "ai": 675.248
+  },
+  {
+   "prov": "Morropón",
+   "dist": "Buenos Aires",
+   "dist_ha": 23989.0,
+   "n": 7,
+   "ha": 1903.121,
+   "ai": 3465.752
+  },
+  {
+   "prov": "Morropón",
+   "dist": "Chalaco",
+   "dist_ha": 15738.9,
+   "n": 2,
+   "ha": 39.222,
+   "ai": 65.041
+  },
+  {
+   "prov": "Morropón",
+   "dist": "Chulucanas",
+   "dist_ha": 85798.2,
+   "n": 7,
+   "ha": 1450.142,
+   "ai": 3952.472
+  },
+  {
+   "prov": "Morropón",
+   "dist": "Morropón",
+   "dist_ha": 16612.7,
+   "n": 2,
+   "ha": 125.344,
+   "ai": 263.832
+  },
+  {
+   "prov": "Morropón",
+   "dist": "Salitral",
+   "dist_ha": 62324.0,
+   "n": 9,
+   "ha": 1264.532,
+   "ai": 2178.109
+  },
+  {
+   "prov": "Morropón",
+   "dist": "San Juan de Bigote",
+   "dist_ha": 24019.1,
+   "n": 12,
+   "ha": 1143.865,
+   "ai": 2010.646
+  },
+  {
+   "prov": "Morropón",
+   "dist": "Santa Catalina de Mossa",
+   "dist_ha": 8677.6,
+   "n": 4,
+   "ha": 213.186,
+   "ai": 232.812
+  },
+  {
+   "prov": "Morropón",
+   "dist": "Santo Domingo",
+   "dist_ha": 18895.4,
+   "n": 10,
+   "ha": 728.281,
+   "ai": 426.784
+  },
+  {
+   "prov": "Morropón",
+   "dist": "Yamango",
+   "dist_ha": 21653.9,
+   "n": 6,
+   "ha": 459.674,
+   "ai": 329.77
+  }
+ ],
+ "por_provincia": [
+  {
+   "prov": "Ayabaca",
+   "n": 10,
+   "ha": 1391.704,
+   "ai": 821.105,
+   "nd": 1
+  },
+  {
+   "prov": "Huancabamba",
+   "n": 48,
+   "ha": 3551.164,
+   "ai": 3393.332,
+   "nd": 5
+  },
+  {
+   "prov": "Morropón",
+   "n": 59,
+   "ha": 7327.367,
+   "ai": 12925.218,
+   "nd": 9
+  }
+ ],
+ "microcuencas": [
+  {
+   "cod": "C1077-Q9566",
+   "n": 5,
+   "ha": 1553.964
+  },
+  {
+   "cod": "C1081-Q9582",
+   "n": 7,
+   "ha": 1261.637
+  },
+  {
+   "cod": "C1086-Q9570",
+   "n": 12,
+   "ha": 853.867
+  },
+  {
+   "cod": "C1096-Q9556",
+   "n": 8,
+   "ha": 839.408
+  },
+  {
+   "cod": "C1096-Q9545",
+   "n": 2,
+   "ha": 814.659
+  },
+  {
+   "cod": "C1081-Q9591",
+   "n": 10,
+   "ha": 552.187
+  },
+  {
+   "cod": "C1077-Q9579",
+   "n": 2,
+   "ha": 534.167
+  },
+  {
+   "cod": "C1076-Q9589",
+   "n": 2,
+   "ha": 523.983
+  },
+  {
+   "cod": "C1076-Q9593",
+   "n": 8,
+   "ha": 523.872
+  },
+  {
+   "cod": "C1076-Q9588",
+   "n": 2,
+   "ha": 498.491
+  },
+  {
+   "cod": "C1086-Q9575",
+   "n": 6,
+   "ha": 459.674
+  },
+  {
+   "cod": "C1096-Q9557",
+   "n": 1,
+   "ha": 448.804
+  },
+  {
+   "cod": "C1076-Q9592",
+   "n": 9,
+   "ha": 419.775
+  },
+  {
+   "cod": "C1076-Q9581",
+   "n": 4,
+   "ha": 402.834
+  },
+  {
+   "cod": "C1081-Q9583",
+   "n": 9,
+   "ha": 398.033
+  },
+  {
+   "cod": "C1096-Q9558",
+   "n": 2,
+   "ha": 365.946
+  },
+  {
+   "cod": "C1076-Q9585",
+   "n": 2,
+   "ha": 288.609
+  },
+  {
+   "cod": "C1076-Q9586",
+   "n": 7,
+   "ha": 273.975
+  },
+  {
+   "cod": "C1096-Q9547",
+   "n": 3,
+   "ha": 262.141
+  },
+  {
+   "cod": "C1096-Q9564",
+   "n": 3,
+   "ha": 246.749
+  },
+  {
+   "cod": "C1076-Q9584",
+   "n": 3,
+   "ha": 228.803
+  },
+  {
+   "cod": "C1077-Q9580",
+   "n": 1,
+   "ha": 188.797
+  },
+  {
+   "cod": "C1081-Q9590",
+   "n": 4,
+   "ha": 118.743
+  },
+  {
+   "cod": "C1076-Q9587",
+   "n": 1,
+   "ha": 94.812
+  },
+  {
+   "cod": "C1086-Q9569",
+   "n": 2,
+   "ha": 62.447
+  },
+  {
+   "cod": "C1086-Q9576",
+   "n": 2,
+   "ha": 53.858
+  }
+ ],
+ "ccpp": {
+  "n": 152,
+  "pob": 18071,
+  "h": 8776,
+  "m": 8590,
+  "vul": 3180,
+  "viv": 6227,
+  "con_coord": 149,
+  "multi_bloque": 15,
+  "rurales": 133,
+  "bloques_sin_cp": [
+   "31",
+   "50",
+   "M6B2-1",
+   "M17B10",
+   "M30B5"
+  ],
+  "sin_coord": "Cardal (87), Dótor (85, 87), Nueva Esperanza (86, 87)",
+  "pob_sin_desagregar": 705,
+  "por_provincia": [
+   {
+    "prov": "Ayabaca",
+    "n": 16,
+    "pob": 2181,
+    "h": 1090,
+    "m": 1091,
+    "vul": 320,
+    "viv": 624
+   },
+   {
+    "prov": "Huancabamba",
+    "n": 58,
+    "pob": 6573,
+    "h": 3271,
+    "m": 3302,
+    "vul": 1245,
+    "viv": 2242
+   },
+   {
+    "prov": "Morropón",
+    "n": 78,
+    "pob": 9317,
+    "h": 4415,
+    "m": 4197,
+    "vul": 1615,
+    "viv": 3361
+   }
+  ],
+  "por_distrito": [
+   {
+    "prov": "Ayabaca",
+    "dist": "Frías",
+    "n": 16,
+    "pob": 2181,
+    "viv": 624
+   },
+   {
+    "prov": "Huancabamba",
+    "dist": "Canchaque",
+    "n": 13,
+    "pob": 1324,
+    "viv": 555
+   },
+   {
+    "prov": "Huancabamba",
+    "dist": "Huancabamba",
+    "n": 1,
+    "pob": 311,
+    "viv": 108
+   },
+   {
+    "prov": "Huancabamba",
+    "dist": "Huarmaca",
+    "n": 27,
+    "pob": 3514,
+    "viv": 1055
+   },
+   {
+    "prov": "Huancabamba",
+    "dist": "Lalaquiz",
+    "n": 6,
+    "pob": 313,
+    "viv": 134
+   },
+   {
+    "prov": "Huancabamba",
+    "dist": "San Miguel de El Faique",
+    "n": 11,
+    "pob": 1111,
+    "viv": 390
+   },
+   {
+    "prov": "Morropón",
+    "dist": "Buenos Aires",
+    "n": 11,
+    "pob": 722,
+    "viv": 281
+   },
+   {
+    "prov": "Morropón",
+    "dist": "Chalaco",
+    "n": 3,
+    "pob": 382,
+    "viv": 128
+   },
+   {
+    "prov": "Morropón",
+    "dist": "Chulucanas",
+    "n": 10,
+    "pob": 2390,
+    "viv": 897
+   },
+   {
+    "prov": "Morropón",
+    "dist": "Morropón",
+    "n": 1,
+    "pob": 186,
+    "viv": 67
+   },
+   {
+    "prov": "Morropón",
+    "dist": "Salitral",
+    "n": 15,
+    "pob": 1671,
+    "viv": 676
+   },
+   {
+    "prov": "Morropón",
+    "dist": "San Juan de Bigote",
+    "n": 14,
+    "pob": 1603,
+    "viv": 343
+   },
+   {
+    "prov": "Morropón",
+    "dist": "Santa Catalina de Mossa",
+    "n": 5,
+    "pob": 498,
+    "viv": 211
+   },
+   {
+    "prov": "Morropón",
+    "dist": "Santo Domingo",
+    "n": 11,
+    "pob": 983,
+    "viv": 450
+   },
+   {
+    "prov": "Morropón",
+    "dist": "Yamango",
+    "n": 8,
+    "pob": 882,
+    "viv": 308
+   }
+  ]
+ },
+ "social": {
+  "registros": 171,
+  "ds01": 400,
+  "ds01_completo": 155,
+  "ds03": 161,
+  "ds03_completo": 144,
+  "saberes_completo": 0,
+  "descartados": 10,
+  "fecha_ult": "2026-09-23",
+  "N": 8865.9,
+  "n": 368
+ },
+ "ecosistemas": [
+  {
+   "eco": "Bosque estacionalmente seco de colina y montaña",
+   "ha": 8346.672,
+   "n": 65,
+   "pct": 0.6802,
+   "amb_ha": 188280.249
+  },
+  {
+   "eco": "Zona agrícola",
+   "ha": 2801.197,
+   "n": 78,
+   "pct": 0.2283,
+   "amb_ha": 155867.895
+  },
+  {
+   "eco": "Matorral andino",
+   "ha": 945.863,
+   "n": 38,
+   "pct": 0.0771,
+   "amb_ha": 31192.831
+  },
+  {
+   "eco": "Bosque relicto montano de vertiente occidental",
+   "ha": 103.982,
+   "n": 5,
+   "pct": 0.0085,
+   "amb_ha": 6281.805
+  },
+  {
+   "eco": "Páramo",
+   "ha": 71.785,
+   "n": 2,
+   "pct": 0.0059,
+   "amb_ha": 3843.332
+  },
+  {
+   "eco": "Sin información de ecosistema",
+   "ha": 0.736,
+   "n": 2,
+   "pct": 0.0001,
+   "amb_ha": 0.0
+  }
+ ],
+ "eco_ambito": {
+  "total_ha": 388809.78,
+  "otros": [
+   "Bosque estacionalmente seco de llanura",
+   "Bosque estacionalmente seco ribereño (Algarrobal)",
+   "Río",
+   "Zona urbana"
+  ]
+ },
+ "msavi": {
+  "media_min": 0.2289,
+  "media_max": 0.7074,
+  "bajo_umbral_ha": 8341.824,
+  "total_ha": 12270.242,
+  "dn": {
+   "dn1": 1246.184,
+   "dn2": 4257.23,
+   "dn3": 2838.41,
+   "dn4": 1967.002,
+   "dn5": 1961.417
+  },
+  "bloques_mayoria_bajo": 53,
+  "r": 0.9965,
+  "eam": 0.0091,
+  "pct_bajo": 0.6798
+ },
+ "carcavas": {
+  "n": 55,
+  "long_m": 23080.64,
+  "bloques": 32,
+  "por_ndvi": {
+   "Vegetación ligera": 26,
+   "Vegetación alta": 13,
+   "Vegetación mediana": 13,
+   "Tierra desnuda": 3
+  }
+ },
+ "inventario": [
+  [
+   1,
+   "01_ambito_estudio_distritos",
+   "Ámbito de estudio: 15 distritos (INEI, referencial)",
+   "Polígono",
+   15,
+   642927.8,
+   "SHP, GPKG, KMZ",
+   "Límites distritales INEI (capa simplificada); área referencial",
+   "Entregado"
+  ],
+  [
+   2,
+   "02_bloques_intervencion_v6",
+   "Bloques de intervención V6 (117)",
+   "Polígono",
+   117,
+   12270.235,
+   "SHP, GPKG, KMZ",
+   "Bloques V6 (Bloques V6.kml) y catálogo V6 (datos/unidades_liberacion_areas.csv), ANIN-DIME-SESDI 2026",
+   "Entregado"
+  ],
+  [
+   3,
+   "03_area_influencia_v6",
+   "Área de influencia aprobada (130 polígonos)",
+   "Polígono",
+   130,
+   17139.655,
+   "SHP, GPKG, KMZ",
+   "Área de influencia aprobada (AI_aprobado_2.shp), ANIN-DIME-SESDI 2026; sin los AI de los bloques retirados 74 y 75",
+   "Entregado"
+  ],
+  [
+   4,
+   "04_centros_poblados_asociados",
+   "Centros poblados asociados a los bloques V6",
+   "Punto",
+   149,
+   null,
+   "SHP, GPKG, KMZ",
+   "INEI, capa de centros poblados con población censal; asociación centro poblado–bloque del equipo social (CentrosPoblados-INEI-Bloques_v5, 24.09.2026, y bloques adicionales 83-87)",
+   "Entregado (3 CCPP sin coordenadas, solo en A3)"
+  ],
+  [
+   5,
+   "05_ecosistemas_ambito",
+   "Ecosistemas en el ámbito (MINAM 2018)",
+   "Polígono",
+   9,
+   388809.78,
+   "SHP, GPKG, KMZ",
+   "Mapa Nacional de Ecosistemas del Perú, MINAM 2018 (R.M. N.° 440-2018-MINAM), recorte al ámbito",
+   "Entregado"
+  ],
+  [
+   6,
+   "06_ecosistemas_bloques_v6",
+   "Ecosistemas dentro de los bloques V6",
+   "Polígono",
+   190,
+   12270.235,
+   "SHP, GPKG, KMZ",
+   "Mapa Nacional de Ecosistemas del Perú, MINAM 2018 (R.M. N.° 440-2018-MINAM), recorte al ámbito; intersección con bloques V6",
+   "Entregado"
+  ],
+  [
+   7,
+   "07_carcavas_caracterizadas",
+   "Cárcavas caracterizadas (55)",
+   "Punto",
+   55,
+   null,
+   "SHP, GPKG, KMZ",
+   "Caracterización de cárcavas (gabinete SIG), ANIN-DIME-SESDI 2026",
+   "Entregado"
+  ],
+  [
+   8,
+   "08_limites_distritales_contexto",
+   "Límites distritales de contexto (INEI, simplificado)",
+   "Polígono",
+   326,
+   null,
+   "SHP, GPKG",
+   "INEI (capa simplificada), base de contexto",
+   "Entregado"
+  ],
+  [
+   9,
+   "Mapas temáticos (PDF A3)",
+   "Área de influencia y bloques V6 (4 láminas); ecosistemas y bloques V6 (4 láminas); centros poblados asociados (1 lámina)",
+   "—",
+   9,
+   null,
+   "PDF",
+   "ANIN-DIME-SESDI 2026",
+   "Entregado"
+  ],
+  [
+   10,
+   "Peligro integrado y componentes",
+   "PMM, EPH, PGI y PI (5 niveles)",
+   "Ráster / polígono",
+   null,
+   null,
+   "[POR DEFINIR]",
+   "Modelamiento MCA-AHP (mesolocalización)",
+   "Pendiente de remisión"
+  ],
+  [
+   11,
+   "Microcuencas priorizadas",
+   "Límites de las 26 microcuencas con bloques V6",
+   "Polígono",
+   null,
+   null,
+   "[POR DEFINIR]",
+   "Delimitación hidrográfica del proyecto",
+   "Pendiente de remisión"
+  ],
+  [
+   12,
+   "Capas de exclusión e idoneidad",
+   "Arqueología, concesiones mineras, infraestructura eléctrica, ANP, accesibilidad, pendiente, déficit hídrico",
+   "Varios",
+   null,
+   null,
+   "[POR DEFINIR]",
+   "SIGDA, INGEMMET, OSINERGMIN, SERNANP, MTC, CMIP6",
+   "Pendiente de remisión"
+  ],
+  [
+   13,
+   "Ráster MSAVI 2024 clasificado",
+   "Clases DN 1-5 (resumen por bloque en A4_UP_MSAVI)",
+   "Ráster",
+   null,
+   null,
+   "[POR DEFINIR]",
+   "Sentinel-2 (2024)",
+   "Pendiente de remisión"
+  ],
+  [
+   14,
+   "Registros de campo georreferenciados",
+   "Fichas F-DT, F-EE, F-DS y F-LA con coordenadas y fotos",
+   "Punto",
+   null,
+   null,
+   "[POR DEFINIR] (exportación del aplicativo)",
+   "Aplicativo IN Piura / KoboToolbox",
+   "Pendiente de remisión"
+  ],
+  [
+   15,
+   "Vuelos de dron",
+   "Ortomosaicos de verificación aérea por bloque",
+   "Ráster",
+   null,
+   null,
+   "[POR DEFINIR]",
+   "Verificación aérea con dron (MSAVI V6 rev. 1)",
+   "Pendiente de remisión"
+  ]
+ ],
+ "criterios": [
+  [
+   1,
+   "Mesolocalización",
+   "Peligro integrado (PI) en la cuenca alta",
+   "Modelamiento GIS por análisis multicriterio (MCA) y proceso analítico jerárquico (AHP) de: peligro por movimientos en masa (PMM: geología, pendiente, TPI, cobertura vegetal; desencadenante: precipitación acumulada multianual; parámetro: tendencia a la degradación TAU/NDVI), erosión potencial hídrica (EPH) y peligro generador de inundaciones (PGI: pendiente, escorrentía total, NDVI). PI en 5 niveles (muy bajo a muy alto).",
+   "Sentinel-2, Landsat, DEM, WorldClim, SENAMHI, INGEMMET",
+   "Mapa de peligro integrado y microcuencas priorizadas (26 microcuencas con bloques V6)"
+  ],
+  [
+   2,
+   "Digitalización",
+   "Áreas con PI medio, alto y muy alto",
+   "Delimitación semiautomática o manual de bloques sobre las microcuencas priorizadas, en zonas de origen del peligro (cuenca alta), no en la zona de impacto.",
+   "Mapa de PI; imágenes satelitales",
+   "Bloques preliminares de intervención"
+  ],
+  [
+   3,
+   "Filtros de exclusión",
+   "Restos arqueológicos",
+   "Exclusión de superficies con sitios arqueológicos declarados.",
+   "SIGDA — Ministerio de Cultura",
+   "Bloques depurados"
+  ],
+  [
+   3,
+   "Filtros de exclusión",
+   "Concesiones mineras activas",
+   "Exclusión de superficies con concesiones mineras vigentes.",
+   "INGEMMET (GEOCATMIN)",
+   "Bloques depurados"
+  ],
+  [
+   3,
+   "Filtros de exclusión",
+   "Infraestructura eléctrica",
+   "Exclusión de líneas eléctricas con franja (buffer) de 10 m.",
+   "OSINERGMIN",
+   "Bloques depurados"
+  ],
+  [
+   3,
+   "Filtros de exclusión",
+   "Áreas Naturales Protegidas",
+   "Exclusión de superficies dentro de ANP.",
+   "SERNANP",
+   "Bloques depurados"
+  ],
+  [
+   4,
+   "Idoneidad",
+   "Accesibilidad",
+   "Acceso desde la red vial y caminos identificables.",
+   "Red vial MTC; imágenes satelitales",
+   "Bloques accesibles"
+  ],
+  [
+   4,
+   "Idoneidad",
+   "Pendiente máxima",
+   "Pendiente ≤ 75 %.",
+   "DEM",
+   "Bloques técnicamente intervenibles"
+  ],
+  [
+   4,
+   "Idoneidad",
+   "Cobertura territorial",
+   "Cobertura de los distritos priorizados (15 distritos de Ayabaca, Huancabamba y Morropón).",
+   "Límites INEI",
+   "Distribución territorial de bloques"
+  ],
+  [
+   4,
+   "Idoneidad",
+   "Déficit hídrico futuro",
+   "Déficit hídrico proyectado con el modelo MPI-ESM1-2HR, escenario SSP5-8.5, periodo 2021-2040.",
+   "Escenarios CMIP6",
+   "Priorización por exposición climática"
+  ],
+  [
+   5,
+   "Tamizaje predial",
+   "Predios interceptados",
+   "Máximo 19 predios rurales interceptados por bloque.",
+   "Catastro rural (predios)",
+   "Bloques con viabilidad de saneamiento"
+  ],
+  [
+   5,
+   "Tamizaje predial",
+   "Uso agrícola",
+   "Exclusión de áreas agrícolas.",
+   "Imágenes satelitales; catastro",
+   "Bloques sin conflicto de uso"
+  ],
+  [
+   6,
+   "Verificación de campo",
+   "Accesibilidad real y uso actual",
+   "Verificación de accesos, uso actual del suelo y evidencia de movimientos en masa y procesos erosivos (fichas F-DT-01 a F-DT-05; elementos expuestos F-EE-01 a F-EE-07).",
+   "Brigadas de campo; aplicativo IN Piura / KoboToolbox; vuelos de dron",
+   "Bloques verificados (catálogo V6: 117 bloques, 12,270.235 ha)"
+  ],
+  [
+   6,
+   "Verificación de campo",
+   "Riesgo social y aceptación",
+   "Riesgo social, aceptación de titulares y posesionarios (fichas F-DS y F-LA de liberación de áreas: identificación de prediantes, actas).",
+   "Equipo social y legal",
+   "Bloques con aceptación; codificación M#-B#"
+  ]
+ ],
+ "involucrados": [
+  [
+   "Población de los centros poblados asociados a los bloques",
+   "Habitantes de los centros poblados rurales vinculados a los 117 bloques (ver A3); autoridades de caserío (tenientes gobernadores, agentes municipales) entrevistadas con la ficha F-DS-03",
+   "Pérdida de cobertura vegetal y de suelos; erosión y cárcavas; movimientos en masa que afectan caminos, viviendas y terrenos; menor disponibilidad de agua en estiaje",
+   "Reducir la exposición a peligros; mantener o mejorar la disponibilidad de agua y de pastos; empleo local",
+   "Diagnóstico socioeconómico (F-DS-01), talleres participativos (F-DS-04), consulta de disposición a participar y consentimiento (F-DS-07)",
+   "Socialización con autoridades de caserío en curso. Acuerdos formales: [POR DEFINIR]",
+   "A favor / por confirmar"
+  ],
+  [
+   "Titulares y posesionarios de predios en los bloques",
+   "Propietarios, posesionarios, sucesiones, ocupantes y comunidades con tierras dentro de los bloques (registro F-LA de liberación de áreas)",
+   "Incertidumbre sobre el uso futuro del predio; restricción temporal del pastoreo durante la clausura",
+   "Conservar derechos sobre el predio; recibir beneficios de la recuperación del ecosistema",
+   "Liberación de áreas con identificación de prediantes y actas de libre disponibilidad (F-LA-01 a F-LA-06)",
+   "Actas de disponibilidad en proceso: [POR DEFINIR] número suscrito",
+   "Por confirmar"
+  ],
+  [
+   "Organizaciones comunales y de productores",
+   "Comunidades campesinas, rondas campesinas, asociaciones de ganaderos y productores, JASS",
+   "Degradación de pastos y fuentes de agua; conflictos por uso de tierras y agua",
+   "Manejo de pastizales, protección de fuentes de agua, fortalecimiento organizativo",
+   "Planes de manejo comunitario; capacitación en GdR; mecanismos MERESE",
+   "[POR DEFINIR] (se consolida con F-DS-02 y F-DS-05)",
+   "Por confirmar"
+  ],
+  [
+   "Gobiernos locales",
+   "Municipalidades provinciales de Ayabaca, Huancabamba y Morropón y municipalidades de los 15 distritos",
+   "Daños recurrentes en vías y servicios por huaicos y erosión; limitada capacidad de gestión del riesgo",
+   "Reducir daños y gastos de rehabilitación; articular el proyecto con planes locales",
+   "Coordinación institucional; participación en operación y mantenimiento y en alerta temprana comunitaria",
+   "[POR DEFINIR] convenios o actas de compromiso de O&M",
+   "Por confirmar"
+  ],
+  [
+   "Gobierno Regional de Piura",
+   "Órganos competentes en agricultura, recursos naturales, gestión ambiental y gestión del riesgo",
+   "Degradación de ecosistemas de la cuenca alta y su efecto en la cuenca media y baja",
+   "Recuperación de ecosistemas y articulación con la gestión integral de la cuenca",
+   "Coordinación técnica; opiniones y autorizaciones en el ámbito de su competencia",
+   "[POR DEFINIR]",
+   "Por confirmar"
+  ],
+  [
+   "Entidades del Gobierno Nacional",
+   "MINAM (rector de la infraestructura natural; indicador de brecha R.M. N.° 00213-2024-MINAM), SERFOR, ANA y sus órganos desconcentrados, SERNANP, Ministerio de Cultura, INGEMMET, SENAMHI, CENEPRED, INDECI",
+   "Brecha de ecosistemas degradados que requieren recuperación; riesgo de desastres en la cuenca",
+   "Cumplimiento de lineamientos sectoriales; información para la gestión del riesgo y del agua",
+   "Uso de información oficial; coordinación de opiniones técnicas cuando corresponda",
+   "No requiere acuerdos en esta fase",
+   "Neutral / normativo"
+  ],
+  [
+   "Usuarios de agua y población de la cuenca media y baja",
+   "Juntas y comisiones de usuarios de agua de riego; población del valle del río Piura expuesta a inundaciones",
+   "Sedimentos e incremento de escorrentía desde la cuenca alta; variabilidad de la disponibilidad hídrica",
+   "Regulación hídrica y menor aporte de sedimentos y escorrentía",
+   "Difusión de resultados; exploración de mecanismos MERESE",
+   "[POR DEFINIR]",
+   "A favor (beneficiario indirecto)"
+  ],
+  [
+   "Programa de Inversión del Río Piura",
+   "Dependencia solicitante de la información",
+   "Necesidad de integrar el alcance de la infraestructura natural de la cuenca alta en el programa de inversión",
+   "Articular el Perfil IN Piura con el programa; evitar duplicidad de intervenciones",
+   "Intercambio de información técnica y geoespacial (este informe); coordinación de alcances",
+   "Remisión de la información de avance (este informe)",
+   "A favor"
+  ],
+  [
+   "Entidad formuladora",
+   "ANIN — DIME — SESDI (Unidad Formuladora del Perfil, CUI 2669244)",
+   "Brecha de información de campo para el diagnóstico; plazos de formulación",
+   "Formular un perfil viable y articulado; asegurar la sostenibilidad",
+   "Trabajo de campo (F-DT, F-EE, F-DS, F-LA); coordinación interinstitucional",
+   "Ejecución por Administración Directa",
+   "A favor"
+  ]
+ ]
+}
