@@ -1,0 +1,1834 @@
+{
+ "meta": {
+  "titulo": "Árboles de problemas, causas y efectos – Proyecto IN Piura",
+  "titulo_pagina": "Árboles de problemas, causas y efectos",
+  "subtitulo": "Proyecto IN Piura · CUI 2669244 · Cuenca Alta del Río Piura · Estudio de preinversión a nivel de perfil",
+  "version": "Versión 1.0 · 30 de octubre de 2026 · Insumos: E2 Vol. I–III (28 y 30-oct), Matrices E2 B2 (24-oct), EVAR (19-oct), Avance del Perfil (28-oct)",
+  "pie": "ANIN - DIME - SESDI · Proyecto IN Piura · CUI 2669244 · Versión 1.0, 30-oct-2026"
+ },
+ "orden": [
+  "unificado",
+  "morropon",
+  "huancabamba",
+  "ayabaca"
+ ],
+ "arboles": {
+  "unificado": {
+   "pestana": "Unificado",
+   "sigla": "117 bloques",
+   "prov_leyenda": true,
+   "titulo": "Árbol de problemas unificado – Cuenca alta del río Piura",
+   "subtitulo": "Morropón, Huancabamba y Ayabaca · 15 distritos · 117 bloques · 12,270.24 ha (12,157.47 ha netas V8) · 154 centros poblados (18,651 hab.)",
+   "fuente": "Fuentes: Informes E2 Vol. I–III (28 y 30-oct-2026); Matrices E2 B2 (24-oct-2026); Informe EVAR (19-oct-2026); Avance del Perfil (28-oct-2026); modelo ANIN ZZ-000005",
+   "ficha": [
+    {
+     "k": "Bloques",
+     "v": "117 en 15 distritos"
+    },
+    {
+     "k": "Superficie",
+     "v": "12,270.24 ha (V8 neta 12,157.47 ha)"
+    },
+    {
+     "k": "Centros poblados",
+     "v": "154 (18,651 hab.)"
+    },
+    {
+     "k": "PI alto + muy alto",
+     "v": "8,471.57 ha (69.0 %)"
+    },
+    {
+     "k": "PMM alto + muy alto (EVAR)",
+     "v": "93.9 % de los bloques"
+    },
+    {
+     "k": "Bajo umbral MSAVI",
+     "v": "8,341.83 ha (68.0 %)"
+    }
+   ],
+   "lectura": "El árbol unificado conserva las causas y efectos que se repiten con evidencia en las tres provincias y marca con M, H y A dónde aparecen y con qué intensidad. La estructura sigue el modelo de referencia ANIN: las dos primeras causas directas desagregan la «alteración de los factores condicionantes en zonas de origen» (cobertura y suelo) y la tercera es la gobernanza; cada una corresponde a un componente del proyecto (infraestructura verde, marrón y gobernanza).",
+   "efecto_final": {
+    "id": "EF",
+    "texto": "Incremento de los costos de reconstrucción y disminución de la resiliencia de la población de la cuenca del río Piura y sus medios de vida frente a movimientos en masa e inundaciones desencadenados por eventos climáticos extremos, intensificados por el cambio climático",
+    "sustento": [
+     "18,651 hab. en 154 centros poblados asociados (Censo 2017; incluye 705 hab. en 3 CP sin código INEI); 3,285 personas vulnerables; 6,447 viviendas, 89 % de adobe (EVAR).",
+     "Riesgo por movimientos en masa en las áreas de influencia: alto en 7,132.39 ha (41.6 %) y muy alto en 56.92 ha (Chococa y Cambruran, Huarmaca).",
+     "Redacción alineada al efecto final del modelo de referencia ANIN (ZZ-000005, Fig. 2).",
+     "Pérdidas económicas no valoradas en ninguna fuente: [POR DEFINIR]."
+    ],
+    "fuentes": [
+     "Matrices E2 IN Piura B2 (24-oct-2026)",
+     "Informe EVAR Piura – evaluación del riesgo por movimientos en masa, CENEPRED (19-oct-2026)",
+     "ANIN ZZ-000005-R00, contenidos mínimos E7, Fig. 2 (modelo de referencia del árbol de problemas IN)"
+    ],
+    "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+    "prov": {
+     "M": 3,
+     "H": 3,
+     "A": 3
+    }
+   },
+   "efectos_indirectos": [
+    {
+     "id": "EI1",
+     "texto": "Interrupción de vías y aislamiento estacional de caseríos, con pérdida de cosechas que no llegan al mercado",
+     "sustento": [
+      "Huancabamba: interrupción de la carretera en 11 localidades; Shuturumbe aislado 8 días (marzo 2024); café sin vender.",
+      "Morropón: 4 caseríos aislados de enero a abril; carreteras tapadas por huaicos.",
+      "Ayabaca: taludes activos del corredor Chulucanas–Frías y cortes de energía en lluvias."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)",
+      "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Exposición · elementos y medios de vida expuestos",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "prov": {
+      "M": 2,
+      "H": 3,
+      "A": 2
+     },
+     "padres": [
+      "ED1",
+      "ED3"
+     ]
+    },
+    {
+     "id": "EI2",
+     "texto": "Daños a viviendas, colegios, parcelas, ganado, captaciones y líneas de conducción de agua",
+     "sustento": [
+      "Morropón: flujo sobre Dótor y su colegio; muros derruidos en Serrán; captación a 50 m de M32B3; bolones sobre viviendas.",
+      "Huancabamba: daños a chacras, ganado y viviendas en 11 localidades; exposición interna en 3 bloques y de interfaz en 12.",
+      "Ayabaca: tubería de conducción en ladera (bloque 6); antecedente de reubicación de un CP (bloque 56)."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)",
+      "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Exposición · elementos y medios de vida expuestos",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "prov": {
+      "M": 3,
+      "H": 3,
+      "A": 2
+     },
+     "padres": [
+      "ED1"
+     ]
+    },
+    {
+     "id": "EI3",
+     "texto": "Pérdida de suelo agrícola y de ingresos de la agricultura y la ganadería familiar",
+     "sustento": [
+      "Morropón: erosión y cárcavas en 14 localidades; Huancabamba: terrenos arrastrados en 5 y cárcavas en parcelas en 6.",
+      "Ayabaca: pérdida del horizonte superficial en suelos de ladera cultivada (bloques 36 y 39)."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)",
+      "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Exposición · elementos y medios de vida expuestos",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "prov": {
+      "M": 2,
+      "H": 3,
+      "A": 2
+     },
+     "padres": [
+      "ED2"
+     ]
+    },
+    {
+     "id": "EI4",
+     "texto": "Mayor aporte de sedimentos que colmata quebradas y cauces hacia el valle del Alto Piura (zona de impacto)",
+     "sustento": [
+      "Hipótesis presente en los tres volúmenes; debe cuantificarse con el estudio hidrológico (E4): [POR DEFINIR].",
+      "El EVAR advierte que el peligro alto en cabeceras justifica intervenir aunque el riesgo aguas abajo aún no esté medido."
+     ],
+     "fuentes": [
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Informe EVAR Piura – evaluación del riesgo por movimientos en masa, CENEPRED (19-oct-2026)"
+     ],
+     "adr": "Exposición · elementos y medios de vida expuestos",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "prov": {
+      "M": 2,
+      "H": 1,
+      "A": 1
+     },
+     "padres": [
+      "ED3"
+     ]
+    },
+    {
+     "id": "EI5",
+     "texto": "Pérdida de otros servicios del ecosistema: regulación hídrica de fuentes, hábitat de especies amenazadas y captura de carbono",
+     "sustento": [
+      "Sequía o disminución de fuentes: problema más citado (82–89 % de localidades); deforestación asociada a la pérdida de manantiales.",
+      "Hualtaco y palo santo (En Peligro Crítico) en Morropón y Ayabaca.",
+      "Se registra como efecto colateral, como en el modelo ANIN: la regulación hídrica tiene su propia tipología y brecha."
+     ],
+     "fuentes": [
+      "Matrices E2 IN Piura B2 (24-oct-2026)",
+      "ANIN ZZ-000005-R00, contenidos mínimos E7, Fig. 2 (modelo de referencia del árbol de problemas IN)"
+     ],
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "prov": {
+      "M": 3,
+      "H": 3,
+      "A": 2
+     },
+     "padres": [
+      "ED2",
+      "ED3"
+     ]
+    }
+   ],
+   "efectos_directos": [
+    {
+     "id": "ED1",
+     "texto": "Mayor ocurrencia de movimientos en masa (deslizamientos, derrumbes, caídas de rocas, reptación) y huaicos en laderas, taludes y quebradas de cabecera",
+     "sustento": [
+      "Peligro por movimientos en masa alto o muy alto en el 93.9 % de los bloques (5,977.80 ha muy alto) y en el 96.9 % de las áreas de aporte (EVAR).",
+      "Remociones activas en 16 bloques de Huancabamba y 6 de Morropón; taludes viales activos en Ayabaca.",
+      "Morropón: huaicos confirmados en M2B1, M6B2-2, M6B10 y M28B4."
+     ],
+     "fuentes": [
+      "Informe EVAR Piura – evaluación del riesgo por movimientos en masa, CENEPRED (19-oct-2026)",
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · manifestación del evento (movimientos en masa, erosión, flujos)",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "prov": {
+      "M": 2,
+      "H": 3,
+      "A": 3
+     }
+    },
+    {
+     "id": "ED2",
+     "texto": "Erosión hídrica acelerada y pérdida de suelo (laminar, en surcos y en cárcavas)",
+     "sustento": [
+      "55 cárcavas registradas con 23.08 km (Morropón 39 y 18.02 km; Huancabamba 9 y 3.90 km; Ayabaca 7 y 1.15 km); 85 bloques sin registro de campo.",
+      "Erosión severa en calicatas de bloques degradados de las tres provincias."
+     ],
+     "fuentes": [
+      "Matrices E2 IN Piura B2 (24-oct-2026)",
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · manifestación del evento (movimientos en masa, erosión, flujos)",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "prov": {
+      "M": 3,
+      "H": 2,
+      "A": 2
+     }
+    },
+    {
+     "id": "ED3",
+     "texto": "Mayor escorrentía torrencial y transporte de sedimentos desde las zonas de origen, que activan las quebradas",
+     "sustento": [
+      "82–93 % de la lluvia entre enero y abril; en años El Niño la lluvia llega a 2–6 veces la media.",
+      "Activación de quebradas o inundación citada en 53.3 % de las localidades de Morropón y 27.8 % de Huancabamba.",
+      "Infiltración básica lenta en suelos degradados (0.33–2.2 cm/h)."
+     ],
+     "fuentes": [
+      "Matrices E2 IN Piura B2 (24-oct-2026)",
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · manifestación del evento (movimientos en masa, erosión, flujos)",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "prov": {
+      "M": 3,
+      "H": 2,
+      "A": 2
+     }
+    }
+   ],
+   "problema": {
+    "id": "PC",
+    "texto": "La población de la cuenca alta del río Piura no accede adecuadamente al servicio ecosistémico de regulación de riesgos naturales por la degradación de los ecosistemas en las zonas de origen de movimientos en masa e inundaciones",
+    "sustento": [
+     "Peligro integrado alto o muy alto en 8,471.57 ha (69.0 % de los 117 bloques): Morropón 5,335.20 ha, Huancabamba 2,353.73 ha, Ayabaca 782.64 ha.",
+     "Línea base preliminar de brecha: 8,341.83 ha bajo el umbral MSAVI 0.4976 (68.0 %, criterio areal E6): restauración activa 5,503.42 ha y enriquecimiento 2,838.40 ha.",
+     "En las tres provincias el peligro sigue a la pérdida de cobertura (r con MSAVI: −0.839, −0.785 y −0.968) y no a la litología.",
+     "Servicio definido en el Formato 04-A (RM N° 00213-2024-MINAM): «capacidad de los ecosistemas de reducir las condiciones de vulnerabilidad … (huaycos, avalanchas, entre otros)»."
+    ],
+    "fuentes": [
+     "Avance del Perfil IN Piura · SESDI, 28-oct-2026 (línea base preliminar, criterio areal E6)",
+     "Matrices E2 IN Piura B2 (24-oct-2026)",
+     "MINAM, Formato N° 04-A, indicador de brecha (RM N° 00213-2024-MINAM)",
+     "ANIN ZZ-000005-R00, contenidos mínimos E7, Fig. 2 (modelo de referencia del árbol de problemas IN)"
+    ],
+    "prov": {
+     "M": 3,
+     "H": 3,
+     "A": 3
+    },
+    "indicador": "Indicador de brecha (RM N° 00213-2024-MINAM): % de superficie de ecosistemas degradados que requieren recuperación · línea base preliminar 8,341.83 ha (68.0 %)"
+   },
+   "factores_exogenos": [
+    {
+     "id": "EX1",
+     "texto": "Pendientes fuertes (media 41 %; 822.9 ha sobre 75 %), relieve montañoso y vertientes coluviales (88.1 % de los bloques en geomorfología de nivel 4–5) y litologías meteorizadas o foliadas.",
+     "sustento": [
+      "Ayabaca es la más empinada (64.6 % del área sobre 50 %), luego Huancabamba (45.9 %) y Morropón (16.7 %).",
+      "Pesos del modelo de peligro por movimientos en masa: pendiente 0.633, geomorfología 0.260, geología 0.106 (EVAR)."
+     ],
+     "fuentes": [
+      "Informe EVAR Piura – evaluación del riesgo por movimientos en masa, CENEPRED (19-oct-2026)",
+      "Matrices E2 IN Piura B2 (24-oct-2026)"
+     ],
+     "adr": "Peligro · factores condicionantes no modificables",
+     "linea": "No es modificable por el proyecto. Se considera en el AdR-CCC (E8) y en el diseño de las MRR-CCC.",
+     "titulo": "Factores condicionantes del peligro"
+    },
+    {
+     "id": "EX2",
+     "texto": "Lluvias de El Niño 1983, 1998, 2017 y 2023 de 2 a 6 veces la media; régimen semiárido (544 mm/año, aridez 0.34) con 82–93 % de la lluvia entre enero y abril; calentamiento de +0.15 a +0.25 °C por década.",
+     "sustento": [
+      "Déficit hídrico futuro en el escenario SSP5-8.5 (MPI-ESM1-2HR, 2021–2040), criterio de idoneidad del proyecto.",
+      "El EVAR usa un desencadenante fijo (lluvia 60–80 % sobre la normal) y no modela escenarios de cambio climático: [POR DEFINIR]."
+     ],
+     "fuentes": [
+      "Matrices E2 IN Piura B2 (24-oct-2026)",
+      "Informe EVAR Piura – evaluación del riesgo por movimientos en masa, CENEPRED (19-oct-2026)"
+     ],
+     "adr": "Peligro · factor desencadenante y cambio climático",
+     "linea": "No es modificable por el proyecto. Se considera en el AdR-CCC (E8) y en el diseño de las MRR-CCC.",
+     "titulo": "Factor desencadenante y cambio climático"
+    }
+   ],
+   "causas_directas": [
+    {
+     "id": "CD1",
+     "texto": "Degradación de la cobertura vegetal protectora en las zonas de origen",
+     "sustento": [
+      "MSAVI medio ponderado: Morropón 0.379, Huancabamba 0.508, Ayabaca 0.548 (umbral 0.4976).",
+      "20 bloques en estado moderado o severo (E6): 14 en Morropón y 6 en Huancabamba.",
+      "Corresponde a la CI 1.1 del modelo ANIN («Degradación de la cobertura vegetal en zonas que proveen el SERRN»)."
+     ],
+     "fuentes": [
+      "Matrices E2 IN Piura B2 (24-oct-2026)",
+      "ANIN ZZ-000005-R00, contenidos mínimos E7, Fig. 2 (modelo de referencia del árbol de problemas IN)"
+     ],
+     "adr": "Peligro · factor condicionante modificable (cobertura, suelo, drenaje)",
+     "linea": "Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales.",
+     "prov": {
+      "M": 3,
+      "H": 2,
+      "A": 2
+     }
+    },
+    {
+     "id": "CD2",
+     "texto": "Reducida capacidad de los suelos y laderas para controlar la erosión y la escorrentía",
+     "sustento": [
+      "Suelos someros (15–45 cm en bloques degradados), Entisoles con horizonte superficial pobre e infiltración lenta.",
+      "Corresponde a la CI 1.2 del modelo ANIN («Reducida capacidad de control de erosión y de estabilidad de suelos»)."
+     ],
+     "fuentes": [
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "ANIN ZZ-000005-R00, contenidos mínimos E7, Fig. 2 (modelo de referencia del árbol de problemas IN)"
+     ],
+     "adr": "Peligro · factor condicionante modificable (cobertura, suelo, drenaje)",
+     "linea": "Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos.",
+     "prov": {
+      "M": 3,
+      "H": 3,
+      "A": 2
+     }
+    },
+    {
+     "id": "CD3",
+     "texto": "Inadecuada gobernanza y gestión local del ecosistema y del riesgo",
+     "sustento": [
+      "Comité de recursos naturales en 5 de 85 localidades; ninguna con plataforma de concertación ni alerta temprana formal.",
+      "Corresponde a la CD 2 del modelo ANIN («Inadecuada gobernanza y gestión del ecosistema»)."
+     ],
+     "fuentes": [
+      "Matrices E2 IN Piura B2 (24-oct-2026)",
+      "ANIN ZZ-000005-R00, contenidos mínimos E7, Fig. 2 (modelo de referencia del árbol de problemas IN)"
+     ],
+     "adr": "Vulnerabilidad · baja resiliencia (capacidad de organización, gestión y respuesta)",
+     "linea": "Línea 3 · Gobernanza y gestión comunitaria: planes de manejo comunitario, fortalecimiento de capacidades en GdR, alerta temprana comunitaria y MERESE.",
+     "prov": {
+      "M": 3,
+      "H": 3,
+      "A": 3
+     }
+    }
+   ],
+   "causas_indirectas": [
+    {
+     "id": "CI1.1",
+     "texto": "Sobrepastoreo caprino y vacuno sin manejo, que impide la regeneración natural",
+     "sustento": [
+      "Morropón: pastoreo en 41 de 59 informes DT; caprinos en 83.6 % de las localidades; hasta 5 UA/ha.",
+      "Huancabamba: pastoreo en 45 de 48 informes DT; intensidad fuerte en 8 bloques.",
+      "Ayabaca: causa principal en M17B5; vacunos en 100 % de las localidades."
+     ],
+     "fuentes": [
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Matrices E2 IN Piura B2 (24-oct-2026)"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos.",
+     "prov": {
+      "M": 3,
+      "H": 3,
+      "A": 2
+     },
+     "padre": "CD1"
+    },
+    {
+     "id": "CI1.2",
+     "texto": "Tala y extracción selectiva de madera y leña de especies nativas, incluidas especies en peligro crítico",
+     "sustento": [
+      "Morropón: tala comercial de palo santo (RS-01, alto); deforestación citada en 30 localidades.",
+      "Huancabamba: tala para leña o madera en 25 bloques; venta de roble, laurel, nogal y cedro.",
+      "Ayabaca: tala en M17B7 y en La Cría."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)",
+      "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)",
+      "Informe E2 Vol. III Ayabaca, B2 Rev. hscm (30-oct-2026)"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales.",
+     "prov": {
+      "M": 3,
+      "H": 2,
+      "A": 2
+     },
+     "padre": "CD1"
+    },
+    {
+     "id": "CI1.3",
+     "texto": "Expansión de la agricultura y de la ocupación hacia laderas de fuerte pendiente y cauces",
+     "sustento": [
+      "Ayabaca: causa principal en 7 de 10 informes DT; 68 % del ámbito es zona agrícola.",
+      "Huancabamba: agricultura en ladera en 38 de 48 informes DT (café, maíz, pastos).",
+      "Morropón: uso agrícola en 17 de 59 informes DT y lotización u ocupación urbana en 4 bloques."
+     ],
+     "fuentes": [
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales.",
+     "prov": {
+      "M": 2,
+      "H": 3,
+      "A": 3
+     },
+     "padre": "CD1"
+    },
+    {
+     "id": "CI1.4",
+     "texto": "Baja capacidad de regeneración natural por aridez, sequías recurrentes, quemas y especies exóticas",
+     "sustento": [
+      "Índice de aridez 0.31–0.39 (0.24–0.26 en los bosques secos de valle); la aridez explica el 68 % de la variación del MSAVI en Morropón.",
+      "Quemas puntuales en 4 bloques de Morropón y 6 de Huancabamba; especies exóticas en 16 bloques de Huancabamba."
+     ],
+     "fuentes": [
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales.",
+     "prov": {
+      "M": 3,
+      "H": 2,
+      "A": 2
+     },
+     "padre": "CD1"
+    },
+    {
+     "id": "CI2.1",
+     "texto": "Trochas, vías y canteras con cortes de talud sin drenaje ni estabilización",
+     "sustento": [
+      "Huancabamba: vías y taludes de corte en 40 de 48 informes DT.",
+      "Ayabaca: corredor Chulucanas–Frías, causa principal en M17B6 y M17B10.",
+      "Morropón: en M17B1 la obra vial es la causa de mayor intensidad; trocha PI-799."
+     ],
+     "fuentes": [
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · factor condicionante modificable (cobertura, suelo, drenaje)",
+     "linea": "Línea 2.1 · Obras complementarias: estabilización de taludes, muros y gaviones, diques en quebradas, drenaje y control de escorrentía (coordinadas con el titular de la vía cuando corresponda).",
+     "prov": {
+      "M": 2,
+      "H": 3,
+      "A": 3
+     },
+     "padre": "CD2"
+    },
+    {
+     "id": "CI2.2",
+     "texto": "Laderas cultivadas sin prácticas de conservación de suelos y cárcavas activas sin control",
+     "sustento": [
+      "55 cárcavas y 23.08 km registrados; labranza a favor de la pendiente (Ayabaca, bloque 27).",
+      "15 cárcavas activas en M3B7 (Morropón); cárcavas activas severas en el bloque 40 (Huancabamba)."
+     ],
+     "fuentes": [
+      "Matrices E2 IN Piura B2 (24-oct-2026)",
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · factor condicionante modificable (cobertura, suelo, drenaje)",
+     "linea": "Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos.",
+     "prov": {
+      "M": 3,
+      "H": 2,
+      "A": 2
+     },
+     "padre": "CD2"
+    },
+    {
+     "id": "CI2.3",
+     "texto": "Pisoteo del ganado y senderos que compactan suelos someros y concentran la escorrentía",
+     "sustento": [
+      "Morropón: senderos de ganado como microcauces en 5 bloques; terracetas por pisoteo.",
+      "Huancabamba: infiltración básica de 0.41 a 2.2 cm/h; Ayabaca: compactación por ganado en M17B7."
+     ],
+     "fuentes": [
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · factor condicionante modificable (cobertura, suelo, drenaje)",
+     "linea": "Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos.",
+     "prov": {
+      "M": 3,
+      "H": 2,
+      "A": 1
+     },
+     "padre": "CD2"
+    },
+    {
+     "id": "CI3.1",
+     "texto": "Limitado conocimiento y organización de las comunidades locales para el manejo del ecosistema, la adaptación al cambio climático y la gestión del riesgo",
+     "sustento": [
+      "Comité de recursos naturales: Morropón 2 de 56, Huancabamba 3 de 22, Ayabaca 0 de 7 localidades.",
+      "Ningún sistema formal de alerta temprana; prohibiciones comunales de tala sin control efectivo.",
+      "Corresponde a la CI 2.2 del modelo ANIN."
+     ],
+     "fuentes": [
+      "Matrices E2 IN Piura B2 (24-oct-2026)",
+      "ANIN ZZ-000005-R00, contenidos mínimos E7, Fig. 2 (modelo de referencia del árbol de problemas IN)"
+     ],
+     "adr": "Vulnerabilidad · baja resiliencia (capacidad de organización, gestión y respuesta)",
+     "linea": "Línea 3 · Gobernanza y gestión comunitaria: planes de manejo comunitario, fortalecimiento de capacidades en GdR, alerta temprana comunitaria y MERESE.",
+     "prov": {
+      "M": 3,
+      "H": 3,
+      "A": 3
+     },
+     "padre": "CD3"
+    },
+    {
+     "id": "CI3.2",
+     "texto": "Limitada gobernanza de las entidades públicas y privadas: sin concertación, con escasa presencia institucional y desconfianza por intervenciones incumplidas",
+     "sustento": [
+      "Ninguna plataforma de concertación en las tres provincias; presencia estatal «baja» en 27 de 56, 10 de 22 y 3 de 7 localidades.",
+      "Obras inconclusas (Huancabamba), promesas incumplidas (Morropón) y estafa previa (Ayabaca); ningún MERESE.",
+      "Corresponde a la CI 2.1 del modelo ANIN."
+     ],
+     "fuentes": [
+      "Matrices E2 IN Piura B2 (24-oct-2026)",
+      "ANIN ZZ-000005-R00, contenidos mínimos E7, Fig. 2 (modelo de referencia del árbol de problemas IN)"
+     ],
+     "adr": "Vulnerabilidad · baja resiliencia (capacidad de organización, gestión y respuesta)",
+     "linea": "Línea 3 · Gobernanza y gestión comunitaria: planes de manejo comunitario, fortalecimiento de capacidades en GdR, alerta temprana comunitaria y MERESE.",
+     "prov": {
+      "M": 3,
+      "H": 3,
+      "A": 2
+     },
+     "padre": "CD3"
+    },
+    {
+     "id": "CI3.3",
+     "texto": "Tenencia de la tierra sin sanear: tierras sin registro, posesión informal y conflictos de linderos",
+     "sustento": [
+      "Sin registro: Morropón 71.8 %, Huancabamba 71.0 %; Ayabaca 83.9 % comunal con posesionarios sin título.",
+      "Conflictos de linderos en Morropón (3) y Ayabaca (La Cría); 5 bloques de Huancabamba superan los 19 predios."
+     ],
+     "fuentes": [
+      "Matrices E2 IN Piura B2 (24-oct-2026)"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 3 · Gobernanza: acuerdos de uso y actas de libre disponibilidad, tamizaje predial y mesa de diálogo previa a fijar metas en áreas en disputa.",
+     "prov": {
+      "M": 3,
+      "H": 3,
+      "A": 2
+     },
+     "padre": "CD3"
+    }
+   ],
+   "notas": "Árbol unificado. Una causa o efecto entra al árbol unificado cuando tiene evidencia en al menos dos provincias, o cuando es generalizado en una de ellas. Las marcas M, H y A indican presencia (· puntual, ·· frecuente, ··· generalizada). Las causas propias de una sola provincia (especies exóticas y derechos mineros en Huancabamba; corredor vial en Ayabaca; ocupación urbana en Morropón) se detallan en los árboles provinciales."
+  },
+  "morropon": {
+   "pestana": "Morropón",
+   "sigla": "59 bloques",
+   "titulo": "Árbol de problemas – Provincia de Morropón",
+   "subtitulo": "Buenos Aires, Chalaco, Chulucanas, Morropón, Salitral, San Juan de Bigote, Santa Catalina de Mossa, Santo Domingo y Yamango · 59 bloques · 7,327.37 ha (7,313.55 ha netas V8) · 79 centros poblados (9,537 hab.)",
+   "fuente": "Fuentes: Informe E2 Vol. I Morropón (28-oct-2026); Diagnóstico Morropón V5; Informe EVAR (19-oct-2026); Avance del Perfil (28-oct-2026)",
+   "ficha": [
+    {
+     "k": "Bloques",
+     "v": "59 en 9 distritos"
+    },
+    {
+     "k": "Superficie",
+     "v": "7,327.37 ha (V8 neta 7,313.55 ha)"
+    },
+    {
+     "k": "Centros poblados",
+     "v": "79 (9,537 hab.)"
+    },
+    {
+     "k": "PI alto + muy alto",
+     "v": "5,335.20 ha (72.8 %)"
+    },
+    {
+     "k": "PMM alto + muy alto (EVAR)",
+     "v": "90.7 % de los bloques"
+    },
+    {
+     "k": "Bajo umbral MSAVI",
+     "v": "6,216.63 ha (84.8 %)"
+    }
+   ],
+   "lectura": "Morropón es bosque seco de baja altitud (Bes-cm en el 88 % del ámbito; 38 bloques bajo 1,000 msnm) con aridez extrema en el valle (índice 0.26). Su peligro dominante es la escorrentía torrencial que activa quebradas y genera huaicos, más la erosión laminar y en cárcavas; los movimientos en masa son sobre todo latentes, salvo en taludes viales y frentes rocosos con bolones sobre viviendas. El peligro lo explica la cobertura (r = −0.839 con el MSAVI), no la litología (r = −0.075). Los motores son el pastoreo caprino y la tala comercial de palo santo.",
+   "efecto_final": {
+    "id": "EF",
+    "texto": "Incremento de los costos de reconstrucción y disminución de la resiliencia de la población de Morropón y sus medios de vida frente a huaicos, movimientos en masa e inundaciones desencadenados por lluvias extremas, intensificadas por el cambio climático",
+    "sustento": [
+     "9,537 hab. (8,832 censados en 76 CP más 705 en 3 CP sin código INEI); 1,640 personas vulnerables (18.6 %; 30.2 % en Santo Domingo).",
+     "49 CP (5,730 hab., 64.9 %) dentro del área de influencia aprobada; la población aguas abajo está por delimitar en 47 bloques.",
+     "Riesgo por movimientos en masa alto en 3,730.65 ha (28.9 %) de las áreas de influencia; vulnerabilidad alta en Guabo, Buenos Aires (0.594) y Serrán (EVAR, cálculo por provincia).",
+     "Pérdidas económicas no valoradas: [POR DEFINIR]."
+    ],
+    "fuentes": [
+     "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)",
+     "Informe EVAR Piura – evaluación del riesgo por movimientos en masa, CENEPRED (19-oct-2026)",
+     "ANIN ZZ-000005-R00, contenidos mínimos E7, Fig. 2 (modelo de referencia del árbol de problemas IN)"
+    ],
+    "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin."
+   },
+   "efectos_indirectos": [
+    {
+     "id": "EI1",
+     "texto": "Daños a viviendas, colegios, vías, badenes y captaciones de agua en los centros poblados de cabecera",
+     "sustento": [
+      "Huaicos y deslizamientos en 9 y 8 localidades: carreteras tapadas, daños en viviendas y chacras.",
+      "El flujo del bloque 85 descarga sobre el casco urbano de Dótor y su colegio; quebradas del bloque 2 hacia el colegio N.° 14891; muros derruidos en Serrán (M7B6).",
+      "Badenes y parcelas de La Peña (M9B1); captación de agua a 50 m de M32B3; bolones sueltos sobre viviendas en M6B10, M19B2, M32B3 y 58."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)",
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Exposición · elementos y medios de vida expuestos",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "padres": [
+      "ED1",
+      "ED3"
+     ]
+    },
+    {
+     "id": "EI2",
+     "texto": "Pérdida de suelo agrícola y de ingresos agropecuarios",
+     "sustento": [
+      "Erosión y cárcavas en 14 localidades con pérdida de suelo agrícola.",
+      "«La quebrada Limonal destruye los ingresos de la agricultura» (F-DS-06, San Juan de Bigote)."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)"
+     ],
+     "adr": "Exposición · elementos y medios de vida expuestos",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "padres": [
+      "ED2"
+     ]
+    },
+    {
+     "id": "EI3",
+     "texto": "Inundación de parcelas, arrastre de ganado y aislamiento estacional de caseríos por la activación de quebradas",
+     "sustento": [
+      "Activación de quebradas en 24 localidades (53.3 % de las fichas F-DS-03): parcelas inundadas, ganado arrastrado, caseríos aislados.",
+      "Huaro Quispampa, Mangomanguía, Río Seco y La Alberca quedan aislados de enero a abril.",
+      "Viviendas reforzadas con sacos de arena aguas abajo de M7B1 (Víctor Raúl, Nuevo Progreso, Salitral)."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)",
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Exposición · elementos y medios de vida expuestos",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "padres": [
+      "ED3"
+     ]
+    },
+    {
+     "id": "EI4",
+     "texto": "Mayor aporte de sedimentos al río Piura y pérdida de otros servicios del bosque seco (fuentes de agua, hábitat, carbono)",
+     "sustento": [
+      "Sedimentos al río Piura: hipótesis a verificar con el E4 (hidrología): [POR DEFINIR].",
+      "Deforestación asociada por la población a la pérdida de manantiales (30 localidades); agua turbia en Palo Blanco durante los huaicos.",
+      "Efecto colateral: la regulación hídrica es otra tipología y no es el fin de este proyecto."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)",
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "ANIN ZZ-000005-R00, contenidos mínimos E7, Fig. 2 (modelo de referencia del árbol de problemas IN)"
+     ],
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "padres": [
+      "ED2",
+      "ED3"
+     ]
+    }
+   ],
+   "efectos_directos": [
+    {
+     "id": "ED1",
+     "texto": "Mayor ocurrencia de huaicos y movimientos en masa (caídas de bloques, derrumbes, deslizamientos) en quebradas, taludes y frentes rocosos",
+     "sustento": [
+      "Peligro por movimientos en masa alto o muy alto en el 90.7 % de los bloques (EVAR); peligro integrado muy alto en los 21 bloques de San Juan de Bigote y Salitral.",
+      "Huaicos o flujos de detritos en M6B2-2 (bloques de 1.5–2 m), M2B1 («zona generadora de huaicos confirmada» en el río Huarmaca), M6B10 y M28B4.",
+      "Remoción activa en M32B3, 59, M3B6, 17 y M8B2; reptación en 6 bloques; deslizamientos antiguos en 7."
+     ],
+     "fuentes": [
+      "Informe EVAR Piura – evaluación del riesgo por movimientos en masa, CENEPRED (19-oct-2026)",
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)"
+     ],
+     "adr": "Peligro · manifestación del evento (movimientos en masa, erosión, flujos)",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin."
+    },
+    {
+     "id": "ED2",
+     "texto": "Erosión hídrica laminar y en cárcavas, con pérdida acelerada de suelo",
+     "sustento": [
+      "39 cárcavas con 18,022.5 m en 18 bloques (34 en el bosque seco del valle); 15 cárcavas activas en M3B7 (10 por ha).",
+      "Erosión laminar en el 85 % de los bloques 84 y 85 y en el 80 % del 87; suelo desnudo 68 % (87) y 90 % (77).",
+      "Erosión severa en las calicatas de M3B8, M7B1 y 14; 38 de 39 calicatas con horizonte superficial pobre (ócrico)."
+     ],
+     "fuentes": [
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · manifestación del evento (movimientos en masa, erosión, flujos)",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin."
+    },
+    {
+     "id": "ED3",
+     "texto": "Mayor escorrentía torrencial y transporte de sedimentos que activan las quebradas desde las zonas de origen",
+     "sustento": [
+      "93 % de la lluvia entre enero y abril; marzo de 2017: 1,165 mm en un solo mes (M6B10, M6B2-3).",
+      "Infiltración básica lenta a moderadamente lenta (0.33–1.37 cm/h).",
+      "Inundación o activación de quebradas es el peligro más percibido en la zona baja (53.3 % de localidades)."
+     ],
+     "fuentes": [
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)"
+     ],
+     "adr": "Peligro · manifestación del evento (movimientos en masa, erosión, flujos)",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin."
+    }
+   ],
+   "problema": {
+    "id": "PC",
+    "texto": "La población de la provincia de Morropón no accede adecuadamente al servicio ecosistémico de regulación de riesgos naturales por la degradación del bosque estacionalmente seco de colina y montaña y del mosaico andino en las zonas de origen de huaicos, movimientos en masa e inundaciones",
+    "sustento": [
+     "Peligro integrado alto o muy alto en 5,335.20 ha (72.8 %); 26 bloques en muy alto y 19 en alto; índice provincial 4.020 (Alto).",
+     "Bajo el umbral MSAVI 0.4976: 6,216.63 ha (84.8 %) con el criterio areal E6; 6,258.29 ha (40 bloques) si se toma la media de bloque.",
+     "Estado del ecosistema (E6): 8 bloques moderados y 6 severos (77, 83, 84, 85, 86, 87); índice de condición 0.706.",
+     "Peligro frente a MSAVI r = −0.839; frente a pendiente r = −0.619; frente a litología r = −0.075."
+    ],
+    "fuentes": [
+     "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)",
+     "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+     "Avance del Perfil IN Piura · SESDI, 28-oct-2026 (línea base preliminar, criterio areal E6)",
+     "MINAM, Formato N° 04-A, indicador de brecha (RM N° 00213-2024-MINAM)"
+    ],
+    "indicador": "Magnitud: peligro integrado alto + muy alto en 5,335.20 ha (72.8 %) · línea base preliminar de brecha: 6,216.63 ha bajo el umbral MSAVI (84.8 %, criterio areal E6)"
+   },
+   "factores_exogenos": [
+    {
+     "id": "EX1",
+     "texto": "Pendiente media 34.7 % (49.6 % en el mosaico andino); susceptibilidad litológica a movimientos en masa alta o muy alta en 42 bloques (Complejo de Olmos, Fm. Río Seco, Fm. La Bocana).",
+     "sustento": [
+      "Susceptibilidad a erosión hídrica alta o muy alta en 45 bloques (3,990 ha).",
+      "La litología casi no explica el peligro integrado (r = −0.075)."
+     ],
+     "fuentes": [
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Informe EVAR Piura – evaluación del riesgo por movimientos en masa, CENEPRED (19-oct-2026)"
+     ],
+     "adr": "Peligro · factores condicionantes no modificables",
+     "linea": "No es modificable por el proyecto. Se considera en el AdR-CCC (E8) y en el diseño de las MRR-CCC.",
+     "titulo": "Factores condicionantes del peligro"
+    },
+    {
+     "id": "EX2",
+     "texto": "Lluvias de El Niño 1983 (×3.71), 1998 (×3.75), 2017 (×2.97) y 2023 (×3.36) la media, hasta ×6.1 en M27B1; 15 de 45 años con menos de la mitad de la media; Tmáx +0.19 °C por década.",
+     "sustento": [
+      "543 mm/año e índice de aridez 0.31 (0.26 en el valle); evapotranspiración +14.8 mm por década.",
+      "Déficit hídrico futuro en el escenario SSP5-8.5."
+     ],
+     "fuentes": [
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · factor desencadenante y cambio climático",
+     "linea": "No es modificable por el proyecto. Se considera en el AdR-CCC (E8) y en el diseño de las MRR-CCC.",
+     "titulo": "Factor desencadenante y cambio climático"
+    }
+   ],
+   "causas_directas": [
+    {
+     "id": "CD1",
+     "texto": "Degradación de la cobertura vegetal protectora en las zonas de origen",
+     "sustento": [
+      "Herbazal seco 34.5 %, matorral seco o caducifolio defoliado 27.3 % y suelo desnudo, roca y vías 13.3 %; dosel denso solo 4.0 % (S2DR4).",
+      "Suelo desnudo 1,060 ha (14.5 %), vigor muy bajo 3,475 ha (47.4 %) y vigor bajo 1,681 ha (22.9 %).",
+      "M2B1 con tendencia negativa significativa del vigor (2014–2024)."
+     ],
+     "fuentes": [
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · factor condicionante modificable (cobertura, suelo, drenaje)",
+     "linea": "Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales."
+    },
+    {
+     "id": "CD2",
+     "texto": "Reducida capacidad de los suelos y laderas para controlar la erosión y la escorrentía",
+     "sustento": [
+      "Entisoles dominantes con horizonte superficial pobre; suelos someros en M28B3 (15 cm), M11B3 y M3B5 (30 cm), M18B1 (34 cm).",
+      "Materia orgánica, textura, pH y factor K pendientes de laboratorio (UNALM): [POR DEFINIR]."
+     ],
+     "fuentes": [
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · factor condicionante modificable (cobertura, suelo, drenaje)",
+     "linea": "Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos."
+    },
+    {
+     "id": "CD3",
+     "texto": "Inadecuada gobernanza y gestión local del ecosistema y del riesgo",
+     "sustento": [
+      "Comité de recursos naturales solo en 2 de 56 localidades; ningún espacio de concertación ni sistema formal de alerta temprana.",
+      "71.8 % de la superficie sin registro predial."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)",
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Vulnerabilidad · baja resiliencia (capacidad de organización, gestión y respuesta)",
+     "linea": "Línea 3 · Gobernanza y gestión comunitaria: planes de manejo comunitario, fortalecimiento de capacidades en GdR, alerta temprana comunitaria y MERESE."
+    }
+   ],
+   "causas_indirectas": [
+    {
+     "id": "CI1.1",
+     "texto": "Sobrepastoreo caprino y vacuno sin manejo, que impide la regeneración del bosque seco",
+     "sustento": [
+      "Pastoreo en 41 de 59 informes DT; ganadería caprina u ovina en 83.6 % de las localidades y vacuna en 92.7 %.",
+      "Carga de 5 UA/ha en el bloque 77, 3 UA/ha en el 60 % de M9B1 y 2.5 UA/ha en el 52.",
+      "Bloques 83–87, 77 y M3B5 con vigor 0.10–0.18 por debajo de lo esperado para su aridez, atribuido al pastoreo caprino."
+     ],
+     "fuentes": [
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos.",
+     "padre": "CD1"
+    },
+    {
+     "id": "CI1.2",
+     "texto": "Tala comercial de palo santo y extracción de madera y leña de especies del bosque seco",
+     "sustento": [
+      "Deforestación y tala mencionadas en 30 localidades; tala comercial de palo santo (incluida madera verde) en La Pilca, Río Seco, Tórtola, Huaro Quispampa, Maray e Ingenio (riesgo social RS-01, alto).",
+      "Hualtaco y palo santo están En Peligro Crítico; leña en 6 informes DT y ladrilleras en M27B1.",
+      "El gas y las cocinas mejoradas ya reducen la presión por leña en 10 localidades."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)",
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales.",
+     "padre": "CD1"
+    },
+    {
+     "id": "CI1.3",
+     "texto": "Expansión agrícola y ocupación urbana de laderas y cauces",
+     "sustento": [
+      "Uso agrícola en 17 de 59 informes DT; en el mosaico andino la zona agrícola domina los bloques 11 (80 %), 12 (94.9 %), 15 (82.4 %) y 17 (97.6 %).",
+      "Lotización en M7B1; habilitación urbana en M2B1 y M7B6; viviendas y corrales dentro de los bloques 84–87."
+     ],
+     "fuentes": [
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales.",
+     "padre": "CD1"
+    },
+    {
+     "id": "CI1.4",
+     "texto": "Baja capacidad de regeneración natural del bosque seco por aridez extrema, sequías recurrentes y quemas",
+     "sustento": [
+      "La aridez explica el 68 % de la variación del MSAVI; índice de aridez 0.26 en el valle.",
+      "Sequía: primer problema citado por la población (37 localidades).",
+      "Quemas en los bloques 77 (1 cada 5 años), 52 (3 cada 5 años), 82 y M17B1."
+     ],
+     "fuentes": [
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales.",
+     "padre": "CD1"
+    },
+    {
+     "id": "CI2.1",
+     "texto": "Senderos de ganado y pisoteo que compactan el suelo y concentran la escorrentía",
+     "sustento": [
+      "Terracetas por pisoteo en M3B8; senderos de ganado que funcionan como microcauces en M3B9, M19B2, M32B3, 58 y M28B3."
+     ],
+     "fuentes": [
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · factor condicionante modificable (cobertura, suelo, drenaje)",
+     "linea": "Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos.",
+     "padre": "CD2"
+    },
+    {
+     "id": "CI2.2",
+     "texto": "Trochas, vías y canteras con cortes de talud sin drenaje ni estabilización",
+     "sustento": [
+      "En M17B1 la obra vial Chulucanas–Frías es «la causa de degradación de mayor intensidad»; caída de bloques en la trocha PI-799 (11, 17).",
+      "Trochas o vías como factor en 7 de 59 informes DT; canteras de áridos en 59 y M6B2-1."
+     ],
+     "fuentes": [
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · factor condicionante modificable (cobertura, suelo, drenaje)",
+     "linea": "Línea 2.1 · Obras complementarias: estabilización de taludes, muros y gaviones, diques en quebradas, drenaje y control de escorrentía (coordinadas con el titular de la vía cuando corresponda).",
+     "padre": "CD2"
+    },
+    {
+     "id": "CI2.3",
+     "texto": "Cárcavas activas y erosión laminar sin prácticas de conservación ni control",
+     "sustento": [
+      "39 cárcavas registradas; 41 de 59 bloques sin registro de campo (subregistro).",
+      "Ninguna práctica de conservación de suelos reportada en los bloques con cárcavas."
+     ],
+     "fuentes": [
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · factor condicionante modificable (cobertura, suelo, drenaje)",
+     "linea": "Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos.",
+     "padre": "CD2"
+    },
+    {
+     "id": "CI3.1",
+     "texto": "Limitado conocimiento y organización comunal para el manejo del ecosistema y la gestión del riesgo",
+     "sustento": [
+      "Comité de recursos naturales en 3.6 % de las localidades; solo avisos telefónicos y monitoreo visual como alerta (RS-12, alto).",
+      "Movimientos en masa o derrumbes mencionados solo en 17.8 % de las localidades, aunque el 72.8 % del ámbito tiene peligro alto o muy alto.",
+      "Mujeres: 13 % de los entrevistados."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)",
+      "Matrices E2 IN Piura B2 (24-oct-2026)"
+     ],
+     "adr": "Vulnerabilidad · baja resiliencia (capacidad de organización, gestión y respuesta)",
+     "linea": "Línea 3 · Gobernanza y gestión comunitaria: planes de manejo comunitario, fortalecimiento de capacidades en GdR, alerta temprana comunitaria y MERESE.",
+     "padre": "CD3"
+    },
+    {
+     "id": "CI3.2",
+     "texto": "Limitada gobernanza de las entidades públicas y privadas: sin concertación, débil control forestal y sin mecanismos de retribución",
+     "sustento": [
+      "Ningún espacio de concertación en 56 CP; presencia estatal baja en 26 localidades.",
+      "La prohibición comunal de tala (8 localidades) no impide la extracción comercial; las rondas no pueden controlarla.",
+      "Ningún MERESE; desconfianza por promesas incumplidas (RS-05)."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)",
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Vulnerabilidad · baja resiliencia (capacidad de organización, gestión y respuesta)",
+     "linea": "Línea 3 · Gobernanza y gestión comunitaria: planes de manejo comunitario, fortalecimiento de capacidades en GdR, alerta temprana comunitaria y MERESE.",
+     "padre": "CD3"
+    },
+    {
+     "id": "CI3.3",
+     "texto": "Tierras sin registro, de dominio estatal o comunal, y conflictos de linderos y de uso de pastos",
+     "sustento": [
+      "71.8 % sin registro (5,253.11 ha); 28.0 % comunal; polígono comunal 2790 sin nombre (10 bloques).",
+      "Conflictos de linderos La Pareja–Alto San José, Dótor–Nueva Esperanza y Cardal–Charanas; pago por pastos comunales en Andanjo (250 ha).",
+      "Tamizaje predial aún no iniciado."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. I Morropón, B2 Rev. hscm (28-oct-2026)",
+      "Diagnóstico Morropón Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 3 · Gobernanza: acuerdos de uso y actas de libre disponibilidad, tamizaje predial y mesa de diálogo previa a fijar metas en áreas en disputa.",
+     "padre": "CD3"
+    }
+   ],
+   "notas": "Árbol provincial de Morropón. Superficie V8 neta 7,313.55 ha (se excluyeron 13.81 ha por sitio arqueológico y derechos mineros). Pendientes: niveles PMM/EPH/PGI por bloque, inventario de daños por evento, delimitación de la población aguas abajo, laboratorio de suelos, pobreza y NBI, y F-DS-04, 05 y 07."
+  },
+  "huancabamba": {
+   "pestana": "Huancabamba",
+   "sigla": "48 bloques",
+   "titulo": "Árbol de problemas – Provincia de Huancabamba",
+   "subtitulo": "Canchaque, Huancabamba, Huarmaca, Lalaquiz y San Miguel de El Faique · 48 bloques · 3,452.21 ha netas (V8) · 58 centros poblados (6,573 hab., Censo 2017)",
+   "fuente": "Fuentes: Informe E2 Vol. II Huancabamba (28-oct-2026); Diagnóstico Huancabamba V5; Informe EVAR (19-oct-2026)",
+   "ficha": [
+    {
+     "k": "Bloques",
+     "v": "48 en 5 distritos"
+    },
+    {
+     "k": "Superficie",
+     "v": "3,452.21 ha V8 (3,551.16 ha V7)"
+    },
+    {
+     "k": "Centros poblados",
+     "v": "58 (6,573 hab.)"
+    },
+    {
+     "k": "PI alto + muy alto",
+     "v": "2,353.73 ha (66.3 %)"
+    },
+    {
+     "k": "PMM alto + muy alto (EVAR)",
+     "v": "98.2 % de los bloques"
+    },
+    {
+     "k": "Bajo umbral MSAVI",
+     "v": "1,599.99 ha (45.1 %)"
+    }
+   ],
+   "lectura": "Huancabamba combina dos situaciones: un núcleo de bosque seco bajo 1,000 msnm en Huarmaca y San Miguel de El Faique (M4B4, M12B1, M4B3, M20B1, M2B8), con degradación difusa por pastoreo y leña y peligro muy alto, y un mosaico cafetalero de ladera con pendientes cercanas o superiores a 50 %, remociones activas, trochas y agricultura. La correlación MSAVI–PI (r = −0.785) muestra que la cobertura gobierna el peligro; la litología solo orienta el tipo de obra.",
+   "efecto_final": {
+    "id": "EF",
+    "texto": "Incremento de los costos de reconstrucción y disminución de la resiliencia de la población de Huancabamba y sus medios de vida frente a movimientos en masa e inundaciones desencadenados por lluvias extremas, intensificadas por el cambio climático",
+    "sustento": [
+     "6,573 hab. en 58 CP (Censo 2017); 1,245 personas vulnerables (18.9 %); 27 CP (2,872 hab.) dentro del área de influencia aprobada.",
+     "Riesgo por movimientos en masa: alto en 2,656.10 ha (78.3 %) y muy alto en 56.92 ha de las áreas de influencia; las dos únicas áreas en riesgo muy alto del proyecto están en Huarmaca (Chococa y Cambruran) (EVAR).",
+     "Nueve de las diez áreas de influencia con mayor riesgo del proyecto son de Huancabamba (EVAR, Tabla 35).",
+     "Pérdidas económicas no valoradas: [POR DEFINIR]."
+    ],
+    "fuentes": [
+     "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)",
+     "Informe EVAR Piura – evaluación del riesgo por movimientos en masa, CENEPRED (19-oct-2026)",
+     "ANIN ZZ-000005-R00, contenidos mínimos E7, Fig. 2 (modelo de referencia del árbol de problemas IN)"
+    ],
+    "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin."
+   },
+   "efectos_indirectos": [
+    {
+     "id": "EI1",
+     "texto": "Interrupción de vías y aislamiento estacional de caseríos, con pérdida de cosechas de café que no llegan al mercado",
+     "sustento": [
+      "Interrupción de la carretera en 11 localidades; caseríos aislados (7) y café sin vender (6).",
+      "Shuturumbe aislado 8 días por un huaico (marzo 2024); la quebrada La Mala aisló al C.P. Ranchos en 2026 con pérdida de café."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)",
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Exposición · elementos y medios de vida expuestos",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "padres": [
+      "ED1",
+      "ED3"
+     ]
+    },
+    {
+     "id": "EI2",
+     "texto": "Daños a viviendas, parcelas, ganado, captaciones y líneas de conducción de agua",
+     "sustento": [
+      "Daños a chacras, ganado y viviendas en 11 localidades.",
+      "Exposición interna en 3 bloques (M4B4: vivienda y corral en lecho de quebrada al pie de talud inestable; 72; 67) y de interfaz en 12 (19, 37, 71, M22B1, 35, 8, 10, 51, 73, 76, M2B8)."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)",
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Exposición · elementos y medios de vida expuestos",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "padres": [
+      "ED1"
+     ]
+    },
+    {
+     "id": "EI3",
+     "texto": "Pérdida de suelo agrícola y de productividad de la economía cafetalera y de subsistencia",
+     "sustento": [
+      "Cárcavas en parcelas (6 localidades) y terrenos agrícolas arrastrados (5).",
+      "AGRO RURAL entrega urea en Shuturumbe por suelos degradados; quintal de café ≈ S/ 1,000–1,200."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)"
+     ],
+     "adr": "Exposición · elementos y medios de vida expuestos",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "padres": [
+      "ED2"
+     ]
+    },
+    {
+     "id": "EI4",
+     "texto": "Aporte de sedimentos que deteriora quebradas y fuentes de agua, y pérdida de otros servicios del ecosistema",
+     "sustento": [
+      "Menos manantiales percibidos en 16 localidades; la población prioriza el agua (11 de 13 entrevistas).",
+      "Sedimentación aguas abajo por verificar con el E4: [POR DEFINIR].",
+      "Efecto colateral: la regulación hídrica es otra tipología y no es el fin de este proyecto."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)",
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "ANIN ZZ-000005-R00, contenidos mínimos E7, Fig. 2 (modelo de referencia del árbol de problemas IN)"
+     ],
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "padres": [
+      "ED2",
+      "ED3"
+     ]
+    }
+   ],
+   "efectos_directos": [
+    {
+     "id": "ED1",
+     "texto": "Mayor ocurrencia de movimientos en masa (deslizamientos, derrumbes, reptación y flujos de detritos) en laderas y quebradas de cabecera",
+     "sustento": [
+      "Peligro por movimientos en masa alto o muy alto en el 98.2 % de los bloques (muy alto 69.7 %) y en el 83.3 % de las áreas de influencia (EVAR).",
+      "Remociones activas en 16 bloques, escarpes activos en 34, deslizamientos antiguos en 15 y reptación en 18; flujo de detritos en el bloque 21 (pendiente 63.9 %).",
+      "Coyona: movimientos en masa desde 1983; deslizamiento en la quebrada Potreros; derrumbes en Maray Grande."
+     ],
+     "fuentes": [
+      "Informe EVAR Piura – evaluación del riesgo por movimientos en masa, CENEPRED (19-oct-2026)",
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)"
+     ],
+     "adr": "Peligro · manifestación del evento (movimientos en masa, erosión, flujos)",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin."
+    },
+    {
+     "id": "ED2",
+     "texto": "Erosión hídrica acelerada y pérdida de suelo en laderas (surcos y cárcavas)",
+     "sustento": [
+      "Cárcavas activas severas en el bloque 40; incipientes en 31, 80, 76, 72, 63, 30, 61 y M30B5.",
+      "Capa de cárcavas: 9 cárcavas y 3,903.15 m en 8 bloques (bloque 4: 949 m; M20B1: 758 m; M4B4: 749 m).",
+      "Calicatas someras frente a su referencia: bloque 44, 18 cm frente a 150 cm; bloque 19, 30 cm frente a 80 cm."
+     ],
+     "fuentes": [
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · manifestación del evento (movimientos en masa, erosión, flujos)",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin."
+    },
+    {
+     "id": "ED3",
+     "texto": "Mayor escorrentía torrencial y transporte de sedimentos desde las zonas de origen hacia las quebradas",
+     "sustento": [
+      "Peligro generador de inundaciones alto en 31, 69 y 35, medio-alto en 5 bloques y medio en 33 (informes DT).",
+      "Agresividad de la lluvia 134 en promedio y 303 en años El Niño (339 en el régimen de bosque seco).",
+      "Infiltración básica muy baja: 0.41 cm/h en Sahuate Hualanga (76) y 0.83 cm/h en Pampa Quemada (M12B1)."
+     ],
+     "fuentes": [
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · manifestación del evento (movimientos en masa, erosión, flujos)",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin."
+    }
+   ],
+   "problema": {
+    "id": "PC",
+    "texto": "La población de la provincia de Huancabamba no accede adecuadamente al servicio ecosistémico de regulación de riesgos naturales por la degradación del bosque estacionalmente seco, el matorral andino y los mosaicos agroforestales de ladera en las zonas de origen de movimientos en masa e inundaciones",
+    "sustento": [
+     "Peligro integrado alto o muy alto en 2,353.73 ha (66.3 %); 9 bloques en muy alto y 20 en alto; índice provincial 3.898 (Alto).",
+     "Huarmaca concentra el 61 % de la superficie crítica (1,424.30 ha; 72.4 %).",
+     "Núcleo de brecha (M4B4, M12B1, M4B3, M20B1, M2B8): 1,188.15 ha, MSAVI 0.340, 96.4 % en clase crítica.",
+     "Bajo el umbral MSAVI 0.4976: 1,599.99 ha (45.1 %) con el criterio areal E6 propuesto en el Avance; 1,365.04 ha (10 bloques) si se toma la media de bloque."
+    ],
+    "fuentes": [
+     "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)",
+     "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+     "Informe EVAR Piura – evaluación del riesgo por movimientos en masa, CENEPRED (19-oct-2026)",
+     "Avance del Perfil IN Piura · SESDI, 28-oct-2026 (línea base preliminar, criterio areal E6)",
+     "MINAM, Formato N° 04-A, indicador de brecha (RM N° 00213-2024-MINAM)"
+    ],
+    "indicador": "Magnitud: peligro integrado alto + muy alto en 2,353.73 ha (66.3 %) · línea base preliminar de brecha: 1,599.99 ha bajo el umbral MSAVI (45.1 %, criterio areal E6)"
+   },
+   "factores_exogenos": [
+    {
+     "id": "EX1",
+     "texto": "Pendiente media 49 % (424.62 ha sobre 75 %; Canchaque 59.4 %); susceptibilidad litológica a movimientos en masa muy alta en 18 bloques y alta en 18 (Complejo de Olmos).",
+     "sustento": [
+      "Litología con correlación débil con el PI (r = −0.24): orienta el tipo de obra, no la prioridad."
+     ],
+     "fuentes": [
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Informe EVAR Piura – evaluación del riesgo por movimientos en masa, CENEPRED (19-oct-2026)"
+     ],
+     "adr": "Peligro · factores condicionantes no modificables",
+     "linea": "No es modificable por el proyecto. Se considera en el AdR-CCC (E8) y en el diseño de las MRR-CCC.",
+     "titulo": "Factores condicionantes del peligro"
+    },
+    {
+     "id": "EX2",
+     "texto": "Lluvias de El Niño 1983, 1998, 2017 y 2023 entre 2.0 y 2.7 veces la media provincial (3.2–3.3 veces en el bosque seco); tendencia +32.6 mm y +0.15 °C por década.",
+     "sustento": [
+      "541 mm/año, índice de aridez 0.38; 82 % de la lluvia entre enero y abril; un año seco de cada tres en el régimen de bosque seco.",
+      "Déficit hídrico futuro en el escenario SSP5-8.5."
+     ],
+     "fuentes": [
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · factor desencadenante y cambio climático",
+     "linea": "No es modificable por el proyecto. Se considera en el AdR-CCC (E8) y en el diseño de las MRR-CCC.",
+     "titulo": "Factor desencadenante y cambio climático"
+    }
+   ],
+   "causas_directas": [
+    {
+     "id": "CD1",
+     "texto": "Degradación de la cobertura vegetal protectora en las zonas de origen",
+     "sustento": [
+      "Suelo desnudo, roca y vías 576.1 ha; herbazal seco 909.6 ha; dosel denso solo 563.9 ha (S2DR4).",
+      "Estado E6: 18 bloques con degradación leve (1,555 ha) y 6 con degradación moderada (619.5 ha).",
+      "Los bloques bajo el umbral MSAVI tienen el 92.8 % de su superficie en clase crítica; el resto, el 49.7 %."
+     ],
+     "fuentes": [
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · factor condicionante modificable (cobertura, suelo, drenaje)",
+     "linea": "Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales."
+    },
+    {
+     "id": "CD2",
+     "texto": "Reducida capacidad de los suelos y laderas para controlar la erosión y la escorrentía",
+     "sustento": [
+      "Suelos francos con horizonte superficial pobre (ócrico), Entisoles e Inceptisoles someros.",
+      "Erosión natural severa señalada en 33 de 48 informes DT.",
+      "Materia orgánica, pH y factor K pendientes de laboratorio (UNALM): [POR DEFINIR]."
+     ],
+     "fuentes": [
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · factor condicionante modificable (cobertura, suelo, drenaje)",
+     "linea": "Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos."
+    },
+    {
+     "id": "CD3",
+     "texto": "Inadecuada gobernanza y gestión local del ecosistema y del riesgo",
+     "sustento": [
+      "Ninguna localidad tiene sistema de alerta temprana ni comité de gestión del riesgo; comité de recursos naturales solo en 13 %.",
+      "71 % de la superficie sin registro predial."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)",
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Vulnerabilidad · baja resiliencia (capacidad de organización, gestión y respuesta)",
+     "linea": "Línea 3 · Gobernanza y gestión comunitaria: planes de manejo comunitario, fortalecimiento de capacidades en GdR, alerta temprana comunitaria y MERESE."
+    }
+   ],
+   "causas_indirectas": [
+    {
+     "id": "CI1.1",
+     "texto": "Sobrepastoreo caprino y vacuno sin manejo, que elimina la regeneración del bosque seco y del matorral",
+     "sustento": [
+      "Pastoreo o sobrepastoreo en 45 de 48 informes DT; intensidad fuerte en M4B4 y M30B5 (80 %), 31 y 70 (70 %), 63 (40 %).",
+      "Ganadería vacuna en 90.9 % de las localidades y caprina u ovina en 27.3 %."
+     ],
+     "fuentes": [
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos.",
+     "padre": "CD1"
+    },
+    {
+     "id": "CI1.2",
+     "texto": "Cambio de uso hacia agricultura de ladera (café, maíz, pastos)",
+     "sustento": [
+      "Agricultura en ladera en 38 de 48 informes DT; bloque 43 100 % agrícola, M30B5 82 %, 43 50 %, 51 40 %.",
+      "Zona agrícola: 1,265.97 ha (35.6 %) según el mapa MINAM."
+     ],
+     "fuentes": [
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales.",
+     "padre": "CD1"
+    },
+    {
+     "id": "CI1.3",
+     "texto": "Extracción de leña y madera y quemas para renovar pastos",
+     "sustento": [
+      "Tala para leña o madera en 25 de 48 bloques; deforestación y venta de madera en 12 localidades.",
+      "Venta de roble y laurel; tala ilegal de nogal y quinahuiro; el 70 % usa leña en Huamala Alto.",
+      "Quemas para renovar pastos en 6 bloques (31, 51, 70, M22B1, 44, 21)."
+     ],
+     "fuentes": [
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales.",
+     "padre": "CD1"
+    },
+    {
+     "id": "CI1.4",
+     "texto": "Baja regeneración de especies nativas por aridez y avance de especies exóticas",
+     "sustento": [
+      "Especies exóticas (pino, eucalipto, grevilea, higuerilla) en 16 bloques; sequía o cambio climático señalados en 12.",
+      "Régimen de bosque seco: 414 mm/año, índice de aridez 0.24."
+     ],
+     "fuentes": [
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales.",
+     "padre": "CD1"
+    },
+    {
+     "id": "CI2.1",
+     "texto": "Trochas, vías y cortes de talud sin drenaje ni estabilización",
+     "sustento": [
+      "Vías y taludes de corte en 40 de 48 informes DT; intensidad fuerte en 10, 8, 18 (trocha departamental 108), 20, 80, 71, 76 y 43.",
+      "Desprendimientos en la trocha que afectan viviendas de Nuevo Progreso (bloque 19)."
+     ],
+     "fuentes": [
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · factor condicionante modificable (cobertura, suelo, drenaje)",
+     "linea": "Línea 2.1 · Obras complementarias: estabilización de taludes, muros y gaviones, diques en quebradas, drenaje y control de escorrentía (coordinadas con el titular de la vía cuando corresponda).",
+     "padre": "CD2"
+    },
+    {
+     "id": "CI2.2",
+     "texto": "Laderas cultivadas sin prácticas de conservación y cárcavas sin control",
+     "sustento": [
+      "Cárcavas activas severas en 40 e incipientes en 8 bloques; la ficha F-DT-02 solo cubre 26 bloques.",
+      "Agroquímicos y aguas mieles del café en las quebradas de Huabal."
+     ],
+     "fuentes": [
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos.",
+     "padre": "CD2"
+    },
+    {
+     "id": "CI2.3",
+     "texto": "Pisoteo y compactación de suelos someros por el ganado, con baja infiltración",
+     "sustento": [
+      "Infiltración básica de 0.41 a 2.2 cm/h en 3 de 4 ensayos; calicatas de 18 a 45 cm en bloques degradados."
+     ],
+     "fuentes": [
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · factor condicionante modificable (cobertura, suelo, drenaje)",
+     "linea": "Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos.",
+     "padre": "CD2"
+    },
+    {
+     "id": "CI3.1",
+     "texto": "Limitado conocimiento y organización comunal para el manejo del ecosistema y la gestión del riesgo",
+     "sustento": [
+      "Comité de recursos naturales en 13 % de 23 localidades; ninguna con alerta temprana ni comité de gestión del riesgo.",
+      "Rondas desarticuladas en Shuturumbe y Sapce–Chamelico; prohibición de tala en Ullma sin control efectivo; faenas comunales solo reactivas.",
+      "La población prioriza el agua (11 de 13 entrevistas); Cruz de Piedra sin señal celular para avisos."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)",
+      "Diagnóstico Huancabamba Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Vulnerabilidad · baja resiliencia (capacidad de organización, gestión y respuesta)",
+     "linea": "Línea 3 · Gobernanza y gestión comunitaria: planes de manejo comunitario, fortalecimiento de capacidades en GdR, alerta temprana comunitaria y MERESE.",
+     "padre": "CD3"
+    },
+    {
+     "id": "CI3.2",
+     "texto": "Limitada gobernanza y articulación de las entidades públicas y privadas, con desconfianza por obras inconclusas",
+     "sustento": [
+      "Sin espacios de concertación en los 24 CP con ficha; presencia estatal percibida baja en 11 localidades.",
+      "Obra de agua y alcantarillado de Sapce y Chacchacal paralizada al 80 %; obras inconclusas en Huamala Alto y Flor de Café.",
+      "Superposición con el proyecto del GORE en Pusmalca (CUI 2335868) sobre los bloques 81 y 79."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)"
+     ],
+     "adr": "Vulnerabilidad · baja resiliencia (capacidad de organización, gestión y respuesta)",
+     "linea": "Línea 3 · Gobernanza y gestión comunitaria: planes de manejo comunitario, fortalecimiento de capacidades en GdR, alerta temprana comunitaria y MERESE.",
+     "padre": "CD3"
+    },
+    {
+     "id": "CI3.3",
+     "texto": "Alta informalidad en la tenencia de la tierra y presión de derechos mineros",
+     "sustento": [
+      "71.0 % sin registro (2,451.17 ha); posesión sin título en 17 de 20 bloques; 5 bloques superan los 19 predios.",
+      "Petitorio minero LM30 (bloques 8 y 71) y oposición activa a la minería (Río Blanco); San José de Hualcas no firmó."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. II Huancabamba, B2 Rev. hscm (28-oct-2026)"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 3 · Gobernanza: acuerdos de uso y actas de libre disponibilidad, tamizaje predial y mesa de diálogo previa a fijar metas en áreas en disputa.",
+     "padre": "CD3"
+    }
+   ],
+   "notas": "Árbol provincial de Huancabamba. Superficie V8 neta 3,452.21 ha (se excluyeron 98.95 ha del petitorio minero LM30); el PI se calculó sobre el polígono V7 (3,551.16 ha). Pendientes: criterio único de brecha MSAVI, modelo PMM/EPH/PGI por bloque, inventario de daños, delimitación de exposición aguas abajo, laboratorio de suelos y fichas sociales en Huarmaca."
+  },
+  "ayabaca": {
+   "pestana": "Ayabaca",
+   "sigla": "10 bloques",
+   "titulo": "Árbol de problemas – Provincia de Ayabaca (distrito de Frías)",
+   "subtitulo": "Cuenca alta del río Piura · 10 bloques · 1,391.70 ha · 4 microcuencas · 17 centros poblados (2,541 hab., Censo 2017)",
+   "fuente": "Fuentes: Informe E2 Vol. III Ayabaca (30-oct-2026); Diagnóstico Ayabaca V5; Informe EVAR (19-oct-2026)",
+   "ficha": [
+    {
+     "k": "Bloques",
+     "v": "10 (todos en Frías)"
+    },
+    {
+     "k": "Superficie",
+     "v": "1,391.70 ha"
+    },
+    {
+     "k": "Centros poblados",
+     "v": "17 (2,541 hab.)"
+    },
+    {
+     "k": "PI alto + muy alto",
+     "v": "782.64 ha (56.2 %)"
+    },
+    {
+     "k": "PMM alto + muy alto (EVAR)",
+     "v": "99.4 % de los bloques"
+    },
+    {
+     "k": "Bajo umbral MSAVI",
+     "v": "525.21 ha (37.7 %)"
+    }
+   ],
+   "lectura": "En Frías el peligro se concentra en el piedemonte de bosque seco (régimen A, índice PI 3.968), donde el corredor Chulucanas–Frías y las trochas sin drenaje activan taludes, y en el mosaico agrícola de ladera (68 % del ámbito es zona agrícola). El PI no sigue a la pendiente (r = +0.126) sino a la pérdida de cobertura (r = −0.968 con el MSAVI): por eso la cobertura y el suelo son las causas que el proyecto puede revertir.",
+   "efecto_final": {
+    "id": "EF",
+    "texto": "Incremento de los costos de reconstrucción y disminución de la resiliencia de la población de Frías y sus medios de vida frente a movimientos en masa e inundaciones desencadenados por lluvias extremas, intensificadas por el cambio climático",
+    "sustento": [
+     "2,541 hab. en 17 CP rurales (Censo 2017); 400 personas vulnerables (15.7 %); proyección 2026: 2,376 hab.",
+     "Riesgo por movimientos en masa en las áreas de influencia: alto en 745.65 ha (90.9 %); las 10 áreas con riesgo alto dominante (EVAR, cálculo por provincia).",
+     "Fragilidad alta en Rincón de Geraldo, Guabal y Guanábano Alto; vivienda de adobe y saneamiento precario (EVAR).",
+     "Las pérdidas no están valoradas en ninguna fuente: [POR DEFINIR] con registro SIGRID/INDECI de eventos."
+    ],
+    "fuentes": [
+     "Informe E2 Vol. III Ayabaca, B2 Rev. hscm (30-oct-2026)",
+     "Informe EVAR Piura – evaluación del riesgo por movimientos en masa, CENEPRED (19-oct-2026)",
+     "ANIN ZZ-000005-R00, contenidos mínimos E7, Fig. 2 (modelo de referencia del árbol de problemas IN)"
+    ],
+    "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin."
+   },
+   "efectos_indirectos": [
+    {
+     "id": "EI1",
+     "texto": "Daños a taludes y vías, viviendas, líneas de conducción de agua y tendido eléctrico; cortes de servicio en temporada de lluvias",
+     "sustento": [
+      "Taludes viales activos con desprendimientos en el corredor Chulucanas–Frías (M17B6, M17B10).",
+      "Vivienda junto a camino erosionado (bloque 3); tubería de conducción en ladera (bloque 6, El Guabo); tendido eléctrico (M17B6).",
+      "Cortes de energía en lluvias (Rincón de Geraldo)."
+     ],
+     "fuentes": [
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Informe E2 Vol. III Ayabaca, B2 Rev. hscm (30-oct-2026)"
+     ],
+     "adr": "Exposición · elementos y medios de vida expuestos",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "padres": [
+      "ED1"
+     ]
+    },
+    {
+     "id": "EI2",
+     "texto": "Pérdida de suelo productivo y de rendimiento de cultivos (maíz, frejol, café, palta, cacao) que sostienen a las familias",
+     "sustento": [
+      "Agricultura de secano en el 100 % de las localidades; destino mixto autoconsumo/mercado.",
+      "Calicata degradada CAL-13 (bloque 36): Entisol de 61 cm con erosión severa frente a referencia Inceptisol de 84 cm.",
+      "En el bloque 39 la degradación eliminó el epipedón mólico (CAL-59 frente a CAL-60)."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. III Ayabaca, B2 Rev. hscm (30-oct-2026)",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Exposición · elementos y medios de vida expuestos",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "padres": [
+      "ED2"
+     ]
+    },
+    {
+     "id": "EI3",
+     "texto": "Mayor aporte de sedimentos y colmatación de quebradas que drenan al valle del Alto Piura",
+     "sustento": [
+      "Bloques 3, 6 y 36 declarados «zona de origen que aporta escorrentía concentrada a las quebradas» (informes DT).",
+      "Cauce torrencial con bolonería y socavamiento en M17B10.",
+      "Hipótesis a cuantificar con el estudio hidrológico (E4): [POR DEFINIR]."
+     ],
+     "fuentes": [
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Exposición · elementos y medios de vida expuestos",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "padres": [
+      "ED3"
+     ]
+    },
+    {
+     "id": "EI4",
+     "texto": "Pérdida de otros servicios del ecosistema: regulación hídrica de fuentes, hábitat de especies en peligro crítico y carbono",
+     "sustento": [
+      "7 bloques en zona de recarga; captación de La Cría a 419 m del bloque 39.",
+      "Hualtaco, palo santo y sapote (En Peligro Crítico) en M17B5, M17B6, M17B7 y M17B10.",
+      "Son efectos colaterales: la regulación hídrica es otra tipología y no es el fin de este proyecto."
+     ],
+     "fuentes": [
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "ANIN ZZ-000005-R00, contenidos mínimos E7, Fig. 2 (modelo de referencia del árbol de problemas IN)"
+     ],
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin.",
+     "padres": [
+      "ED2",
+      "ED3"
+     ]
+    }
+   ],
+   "efectos_directos": [
+    {
+     "id": "ED1",
+     "texto": "Mayor ocurrencia de movimientos en masa (desprendimientos, caídas de rocas y deslizamientos) en taludes, laderas y piedemonte",
+     "sustento": [
+      "Peligro por movimientos en masa alto o muy alto en el 99.4 % de los bloques (muy alto 73.2 %) y en el 93.1 % de las áreas de influencia (EVAR).",
+      "Taludes de 4–8 m en saprolito granítico con desprendimientos activos (M17B6).",
+      "Antecedente de reubicación de un centro poblado por deslizamientos en lluvias (bloque 56; CP y fecha por precisar)."
+     ],
+     "fuentes": [
+      "Informe EVAR Piura – evaluación del riesgo por movimientos en masa, CENEPRED (19-oct-2026)",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · manifestación del evento (movimientos en masa, erosión, flujos)",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin."
+    },
+    {
+     "id": "ED2",
+     "texto": "Erosión hídrica acelerada y pérdida de suelo en laderas (surcos y cárcavas)",
+     "sustento": [
+      "7 cárcavas inventariadas: 1,154.94 m en 6 bloques (M17B7: 570.9 m; 36: 258.4 m; 3: 217.7 m).",
+      "Bloque 27: erosión hídrica «peligro dominante», cárcavas activas CAR-01 y CAR-02, labranza a favor de la pendiente, dosel ≈ 5 %.",
+      "Surcos sobre huellas de ganado en la franja occidental de M17B5."
+     ],
+     "fuentes": [
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · manifestación del evento (movimientos en masa, erosión, flujos)",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin."
+    },
+    {
+     "id": "ED3",
+     "texto": "Mayor escorrentía superficial concentrada y carga de sedimentos desde las zonas de origen hacia las quebradas",
+     "sustento": [
+      "Índice de Fournier 152.6 (agresividad alta); 85–91 % de la lluvia entre enero y abril.",
+      "Peligro generador de inundaciones declarado Medio en 3, 6, 27, 36 y M17B7 (informes DT).",
+      "No existe aún el modelo de PGI por bloque: [POR DEFINIR]."
+     ],
+     "fuentes": [
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · manifestación del evento (movimientos en masa, erosión, flujos)",
+     "linea": "Se reduce al recuperar el servicio de regulación de riesgos (objetivo central); se mide con los indicadores de fin."
+    }
+   ],
+   "problema": {
+    "id": "PC",
+    "texto": "La población de Frías (provincia de Ayabaca) no accede adecuadamente al servicio ecosistémico de regulación de riesgos naturales por la degradación del bosque estacionalmente seco y de los mosaicos agropecuarios de ladera en las zonas de origen de movimientos en masa e inundaciones",
+    "sustento": [
+     "Peligro integrado alto o muy alto en 782.64 ha (56.2 % de 1,391.70 ha); índice provincial 3.580 (Alto).",
+     "Superficie bajo el umbral MSAVI 0.4976: 525.21 ha (37.7 %) con el criterio areal E6 propuesto en el Avance; 181.90 ha si se toma la media de bloque.",
+     "Correlación PI–MSAVI r = −0.968: donde se pierde cobertura, sube el peligro.",
+     "94.4 % de la superficie es reversible total o parcialmente (1,314.03 ha)."
+    ],
+    "fuentes": [
+     "Informe E2 Vol. III Ayabaca, B2 Rev. hscm (30-oct-2026)",
+     "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+     "Informe EVAR Piura – evaluación del riesgo por movimientos en masa, CENEPRED (19-oct-2026)",
+     "Avance del Perfil IN Piura · SESDI, 28-oct-2026 (línea base preliminar, criterio areal E6)",
+     "MINAM, Formato N° 04-A, indicador de brecha (RM N° 00213-2024-MINAM)"
+    ],
+    "indicador": "Magnitud: peligro integrado alto + muy alto en 782.64 ha (56.2 %) · línea base preliminar de brecha: 525.21 ha bajo el umbral MSAVI (37.7 %, criterio areal E6)"
+   },
+   "factores_exogenos": [
+    {
+     "id": "EX1",
+     "texto": "Pendiente media 57.5 % (64.6 % del área sobre 50 % y 204.37 ha sobre 75 %), la más fuerte del proyecto; susceptibilidad litológica a movimientos en masa alta en los 10 bloques; granito meteorizado (Súper Unidad Paltashaco).",
+     "sustento": [
+      "Susceptibilidad litológica a erosión hídrica muy alta en 6 bloques (708.02 ha).",
+      "El peligro integrado no sigue a la pendiente (r = +0.126) sino a la cobertura."
+     ],
+     "fuentes": [
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Informe EVAR Piura – evaluación del riesgo por movimientos en masa, CENEPRED (19-oct-2026)"
+     ],
+     "adr": "Peligro · factores condicionantes no modificables",
+     "linea": "No es modificable por el proyecto. Se considera en el AdR-CCC (E8) y en el diseño de las MRR-CCC.",
+     "titulo": "Factores condicionantes del peligro"
+    },
+    {
+     "id": "EX2",
+     "texto": "Lluvias de El Niño 1983, 1998 y 2023 entre 2.7 y 4.9 veces la media; abril 2023: 765–1,082 mm; 84 % de probabilidad de un año ≥ 2 veces la media en 20 años; Tmáx +0.21 a +0.25 °C por década.",
+     "sustento": [
+      "Precipitación media 557 mm/año, índice de aridez 0.39 (semiárido), coeficiente de variación 87 %.",
+      "Déficit hídrico futuro en el escenario SSP5-8.5 (criterio de idoneidad del proyecto)."
+     ],
+     "fuentes": [
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · factor desencadenante y cambio climático",
+     "linea": "No es modificable por el proyecto. Se considera en el AdR-CCC (E8) y en el diseño de las MRR-CCC.",
+     "titulo": "Factor desencadenante y cambio climático"
+    }
+   ],
+   "causas_directas": [
+    {
+     "id": "CD1",
+     "texto": "Degradación de la cobertura vegetal protectora en las zonas de origen",
+     "sustento": [
+      "Bosque ralo o matorral abierto 36.5 % y herbazal seco 18.4 % del ámbito (S2DR4); dosel denso solo 17.9 %.",
+      "Bajo umbral MSAVI: M17B6 81.8 %, M17B10 73.3 %, M17B7 48.4 % de su superficie.",
+      "Bloque 27 «muy alterado/degradado»: 30 % de suelo desnudo y regeneración escasa."
+     ],
+     "fuentes": [
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Informe E2 Vol. III Ayabaca, B2 Rev. hscm (30-oct-2026)"
+     ],
+     "adr": "Peligro · factor condicionante modificable (cobertura, suelo, drenaje)",
+     "linea": "Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales."
+    },
+    {
+     "id": "CD2",
+     "texto": "Reducida capacidad de los suelos y laderas para controlar la erosión y la escorrentía",
+     "sustento": [
+      "«La erosión activa documentada es mayoritariamente antrópico-vial: taludes, trochas y sendas».",
+      "Pendiente media 57.5 %: la mayor parte de las laderas exige obras adaptadas a pendientes fuertes.",
+      "Suelos sin análisis de laboratorio (materia orgánica, textura, factor K): [POR DEFINIR]."
+     ],
+     "fuentes": [
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · factor condicionante modificable (cobertura, suelo, drenaje)",
+     "linea": "Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos."
+    },
+    {
+     "id": "CD3",
+     "texto": "Inadecuada gobernanza y gestión local del ecosistema y del riesgo",
+     "sustento": [
+      "Ninguna localidad tiene comité de recursos naturales, espacio de concertación, sistema de alerta temprana ni plan de gestión del riesgo.",
+      "Tenencia 83.9 % comunal, con posesionarios sin título y un polígono comunal sin nombre (1508)."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. III Ayabaca, B2 Rev. hscm (30-oct-2026)",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Vulnerabilidad · baja resiliencia (capacidad de organización, gestión y respuesta)",
+     "linea": "Línea 3 · Gobernanza y gestión comunitaria: planes de manejo comunitario, fortalecimiento de capacidades en GdR, alerta temprana comunitaria y MERESE."
+    }
+   ],
+   "causas_indirectas": [
+    {
+     "id": "CI1.1",
+     "texto": "Expansión de la agricultura de subsistencia de secano hacia laderas de fuerte pendiente",
+     "sustento": [
+      "Causa principal en 7 de 10 informes DT (bloques 3, 6, 36, 27, M17B7, 39 y 56).",
+      "Zona agrícola: 946.82 ha (68 % del ámbito); uso agrícola dentro de los bloques 3, 6, 27, 36 y M17B7.",
+      "En el bloque 39 la frontera agropecuaria avanza desde La Cría hacia la cabecera."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. III Ayabaca, B2 Rev. hscm (30-oct-2026)",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales.",
+     "padre": "CD1"
+    },
+    {
+     "id": "CI1.2",
+     "texto": "Tala y extracción selectiva de especies del bosque seco, incluidas especies en peligro crítico",
+     "sustento": [
+      "La Cría se separó de la C.C. San Andrés de Culcas por tala y linderos no respetados.",
+      "Sectores con tala en M17B7; hualtaco, palo santo y sapote (En Peligro Crítico) en 4 bloques del piedemonte."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. III Ayabaca, B2 Rev. hscm (30-oct-2026)",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales.",
+     "padre": "CD1"
+    },
+    {
+     "id": "CI1.3",
+     "texto": "Pastoreo libre de vacunos y caprinos sin ordenamiento, que impide la regeneración natural",
+     "sustento": [
+      "Ganadería vacuna en 100 % de las localidades; porcina 85.7 %; caprina/ovina 28.6 %.",
+      "Causa principal en M17B5 (El Guabo); pastoreo extensivo en M17B10; compactación por ganado en M17B7.",
+      "Carga ganadera: [POR DEFINIR]."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. III Ayabaca, B2 Rev. hscm (30-oct-2026)",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos.",
+     "padre": "CD1"
+    },
+    {
+     "id": "CI1.4",
+     "texto": "Baja capacidad de regeneración natural del bosque seco por aridez y alta variabilidad de las lluvias",
+     "sustento": [
+      "Índice de aridez 0.39, déficit de 931 mm y coeficiente de variación de la lluvia de 87 % (90–99 % en ladera y piedemonte)."
+     ],
+     "fuentes": [
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales.",
+     "padre": "CD1"
+    },
+    {
+     "id": "CI2.1",
+     "texto": "Corredor vial y trochas con cortes de talud sin estabilización ni drenaje, que concentran la escorrentía",
+     "sustento": [
+      "Corredor Chulucanas–Frías en mejoramiento con taludes sin tratamiento: causa principal en M17B6 y M17B10.",
+      "Trochas con taludes inestables, cárcavas o badenes en M17B7, 6, 56 y 27; camino erosionado en 3 (4 de 10 informes DT)."
+     ],
+     "fuentes": [
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Informe E2 Vol. III Ayabaca, B2 Rev. hscm (30-oct-2026)"
+     ],
+     "adr": "Peligro · factor condicionante modificable (cobertura, suelo, drenaje)",
+     "linea": "Línea 2.1 · Obras complementarias: estabilización de taludes, muros y gaviones, diques en quebradas, drenaje y control de escorrentía (coordinadas con el titular de la vía cuando corresponda).",
+     "padre": "CD2"
+    },
+    {
+     "id": "CI2.2",
+     "texto": "Laderas cultivadas sin prácticas de conservación de suelos (labranza a favor de la pendiente)",
+     "sustento": [
+      "Labranza a favor de la pendiente y cárcavas activas en el bloque 27.",
+      "Uso agrícola dentro de 5 bloques; medidas compatibles propuestas por los agricultores: terrazas, barreras vivas, agroforestería."
+     ],
+     "fuentes": [
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima",
+      "Informe E2 Vol. III Ayabaca, B2 Rev. hscm (30-oct-2026)"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos.",
+     "padre": "CD2"
+    },
+    {
+     "id": "CI2.3",
+     "texto": "Cárcavas activas sin control que progresan en cabecera",
+     "sustento": [
+      "7 cárcavas con 1,154.94 m en 6 bloques; el bloque 27 tiene cárcavas en campo que no figuran en la capa (inventario parcial)."
+     ],
+     "fuentes": [
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Peligro · factor condicionante modificable (cobertura, suelo, drenaje)",
+     "linea": "Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos.",
+     "padre": "CD2"
+    },
+    {
+     "id": "CI3.1",
+     "texto": "Limitado conocimiento y organización comunal para el manejo del ecosistema y la gestión del riesgo",
+     "sustento": [
+      "Comité de recursos naturales: 0 % de las localidades; rondas desarticuladas en Putagas y La Cría.",
+      "Ninguna localidad tiene sistema de alerta temprana ni plan de gestión del riesgo.",
+      "La percepción del peligro de la población no se ha levantado (F-DS-03 y F-DS-06 sin aplicar): [POR DEFINIR]."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. III Ayabaca, B2 Rev. hscm (30-oct-2026)",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Vulnerabilidad · baja resiliencia (capacidad de organización, gestión y respuesta)",
+     "linea": "Línea 3 · Gobernanza y gestión comunitaria: planes de manejo comunitario, fortalecimiento de capacidades en GdR, alerta temprana comunitaria y MERESE.",
+     "padre": "CD3"
+    },
+    {
+     "id": "CI3.2",
+     "texto": "Limitada presencia y articulación institucional, sin espacios de concertación, y desconfianza hacia agentes externos",
+     "sustento": [
+      "Ninguna localidad tiene espacio de concertación; AGRO RURAL presente en 0 localidades; presencia estatal baja en 3 y media en 4.",
+      "Percepción de «abandono» en Guabal y Pampa de Ramada; desconfianza por una estafa previa en Huayabal."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. III Ayabaca, B2 Rev. hscm (30-oct-2026)"
+     ],
+     "adr": "Vulnerabilidad · baja resiliencia (capacidad de organización, gestión y respuesta)",
+     "linea": "Línea 3 · Gobernanza y gestión comunitaria: planes de manejo comunitario, fortalecimiento de capacidades en GdR, alerta temprana comunitaria y MERESE.",
+     "padre": "CD3"
+    },
+    {
+     "id": "CI3.3",
+     "texto": "Tenencia comunal con posesión informal y linderos en disputa",
+     "sustento": [
+      "1,167.02 ha (83.9 %) en comunidades campesinas; 224.69 ha sin registro; 0 predios COFOPRI; polígono comunal 1508 sin nombre.",
+      "150 predios en posesión sin título en Guanábano Alto; conflicto latente La Cría–San Andrés de Culcas.",
+      "Las fichas declaran 36, 93 y 38 predios en los bloques 3, 6 y M17B7 (más que el máximo de 19)."
+     ],
+     "fuentes": [
+      "Informe E2 Vol. III Ayabaca, B2 Rev. hscm (30-oct-2026)",
+      "Diagnóstico Ayabaca Versión 5 (artefacto, oct-2026): DT, PI, suelos E5, ecosistemas E6, hidroclima"
+     ],
+     "adr": "Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)",
+     "linea": "Línea 3 · Gobernanza: acuerdos de uso y actas de libre disponibilidad, tamizaje predial y mesa de diálogo previa a fijar metas en áreas en disputa.",
+     "padre": "CD3"
+    }
+   ],
+   "notas": "Árbol provincial de Ayabaca (Frías). Problema central redactado según el modelo de referencia ANIN (ZZ-000005, Fig. 2), sin incluir la regulación hídrica en el enunciado. Las cifras provienen del Informe E2 Vol. III (30-oct-2026), del Diagnóstico Ayabaca V5 y del Informe EVAR. Pendientes: criterio único de brecha MSAVI, modelo PMM/EPH/PGI por bloque, registro de daños históricos, laboratorio de suelos y fichas F-DS-03 a F-DS-07."
+  }
+ },
+ "metodo_html": "\n<section>\n  <h2>Cómo se construyeron los árboles</h2>\n  <ol class=\"pasos\">\n    <li><div><b>Evidencia.</b> Se revisaron los informes del Entregable 2 por provincia (Vol. I y II del 28-oct, Vol. III del 30-oct-2026), las Matrices E2 B2 (24-oct), los diagnósticos V5 por provincia (117 informes territoriales, peligro integrado MCA-AHP, suelos E5, ecosistemas E6, hidroclima PISCOp 1981–2025), el Diagnóstico Social (374 fichas en 154 centros poblados; 82 de 117 bloques con ficha), el Informe EVAR del 19-oct y el Avance del Perfil del 28-oct.</div></li>\n    <li><div><b>Lectura con la cadena del peligro (CENEPRED).</b> Lo que el proyecto puede modificar y aumenta el peligro (cobertura, suelo, drenaje) o la vulnerabilidad (organización, tenencia) es <i>causa</i>. La manifestación del peligro en la zona de origen (movimientos en masa, erosión, escorrentía torrencial) es <i>efecto directo</i>. Los daños a elementos expuestos son <i>efectos indirectos</i> y la consecuencia agregada es el <i>efecto final</i>. Pendiente, litología y lluvias extremas no son modificables: se muestran como factores exógenos a los lados del problema, como pide la Nota Técnica de meso y microlocalización.</div></li>\n    <li><div><b>Filtro de tipología.</b> El servicio es la regulación de riesgos naturales (Formato 04-A, RM N° 00213-2024-MINAM). La regulación hídrica y la sequía, que la población menciona primero (82–89 % de localidades), corresponden a otra tipología con su propia brecha. Por eso salen del problema central y de los efectos directos y quedan solo como efecto colateral (EI), igual que en el modelo ANIN.</div></li>\n    <li><div><b>Alineación con el modelo de referencia ANIN</b> (ZZ-000005, Fig. 2). Se mantiene su problema central y su efecto final. La causa «Alteración de los factores condicionantes en zonas de origen» se desagrega en CD1 (cobertura) y CD2 (suelos y laderas), y «Inadecuada gobernanza y gestión del ecosistema» es CD3. Así cada causa directa lleva a un componente del proyecto: infraestructura verde, infraestructura marrón y gobernanza (ZZ-000006, num. 10.1.7).</div></li>\n    <li><div><b>Árbol unificado por convergencia.</b> Entra una causa o un efecto que tiene evidencia en al menos dos provincias o que es generalizado en una. Las marcas M, H y A muestran dónde aparece: · puntual, ·· frecuente, ··· generalizada. Lo propio de una sola provincia queda en su árbol provincial.</div></li>\n    <li><div><b>Control de calidad.</b> Se verificó que el problema esté redactado como situación negativa y no como falta de una solución, que cada causa tenga evidencia y fuente, que no haya causas repetidas entre ramas, que la lógica «si ocurre la causa, entonces aparece el efecto» se cumpla en cada flecha y que toda cifra provenga de un documento del proyecto.</div></li>\n  </ol>\n</section>\n\n<section>\n  <h2>Comparación de las tres provincias</h2>\n  <p class=\"nota\">Cifras del Avance del Perfil (28-oct) y de las Matrices E2 B2; el peligro y riesgo por movimientos en masa se calcularon por provincia con los anexos del Informe EVAR. El peligro integrado (MCA-AHP: movimientos en masa, erosión y potencial generador de inundaciones) y el EVAR (solo movimientos en masa, método CENEPRED) no son comparables entre sí.</p>\n  <div class=\"tabla-scroll\"><table><thead><tr><th>Variable</th><th>Morropón</th><th>Huancabamba</th><th>Ayabaca</th><th>Total</th></tr></thead><tbody><tr><td>Bloques · distritos · microcuencas</td><td class=\"num\">59 · 9 · 17</td><td class=\"num\">48 · 5 · 11</td><td class=\"num\">10 · 1 · 4</td><td class=\"num\">117 · 15 · 32</td></tr><tr><td>Superficie de bloques (ha)</td><td class=\"num\">7,327.37</td><td class=\"num\">3,551.16</td><td class=\"num\">1,391.70</td><td class=\"num\">12,270.24</td></tr><tr><td>Superficie neta V8 (ha)</td><td class=\"num\">7,313.55</td><td class=\"num\">3,452.21</td><td class=\"num\">1,391.70</td><td class=\"num\">12,157.47</td></tr><tr><td>Centros poblados · población 2017</td><td class=\"num\">79 · 9,537</td><td class=\"num\">58 · 6,573</td><td class=\"num\">17 · 2,541</td><td class=\"num\">154 · 18,651</td></tr><tr><td>Altitud media (msnm) · pendiente media (%, DEM GLO-30)</td><td class=\"num\">498 · 34.7</td><td class=\"num\">1,317 · 49.0</td><td class=\"num\">1,420 · 57.5</td><td class=\"num\">840 · 41.4</td></tr><tr><td>Peligro integrado alto + muy alto (ha · %)</td><td class=\"num\">5,335.20 · 72.8</td><td class=\"num\">2,353.73 · 66.3</td><td class=\"num\">782.64 · 56.2</td><td class=\"num\">8,471.57 · 69.0</td></tr><tr><td>Índice de peligro integrado</td><td class=\"num\">4.020</td><td class=\"num\">3.898</td><td class=\"num\">3.580</td><td class=\"num\">3.935</td></tr><tr><td>Peligro por movimientos en masa alto + muy alto en bloques (EVAR, %)</td><td class=\"num\">90.7</td><td class=\"num\">98.2</td><td class=\"num\">99.4</td><td class=\"num\">93.9</td></tr><tr><td>Riesgo alto + muy alto en áreas de influencia (EVAR, %)</td><td class=\"num\">28.9</td><td class=\"num\">80.0</td><td class=\"num\">90.9</td><td class=\"num\">42.0</td></tr><tr><td>Bajo el umbral MSAVI, criterio areal E6 (ha · %)</td><td class=\"num\">6,216.63 · 84.8</td><td class=\"num\">1,599.99 · 45.1</td><td class=\"num\">525.21 · 37.7</td><td class=\"num\">8,341.83 · 68.0</td></tr><tr><td>MSAVI medio ponderado</td><td class=\"num\">0.379</td><td class=\"num\">0.508</td><td class=\"num\">0.548</td><td class=\"num\">0.435</td></tr><tr><td>Bloques en estado moderado o severo (E6)</td><td class=\"num\">14</td><td class=\"num\">6</td><td class=\"num\">0</td><td class=\"num\">20</td></tr><tr><td>Cárcavas registradas (n · km)</td><td class=\"num\">39 · 18.02</td><td class=\"num\">9 · 3.90</td><td class=\"num\">7 · 1.15</td><td class=\"num\">55 · 23.08</td></tr><tr><td>Lluvia (mm/año) · índice de aridez</td><td class=\"num\">543 · 0.31</td><td class=\"num\">541 · 0.38</td><td class=\"num\">557 · 0.39</td><td class=\"num\">544 · 0.34</td></tr><tr><td>Lluvia en años El Niño frente a la media</td><td class=\"num\">×3.0–3.8 (hasta ×6.1)</td><td class=\"num\">×2.0–2.7 (×3.3 en bosque seco)</td><td class=\"num\">×2.7–4.9</td><td class=\"num\">×2 a ×6</td></tr><tr><td>Superficie sin registro predial (%)</td><td class=\"num\">71.8</td><td class=\"num\">71.0</td><td class=\"num\">16.1 (83.9 % comunal)</td><td class=\"num\">—</td></tr><tr><td>Localidades con comité de recursos naturales</td><td class=\"num\">2 de 56</td><td class=\"num\">3 de 22</td><td class=\"num\">0 de 7</td><td class=\"num\">5 de 85</td></tr><tr><td>Localidades con alerta temprana formal</td><td class=\"num\">0</td><td class=\"num\">0</td><td class=\"num\">0</td><td class=\"num\">0</td></tr></tbody></table></div>\n</section>\n\n<section>\n  <h2>Matriz de consistencia del árbol unificado</h2>\n  <p class=\"nota\">Cada causa directa e indirecta, dónde se presenta, cómo se lee en el análisis de riesgo y qué componente del proyecto la atiende. Es la base para el árbol de medios y fines del capítulo de Identificación.</p>\n  <div class=\"tabla-scroll\"><table><thead><tr><th>Código</th><th>Causa</th><th>Provincias</th><th>Lectura AdR-CCC</th><th>Componente que la atiende</th></tr></thead><tbody><tr><td style=\"font-family:var(--mono)\"><b>CD1</b></td><td><b>Degradación de la cobertura vegetal protectora en las zonas de origen</b></td><td><span class=\"pv M d3\" title=\"Morropón\">M···</span><span class=\"pv H d2\" title=\"Huancabamba\">H··</span><span class=\"pv A d2\" title=\"Ayabaca\">A··</span></td><td>Peligro · factor condicionante modificable (cobertura, suelo, drenaje)</td><td>Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales.</td></tr><tr><td style=\"font-family:var(--mono)\">CI1.1</td><td>Sobrepastoreo caprino y vacuno sin manejo, que impide la regeneración natural</td><td><span class=\"pv M d3\" title=\"Morropón\">M···</span><span class=\"pv H d3\" title=\"Huancabamba\">H···</span><span class=\"pv A d2\" title=\"Ayabaca\">A··</span></td><td>Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)</td><td>Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos.</td></tr><tr><td style=\"font-family:var(--mono)\">CI1.2</td><td>Tala y extracción selectiva de madera y leña de especies nativas, incluidas especies en peligro crítico</td><td><span class=\"pv M d3\" title=\"Morropón\">M···</span><span class=\"pv H d2\" title=\"Huancabamba\">H··</span><span class=\"pv A d2\" title=\"Ayabaca\">A··</span></td><td>Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)</td><td>Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales.</td></tr><tr><td style=\"font-family:var(--mono)\">CI1.3</td><td>Expansión de la agricultura y de la ocupación hacia laderas de fuerte pendiente y cauces</td><td><span class=\"pv M d2\" title=\"Morropón\">M··</span><span class=\"pv H d3\" title=\"Huancabamba\">H···</span><span class=\"pv A d3\" title=\"Ayabaca\">A···</span></td><td>Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)</td><td>Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales.</td></tr><tr><td style=\"font-family:var(--mono)\">CI1.4</td><td>Baja capacidad de regeneración natural por aridez, sequías recurrentes, quemas y especies exóticas</td><td><span class=\"pv M d3\" title=\"Morropón\">M···</span><span class=\"pv H d2\" title=\"Huancabamba\">H··</span><span class=\"pv A d2\" title=\"Ayabaca\">A··</span></td><td>Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)</td><td>Línea 1 · Infraestructura natural (verde): revegetación y reforestación con especies nativas; viveros permanentes y temporales.</td></tr><tr><td style=\"font-family:var(--mono)\"><b>CD2</b></td><td><b>Reducida capacidad de los suelos y laderas para controlar la erosión y la escorrentía</b></td><td><span class=\"pv M d3\" title=\"Morropón\">M···</span><span class=\"pv H d3\" title=\"Huancabamba\">H···</span><span class=\"pv A d2\" title=\"Ayabaca\">A··</span></td><td>Peligro · factor condicionante modificable (cobertura, suelo, drenaje)</td><td>Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos.</td></tr><tr><td style=\"font-family:var(--mono)\">CI2.1</td><td>Trochas, vías y canteras con cortes de talud sin drenaje ni estabilización</td><td><span class=\"pv M d2\" title=\"Morropón\">M··</span><span class=\"pv H d3\" title=\"Huancabamba\">H···</span><span class=\"pv A d3\" title=\"Ayabaca\">A···</span></td><td>Peligro · factor condicionante modificable (cobertura, suelo, drenaje)</td><td>Línea 2.1 · Obras complementarias: estabilización de taludes, muros y gaviones, diques en quebradas, drenaje y control de escorrentía (coordinadas con el titular de la vía cuando corresponda).</td></tr><tr><td style=\"font-family:var(--mono)\">CI2.2</td><td>Laderas cultivadas sin prácticas de conservación de suelos y cárcavas activas sin control</td><td><span class=\"pv M d3\" title=\"Morropón\">M···</span><span class=\"pv H d2\" title=\"Huancabamba\">H··</span><span class=\"pv A d2\" title=\"Ayabaca\">A··</span></td><td>Peligro · factor condicionante modificable (cobertura, suelo, drenaje)</td><td>Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos.</td></tr><tr><td style=\"font-family:var(--mono)\">CI2.3</td><td>Pisoteo del ganado y senderos que compactan suelos someros y concentran la escorrentía</td><td><span class=\"pv M d3\" title=\"Morropón\">M···</span><span class=\"pv H d2\" title=\"Huancabamba\">H··</span><span class=\"pv A d1\" title=\"Ayabaca\">A·</span></td><td>Peligro · factor condicionante modificable (cobertura, suelo, drenaje)</td><td>Línea 2 · Infraestructura marrón: zanjas de infiltración, terrazas de formación lenta, diques para control de cárcavas, clausura temporal y manejo de pastizales, barreras y cercos vivos.</td></tr><tr><td style=\"font-family:var(--mono)\"><b>CD3</b></td><td><b>Inadecuada gobernanza y gestión local del ecosistema y del riesgo</b></td><td><span class=\"pv M d3\" title=\"Morropón\">M···</span><span class=\"pv H d3\" title=\"Huancabamba\">H···</span><span class=\"pv A d3\" title=\"Ayabaca\">A···</span></td><td>Vulnerabilidad · baja resiliencia (capacidad de organización, gestión y respuesta)</td><td>Línea 3 · Gobernanza y gestión comunitaria: planes de manejo comunitario, fortalecimiento de capacidades en GdR, alerta temprana comunitaria y MERESE.</td></tr><tr><td style=\"font-family:var(--mono)\">CI3.1</td><td>Limitado conocimiento y organización de las comunidades locales para el manejo del ecosistema, la adaptación al cambio climático y la gestión del riesgo</td><td><span class=\"pv M d3\" title=\"Morropón\">M···</span><span class=\"pv H d3\" title=\"Huancabamba\">H···</span><span class=\"pv A d3\" title=\"Ayabaca\">A···</span></td><td>Vulnerabilidad · baja resiliencia (capacidad de organización, gestión y respuesta)</td><td>Línea 3 · Gobernanza y gestión comunitaria: planes de manejo comunitario, fortalecimiento de capacidades en GdR, alerta temprana comunitaria y MERESE.</td></tr><tr><td style=\"font-family:var(--mono)\">CI3.2</td><td>Limitada gobernanza de las entidades públicas y privadas: sin concertación, con escasa presencia institucional y desconfianza por intervenciones incumplidas</td><td><span class=\"pv M d3\" title=\"Morropón\">M···</span><span class=\"pv H d3\" title=\"Huancabamba\">H···</span><span class=\"pv A d2\" title=\"Ayabaca\">A··</span></td><td>Vulnerabilidad · baja resiliencia (capacidad de organización, gestión y respuesta)</td><td>Línea 3 · Gobernanza y gestión comunitaria: planes de manejo comunitario, fortalecimiento de capacidades en GdR, alerta temprana comunitaria y MERESE.</td></tr><tr><td style=\"font-family:var(--mono)\">CI3.3</td><td>Tenencia de la tierra sin sanear: tierras sin registro, posesión informal y conflictos de linderos</td><td><span class=\"pv M d3\" title=\"Morropón\">M···</span><span class=\"pv H d3\" title=\"Huancabamba\">H···</span><span class=\"pv A d2\" title=\"Ayabaca\">A··</span></td><td>Vulnerabilidad · fragilidad (prácticas y condiciones que debilitan al ecosistema y a la población)</td><td>Línea 3 · Gobernanza: acuerdos de uso y actas de libre disponibilidad, tamizaje predial y mesa de diálogo previa a fijar metas en áreas en disputa.</td></tr></tbody></table></div>\n</section>\n\n<section>\n  <h2>Ajustes frente a la propuesta preliminar del E7 (corte 03-oct-2026)</h2>\n  <ul>\n    <li><b>Problema central.</b> Decía «servicios ecosistémicos de regulación de riesgos naturales y de regulación hídrica». Ahora se limita a la regulación de riesgos naturales y adopta la forma del modelo ANIN: la población no accede adecuadamente al servicio por la degradación de los ecosistemas en las zonas de origen.</li>\n    <li><b>Efecto directo 3.</b> «Menor infiltración y regulación hídrica» pasa a «Mayor escorrentía torrencial y transporte de sedimentos», que es la dimensión de zona generadora de inundaciones del peligro integrado.</li>\n    <li><b>Causa directa 2.</b> «Uso del suelo y de las vías que acelera la erosión» era en realidad un conjunto de causas. Ahora describe el estado del suelo y de las laderas, y las vías, el pisoteo y la falta de conservación pasan a ser sus causas indirectas.</li>\n    <li><b>Pastoreo.</b> Su efecto principal es impedir la regeneración (CD1). El pisoteo y los senderos que concentran escorrentía quedan en CD2, porque son otro mecanismo con su propia medida.</li>\n    <li><b>Gobernanza.</b> Se alinea con las dos causas del modelo ANIN (conocimiento y organización comunal; gobernanza de entidades públicas y privadas) y se agrega la tenencia sin sanear, que condiciona la libre disponibilidad.</li>\n    <li><b>Efecto final.</b> Se adopta el del modelo ANIN (costos de reconstrucción y resiliencia), que conecta con la valoración de beneficios por costos evitados.</li>\n    <li><b>Factores exógenos.</b> Pendiente, litología, El Niño y cambio climático se muestran a los lados del problema y fuera de la cadena causal, porque el proyecto no puede modificarlos.</li>\n  </ul>\n</section>\n\n<section>\n  <h2>Pendientes para cerrar los árboles</h2>\n  <ul>\n    <li><span class=\"pend\">[POR DEFINIR]</span> Criterio oficial de la línea base de brecha. El Avance del 28-oct propone el criterio areal E6 (8,341.83 ha; 68.0 %), que es el que usan estos árboles. Las Matrices E2 B2 usan la media de bloque (7,805.23 ha; 64.2 %).</li>\n    <li><span class=\"pend\">[POR DEFINIR]</span> Peligro por componente (movimientos en masa, erosión y potencial generador de inundaciones) modelado por bloque. Hoy solo existe el peligro integrado y la calificación cualitativa de campo.</li>\n    <li><span class=\"pend\">[POR DEFINIR]</span> Inventario de daños por evento (El Niño 1983, 1998, 2017 y Yaku 2023) con SIGRID e INDECI, y valoración de pérdidas para el efecto final.</li>\n    <li><span class=\"pend\">[POR DEFINIR]</span> Delimitación de la población y los elementos expuestos aguas abajo (80 bloques «por delimitar») y cuantificación de sedimentos con el E4.</li>\n    <li><span class=\"pend\">[POR DEFINIR]</span> Laboratorio de suelos (materia orgánica, textura, pH, factor K), carga ganadera y frecuencia de quemas.</li>\n    <li><span class=\"pend\">[POR DEFINIR]</span> Pobreza, NBI y PEA; fichas F-DS-04, 05 y 07; F-DS-03 y 06 en Ayabaca; fichas sociales en Huarmaca (21 bloques con 3 fichas).</li>\n    <li><span class=\"pend\">[POR DEFINIR]</span> Escenarios de cambio climático en el EVAR (hoy usa un desencadenante fijo).</li>\n  </ul>\n</section>\n\n<section>\n  <h2>Marco normativo y metodológico</h2>\n  <ul>\n    <li>Sistema Nacional de Programación Multianual y Gestión de Inversiones (Invierte.pe): Directiva N° 001-2019-EF/63.01 y Guía General para la identificación, formulación y evaluación de proyectos (DGPMI-MEF), con su anexo de gestión del riesgo de desastres en contexto de cambio climático.</li>\n    <li>RM N° 178-2019-MINAM, lineamientos para proyectos en ecosistemas; RM N° 00213-2024-MINAM, indicador de brecha y Formato 04-A (definición del servicio ecosistémico de regulación de riesgos naturales).</li>\n    <li>ANIN: contenidos mínimos del E7 (ZZ-000005, Figuras 2 y 3), del capítulo de Identificación (ZZ-000006) y de Formulación (ZZ-000007); Nota Técnica de meso y microlocalización de infraestructura natural.</li>\n    <li>CENEPRED, Manual para la evaluación de riesgos originados por fenómenos naturales (versión 2): peligro como combinación de factores condicionantes y desencadenantes; vulnerabilidad como exposición, fragilidad y resiliencia.</li>\n    <li>Metodología complementaria: árbol de problemas del Marco Lógico (CEPAL-ILPES), enfoque de servicios ecosistémicos y triangulación de evidencia territorial, social y de modelamiento.</li>\n  </ul>\n  <p class=\"nota\">Las citas de normas y guías se tomaron de los documentos del proyecto en Drive. La Guía General DGPMI no está en la carpeta del proyecto: conviene confirmar sus numerales antes de citarlos en el informe.</p>\n</section>\n\n<section>\n  <h2>Archivos editables</h2>\n  <p>Los cuatro árboles están en versión editable en el repositorio del proyecto, carpeta <code>arboles_problemas/</code>:</p>\n  <ul>\n    <li><b>Arboles_Problemas_IN_Piura.pptx</b>: PowerPoint en lámina A3 horizontal, un árbol por lámina. Cajas y conectores nativos: al mover una caja, sus flechas la siguen. El sustento de cada árbol está en las notas de la lámina.</li>\n    <li><b>Arboles_Problemas_IN_Piura.drawio</b>: diagrama para diagrams.net (gratuito, en línea o de escritorio), una página por árbol. También se importa en Visio y Lucidchart.</li>\n    <li><b>arboles_IN_Piura.json</b> y <b>contenido_arboles.py</b>: el contenido con su evidencia; <b>construir.py</b> regenera todos los formatos si se cambia un texto.</li>\n  </ul>\n</section>\n"
+}
