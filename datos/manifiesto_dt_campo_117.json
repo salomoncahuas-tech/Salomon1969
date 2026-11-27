@@ -1,0 +1,1769 @@
+{
+ "proyecto": "IN Piura - Recuperacion del servicio de regulacion de riesgos naturales y de ecosistemas degradados en la Cuenca Alta del Rio Piura",
+ "cui": "2669244",
+ "entidad": "ANIN - DIME - SESDI",
+ "documento": "Plantilla DT Campo Check Validada V5 - fichas F-DT-01 a F-DT-05",
+ "carpeta_drive": "Plantillas Excel FDT actualizadas",
+ "carpeta_drive_id": "1ihFqVxhgWIdT8uk88nAKWdJRnsWk_6xD",
+ "carpeta_drive_url": "https://drive.google.com/drive/folders/1ihFqVxhgWIdT8uk88nAKWdJRnsWk_6xD",
+ "carpeta_repositorio": "plantillas_dt_campo",
+ "total_bloques": 117,
+ "version": "F-DT actualizadas - verificacion de campo vigente",
+ "bloques": [
+  {
+   "codigo": "2",
+   "archivo": "Plantilla_DT_Campo_Bloque2_IN_Piura_V5.xlsx",
+   "drive_id": "1N97np6gEnFAtJv2ykgg2SRfx66Y81aEL",
+   "drive_url": "https://drive.google.com/file/d/1N97np6gEnFAtJv2ykgg2SRfx66Y81aEL/view?usp=drivesdk",
+   "tamano_bytes": 51026,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "3",
+   "archivo": "Plantilla_DT_Campo_Bloque3_IN_Piura.xlsx",
+   "drive_id": "1y7zoNxZ2xbK-5Tcwe0Px21FVbm1HmVF5",
+   "drive_url": "https://drive.google.com/file/d/1y7zoNxZ2xbK-5Tcwe0Px21FVbm1HmVF5/view?usp=drivesdk",
+   "tamano_bytes": 49036,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "4",
+   "archivo": "Plantilla_DT_Campo_Bloque4_IN_Piura.xlsx",
+   "drive_id": "147d6y3Qkv8kJBVncsjSSOh9cZtXjNeSi",
+   "drive_url": "https://drive.google.com/file/d/147d6y3Qkv8kJBVncsjSSOh9cZtXjNeSi/view?usp=drivesdk",
+   "tamano_bytes": 63289,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "5",
+   "archivo": "Plantilla_DT_M_C1077Q9566_B5_Buenos_Aires.xlsx",
+   "drive_id": "113p4xiRq-MWPGB6xsJue0IuRlJnBNIF0",
+   "drive_url": "https://drive.google.com/file/d/113p4xiRq-MWPGB6xsJue0IuRlJnBNIF0/view?usp=drivesdk",
+   "tamano_bytes": 50792,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "6",
+   "archivo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque6.xlsx",
+   "drive_id": "12vEe-TlFOfT6mAIyBSggdeQiOz3_EIiE",
+   "drive_url": "https://drive.google.com/file/d/12vEe-TlFOfT6mAIyBSggdeQiOz3_EIiE/view?usp=drivesdk",
+   "tamano_bytes": 49590,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "8",
+   "archivo": "Plantilla_DT_Campo_Bloque8_IN_Piura_rev_hscm.xlsx",
+   "drive_id": "1k-oRBbgl2IJvwIAo3VQ_LfS6-8lcNSQf",
+   "drive_url": "https://drive.google.com/file/d/1k-oRBbgl2IJvwIAo3VQ_LfS6-8lcNSQf/view?usp=drivesdk",
+   "tamano_bytes": 51877,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 82.1
+  },
+  {
+   "codigo": "9",
+   "archivo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque9_IN_Piura.xlsx",
+   "drive_id": "17fenm8bOY3-6Aqa0QFfUy82MvtGfaFvf",
+   "drive_url": "https://drive.google.com/file/d/17fenm8bOY3-6Aqa0QFfUy82MvtGfaFvf/view?usp=drivesdk",
+   "tamano_bytes": 59725,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "10",
+   "archivo": "Plantilla_DT_Campo_Bloque10_IN_Piura.xlsx",
+   "drive_id": "1WdWdidCb1ZKPUygj9bEww4JwnHfHomsw",
+   "drive_url": "https://drive.google.com/file/d/1WdWdidCb1ZKPUygj9bEww4JwnHfHomsw/view?usp=drivesdk",
+   "tamano_bytes": 48063,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 75.0
+  },
+  {
+   "codigo": "11",
+   "archivo": "FDT_Bloque11_Diagnostico_Territorial.xlsx",
+   "drive_id": "1F9ivXSJ0h5hPghkqpr78CeP2aegvsP0w",
+   "drive_url": "https://drive.google.com/file/d/1F9ivXSJ0h5hPghkqpr78CeP2aegvsP0w/view?usp=drivesdk",
+   "tamano_bytes": 44945,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "12",
+   "archivo": "Plantilla_DT_Campo_Bloque12_Validada.xlsx",
+   "drive_id": "1Y_t7PvL6Y3KWPmMboBT_qTcqPsG6gve-",
+   "drive_url": "https://drive.google.com/file/d/1Y_t7PvL6Y3KWPmMboBT_qTcqPsG6gve-/view?usp=drivesdk",
+   "tamano_bytes": 45467,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "13",
+   "archivo": "DT_B13_IN_Piura.xlsx",
+   "drive_id": "1rjkeBqs0h8m4-zwA1ZeJUHlJJNybAVH8",
+   "drive_url": "https://drive.google.com/file/d/1rjkeBqs0h8m4-zwA1ZeJUHlJJNybAVH8/view?usp=drivesdk",
+   "tamano_bytes": 50032,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "14",
+   "archivo": "Plantilla_DT_Bloque14_LLENADA.xlsx",
+   "drive_id": "1i0b5ZbPeUfbLP2q6zwM_FHSrj6_cWi7H",
+   "drive_url": "https://drive.google.com/file/d/1i0b5ZbPeUfbLP2q6zwM_FHSrj6_cWi7H/view?usp=drivesdk",
+   "tamano_bytes": 45838,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "15",
+   "archivo": "FDT_B15_Diagnostico_Territorial.xlsx",
+   "drive_id": "1ZL1CXquRnb6KNdrFvpu5PxKtr0lSgWdI",
+   "drive_url": "https://drive.google.com/file/d/1ZL1CXquRnb6KNdrFvpu5PxKtr0lSgWdI/view?usp=drivesdk",
+   "tamano_bytes": 49880,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "16",
+   "archivo": "Plantilla_DT_Campo_Bloque16_IN_Piura.xlsx",
+   "drive_id": "1kjDKEevERnqOnAU-dUUvL1re2ERHbl_V",
+   "drive_url": "https://drive.google.com/file/d/1kjDKEevERnqOnAU-dUUvL1re2ERHbl_V/view?usp=drivesdk",
+   "tamano_bytes": 47812,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 75.0
+  },
+  {
+   "codigo": "17",
+   "archivo": "FDT_B17_Diagnostico_Territorial.xlsx",
+   "drive_id": "13EYjzTnlb2QHvfZVOElrsFs_n7vV5nGB",
+   "drive_url": "https://drive.google.com/file/d/13EYjzTnlb2QHvfZVOElrsFs_n7vV5nGB/view?usp=drivesdk",
+   "tamano_bytes": 46519,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "18",
+   "archivo": "Plantilla_DT_Campo_Bloque18_IN_Piura.xlsx",
+   "drive_id": "1qi3Vzd5JNYMQQgE5WgyRRNXwfv3PhYCU",
+   "drive_url": "https://drive.google.com/file/d/1qi3Vzd5JNYMQQgE5WgyRRNXwfv3PhYCU/view?usp=drivesdk",
+   "tamano_bytes": 44505,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "19",
+   "archivo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque19_IN_Piura.xlsx",
+   "drive_id": "1GiCiDMNgHILhqUa-_qpjGVoOWmMBrbc1",
+   "drive_url": "https://drive.google.com/file/d/1GiCiDMNgHILhqUa-_qpjGVoOWmMBrbc1/view?usp=drivesdk",
+   "tamano_bytes": 48310,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "20",
+   "archivo": "Plantilla_DT_Campo_Bloque20_IN_Piura_V5.xlsx",
+   "drive_id": "1PpS--g7H5qbrfKz9UwGmxnrof00KJB2R",
+   "drive_url": "https://drive.google.com/file/d/1PpS--g7H5qbrfKz9UwGmxnrof00KJB2R/view?usp=drivesdk",
+   "tamano_bytes": 50953,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 82.1
+  },
+  {
+   "codigo": "21",
+   "archivo": "Plantilla_DT_Campo_Bloque21_IN_Piura.xlsx",
+   "drive_id": "17vfzROWXZdvVqPOreqQxwg2MOd5FdDaU",
+   "drive_url": "https://drive.google.com/file/d/17vfzROWXZdvVqPOreqQxwg2MOd5FdDaU/view?usp=drivesdk",
+   "tamano_bytes": 50293,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "22",
+   "archivo": "FDT_Bloque22_IN_Piura_V5_19Ago.xlsx",
+   "drive_id": "1ORXjtNIP73CnHE0qRXzeX0RLPdF9K-Zb",
+   "drive_url": "https://drive.google.com/file/d/1ORXjtNIP73CnHE0qRXzeX0RLPdF9K-Zb/view?usp=drivesdk",
+   "tamano_bytes": 45950,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "23",
+   "archivo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque23.xlsx",
+   "drive_id": "1_vkvKibpd0vYd8T3qENBc5bJc1augsxE",
+   "drive_url": "https://drive.google.com/file/d/1_vkvKibpd0vYd8T3qENBc5bJc1augsxE/view?usp=drivesdk",
+   "tamano_bytes": 27836,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 39.3
+  },
+  {
+   "codigo": "24",
+   "archivo": "Plantilla_DT_Campo_Bloque24_IN_Piura.xlsx",
+   "drive_id": "1XDRMhzwCAcNOc1Gg5cIKDY9iNATOlB5c",
+   "drive_url": "https://drive.google.com/file/d/1XDRMhzwCAcNOc1Gg5cIKDY9iNATOlB5c/view?usp=drivesdk",
+   "tamano_bytes": 53852,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "26",
+   "archivo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque26.xlsx",
+   "drive_id": "1OIfpZceOK0IBIp5CKnsSxt-IRl93QcSl",
+   "drive_url": "https://drive.google.com/file/d/1OIfpZceOK0IBIp5CKnsSxt-IRl93QcSl/view?usp=drivesdk",
+   "tamano_bytes": 48773,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "27",
+   "archivo": "Plantilla_DT_Campo_Check_V5_Bloque27_IN_Piura.xlsx",
+   "drive_id": "1v3njgOODbtMCaV1oT8MBu6UqbMaY0uvV",
+   "drive_url": "https://drive.google.com/file/d/1v3njgOODbtMCaV1oT8MBu6UqbMaY0uvV/view?usp=drivesdk",
+   "tamano_bytes": 51944,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 85.7
+  },
+  {
+   "codigo": "28",
+   "archivo": "Plantilla_DT_Campo_Bloque28_IN_Piura_rev_hscm.xlsx",
+   "drive_id": "1vGPr5fVgjT6XTBe_l4A5AFHJve5cmoAS",
+   "drive_url": "https://drive.google.com/file/d/1vGPr5fVgjT6XTBe_l4A5AFHJve5cmoAS/view?usp=drivesdk",
+   "tamano_bytes": 53664,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "30",
+   "archivo": "Plantilla_DT_Campo_Bloque30_IN_Piura_rev_hscm.xlsx",
+   "drive_id": "1VQ7fh7CPJj1g2YWOIpCFuh2o4FMVIVJX",
+   "drive_url": "https://drive.google.com/file/d/1VQ7fh7CPJj1g2YWOIpCFuh2o4FMVIVJX/view?usp=drivesdk",
+   "tamano_bytes": 53872,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "31",
+   "archivo": "Plantilla_DT_Campo_Bloque31_IN_Piura.xlsx",
+   "drive_id": "1yOD4f1x2qPBtqZuwULVPKYB6hZ_Xt3fh",
+   "drive_url": "https://drive.google.com/file/d/1yOD4f1x2qPBtqZuwULVPKYB6hZ_Xt3fh/view?usp=drivesdk",
+   "tamano_bytes": 58047,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "34",
+   "archivo": "Plantilla_DT_Campo_V5_Bloque34_IN_Piura.xlsx",
+   "drive_id": "1yQroGRvwb8GnZt-214K_QMVuQqmuXrFz",
+   "drive_url": "https://drive.google.com/file/d/1yQroGRvwb8GnZt-214K_QMVuQqmuXrFz/view?usp=drivesdk",
+   "tamano_bytes": 50029,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "35",
+   "archivo": "Plantilla_DT_Campo_V5_Bloque35_IN_Piura.xlsx",
+   "drive_id": "1f04b0PElmIGwPTkNMl4daMMtKdgKN7Fh",
+   "drive_url": "https://drive.google.com/file/d/1f04b0PElmIGwPTkNMl4daMMtKdgKN7Fh/view?usp=drivesdk",
+   "tamano_bytes": 51349,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "36",
+   "archivo": "DT_Campo_Bloque36_V5.xlsx",
+   "drive_id": "1-qVXOJ2c55Os1GWUdBZC4norTSnOMqUD",
+   "drive_url": "https://drive.google.com/file/d/1-qVXOJ2c55Os1GWUdBZC4norTSnOMqUD/view?usp=drivesdk",
+   "tamano_bytes": 48630,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "37",
+   "archivo": "Plantilla_DT_Campo_Bloque37_V5.xlsx",
+   "drive_id": "1uRy4jqi6Y3I8P5RE1KtrFzgWl5pdWlYu",
+   "drive_url": "https://drive.google.com/file/d/1uRy4jqi6Y3I8P5RE1KtrFzgWl5pdWlYu/view?usp=drivesdk",
+   "tamano_bytes": 48778,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "38",
+   "archivo": "Plantilla_DT_Campo_Bloque38_IN_Piura.xlsx",
+   "drive_id": "1QggRnvONIlDV_XD7PhTqVA-Hwzss4xP0",
+   "drive_url": "https://drive.google.com/file/d/1QggRnvONIlDV_XD7PhTqVA-Hwzss4xP0/view?usp=drivesdk",
+   "tamano_bytes": 52179,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "39",
+   "archivo": "Plantilla_DT_Campo_Bloque39_IN_Piura.xlsx",
+   "drive_id": "1XR3k6hlEoW8yRP1cYBv8FQTf5PGuqXNM",
+   "drive_url": "https://drive.google.com/file/d/1XR3k6hlEoW8yRP1cYBv8FQTf5PGuqXNM/view?usp=drivesdk",
+   "tamano_bytes": 62823,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "40",
+   "archivo": "Plantilla_DT_Campo_Bloque40_IN_Piura_rev_hscm.xlsx",
+   "drive_id": "16BKZE7MUIDMivgE32F-aIyE3t3lux7tT",
+   "drive_url": "https://drive.google.com/file/d/16BKZE7MUIDMivgE32F-aIyE3t3lux7tT/view?usp=drivesdk",
+   "tamano_bytes": 53777,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "41",
+   "archivo": "Plantilla_DT_Campo_Bloque41_IN_Piura.xlsx",
+   "drive_id": "1HkMNvwVGnn9vbxgPCectVTOHdkKqHJ5x",
+   "drive_url": "https://drive.google.com/file/d/1HkMNvwVGnn9vbxgPCectVTOHdkKqHJ5x/view?usp=drivesdk",
+   "tamano_bytes": 60705,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "42",
+   "archivo": "Plantilla_DT_Bloque42_LLENADA.xlsx",
+   "drive_id": "1SLclpCangXZlgSAQ85u6FNmYW7CkJhV_",
+   "drive_url": "https://drive.google.com/file/d/1SLclpCangXZlgSAQ85u6FNmYW7CkJhV_/view?usp=drivesdk",
+   "tamano_bytes": 48554,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "43",
+   "archivo": "Plantilla_DT_Campo_B43_IN_Piura.xlsx",
+   "drive_id": "1WeA22vDXYGcP294ZyQBAsGMUBVj0oDTG",
+   "drive_url": "https://drive.google.com/file/d/1WeA22vDXYGcP294ZyQBAsGMUBVj0oDTG/view?usp=drivesdk",
+   "tamano_bytes": 49219,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "44",
+   "archivo": "DT_Campo_Bloque44_IN_Piura.xlsx",
+   "drive_id": "173O6D1Ox4V7UhCdZ5OFm35jTY_ypM6mV",
+   "drive_url": "https://drive.google.com/file/d/173O6D1Ox4V7UhCdZ5OFm35jTY_ypM6mV/view?usp=drivesdk",
+   "tamano_bytes": 49957,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "47",
+   "archivo": "Plantilla_DT_Campo_Bloque47_IN_Piura.xlsx",
+   "drive_id": "1EB8LiYAW7PgBBFs59Ql_pUhg5YPX15kK",
+   "drive_url": "https://drive.google.com/file/d/1EB8LiYAW7PgBBFs59Ql_pUhg5YPX15kK/view?usp=drivesdk",
+   "tamano_bytes": 54626,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "49",
+   "archivo": "FDT_B49_Diagnostico_Territorial.xlsx",
+   "drive_id": "1P2KP6414kfHsm5vhzfoMTKOJr3Dy-NyD",
+   "drive_url": "https://drive.google.com/file/d/1P2KP6414kfHsm5vhzfoMTKOJr3Dy-NyD/view?usp=drivesdk",
+   "tamano_bytes": 50936,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "50",
+   "archivo": "Plantilla_DT_Campo_Bloque50_V5.xlsx",
+   "drive_id": "1zFIX5Tpu9IwMZDCCSDrCzCmXoeT6WleQ",
+   "drive_url": "https://drive.google.com/file/d/1zFIX5Tpu9IwMZDCCSDrCzCmXoeT6WleQ/view?usp=drivesdk",
+   "tamano_bytes": 50921,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "51",
+   "archivo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque51_IN_Piura.xlsx",
+   "drive_id": "1hYhpJBJPr8DDn_N9ywIuDzTtQU4W9US2",
+   "drive_url": "https://drive.google.com/file/d/1hYhpJBJPr8DDn_N9ywIuDzTtQU4W9US2/view?usp=drivesdk",
+   "tamano_bytes": 59930,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "52",
+   "archivo": "FDT_B52_Diagnostico_Territorial.xlsx",
+   "drive_id": "1QRpHLWPQNPWZjGNj1axNtnghnuO7OCil",
+   "drive_url": "https://drive.google.com/file/d/1QRpHLWPQNPWZjGNj1axNtnghnuO7OCil/view?usp=drivesdk",
+   "tamano_bytes": 50445,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "53",
+   "archivo": "Plantilla_DT_Campo_Bloque53_IN_Piura.xlsx",
+   "drive_id": "1zPDz_FkUYHUiAnbi1hVaFywqT_PlLbVl",
+   "drive_url": "https://drive.google.com/file/d/1zPDz_FkUYHUiAnbi1hVaFywqT_PlLbVl/view?usp=drivesdk",
+   "tamano_bytes": 59944,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "55",
+   "archivo": "FDT_B55_Huacas_Yamango_Llenado.xlsx",
+   "drive_id": "1ADhR9uR0Vxkq05HSD66vv-J7ajrXCOXQ",
+   "drive_url": "https://drive.google.com/file/d/1ADhR9uR0Vxkq05HSD66vv-J7ajrXCOXQ/view?usp=drivesdk",
+   "tamano_bytes": 50325,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "56",
+   "archivo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque56.xlsx",
+   "drive_id": "1voWCJctY8L-lol4gCnrHlSIgZpmu2HZi",
+   "drive_url": "https://drive.google.com/file/d/1voWCJctY8L-lol4gCnrHlSIgZpmu2HZi/view?usp=drivesdk",
+   "tamano_bytes": 57215,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 71.4
+  },
+  {
+   "codigo": "57",
+   "archivo": "Plantilla_DT_Campo_Bloque57_V5.xlsx",
+   "drive_id": "1WpzsXs869bpE6Xa0VHbBBP0uwAD5yqUw",
+   "drive_url": "https://drive.google.com/file/d/1WpzsXs869bpE6Xa0VHbBBP0uwAD5yqUw/view?usp=drivesdk",
+   "tamano_bytes": 49083,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "58",
+   "archivo": "Plantilla_DT_Campo_Bloque58_IN_Piura.xlsx",
+   "drive_id": "1EbMqViiquz4T1puMBaZIbc1dzwNIzP9F",
+   "drive_url": "https://drive.google.com/file/d/1EbMqViiquz4T1puMBaZIbc1dzwNIzP9F/view?usp=drivesdk",
+   "tamano_bytes": 50994,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "59",
+   "archivo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque59.xlsx",
+   "drive_id": "1PD1y9z5TweOtaBQRRsY7e9XiTKNQIFMf",
+   "drive_url": "https://drive.google.com/file/d/1PD1y9z5TweOtaBQRRsY7e9XiTKNQIFMf/view?usp=drivesdk",
+   "tamano_bytes": 51243,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "60",
+   "archivo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque60.xlsx",
+   "drive_id": "1A9-mWvTbrV2Ag4oltTd9Cac7We01DyVP",
+   "drive_url": "https://drive.google.com/file/d/1A9-mWvTbrV2Ag4oltTd9Cac7We01DyVP/view?usp=drivesdk",
+   "tamano_bytes": 51106,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "61",
+   "archivo": "Plantilla_DT_Campo_Check_Validada_V5_Bloque61.xlsx",
+   "drive_id": "18bXyiMBteOJSQRGbbTVhzyfW6hYtGSqo",
+   "drive_url": "https://drive.google.com/file/d/18bXyiMBteOJSQRGbbTVhzyfW6hYtGSqo/view?usp=drivesdk",
+   "tamano_bytes": 47005,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "63",
+   "archivo": "Plantilla_DT_Campo_Bloque63_IN_Piura_rev_hscm.xlsx",
+   "drive_id": "1HgSsrbICG_quVbhgW0L-Fi1jysouJQ4u",
+   "drive_url": "https://drive.google.com/file/d/1HgSsrbICG_quVbhgW0L-Fi1jysouJQ4u/view?usp=drivesdk",
+   "tamano_bytes": 53827,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "64",
+   "archivo": "Plantilla_DT_Campo_Bloque64_IN_Piura.xlsx",
+   "drive_id": "1rfrRCqXlxAx29E8H4R3Ujg05jL4s6zeK",
+   "drive_url": "https://drive.google.com/file/d/1rfrRCqXlxAx29E8H4R3Ujg05jL4s6zeK/view?usp=drivesdk",
+   "tamano_bytes": 54592,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "66",
+   "archivo": "Plantilla_DT_Campo_Bloque66_IN_Piura.xlsx",
+   "drive_id": "15eWSB9ik-I_Pf3VsZEVTpQ1-EdwyN9vf",
+   "drive_url": "https://drive.google.com/file/d/15eWSB9ik-I_Pf3VsZEVTpQ1-EdwyN9vf/view?usp=drivesdk",
+   "tamano_bytes": 57840,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "67",
+   "archivo": "DT_Bloque67_V5.xlsx",
+   "drive_id": "1HKbXzDcxpp2qMWuUqyaA2oAdg1lomZnw",
+   "drive_url": "https://drive.google.com/file/d/1HKbXzDcxpp2qMWuUqyaA2oAdg1lomZnw/view?usp=drivesdk",
+   "tamano_bytes": 47882,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 53.6
+  },
+  {
+   "codigo": "69",
+   "archivo": "Plantilla_DT_Campo_Bloque69_IN_Piura.xlsx",
+   "drive_id": "1stwptMDdyQK4Z5hSSTWwIAq31ILNPT7i",
+   "drive_url": "https://drive.google.com/file/d/1stwptMDdyQK4Z5hSSTWwIAq31ILNPT7i/view?usp=drivesdk",
+   "tamano_bytes": 57984,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "70",
+   "archivo": "Plantilla_DT_Campo_Bloque70_IN_Piura.xlsx",
+   "drive_id": "1Q_MqRmAoHiWwLCOtFOkGy3OshnuuffZL",
+   "drive_url": "https://drive.google.com/file/d/1Q_MqRmAoHiWwLCOtFOkGy3OshnuuffZL/view?usp=drivesdk",
+   "tamano_bytes": 59689,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "71",
+   "archivo": "Plantilla_DT_Campo_Bloque71_IN_Piura.xlsx",
+   "drive_id": "18Kw6ux2DMUNkVrB8pgmbzVrHOhlc-DFc",
+   "drive_url": "https://drive.google.com/file/d/18Kw6ux2DMUNkVrB8pgmbzVrHOhlc-DFc/view?usp=drivesdk",
+   "tamano_bytes": 61759,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 82.1
+  },
+  {
+   "codigo": "72",
+   "archivo": "Plantilla_DT_Campo_Bloque72_IN_Piura_rev_hscm.xlsx",
+   "drive_id": "1ml0x9GKX5yivZ8MsB-_xpS93ZLga9Mbq",
+   "drive_url": "https://drive.google.com/file/d/1ml0x9GKX5yivZ8MsB-_xpS93ZLga9Mbq/view?usp=drivesdk",
+   "tamano_bytes": 51905,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "73",
+   "archivo": "Plantilla_DT_Campo_Bloque73_IN_Piura.xlsx",
+   "drive_id": "1Ztzujzg9Ti2nn8Da81BbO-TGcdUAP1ZO",
+   "drive_url": "https://drive.google.com/file/d/1Ztzujzg9Ti2nn8Da81BbO-TGcdUAP1ZO/view?usp=drivesdk",
+   "tamano_bytes": 50894,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "76",
+   "archivo": "Plantilla_DT_Campo_Bloque76_IN_Piura.xlsx",
+   "drive_id": "1eTMB_Ity2-R4jX_jzLrqO0XYZTliWlUN",
+   "drive_url": "https://drive.google.com/file/d/1eTMB_Ity2-R4jX_jzLrqO0XYZTliWlUN/view?usp=drivesdk",
+   "tamano_bytes": 54848,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 78.6
+  },
+  {
+   "codigo": "77",
+   "archivo": "Plantilla_DT_Campo_V5_Bloque77.xlsx",
+   "drive_id": "1eHP0HykqQ-5GnzOmX6wQAfriQb0Ov_vk",
+   "drive_url": "https://drive.google.com/file/d/1eHP0HykqQ-5GnzOmX6wQAfriQb0Ov_vk/view?usp=drivesdk",
+   "tamano_bytes": 47988,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "78",
+   "archivo": "Plantilla_DT_Campo_Bloque78_V5.xlsx",
+   "drive_id": "1e2Y2h6HFTN1nNwqdF8RU-KKYfYXCMxVM",
+   "drive_url": "https://drive.google.com/file/d/1e2Y2h6HFTN1nNwqdF8RU-KKYfYXCMxVM/view?usp=drivesdk",
+   "tamano_bytes": 45195,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "79",
+   "archivo": "Plantilla_DT_Campo_Bloque79_IN_Piura_rev_hscm.xlsx",
+   "drive_id": "1om_etfdEV6PgxU88LHw18h8BEPxdeBDv",
+   "drive_url": "https://drive.google.com/file/d/1om_etfdEV6PgxU88LHw18h8BEPxdeBDv/view?usp=drivesdk",
+   "tamano_bytes": 53937,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 82.1
+  },
+  {
+   "codigo": "80",
+   "archivo": "Plantilla_DT_Campo_Bloque80_IN_Piura.xlsx",
+   "drive_id": "1TDQKrJDuR6GHiGNxGDv4nOl96zpmlI2W",
+   "drive_url": "https://drive.google.com/file/d/1TDQKrJDuR6GHiGNxGDv4nOl96zpmlI2W/view?usp=drivesdk",
+   "tamano_bytes": 62182,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 85.7
+  },
+  {
+   "codigo": "81",
+   "archivo": "Plantilla_DT_Campo_B81_IN_Piura.xlsx",
+   "drive_id": "1hclUUepa9HnmhHJcm9N_9PTMQgDN0Zpn",
+   "drive_url": "https://drive.google.com/file/d/1hclUUepa9HnmhHJcm9N_9PTMQgDN0Zpn/view?usp=drivesdk",
+   "tamano_bytes": 44371,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "82",
+   "archivo": "Plantilla_DT_Campo_Check_Validada_V5 Bloque 82.xlsx",
+   "drive_id": "1Qe3dc9jwe6NFTwVJfk8y8hcQTHet5lPS",
+   "drive_url": "https://drive.google.com/file/d/1Qe3dc9jwe6NFTwVJfk8y8hcQTHet5lPS/view?usp=drivesdk",
+   "tamano_bytes": 61678,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "83",
+   "archivo": "FDT_V5_Bloque83_IN_Piura_rev_hscm.xlsx",
+   "drive_id": "1YKEZZV8lEmmmU7ifO2wF8bNvm2C9Gp0c",
+   "drive_url": "https://drive.google.com/file/d/1YKEZZV8lEmmmU7ifO2wF8bNvm2C9Gp0c/view?usp=drivesdk",
+   "tamano_bytes": 50229,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "84",
+   "archivo": "FDT_V5_Bloque84_IN_Piura_rev_hscm.xlsx",
+   "drive_id": "1uiHG1Py4L9xA_p6WvvZYbtJcwU7EjXLV",
+   "drive_url": "https://drive.google.com/file/d/1uiHG1Py4L9xA_p6WvvZYbtJcwU7EjXLV/view?usp=drivesdk",
+   "tamano_bytes": 50231,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "85",
+   "archivo": "Plantilla_DT_Campo_Bloque85_IN_Piura.xlsx",
+   "drive_id": "1Zn0adURzTCvzLu7mH2V1oSqqmBMnHe8J",
+   "drive_url": "https://drive.google.com/file/d/1Zn0adURzTCvzLu7mH2V1oSqqmBMnHe8J/view?usp=drivesdk",
+   "tamano_bytes": 52148,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "86",
+   "archivo": "Plantilla_DT_Campo_Bloque86_IN_Piura.xlsx",
+   "drive_id": "1SJPeqbpDEGJ-0Pe7oO7paGgWW6qmCQZi",
+   "drive_url": "https://drive.google.com/file/d/1SJPeqbpDEGJ-0Pe7oO7paGgWW6qmCQZi/view?usp=drivesdk",
+   "tamano_bytes": 52419,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "87",
+   "archivo": "FDT_V5_Bloque87_IN_Piura.xlsx",
+   "drive_id": "15pyceQDwfgD4WNh013IzF5gsGx3Ca271",
+   "drive_url": "https://drive.google.com/file/d/15pyceQDwfgD4WNh013IzF5gsGx3Ca271/view?usp=drivesdk",
+   "tamano_bytes": 52389,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 85.7
+  },
+  {
+   "codigo": "M1B1",
+   "archivo": "DT_M1B1_llenado.xlsx",
+   "drive_id": "1jSo8Hsk7JwlufL4IfWHZRaEA20sWOSDj",
+   "drive_url": "https://drive.google.com/file/d/1jSo8Hsk7JwlufL4IfWHZRaEA20sWOSDj/view?usp=drivesdk",
+   "tamano_bytes": 50651,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "M2B1",
+   "archivo": "Plantilla_DT_M2B1_Llenada.xlsx",
+   "drive_id": "172m87p-1jYMz1iOxSCB5fS_4zFrmAFxG",
+   "drive_url": "https://drive.google.com/file/d/172m87p-1jYMz1iOxSCB5fS_4zFrmAFxG/view?usp=drivesdk",
+   "tamano_bytes": 52635,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "M2B5",
+   "archivo": "Plantilla_DT_M2B5_Llenada.xlsx",
+   "drive_id": "1mUHYZqkpK7DrGIxZJLkSWf1qKJt868QR",
+   "drive_url": "https://drive.google.com/file/d/1mUHYZqkpK7DrGIxZJLkSWf1qKJt868QR/view?usp=drivesdk",
+   "tamano_bytes": 52302,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "M2B8",
+   "archivo": "Plantilla_DT_Campo_V5_Bloque_M2B8_IN_Piura_rev_hscm.xlsx",
+   "drive_id": "1m3GXqqeTRKwx427rLnAkBUxt4QuQUTu4",
+   "drive_url": "https://drive.google.com/file/d/1m3GXqqeTRKwx427rLnAkBUxt4QuQUTu4/view?usp=drivesdk",
+   "tamano_bytes": 53102,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "M3B1",
+   "archivo": "Plantilla_DT_M3B1_Llenada.xlsx",
+   "drive_id": "1zuEj1yRVqoiRlH0L_rW0bkoSESvZMPxv",
+   "drive_url": "https://drive.google.com/file/d/1zuEj1yRVqoiRlH0L_rW0bkoSESvZMPxv/view?usp=drivesdk",
+   "tamano_bytes": 51488,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "M3B3",
+   "archivo": "F-DT_M3B3_Prellenado.xlsx",
+   "drive_id": "1MPtS1UjfCdC4n-CS6MpAR8IHV3Oc9hfN",
+   "drive_url": "https://drive.google.com/file/d/1MPtS1UjfCdC4n-CS6MpAR8IHV3Oc9hfN/view?usp=drivesdk",
+   "tamano_bytes": 51318,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "M3B5",
+   "archivo": "Plantilla_DT_Campo_Check_Validada_V5_M3B5.xlsx",
+   "drive_id": "13pSPGA4Nb-RD3MgYZr0Eq6iGEwDooxcO",
+   "drive_url": "https://drive.google.com/file/d/13pSPGA4Nb-RD3MgYZr0Eq6iGEwDooxcO/view?usp=drivesdk",
+   "tamano_bytes": 48320,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "M3B6",
+   "archivo": "Plantilla_DT_Campo_V5_BloqueM3B6.xlsx",
+   "drive_id": "1VdXI7IDwKHDl4pPYbGpbBdboR64gp7j9",
+   "drive_url": "https://drive.google.com/file/d/1VdXI7IDwKHDl4pPYbGpbBdboR64gp7j9/view?usp=drivesdk",
+   "tamano_bytes": 48220,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "M3B7",
+   "archivo": "Plantilla_DT_Campo_V5_BloqueM3B7.xlsx",
+   "drive_id": "1EpFKJ2f4Ht6z08SGimKKGIxCjkDkSBIJ",
+   "drive_url": "https://drive.google.com/file/d/1EpFKJ2f4Ht6z08SGimKKGIxCjkDkSBIJ/view?usp=drivesdk",
+   "tamano_bytes": 48415,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "M3B8",
+   "archivo": "DT_M3B8_IN_Piura.xlsx",
+   "drive_id": "1EZ-trai65tBqv1IqTUutc7fLR-rWxU9A",
+   "drive_url": "https://drive.google.com/file/d/1EZ-trai65tBqv1IqTUutc7fLR-rWxU9A/view?usp=drivesdk",
+   "tamano_bytes": 50408,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "M3B9",
+   "archivo": "FDT_M3B9_Diagnostico_Territorial.xlsx",
+   "drive_id": "1RmiRnWoP_Xtvi1o1822nm7Lxge9UTdgI",
+   "drive_url": "https://drive.google.com/file/d/1RmiRnWoP_Xtvi1o1822nm7Lxge9UTdgI/view?usp=drivesdk",
+   "tamano_bytes": 48637,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "M4B3",
+   "archivo": "Plantilla_DT_Campo_V5_Bloque_M4B3_IN_Piura.xlsx",
+   "drive_id": "1l3okWDtVTw5JIjCnQcOA5ID4ZZSeZeLA",
+   "drive_url": "https://drive.google.com/file/d/1l3okWDtVTw5JIjCnQcOA5ID4ZZSeZeLA/view?usp=drivesdk",
+   "tamano_bytes": 44562,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 85.7
+  },
+  {
+   "codigo": "M4B4",
+   "archivo": "Plantilla_DT_Campo_V5_Bloque_M4B4.xlsx",
+   "drive_id": "1ciJWsD12IvkUv40_23Fih2LOb7ok_MEN",
+   "drive_url": "https://drive.google.com/file/d/1ciJWsD12IvkUv40_23Fih2LOb7ok_MEN/view?usp=drivesdk",
+   "tamano_bytes": 43845,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 85.7
+  },
+  {
+   "codigo": "M6B2-1",
+   "archivo": "FDT_M6B2-1_Diagnostico_Territorial_V5.xlsx",
+   "drive_id": "1iOBbKNgYa6BZJkPyIfHRvST-N6hRVnn5",
+   "drive_url": "https://drive.google.com/file/d/1iOBbKNgYa6BZJkPyIfHRvST-N6hRVnn5/view?usp=drivesdk",
+   "tamano_bytes": 47437,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 85.7
+  },
+  {
+   "codigo": "M6B2-2",
+   "archivo": "Plantilla_DT_Campo_M6B2-2_Validada.xlsx",
+   "drive_id": "1AI_C0THaagMVVEe0RkeZiK3iFSRPWKB5",
+   "drive_url": "https://drive.google.com/file/d/1AI_C0THaagMVVEe0RkeZiK3iFSRPWKB5/view?usp=drivesdk",
+   "tamano_bytes": 55848,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "M6B2-3",
+   "archivo": "FDT_M6B2-3_Diagnostico_Territorial validada.xlsx",
+   "drive_id": "1RnPSHc5Bi-QnmSGc92j3PfWd670OW20z",
+   "drive_url": "https://drive.google.com/file/d/1RnPSHc5Bi-QnmSGc92j3PfWd670OW20z/view?usp=drivesdk",
+   "tamano_bytes": 49393,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "M6B10",
+   "archivo": "F-DT_M6B10_Diagnostico_Territorial.xlsx",
+   "drive_id": "114jgVYFzf48Dd8nuc2ef0EBNqtf1N1K6",
+   "drive_url": "https://drive.google.com/file/d/114jgVYFzf48Dd8nuc2ef0EBNqtf1N1K6/view?usp=drivesdk",
+   "tamano_bytes": 51388,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "M7B1",
+   "archivo": "FDT_M7B1_IN_Piura.xlsx",
+   "drive_id": "1WPmDMM2ciHoCdVfccDQQRXejKyWldRw6",
+   "drive_url": "https://drive.google.com/file/d/1WPmDMM2ciHoCdVfccDQQRXejKyWldRw6/view?usp=drivesdk",
+   "tamano_bytes": 49408,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "M7B2",
+   "archivo": "FDT_M7B2_IN_Piura.xlsx",
+   "drive_id": "1U4-OwdQmuXgTuBaE-m1-T8EtXz1De2E2",
+   "drive_url": "https://drive.google.com/file/d/1U4-OwdQmuXgTuBaE-m1-T8EtXz1De2E2/view?usp=drivesdk",
+   "tamano_bytes": 50766,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "M7B3",
+   "archivo": "Plantilla_DT_Campo_Check_Validada_V5_M7B3.xlsx",
+   "drive_id": "1hkJYqsedVmRkpIOTsHEX1vMOrYMuU9ke",
+   "drive_url": "https://drive.google.com/file/d/1hkJYqsedVmRkpIOTsHEX1vMOrYMuU9ke/view?usp=drivesdk",
+   "tamano_bytes": 43394,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "M7B6",
+   "archivo": "DT_M7B6_llenado.xlsx",
+   "drive_id": "1vMgXniWkjtfh4PS433M8r23IkprKAD1U",
+   "drive_url": "https://drive.google.com/file/d/1vMgXniWkjtfh4PS433M8r23IkprKAD1U/view?usp=drivesdk",
+   "tamano_bytes": 49475,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "M8B2",
+   "archivo": "Plantilla_DT_Campo_Check_Validada_V5_M8B2.xlsx",
+   "drive_id": "158i1P_3NLVRVSB8Qkwe2Ijem_Tkgdw-q",
+   "drive_url": "https://drive.google.com/file/d/158i1P_3NLVRVSB8Qkwe2Ijem_Tkgdw-q/view?usp=drivesdk",
+   "tamano_bytes": 48767,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 71.4
+  },
+  {
+   "codigo": "M9B1",
+   "archivo": "FDT_M9B1_IN_Piura.xlsx",
+   "drive_id": "1mG9LTs37yaTxhcNU87FsC4xr1ye172Nt",
+   "drive_url": "https://drive.google.com/file/d/1mG9LTs37yaTxhcNU87FsC4xr1ye172Nt/view?usp=drivesdk",
+   "tamano_bytes": 45485,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 78.6
+  },
+  {
+   "codigo": "M10B4",
+   "archivo": "FDT_M10B4_IN_Piura_V5.xlsx",
+   "drive_id": "1TFitrWwjtxhU4Dpsn8-8KHZpr1XL-jUI",
+   "drive_url": "https://drive.google.com/file/d/1TFitrWwjtxhU4Dpsn8-8KHZpr1XL-jUI/view?usp=drivesdk",
+   "tamano_bytes": 46391,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "M11B3",
+   "archivo": "Plantilla_DT_Campo_M11B3_07may2026.xlsx",
+   "drive_id": "1UABUDpjlHFd9GVaysxLkUzXZHK_pgHCU",
+   "drive_url": "https://drive.google.com/file/d/1UABUDpjlHFd9GVaysxLkUzXZHK_pgHCU/view?usp=drivesdk",
+   "tamano_bytes": 45746,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "M12B1",
+   "archivo": "Plantilla_DT_Campo_V5_Bloque_M12B1_IN_Piura.xlsx",
+   "drive_id": "1nV0IA6E83Fv8_ajr-yEKS4D9eonreFik",
+   "drive_url": "https://drive.google.com/file/d/1nV0IA6E83Fv8_ajr-yEKS4D9eonreFik/view?usp=drivesdk",
+   "tamano_bytes": 43996,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 85.7
+  },
+  {
+   "codigo": "M17B1",
+   "archivo": "Plantilla_DT_Campo_Check_Validada_V5_M17B1_CORREGIDA.xlsx",
+   "drive_id": "11E5y-xShTi6UTpI5ZzK8IBjlOG5Q6OVP",
+   "drive_url": "https://drive.google.com/file/d/11E5y-xShTi6UTpI5ZzK8IBjlOG5Q6OVP/view?usp=drivesdk",
+   "tamano_bytes": 52373,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "M17B4",
+   "archivo": "FDT_M17B4_IN_Piura.xlsx",
+   "drive_id": "1eB9Soco2deRNwbYe-MrmrN9Bo425c5VI",
+   "drive_url": "https://drive.google.com/file/d/1eB9Soco2deRNwbYe-MrmrN9Bo425c5VI/view?usp=drivesdk",
+   "tamano_bytes": 45397,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 78.6
+  },
+  {
+   "codigo": "M17B5",
+   "archivo": "M17B5.xlsx",
+   "drive_id": "1aUx0E2K-dwDzl7o3lGgrWUTJ8rmO_xTj",
+   "drive_url": "https://drive.google.com/file/d/1aUx0E2K-dwDzl7o3lGgrWUTJ8rmO_xTj/view?usp=drivesdk",
+   "tamano_bytes": 48682,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "M17B6",
+   "archivo": "Plantilla_DT_Campo_M17B6_IN_Piura_V5.xlsx",
+   "drive_id": "1jpz1aFc2vlUia4tCymWHEa_bfDeUDaBL",
+   "drive_url": "https://drive.google.com/file/d/1jpz1aFc2vlUia4tCymWHEa_bfDeUDaBL/view?usp=drivesdk",
+   "tamano_bytes": 48685,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "M17B7",
+   "archivo": "Plantilla_DT_Campo_Check_Validada_V5_M17B7.xlsx",
+   "drive_id": "1sinTD9_dEA7fTIFrx4eVUotprdpQu75P",
+   "drive_url": "https://drive.google.com/file/d/1sinTD9_dEA7fTIFrx4eVUotprdpQu75P/view?usp=drivesdk",
+   "tamano_bytes": 49880,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "M17B10",
+   "archivo": "Plantilla_DT_Campo_Check_M17B10_IN_Piura_V5.xlsx",
+   "drive_id": "1JCqXfYMgzlAmcIPezBwgSCMl9wG-rjV4",
+   "drive_url": "https://drive.google.com/file/d/1JCqXfYMgzlAmcIPezBwgSCMl9wG-rjV4/view?usp=drivesdk",
+   "tamano_bytes": 52326,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 85.7
+  },
+  {
+   "codigo": "M18B1",
+   "archivo": "Diagnostico_Territorial_M18B1_IN_Piura.xlsx",
+   "drive_id": "1eSGYiCyl1Khl4L1UzSA6R1nGss0aR0xK",
+   "drive_url": "https://drive.google.com/file/d/1eSGYiCyl1Khl4L1UzSA6R1nGss0aR0xK/view?usp=drivesdk",
+   "tamano_bytes": 51548,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "M18B3",
+   "archivo": "Plantilla_DT_M18B3_Llenada.xlsx",
+   "drive_id": "1KwJIn1M5INc2SfmGv5G5Nd6FORHNQbtM",
+   "drive_url": "https://drive.google.com/file/d/1KwJIn1M5INc2SfmGv5G5Nd6FORHNQbtM/view?usp=drivesdk",
+   "tamano_bytes": 49860,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "M19B2",
+   "archivo": "FDT_M19B2_IN_Piura.xlsx",
+   "drive_id": "14F5d7teZ54QJpOiZVXWdHUvgAefnhp7w",
+   "drive_url": "https://drive.google.com/file/d/14F5d7teZ54QJpOiZVXWdHUvgAefnhp7w/view?usp=drivesdk",
+   "tamano_bytes": 46387,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "M19B7",
+   "archivo": "Plantilla_DT_Campo_Check_Validada_V5_M19B7 (1).xlsx",
+   "drive_id": "1TEywOqvqMu7o43cS3ywZJsWIytwVml0G",
+   "drive_url": "https://drive.google.com/file/d/1TEywOqvqMu7o43cS3ywZJsWIytwVml0G/view?usp=drivesdk",
+   "tamano_bytes": 44128,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 89.3
+  },
+  {
+   "codigo": "M20B1",
+   "archivo": "Plantilla_DT_Campo_V5_Bloque_M20B1_IN_Piura.xlsx",
+   "drive_id": "1yEuBaLMWLB50sS2STVpbhzrx-Fgg1-Xt",
+   "drive_url": "https://drive.google.com/file/d/1yEuBaLMWLB50sS2STVpbhzrx-Fgg1-Xt/view?usp=drivesdk",
+   "tamano_bytes": 44079,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 85.7
+  },
+  {
+   "codigo": "M22B1",
+   "archivo": "Plantilla_DT_Campo_M22B1_IN_Piura.xlsx",
+   "drive_id": "1af53K6cfjZRe1PPqh80bWDQiMNnb_0MW",
+   "drive_url": "https://drive.google.com/file/d/1af53K6cfjZRe1PPqh80bWDQiMNnb_0MW/view?usp=drivesdk",
+   "tamano_bytes": 52486,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "M27B1",
+   "archivo": "Plantilla_DT_Campo_Check_Validada_V5_M27B1.xlsx",
+   "drive_id": "1hsMnstIJCyOrEijuh0hf84D2r6Y8fKSd",
+   "drive_url": "https://drive.google.com/file/d/1hsMnstIJCyOrEijuh0hf84D2r6Y8fKSd/view?usp=drivesdk",
+   "tamano_bytes": 52599,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 92.9
+  },
+  {
+   "codigo": "M28B2",
+   "archivo": "FDT_M28B2_Diagnostico_Territorial.xlsx",
+   "drive_id": "1g3E4Mecb8JptxFbwHrsbklRXHn4dq7Vx",
+   "drive_url": "https://drive.google.com/file/d/1g3E4Mecb8JptxFbwHrsbklRXHn4dq7Vx/view?usp=drivesdk",
+   "tamano_bytes": 51657,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "M28B3",
+   "archivo": "FDT_M28B3_Diagnostico_Territorial.xlsx",
+   "drive_id": "1kOQPLP9cmxOcH7AlLV7usJPU8Zndkmkt",
+   "drive_url": "https://drive.google.com/file/d/1kOQPLP9cmxOcH7AlLV7usJPU8Zndkmkt/view?usp=drivesdk",
+   "tamano_bytes": 51584,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "M28B4",
+   "archivo": "Plantilla_DT_M28B4_LLENADA.xlsx",
+   "drive_id": "1MbJwCgjrTlZp0pXMagOFQv89OYMlwkXn",
+   "drive_url": "https://drive.google.com/file/d/1MbJwCgjrTlZp0pXMagOFQv89OYMlwkXn/view?usp=drivesdk",
+   "tamano_bytes": 50619,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "M30B5",
+   "archivo": "FDT_M30B5_IN_Piura.xlsx",
+   "drive_id": "1v8OYBhfC1WNuoMow02-rwgukGJoy_P3Q",
+   "drive_url": "https://drive.google.com/file/d/1v8OYBhfC1WNuoMow02-rwgukGJoy_P3Q/view?usp=drivesdk",
+   "tamano_bytes": 48100,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  },
+  {
+   "codigo": "M32B3",
+   "archivo": "FDT_M32B3_IN_Piura.xlsx",
+   "drive_id": "116TizwHiThLOOFganhA_zEBX4MGwrBJn",
+   "drive_url": "https://drive.google.com/file/d/116TizwHiThLOOFganhA_zEBX4MGwrBJn/view?usp=drivesdk",
+   "tamano_bytes": 46774,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 100.0
+  },
+  {
+   "codigo": "M36B2",
+   "archivo": "DT_M36B2_IN_Piura.xlsx",
+   "drive_id": "1iUFUovxWQ6JhPWAV0YHT8QUiDZozDuj0",
+   "drive_url": "https://drive.google.com/file/d/1iUFUovxWQ6JhPWAV0YHT8QUiDZozDuj0/view?usp=drivesdk",
+   "tamano_bytes": 50335,
+   "fichas": [
+    "F-DT-01",
+    "F-DT-02",
+    "F-DT-03",
+    "F-DT-04",
+    "F-DT-05"
+   ],
+   "completitud_pct": 96.4
+  }
+ ]
+}

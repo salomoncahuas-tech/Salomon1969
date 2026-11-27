@@ -25,6 +25,8 @@ from openpyxl import load_workbook
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import analitica_social as an  # noqa: E402
+# Paleta, modelo de serie y renderizadores viven en el motor comun.
+import analitica_series as ase  # noqa: E402
 import export_diagnosticos as ex  # noqa: E402
 
 
@@ -68,7 +70,7 @@ def _serie(registros):
 
 
 def _matriz(serie):
-    categorias, subclases, matriz = an._pivote(serie)
+    categorias, subclases, matriz = ase._pivote(serie)
     return {c: dict(zip(subclases, fila)) for c, fila in zip(categorias, matriz)}
 
 
@@ -369,7 +371,7 @@ class Ambito(unittest.TestCase):
             for valor in fila.values():
                 self.assertLessEqual(valor, 100.0, actividad)
             self.assertLessEqual(sum(fila.values()), 100.0 + 1e-9, actividad)
-        tabla = an.tabla_serie(serie)
+        tabla = ase.tabla_serie(serie)
         self.assertLessEqual(tabla["Familias en la actividad (%)"].max(), 100.0)
 
     def test_reporte_observado_queda_en_porcentaje(self):
@@ -398,13 +400,13 @@ class Ambito(unittest.TestCase):
 
     def test_serie_en_porcentaje_sin_total_por_columnas(self):
         serie, _seccion = _serie(_reporte_con_errores())
-        self.assertEqual(an._modo_totales(serie), "filas")
+        self.assertEqual(ase._modo_totales(serie), "filas")
         self.assertEqual(serie["maximo"], 100)
-        self.assertIsNone(an._base_porcentaje(serie))
+        self.assertIsNone(ase._base_porcentaje(serie))
 
     def test_grafico_llega_al_cien_por_ciento(self):
         serie, _seccion = _serie(_reporte_con_errores())
-        spec = an.grafico_altair(serie).to_dict()
+        spec = ase.grafico_altair(serie).to_dict()
         self.assertEqual(spec["encoding"]["x"]["scale"]["domain"], [0, 100.0])
         self.assertEqual(spec["encoding"]["x"]["axis"]["format"], ",.0f")
         self.assertEqual(spec["encoding"]["x"]["axis"]["values"],
@@ -497,7 +499,7 @@ class Salidas(unittest.TestCase):
         informe = an.indicadores_bloque(
             {"codigo": "M7B2"}, _reporte_con_errores(), {})
         self.assertTrue(an.generar_pdf_social(informe).startswith(b"%PDF"))
-        self.assertEqual(an._rotulo_pdf(37.25, {"unidad": "%", "decimales": 1}),
+        self.assertEqual(ase._rotulo_pdf(37.25, {"unidad": "%", "decimales": 1}),
                          "37.2 %")
 
 
